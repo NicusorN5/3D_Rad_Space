@@ -117,7 +117,10 @@ Texture2D::Texture2D(GraphicsDevice *device, std::span<Color> colors, unsigned x
 	_debugInfoTX2D();
 }
 
-Texture2D::Texture2D(GraphicsDevice* device, void* buffer, unsigned x, unsigned y, PixelFormat format)
+Texture2D::Texture2D(GraphicsDevice* device, void* buffer, unsigned x, unsigned y, PixelFormat format):
+	_device(device),
+	_width(x),
+	_height(y)
 {
 #ifdef USING_DX11
 	D3D11_TEXTURE2D_DESC tDesc{};
@@ -180,7 +183,7 @@ Texture2D::Texture2D(GraphicsDevice* device,const uint8_t* imageBuffer, size_t s
 	_device(device)
 {
 #ifdef USING_DX11
-	ID3D11Resource** resource = reinterpret_cast<ID3D11Resource**>(_texture.GetAddressOf());
+	auto resource = reinterpret_cast<ID3D11Resource**>(_texture.GetAddressOf());
 
 	HRESULT r = DirectX::CreateWICTextureFromMemory(
 		device->_device.Get(),
@@ -578,7 +581,7 @@ void Texture2D::Resize(unsigned newX, unsigned newY)
 	std::span<ColorInt> oldTexture(reinterpret_cast<ColorInt *>(mappedRes.pData), _width * _height);
 
 	//3.) Create a new image buffer with the new size
-	std::unique_ptr<ColorInt[]> newTextureData = std::make_unique<ColorInt[]>(newX * newY);
+	std::unique_ptr<ColorInt[]> newTextureData = std::make_unique<ColorInt[]>(size_t(newX) * newY);
 	std::span<ColorInt> nData(newTextureData.get(), newX * newY);
 
 	//4.) Use nearest neighbor interpolation for resampling
@@ -592,7 +595,7 @@ void Texture2D::Resize(unsigned newX, unsigned newY)
 			unsigned x = unsigned(i * ratioX);
 			unsigned y = unsigned(j * ratioY);
 
-			nData[i + (j * newX)] = oldTexture[x + (y * _width)];
+			nData[i + (size_t(j) * newX)] = oldTexture[x + (size_t(y) * _width)];
 		}
 	}
 	_device->_context->Unmap(stagingTexture.Get(), 0);
@@ -625,12 +628,12 @@ void Texture2D::SaveToFile(const std::string &path)
 #endif
 }
 
-unsigned Texture2D::Width()
+unsigned Texture2D::Width() const
 {
 	return _width;
 }
 
-unsigned Texture2D::Height()
+unsigned Texture2D::Height() const
 {
 	return _height;
 }

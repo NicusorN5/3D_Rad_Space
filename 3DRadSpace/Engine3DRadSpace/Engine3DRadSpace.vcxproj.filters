@@ -258,7 +258,6 @@
     <ClInclude Include="Graphics\Fonts\Glyph.hpp" />
     <ClInclude Include="Graphics\Fonts\Font.hpp" />
     <ClInclude Include="Audio\AudioEngine.hpp" />
-    <ClInclude Include="Reflection\Visitor.hpp" />
     <ClInclude Include="Concepts.hpp" />
     <ClInclude Include="Input\ButtonState.hpp" />
     <ClInclude Include="Input\KeyState.hpp" />
@@ -274,7 +273,7 @@
     <ClInclude Include="Objects\SkyColor.hpp" />
     <ClInclude Include="Internal\InitializationFlag.hpp" />
     <ClInclude Include="Graphics\FlipMode.hpp" />
-    <ClInclude Include="Content\Asset.hpp" />
+    <ClInclude Include="Content\IAsset.hpp" />
     <ClInclude Include="Content\AssetTypeRegistration.hpp" />
     <ClInclude Include="Internal\AssetUUIDReader.hpp" />
     <ClInclude Include="Content\AssetID.hpp" />

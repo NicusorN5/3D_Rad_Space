@@ -1,5 +1,5 @@
 #pragma once
-#include "Asset.hpp"
+#include "IAsset.hpp"
 #include "../GraphicsDevice.hpp"
 #include "../Reflection/UUID.hpp"
 #include "AssetID.hpp"

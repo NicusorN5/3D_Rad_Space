@@ -300,11 +300,11 @@ void AssetManagerDialog::_loadAssetIcons()
 AssetManagerDialog::AssetManagerDialog(HWND owner, HINSTANCE instance, ContentManager *content) :
 	Dialog(owner, instance, AssetManager_DlgProc, "Asset Manager"),
 	_assetList(nullptr),
-	_searchBox(nullptr),
 	_searchLabel(nullptr),
-	_content(content),
-	_imageList(nullptr),
+	_searchBox(nullptr),
 	_browseButton(nullptr),
+	_imageList(nullptr),
+	_content(content),
 	_assetType(typeid(void))
 {
 }

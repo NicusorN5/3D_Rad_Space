@@ -161,7 +161,7 @@
     <ClInclude Include="Concepts.hpp" />
     <ClInclude Include="Algorithms\LevenshteinDistance.hpp" />
     <ClInclude Include="Audio\AudioEngine.hpp" />
-    <ClInclude Include="Content\Asset.hpp" />
+    <ClInclude Include="Content\IAsset.hpp" />
     <ClInclude Include="Content\AssetFactory.hpp" />
     <ClInclude Include="Content\AssetID.hpp" />
     <ClInclude Include="Content\AssetTypeRegistration.hpp" />
@@ -201,7 +201,6 @@
     <ClInclude Include="Physics\StaticRigidbody.hpp" />
     <ClInclude Include="Reflection\ReflectedEnum.hpp" />
     <ClInclude Include="Reflection\ReflectedEnumField.hpp" />
-    <ClInclude Include="Reflection\Visitor.hpp" />
     <ClInclude Include="Tag.hpp" />
     <ClInclude Include="Graphics\Primitives\Box.hpp" />
     <ClInclude Include="Graphics\Primitives\Lines.hpp" />

@@ -36,10 +36,10 @@ namespace Engine3DRadSpace::Graphics::Fonts
 		Font(GraphicsDevice* device, const std::string &path, unsigned size = 14, const char* supportedCharacters = nullptr);
 
 		Font(Font&) = delete;
-		Font(Font&& font) noexcept;
+		Font(Font&& font) noexcept = default;
 
 		Font& operator=(Font&) = delete;
-		Font& operator=(Font&&) noexcept;
+		Font& operator=(Font&&) noexcept = default;
 
 		unsigned Size() const;
 		const std::string SupportedCharacters() const;

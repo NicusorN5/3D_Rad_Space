@@ -154,7 +154,7 @@ Model3D::Model3D(GraphicsDevice* Device, const std::filesystem::path& path) :
 				if(r == aiReturn_SUCCESS)
 				{
 					float opacity = 1.0f;
-					r = scene->mMaterials[materialindex]->Get(AI_MATKEY_OPACITY, opacity);
+					scene->mMaterials[materialindex]->Get(AI_MATKEY_OPACITY, opacity);
 
 					std::array<Color, 4> tColors;
 					tColors.fill(Color(color.r, color.g, color.b, opacity));
@@ -220,13 +220,13 @@ void Model3D::_processNode(std::vector<std::unique_ptr<ModelMeshPart>> &parts, v
 
 	for (unsigned i = 0; i < node->mNumChildren; i++)
 	{
-		_processNode(parts,node->mChildren[i]);
+		_processNode(parts, node->mChildren[i]);
 	}
 }
 
 void Model3D::SetTransform(const Matrix4x4&m)
 {
-	for(auto &mesh : _meshes)
+	for(const auto &mesh : _meshes)
 	{
 		for(auto &meshPart : *mesh.get())
 		{
@@ -309,9 +309,9 @@ void Model3D::SetShaders(std::span<std::shared_ptr<Shaders::Effect>> effects)
 	size_t i = 0;
 	size_t len = effects.size();
 
-	for (auto& mesh : _meshes)
+	for (auto const& mesh : _meshes)
 	{
-		for (auto& meshPart : *mesh.get())
+		for (auto const& meshPart : *mesh.get())
 		{
 			if (i < len)
 				meshPart->SetShaders(effects[i++]);

@@ -55,6 +55,6 @@ public:
 
 	void Draw(Engine3DRadSpace::Graphics::SpriteBatch* spriteBatch, double dt) override;
 
-	bool IsFocused();
+	bool IsFocused() const;
 	void Reset3DCursor();
 };

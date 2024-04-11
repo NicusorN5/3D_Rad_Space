@@ -1,5 +1,5 @@
 #pragma once
-#include "Asset.hpp"
+#include "IAsset.hpp"
 
 #include "../Graphics/Model3D.hpp"
 #include "../Graphics/Texture2D.hpp"

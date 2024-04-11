@@ -66,14 +66,6 @@ void RenderWindow::Initialize()
 	Camera.FarPlaneDistance = 10'000.0f;
 
 	_pickingShader = std::make_unique<PickingShader>(Device.get());
-
-	std::array plane =
-	{
-		Vector3(5, 10, 5),
-		Vector3(-5, 10, 5),
-		Vector3(5, 10, -5),
-		Vector3(-5, 10, -5),
-	};
 }
 
 Model3D *fish = nullptr;
@@ -87,11 +79,11 @@ void RenderWindow::Load(Content::ContentManager *content)
 	fish = content->Load<Model3D>("Data\\Models\\YellowFish.x");
 	//content->Load<Model3D>("Data\\Models\\terrain0100.x");
 
-	//testFont = std::make_unique<Fonts::Font>(Device.get(), "Data\\Fonts\\arial.ttf");
+	testFont = std::make_unique<Fonts::Font>(Device.get(), "Data\\Fonts\\arial.ttf");
 	//this->ClearColor.R = 0.128;
 
 	//
-	// frenderer = std::make_unique<FontRenderer>(Device.get());
+	frenderer = std::make_unique<FontRenderer>(Device.get());
 }
 
 void RenderWindow::Update(Keyboard& keyboard, Mouse& mouse, double dt)
@@ -147,7 +139,7 @@ void RenderWindow::Update(Keyboard& keyboard, Mouse& mouse, double dt)
 	Camera.LookAt = cursor3D;
 }
 
-
+double theta = 0.0f;
 
 void RenderWindow::Draw(Matrix4x4 &view, Matrix4x4 &projection, double dt)
 {
@@ -164,8 +156,8 @@ void RenderWindow::Draw(Matrix4x4 &view, Matrix4x4 &projection, double dt)
 	if (_keyboardTest)
 	{
 		//SpriteBatch->Draw((*testFont)['A'], Math::Rectangle(0, 0, 50, 50));
-		//SpriteBatch->DrawNormalized((*testFont)['A'], RectangleF(0, 0, 0.2f, 0.2f));
-		frenderer->Render(*testFont, 'A');
+		SpriteBatch->DrawNormalized((*testFont)['A'], RectangleF(0.1f, 0.1f, 0.2f, 0.2f));
+		//frenderer->Render(*testFont, 'A');
 	}
 
 	//Main rendering pass
@@ -183,21 +175,21 @@ void RenderWindow::Draw(Matrix4x4 &view, Matrix4x4 &projection, double dt)
 				break;
 		}
 	}
-	//Picking passs
-	for (auto& obj : *Objects)
-	{
-		if (obj.InternalType == ObjectList::ObjectInstance::ObjectType::IObject3D)
-		{
 
-		}
-	}
+	auto defUV = RectangleF(0.0f, 0.0f, 1.0f, 1.0f);
+
+	SpriteBatch->Begin(SpriteBatchSortMode::Immediate);
+	SpriteBatch->DrawNormalized(testTexture, RectangleF(0.1f, 0.1f, 0.1f, 0.1f), defUV, Colors::White, theta);
+	theta += 5.0 * dt;
+	//theta = std::clamp<float>(theta, 0.0f, 2 * std::numbers::pi);
+	SpriteBatch->End();
 }
 
 void RenderWindow::Draw(Graphics::SpriteBatch* spriteBatch, double dt)
 {
 }
 
-bool RenderWindow::IsFocused()
+bool RenderWindow::IsFocused() const
 {
 	return editorWindow == GetForegroundWindow();
 }

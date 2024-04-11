@@ -10,6 +10,8 @@ namespace Engine3DRadSpace::Graphics::Fonts
 		std::unique_ptr<SamplerState> _samplerState;
 
 		GraphicsDevice* _device;
+
+		std::unique_ptr<RasterizerState> _rasterizer;
 	public:
 		FontRenderer(GraphicsDevice* device);
 

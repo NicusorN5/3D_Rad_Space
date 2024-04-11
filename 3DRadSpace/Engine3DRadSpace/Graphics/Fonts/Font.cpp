@@ -69,18 +69,19 @@ Font::Font(GraphicsDevice* device, const std::string& path, unsigned size, const
 		//TODO: Use a font "megatexture" instead of one texture for each character for performance reasons.
 		[[likely]] if(fontBitmapBuffer != nullptr)
 		{
-			std::unique_ptr<float[]> glyphBuffer = std::make_unique<float[]>(width * height);
+			std::unique_ptr<Color[]> glyphBuffer = std::make_unique<Color[]>(size_t(width) * height);
 
 			for (size_t j = 0; j < height; j++)
 			{
 				for (size_t i = 0; i < width; i++)
 				{
 					auto p = (j * width) + i;
-					glyphBuffer[p] = static_cast<float>(*(_font->glyph->bitmap.buffer)) / 255.0f;
+					auto alpha = static_cast<float>(_font->glyph->bitmap.buffer[p]) / 255.0f;
+					glyphBuffer[p] = Color(alpha, alpha, alpha, alpha);
 				}
 			}
-
-			_characters.emplace_back(glyph, std::make_unique<Texture2D>(_device, glyphBuffer.get(), width, height, PixelFormat::R32_Float));
+			//TODO: Might want to change to R32, but for some reason the character is corrupted?
+			_characters.emplace_back(glyph, std::make_unique<Texture2D>(_device, glyphBuffer.get(), width, height, PixelFormat::R32G32B32A32_Float));
 		}
 		else
 		{
@@ -90,32 +91,6 @@ Font::Font(GraphicsDevice* device, const std::string& path, unsigned size, const
 		}
 	}
 	_valid = true;
-}
-
-Font::Font(Font&& font) noexcept :
-	_valid(font._valid),
-	_font(font._font),
-	_device(font._device),
-	_characters(std::move(font._characters)),
-	_size(font._size)
-{
-	font._font = { };
-	font._valid = false;
-	font._device = nullptr;
-	font._size = 0;
-}
-
-Font& Font::operator=(Font&& font) noexcept
-{
-	_valid = font._valid;
-	_font = font._font;
-	_device = font._device;
-	_characters = std::move(font._characters);
-	_size = font._size;
-
-	font._valid = false;
-
-	return* this;
 }
 
 unsigned Font::Size() const
@@ -133,7 +108,7 @@ Texture2D* Font::operator[](char chr)
 	for (auto& [glyph, ptr] : this->_characters)
 	{
 		if (glyph.Character == chr) 
-			return ptr.get();
+ 			return ptr.get();
 	}
 	return nullptr;
 }

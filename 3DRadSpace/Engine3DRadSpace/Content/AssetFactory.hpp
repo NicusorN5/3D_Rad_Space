@@ -1,8 +1,5 @@
 #pragma once
-#include "Asset.hpp"
-#include "../IGraphicsDevice.hpp"
-#include "../Audio/AudioEngine.hpp"
-#include "../Physics/PhysicsEngine.hpp"
+#include "IAsset.hpp"
 #include "../Game.hpp"
 
 namespace Engine3DRadSpace::Content

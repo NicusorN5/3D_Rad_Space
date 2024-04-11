@@ -102,8 +102,8 @@ namespace Engine3DRadSpace::Graphics
 		SpriteBatch& operator=(SpriteBatch &) = delete;
 		SpriteBatch &operator=(SpriteBatch &&) noexcept = default;
 
-		void Begin(SpriteBatchSortMode sortingMode);
-		void Begin(SpriteBatchSortMode sortingMode,SamplerState samplerState);
+		void Begin(SpriteBatchSortMode sortingMode = SpriteBatchSortMode::Immediate);
+		void Begin(SpriteBatchSortMode sortingMode, SamplerState samplerState);
 		
 		void DrawNormalized(Texture2D* texture, const Math::RectangleF& coords, const Math::RectangleF& source = Math::RectangleF(0.0f, 0.0f, 1.0f, 1.0f), Color tintColor = Colors::White, float rotation = 0.0f, FlipMode flipMode = FlipMode::None, float depth = 0);
 		void DrawNormalized(Texture2D* texture, const Math::RectangleF& coords, const Math::Rectangle source, Color tintColor = Colors::White, float rotation = 0.0f, FlipMode flipMode = FlipMode::None, float depth = 0);

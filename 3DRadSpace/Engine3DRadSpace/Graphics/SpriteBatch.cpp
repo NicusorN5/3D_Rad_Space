@@ -22,16 +22,16 @@ std::array<VertexPointUV,6> SpriteBatch::_createQuad(const RectangleF &r, bool f
 	C -> D -> A
 */
 	Vector2 a = r.BottomLeft();
-	a = Vector2::ConvertFromNormalizedScreenSpaceToClipSpace(a);
+	//a = Vector2::ConvertFromNormalizedScreenSpaceToClipSpace(a);
 
 	Vector2 b = r.TopLeft();
-	b = Vector2::ConvertFromNormalizedScreenSpaceToClipSpace(b);
+	//b = Vector2::ConvertFromNormalizedScreenSpaceToClipSpace(b);
 
 	Vector2 c = r.TopRight();
-	c = Vector2::ConvertFromNormalizedScreenSpaceToClipSpace(c);
+	//c = Vector2::ConvertFromNormalizedScreenSpaceToClipSpace(c);
 
 	Vector2 d = r.BottomRight();
-	d = Vector2::ConvertFromNormalizedScreenSpaceToClipSpace(d);
+	//d = Vector2::ConvertFromNormalizedScreenSpaceToClipSpace(d);
 
 	return _createQuad(a, b, c, d, flipU, flipV);
 }
@@ -88,16 +88,11 @@ void SpriteBatch::_drawEntry(const spriteBatchEntry &entry)
 	auto [min, max] = entry.coords;
 
 	auto center = (max + min) / 2.0f;
-	min -= center;
-	max -= center;
 
 	auto rotation = Matrix3x3::CreateRotation(Math::ToRadians(entry.rotation));
 
-	min += center;
-	max += center;
-
 	Vector2 a(min.X, max.Y); //bottom left
-	Vector2 b(min.X, min.X); //top left
+	Vector2 b(min.X, min.Y); //top left
 	Vector2 c(max.X, min.Y); //top right
 	Vector2 d(max.X, max.Y); //bottom right
 
@@ -116,7 +111,7 @@ void SpriteBatch::_drawEntry(const spriteBatchEntry &entry)
 	c += center;
 	d += center;
 
-	auto quad = _createQuad(a, b, c, d, entry.flipU, entry.flipV, entry.uvSource);
+	auto quad = _createQuad( a, b, c, d, entry.flipU, entry.flipV, entry.uvSource);
 	VertexBufferV<VertexPointUV> vertexBuffer(_device, quad);
 
 	_prepareGraphicsDevice();
@@ -338,7 +333,6 @@ bool SpriteBatch::spriteBatchEntry::operator>(const spriteBatchEntry &b) const
 			return textureID > b.textureID;
 		case SpriteBatchSortMode::SortedByDepth_FrontToBack:
 			return depth > b.depth;
-		case SpriteBatchSortMode::SortedByDepth_BackToFront:
 		default:
 			return depth < b.depth;
 	}
@@ -353,7 +347,6 @@ bool SpriteBatch::spriteBatchEntry::operator<(const spriteBatchEntry &b) const
 			return textureID < b.textureID;
 		case SpriteBatchSortMode::SortedByDepth_FrontToBack:
 			return depth < b.depth;
-		case SpriteBatchSortMode::SortedByDepth_BackToFront:
 		default:
 			return depth > b.depth;
 	}

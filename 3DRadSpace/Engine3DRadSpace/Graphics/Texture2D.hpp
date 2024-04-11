@@ -2,7 +2,7 @@
 #include "../GraphicsDevice.hpp"
 #include "PixelFormat.hpp"
 #include "../Math/Point.hpp"
-#include "../Content/Asset.hpp"
+#include "../Content/IAsset.hpp"
 
 namespace Engine3DRadSpace::Internal
 {
@@ -43,16 +43,19 @@ namespace Engine3DRadSpace::Graphics
 		explicit Texture2D(GraphicsDevice *device, const uint8_t* imageBuffer, size_t size);
 		explicit Texture2D(GraphicsDevice *device, unsigned x, unsigned y, PixelFormat format = PixelFormat::R32G32B32A32_Float);
 
-		Texture2D(Texture2D &) = delete;
-		Texture2D(Texture2D &&) noexcept = default;
+		Texture2D(const Texture2D &) = delete;
+		Texture2D(Texture2D&&) noexcept = default;
+
+		Texture2D& operator=(const Texture2D&) = delete;
+		Texture2D& operator=(Texture2D&&) noexcept = default;
 
 		void SetColors(Color** colors, unsigned x, unsigned y);
 		void Resize(unsigned newX, unsigned newY);
 
 		void SaveToFile(const std::string &path);
 
-		unsigned Width();
-		unsigned Height();
+		unsigned Width() const;
+		unsigned Height() const;
 		Math::Point Size();
 
         static Texture2D CreateStaging(Texture2D* texture);
