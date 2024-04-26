@@ -89,7 +89,7 @@ void SpriteBatch::_drawEntry(const spriteBatchEntry &entry)
 
 	auto center = (max + min) / 2.0f;
 
-	auto rotation = Matrix3x3::CreateRotation(Math::ToRadians(entry.rotation));
+	auto rotation = Matrix3x3::CreateRotation2D(Math::ToRadians(entry.rotation));
 
 	Vector2 a(min.X, max.Y); //bottom left
 	Vector2 b(min.X, min.Y); //top left
@@ -214,7 +214,6 @@ void SpriteBatch::Begin(SpriteBatchSortMode sortingMode)
 
 void SpriteBatch::Begin(SpriteBatchSortMode sortingMode, SamplerState samplerState)
 {
-	_samplerState.reset();
 	_samplerState = std::make_unique<SamplerState>(std::move(samplerState));
 	Begin(sortingMode);
 }

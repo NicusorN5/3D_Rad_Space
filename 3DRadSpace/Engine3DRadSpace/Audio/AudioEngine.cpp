@@ -60,3 +60,7 @@ AudioEngine::~AudioEngine()
 	alcDestroyContext(_audioContext);
 	alcCloseDevice(_audioDevice);
 }
+
+void AudioEngine::Update(double dt)
+{
+}

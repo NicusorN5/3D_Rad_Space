@@ -9,7 +9,7 @@
 #pragma comment(lib,"d3d11.lib")
 #pragma comment(lib,"dxgi.lib")
 
-#include <ScreenGrab.h>
+#include <directxtk\ScreenGrab.h>
 #include <wincodec.h>
 #include <dxgidebug.h>
 #include <dxgi.h>

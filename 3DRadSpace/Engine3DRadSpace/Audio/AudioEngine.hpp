@@ -1,11 +1,12 @@
 #pragma once
 #include "AudioSource.hpp"
+#include "../IUpdateable.hpp"
 
 struct ALCdevice;
 struct ALCcontext;
 namespace Engine3DRadSpace::Audio
 {
-	class DLLEXPORT AudioEngine
+	class DLLEXPORT AudioEngine 
 	{
 		ALCdevice *_audioDevice;
 		ALCcontext* _audioContext;
@@ -24,5 +25,8 @@ namespace Engine3DRadSpace::Audio
 		void CreateAudioSource(AudioSource& source);
 
 		~AudioEngine();
+
+		// Inherited via IUpdateable
+		void Update(double dt);
 	};
 }

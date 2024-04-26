@@ -18,7 +18,7 @@ namespace Engine3DRadSpace::Math
 
 		static Matrix3x3 CreateTranslation(const Vector2 &t);
 		static Matrix3x3 CreateScale(const Vector2 &s);
-		static Matrix3x3 CreateRotation(float theta);
+		static Matrix3x3 CreateRotation2D(float theta);
 		static Matrix3x3 Create2DSkewing(const Vector2& skewing);
 
 		float Trace() const;

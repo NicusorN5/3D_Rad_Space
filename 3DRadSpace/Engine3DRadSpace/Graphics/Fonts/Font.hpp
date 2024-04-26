@@ -29,7 +29,7 @@ namespace Engine3DRadSpace::Graphics::Fonts
 		GraphicsDevice* _device;
 
 		static FontManager _manager;
-
+	
 		std::vector<std::pair<Glyph, std::unique_ptr<Texture2D>>> _characters;
 		unsigned _size;
 	public:

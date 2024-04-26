@@ -35,7 +35,7 @@ Matrix3x3 Matrix3x3::CreateScale(const Vector2 &s)
 	};
 }
 
-Matrix3x3 Matrix3x3::CreateRotation(float theta)
+Matrix3x3 Matrix3x3::CreateRotation2D(float theta)
 {
 	return Matrix3x3{
 		cosf(theta), -sinf(theta), 0,

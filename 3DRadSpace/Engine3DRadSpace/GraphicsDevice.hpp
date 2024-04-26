@@ -1,5 +1,4 @@
 #pragma once
-#include "IGraphicsDevice.hpp"
 #include "Libs.hpp"
 #include "Viewport.hpp"
 #include "Graphics/VertexDeclarations.hpp"
@@ -8,6 +7,7 @@
 #include "Graphics/DepthStencilState.hpp"
 #include "Graphics/DepthStencilBuffer.hpp"
 #include "Graphics/BlendState.hpp"
+
 
 namespace Engine3DRadSpace::Graphics
 {
@@ -30,7 +30,7 @@ namespace Engine3DRadSpace
 	/// <summary>
 	/// DirectX11 RHI (Rendering Hardware Interface)
 	/// </summary>
-	class DLLEXPORT GraphicsDevice : public IGraphicsDevice
+	class DLLEXPORT GraphicsDevice
 	{
 #ifdef USING_DX11
 		Microsoft::WRL::ComPtr<IDXGISwapChain> _swapChain;
@@ -57,7 +57,7 @@ namespace Engine3DRadSpace
 		GraphicsDevice& operator=(GraphicsDevice&) = delete;
 
 
-		void Clear(const Color& clearColor = {0.0f,0.0f,0.0f,1.0f});
+		void Clear(const Color& clearColor = { 0.0f,0.0f,0.0f,1.0f });
 
 		void SetViewport();
 		void SetViewport(const Viewport& viewport);

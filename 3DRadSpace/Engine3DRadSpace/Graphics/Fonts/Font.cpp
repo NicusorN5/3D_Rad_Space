@@ -80,7 +80,7 @@ Font::Font(GraphicsDevice* device, const std::string& path, unsigned size, const
 					glyphBuffer[p] = Color(alpha, alpha, alpha, alpha);
 				}
 			}
-			//TODO: Might want to change to R32, but for some reason the character is corrupted?
+			//TODO: Might want to change to R32, but it simply doesn't work.
 			_characters.emplace_back(glyph, std::make_unique<Texture2D>(_device, glyphBuffer.get(), width, height, PixelFormat::R32G32B32A32_Float));
 		}
 		else

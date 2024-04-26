@@ -2,7 +2,6 @@
 #include "../GraphicsDevice.hpp"
 #include "../Reflection/UUID.hpp"
 
-#include "../IGraphicsDevice.hpp"
 #include "../Audio/AudioEngine.hpp"
 #include "../Physics/PhysicsEngine.hpp"
 

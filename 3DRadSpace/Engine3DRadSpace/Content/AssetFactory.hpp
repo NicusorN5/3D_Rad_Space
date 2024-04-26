@@ -44,7 +44,7 @@ namespace Engine3DRadSpace::Content
 				return std::make_unique<T>(_physics, path, std::forward<Args>(args)...);
 			}
 
-			//We don't consider assets that need to be constructed from multiple abstraction layers (either GraphicsDevice, AudioEngine, PhysicsEngine, et cetara...)
+			//We don't consider assets that need to be constructed from multiple abstraction layers (either GraphicsDevice, AudioEngine, PhysicsEngine, et cetera...)
 		}
 	};
 }

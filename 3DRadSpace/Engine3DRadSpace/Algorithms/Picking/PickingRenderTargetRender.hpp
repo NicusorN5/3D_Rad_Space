@@ -9,7 +9,7 @@
 
 namespace Engine3DRadSpace::Algorithms::Picking
 {
-	class DLLEXPORT PickingRenderTargetRender : Graphics::Rendering::IRenderer
+	class DLLEXPORT PickingRenderTargetRender : public Graphics::Rendering::IRenderer
 	{
 		std::shared_ptr<PickingShader> _shader;
 		std::unique_ptr<Graphics::RenderTarget> _renderTarget;

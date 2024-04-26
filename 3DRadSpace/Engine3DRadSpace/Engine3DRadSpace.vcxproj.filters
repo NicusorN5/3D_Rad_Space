@@ -37,9 +37,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Window.hpp" />
     <ClInclude Include="Viewport.hpp" />
     <ClInclude Include="Libs.hpp" />

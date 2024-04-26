@@ -1,5 +1,5 @@
 #pragma once
-#include "../Content/Asset.hpp"
+#include "../Content/IAsset.hpp"
 
 namespace Engine3DRadSpace::Audio
 {

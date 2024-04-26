@@ -1,9 +1,9 @@
 #include "Texture2D.hpp"
 #ifdef USING_DX11
-#include <WICTextureLoader.h>
-#include <DDSTextureLoader.h>
+#include <directxtk/WICTextureLoader.h>
+#include <directxtk/DDSTextureLoader.h>
 #include <Windows.h>
-#include <ScreenGrab.h>
+#include <directxtk/ScreenGrab.h>
 #include <wincodec.h>
 #endif // USING_DX11
 #include "../Logging/Exception.hpp"
