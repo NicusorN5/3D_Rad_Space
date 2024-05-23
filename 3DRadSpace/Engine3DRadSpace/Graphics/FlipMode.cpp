@@ -1,4 +1,5 @@
 #include "FlipMode.hpp"
+
 using namespace Engine3DRadSpace::Graphics;
 
 FlipMode Engine3DRadSpace::Graphics::operator&(FlipMode a, FlipMode b)

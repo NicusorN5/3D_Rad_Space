@@ -1,3 +1,4 @@
+
 #include "RenderTarget.hpp"
 #include "../Logging/Exception.hpp"
 

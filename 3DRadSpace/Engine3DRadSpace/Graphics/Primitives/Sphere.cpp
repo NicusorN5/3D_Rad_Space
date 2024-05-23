@@ -9,7 +9,8 @@ using namespace Engine3DRadSpace::Graphics::Shaders;
 using namespace Engine3DRadSpace::Math;
 
 Sphere::Sphere(GraphicsDevice *device, float radius, Color color, unsigned resolution):
-	_device(device)
+	_device(device),
+	_radius(radius)
 {
 	if (resolution <= 1) resolution = 2;
 
@@ -18,19 +19,17 @@ Sphere::Sphere(GraphicsDevice *device, float radius, Color color, unsigned resol
 		VertexPositionColor{Vector3::UnitY() * -radius, color }
 	};
 
-	std::vector<unsigned> sphere_indices =
+	std::vector<unsigned> sphere_indices;
+
+	double dr = 2 * std::numbers::pi / resolution; //delta radius
+	double dh = 2 * radius / resolution; //delta height
+
+	unsigned k = 0; //iterator for indices
+
+	//Generate sphere points from down to up.
+	for(double h = -radius + dh; h <= radius - dh; h += dh)
 	{
-		0
-	};
-
-	double dr = 2 * std::numbers::pi / resolution;
-	double dh = 2 * radius / resolution;
-
-	unsigned it_h = 0;
-	unsigned it_t = 0;
-
-	for(double h = -radius + dh; h <= radius - dh; h += dh, it_h++)
-	{
+		//local radius(r,h) = sqrt( r ^ 2 - h ^2) graphed is a semicircle
 		for(double theta = 0, local_radius = sqrt(pow(radius,2) - pow(h,2)); theta <= 2 * std::numbers::pi; theta += dr)
 		{
 			sphere_points.push_back(VertexPositionColor{
@@ -49,6 +48,11 @@ Sphere::Sphere(GraphicsDevice *device, float radius, Color color, unsigned resol
 
 	_indices = std::make_unique<IndexBuffer>(device, sphere_indices);
 	_shader = ShaderManager::LoadShader<BlankShader>(device);
+}
+
+float Engine3DRadSpace::Graphics::Primitives::Sphere::GetRadius() const
+{
+	return _radius;
 }
 
 void Sphere::Draw(Matrix4x4&view, Matrix4x4&projection, double dt)

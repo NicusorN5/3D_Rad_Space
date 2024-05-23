@@ -1,3 +1,4 @@
+
 #include "Skinmesh.hpp"
 
 using namespace Engine3DRadSpace;
@@ -12,17 +13,17 @@ Skinmesh::Skinmesh() :
 {
 }
 
-Skinmesh::Skinmesh(const std::string &name, bool visible, const std::string &tag, RefModel3D model, 
+Skinmesh::Skinmesh(const std::string &name, bool visible, RefModel3D model, 
     const Vector3&pos, const Quaternion&rot, const Vector3&pivot, const Vector3&scale) :
-    IObject3D(name, tag, visible, visible, pos, pivot, rot, scale),
+    IObject3D(name, visible, visible, pos, pivot, rot, scale),
     Model(model),
     _model(nullptr)
 {
 }
 
-Skinmesh::Skinmesh(const std::string &name, bool visible, const std::string &tag, const std::filesystem::path &path, const
-                   Vector3&pos, const Quaternion&rot, const Vector3&pivot, const Vector3&scale) :
-    IObject3D(name, tag, visible, visible, pos, pivot, rot, scale),
+Skinmesh::Skinmesh(const std::string &name, bool visible, const std::filesystem::path &path, const
+                   Vector3&pos, const Quaternion&rot, const Vector3&pivot, const Vector3& scale) :
+    IObject3D(name, visible, visible, pos, pivot, rot, scale),
     _model(nullptr)
 {
     _path = std::make_unique<std::string>(path.string());

@@ -6,8 +6,8 @@ using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Objects;
 using namespace Engine3DRadSpace::Reflection;
 
-GForce::GForce(const std::string& name, bool enabled, const std::string& tag, const Math::Vector3& gravity) :
-    IObject(name, tag, enabled, false),
+GForce::GForce(const std::string& name, bool enabled, const Math::Vector3& gravity) :
+    IObject(name, enabled, false),
     Gravity(gravity)
 {
 }

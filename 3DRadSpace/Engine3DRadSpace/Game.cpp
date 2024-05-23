@@ -1,3 +1,4 @@
+
 #include "Game.hpp"
 #include "ObjectList.hpp"
 
@@ -34,8 +35,12 @@ void Game::Run()
 {
 	Game::Initialize();
 	Initialize();
+	_wasInitialized = true;
+
 	Game::Load(Content.get());
 	Load(Content.get());
+	_wasLoaded = true;
+
 	while (_running && Window->NativeHandle() != nullptr)
 	{	
 		Window->ProcessMessages();
@@ -78,16 +83,29 @@ void Game::Exit()
 	_running = false;
 }
 
+bool Engine3DRadSpace::Game::WasInitialized() const noexcept
+{
+	return _wasInitialized;
+}
+
+bool Engine3DRadSpace::Game::WasLoaded() const noexcept
+{
+	return _wasLoaded;
+}
+
 void Game::RequestPhysicsInitialization(const Vector3 &gravity, double timeStep)
 {
-	Physics = std::make_unique<PhysicsEngine>(
-		Physics::PhysicsSettings
-		{
-			.PhysicsEnabled = true,
-			.Gravity = gravity,
-			.TimeStep = timeStep
-		}
-	);
+	if (!Physics)
+	{
+		Physics = std::make_unique<PhysicsEngine>(
+			Physics::PhysicsSettings
+			{
+				.PhysicsEnabled = true,
+				.Gravity = gravity,
+				.TimeStep = timeStep
+			}
+		);
+	}
 }
 
 Engine3DRadSpace::Game::~Game()

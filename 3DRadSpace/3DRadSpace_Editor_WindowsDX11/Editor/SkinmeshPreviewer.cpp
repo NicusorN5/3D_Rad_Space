@@ -15,7 +15,7 @@ SkinmeshPreviewer::SkinmeshPreviewer(const std::filesystem::path &meshPath):
 {
 	_basicShader.reset(new BasicTextured(Device.get()));
 
-	_skinmesh = std::make_unique<Skinmesh>("", true, "", meshPath);
+	_skinmesh = std::make_unique<Skinmesh>("", true, meshPath);
 	_skinmesh->Load(Content.get());
 
 	for (auto& meshPart : *_skinmesh->GetModel())

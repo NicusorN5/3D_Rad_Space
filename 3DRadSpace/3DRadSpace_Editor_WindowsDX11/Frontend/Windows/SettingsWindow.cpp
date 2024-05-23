@@ -12,13 +12,15 @@ INT_PTR SettingsWindow_DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 			settingsWindow = reinterpret_cast<SettingsWindow*>(lParam);
 			settingsWindow->window = hwnd;
 			settingsWindow->_createControls();
+
+			SendMessageA(hwnd, WM_SETFONT, NULL, true);
 			return 1;
 		}
 		case WM_PAINT:
 		{
 			PAINTSTRUCT ps;
 			BeginPaint(hwnd, &ps);
-			FillRect(ps.hdc, &ps.rcPaint, (HBRUSH)(COLOR_WINDOW));
+			FillRect(ps.hdc, &ps.rcPaint, (HBRUSH)(COLOR_3DFACE + 1));
 			EndPaint(hwnd, &ps);
 			return 1;
 		}

@@ -1,4 +1,5 @@
 #include "BasicTextured.hpp"
+
 using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Graphics::Shaders;

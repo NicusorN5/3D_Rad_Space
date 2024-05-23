@@ -268,7 +268,6 @@
     <ClInclude Include="Physics\PhysicsSettings.hpp" />
     <ClInclude Include="Objects\Empty.hpp" />
     <ClInclude Include="Objects\SkyColor.hpp" />
-    <ClInclude Include="Internal\InitializationFlag.hpp" />
     <ClInclude Include="Graphics\FlipMode.hpp" />
     <ClInclude Include="Content\IAsset.hpp" />
     <ClInclude Include="Content\AssetTypeRegistration.hpp" />
@@ -279,6 +278,7 @@
     <ClInclude Include="Physics\StaticRigidbody.hpp" />
     <ClInclude Include="Graphics\Fonts\FontRenderer.hpp" />
     <ClInclude Include="Content\AssetFactory.hpp" />
+    <ClInclude Include="Reflection\Editor\CustomEditorGUI.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp" />

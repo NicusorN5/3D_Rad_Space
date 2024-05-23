@@ -1,3 +1,4 @@
+
 #include "Sprite.hpp"
 
 using namespace Engine3DRadSpace;
@@ -8,7 +9,7 @@ using namespace Engine3DRadSpace::Objects;
 using namespace Engine3DRadSpace::Reflection;
 
 Sprite::Sprite() :
-	IObject2D("Sprite", "...", true, true),
+	IObject2D("Sprite", true, true),
 	FlipU(false),
 	FlipV(false),
 	Image(0),
@@ -19,7 +20,7 @@ Sprite::Sprite() :
 
 Sprite::Sprite(const std::string &name, bool visible, const std::string &path, const Vector2 &pos, const Vector2 &scale, const Vector2& pivot,
                float depth, float rotation, bool flipU, bool flipV, const Color &tintColor) :
-	IObject2D(name, "...", visible, visible, Vector2(pos.X, pos.Y), scale, rotation, pivot, depth),
+	IObject2D(name, visible, visible, Vector2(pos.X, pos.Y), scale, rotation, pivot, depth),
 	FlipU(flipU),
 	FlipV(FlipV),
 	TintColor(tintColor),
@@ -30,7 +31,7 @@ Sprite::Sprite(const std::string &name, bool visible, const std::string &path, c
 
 Sprite::Sprite(const std::string &name, bool visible, RefTexture2D resource, const Vector2 &pos, const Vector2 &scale, float depth, const Vector2 &pivot,
                float rotation, bool flipU, bool flipV, const Color &tintColor) :
-	IObject2D(name, "...", visible, visible, Vector2(pos.X, pos.Y), scale, rotation, pivot, depth),
+	IObject2D(name, visible, visible, Vector2(pos.X, pos.Y), scale, rotation, pivot, depth),
 	FlipU(flipU),
 	FlipV(flipV),
 	Image(resource),

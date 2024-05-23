@@ -20,12 +20,11 @@ namespace Engine3DRadSpace
 		/// <param name="tag"></param>
 		/// <param name="enabled"></param>
 		/// <param name="visible"></param>
-		explicit IObject(const std::string& name = "Empty", const std::string& tag = "...", bool enabled = false, bool visible = false);
+		explicit IObject(const std::string& name = "Empty", bool enabled = false, bool visible = false);
 
 		void internalInitialize(Game* game);
 	public:
 		std::string Name;
-		std::string Tag;
 		bool Enabled;
 		bool Visible;
 

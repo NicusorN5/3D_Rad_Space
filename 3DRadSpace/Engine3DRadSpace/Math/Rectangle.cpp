@@ -1,4 +1,5 @@
 #include "Rectangle.hpp"
+
 using namespace Engine3DRadSpace::Math;
 
 Point Rectangle::TopLeft() const

@@ -1,3 +1,4 @@
+
 #include "SamplerState.hpp"
 #include "../Logging/Exception.hpp"
 

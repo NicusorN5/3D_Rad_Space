@@ -13,7 +13,7 @@ LRESULT UpdateProgressWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
     {
         PAINTSTRUCT ps;
         BeginPaint(hwnd, &ps);
-        FillRect(ps.hdc, &ps.rcPaint, reinterpret_cast<HBRUSH>(COLOR_WINDOW));
+        FillRect(ps.hdc, &ps.rcPaint, reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1));
         EndPaint(hwnd, &ps);
 		break;
     }

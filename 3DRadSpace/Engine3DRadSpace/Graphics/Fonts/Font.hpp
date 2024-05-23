@@ -11,9 +11,9 @@ namespace Engine3DRadSpace::Graphics::Fonts
 		public:
 			FontManager();
 
-			FontManager(FontManager&) = delete;
+			FontManager(const FontManager&) = delete;
 			FontManager(FontManager&&) = delete;
-			FontManager& operator=(FontManager&) = delete;
+			FontManager& operator=(const FontManager&) = delete;
 			FontManager& operator=(FontManager&&) = delete;
 
 			~FontManager();
@@ -35,10 +35,10 @@ namespace Engine3DRadSpace::Graphics::Fonts
 	public:
 		Font(GraphicsDevice* device, const std::string &path, unsigned size = 14, const char* supportedCharacters = nullptr);
 
-		Font(Font&) = delete;
+		Font(const Font&) = delete;
 		Font(Font&& font) noexcept = default;
 
-		Font& operator=(Font&) = delete;
+		Font& operator=(const Font&) = delete;
 		Font& operator=(Font&&) noexcept = default;
 
 		unsigned Size() const;

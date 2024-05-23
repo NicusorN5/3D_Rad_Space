@@ -4,8 +4,8 @@ using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Objects;
 
-Empty::Empty(const std::string& name, const std::string& tag, const Vector3& pos, const Vector3& pivot, const Quaternion& rot, const Vector3& scale) :
-	IObject3D(name, tag, true, true, pos, pivot, rot, scale)
+Empty::Empty(const std::string& name, const Vector3& pos, const Vector3& pivot, const Quaternion& rot, const Vector3& scale) :
+	IObject3D(name, true, true, pos, pivot, rot, scale)
 {
 }
 

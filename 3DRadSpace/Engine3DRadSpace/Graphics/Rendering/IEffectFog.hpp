@@ -8,11 +8,11 @@ namespace Engine3DRadSpace::Graphics::Rendering
 	protected:
 		IEffectFog() = default;
 
-		IEffectFog(IEffectFog&) = delete;
-		IEffectFog& operator=(IEffectFog&) = delete;
+		IEffectFog(const IEffectFog&) = delete;
+		IEffectFog& operator=(const IEffectFog&) = delete;
 
-		IEffectFog(IEffectFog&&) = default;
-		IEffectFog& operator=(IEffectFog&&) = default;
+		IEffectFog(IEffectFog&&) noexcept = default;
+		IEffectFog& operator=(IEffectFog&&) noexcept = default;
 	public:
 		Color FogColor;
 		float FogBegin;

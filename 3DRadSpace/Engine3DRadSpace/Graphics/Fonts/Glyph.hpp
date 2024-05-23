@@ -9,8 +9,8 @@ namespace Engine3DRadSpace::Graphics::Fonts
 	struct Glyph
 	{
 		char Character;
-		Math::Point   Size;
-		Math::Point   Bearing;
+		Math::Point Size;
+		Math::Point Bearing;
 		unsigned Advance;
 	};
 }

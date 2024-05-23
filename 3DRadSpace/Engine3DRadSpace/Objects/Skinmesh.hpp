@@ -1,4 +1,5 @@
 #pragma once
+
 #include "../IObject3D.hpp"
 #include "../Graphics/Model3D.hpp"
 #include "../Reflection/Reflection.hpp"
@@ -14,10 +15,10 @@ namespace Engine3DRadSpace::Objects
 	public:
 		Skinmesh();
 
-		Skinmesh(const std::string &name, bool visible, const std::string &tag, RefModel3D model, const Math::Vector3 &pos,
+		Skinmesh(const std::string &name, bool visible, RefModel3D model, const Math::Vector3 &pos,
 			const Math::Quaternion &rot, const Math::Vector3 &pivot, const Math::Vector3 &scale);
 
-		Skinmesh(const std::string &name, bool visible, const std::string &tag, const std::filesystem::path &path,const Math::Vector3 &pos = Math::Vector3::Zero(),
+		Skinmesh(const std::string &name, bool visible, const std::filesystem::path &path, const Math::Vector3 &pos = Math::Vector3::Zero(),
 			const Math::Quaternion &rot = Math::Quaternion(), const Math::Vector3 &pivot = Math::Vector3::Zero(), const Math::Vector3 &scale = Math::Vector3::One());
 
 		RefModel3D Model;

@@ -13,18 +13,20 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		std::unique_ptr<IndexBuffer> _indices;
 
 		std::shared_ptr<Shaders::BlankShader> _shader;
+
+		float _radius;
 	public:
 		Sphere(GraphicsDevice *device, float radius, Color color, unsigned resolution);
 
-		Sphere(Sphere &) = delete;
+		Sphere(const Sphere &) = delete;
 		Sphere(Sphere &&) noexcept = default;
 
-		Sphere &operator=(Sphere &) = delete;
+		Sphere &operator=(const Sphere &) = delete;
 		Sphere &operator=(Sphere &&) noexcept = default;
 
 		Math::Matrix4x4 Transform;
 
-		float GetRadius();
+		float GetRadius() const;
 
 		virtual void Draw(Math::Matrix4x4 &view, Math::Matrix4x4 &projection, double dt) override;
 

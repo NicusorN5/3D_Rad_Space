@@ -16,10 +16,10 @@ namespace Engine3DRadSpace::Content
 		static std::unordered_map<size_t, std::shared_ptr<Graphics::Shaders::Effect>> _shaders;
 	public:
 		ShaderManager() = delete;
-		ShaderManager(ShaderManager &) = delete;
+		ShaderManager(const ShaderManager &) = delete;
 		ShaderManager(ShaderManager &&) noexcept = delete;
 
-		ShaderManager &operator=(ShaderManager &) = delete;
+		ShaderManager &operator=(const ShaderManager &) = delete;
 		ShaderManager &operator=(ShaderManager &&) noexcept = delete;
 
 		template<ShaderCollection S>

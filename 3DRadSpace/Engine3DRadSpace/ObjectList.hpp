@@ -2,7 +2,7 @@
 #include "IObject3D.hpp"
 #include "IObject2D.hpp"
 #include "Reflection/ReflectedObject.hpp"
-#include "Internal/InitializationFlag.hpp"
+//#include "Internal/InitializationFlag.hpp"
 #include "Game.hpp"
 
 namespace Engine3DRadSpace
@@ -25,8 +25,13 @@ namespace Engine3DRadSpace
 				IObject3D,
 			} InternalType;
 
+			ObjectInstance(IObject* obj);
+
 			template<GameObject O>
 			ObjectInstance(std::unique_ptr<O>&& obj);
+
+			template<GameObject O>
+			ObjectInstance(O&& obj);
 
 			template<>
 			ObjectInstance(std::unique_ptr<IObject> &&obj);
@@ -43,17 +48,16 @@ namespace Engine3DRadSpace
 		ObjectList& operator=(ObjectList&&) noexcept = default;
 
 		template<GameObject O, typename ...Params>
-		std::pair<O*, unsigned> AddNew(Internal::InitializationFlag flag, Params&& ...p);
+		std::pair<O*, unsigned> AddNew(Params&& ...p);
 
 		template<GameObject O>
-		unsigned AddNew(O&& object, Internal::InitializationFlag flag = Internal::InitializationFlag::InitializeAndLoad);
+		unsigned AddNew(O&& object);
 
-		unsigned Add(IObject* obj, Internal::InitializationFlag flag = Internal::InitializationFlag::InitializeAndLoad);
-		unsigned Add(IObject2D* obj, Internal::InitializationFlag flag = Internal::InitializationFlag::InitializeAndLoad);
-		unsigned Add(IObject3D* obj, Internal::InitializationFlag flag = Internal::InitializationFlag::InitializeAndLoad);
+		unsigned Add(IObject* obj);
 
 		IObject* Find(unsigned id);
 		IObject* Find(const std::string& name);
+
 		/// <summary>
 		/// Finds and the i-th object of the type O.
 		/// </summary>
@@ -88,36 +92,37 @@ namespace Engine3DRadSpace
 		else if constexpr (std::is_base_of_v<IObject3D, O>) InternalType = ObjectType::IObject3D;
 	}
 
-	template<GameObject O, typename... Params>
-	inline std::pair<O*, unsigned> ObjectList::AddNew(Internal::InitializationFlag flag, Params&&... p)
+	template<GameObject O>
+	inline ObjectList::ObjectInstance::ObjectInstance(O&& obj)
 	{
-		auto &obj = _objects.emplace_back(std::make_unique<O>(std::forward<Params>(p)...));
-		
-		bool internalInitialize = flag != Internal::InitializationFlag::NoInitialization;
-		bool initialize = flag == Internal::InitializationFlag::Initialize || flag == Internal::InitializationFlag::InitializeAndLoad;
-		bool load = flag == Internal::InitializationFlag::InitializeAndLoad || flag == Internal::InitializationFlag::Load;
+		InternalType = ObjectType::IObject;
+		if constexpr (std::is_base_of_v<IObject2D, O>) InternalType = ObjectType::IObject2D;
+		else if constexpr (std::is_base_of_v<IObject3D, O>) InternalType = ObjectType::IObject3D;
+	}
 
-		if(internalInitialize) obj.internalInitialize(_game);
-		if(initialize) obj.Initialize();
-		if(load) obj.Load(_game->Content.get());
+	template<GameObject O, typename ...Params>
+	inline std::pair<O*, unsigned> ObjectList::AddNew(Params&& ...p)
+	{
+		auto& obj = _objects.emplace_back(std::make_unique<O>(std::forward<Params>(p)...));
+
+		if (_game->WasInitialized())
+		{
+			obj.Object->internalInitialize(_game);
+			obj.Object->Initialize();
+		}
+
+		if (_game->WasLoaded())
+		{
+			obj.Object->Load(_game->Content.get());
+		}
 
 		return std::make_pair(static_cast<O*>(obj.Object.get()), unsigned(_objects.size() - 1));
 	}
 
 	template<GameObject O>
-	inline unsigned ObjectList::AddNew(O&& object, Internal::InitializationFlag flag)
+	inline unsigned ObjectList::AddNew(O&& object)
 	{
-		auto new_obj = std::make_unique<O>(std::move(object));
-
-		bool internalInitialize = flag != Internal::InitializationFlag::NoInitialization;
-		bool initialize = flag == Internal::InitializationFlag::Initialize || flag == Internal::InitializationFlag::InitializeAndLoad;
-		bool load = flag == Internal::InitializationFlag::InitializeAndLoad || flag == Internal::InitializationFlag::Load;
-
-		if (internalInitialize) new_obj->internalInitialize(_game);
-		if (initialize) new_obj->Initialize();
-		if (load) new_obj->Load(_game->Content.get());
-
-		_objects.emplace_back(std::move(new_obj));
+		_objects.emplace_back(std::move(object));
 		return unsigned(_objects.size() - 1);
 	}
 

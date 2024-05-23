@@ -526,19 +526,7 @@ void EditorWindow::AddObject(IObject*obj)
 	//Change editor state
 	_changesSaved = false;
 
-	unsigned objID;
-
-	//Convert the object to a 2D or 3D specific object then add it to the list of objects.
-	IObject2D *obj2D = dynamic_cast<IObject2D *>(obj);
-	if(obj2D != nullptr)
-		objID = editor->Objects->Add(obj2D, InitializationFlag::InternalValidation); //case 2: obj is a IObject2D
-	else
-	{
-		IObject3D *obj3D = dynamic_cast<IObject3D *>(obj);
-		if(obj3D != nullptr)
-			objID = editor->Objects->Add(obj3D, InitializationFlag::InternalValidation); //case 3: obj is a IObject3D
-		else objID = editor->Objects->Add(obj, InitializationFlag::InternalValidation); //base case: obj is a IObject
-	}
+	unsigned objID = editor->Objects->Add(obj);
 
 	//add item into the treeView control
 	TVITEMA item{};

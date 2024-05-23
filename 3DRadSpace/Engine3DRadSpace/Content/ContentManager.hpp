@@ -60,10 +60,10 @@ namespace Engine3DRadSpace::Content
 	public:
 		ContentManager(GraphicsDevice *device);
 
-		ContentManager(ContentManager &) = delete;
+		ContentManager(const ContentManager &) = delete;
 		ContentManager(ContentManager &&) noexcept = default;
 
-		ContentManager &operator = (ContentManager &) = delete;
+		ContentManager &operator = (const ContentManager &) = delete;
 		ContentManager &operator = (ContentManager &&) noexcept = default;
 
 		template<AssetType T>

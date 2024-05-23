@@ -7,7 +7,7 @@ namespace Engine3DRadSpace
 	class DLLEXPORT IObject2D : public IObject, public IDrawable2D
 	{
 	protected:
-		explicit IObject2D(const std::string& name = "", const std::string& tag = "...", bool enabled = false, bool visible = false, const Math::Vector2& pos = Math::Vector2::Zero(),
+		explicit IObject2D(const std::string& name = "", bool enabled = false, bool visible = false, const Math::Vector2& pos = Math::Vector2::Zero(),
 						   const Math::Vector2& scale = Math::Vector2(0.1f, 0.1f), float rotation = 0.0f, const Math::Vector2& pivot = Math::Vector2::Zero(), float depth = 0.0f);
 	public:
 

@@ -12,11 +12,11 @@ namespace Engine3DRadSpace::Graphics::Rendering
 
 		IRenderer(GraphicsDevice* device);
 	public:
-		IRenderer(IRenderer&) = delete;
-		IRenderer& operator=(IRenderer&) = delete;
+		IRenderer(const IRenderer&) = delete;
+		IRenderer& operator=(const IRenderer&) = delete;
 
-		IRenderer(IRenderer&&) = default;
-		IRenderer& operator=(IRenderer&&) = default;
+		IRenderer(IRenderer&&) noexcept = default;
+		IRenderer& operator=(IRenderer&&) noexcept = default;
 
 		virtual void Begin() = 0;
 		virtual void Draw(ModelMeshPart* part);

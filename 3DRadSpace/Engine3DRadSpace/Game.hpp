@@ -21,6 +21,8 @@ namespace Engine3DRadSpace
 	private:
 		bool _valid;
 		bool _running = true;
+		bool _wasInitialized = false;
+		bool _wasLoaded = false;
 
 		double u_dt = 0;
 		double d_dt = 0;
@@ -51,6 +53,9 @@ namespace Engine3DRadSpace
 		void Run();
 		void RunOneFrame();
 		void Exit();
+
+		bool WasInitialized() const noexcept;
+		bool WasLoaded() const noexcept;
 
 		void RequestPhysicsInitialization(const Math::Vector3& gravity, double timeStep = 1.0 / 60.0);
 		Math::Ray GetMouseRay(const Math::Vector2& mousePosition, const Math::Matrix4x4& view, const Math::Matrix4x4& projection);

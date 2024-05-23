@@ -6,8 +6,8 @@ using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Objects;
 using namespace Engine3DRadSpace::Math;
 
-Camera::Camera(const std::string& name,const std::string &tag, bool visible, Vector3 pos, Vector3 look_at, Vector3 up,float aspectRatio, float fov, float npd, float fpd):
-	IObject3D(name,tag, visible, true, pos, Vector3::Zero(), Quaternion(), Vector3::One()),
+Camera::Camera(const std::string& name, bool visible, Vector3 pos, Vector3 look_at, Vector3 up,float aspectRatio, float fov, float npd, float fpd):
+	IObject3D(name, visible, true, pos, Vector3::Zero(), Quaternion(), Vector3::One()),
 	UpwardsDir(up),
 	AspectRatio(aspectRatio),
 	FieldOfView(fov),

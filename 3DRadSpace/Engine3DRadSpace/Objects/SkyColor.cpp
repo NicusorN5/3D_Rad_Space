@@ -4,8 +4,8 @@
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Objects;
 
-SkyColor::SkyColor(const std::string& name, bool enabled, const std::string& tag, Color color):
-	IObject2D(name, tag, enabled, enabled)
+SkyColor::SkyColor(const std::string& name, bool enabled, Color color):
+	IObject2D(name, enabled, enabled)
 {
 }
 
@@ -41,12 +41,13 @@ Reflection::UUID SkyColor::GetUUID()
 
 void SkyColor::Draw(Graphics::SpriteBatch* spriteBatch, double dt)
 {
-	_game->ClearColor = Colour;
+	if(Enabled) 
+		_game->ClearColor = Colour;
 }
 
 void SkyColor::EditorDraw(Graphics::SpriteBatch* spriteBatch, double dt, bool selected)
 {
-	_game->ClearColor = Colour;
+	Draw(spriteBatch, dt);
 }
 
 REFL_BEGIN(SkyColor,"SkyColor", "Rendering", "Sets the backbuffer clear color")

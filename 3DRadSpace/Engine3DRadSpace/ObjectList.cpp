@@ -9,6 +9,18 @@ Engine3DRadSpace::ObjectList::ObjectList(Game* owner):
 {
 }
 
+unsigned ObjectList::Add(IObject* obj)
+{
+	obj->internalInitialize(_game);
+
+	std::unique_ptr<IObject> ptr;
+	ptr.reset(obj);
+
+	_objects.emplace_back(std::move(ptr));
+	return unsigned(_objects.size() - 1);
+}
+
+/*
 unsigned ObjectList::Add(IObject* obj, InitializationFlag flag)
 {
 	bool internalInitialize = flag != InitializationFlag::NoInitialization;
@@ -39,6 +51,7 @@ unsigned ObjectList::Add(IObject3D* obj, InitializationFlag flag)
 {
 	return Add(static_cast<IObject*>(obj), flag);
 }
+*/
 
 IObject* ObjectList::Find(unsigned id)
 {
@@ -118,6 +131,17 @@ template<>
 ObjectList::ObjectInstance::ObjectInstance(std::unique_ptr<IObject>&& obj) : 
 	Object(std::move(obj))
 {
+	auto ptr = Object.get();
+
+	InternalType = ObjectType::IObject;
+	if (dynamic_cast<IObject2D*>(ptr) != nullptr) InternalType = ObjectType::IObject2D;
+	else if (dynamic_cast<IObject3D*>(ptr) != nullptr)  InternalType = ObjectType::IObject3D;
+}
+
+ObjectList::ObjectInstance::ObjectInstance(IObject* obj)
+{
+	Object.reset(obj);
+
 	auto ptr = Object.get();
 
 	InternalType = ObjectType::IObject;

@@ -24,8 +24,7 @@ public:
 	static bool LoadProject(
 		Engine3DRadSpace::ObjectList* lst, 
 		Engine3DRadSpace::Content::ContentManager *content,
-		const std::filesystem::path& projectPath,
-		Engine3DRadSpace::Internal::InitializationFlag f = Engine3DRadSpace::Internal::InitializationFlag::InitializeAndLoad
+		const std::filesystem::path& projectPath
 	);
 
 	static bool SaveProject(Engine3DRadSpace::ObjectList* lst, Engine3DRadSpace::Content::ContentManager* content, const std::filesystem::path& projectPath);

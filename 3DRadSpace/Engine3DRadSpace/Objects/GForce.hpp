@@ -18,7 +18,7 @@ namespace Engine3DRadSpace::Objects
 		/// <param name="enabled">Enables physics at startup?</param>
 		/// <param name="tag">String tag</param>
 		/// <param name="gravity">Gravitatioal acceleration</param>
-		GForce(const std::string& name = "GForce", bool enabled = true, const std::string& tag = "", const Math::Vector3& gravity = Math::Vector3(0, -9.81f, 0));
+		GForce(const std::string& name = "GForce", bool enabled = true, const Math::Vector3& gravity = Math::Vector3(0, -9.81f, 0));
 
 		/// <summary>
 		/// World wide gravitation acceleration in m/s^2.

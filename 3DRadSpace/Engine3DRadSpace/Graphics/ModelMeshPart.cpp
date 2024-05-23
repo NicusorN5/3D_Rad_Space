@@ -1,5 +1,4 @@
 #include "ModelMeshPart.hpp"
-#include <memory>
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;

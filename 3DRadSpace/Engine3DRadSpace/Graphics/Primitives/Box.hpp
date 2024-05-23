@@ -25,10 +25,10 @@ namespace Engine3DRadSpace::Graphics::Primitives
 	public:
 		Box(GraphicsDevice *device,const Math::BoundingBox &b, Color color);
 
-		Box(Box &) = delete;
+		Box(const Box &) = delete;
 		Box(Box &&b) noexcept = default;
 
-		Box &operator=(Box &) = delete;
+		Box &operator=(const Box &) = delete;
 		Box &operator=(Box &&b) noexcept = default;
 
 		Math::BoundingBox GetBoundingBox();

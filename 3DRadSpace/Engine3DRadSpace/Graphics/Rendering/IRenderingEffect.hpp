@@ -7,9 +7,9 @@ namespace Engine3DRadSpace::Graphics::Rendering
 	{
 	protected:
 		IRenderingEffect() = default;
-		IRenderingEffect(IRenderingEffect&&) = default;
+		IRenderingEffect(IRenderingEffect&&) noexcept = default;
 
-		IRenderingEffect& operator=(IRenderingEffect&&) = default;
+		IRenderingEffect& operator=(IRenderingEffect&&) noexcept = default;
 	public:
 		IRenderingEffect(IRenderingEffect&) = delete;
 		IRenderingEffect& operator=(IRenderingEffect&) = delete;

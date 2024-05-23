@@ -7,7 +7,7 @@ namespace Engine3DRadSpace::Objects
 	class Empty : public IObject3D
 	{
 	public:
-		Empty(const std::string& name = "", const std::string& tag = "", const Math::Vector3& pos = {0,0,0}, const Math::Vector3& pivot = {0,0,0},
+		Empty(const std::string& name = "", const Math::Vector3& pos = {0,0,0}, const Math::Vector3& pivot = {0,0,0},
 			  const Math::Quaternion& rot = Math::Quaternion(), const Math::Vector3& scale = {1,1,1});
 
 		// Inherited via IObject3D

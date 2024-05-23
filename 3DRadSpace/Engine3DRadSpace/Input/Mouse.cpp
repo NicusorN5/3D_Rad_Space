@@ -1,4 +1,5 @@
 #include "Mouse.hpp"
+
 using namespace Engine3DRadSpace::Input;
 using namespace Engine3DRadSpace::Math;
 

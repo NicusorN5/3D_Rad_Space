@@ -181,7 +181,6 @@
     <ClInclude Include="Input\ButtonState.hpp" />
     <ClInclude Include="Input\Key.hpp" />
     <ClInclude Include="Input\KeyState.hpp" />
-    <ClInclude Include="Internal\InitializationFlag.hpp" />
     <ClInclude Include="Internal\AssetUUIDReader.hpp" />
     <ClInclude Include="Legacy.hpp" />
     <ClInclude Include="Math\Matrix3x3.hpp" />
@@ -196,6 +195,7 @@
     <ClInclude Include="Physics\PhysicsEngine.hpp" />
     <ClInclude Include="Physics\PhysicsSettings.hpp" />
     <ClInclude Include="Physics\StaticRigidbody.hpp" />
+    <ClInclude Include="Reflection\Editor\CustomEditorGUI.hpp" />
     <ClInclude Include="Reflection\ReflectedEnum.hpp" />
     <ClInclude Include="Reflection\ReflectedEnumField.hpp" />
     <ClInclude Include="Tag.hpp" />

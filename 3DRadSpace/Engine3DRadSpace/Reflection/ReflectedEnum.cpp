@@ -1,4 +1,6 @@
+
 #include "ReflectedEnum.hpp"
+
 using namespace Engine3DRadSpace::Reflection;
 using namespace Engine3DRadSpace::Algorithms;
 

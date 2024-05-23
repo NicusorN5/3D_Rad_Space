@@ -13,10 +13,10 @@ namespace Engine3DRadSpace::Audio
 	public:
 		AudioEngine();
 
-		AudioEngine(AudioEngine&) = delete;
+		AudioEngine(const AudioEngine&) = delete;
 		AudioEngine(AudioEngine&&) = delete;
 
-		AudioEngine& operator=(AudioEngine&) = delete;
+		AudioEngine& operator=(const AudioEngine&) = delete;
 		AudioEngine& operator=(AudioEngine&&) = delete;
 
 		std::vector<std::string> ListAudioDevices();

@@ -8,7 +8,7 @@ namespace Engine3DRadSpace::Objects
 	class DLLEXPORT Camera : public IObject3D
 	{
 	public:
-		Camera(const std::string& name = "Camera", const std::string& tag = "...", bool visible = true,
+		Camera(const std::string& name = "Camera", bool visible = true,
 		       Math::Vector3 pos = Math::Vector3::Zero(),
 		       Math::Vector3 look_at = Math::Vector3::UnitZ(),
 		       Math::Vector3 up = Math::Vector3::UnitY(),

@@ -446,7 +446,7 @@ json Serializer::SerializeObject(IObject* obj)
 	return r;
 }
 
-bool Serializer::LoadProject(ObjectList* lst, ContentManager *content, const std::filesystem::path& projectPath, Internal::InitializationFlag f )
+bool Serializer::LoadProject(ObjectList* lst, ContentManager *content, const std::filesystem::path& projectPath) //Internal::InitializationFlag f )
 {
 	std::ifstream file(projectPath);
 
@@ -471,7 +471,7 @@ bool Serializer::LoadProject(ObjectList* lst, ContentManager *content, const std
 	for (size_t i = 0; i < numObjects; ++i)
 	{
 		auto obj = DeserializeObject(j["objects"][std::to_string(i)]);
-		lst->Add(obj, f);
+		lst->Add(obj);
 
 		obj->EditorInitialize();
 		obj->EditorLoad(content);
