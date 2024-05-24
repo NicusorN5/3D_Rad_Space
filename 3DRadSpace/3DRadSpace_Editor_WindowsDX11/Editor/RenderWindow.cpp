@@ -4,18 +4,6 @@
 #include <Engine3DRadSpace/Graphics/Primitives/Box.hpp>
 #include <Engine3DRadSpace/ObjectList.hpp>
 
-#include <Engine3DRadSpace/Graphics/Fonts/FontRenderer.hpp>
-
-using namespace Engine3DRadSpace;
-using namespace Engine3DRadSpace::Algorithms::Picking;
-using namespace Engine3DRadSpace::Graphics;
-using namespace Engine3DRadSpace::Graphics::Fonts;
-using namespace Engine3DRadSpace::Graphics::Shaders;
-using namespace Engine3DRadSpace::Graphics::Primitives;
-using namespace Engine3DRadSpace::Math;
-using namespace Engine3DRadSpace::Input;
-using namespace Engine3DRadSpace::Objects;
-
 RenderWindow::RenderWindow(HWND parent, HINSTANCE hInstance) :
 	Game(Engine3DRadSpace::Window(hInstance, parent)),
 	editorWindow(parent), 
@@ -69,7 +57,6 @@ void RenderWindow::Initialize()
 }
 
 Model3D *fish = nullptr;
-std::unique_ptr<FontRenderer> frenderer;
 
 void RenderWindow::Load(Content::ContentManager *content)
 {
@@ -81,9 +68,6 @@ void RenderWindow::Load(Content::ContentManager *content)
 
 	testFont = std::make_unique<Fonts::Font>(Device.get(), "Data\\Fonts\\arial.ttf");
 	//this->ClearColor.R = 0.128;
-
-	//
-	frenderer = std::make_unique<FontRenderer>(Device.get());
 }
 
 void RenderWindow::Update(Keyboard& keyboard, Mouse& mouse, double dt)
@@ -126,13 +110,18 @@ void RenderWindow::Update(Keyboard& keyboard, Mouse& mouse, double dt)
 				}
 			}
 		}
-	}
 
+		//_keyboardTest = true;
+	}
+	//else _keyboardTest = false;
+
+	
 	if(keyboard.IsKeyDown(Key::Space))
 	{
 		_keyboardTest = true;
 	}
 	else _keyboardTest = false;
+	
 
 	Quaternion q = Quaternion::FromYawPitchRoll(-cameraPos.Y, 0, 0) * Quaternion::FromYawPitchRoll(0, -cameraPos.X, 0);
 	Camera.Position = cursor3D + Vector3::UnitZ().Transform(q) * (zoom + 5);
@@ -156,8 +145,14 @@ void RenderWindow::Draw(Matrix4x4 &view, Matrix4x4 &projection, double dt)
 	if (_keyboardTest)
 	{
 		//SpriteBatch->Draw((*testFont)['A'], Math::Rectangle(0, 0, 50, 50));
-		SpriteBatch->DrawNormalized((*testFont)['A'], RectangleF(0.1f, 0.1f, 0.2f, 0.2f));
+		//SpriteBatch->DrawNormalized((*testFont)['A'], RectangleF(0.1f, 0.1f, 0.2f, 0.2f));
 		//frenderer->Render(*testFont, 'A');
+		
+		SpriteBatch->Begin(SpriteBatchSortMode::Immediate);
+		SpriteBatch->DrawString(testFont.get(), "Ttest qwertyuiopasdfghjklzxcvbnm;", Point(10, 20), 1);
+		SpriteBatch->End();
+
+		//SpriteBatch->Draw(this->)
 	}
 
 	//Main rendering pass
@@ -179,8 +174,8 @@ void RenderWindow::Draw(Matrix4x4 &view, Matrix4x4 &projection, double dt)
 	auto defUV = RectangleF(0.0f, 0.0f, 1.0f, 1.0f);
 
 	SpriteBatch->Begin(SpriteBatchSortMode::Immediate);
-	SpriteBatch->DrawNormalized(testTexture, RectangleF(0.1f, 0.1f, 0.1f, 0.1f), defUV, Colors::White, theta);
-	theta += 5.0 * dt;
+	SpriteBatch->DrawNormalized(testTexture, RectangleF(0.1f, 0.1f, 0.1f, 0.1f), defUV, Colors::White, float(theta));
+	theta += 1.0 * dt;
 	//theta = std::clamp<float>(theta, 0.0f, 2 * std::numbers::pi);
 	SpriteBatch->End();
 }

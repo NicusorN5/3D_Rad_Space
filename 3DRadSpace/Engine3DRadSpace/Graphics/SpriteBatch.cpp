@@ -89,7 +89,7 @@ void SpriteBatch::_drawEntry(const spriteBatchEntry &entry)
 
 	auto center = (max + min) / 2.0f;
 
-	auto rotation = Matrix3x3::CreateRotation2D(Math::ToRadians(entry.rotation));
+	auto rotation = Matrix3x3::CreateRotation2D(entry.rotation);
 
 	Vector2 a(min.X, max.Y); //bottom left
 	Vector2 b(min.X, min.Y); //top left
@@ -302,6 +302,52 @@ void SpriteBatch::Draw(Texture2D* texture, const Math::Rectangle& coords, Color 
 	};
 
 	DrawNormalized(texture, nCoords, _fullDefaultUV, tintColor, rotation, flipMode, depth);
+}
+
+void SpriteBatch::DrawString(Fonts::Font* font, const std::string& text, const Vector2& pos, float size, Color tintColor, float rotation, FlipMode flipMode, float depth)
+{
+	auto screenSize = _device->Resolution();
+
+	//accLen = 0 at i = 0.
+	//accLen increases with the advance of the current letter per iteration.
+	int x = static_cast<int>(pos.X * screenSize.X);
+	int y = static_cast<int>(pos.Y * screenSize.Y);
+
+	for (auto&& c : text)
+	{
+		//TODO: Switch to a font megatexture.
+#pragma warning(push)
+#pragma warning(disable : 4996)
+		auto chrTexture = font->operator[](c);
+		if (chrTexture != nullptr)
+		{
+			auto glyph = font->GetCharGlyph(c).value();
+
+			Math::Rectangle rcChar;
+			// https://learnopengl.com/In-Practice/Text-Rendering
+			rcChar.X = x + glyph.Bearing.X * size;
+			//rcChar.Y = y - (glyph.Size.Y - glyph.Bearing.Y) * size;
+			rcChar.Y = y - (glyph.Bearing.Y * size);
+			rcChar.Width = glyph.Size.X * size;
+			rcChar.Height = glyph.Size.Y * size;
+			                
+			Draw(chrTexture, rcChar, tintColor, 0.0f, flipMode, depth);
+
+			x += glyph.Advance >> 6;
+		}
+#pragma warning(pop)
+	}
+}
+
+void Engine3DRadSpace::Graphics::SpriteBatch::DrawString(Fonts::Font* font, const std::string& text, const Math::Point& pos, float size, Color tintColor, float rotation, FlipMode flipMode, float depth)
+{
+	auto screenSize = _device->Resolution();
+	Vector2 p(
+		static_cast<float>(pos.X) / static_cast<float>(screenSize.X),
+		static_cast<float>(pos.Y) / static_cast<float>(screenSize.Y)
+	);
+
+	DrawString(font, text, p, size, tintColor, rotation, flipMode, depth);
 }
 
 void SpriteBatch::End()

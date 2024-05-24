@@ -5,13 +5,10 @@
 #include "DepthStencilState.hpp"
 #include "FlipMode.hpp"
 
+#include "Fonts/Font.hpp"
+
 namespace Engine3DRadSpace::Graphics
 {
-	namespace Fonts
-	{
-		class FontRenderer;
-	}
-
 	enum class SpriteBatchSortMode
 	{
 		/// <summary>
@@ -111,10 +108,11 @@ namespace Engine3DRadSpace::Graphics
 		void Draw(Texture2D* texture, const Math::Rectangle& coords, const Math::Rectangle& source, Color tintColor = Colors::White, float rotation = 0.0f, FlipMode flipMode = FlipMode::None, float depth = 0);
 		void Draw(Texture2D* texture, const Math::Rectangle& coords, Color tintColor = Colors::White, float rotation = 0.0f, FlipMode flipMode = FlipMode::None, float depth = 0);
 
+		void DrawString(Fonts::Font* font, const std::string& text, const Math::Vector2& pos, float size, Color tintColor = Colors::White, float rotation = 0.0f, FlipMode flipMode = FlipMode::None, float depth = 0);
+		void DrawString(Fonts::Font* font, const std::string& text, const Math::Point& pos, float size, Color tintColor = Colors::White, float rotation = 0.0f, FlipMode flipMode = FlipMode::None, float depth = 0);
+
 		void End();
 
 		~SpriteBatch() = default;
-
-		friend class ::Engine3DRadSpace::Graphics::Fonts::FontRenderer;
 	};
 }

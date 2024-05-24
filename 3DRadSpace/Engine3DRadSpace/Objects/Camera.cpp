@@ -65,7 +65,11 @@ void Camera::EditorDraw(const Matrix4x4& view, const Matrix4x4& projection, doub
 
 std::optional<float> Camera::Intersects(const Ray&r)
 {
-	return r.Intersects(BoundingSphere(Position,1.5f));
+	if (r.Intersects(BoundingSphere(Position, 1.5f)).has_value())
+	{
+		return std::make_optional<float>(abs((r.Origin - Position).Length()));
+	}
+	else return std::nullopt;
 }
 
 Engine3DRadSpace::Reflection::UUID Camera::GetUUID()

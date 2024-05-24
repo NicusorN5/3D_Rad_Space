@@ -10,50 +10,59 @@
 #include <Engine3DRadSpace/Graphics/SpriteBatch.hpp>
 #include <Engine3DRadSpace/Graphics/Primitives/Lines.hpp>
 #include <Engine3DRadSpace/Graphics/Fonts/Font.hpp>
-#include <Engine3DRadSpace/Graphics/Fonts/FontShader.hpp>
+//#include <Engine3DRadSpace/Graphics/Fonts/FontShader.hpp>
 #include <Engine3DRadSpace/Algorithms/Picking/PickingRenderTargetRender.hpp>
+
+//Despite uisng namespaces are ill-advised to be used in headers, this header is not meant to be included in other files.
+using namespace Engine3DRadSpace;
+using namespace Engine3DRadSpace::Algorithms;
+using namespace Engine3DRadSpace::Algorithms::Picking;
+using namespace Engine3DRadSpace::Content;
+using namespace Engine3DRadSpace::Graphics;
+using namespace Engine3DRadSpace::Graphics::Fonts;
+using namespace Engine3DRadSpace::Graphics::Primitives;
+using namespace Engine3DRadSpace::Graphics::Shaders;
+using namespace Engine3DRadSpace::Input;
+using namespace Engine3DRadSpace::Math;
+using namespace Engine3DRadSpace::Objects;
 
 class RenderWindow : public Engine3DRadSpace::Game
 {
-	Engine3DRadSpace::Math::Vector2 cameraPos =
+	Vector2 cameraPos =
 	{
 		cosf(std::numbers::pi_v<float> / 6), //30 degrees = pi/6 radians
 		sinf(std::numbers::pi_v<float> / 6)
 	};
 
-	Engine3DRadSpace::Math::Vector3 cursor3D = Engine3DRadSpace::Math::Vector3::Zero();
+	Vector3 cursor3D = Vector3::Zero();
 
 	HWND editorWindow;
-	Engine3DRadSpace::Objects::Camera Camera;
-	std::unique_ptr<Engine3DRadSpace::Graphics::Primitives::Lines> axis;
-	std::unique_ptr<Engine3DRadSpace::Graphics::Primitives::Lines> grid;
+	Camera Camera;
+	std::unique_ptr<Lines> axis;
+	std::unique_ptr<Lines> grid;
 
 	float zoom = 5.0f;
 	float timer = 0;
 
-	std::unique_ptr<Engine3DRadSpace::Graphics::Shaders::BasicTextured> texturedShader;
-	std::unique_ptr<Engine3DRadSpace::Graphics::SamplerState> samplerState;
+	std::unique_ptr<BasicTextured> texturedShader;
+	std::unique_ptr<SamplerState> samplerState;
 
-	Engine3DRadSpace::Graphics::Texture2D* testTexture;
-	std::unique_ptr<Engine3DRadSpace::Algorithms::Picking::PickingShader> _pickingShader;
+	Texture2D* testTexture;
+	std::unique_ptr<PickingShader> _pickingShader;
 
 	bool _keyboardTest = false;
 
-	std::unique_ptr<Engine3DRadSpace::Graphics::Fonts::Font> testFont;
-	std::unique_ptr<Engine3DRadSpace::Graphics::Fonts::FontShader> fontShader;
-	std::unique_ptr<Engine3DRadSpace::Graphics::VertexBufferV<Engine3DRadSpace::Graphics::VertexPointUV>> fontBuff;
+	std::unique_ptr<Font> testFont;
+	std::unique_ptr<VertexBufferV<VertexPointUV>> fontBuff;
 public:
 	RenderWindow(HWND parent, HINSTANCE hInstance);
 
 	void Initialize() override;
-	void Load(Engine3DRadSpace::Content::ContentManager *content) override;
-	void Update(Engine3DRadSpace::Input::Keyboard& keyboard, Engine3DRadSpace::Input::Mouse& mouse, double dt) override;
-	void Draw(
-		Engine3DRadSpace::Math::Matrix4x4 &view,
-		Engine3DRadSpace::Math::Matrix4x4 &projection,
-		double dt) override;
+	void Load(ContentManager *content) override;
+	void Update(Keyboard& keyboard, Engine3DRadSpace::Input::Mouse& mouse, double dt) override;
+	void Draw(Matrix4x4 &view, Matrix4x4 &projection, double dt) override;
 
-	void Draw(Engine3DRadSpace::Graphics::SpriteBatch* spriteBatch, double dt) override;
+	void Draw(Graphics::SpriteBatch* spriteBatch, double dt) override;
 
 	bool IsFocused() const;
 	void Reset3DCursor();

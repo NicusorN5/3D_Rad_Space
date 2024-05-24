@@ -259,7 +259,6 @@
     <ClInclude Include="Input\ButtonState.hpp" />
     <ClInclude Include="Input\KeyState.hpp" />
     <ClInclude Include="Input\Key.hpp" />
-    <ClInclude Include="Graphics\Fonts\FontShader.hpp" />
     <ClInclude Include="Legacy.hpp" />
     <ClInclude Include="Physics\IPhysicsObject.hpp" />
     <ClInclude Include="Physics\PhysicsEngine.hpp" />
@@ -276,7 +275,6 @@
     <ClInclude Include="Audio\AudioSource.hpp" />
     <ClInclude Include="Audio\Sound.hpp" />
     <ClInclude Include="Physics\StaticRigidbody.hpp" />
-    <ClInclude Include="Graphics\Fonts\FontRenderer.hpp" />
     <ClInclude Include="Content\AssetFactory.hpp" />
     <ClInclude Include="Reflection\Editor\CustomEditorGUI.hpp" />
   </ItemGroup>
@@ -452,7 +450,6 @@
     <ClCompile Include="Graphics\Fonts\Font.cpp" />
     <ClCompile Include="Audio\AudioEngine.cpp" />
     <ClCompile Include="Math\Plane.cpp" />
-    <ClCompile Include="Graphics\Fonts\FontShader.cpp" />
     <ClCompile Include="Reflection\ReflectedEnum.cpp" />
     <ClCompile Include="Legacy.cpp" />
     <ClCompile Include="Physics\IPhysicsObject.cpp" />
@@ -464,7 +461,7 @@
     <ClCompile Include="Objects\SkyColor.cpp" />
     <ClCompile Include="Graphics\FlipMode.cpp" />
     <ClCompile Include="Content\AssetTypeRegistration.cpp" />
-    <ClCompile Include="Graphics\Fonts\FontRenderer.cpp" />
     <ClCompile Include="Content\AssetFactory.cpp" />
+    <ClCompile Include="Memory.cpp" />
   </ItemGroup>
 </Project>

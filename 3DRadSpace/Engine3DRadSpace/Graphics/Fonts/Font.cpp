@@ -121,3 +121,13 @@ Font::~Font()
 		_valid = false;
 	}
 }
+
+std::optional<Glyph> Font::GetCharGlyph(char chr)
+{
+	for (auto& [glyph, ptr] : this->_characters)
+	{
+		if (glyph.Character == chr)
+			return std::make_optional<Glyph>(glyph);
+	}
+	return std::nullopt;
+}

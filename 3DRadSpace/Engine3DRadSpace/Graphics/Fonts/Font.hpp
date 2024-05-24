@@ -44,7 +44,10 @@ namespace Engine3DRadSpace::Graphics::Fonts
 		unsigned Size() const;
 		const std::string SupportedCharacters() const;
 
+		[[deprecated("To be removed when font megatextures are used.")]]
 		Texture2D* operator[](char chr);
+
+		std::optional<Glyph> GetCharGlyph(char chr);
 
 		~Font();
 	};

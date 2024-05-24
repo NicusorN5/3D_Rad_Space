@@ -168,13 +168,13 @@ void Game::Initialize()
 
 Ray Game::GetMouseRay(const Vector2 &mousePosition, const Matrix4x4 &view, const Matrix4x4 &projection)
 {
-	Vector3 nearPoint = Vector3(mousePosition.X, mousePosition.Y, 0);
-	Vector3 farPoint = Vector3(mousePosition.X, mousePosition.Y, 1);
+	Vector3 nearPoint = Vector3(mousePosition.X, mousePosition.Y, 0.0f);
+	Vector3 farPoint = Vector3(mousePosition.X, mousePosition.Y, 1.0f);
 
 	auto viewport = Device->GetViewport();
 
-	nearPoint = viewport.Unproject(nearPoint, projection, view, Matrix4x4{});
-	farPoint = viewport.Unproject(farPoint, projection, view, Matrix4x4{});
+	nearPoint = viewport.Unproject(nearPoint, projection, view, Matrix4x4());
+	farPoint = viewport.Unproject(farPoint, projection, view, Matrix4x4());
 	Vector3 direction = farPoint - nearPoint;
 	direction.Normalize();
 

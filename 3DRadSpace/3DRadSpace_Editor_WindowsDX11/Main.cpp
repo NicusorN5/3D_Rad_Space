@@ -1,4 +1,11 @@
 #define NOMINMAX
+
+#ifdef _DEBUG
+	#define _CRTDBG_MAP_ALLOC
+	#include <stdlib.h>
+	#include <crtdbg.h>
+#endif
+
 #include <cstdlib>
 #include "Frontend\Windows\EditorWindow.hpp"
 #include "Frontend\HelperFunctions.hpp"
@@ -65,6 +72,15 @@ int __stdcall WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 	std::atexit(ReportLiveObjects); // Lists leaked DX11 objects
 #endif
 
+#if _DEBUG
+	AllocConsole();
+
+	FILE* fDummy;
+	freopen_s(&fDummy, "CONIN$", "r", stdin);
+	freopen_s(&fDummy, "CONOUT$", "w", stderr);
+	freopen_s(&fDummy, "CONOUT$", "w", stdout);
+#endif
+
 	InitializeGDI();
 	InitializeCommonControls();
 	SetWorkingDirectory();
@@ -83,6 +99,11 @@ int __stdcall WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 	//Manually release the stored shaders inside the ShaderManager class. 
 	//This is necessary to avoid reports of live objects when the debug layer detects the application process being terminated, even if the destructors are called when the program terminates.
 	Engine3DRadSpace::Content::ShaderManager::ReleaseAll();
+
+#if _DEBUG
+	_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG);
+	_CrtDumpMemoryLeaks();
+#endif
 
 	return 0;
 }

@@ -44,7 +44,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
-    <EnableASAN>true</EnableASAN>
+    <EnableASAN>false</EnableASAN>
     <EnableFuzzer>false</EnableFuzzer>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -119,7 +119,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;USING_DX11;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <DisableSpecificWarnings>4251;4099;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -167,8 +167,6 @@
     <ClInclude Include="Algorithms\FixedArray.hpp" />
     <ClInclude Include="Graphics\FlipMode.hpp" />
     <ClInclude Include="Graphics\Fonts\Font.hpp" />
-    <ClInclude Include="Graphics\Fonts\FontRenderer.hpp" />
-    <ClInclude Include="Graphics\Fonts\FontShader.hpp" />
     <ClInclude Include="Graphics\Fonts\Glyph.hpp" />
     <ClInclude Include="Graphics\Primitives\Sphere.hpp" />
     <ClInclude Include="Algorithms\Picking\PickingShader.hpp" />
@@ -285,8 +283,6 @@
     <ClCompile Include="Graphics\DepthStencilState.cpp" />
     <ClCompile Include="Graphics\FlipMode.cpp" />
     <ClCompile Include="Graphics\Fonts\Font.cpp" />
-    <ClCompile Include="Graphics\Fonts\FontRenderer.cpp" />
-    <ClCompile Include="Graphics\Fonts\FontShader.cpp" />
     <ClCompile Include="Graphics\IndexBuffer.cpp" />
     <ClCompile Include="Graphics\IShader.cpp" />
     <ClCompile Include="Graphics\IVertexShader.cpp" />
@@ -343,6 +339,7 @@
     <ClCompile Include="Physics\IPhysicsObject.cpp" />
     <ClCompile Include="Physics\PhysicsEngine.cpp" />
     <ClCompile Include="Reflection\FieldRepresentation.cpp" />
+    <ClCompile Include="Memory.cpp" />
     <ClCompile Include="Reflection\ReflectedEnum.cpp" />
     <ClCompile Include="Reflection\ReflectedEnumField.cpp" />
     <ClCompile Include="Reflection\ReflectedFunction.cpp" />
