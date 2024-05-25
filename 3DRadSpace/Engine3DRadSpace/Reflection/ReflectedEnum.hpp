@@ -28,10 +28,10 @@ namespace Engine3DRadSpace::Reflection
 		{
 		}
 
-		const std::string EnumName() const;
-		const size_t NumberOfEntries() const;
-		const EnumEntry operator[](unsigned entryId) const;
-		const size_t TypeHashCode() const;
+		const std::string EnumName() const noexcept;
+		const size_t NumberOfEntries() const noexcept;
+		const EnumEntry operator[](unsigned entryId) const noexcept;
+		const size_t TypeHashCode() const noexcept;
 
 		Algorithms::FixedArray<EnumEntry>::Iterator begin();
 		Algorithms::FixedArray<EnumEntry>::Iterator end();

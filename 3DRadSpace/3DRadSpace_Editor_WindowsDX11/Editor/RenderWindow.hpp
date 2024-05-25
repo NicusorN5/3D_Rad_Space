@@ -9,8 +9,7 @@
 #include <Engine3DRadSpace/Graphics/Shaders/BasicTextured.hpp>
 #include <Engine3DRadSpace/Graphics/SpriteBatch.hpp>
 #include <Engine3DRadSpace/Graphics/Primitives/Lines.hpp>
-#include <Engine3DRadSpace/Graphics/Fonts/Font.hpp>
-//#include <Engine3DRadSpace/Graphics/Fonts/FontShader.hpp>
+#include <Engine3DRadSpace/Graphics/Font.hpp>
 #include <Engine3DRadSpace/Algorithms/Picking/PickingRenderTargetRender.hpp>
 
 //Despite uisng namespaces are ill-advised to be used in headers, this header is not meant to be included in other files.
@@ -19,7 +18,6 @@ using namespace Engine3DRadSpace::Algorithms;
 using namespace Engine3DRadSpace::Algorithms::Picking;
 using namespace Engine3DRadSpace::Content;
 using namespace Engine3DRadSpace::Graphics;
-using namespace Engine3DRadSpace::Graphics::Fonts;
 using namespace Engine3DRadSpace::Graphics::Primitives;
 using namespace Engine3DRadSpace::Graphics::Shaders;
 using namespace Engine3DRadSpace::Input;

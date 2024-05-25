@@ -50,7 +50,7 @@ Sphere::Sphere(GraphicsDevice *device, float radius, Color color, unsigned resol
 	_shader = ShaderManager::LoadShader<BlankShader>(device);
 }
 
-float Engine3DRadSpace::Graphics::Primitives::Sphere::GetRadius() const
+float Engine3DRadSpace::Graphics::Primitives::Sphere::GetRadius() const noexcept
 {
 	return _radius;
 }

@@ -72,7 +72,7 @@ std::optional<float> Camera::Intersects(const Ray&r)
 	else return std::nullopt;
 }
 
-Engine3DRadSpace::Reflection::UUID Camera::GetUUID()
+Engine3DRadSpace::Reflection::UUID Camera::GetUUID() const noexcept
 {
 	// {84376082-A56E-49E6-B095-BAEEF4BF29B5}
 	return {0x84376082, 0xa56e, 0x49e6, { 0xb0, 0x95, 0xba, 0xee, 0xf4, 0xbf, 0x29, 0xb5 }};

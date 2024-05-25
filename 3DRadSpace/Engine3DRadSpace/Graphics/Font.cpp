@@ -1,13 +1,13 @@
 #include "Font.hpp"
 
-#include "../PixelFormat.hpp"
-#include "../../Logging/Exception.hpp"
-#include "../Texture2D.hpp"
+#include "PixelFormat.hpp"
+#include "../Logging/Exception.hpp"
+#include "Texture2D.hpp"
 
-using namespace Engine3DRadSpace::Graphics::Fonts;
 using namespace Engine3DRadSpace::Logging;
 using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Graphics;
+using namespace Engine3DRadSpace;
 
 FT_Library Font::FontManager::FreeTypeLib;
 
@@ -26,14 +26,14 @@ Font::FontManager::~FontManager()
 
 Font::FontManager Font::_manager;
 
-Font::Font(GraphicsDevice* device, const std::string& path, unsigned size, const char* supportedCharacters):
+Font::Font(GraphicsDevice* device, const std::filesystem::path& path, unsigned size, const char* supportedCharacters):
 	_device(device),
 	_size(size),
 	_supportedCharacters(supportedCharacters != nullptr ? supportedCharacters : "")
 {
-	if(FT_New_Face(FontManager::FreeTypeLib, path.c_str(), 0, &_font))
+	if(FT_New_Face(FontManager::FreeTypeLib, path.string().c_str(), 0, &_font))
 	{
-		throw Exception("Failed to load font " + path + " !");
+		throw Exception("Failed to load font " + path.string()  + " !");
 	}
 
 	FT_Set_Pixel_Sizes(_font, 0, size);
@@ -93,17 +93,26 @@ Font::Font(GraphicsDevice* device, const std::string& path, unsigned size, const
 	_valid = true;
 }
 
-unsigned Font::Size() const
+Font::Font(GraphicsDevice* device, const std::filesystem::path& path) : Font(device, path, 14, nullptr)
+{
+}
+
+Font::Font(Internal::AssetUUIDReader dummy)
+{
+	(void)dummy;
+}
+
+unsigned Font::Size() const noexcept
 {
 	return _size;
 }
 
-const std::string Font::SupportedCharacters() const
+const std::string Font::SupportedCharacters() const noexcept
 {
 	return _supportedCharacters;
 }
 
-Texture2D* Font::operator[](char chr)
+Texture2D* Font::operator[](char chr) const noexcept
 {
 	for (auto& [glyph, ptr] : this->_characters)
 	{
@@ -122,7 +131,7 @@ Font::~Font()
 	}
 }
 
-std::optional<Glyph> Font::GetCharGlyph(char chr)
+std::optional<Glyph> Font::GetCharGlyph(char chr) const noexcept
 {
 	for (auto& [glyph, ptr] : this->_characters)
 	{
@@ -130,4 +139,10 @@ std::optional<Glyph> Font::GetCharGlyph(char chr)
 			return std::make_optional<Glyph>(glyph);
 	}
 	return std::nullopt;
+}
+
+Reflection::UUID Font::GetUUID() const noexcept
+{
+	// {7A9DEE1F-A3DE-4E55-B4D8-EC1BFE173B86}
+	return { 0x7a9dee1f, 0xa3de, 0x4e55, { 0xb4, 0xd8, 0xec, 0x1b, 0xfe, 0x17, 0x3b, 0x86 } };
 }

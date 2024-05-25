@@ -7,7 +7,7 @@ using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Input;
 
-const size_t ReflectedObject::NumFields()
+size_t ReflectedObject::NumFields() const noexcept
 {
     return _fields.size()  - 1;
 }

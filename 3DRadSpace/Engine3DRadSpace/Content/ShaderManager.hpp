@@ -26,7 +26,7 @@ namespace Engine3DRadSpace::Content
 		static std::shared_ptr<S> LoadShader(GraphicsDevice *device);
 
 		template<ShaderCollection S>
-		static S *GetShader(Tag<S> t);
+		static S* GetShader(Tag<S> t);
 
 		~ShaderManager() = default;
 

@@ -33,7 +33,7 @@ void SkyColor::EditorLoad(Content::ContentManager* content)
 {
 }
 
-Reflection::UUID SkyColor::GetUUID()
+Reflection::UUID SkyColor::GetUUID() const noexcept
 {
 	// {EEA241C5-99C5-4A41-9E65-F673888CEBC4}
 	return { 0xeea241c5, 0x99c5, 0x4a41, { 0x9e, 0x65, 0xf6, 0x73, 0x88, 0x8c, 0xeb, 0xc4 } };

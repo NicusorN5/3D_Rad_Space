@@ -111,6 +111,7 @@ void SpriteBatch::_drawEntry(const spriteBatchEntry &entry)
 	c += center;
 	d += center;
 
+	//TODO: use a "mega VBO"
 	auto quad = _createQuad( a, b, c, d, entry.flipU, entry.flipV, entry.uvSource);
 	VertexBufferV<VertexPointUV> vertexBuffer(_device, quad);
 
@@ -304,7 +305,7 @@ void SpriteBatch::Draw(Texture2D* texture, const Math::Rectangle& coords, Color 
 	DrawNormalized(texture, nCoords, _fullDefaultUV, tintColor, rotation, flipMode, depth);
 }
 
-void SpriteBatch::DrawString(Fonts::Font* font, const std::string& text, const Vector2& pos, float size, Color tintColor, float rotation, FlipMode flipMode, float depth)
+void SpriteBatch::DrawString(Font* font, const std::string& text, const Vector2& pos, float size, Color tintColor, float rotation, FlipMode flipMode, float depth)
 {
 	auto screenSize = _device->Resolution();
 
@@ -339,7 +340,7 @@ void SpriteBatch::DrawString(Fonts::Font* font, const std::string& text, const V
 	}
 }
 
-void Engine3DRadSpace::Graphics::SpriteBatch::DrawString(Fonts::Font* font, const std::string& text, const Math::Point& pos, float size, Color tintColor, float rotation, FlipMode flipMode, float depth)
+void Engine3DRadSpace::Graphics::SpriteBatch::DrawString(Font* font, const std::string& text, const Math::Point& pos, float size, Color tintColor, float rotation, FlipMode flipMode, float depth)
 {
 	auto screenSize = _device->Resolution();
 	Vector2 p(

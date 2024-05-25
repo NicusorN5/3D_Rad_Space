@@ -10,12 +10,10 @@ namespace Engine3DRadSpace::Internal
 	/// </summary>
 	struct AssetUUIDReader
 	{
-	public:
 		template<Content::AssetType T>
 		static Reflection::UUID GetUUID(Tag<T> dummy)
 		{
-			T useless_instance(AssetUUIDReader{});
-			return useless_instance.GetUUID();
+			return (T(AssetUUIDReader{})).GetUUID();
 		}
 	};
 }

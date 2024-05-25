@@ -80,3 +80,10 @@ void IGeometryShader::SetShader()
 #endif // USING_DX11
 }
 
+void* IGeometryShader::GetHandle() const noexcept
+{
+#ifdef USING_DX11
+	return static_cast<void*>(_shader.Get());
+#endif
+}
+

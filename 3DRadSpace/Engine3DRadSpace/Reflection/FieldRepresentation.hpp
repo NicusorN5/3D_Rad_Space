@@ -9,6 +9,7 @@
 #include "../Input/Keyboard.hpp"
 #include "../Concepts.hpp"
 #include "../Content/AssetID.hpp"
+#include "../Graphics/Font.hpp"
 
 namespace Engine3DRadSpace
 {
@@ -27,6 +28,7 @@ namespace Engine3DRadSpace::Reflection
 		String,
 		Image,
 		Model,
+		Font,
 		Key,
 		Enum,
 		Color,
@@ -53,6 +55,7 @@ namespace Engine3DRadSpace::Reflection
 	
 	template<> FieldRepresentation DLLEXPORT GetFieldRepresentation<Content::AssetID<Graphics::Texture2D>>();
 	template<> FieldRepresentation DLLEXPORT GetFieldRepresentation<Content::AssetID<Graphics::Model3D>>();
+	template<> FieldRepresentation DLLEXPORT GetFieldRepresentation<Content::AssetID<Graphics::Font>>();
 
 	template<> FieldRepresentation DLLEXPORT GetFieldRepresentation<Input::Key>();
 

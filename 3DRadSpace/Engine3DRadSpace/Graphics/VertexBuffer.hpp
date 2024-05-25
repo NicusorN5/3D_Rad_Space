@@ -51,9 +51,9 @@ namespace Engine3DRadSpace
 			void Set();
 			void Draw(unsigned startIndex = 0);
 
-			size_t TotalSize();
-			size_t StructSize();
-			size_t NumVertices();
+			size_t TotalSize() const noexcept;
+			size_t StructSize() const noexcept;
+			size_t NumVertices() const noexcept;
 
 			virtual ~VertexBuffer() = default;
 

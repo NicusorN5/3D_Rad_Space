@@ -10,7 +10,7 @@ namespace Engine3DRadSpace::Content
 		AssetID(unsigned id) : ID(id) {};
 		unsigned ID;
 
-		operator unsigned() const
+		operator unsigned() const noexcept
 		{
 			return ID;
 		}

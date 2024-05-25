@@ -91,15 +91,15 @@ void VertexBuffer::Draw(unsigned startIndex)
 #endif
 }
 
-size_t VertexBuffer::TotalSize()
+size_t VertexBuffer::TotalSize() const noexcept
 {
 	return _numVerts * _structSize;
 }
-size_t VertexBuffer::StructSize()
+size_t VertexBuffer::StructSize() const noexcept
 {
 	return _structSize;
 }
-size_t VertexBuffer::NumVertices()
+size_t VertexBuffer::NumVertices() const noexcept
 {
 	return _numVerts;
 }

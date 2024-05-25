@@ -37,7 +37,11 @@ namespace Engine3DRadSpace
 
 		class DLLEXPORT RasterizerState
 		{
+#ifdef USING_DX11
 			Microsoft::WRL::ComPtr<ID3D11RasterizerState> _rasterizerState;
+			void _debugInfo();
+#endif
+			RasterizerState(GraphicsDevice* device, std::monostate cpy);
 		public:
 
 			explicit RasterizerState(
@@ -60,10 +64,14 @@ namespace Engine3DRadSpace
 			RasterizerState &operator =(RasterizerState &) = delete;
 			RasterizerState &operator =(RasterizerState &&state) noexcept = default;
 
+			void* GetHandle() const noexcept;
+
 			static RasterizerState CullNone(GraphicsDevice *device);
 			static RasterizerState CullClockwise(GraphicsDevice *device);
 			static RasterizerState CullCounterClockwise(GraphicsDevice *device);
 			static RasterizerState Wireframe(GraphicsDevice *device);
+
+			static RasterizerState GetCurrentRasterizerState(GraphicsDevice* device);
 
 			~RasterizerState() = default;
 

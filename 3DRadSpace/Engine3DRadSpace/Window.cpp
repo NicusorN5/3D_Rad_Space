@@ -224,7 +224,7 @@ Window& Window::operator=(Window &&wnd) noexcept
     return *this;
 }
 
-void* Window::NativeHandle()
+void* Window::NativeHandle() const noexcept
 {
     return this->_window;
 }
@@ -251,7 +251,7 @@ Input::Keyboard& Window::GetKeyboardState()
     return _keyboard;
 }
 
-Point Window::Size()
+Point Window::Size() const noexcept
 {
     RECT r;
     GetWindowRect(static_cast<HWND>(_window), &r);
@@ -259,7 +259,7 @@ Point Window::Size()
     return { r.right - r.left, r.bottom - r.top };
 }
 
-RectangleF Window::RectangleF()
+RectangleF Window::RectangleF() const noexcept
 {
 #ifdef  _WIN32
     RECT r;
@@ -269,7 +269,7 @@ RectangleF Window::RectangleF()
 #endif //  _WIN32
 }
 
-Math::Rectangle Window::Rectangle()
+Math::Rectangle Window::Rectangle() const noexcept
 {
 #ifdef  _WIN32
     RECT r;
@@ -279,7 +279,7 @@ Math::Rectangle Window::Rectangle()
 #endif //  _WIN32
 }
 
-bool Window::IsFocused()
+bool Window::IsFocused() const noexcept
 {
     return GetForegroundWindow() == _window;
 }

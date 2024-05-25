@@ -16,6 +16,16 @@ Lines::Lines(GraphicsDevice *device, std::span<VertexPositionColor> points):
 	simpleShader = Content::ShaderManager::LoadShader<BlankShader>(device);
 }
 
+VertexBufferV<VertexPositionColor>* Lines::GetVertexBuffer() const noexcept
+{
+	return _vertices.get();
+}
+
+RasterizerState* Lines::GetLineRasterizer() const noexcept
+{
+	return _lineRasterizer.get();
+}
+
 void Lines::Draw(Matrix4x4&view, Matrix4x4&projection, double dt)
 {
 #ifdef USING_DX11

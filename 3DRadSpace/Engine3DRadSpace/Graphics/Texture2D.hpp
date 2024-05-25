@@ -31,7 +31,7 @@ namespace Engine3DRadSpace::Graphics
 		void _retrieveSize();
 
 		Texture2D(GraphicsDevice *device, unsigned x, unsigned y, bool bindRenderTarget, PixelFormat format = PixelFormat::R32G32B32A32_Float);
-		Texture2D(GraphicsDevice *device, bool bindRenderTarget = false, PixelFormat format = PixelFormat::R32G32B32A32_Float);
+		explicit Texture2D(GraphicsDevice *device, bool bindRenderTarget = false, PixelFormat format = PixelFormat::R32G32B32A32_Float);
 		Texture2D(Internal::AssetUUIDReader);
 	public:
 		explicit Texture2D(GraphicsDevice* device, const std::string &fileName);
@@ -54,19 +54,19 @@ namespace Engine3DRadSpace::Graphics
 
 		void SaveToFile(const std::string &path);
 
-		unsigned Width() const;
-		unsigned Height() const;
-		Math::Point Size();
+		unsigned Width() const noexcept;
+		unsigned Height() const noexcept;
+		Math::Point Size() const noexcept;
 
         static Texture2D CreateStaging(Texture2D* texture);
         Texture2D Clone();
 
-		void* TextureHandle() const;
-		void* ResourceViewHandle() const;
+		void* TextureHandle() const noexcept;
+		void* ResourceViewHandle() const noexcept;
 
 		virtual ~Texture2D() = default;
 
-		Reflection::UUID GetUUID() override;
+		Reflection::UUID GetUUID() const noexcept override;
 
 		friend class GraphicsDevice;
 		friend class IVertexShader;

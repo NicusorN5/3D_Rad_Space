@@ -1,10 +1,12 @@
 #pragma once
 #include "Glyph.hpp"
-#include "../../GraphicsDevice.hpp"
+#include "../Content/IAsset.hpp"
+#include "../GraphicsDevice.hpp"
+#include "..\Internal\AssetUUIDReader.hpp"
 
-namespace Engine3DRadSpace::Graphics::Fonts
+namespace Engine3DRadSpace::Graphics
 {
-	class DLLEXPORT Font
+	class DLLEXPORT Font : public Content::IAsset
 	{
 		class FontManager
 		{
@@ -32,8 +34,11 @@ namespace Engine3DRadSpace::Graphics::Fonts
 	
 		std::vector<std::pair<Glyph, std::unique_ptr<Texture2D>>> _characters;
 		unsigned _size;
+
+		Font(Internal::AssetUUIDReader dummy);
 	public:
-		Font(GraphicsDevice* device, const std::string &path, unsigned size = 14, const char* supportedCharacters = nullptr);
+		Font(GraphicsDevice* device, const std::filesystem::path &path, unsigned size, const char* supportedCharacters = nullptr);
+		Font(GraphicsDevice* device, const std::filesystem::path &path);
 
 		Font(const Font&) = delete;
 		Font(Font&& font) noexcept = default;
@@ -41,14 +46,18 @@ namespace Engine3DRadSpace::Graphics::Fonts
 		Font& operator=(const Font&) = delete;
 		Font& operator=(Font&&) noexcept = default;
 
-		unsigned Size() const;
-		const std::string SupportedCharacters() const;
+		unsigned Size() const noexcept;
+		const std::string SupportedCharacters() const noexcept;
 
 		[[deprecated("To be removed when font megatextures are used.")]]
-		Texture2D* operator[](char chr);
+		Texture2D* operator[](char chr) const noexcept;
 
-		std::optional<Glyph> GetCharGlyph(char chr);
+		std::optional<Glyph> GetCharGlyph(char chr) const noexcept;
+
+		Reflection::UUID GetUUID() const noexcept override;
 
 		~Font();
+
+		friend struct Internal::AssetUUIDReader;
 	};
 }

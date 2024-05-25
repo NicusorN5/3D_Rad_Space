@@ -25,6 +25,13 @@ DepthStencilState::DepthStencilState(GraphicsDevice *device)
 #endif
 }
 
+DepthStencilState::DepthStencilState(GraphicsDevice* device, std::monostate cpy)
+{
+#ifdef USING_DX11
+    device->_context->OMGetDepthStencilState(&_state, &_stencilRef);
+#endif
+}
+
 DepthStencilState::DepthStencilState(GraphicsDevice *device, bool EnableDepth, DepthWriteMask Mask, ComparisonFunction Function, bool EnableStencil, 
     uint8_t ReadMask, uint8_t WriteMask, FaceOperation FrontFace, FaceOperation BackFace)
 {
@@ -51,6 +58,16 @@ DepthStencilState::DepthStencilState(GraphicsDevice *device, bool EnableDepth, D
     HRESULT r = device->_device->CreateDepthStencilState(&dsDesc, _state.GetAddressOf());
     if (FAILED(r)) throw Exception("Failed to create a depth stencil state");
 #endif
+}
+
+unsigned int DepthStencilState::StencilRef() const noexcept
+{
+    return _stencilRef;
+}
+
+void* DepthStencilState::GetHandle() const noexcept
+{
+    return static_cast<void*>(this->_state.Get());
 }
 
 DepthStencilState DepthStencilState::DepthDefault(GraphicsDevice* device)

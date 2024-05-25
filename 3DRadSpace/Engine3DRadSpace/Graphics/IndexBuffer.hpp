@@ -32,7 +32,8 @@ namespace Engine3DRadSpace
 			size_t ReadData(void** data);
 			void EndRead();
 
-			unsigned NumIndices() const;
+			unsigned NumIndices() const noexcept;
+			void* GetHandle() const noexcept;
 
 			~IndexBuffer() = default;
 

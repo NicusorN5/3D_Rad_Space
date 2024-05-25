@@ -79,3 +79,10 @@ void IHullShader::SetShader()
 	_device->_context->HSSetShader(_shader.Get(), nullptr, 0);
 #endif // USING_DX11
 }
+
+void* IHullShader::GetHandle() const noexcept
+{
+#ifdef USING_DX11
+	return static_cast<void*>(_shader.Get());
+#endif
+}

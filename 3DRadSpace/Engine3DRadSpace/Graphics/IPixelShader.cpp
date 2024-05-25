@@ -79,3 +79,10 @@ void IPixelShader::SetShader()
 	_device->_context->PSSetShader(_shader.Get(), nullptr, 0);
 #endif
 }
+
+void* IPixelShader::GetHandle() const noexcept
+{
+#ifdef USING_DX11
+	return static_cast<void*>(_shader.Get());
+#endif
+}

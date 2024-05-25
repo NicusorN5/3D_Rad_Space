@@ -42,24 +42,24 @@ BoundingBox::BoundingBox(const BoundingSphere& sph1,const BoundingSphere& sph2) 
 {
 }
 
-Vector3 BoundingBox::Min() const
+Vector3 BoundingBox::Min() const noexcept
 {
 	return Position;
 }
 
-Vector3 BoundingBox::Max() const
+Vector3 BoundingBox::Max() const noexcept
 {
 	return Position + Scale;
 }
 
-bool BoundingBox::Intersects(const BoundingBox& box) const
+bool BoundingBox::Intersects(const BoundingBox& box) const noexcept
 {
 	return  AABB(Position.X, Scale.X, box.Position.X, box.Scale.X) &&
 			AABB(Position.Y, Scale.Y, box.Position.Y, box.Scale.Y) &&
 			AABB(Position.Z, Scale.Z, box.Position.Z, box.Scale.Z);
 }
 
-bool BoundingBox::Intersects(const BoundingSphere& sphere) const
+bool BoundingBox::Intersects(const BoundingSphere& sphere) const noexcept
 {
 	auto ClosestPoint = [](const BoundingBox& box, const Vector3 & p) -> Vector3
 	{
@@ -85,7 +85,7 @@ bool BoundingBox::Intersects(const BoundingSphere& sphere) const
 	return distanceSquared < radiusSquared;
 }
 
-bool BoundingBox::Intersects(const Plane& plane) const
+bool BoundingBox::Intersects(const Plane& plane) const noexcept
 {
 	//https://gdbooks.gitbooks.io/3dcollisions/content/Chapter2/static_aabb_plane.html
 
@@ -103,12 +103,12 @@ bool BoundingBox::Intersects(const Plane& plane) const
 	return abs(s) <= r; 
 }
 
-bool BoundingBox::Intersects(const Ray& ray) const
+bool BoundingBox::Intersects(const Ray& ray) const noexcept
 {
 	return ray.Intersects(*this).has_value();
 }
 
-bool BoundingBox::Contains(const Vector3& p) const
+bool BoundingBox::Contains(const Vector3& p) const noexcept
 {
 	return	Min().X >= p.X && p.X <= Max().X &&
 			Min().Y >= p.Y && p.Y <= Max().Y;
@@ -130,7 +130,7 @@ Vector3 BoundingBox::operator[](int i) const
 	}
 }
 
-Vector3 BoundingBox::Center() const
+Vector3 BoundingBox::Center() const noexcept
 {
 	return Position + (Scale / 2);
 }

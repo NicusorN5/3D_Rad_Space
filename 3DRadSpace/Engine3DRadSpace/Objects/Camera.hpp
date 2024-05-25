@@ -29,12 +29,12 @@ namespace Engine3DRadSpace::Objects
 
 		Math::Vector3 LookAt;
 
-		virtual void Initialize() override;
-		virtual void Load(Content::ContentManager *content) override;
-		virtual void Load(Content::ContentManager *content, const std::filesystem::path &path) override;
+		void Initialize() override;
+		void Load(Content::ContentManager *content) override;
+		void Load(Content::ContentManager *content, const std::filesystem::path &path) override;
 	
-		virtual void EditorInitialize() override;
-		virtual void EditorLoad(Content::ContentManager *content) override;
+		void EditorInitialize() override;
+		void EditorLoad(Content::ContentManager *content) override;
 
 		/// <summary>
 		/// Sets the view and projection matrices.
@@ -42,7 +42,7 @@ namespace Engine3DRadSpace::Objects
 		/// <param name="view">View matrix reference</param>
 		/// <param name="projection">Projection matrix reference</param>
 		/// <param name="dt">Delta time, not used.</param>
-		virtual void Draw(
+		void Draw(
 			Math::Matrix4x4& view,
 			Math::Matrix4x4& projection,
 			double dt) override;
@@ -53,19 +53,19 @@ namespace Engine3DRadSpace::Objects
 		/// <param name="keyboard">Keyboard reference</param>
 		/// <param name="mouse">Mouse reference</param>
 		/// <param name="dt">Delta-time</param>
-		virtual void Update(Input::Keyboard& keyboard, Input::Mouse& mouse, double dt) override;
+		void Update(Input::Keyboard& keyboard, Input::Mouse& mouse, double dt) override;
 
-		virtual Math::Matrix4x4 GetModelMartix() override;
-		virtual void EditorDraw(
+		Math::Matrix4x4 GetModelMartix() override;
+		void EditorDraw(
 			const Math::Matrix4x4& view,
 			const Math::Matrix4x4& projection,
 			double dt,
 			bool selected
 		) override;
 
-		virtual std::optional<float> Intersects(const Math::Ray &r) override;
+		std::optional<float> Intersects(const Math::Ray &r) override;
 
-		virtual Reflection::UUID GetUUID() override;
+		Reflection::UUID GetUUID() const noexcept override;
 
 		~Camera();
 	};

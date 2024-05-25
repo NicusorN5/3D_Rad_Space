@@ -30,8 +30,8 @@ namespace Engine3DRadSpace::Graphics
 
 		void Draw();
 
-		Math::BoundingBox GetBoundingBox();
-		Math::BoundingSphere GetBoundingSphere();
+		Math::BoundingBox GetBoundingBox() const noexcept;
+		Math::BoundingSphere GetBoundingSphere() const noexcept;
 
 		~ModelMesh() = default;
 	};

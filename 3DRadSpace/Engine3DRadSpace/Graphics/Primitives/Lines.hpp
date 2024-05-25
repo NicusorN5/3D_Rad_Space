@@ -17,13 +17,16 @@ namespace Engine3DRadSpace::Graphics::Primitives
 	public:
 		Lines(GraphicsDevice *device, std::span<VertexPositionColor> points);
 
-		Lines(Lines &) = delete;
+		Lines(const Lines &) = delete;
 		Lines(Lines &&) noexcept = default;
 
-		Lines &operator=(Lines &) = delete;
+		Lines &operator=(const Lines &) = delete;
 		Lines &operator=(Lines &&) noexcept = default;
 
 		Math::Matrix4x4 Transform = Math::Matrix4x4();
+
+		VertexBufferV<VertexPositionColor>* GetVertexBuffer() const noexcept;
+		RasterizerState* GetLineRasterizer() const noexcept;
 
 		virtual void Draw(Math::Matrix4x4 &view, Math::Matrix4x4 &projection, double dt) override;
 	};

@@ -31,13 +31,16 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		Box &operator=(const Box &) = delete;
 		Box &operator=(Box &&b) noexcept = default;
 
-		Math::BoundingBox GetBoundingBox();
+		Math::BoundingBox GetBoundingBox() const noexcept;
 		void SetBoundingBox(const Math::BoundingBox &b);
 
-		Color GetColor();
+		Color GetColor() const noexcept;
 		void SetColor(const Color&color);
 
 		void SetTransform(const Math::Matrix4x4 &m);
+
+		VertexBufferV<VertexPositionColor>* GetVertexBuffer() const noexcept;
+		IndexBuffer* GetIndexBuffer() const noexcept;
 
 		virtual void Draw(Math::Matrix4x4 &view, Math::Matrix4x4 &projection, double dt) override;
 	};

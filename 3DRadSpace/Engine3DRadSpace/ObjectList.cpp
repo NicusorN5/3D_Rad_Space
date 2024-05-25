@@ -53,12 +53,12 @@ unsigned ObjectList::Add(IObject3D* obj, InitializationFlag flag)
 }
 */
 
-IObject* ObjectList::Find(unsigned id)
+IObject* ObjectList::Find(unsigned id) const
 {
 	return _objects[id].Object.get();
 }
 
-IObject* ObjectList::Find(const std::string& name)
+IObject* ObjectList::Find(const std::string& name) const noexcept
 {
 	for (auto& [object, id] : _objects)
 	{

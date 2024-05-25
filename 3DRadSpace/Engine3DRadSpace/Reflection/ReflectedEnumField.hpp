@@ -39,27 +39,27 @@ namespace Engine3DRadSpace::Reflection
 		{
 		}
 
-		const size_t TypeHash() const override
+		const size_t TypeHash() const noexcept override
 		{
 			return typeid(E).hash_code();
 		}
 
-		const std::string FieldName() const override
+		const std::string FieldName() const noexcept override
 		{
 			return _name;
 		}
 
-		const std::string FieldDesc() const override
+		const std::string FieldDesc() const noexcept override
 		{
 			return _desc;
 		}
 
-		const size_t TypeSize() const override
+		const size_t TypeSize() const noexcept override
 		{
 			return sizeof(E);
 		}
 
-		const ptrdiff_t FieldOffset() const override
+		const ptrdiff_t FieldOffset() const noexcept override
 		{
 			return _offset;
 		}
@@ -82,12 +82,12 @@ namespace Engine3DRadSpace::Reflection
 			*lhs = *rhs;
 		}
 
-		const void* DefaultValue() const override
+		const void* DefaultValue() const noexcept override
 		{
 			return static_cast<void*>(&_defaultValue);
 		}
 
-		FieldRepresentation Representation() const override
+		FieldRepresentation Representation() const noexcept override
 		{
 			return FieldRepresentation({ FieldRepresentationType::Enum, "" });
 		}

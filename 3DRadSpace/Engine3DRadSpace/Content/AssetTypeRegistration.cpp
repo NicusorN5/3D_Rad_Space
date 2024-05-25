@@ -1,6 +1,7 @@
 #include "AssetTypeRegistration.hpp"
 #include "../Graphics/Texture2D.hpp"
 #include "../Graphics/Model3D.hpp"
+#include "../Graphics/Font.hpp"
 #include "../Tag.hpp"
 #include "../Internal/AssetUUIDReader.hpp"
 
@@ -17,6 +18,7 @@ IAsset* Engine3DRadSpace::Content::CreateAssetInstance(Reflection::UUID nuuid, G
 	{
 		RegisterAssetType<Graphics::Texture2D>();
 		RegisterAssetType<Graphics::Model3D>();
+		RegisterAssetType<Graphics::Font>();
 	}
 
 	for (auto& [uuid, ctor] : Internal::assetTypes)

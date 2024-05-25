@@ -57,7 +57,7 @@ Box::Box(GraphicsDevice *device, const BoundingBox&b, Color color) :
     _shader = ShaderManager::LoadShader<BlankShader>(device);
 }
 
-BoundingBox Box::GetBoundingBox()
+BoundingBox Box::GetBoundingBox() const noexcept
 {
     return _box;
 }
@@ -70,7 +70,7 @@ void Box::SetBoundingBox(const BoundingBox&b)
     _vertices->SetData(box_vertices);
 }
 
-Color Box::GetColor()
+Color Box::GetColor() const noexcept
 {
     return _color;
 }
@@ -86,6 +86,16 @@ void Box::SetColor(const Color&color)
 void Box::SetTransform(const Matrix4x4&m)
 {
     _worldMat = m;
+}
+
+VertexBufferV<VertexPositionColor>* Box::GetVertexBuffer() const noexcept
+{
+    return _vertices.get();
+}
+
+IndexBuffer* Box::GetIndexBuffer() const noexcept
+{
+    return _indices.get();
 }
 
 void Box::Draw(Matrix4x4 &view, Matrix4x4 &projection, double dt)

@@ -387,3 +387,5 @@ FodyWeavers.xsd
 .idea/
 *.sln.iml
 *.dll
+
+desktop.ini

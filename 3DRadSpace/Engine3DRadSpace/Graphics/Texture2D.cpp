@@ -628,17 +628,17 @@ void Texture2D::SaveToFile(const std::string &path)
 #endif
 }
 
-unsigned Texture2D::Width() const
+unsigned Texture2D::Width() const noexcept
 {
 	return _width;
 }
 
-unsigned Texture2D::Height() const
+unsigned Texture2D::Height() const noexcept
 {
 	return _height;
 }
 
-Point Texture2D::Size()
+Point Texture2D::Size() const noexcept
 {
 	return Point(static_cast<int>(_width), static_cast<int>(_height));
 }
@@ -662,17 +662,17 @@ Texture2D Texture2D::Clone()
 #endif
 }
 
-void* Texture2D::TextureHandle() const
+void* Texture2D::TextureHandle() const noexcept
 {
 	return _texture.Get();
 }
 
-void* Texture2D::ResourceViewHandle() const
+void* Texture2D::ResourceViewHandle() const noexcept
 {
 	return _resourceView.Get();
 }
 
-Reflection::UUID Engine3DRadSpace::Graphics::Texture2D::GetUUID()
+Reflection::UUID Engine3DRadSpace::Graphics::Texture2D::GetUUID() const noexcept
 {
 	// {5AAE5C7A-C0E7-405A-B6FD-03CF9E3E36CC}
 	return { 0x5aae5c7a, 0xc0e7, 0x405a, { 0xb6, 0xfd, 0x3, 0xcf, 0x9e, 0x3e, 0x36, 0xcc } };

@@ -49,7 +49,7 @@ namespace Engine3DRadSpace::Physics
 		/// <param name="newSettigs">Selected property</param>
 		/// <returns>true if successful.</returns>
 		virtual bool Apply(PhysicsProperty newSettigs) = 0;
-		virtual bool Read(PhysicsProperty property) = 0;
+		virtual bool Read(PhysicsProperty property) const = 0;
 
 		virtual bool ApplyForce(const Math::Vector3& force) = 0;
 		virtual bool ApplyTorque(const Math::Vector3& force) = 0;

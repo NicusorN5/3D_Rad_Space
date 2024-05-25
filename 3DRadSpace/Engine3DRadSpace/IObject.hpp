@@ -31,7 +31,7 @@ namespace Engine3DRadSpace
 		virtual void EditorInitialize() = 0;
 		virtual void EditorLoad(Content::ContentManager *content) = 0;
 
-		virtual Reflection::UUID GetUUID() = 0;
+		virtual Reflection::UUID GetUUID() const noexcept = 0;
 
 		GraphicsDevice *GetGraphicsDeviceHandle();
 		Game* GetGame();

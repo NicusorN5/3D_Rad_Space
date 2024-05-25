@@ -9,6 +9,7 @@ REFL_FWD(Skinmesh)
 REFL_FWD(GForce)
 REFL_FWD(Empty)
 REFL_FWD(SkyColor)
+REFL_FWD(TextPrint)
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Reflection;
@@ -149,6 +150,7 @@ void AddObjectDialog::InitializeReflData()
 			&CameraReflInstance, //C++ source
 			*/
 			{SpriteReflInstance.ObjectUUID, &SpriteReflInstance}, //Sprite
+			{TextPrintReflInstance.ObjectUUID, &TextPrintReflInstance}, //Textprint
 		};
 	}
 }

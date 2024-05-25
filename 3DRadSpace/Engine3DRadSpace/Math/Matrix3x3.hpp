@@ -21,31 +21,31 @@ namespace Engine3DRadSpace::Math
 		static Matrix3x3 CreateRotation2D(float theta);
 		static Matrix3x3 Create2DSkewing(const Vector2& skewing);
 
-		float Trace() const;
-		float Determinant() const;
+		float Trace() const noexcept;
+		float Determinant() const noexcept;
 
 		float& operator[](unsigned index);
 
 		Matrix3x3& Hadamard(const Matrix3x3& m);
 		static Matrix3x3 Hadamard(const Matrix3x3& a, const Matrix3x3& b);
 
-		Matrix3x3 operator+(const Matrix3x3& m) const;
-		Matrix3x3& operator+=(const Matrix3x3& m);
+		Matrix3x3 operator+(const Matrix3x3& m) const noexcept;
+		Matrix3x3& operator+=(const Matrix3x3& m) noexcept;
 
-		Matrix3x3& operator-();
-		Matrix3x3 operator-(const Matrix3x3& m) const;
-		Matrix3x3& operator-=(const Matrix3x3& m);
+		Matrix3x3& operator-() noexcept;
+		Matrix3x3 operator-(const Matrix3x3& m) const noexcept;
+		Matrix3x3& operator-=(const Matrix3x3& m) noexcept;
 
-		Matrix3x3 operator*(const Matrix3x3& m) const;
-		Matrix3x3& operator*=(const Matrix3x3& m);
+		Matrix3x3 operator*(const Matrix3x3& m) const noexcept;
+		Matrix3x3& operator*=(const Matrix3x3& m) noexcept;
 
-		Matrix3x3 operator*(float s) const;
-		Matrix3x3& operator*=(float s);
+		Matrix3x3 operator*(float s) const noexcept;
+		Matrix3x3& operator*=(float s) noexcept;
 
 		Matrix3x3 operator/(float s) const;
 		Matrix3x3& operator/=(float s);
 	};
 
-	Matrix3x3 operator *(float s, const Matrix3x3& m);
+	Matrix3x3 operator *(float s, const Matrix3x3& m) noexcept;
 	Matrix3x3 operator /(float s, const Matrix3x3& m);
 }

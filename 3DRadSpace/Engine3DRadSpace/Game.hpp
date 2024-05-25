@@ -12,6 +12,7 @@
 #include "Graphics/SpriteBatch.hpp"
 #include "Reflection/ReflectedObject.hpp"
 #include "Physics/PhysicsEngine.hpp"
+#include "Audio/AudioEngine.hpp"
 
 namespace Engine3DRadSpace
 {
@@ -49,6 +50,7 @@ namespace Engine3DRadSpace
 		Color ClearColor = Colors::Black;
 
 		std::unique_ptr<Physics::PhysicsEngine> Physics;
+		std::unique_ptr<Audio::AudioEngine> Audio;
 
 		void Run();
 		void RunOneFrame();
@@ -58,6 +60,8 @@ namespace Engine3DRadSpace
 		bool WasLoaded() const noexcept;
 
 		void RequestPhysicsInitialization(const Math::Vector3& gravity, double timeStep = 1.0 / 60.0);
+		void RequestAudioInitialization();
+
 		Math::Ray GetMouseRay(const Math::Vector2& mousePosition, const Math::Matrix4x4& view, const Math::Matrix4x4& projection);
 
 		virtual ~Game();

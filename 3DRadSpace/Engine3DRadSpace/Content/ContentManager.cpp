@@ -37,17 +37,17 @@ void ContentManager::Reload(unsigned id)
 	_assets[id].Entry.reset(asset);
 }
 
-std::filesystem::path ContentManager::GetAssetPath(unsigned id) const
+std::filesystem::path ContentManager::GetAssetPath(unsigned id) const noexcept
 {
 	return _assets[id].Path;
 }
 
-Reflection::UUID ContentManager::GetAssetType(unsigned id) const
+Reflection::UUID ContentManager::GetAssetType(unsigned id) const noexcept
 {
 	return _assets[id].Type;
 }
 
-std::string ContentManager::GetAssetName(unsigned id) const
+std::string ContentManager::GetAssetName(unsigned id) const noexcept
 {
 	return _assets[id].Name;
 }

@@ -5,7 +5,7 @@
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Math;
 
-Vector3 Viewport::Unproject(const Vector3 &source, const Matrix4x4& projection, const Matrix4x4& view, const Matrix4x4& world)
+Vector3 Viewport::Unproject(const Vector3 &source, const Matrix4x4& projection, const Matrix4x4& view, const Matrix4x4& world) const
 {
 	//https://github.com/MonoGame/MonoGame/blob/develop/MonoGame.Framework/Graphics/Viewport.cs
 	auto matrix = Matrix4x4::Invert(world * view * projection);

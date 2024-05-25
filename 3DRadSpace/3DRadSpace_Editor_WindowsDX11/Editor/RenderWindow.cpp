@@ -1,5 +1,5 @@
 #include "RenderWindow.hpp"
-#include <Engine3DRadSpace/Graphics/Fonts/Font.hpp>
+#include <Engine3DRadSpace/Graphics/Font.hpp>
 #include "../Frontend/Settings.hpp"
 #include <Engine3DRadSpace/Graphics/Primitives/Box.hpp>
 #include <Engine3DRadSpace/ObjectList.hpp>
@@ -66,7 +66,7 @@ void RenderWindow::Load(Content::ContentManager *content)
 	fish = content->Load<Model3D>("Data\\Models\\YellowFish.x");
 	//content->Load<Model3D>("Data\\Models\\terrain0100.x");
 
-	testFont = std::make_unique<Fonts::Font>(Device.get(), "Data\\Fonts\\arial.ttf");
+	testFont = std::make_unique<Font>(Device.get(), "Data\\Fonts\\arial.ttf");
 	//this->ClearColor.R = 0.128;
 }
 

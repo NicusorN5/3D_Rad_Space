@@ -86,9 +86,16 @@ void Engine3DRadSpace::Graphics::IndexBuffer::EndRead()
 #endif
 }
 
-unsigned IndexBuffer::NumIndices() const
+unsigned IndexBuffer::NumIndices() const noexcept
 {
 	return _numIndices;
+}
+
+void* IndexBuffer::GetHandle() const noexcept
+{
+#ifdef USING_DX11
+	return static_cast<void*>(_indexBuffer.Get());
+#endif
 }
 
 void IndexBuffer::Set(unsigned offset)

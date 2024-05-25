@@ -19,7 +19,7 @@ namespace Engine3DRadSpace::Audio
 		AudioEngine& operator=(const AudioEngine&) = delete;
 		AudioEngine& operator=(AudioEngine&&) = delete;
 
-		std::vector<std::string> ListAudioDevices();
+		std::vector<std::string> ListAudioDevices() const noexcept;
 
 		void SetListener(const Math::Vector3& vector);
 		void CreateAudioSource(AudioSource& source);

@@ -53,12 +53,12 @@ Matrix3x3 Matrix3x3::Create2DSkewing(const Vector2& skewing)
 	);
 }
 
-float Matrix3x3::Trace() const
+float Matrix3x3::Trace() const noexcept
 {
 	return M11 + M22 + M33;
 }
 
-float Matrix3x3::Determinant() const
+float Matrix3x3::Determinant() const noexcept
 {
 	//Using Rule of Sarrus
 	return M11 * M22 * M33 + M12 * M23 * M31 + M21 * M32 * M13 - M13 * M22 * M31 - M21 * M12 * M33 - M11 * M23 * M32;
@@ -116,7 +116,7 @@ Matrix3x3 Matrix3x3::Hadamard(const Matrix3x3& a, const Matrix3x3& b)
 	};
 }
 
-Matrix3x3 Matrix3x3::operator+(const Matrix3x3& m) const
+Matrix3x3 Matrix3x3::operator+(const Matrix3x3& m) const noexcept
 {
 	return Matrix3x3
 	{
@@ -126,7 +126,7 @@ Matrix3x3 Matrix3x3::operator+(const Matrix3x3& m) const
 	};
 }
 
-Matrix3x3& Matrix3x3::operator+=(const Matrix3x3& m)
+Matrix3x3& Matrix3x3::operator+=(const Matrix3x3& m) noexcept
 {
 	M11 += m.M11;
 	M12 += m.M12;
@@ -143,7 +143,7 @@ Matrix3x3& Matrix3x3::operator+=(const Matrix3x3& m)
 	return *this;
 }
 
-Matrix3x3& Matrix3x3::operator-()
+Matrix3x3& Matrix3x3::operator-() noexcept
 {
 	M11 *= -1;
 	M12 *= -1;
@@ -160,7 +160,7 @@ Matrix3x3& Matrix3x3::operator-()
 	return *this;
 }
 
-Matrix3x3 Matrix3x3::operator-(const Matrix3x3& m) const
+Matrix3x3 Matrix3x3::operator-(const Matrix3x3& m) const noexcept
 {
 	return Matrix3x3{
 		M11 - m.M11, M12 - m.M12, M13 - m.M13,
@@ -169,7 +169,7 @@ Matrix3x3 Matrix3x3::operator-(const Matrix3x3& m) const
 	};
 }
 
-Matrix3x3& Matrix3x3::operator-=(const Matrix3x3& m)
+Matrix3x3& Matrix3x3::operator-=(const Matrix3x3& m) noexcept
 {
 	M11 -= m.M11;
 	M12 -= m.M12;
@@ -186,7 +186,7 @@ Matrix3x3& Matrix3x3::operator-=(const Matrix3x3& m)
 	return *this;
 }
 
-Matrix3x3 Matrix3x3::operator*(const Matrix3x3& m) const
+Matrix3x3 Matrix3x3::operator*(const Matrix3x3& m) const noexcept
 {
 	return Matrix3x3
 	{
@@ -204,7 +204,7 @@ Matrix3x3 Matrix3x3::operator*(const Matrix3x3& m) const
 	};
 }
 
-Matrix3x3& Matrix3x3::operator*=(const Matrix3x3& m)
+Matrix3x3& Matrix3x3::operator*=(const Matrix3x3& m) noexcept
 {
 	M11 = M11 * m.M11 + M12 * m.M21 + M13 * m.M13;
 	M12 = M11 * m.M12 + M12 * m.M22 + M13 + m.M23;
@@ -221,7 +221,7 @@ Matrix3x3& Matrix3x3::operator*=(const Matrix3x3& m)
 	return *this;
 }
 
-Matrix3x3 Matrix3x3::operator*(float s) const
+Matrix3x3 Matrix3x3::operator*(float s) const noexcept
 {
 	return Matrix3x3
 	{
@@ -231,7 +231,7 @@ Matrix3x3 Matrix3x3::operator*(float s) const
 	};
 }
 
-Matrix3x3& Matrix3x3::operator*=(float s)
+Matrix3x3& Matrix3x3::operator*=(float s) noexcept
 {
 	M11 *= s;
 	M12 *= s;
@@ -275,7 +275,7 @@ Matrix3x3& Matrix3x3::operator/=(float s)
 	return *this;
 }
 
-Matrix3x3 Engine3DRadSpace::Math::operator*(float s, const Matrix3x3& m)
+Matrix3x3 Engine3DRadSpace::Math::operator*(float s, const Matrix3x3& m) noexcept
 {
 	return Matrix3x3
 	{

@@ -283,12 +283,12 @@ size_t Model3D::NumMeshes()
 	return _meshes.size();
 }
 
-BoundingBox Model3D::GetBoundingBox() const
+BoundingBox Model3D::GetBoundingBox() const noexcept
 {
 	return _box;
 }
 
-BoundingSphere Model3D::GetBoundingSphere() const
+BoundingSphere Model3D::GetBoundingSphere() const noexcept
 {
 	return _sphere;
 }
@@ -320,7 +320,7 @@ void Model3D::SetShaders(std::span<std::shared_ptr<Shaders::Effect>> effects)
 	}
 }
 
-Reflection::UUID Engine3DRadSpace::Graphics::Model3D::GetUUID()
+Reflection::UUID Engine3DRadSpace::Graphics::Model3D::GetUUID() const noexcept
 {
 	// {A405951A-7454-4A03-868C-1D2022D43F45}
 	return { 0xa405951a, 0x7454, 0x4a03, { 0x86, 0x8c, 0x1d, 0x20, 0x22, 0xd4, 0x3f, 0x45 } };

@@ -23,7 +23,7 @@ namespace Engine3DRadSpace::Objects
 
 		void EditorLoad(Content::ContentManager* content) override;
 
-		Reflection::UUID GetUUID() override;
+		Reflection::UUID GetUUID() const noexcept override;
 
 		void Draw(Math::Matrix4x4& view, Math::Matrix4x4& projection, double dt) override;
 

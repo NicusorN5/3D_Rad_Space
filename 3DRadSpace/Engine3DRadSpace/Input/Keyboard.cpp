@@ -36,7 +36,7 @@ Keyboard::Keyboard() :
 {
 }
 
-bool Keyboard::IsKeyDown(Key k)
+bool Keyboard::IsKeyDown(Key k) const noexcept
 {
     for (int i = 0; i < 10; i++)
     {
@@ -46,7 +46,7 @@ bool Keyboard::IsKeyDown(Key k)
     return false;
 }
 
-bool Keyboard::IsKeyUp(Key k)
+bool Keyboard::IsKeyUp(Key k) const noexcept
 {
     for (int i = 0; i < 10; i++)
     {
@@ -56,7 +56,7 @@ bool Keyboard::IsKeyUp(Key k)
     return true;
 }
 
-bool Engine3DRadSpace::Input::Keyboard::IsAnyKeyDown()
+bool Engine3DRadSpace::Input::Keyboard::IsAnyKeyDown() const noexcept
 {
     for (int i = 0; i < 10; i++)
     {

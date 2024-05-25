@@ -249,11 +249,10 @@
     <ClInclude Include="Graphics\Rendering\IRenderingEffect.hpp" />
     <ClInclude Include="Graphics\Rendering\IEffectFog.hpp" />
     <ClInclude Include="Graphics\Rendering\IEffectOutline.h" />
-    <ClInclude Include="IGraphicsDevice.hpp" />
     <ClInclude Include="Math\Matrix3x3.hpp" />
     <ClInclude Include="Math\Plane.hpp" />
-    <ClInclude Include="Graphics\Fonts\Glyph.hpp" />
-    <ClInclude Include="Graphics\Fonts\Font.hpp" />
+    <ClInclude Include="Graphics\Glyph.hpp" />
+    <ClInclude Include="Graphics\Font.hpp" />
     <ClInclude Include="Audio\AudioEngine.hpp" />
     <ClInclude Include="Concepts.hpp" />
     <ClInclude Include="Input\ButtonState.hpp" />
@@ -276,7 +275,7 @@
     <ClInclude Include="Audio\Sound.hpp" />
     <ClInclude Include="Physics\StaticRigidbody.hpp" />
     <ClInclude Include="Content\AssetFactory.hpp" />
-    <ClInclude Include="Reflection\Editor\CustomEditorGUI.hpp" />
+    <ClInclude Include="Objects\TextPrint.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp" />
@@ -447,7 +446,7 @@
     <ClCompile Include="Graphics\Rendering\IRenderer.cpp" />
     <ClCompile Include="Graphics\Rendering\ForwardRenderer.cpp" />
     <ClCompile Include="Math\Matrix3x3.cpp" />
-    <ClCompile Include="Graphics\Fonts\Font.cpp" />
+    <ClCompile Include="Graphics\Font.cpp" />
     <ClCompile Include="Audio\AudioEngine.cpp" />
     <ClCompile Include="Math\Plane.cpp" />
     <ClCompile Include="Reflection\ReflectedEnum.cpp" />
@@ -463,5 +462,7 @@
     <ClCompile Include="Content\AssetTypeRegistration.cpp" />
     <ClCompile Include="Content\AssetFactory.cpp" />
     <ClCompile Include="Memory.cpp" />
+    <ClCompile Include="Objects\TextPrint.cpp" />
+    <ClCompile Include="Audio\Sound.cpp" />
   </ItemGroup>
 </Project>

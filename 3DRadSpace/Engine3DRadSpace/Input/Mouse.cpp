@@ -12,27 +12,27 @@ Mouse::Mouse() :
 {
 };
 
-ButtonState Mouse::LeftButton()
+ButtonState Mouse::LeftButton() const noexcept
 {
     return _leftButton;
 }
 
-ButtonState Mouse::MiddleButton()
+ButtonState Mouse::MiddleButton() const noexcept
 {
     return _middleButton;
 }
 
-ButtonState Mouse::RightButton()
+ButtonState Mouse::RightButton() const noexcept
 {
     return _rightButton;
 }
 
-Point Mouse::Position()
+Point Mouse::Position() const noexcept
 {
     return _position;
 }
 
-float Mouse::ScrollWheel()
+float Mouse::ScrollWheel() const noexcept
 {
     return _scrollWheel;
 }

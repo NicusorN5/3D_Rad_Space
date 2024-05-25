@@ -31,7 +31,7 @@ namespace Engine3DRadSpace::Objects
 		void Load(Content::ContentManager* content, const std::filesystem::path& path) override;
 		void EditorInitialize() override;
 		void EditorLoad(Content::ContentManager *content) override;
-		Reflection::UUID GetUUID() override;
+		Reflection::UUID GetUUID() const noexcept override;
 		void Draw(Math::Matrix4x4 &view, Math::Matrix4x4 &projection, double dt) override;
 		void EditorDraw(const Math::Matrix4x4 &view, const Math::Matrix4x4 &projection, double dt, bool selected) override;
 		std::optional<float> Intersects(const Math::Ray &r) override;

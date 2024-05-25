@@ -71,7 +71,7 @@ bool Engine3DRadSpace::Math::BoundingSphere::Intersects(const Ray& ray) const
 {
 	return ray.Intersects(*this).has_value();
 }
-
+ 
 bool Engine3DRadSpace::Math::BoundingSphere::Contains(const Vector3& p) const
 {
 	return (Center - p).LengthSquared() <= Radius * Radius;

@@ -32,6 +32,11 @@ template<> FieldRepresentation Reflection::GetFieldRepresentation<AssetID<Model3
 	return {{FieldRepresentationType::Model, ""}};
 }
 
+template<> FieldRepresentation Reflection::GetFieldRepresentation<AssetID<Font>>()
+{
+	return { {FieldRepresentationType::Font, ""} };
+}
+
 template<> FieldRepresentation Reflection::GetFieldRepresentation<Key>()
 {
 	return {{FieldRepresentationType::Key, ""}};

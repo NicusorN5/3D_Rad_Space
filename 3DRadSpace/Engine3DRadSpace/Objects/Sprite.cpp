@@ -18,13 +18,9 @@ Sprite::Sprite() :
 {
 }
 
-Sprite::Sprite(const std::string &name, bool visible, const std::string &path, const Vector2 &pos, const Vector2 &scale, const Vector2& pivot,
-               float depth, float rotation, bool flipU, bool flipV, const Color &tintColor) :
-	IObject2D(name, visible, visible, Vector2(pos.X, pos.Y), scale, rotation, pivot, depth),
-	FlipU(flipU),
-	FlipV(FlipV),
-	TintColor(tintColor),
-	_texture(nullptr)
+Sprite::Sprite(const std::string &name, bool visible, const std::string &path, const Vector2& pos, const Vector2& scale, float depth, const Vector2& pivot,
+	float rotation, bool flipU, bool flipV, const Color& tintColor) :
+	Sprite(name, visible, RefTexture2D(0), pos, scale, depth, pivot, rotation, flipU, flipV, tintColor)
 {
 	_tempResourceString = std::make_unique<std::string>(path);
 }
@@ -53,7 +49,7 @@ void Sprite::Load(Content::ContentManager *content)
 {
 	if(_tempResourceString != nullptr)
 	{
-		_texture = content->Load<Texture2D>(*_tempResourceString.get());
+		_texture = content->Load<Texture2D>(*_tempResourceString);
 		_tempResourceString.reset();
 	}
 	else _texture = static_cast<Texture2D *>((content->operator[](Image)));
@@ -61,8 +57,7 @@ void Sprite::Load(Content::ContentManager *content)
 
 void Sprite::Load(Content::ContentManager* content, const std::filesystem::path &path)
 {
-	_tempResourceString = std::make_unique<std::string>(path.string());
-	Load(content);
+	_texture = content->Load<Texture2D>(path, &Image);
 }
 
 
@@ -94,7 +89,7 @@ void Sprite::EditorDraw(SpriteBatch *spriteBatch, double dt, bool selected)
 	spriteBatch->DrawNormalized(_texture, RectangleF(Position.X, Position.Y, Scale.X, Scale.Y), Engine3DRadSpace::Math::RectangleF(0, 0, 1, 1), TintColor, Rotation, flip, Depth);
 }
 
-Reflection::UUID Sprite::GetUUID()
+Reflection::UUID Sprite::GetUUID() const noexcept
 {
 	// {90239EA1-D02D-424C-90BB-15ABC5E5D55D}
 	return Reflection::UUID{0x90239ea1, 0xd02d, 0x424c, { 0x90, 0xbb, 0x15, 0xab, 0xc5, 0xe5, 0xd5, 0x5d }};

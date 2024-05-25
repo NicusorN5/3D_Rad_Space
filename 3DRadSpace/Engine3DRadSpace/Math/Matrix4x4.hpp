@@ -42,17 +42,17 @@ namespace Engine3DRadSpace::Math
 		static Matrix4x4 Hadamard(const Matrix4x4& a, const Matrix4x4& b);
 		Matrix4x4& Hadamard(const Matrix4x4& m);
 
-		Matrix4x4 operator +(const Matrix4x4 &m) const;
-		Matrix4x4 operator +=(const Matrix4x4 &m);
+		Matrix4x4 operator +(const Matrix4x4& m) const noexcept;
+		Matrix4x4 operator +=(const Matrix4x4& m) noexcept;
 
-		Matrix4x4 operator -(const Matrix4x4 &m) const;
-		Matrix4x4 operator -=(const Matrix4x4 &m);
+		Matrix4x4 operator -(const Matrix4x4& m) const noexcept;
+		Matrix4x4 operator -=(const Matrix4x4& m) noexcept;
 
-		Matrix4x4 operator *(const Matrix4x4& m) const;
-		Matrix4x4& operator *=(const Matrix4x4& m);
+		Matrix4x4 operator *(const Matrix4x4& m) const noexcept;
+		Matrix4x4& operator *=(const Matrix4x4& m) noexcept;
 
-		Matrix4x4 operator*(float scalar) const;
-		Matrix4x4& operator *=(float scalar);
+		Matrix4x4 operator*(float scalar) const noexcept;
+		Matrix4x4& operator *=(float scalar) noexcept;
 
 		Matrix4x4& Transpose();
 		static Matrix4x4 Transpose(const Matrix4x4& m);
@@ -62,21 +62,21 @@ namespace Engine3DRadSpace::Math
 
 		float& operator[](unsigned index);
 
-		float Trace() const;
-		float Determinant() const;
+		float Trace() const noexcept;
+		float Determinant() const noexcept;
 
-		Vector3 Forward() const;
-		Vector3 Backward() const;
+		Vector3 Forward() const noexcept;
+		Vector3 Backward() const noexcept;
 
-		Vector3 Up() const;
-		Vector3 Down() const;
+		Vector3 Up() const noexcept;
+		Vector3 Down() const noexcept;
 
-		Vector3 Left() const;
-		Vector3 Right() const;
+		Vector3 Left() const noexcept;
+		Vector3 Right() const noexcept;
 
-		Vector3 Translation() const;
+		Vector3 Translation() const noexcept;
 	};
 
-	Matrix4x4 operator *(float scalar,const Matrix4x4& m);
+	Matrix4x4 operator *(float scalar, const Matrix4x4& m) noexcept;
 	Matrix4x4 operator /(float f, const Matrix4x4& m);
 }

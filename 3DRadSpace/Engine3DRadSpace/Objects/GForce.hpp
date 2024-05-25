@@ -60,7 +60,7 @@ namespace Engine3DRadSpace::Objects
 		/// Returns unique identifier used for serialization.
 		/// </summary>
 		/// <returns></returns>
-		Reflection::UUID GetUUID() override;
+		Reflection::UUID GetUUID() const noexcept override;
 	};
 }
 

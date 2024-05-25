@@ -20,9 +20,9 @@ namespace Engine3DRadSpace
 		public:
 			Keyboard();
 
-			bool IsKeyDown(Key k);
-			bool IsKeyUp(Key k);
-			bool IsAnyKeyDown();
+			bool IsKeyDown(Key k) const noexcept;
+			bool IsKeyUp(Key k) const noexcept;
+			bool IsAnyKeyDown() const noexcept;
 
 			KeyState operator[](const Key k);
 

@@ -44,3 +44,13 @@ DepthStencilBuffer::DepthStencilBuffer(GraphicsDevice *device):
 {
 	_createDepthTexture();
 }
+
+void* DepthStencilBuffer::GetViewHandle() const noexcept
+{
+	return static_cast<void*>(_depthView.Get());
+}
+
+void* DepthStencilBuffer::GetDepthTextureHandle() const noexcept
+{
+	return static_cast<void*>(_depthTexture.Get());
+}

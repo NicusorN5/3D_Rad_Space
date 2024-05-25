@@ -51,10 +51,13 @@ namespace Engine3DRadSpace::Graphics
 
 		void Draw();
 
-		Math::BoundingBox GetBoundingBox();
-		Math::BoundingSphere GetBoundingSphere();
+		Math::BoundingBox GetBoundingBox() const noexcept;
+		Math::BoundingSphere GetBoundingSphere() const noexcept;
 
-		Shaders::Effect *GetShaders();
+		Graphics::VertexBuffer* GetVertexBuffer() const noexcept;
+		Graphics::IndexBuffer* GetIndexBuffer() const noexcept;
+
+		Shaders::Effect* GetShaders() const noexcept;
 		void SetShaders(std::shared_ptr<Shaders::Effect> shaders);
 
 		~ModelMeshPart() = default;

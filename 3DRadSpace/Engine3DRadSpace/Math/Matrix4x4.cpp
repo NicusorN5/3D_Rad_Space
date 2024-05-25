@@ -354,7 +354,7 @@ Matrix4x4& Matrix4x4::Hadamard(const Matrix4x4& m)
 	return *this;
 }
 
-Matrix4x4 Matrix4x4::operator+(const Matrix4x4 &m) const
+Matrix4x4 Matrix4x4::operator+(const Matrix4x4 &m) const noexcept
 {
 	return Matrix4x4(
 		M11 + m.M11, M12 + m.M12, M13 + m.M13, M14 + m.M14,	
@@ -364,7 +364,7 @@ Matrix4x4 Matrix4x4::operator+(const Matrix4x4 &m) const
 	);
 }
 
-Matrix4x4 Matrix4x4::operator+=(const Matrix4x4 &m)
+Matrix4x4 Matrix4x4::operator+=(const Matrix4x4 &m) noexcept
 {
 	M11 += m.M11;
 	M12 += m.M12;
@@ -389,7 +389,7 @@ Matrix4x4 Matrix4x4::operator+=(const Matrix4x4 &m)
 	return *this;
 }
 
-Matrix4x4 Matrix4x4::operator-(const Matrix4x4 &m) const
+Matrix4x4 Matrix4x4::operator-(const Matrix4x4 &m) const noexcept
 {
 	return Matrix4x4(
 		M11 - m.M11, M12 - m.M12, M13 - m.M13, M14 - m.M14,
@@ -399,7 +399,7 @@ Matrix4x4 Matrix4x4::operator-(const Matrix4x4 &m) const
 	);
 }
 
-Matrix4x4 Matrix4x4::operator-=(const Matrix4x4 &m)
+Matrix4x4 Matrix4x4::operator-=(const Matrix4x4 &m) noexcept
 {
 	M11 -= m.M11;
 	M12 -= m.M12;
@@ -424,7 +424,7 @@ Matrix4x4 Matrix4x4::operator-=(const Matrix4x4 &m)
 	return *this;
 }
 
-Matrix4x4 Matrix4x4::operator*(const Matrix4x4& m) const
+Matrix4x4 Matrix4x4::operator*(const Matrix4x4& m) const noexcept
 {
 	/*
 	auto m1 = DirectX::XMMATRIX(reinterpret_cast<float*>(const_cast<Matrix4x4*>(this)));
@@ -463,7 +463,7 @@ Matrix4x4 Matrix4x4::operator*(const Matrix4x4& m) const
 	return r;
 }
 
-Matrix4x4& Matrix4x4::operator*=(const Matrix4x4& m)
+Matrix4x4& Matrix4x4::operator*=(const Matrix4x4& m) noexcept
 {
 	/*
 	auto m1 = DirectX::XMMATRIX(reinterpret_cast<float*>(this));
@@ -497,7 +497,7 @@ Matrix4x4& Matrix4x4::operator*=(const Matrix4x4& m)
 	return *this;
 }
 
-Matrix4x4 Matrix4x4::operator*(float scalar) const
+Matrix4x4 Matrix4x4::operator*(float scalar) const noexcept
 {
 	Matrix4x4 m(*this);
 	m.M11 *= scalar;
@@ -523,7 +523,7 @@ Matrix4x4 Matrix4x4::operator*(float scalar) const
 	return m;
 }
 
-Matrix4x4& Matrix4x4::operator*=(float scalar)
+Matrix4x4& Matrix4x4::operator*=(float scalar) noexcept
 {
 	M11 *= scalar;
 	M12 *= scalar;
@@ -694,12 +694,12 @@ float& Matrix4x4::operator[](unsigned index)
 	}
 }
 
-float Matrix4x4::Trace() const
+float Matrix4x4::Trace() const noexcept
 {
 	return M11 + M22 + M33 + M44;
 }
-
-float Matrix4x4::Determinant() const
+ 
+float Matrix4x4::Determinant() const noexcept
 {
 	float det1 = Matrix3x3{
 		M22, M23, M24,
@@ -728,42 +728,42 @@ float Matrix4x4::Determinant() const
 	return M11 * det1 - M12 * det2 + M13 * det3 + M14 * det4;
 }
 
-Vector3 Matrix4x4::Forward() const
+Vector3 Matrix4x4::Forward() const noexcept
 {
 	return { -M31, -M32, -M33 };
 }
 
-Vector3 Matrix4x4::Backward() const
+Vector3 Matrix4x4::Backward() const noexcept
 {
 	return { M31, M32, M33 };
 }
 
-Vector3 Matrix4x4::Up() const
+Vector3 Matrix4x4::Up() const noexcept
 {
 	return { M21, M22, M23 };
 }
 
-Vector3 Matrix4x4::Down() const
+Vector3 Matrix4x4::Down() const noexcept
 {
 	return { -M21, -M22, -M23 };
 }
-Vector3 Matrix4x4::Left() const
+Vector3 Matrix4x4::Left() const noexcept
 {
 	return { -M11, -M12, -M13 };
 }
 
-Vector3 Matrix4x4::Right() const
+Vector3 Matrix4x4::Right() const noexcept
 {
 	return { M11, M12, M13 };
 }
 
-Vector3 Matrix4x4::Translation() const
+Vector3 Matrix4x4::Translation() const noexcept
 {
 	return { M41, M42, M43 };
 }
 
 
-Matrix4x4 Engine3DRadSpace::Math::operator*(float scalar, const Matrix4x4& m)
+Matrix4x4 Engine3DRadSpace::Math::operator*(float scalar, const Matrix4x4& m) noexcept
 {
 	Matrix4x4 r(m);
 	r.M11 *= scalar;

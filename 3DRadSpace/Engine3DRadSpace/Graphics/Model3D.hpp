@@ -42,13 +42,13 @@ namespace Engine3DRadSpace::Graphics
 		iterator end();
 		size_t NumMeshes();
 
-		Math::BoundingBox GetBoundingBox() const;
-		Math::BoundingSphere GetBoundingSphere() const;
+		Math::BoundingBox GetBoundingBox() const noexcept;
+		Math::BoundingSphere GetBoundingSphere() const noexcept;
 
 		void SetShader(std::shared_ptr<Shaders::Effect> effect);
 		void SetShaders(std::span<std::shared_ptr<Shaders::Effect>> effects);
 
-		Reflection::UUID GetUUID() override;
+		Reflection::UUID GetUUID() const noexcept override;
 
 		~Model3D() = default;
 

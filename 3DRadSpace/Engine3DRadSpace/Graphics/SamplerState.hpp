@@ -51,6 +51,8 @@ namespace Engine3DRadSpace::Graphics
 		static SamplerState AnisotropicClamp(GraphicsDevice *device);
 		static SamplerState AnisotropicWrap(GraphicsDevice *device);
 
+		const void* GetHandle() const noexcept;
+
 		~SamplerState() = default;
 
 		friend class IVertexShader;

@@ -12,12 +12,12 @@ namespace Engine3DRadSpace
 
 		constexpr Color(float r = 0.00f, float g = 0.00f, float b = 0.00f, float a = 1.00f) : R(r), G(g), B(b), A(a) {};
 		static Color FromRGB(uint8_t r, uint8_t g, uint8_t b, uint8_t a = 255);
-		constexpr Color operator *(const Color& c) const;
-		constexpr Color& operator *=(const Color& c);
+		constexpr Color operator *(const Color& c) const noexcept;
+		constexpr Color& operator *=(const Color& c) noexcept;
 
 		constexpr float operator[](int i) const;
 
-		constexpr auto operator<=>(const Color& c) const = default;
+		constexpr auto operator<=>(const Color& c) const noexcept = default;
 	};
 	namespace Colors
 	{

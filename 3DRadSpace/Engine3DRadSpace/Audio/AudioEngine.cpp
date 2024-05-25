@@ -25,7 +25,7 @@ AudioEngine::AudioEngine()
 
 }
 
-std::vector<std::string> AudioEngine::ListAudioDevices()
+std::vector<std::string> AudioEngine::ListAudioDevices() const noexcept
 {
 	std::vector<std::string> deviceList;
 

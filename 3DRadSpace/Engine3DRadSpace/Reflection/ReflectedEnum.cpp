@@ -4,22 +4,22 @@
 using namespace Engine3DRadSpace::Reflection;
 using namespace Engine3DRadSpace::Algorithms;
 
-const std::string Engine3DRadSpace::Reflection::ReflectedEnum::EnumName() const
+const std::string Engine3DRadSpace::Reflection::ReflectedEnum::EnumName() const noexcept
 {
 	return _enumName;
 }
 
-const size_t ReflectedEnum::NumberOfEntries() const
+const size_t ReflectedEnum::NumberOfEntries() const noexcept
 {
 	return _entries.Size() - 1;
 }
 
-const EnumEntry ReflectedEnum::operator[](unsigned entryId) const
+const EnumEntry ReflectedEnum::operator[](unsigned entryId) const noexcept
 {
 	return _entries[entryId];
 }
 
-const size_t Engine3DRadSpace::Reflection::ReflectedEnum::TypeHashCode() const
+const size_t Engine3DRadSpace::Reflection::ReflectedEnum::TypeHashCode() const noexcept
 {
 	return _typeHash;
 }

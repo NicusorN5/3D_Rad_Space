@@ -60,12 +60,15 @@ namespace Engine3DRadSpace::Graphics
 		Microsoft::WRL::ComPtr<ID3D11BlendState> _blendState;
         GraphicsDevice *_device;
 
+        Color _blendFactor = {};
+        unsigned int _sampleMask = 0;
+
         D3D11_BLEND convert3DRSPBlend_toDX11(Blend b);
         D3D11_BLEND_OP convert3DRSPBlendOp_toDX11(BlendOperation op);
         D3D11_COLOR_WRITE_ENABLE convert3DRSPColorWrite_toDX11(ColorWriteEnable flag);
-
-        void _debugInfo();
 #endif
+        void _debugInfo();
+        explicit BlendState(GraphicsDevice* device, std::monostate cpy);
 	public:
 		/// <summary>
 		/// Craetes a default blend state.
@@ -82,12 +85,18 @@ namespace Engine3DRadSpace::Graphics
         BlendState &operator=(BlendState &) = delete;
         BlendState &operator=(BlendState &&blend) noexcept = default;
 
+        Color BlendFactor() const noexcept;
+        unsigned int SampleMask() const noexcept;
+        void* GetHandle() const noexcept;
+
         ~BlendState() = default;
 
         static BlendState Opaque(GraphicsDevice *device);
         static BlendState AlphaBlend(GraphicsDevice *device);
         static BlendState Additive(GraphicsDevice *device);
         static BlendState NonPremultiplied(GraphicsDevice *device);
+
+        static BlendState GetCurrentBlendState(GraphicsDevice* device);
 
 		friend class GraphicsDevice;
 	};

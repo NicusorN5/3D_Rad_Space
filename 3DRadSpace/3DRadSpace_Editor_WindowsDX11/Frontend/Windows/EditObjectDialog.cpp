@@ -397,6 +397,12 @@ void EditObjectDialog::createForms()
 				px = ctrl->AccX() > 205 ? ctrl->AccX() : 205;
 				break;
 			}
+			case FieldRepresentationType::Font:
+			{
+				auto value = *static_cast<const AssetID<Font>*>(valuePtr);
+
+
+			}
 			case FieldRepresentationType::Key:
 			{
 				int sx;

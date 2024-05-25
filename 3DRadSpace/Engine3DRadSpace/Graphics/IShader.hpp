@@ -39,6 +39,7 @@ namespace Engine3DRadSpace::Graphics
 		virtual void SetTexture(unsigned index, Texture2D *texture) = 0;
 		virtual void SetSampler(unsigned index, SamplerState *samplerState) = 0;
 		virtual void SetShader() = 0;
+		virtual void* GetHandle() const noexcept = 0;
 
 		ShaderFeatureLevel GetFeatureLevel();
 		std::string GetEntryName();

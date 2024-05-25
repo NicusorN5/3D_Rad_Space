@@ -73,7 +73,7 @@ namespace Engine3DRadSpace::Algorithms
 		/// </summary>
 		/// <param name="i">Index</param>
 		/// <returns>Copy of the i-th element</returns>
-		T operator[](unsigned i) const
+		T operator[](unsigned i) const noexcept
 		{
 			return _data[i];
 		}
@@ -82,7 +82,7 @@ namespace Engine3DRadSpace::Algorithms
 		/// Returns the number of elements.
 		/// </summary>
 		/// <returns>Number of elements.</returns>
-		size_t Size() const
+		size_t Size() const noexcept
 		{
 			return _num;
 		}
@@ -142,8 +142,8 @@ namespace Engine3DRadSpace::Algorithms
 				return *this;
 			}
 
-			bool operator ==( const Iterator& i) const = default;
-			bool operator !=(const Iterator& i) const = default;
+			bool operator ==( const Iterator& i) const noexcept = default;
+			bool operator !=(const Iterator& i) const noexcept = default;
 		};
 
 		Iterator begin()

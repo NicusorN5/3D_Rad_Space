@@ -20,25 +20,25 @@ namespace Engine3DRadSpace::Graphics::Shaders
 		Effect(GraphicsDevice *device, IVertexShader* vertexShader, IPixelShader* fragmentShader, IHullShader* hullShader = nullptr,
 			IDomainShader* domainShader = nullptr, IGeometryShader* geometryShader = nullptr);
 
-		Effect(Effect &p) = delete;
+		Effect(const Effect &p) = delete;
 		Effect(Effect&& p) noexcept = default;
 
-		Effect &operator =(Effect &p) = delete;
+		Effect &operator =(const Effect &p) = delete;
 		Effect& operator =(Effect&& p) noexcept = default;
 		
-		int SetAll() const;
-		int SetBasic() const;
-		bool SetVertex() const;
-		bool SetHull() const;
-		bool SetDomain() const;
-		bool SetGeometry() const;
-		bool SetFragment() const;
+		int SetAll() const noexcept;
+		int SetBasic() const noexcept;
+		bool SetVertex() const noexcept;
+		bool SetHull() const noexcept;
+		bool SetDomain() const noexcept;
+		bool SetGeometry() const noexcept;
+		bool SetFragment() const noexcept;
 
-		IShader* GetVertexShader() const;
-		IShader* GetHullShader() const;
-		IShader* GetDomainShader() const;
-		IShader* GetGeometryShader() const;
-		IShader* GetPixelShader() const;
+		IShader* GetVertexShader() const noexcept;
+		IShader* GetHullShader() const noexcept;
+		IShader* GetDomainShader() const noexcept;
+		IShader* GetGeometryShader() const noexcept;
+		IShader* GetPixelShader() const noexcept;
 
 		virtual ~Effect() = default;
 	};

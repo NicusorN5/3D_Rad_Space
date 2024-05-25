@@ -166,14 +166,13 @@
     <ClInclude Include="Content\ShaderManager.hpp" />
     <ClInclude Include="Algorithms\FixedArray.hpp" />
     <ClInclude Include="Graphics\FlipMode.hpp" />
-    <ClInclude Include="Graphics\Fonts\Font.hpp" />
-    <ClInclude Include="Graphics\Fonts\Glyph.hpp" />
+    <ClInclude Include="Graphics\Font.hpp" />
+    <ClInclude Include="Graphics\Glyph.hpp" />
     <ClInclude Include="Graphics\Primitives\Sphere.hpp" />
     <ClInclude Include="Algorithms\Picking\PickingShader.hpp" />
     <ClInclude Include="Graphics\Rendering\ForwardRenderer.hpp" />
     <ClInclude Include="Graphics\Rendering\IEffectFog.hpp" />
     <ClInclude Include="Graphics\Rendering\IEffectOutline.h" />
-    <ClInclude Include="IGraphicsDevice.hpp" />
     <ClInclude Include="Graphics\Rendering\IRenderer.hpp" />
     <ClInclude Include="Graphics\Rendering\IRenderingEffect.hpp" />
     <ClInclude Include="Input\ButtonState.hpp" />
@@ -189,11 +188,11 @@
     <ClInclude Include="Objects\Empty.hpp" />
     <ClInclude Include="Objects\GForce.hpp" />
     <ClInclude Include="Objects\SkyColor.hpp" />
+    <ClInclude Include="Objects\TextPrint.hpp" />
     <ClInclude Include="Physics\IPhysicsObject.hpp" />
     <ClInclude Include="Physics\PhysicsEngine.hpp" />
     <ClInclude Include="Physics\PhysicsSettings.hpp" />
     <ClInclude Include="Physics\StaticRigidbody.hpp" />
-    <ClInclude Include="Reflection\Editor\CustomEditorGUI.hpp" />
     <ClInclude Include="Reflection\ReflectedEnum.hpp" />
     <ClInclude Include="Reflection\ReflectedEnumField.hpp" />
     <ClInclude Include="Tag.hpp" />
@@ -271,6 +270,7 @@
   <ItemGroup>
     <ClCompile Include="Algorithms\LevenshteinDistance.cpp" />
     <ClCompile Include="Audio\AudioEngine.cpp" />
+    <ClCompile Include="Audio\Sound.cpp" />
     <ClCompile Include="Content\AssetFactory.cpp" />
     <ClCompile Include="Content\AssetTypeRegistration.cpp" />
     <ClCompile Include="Content\ContentManager.cpp" />
@@ -282,7 +282,7 @@
     <ClCompile Include="GraphicsDevice.cpp" />
     <ClCompile Include="Graphics\DepthStencilState.cpp" />
     <ClCompile Include="Graphics\FlipMode.cpp" />
-    <ClCompile Include="Graphics\Fonts\Font.cpp" />
+    <ClCompile Include="Graphics\Font.cpp" />
     <ClCompile Include="Graphics\IndexBuffer.cpp" />
     <ClCompile Include="Graphics\IShader.cpp" />
     <ClCompile Include="Graphics\IVertexShader.cpp" />
@@ -336,6 +336,7 @@
     <ClCompile Include="Objects\Empty.cpp" />
     <ClCompile Include="Objects\GForce.cpp" />
     <ClCompile Include="Objects\SkyColor.cpp" />
+    <ClCompile Include="Objects\TextPrint.cpp" />
     <ClCompile Include="Physics\IPhysicsObject.cpp" />
     <ClCompile Include="Physics\PhysicsEngine.cpp" />
     <ClCompile Include="Reflection\FieldRepresentation.cpp" />

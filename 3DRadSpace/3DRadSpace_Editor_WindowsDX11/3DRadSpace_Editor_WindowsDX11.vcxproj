@@ -169,6 +169,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Frontend\AutoupdaterState.cpp" />
+    <ClCompile Include="Frontend\Controls\FontControl.cpp" />
     <ClCompile Include="Frontend\Serialization.cpp" />
     <ClCompile Include="Frontend\Settings.cpp" />
     <ClCompile Include="Frontend\Windows\AddObjectDialog.cpp" />
@@ -194,6 +195,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Frontend\AutoupdaterState.hpp" />
+    <ClInclude Include="Frontend\Controls\FontControl.hpp" />
     <ClInclude Include="Frontend\Settings.hpp" />
     <ClInclude Include="Frontend\Windows\AddObjectDialog.hpp" />
     <ClInclude Include="Frontend\Controls\AssetControl.hpp" />

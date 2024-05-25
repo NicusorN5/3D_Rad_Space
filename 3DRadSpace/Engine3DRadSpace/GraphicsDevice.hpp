@@ -57,7 +57,6 @@ namespace Engine3DRadSpace
 		GraphicsDevice(GraphicsDevice&&) = delete;
 		GraphicsDevice& operator=(GraphicsDevice&) = delete;
 
-
 		void Clear(const Color& clearColor = { 0.0f,0.0f,0.0f,1.0f });
 
 		void SetViewport();
@@ -90,7 +89,7 @@ namespace Engine3DRadSpace
 
 		bool EnableVSync;
 
-		Math::Point Resolution();
+		Math::Point Resolution() const noexcept;
 
 		void ResizeBackBuffer(const Math::Point &newResolution);
 		void ToggleFullScreen();

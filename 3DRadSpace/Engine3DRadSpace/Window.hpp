@@ -32,7 +32,7 @@ namespace Engine3DRadSpace
 		Window& operator=(Window& wnd) = delete;
 		Window &operator=(Window &&wnd) noexcept;
 
-		void* NativeHandle();
+		void* NativeHandle() const noexcept;
 
 		/// <summary>
 		/// Processes one update-draw cycle.
@@ -42,10 +42,10 @@ namespace Engine3DRadSpace
 		Input::Mouse& GetMouseState();
 		Input::Keyboard& GetKeyboardState();
 
-		Math::Point Size();
-		Math::RectangleF RectangleF();
-		Math::Rectangle Rectangle();
-		bool IsFocused();
+		Math::Point Size() const noexcept;
+		Math::RectangleF RectangleF() const noexcept;
+		Math::Rectangle Rectangle() const noexcept;
+		bool IsFocused() const noexcept;
 		
 		void SetMousePosition(const Math::Point& p);
 

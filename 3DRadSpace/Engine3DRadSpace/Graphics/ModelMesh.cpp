@@ -61,12 +61,12 @@ void ModelMesh::Draw()
 	}
 }
 
-BoundingBox ModelMesh::GetBoundingBox()
+BoundingBox ModelMesh::GetBoundingBox() const noexcept
 {
 	return _box;
 }
 
-BoundingSphere ModelMesh::GetBoundingSphere()
+BoundingSphere ModelMesh::GetBoundingSphere() const noexcept
 {
 	return _sphere;
 }

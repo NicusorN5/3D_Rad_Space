@@ -85,9 +85,9 @@ namespace Engine3DRadSpace::Content
 		template<AssetType T>
 		T *operator[](AssetID<T> ref);
 
-		std::filesystem::path GetAssetPath(unsigned id) const;
-		Reflection::UUID GetAssetType(unsigned id) const;
-		std::string GetAssetName(unsigned id) const;
+		std::filesystem::path GetAssetPath(unsigned id) const noexcept;
+		Reflection::UUID GetAssetType(unsigned id) const noexcept;
+		std::string GetAssetName(unsigned id) const noexcept;
 
 		std::vector<AssetEntry>::iterator begin();
 		std::vector<AssetEntry>::iterator end();

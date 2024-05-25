@@ -14,7 +14,7 @@ Effect::Effect(GraphicsDevice *device, IVertexShader *vertexShader, IPixelShader
 {
 }
 
-int Effect::SetAll() const
+int Effect::SetAll() const noexcept
 {
 	int r = 0;
 	if(SetVertex()) ++r;
@@ -25,7 +25,7 @@ int Effect::SetAll() const
 	return r;
 }
 
-int Effect::SetBasic() const
+int Effect::SetBasic() const noexcept
 {
 	int r = 0;
 	if(SetVertex()) ++r;
@@ -33,7 +33,7 @@ int Effect::SetBasic() const
 	return r;
 }
 
-bool Effect::SetVertex() const
+bool Effect::SetVertex() const noexcept
 {
 	if(_vertex == nullptr) return false;
 
@@ -41,7 +41,7 @@ bool Effect::SetVertex() const
 	return true;
 }
 
-bool Effect::SetHull() const
+bool Effect::SetHull() const noexcept
 {
 	if(_hull == nullptr) return false;
 
@@ -49,7 +49,7 @@ bool Effect::SetHull() const
 	return true;
 }
 
-bool Effect::SetDomain() const
+bool Effect::SetDomain() const noexcept
 {
 	if(_domain == nullptr) return false;
 
@@ -57,7 +57,7 @@ bool Effect::SetDomain() const
 	return true;
 }
 
-bool Effect::SetGeometry() const
+bool Effect::SetGeometry() const noexcept
 {
 	if(_geometry == nullptr) return false;
 
@@ -65,7 +65,7 @@ bool Effect::SetGeometry() const
 	return true;
 }
 
-bool Effect::SetFragment() const
+bool Effect::SetFragment() const noexcept
 {
 	if(_pixel == nullptr) return false;
 
@@ -73,27 +73,27 @@ bool Effect::SetFragment() const
 	return true;
 }
 
-IShader* Effect::GetVertexShader() const
+IShader* Effect::GetVertexShader() const noexcept
 {
 	return _vertex.get();
 }
 
-IShader* Effect::GetHullShader() const 
+IShader* Effect::GetHullShader() const noexcept
 {
 	return _hull.get();
 }
 
-IShader* Effect::GetDomainShader() const
+IShader* Effect::GetDomainShader() const noexcept
 {
 	return _domain.get();
 }
 
-IShader* Effect::GetGeometryShader() const
+IShader* Effect::GetGeometryShader() const noexcept
 {
 	return _geometry.get();
 }
 
-IShader* Effect::GetPixelShader() const
+IShader* Effect::GetPixelShader() const noexcept
 {
 	return _pixel.get();
 }

@@ -20,13 +20,13 @@ namespace Engine3DRadSpace
 		public:
 			Mouse();
 
-			ButtonState LeftButton();
-			ButtonState MiddleButton();
-			ButtonState RightButton();
+			ButtonState LeftButton() const noexcept;
+			ButtonState MiddleButton() const noexcept;
+			ButtonState RightButton() const noexcept;
 
-			Math::Point Position();
+			Math::Point Position() const noexcept;
 
-			float ScrollWheel();
+			float ScrollWheel() const noexcept;
 
 			friend class Window;
 		};

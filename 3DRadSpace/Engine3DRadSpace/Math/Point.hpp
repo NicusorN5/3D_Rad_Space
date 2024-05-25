@@ -27,7 +27,7 @@ namespace Engine3DRadSpace
 			Point operator /=(float s);
 			Point operator /(float s) const;
 
-			auto operator <=>(const Point&) const = default;
+			auto operator <=>(const Point&) const noexcept = default;
 
 			operator Engine3DRadSpace::Math::Vector2() const;
 		};

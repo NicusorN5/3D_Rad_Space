@@ -33,6 +33,7 @@ BlendState::BlendState(GraphicsDevice *device):
 #endif
 }
 
+#ifdef USING_DX11
 D3D11_BLEND BlendState::convert3DRSPBlend_toDX11(Blend b)
 {
 	switch(b)
@@ -116,6 +117,18 @@ D3D11_BLEND_OP BlendState::convert3DRSPBlendOp_toDX11(BlendOperation op)
 			return D3D11_BLEND_OP_ADD;
 	}
 }
+#endif
+
+BlendState::BlendState(GraphicsDevice* device, std::monostate cpy):
+	_device(device)
+{
+#ifdef USING_DX11
+	float factor[4];
+
+	device->_context->OMGetBlendState(&this->_blendState, factor, &_sampleMask);
+	this->_blendFactor = Color(factor[0], factor[1], factor[2], factor[3]);
+#endif
+}
 
 BlendState::BlendState(GraphicsDevice *device, bool alphaCoverage, bool indepedentBlend,const RenderTargetBlendState &renderTargetBlendState):
 	_device(device)
@@ -171,9 +184,9 @@ BlendState::BlendState(GraphicsDevice *device, bool alphaCoverage, bool indepede
 #endif
 }
 
+#ifdef USING_DX11
 D3D11_COLOR_WRITE_ENABLE BlendState::convert3DRSPColorWrite_toDX11(ColorWriteEnable flag)
 {
-#ifdef USING_DX11
 	switch(flag)
 	{
 		case ColorWriteEnable::Red:
@@ -187,8 +200,8 @@ D3D11_COLOR_WRITE_ENABLE BlendState::convert3DRSPColorWrite_toDX11(ColorWriteEna
 		default:
 			return D3D11_COLOR_WRITE_ENABLE_ALL;
 	}
-#endif
 }
+#endif
 
 void BlendState::_debugInfo()
 {
@@ -198,6 +211,21 @@ void BlendState::_debugInfo()
 	_blendState->SetPrivateData(WKPDID_D3DDebugObjectName, sizeof(blendStateName) - 1, blendStateName);
 #endif
 #endif
+}
+
+Color BlendState::BlendFactor() const noexcept
+{
+	return _blendFactor;
+}
+
+unsigned int BlendState::SampleMask() const noexcept
+{
+	return _sampleMask;
+}
+
+void* BlendState::GetHandle() const noexcept
+{
+	return static_cast<void*>(this->_blendState.Get());
 }
 
 BlendState BlendState::Opaque(GraphicsDevice *device)
@@ -249,4 +277,9 @@ BlendState BlendState::NonPremultiplied(GraphicsDevice *device)
 		.WriteMask = ColorWriteEnable::All
 		}
 	);
+}
+
+BlendState BlendState::GetCurrentBlendState(GraphicsDevice* device)
+{
+	return BlendState(device, std::monostate{});
 }

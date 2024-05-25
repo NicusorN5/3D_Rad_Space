@@ -18,16 +18,16 @@ namespace Engine3DRadSpace::Math
 		BoundingBox(const BoundingBox& box, const BoundingSphere& sphere);
 		BoundingBox(const BoundingSphere& sph1,const BoundingSphere& sph2);
 
-		Vector3 Min() const;
-		Vector3 Center() const;
-		Vector3 Max() const;
+		Vector3 Min() const noexcept;
+		Vector3 Center() const noexcept;
+		Vector3 Max() const noexcept;
 
-		bool Intersects(const BoundingBox& box) const;
-		bool Intersects(const BoundingSphere& sphere) const;
-		bool Intersects(const Plane& plane) const;
-		bool Intersects(const Ray& ray) const;
+		bool Intersects(const BoundingBox& box) const noexcept;
+		bool Intersects(const BoundingSphere& sphere) const noexcept;
+		bool Intersects(const Plane& plane) const noexcept;
+		bool Intersects(const Ray& ray) const noexcept;
 
-		bool Contains(const Vector3& p) const;
+		bool Contains(const Vector3& p) const noexcept;
 
 		Vector3 operator[](int i) const;
 	};

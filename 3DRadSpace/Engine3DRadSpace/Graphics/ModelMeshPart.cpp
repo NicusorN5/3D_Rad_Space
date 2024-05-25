@@ -100,17 +100,27 @@ void ModelMeshPart::Draw()
 	_device->DrawVertexBufferWithindices(VertexBuffer.get(), IndexBuffer.get());
 }
 
-BoundingSphere ModelMeshPart::GetBoundingSphere()
+BoundingSphere ModelMeshPart::GetBoundingSphere() const noexcept
 {
 	return _sphere;
 }
 
-BoundingBox ModelMeshPart::GetBoundingBox()
+VertexBuffer* ModelMeshPart::GetVertexBuffer() const noexcept
+{
+	return VertexBuffer.get();
+}
+
+IndexBuffer* ModelMeshPart::GetIndexBuffer() const noexcept
+{
+	return IndexBuffer.get();
+}
+
+BoundingBox ModelMeshPart::GetBoundingBox() const noexcept
 {
 	return _box;
 }
 
-Effect *ModelMeshPart::GetShaders()
+Effect *ModelMeshPart::GetShaders() const noexcept
 {
 	return _shaders.get();
 }

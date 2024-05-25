@@ -20,11 +20,12 @@ namespace Engine3DRadSpace::Graphics
 		IHullShader &operator=(IHullShader &) = delete;
 		IHullShader &operator=(IHullShader &&) noexcept = delete;
 
-		~IHullShader() = default;
-
 		void SetTexture(unsigned index, Texture2D *texture) override;
 		void SetSampler(unsigned index, SamplerState *samplerState) override;
 		void SetShader() override;
+		void* GetHandle() const noexcept override;
+
+		~IHullShader() = default;
 	};
 }
 

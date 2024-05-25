@@ -21,6 +21,9 @@ namespace Engine3DRadSpace::Graphics
 		DepthStencilBuffer &operator=(DepthStencilBuffer &) = delete;
 		DepthStencilBuffer &operator=(DepthStencilBuffer &&buff) noexcept = default;
 
+		void* GetViewHandle() const noexcept;
+		void* GetDepthTextureHandle() const noexcept;
+
 		~DepthStencilBuffer() = default;
 
 		friend class GraphicsDevice;

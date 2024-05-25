@@ -3,6 +3,7 @@
 #include "ObjectList.hpp"
 
 using namespace Engine3DRadSpace;
+using namespace Engine3DRadSpace::Audio;
 using namespace Engine3DRadSpace::Content;
 using namespace Engine3DRadSpace::Input;
 using namespace Engine3DRadSpace::Graphics;
@@ -83,12 +84,12 @@ void Game::Exit()
 	_running = false;
 }
 
-bool Engine3DRadSpace::Game::WasInitialized() const noexcept
+bool Game::WasInitialized() const noexcept
 {
 	return _wasInitialized;
 }
 
-bool Engine3DRadSpace::Game::WasLoaded() const noexcept
+bool Game::WasLoaded() const noexcept
 {
 	return _wasLoaded;
 }
@@ -108,7 +109,15 @@ void Game::RequestPhysicsInitialization(const Vector3 &gravity, double timeStep)
 	}
 }
 
-Engine3DRadSpace::Game::~Game()
+void Game::RequestAudioInitialization()
+{
+	if (!Audio)
+	{
+		Audio = std::make_unique<AudioEngine>();
+	}
+}
+
+Game::~Game()
 {
 	Exit();
 }

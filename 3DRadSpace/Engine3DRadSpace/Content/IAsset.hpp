@@ -17,7 +17,7 @@ namespace Engine3DRadSpace::Content
 	protected:
 		IAsset() = default;
 	public:
-		virtual Reflection::UUID GetUUID() = 0;
+		virtual Reflection::UUID GetUUID() const noexcept = 0;
 		virtual ~IAsset() = default;
 	};
 

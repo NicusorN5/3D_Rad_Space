@@ -15,7 +15,7 @@ bool Plane::Intersects(const BoundingSphere& sphere) const
     return sphere.Intersects(*this);
 }
 
-bool Plane::Intersects(const Ray& ray) const
+bool Plane::Intersects(const Ray& ray) const 
 {
     return ray.Intersects(*this).has_value();
 }

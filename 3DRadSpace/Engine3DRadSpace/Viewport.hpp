@@ -14,7 +14,7 @@ namespace Engine3DRadSpace
 		float MinDepth;
 		float MaxDepth;
 
-		Math::Vector3 Unproject(const Math::Vector3 &source,const Math::Matrix4x4& projection,const Math::Matrix4x4& view,const Math::Matrix4x4& world);
+		Math::Vector3 Unproject(const Math::Vector3& source, const Math::Matrix4x4& projection, const Math::Matrix4x4& view, const Math::Matrix4x4& world) const;
 	};
 }
 

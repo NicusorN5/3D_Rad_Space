@@ -247,3 +247,10 @@ SamplerState SamplerState::AnisotropicWrap(GraphicsDevice *device)
 		std::numeric_limits<float>::max()
 	);
 }
+
+const void* Engine3DRadSpace::Graphics::SamplerState::GetHandle() const noexcept
+{
+#ifdef USING_DX11
+	return static_cast<const void*>(_samplerState.Get());
+#endif
+}

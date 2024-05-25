@@ -26,7 +26,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 
 		Math::Matrix4x4 Transform;
 
-		float GetRadius() const;
+		float GetRadius() const noexcept;
 
 		virtual void Draw(Math::Matrix4x4 &view, Math::Matrix4x4 &projection, double dt) override;
 

@@ -35,12 +35,12 @@ namespace Engine3DRadSpace::Reflection
 			};
 		}
 
-		const std::string Name;
-		const std::string Category;
-		const std::string Description;
-		const UUID ObjectUUID;
+		std::string Name;
+		std::string Category;
+		std::string Description;
+		UUID ObjectUUID;
 
-		const size_t NumFields();
+		size_t NumFields() const noexcept;
 		const IReflectedField *operator[](unsigned i);
 		const IReflectedField *operator[](const std::string &name);
 

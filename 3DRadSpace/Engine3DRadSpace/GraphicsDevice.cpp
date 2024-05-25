@@ -169,6 +169,7 @@ void GraphicsDevice::DrawVertexBuffer(VertexBuffer* vertexBuffer, unsigned start
 	_context->Draw(UINT(vertexBuffer->_numVerts), UINT(startSlot));
 #endif
 }
+
 void GraphicsDevice::DrawVertexBufferWithindices(VertexBuffer* vertexBuffer, IndexBuffer* indexBuffer)
 {
 #ifdef USING_DX11
@@ -179,6 +180,7 @@ void GraphicsDevice::DrawVertexBufferWithindices(VertexBuffer* vertexBuffer, Ind
 	_context->DrawIndexed(UINT(indexBuffer->_numIndices),0u, 0u);
 #endif
 }
+
 void GraphicsDevice::Present()
 {
 #ifdef USING_DX11
@@ -308,18 +310,24 @@ void GraphicsDevice::SetDepthStencilState(DepthStencilState *depthState, unsigne
 #ifdef USING_DX11
 	if(depthState == nullptr)
 		_context->OMSetDepthStencilState(nullptr, ref);
-	else _context->OMSetDepthStencilState(depthState->_state.Get(), ref);
+	else
+	{
+		_context->OMSetDepthStencilState(depthState->_state.Get(), ref);
+		depthState->_stencilRef = ref;
+	}
 #endif
 }
 
-void GraphicsDevice::SetBlendState(BlendState*blendState,const Color &blendColor, unsigned sampleMask)
+void GraphicsDevice::SetBlendState(BlendState* blendState,const Color &blendColor, unsigned sampleMask)
 {
 #if USING_DX11
+	blendState->_blendFactor = blendColor;
+	blendState->_sampleMask = sampleMask;
 	_context->OMSetBlendState(blendState->_blendState.Get(), reinterpret_cast<const float *>(&blendColor), sampleMask);
 #endif
 }
 
-Math::Point GraphicsDevice::Resolution()
+Math::Point GraphicsDevice::Resolution() const noexcept
 {
 	return this->_resolution;
 }
@@ -332,11 +340,9 @@ void GraphicsDevice::ResizeBackBuffer(const Math::Point &newResolution)
 	{
 		throw std::exception("Failed to resize buffers!");
 	}
-	else
-	{
-		r = _swapChain->GetBuffer(0, IID_PPV_ARGS(_screenTexture.GetAddressOf()));
-		if(FAILED(r)) throw std::exception("Failed to get the back buffer texture!");
-	}
+
+	r = _swapChain->GetBuffer(0, IID_PPV_ARGS(_screenTexture.GetAddressOf()));
+	if(FAILED(r)) throw std::exception("Failed to get the back buffer texture!");
 }
 
 void GraphicsDevice::ToggleFullScreen()

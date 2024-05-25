@@ -55,8 +55,8 @@ namespace Engine3DRadSpace
 
 		unsigned Add(IObject* obj);
 
-		IObject* Find(unsigned id);
-		IObject* Find(const std::string& name);
+		IObject* Find(unsigned id) const;
+		IObject* Find(const std::string& name) const noexcept;
 
 		/// <summary>
 		/// Finds and the i-th object of the type O.
@@ -65,7 +65,7 @@ namespace Engine3DRadSpace
 		/// <param name="i">Index</param>
 		/// <returns>Returns the i-th object of the type O.</returns>
 		template<GameObject O>
-		O* Find(unsigned i = 0);
+		O* Find(unsigned i = 0) const;
 
 		void Remove(unsigned id);
 		void Remove(const std::string& name);
@@ -127,7 +127,7 @@ namespace Engine3DRadSpace
 	}
 
 	template<GameObject O>
-	inline O* ObjectList::Find(unsigned i)
+	inline O* ObjectList::Find(unsigned i) const
 	{
 		unsigned c = 0;
 		O* ptr = nullptr;

@@ -1,4 +1,3 @@
-
 #include "Skinmesh.hpp"
 
 using namespace Engine3DRadSpace;
@@ -23,8 +22,7 @@ Skinmesh::Skinmesh(const std::string &name, bool visible, RefModel3D model,
 
 Skinmesh::Skinmesh(const std::string &name, bool visible, const std::filesystem::path &path, const
                    Vector3&pos, const Quaternion&rot, const Vector3&pivot, const Vector3& scale) :
-    IObject3D(name, visible, visible, pos, pivot, rot, scale),
-    _model(nullptr)
+    Skinmesh(name, visible, 0, pos, rot, pivot, scale)
 {
     _path = std::make_unique<std::string>(path.string());
 }
@@ -53,8 +51,7 @@ void Skinmesh::Load(Content::ContentManager *content)
 
 void Skinmesh::Load(Content::ContentManager* content,const std::filesystem::path& path)
 {
-    _path = std::make_unique<std::string>(path.string());
-    Load(content);
+    _model = content->Load<Model3D>(path, &Model);
 }
 
 void Skinmesh::Update(Input::Keyboard &keyboard, Input::Mouse &mouse, double dt)
@@ -70,7 +67,7 @@ void Skinmesh::EditorLoad(Content::ContentManager *content)
     Load(content);
 }
 
-Reflection::UUID Skinmesh::GetUUID()
+Reflection::UUID Skinmesh::GetUUID() const noexcept
 {
     // {C3A243F6-23E2-437F-AE8A-B8E8C2A6E944}
     return {0xc3a243f6, 0x23e2, 0x437f, { 0xae, 0x8a, 0xb8, 0xe8, 0xc2, 0xa6, 0xe9, 0x44 }};
