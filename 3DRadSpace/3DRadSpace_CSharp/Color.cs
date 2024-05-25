@@ -10,12 +10,20 @@ namespace Engine3DRadSpace
 		public float B;
 		public float A;
 
-		public Color(float r, float g, float b, float a = 1.0f)
+		public Color(float r, float g, float b, float a)
 		{
 			R = r;
 			G = g;
 			B = b;
 			A = a;
+		}
+
+		public Color(float r, float g, float b)
+		{
+			R = r;
+			G = g;
+			B = b;
+			A = 1.0f;
 		}
 
 		public static Color FromRGB(byte r, byte g, byte b, byte a)

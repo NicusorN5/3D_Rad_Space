@@ -11,7 +11,7 @@ TextureControl::TextureControl(
 	int x,
 	int y
 ) :
-	AssetControl(owner, hInstance, x, y + 205, content),
+	AssetControl(owner, hInstance, x, y + 205, content, texture),
 	_pictureBox(CreateWindowExA(
 		0,
 		"Static",
@@ -87,7 +87,7 @@ TextureControl &TextureControl::operator=(TextureControl &&c) noexcept
 	return *this;
 }
 
-HWND TextureControl::GetPixturebox()
+HWND TextureControl::GetPixturebox() const noexcept
 {
 	return _pictureBox;
 }

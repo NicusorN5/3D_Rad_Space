@@ -56,7 +56,6 @@ namespace Engine3DRadSpace::Content
 		unsigned _lastID;
 		GraphicsDevice* _device;
 		std::vector<AssetEntry> _assets;
-		std::vector<std::pair<Reflection::UUID, std::function<IAsset* (GraphicsDevice*, const std::filesystem::path&)>>> _types;
 	public:
 		ContentManager(GraphicsDevice *device);
 

@@ -6,6 +6,7 @@
 #include "EditorWindow.hpp"
 #include "..\Controls\TextureControl.hpp"
 #include "..\Controls\ModelControl.hpp"
+#include "..\Controls\FontControl.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content;
@@ -401,7 +402,13 @@ void EditObjectDialog::createForms()
 			{
 				auto value = *static_cast<const AssetID<Font>*>(valuePtr);
 
+				FontControl* ctrl = new FontControl(window, hInstance, _content, value, fieldName, x, y);
+				windows.push_back(ctrl);
 
+				setMax(inc_y, ctrl->AccY() + 5 + textboxHeight);
+				px = ctrl->AccX() > 205 ? ctrl->AccX() : 205;
+
+				break;
 			}
 			case FieldRepresentationType::Key:
 			{

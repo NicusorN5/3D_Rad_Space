@@ -12,7 +12,7 @@ namespace Engine3DRadSpace
 		public:
 			template<typename T>
 			ResourceLoadingError(Tag<T> tag, const std::filesystem::path &file, const std::string &details) :
-				Exception( "Failed to load " + std::string(typeid(T).name()) + " from file" + file.string() + "\r\n" + details)
+				Exception( "Failed to load " + std::string(typeid(T).name()) + " from file " + file.string() + "\r\n" + details)
 			{
 			}
 		};

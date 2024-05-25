@@ -10,6 +10,7 @@ ContentManager::ContentManager(GraphicsDevice *device):
 	_device(device),
 	_lastID(1)
 {
+	//We add a null asset at index 0 because reference IDs are unsigned integers.
 	_assets.emplace_back(nullptr);
 }
 
@@ -70,6 +71,7 @@ void ContentManager::RemoveAsset(unsigned id)
 void Engine3DRadSpace::Content::ContentManager::Clear()
 {
 	_assets.clear();
+	_assets.emplace_back(nullptr);
 }
 
 size_t Engine3DRadSpace::Content::ContentManager::Count() const noexcept

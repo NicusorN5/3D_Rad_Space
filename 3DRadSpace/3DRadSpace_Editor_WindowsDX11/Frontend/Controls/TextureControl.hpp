@@ -24,7 +24,7 @@ public:
 	TextureControl(TextureControl &&c) noexcept;
 	TextureControl &operator=(TextureControl &&c) noexcept;
 
-	HWND GetPixturebox();
+	HWND GetPixturebox() const noexcept;
 
 	virtual void HandleClick(HWND clickedWindow) override;
 

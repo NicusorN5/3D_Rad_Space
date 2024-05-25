@@ -60,13 +60,13 @@ Model3D *fish = nullptr;
 
 void RenderWindow::Load(Content::ContentManager *content)
 {
-	testTexture = content->Load<Texture2D>("gradient.png");
+	//testTexture = content->Load<Texture2D>("gradient.png");
 	//testTexture->Resize(256, 256);
 
-	fish = content->Load<Model3D>("Data\\Models\\YellowFish.x");
+	//fish = content->Load<Model3D>("Data\\Models\\YellowFish.x");
 	//content->Load<Model3D>("Data\\Models\\terrain0100.x");
 
-	testFont = std::make_unique<Font>(Device.get(), "Data\\Fonts\\arial.ttf");
+	//testFont = std::make_unique<Font>(Device.get(), "Data\\Fonts\\arial.ttf");
 	//this->ClearColor.R = 0.128;
 }
 
@@ -148,9 +148,9 @@ void RenderWindow::Draw(Matrix4x4 &view, Matrix4x4 &projection, double dt)
 		//SpriteBatch->DrawNormalized((*testFont)['A'], RectangleF(0.1f, 0.1f, 0.2f, 0.2f));
 		//frenderer->Render(*testFont, 'A');
 		
-		SpriteBatch->Begin(SpriteBatchSortMode::Immediate);
-		SpriteBatch->DrawString(testFont.get(), "Ttest qwertyuiopasdfghjklzxcvbnm;", Point(10, 20), 1);
-		SpriteBatch->End();
+		//SpriteBatch->Begin(SpriteBatchSortMode::Immediate);
+		//SpriteBatch->DrawString(testFont.get(), "Ttest qwertyuiopasdfghjklzxcvbnm;", Point(10, 20), 1);
+		//SpriteBatch->End();
 
 		//SpriteBatch->Draw(this->)
 	}

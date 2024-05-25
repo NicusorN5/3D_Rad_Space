@@ -592,6 +592,7 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				{
 					if(gEditorWindow->WarnNotSaved())
 					{
+						gEditorWindow->editor->Content->Clear();
 						gEditorWindow->editor->Objects->Clear();
 						SendMessageA(gEditorWindow->_listBox, TVM_DELETEITEM, 0, reinterpret_cast<LPARAM>(TVI_ROOT));
 						gEditorWindow->_changesSaved = true;
@@ -611,7 +612,6 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 					ofn.nMaxFile = _MAX_PATH;
 					ofn.lpstrFilter = FileFilter;
 					ofn.hInstance = gEditorWindow->_hInstance;
-					
 
 					if(GetOpenFileNameA(&ofn))
 					{

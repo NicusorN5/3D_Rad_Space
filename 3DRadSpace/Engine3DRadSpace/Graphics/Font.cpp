@@ -97,7 +97,11 @@ Font::Font(GraphicsDevice* device, const std::filesystem::path& path) : Font(dev
 {
 }
 
-Font::Font(Internal::AssetUUIDReader dummy)
+Font::Font(Internal::AssetUUIDReader dummy) :
+	_valid(false),
+	_font{},
+	_device(nullptr),
+	_size(0)
 {
 	(void)dummy;
 }

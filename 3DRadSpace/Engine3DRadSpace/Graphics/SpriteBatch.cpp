@@ -221,6 +221,8 @@ void SpriteBatch::Begin(SpriteBatchSortMode sortingMode, SamplerState samplerSta
 
 void SpriteBatch::DrawNormalized(Texture2D* texture, const Math::RectangleF& coords, const Math::RectangleF& source, Color tintColor, float rotation, FlipMode flipMode, float depth)
 {
+	if (texture == nullptr) return;
+
 	Vector2 min = coords.TopLeft();
 	Vector2 max = coords.BottomRight();
 
@@ -270,6 +272,8 @@ void SpriteBatch::DrawNormalized(Texture2D* texture, const Math::RectangleF& coo
 
 void SpriteBatch::Draw(Texture2D* texture, const Math::Rectangle& coords, const Math::Rectangle& source, Color tintColor, float rotation, FlipMode flipMode, float depth)
 {
+	if (texture == nullptr) return;
+
 	auto screenSize = _device->Resolution();
 	RectangleF nCoords =
 	{
@@ -307,6 +311,8 @@ void SpriteBatch::Draw(Texture2D* texture, const Math::Rectangle& coords, Color 
 
 void SpriteBatch::DrawString(Font* font, const std::string& text, const Vector2& pos, float size, Color tintColor, float rotation, FlipMode flipMode, float depth)
 {
+	if (font == nullptr) return;
+
 	auto screenSize = _device->Resolution();
 
 	//accLen = 0 at i = 0.

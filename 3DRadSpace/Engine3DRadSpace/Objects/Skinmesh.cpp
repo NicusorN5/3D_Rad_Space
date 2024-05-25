@@ -75,7 +75,7 @@ Reflection::UUID Skinmesh::GetUUID() const noexcept
 
 void Skinmesh::Draw(Matrix4x4&view, Matrix4x4&projection, double dt)
 {
-    if(Visible)
+    if(Visible && _model)
         _model->Draw(GetModelMartix(), view, projection);
 }
 
@@ -85,7 +85,10 @@ void Skinmesh::EditorDraw(const Matrix4x4&view, const Matrix4x4&projection, doub
     {
         //TODO: Draw highlighted model
     }
-    _model->Draw(GetModelMartix(), view, projection);
+    if (_model)
+    {
+        _model->Draw(GetModelMartix(), view, projection);
+    }
 }
 
 std::optional<float> Skinmesh::Intersects(const Ray&r)

@@ -19,7 +19,7 @@ class AssetManagerDialog : public Dialog
 	Engine3DRadSpace::Content::ContentManager *_content;
 	std::unique_ptr<AssetListRenderer> _renderer;
 
-	std::type_index _assetType;
+	Engine3DRadSpace::Reflection::UUID _assetType;
 
 	void _createForms();
 	void _loadAssetIcons();
@@ -35,10 +35,14 @@ public:
 	template<Engine3DRadSpace::Content::AssetType T>
 	Engine3DRadSpace::Content::AssetID<T> ShowDialog()
 	{
-		_assetType = typeid(T);
+		using namespace Engine3DRadSpace;
+		using namespace Engine3DRadSpace::Content;
+		using namespace Engine3DRadSpace::Internal;
+
+		_assetType = AssetUUIDReader::GetUUID(Tag<T>{});
 
 		auto v = Dialog::ShowDialog(static_cast<void*>(this));
-		return Engine3DRadSpace::Content::AssetID<T>(static_cast<unsigned>(v));
+		return AssetID<T>(static_cast<unsigned>(v));
 	}
 
 	~AssetManagerDialog();

@@ -10,8 +10,6 @@ using namespace Engine3DRadSpace::Content;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Internal;
 
-//inline std::vector<std::pair<Reflection::UUID, AssetCtor>> Engine3DRadSpace::Internal::assetTypes;
-
 IAsset* Engine3DRadSpace::Content::CreateAssetInstance(Reflection::UUID nuuid, GraphicsDevice* device,const std::filesystem::path& path)
 {
 	if (Internal::assetTypes.empty())
@@ -20,6 +18,7 @@ IAsset* Engine3DRadSpace::Content::CreateAssetInstance(Reflection::UUID nuuid, G
 		RegisterAssetType<Graphics::Model3D>();
 		RegisterAssetType<Graphics::Font>();
 	}
+	if (device == nullptr) return nullptr;
 
 	for (auto& [uuid, ctor] : Internal::assetTypes)
 	{

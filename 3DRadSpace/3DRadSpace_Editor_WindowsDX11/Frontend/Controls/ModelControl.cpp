@@ -13,7 +13,7 @@ ModelControl::ModelControl(
 	int x,
 	int y 
 ) : 
-	AssetControl(owner, hInstance, x, y, content),
+	AssetControl(owner, hInstance, x, y, content, model),
 	_pictureBox(CreateWindowExA(
 		0,
 		"Static",
@@ -64,7 +64,7 @@ ModelControl::ModelControl(
 	_cy += textSize.cy + 5;
 }
 
-HWND ModelControl::GetPictureBox()
+HWND ModelControl::GetPictureBox() const noexcept
 {
 	return _pictureBox;
 }

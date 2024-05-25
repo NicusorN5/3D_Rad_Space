@@ -4,10 +4,12 @@
 #include <shlobj_core.h>
 #include "../HelperFunctions.hpp"
 #include <thread>
+#include <Engine3DRadSpace\Content\AssetTypeRegistration.hpp>
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content;
 
+void SetWorkingDirectory();
 
 INT_PTR WINAPI AssetManager_DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -16,7 +18,7 @@ INT_PTR WINAPI AssetManager_DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 	{
 		case WM_INITDIALOG:
 		{
-			assetManager = reinterpret_cast<AssetManagerDialog *>(lParam);
+			assetManager = reinterpret_cast<AssetManagerDialog*>(lParam);
 			assetManager->window = hwnd;
 			assetManager->_createForms();
 			return 1;
@@ -75,49 +77,29 @@ INT_PTR WINAPI AssetManager_DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 						ofn.lpstrFile = filename;
 						ofn.nMaxFile = _MAX_PATH;
 
-						if(GetOpenFileNameA(&ofn))
+						if (GetOpenFileNameA(&ofn))
 						{
+							SetWorkingDirectory();
+
 							auto path = std::filesystem::path(filename);
-							auto relativePath = path.relative_path();
 
-							auto tryLoadAsset = []<AssetType T>(Tag<T> dummy, ContentManager *content, const char *file, HWND current_window) -> std::optional<std::string>
+							unsigned int ref = 0;
+							IAsset* asset = nullptr;
+							try
 							{
-								try
-								{
-									AssetID<T> ref;
-									content->Load<T>(file, &ref);
-									EndDialog(current_window, ref.ID);
-									return std::nullopt;
-								}
-								catch(std::exception &e)
-								{
-									return std::string(e.what());
-								}
-							};
-
-							std::string possibleErr;
-
-							std::unordered_map<std::type_index, int> typemap =
-							{
-								{ typeid(Graphics::Texture2D), 1},
-								{ typeid(Graphics::Model3D), 2}
-							};
-
-							std::optional<std::string> p;
-							switch (typemap[assetManager->_assetType])
-							{
-							case 1:
-								p = tryLoadAsset(Tag<Graphics::Texture2D>{}, assetManager->_content, filename, hwnd);
-								break;
-							case 2:
-								p = tryLoadAsset(Tag<Graphics::Model3D>{}, assetManager->_content, filename, hwnd);
-								break;
-							default:
-								break;
+								asset = assetManager->_content->Load(assetManager->_assetType, path, &ref);
 							}
-							if(p.has_value()) possibleErr = p.value();
-							else return 1;
+							catch (const Logging::Exception& ex)
+							{
+								MessageBoxA(assetManager->window, ex.what(), "Error loading asset", MB_ICONERROR | MB_OK);
+							}
+
+							if (asset && ref)
+							{
+								EndDialog(assetManager->window, ref);
+							}
 						}
+						SetWorkingDirectory();
 					}
 					break;
 				}
@@ -222,7 +204,8 @@ void AssetManagerDialog::_loadAssetIcons()
 			if (_assetList == nullptr) return;
 
 			if (asset.Entry == nullptr) continue;
-			if (asset.RTTI.hash_code() != _assetType.hash_code()) continue;
+			//if (asset.RTTI.hash_code() != _assetType.hash_code()) continue;
+			if (asset.Type != _assetType) continue;
 
 			std::string imagePath;
 			//Find %appdata%
@@ -231,14 +214,11 @@ void AssetManagerDialog::_loadAssetIcons()
 
 			if (SUCCEEDED(r = SHGetFolderPathA(nullptr, CSIDL_APPDATA, nullptr, 0, appdataPath)))
 			{
-				auto assetPath = std::filesystem::path(asset.Path);
+				auto assetPath = std::filesystem::path(asset.Path).lexically_relative(GetExecutablePath());
+
 				if (!std::filesystem::exists(asset.Path))
 				{
-					assetPath = std::filesystem::path(asset.Path).lexically_relative(GetExecutablePath());
-					if (assetPath.empty())
-					{
-						throw std::exception("Asset is not located in the executable root directory!");
-					}
+					throw std::exception("Asset is not located in the executable root directory!");
 				}
 
 				imagePath = appdataPath + (R"(\3DRadSpace\AssetImages\)" + assetPath.string()) + ".png";
@@ -305,7 +285,7 @@ AssetManagerDialog::AssetManagerDialog(HWND owner, HINSTANCE instance, ContentMa
 	_browseButton(nullptr),
 	_imageList(nullptr),
 	_content(content),
-	_assetType(typeid(void))
+	_assetType()
 {
 }
 

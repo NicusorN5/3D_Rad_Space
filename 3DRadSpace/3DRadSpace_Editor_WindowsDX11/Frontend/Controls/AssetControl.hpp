@@ -14,7 +14,7 @@ protected:
 
     Engine3DRadSpace::Content::ContentManager *_content;
 public:
-    AssetControl(HWND owner, HINSTANCE hInstance, int x, int y, Engine3DRadSpace::Content::ContentManager* content);
+    AssetControl(HWND owner, HINSTANCE hInstance, int x, int y, Engine3DRadSpace::Content::ContentManager* content, unsigned asset);
 
     AssetControl(AssetControl&) = default;
     AssetControl &operator=(AssetControl &) = default;

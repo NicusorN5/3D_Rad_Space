@@ -2,9 +2,10 @@
 
 using namespace Engine3DRadSpace::Content;
 
-AssetControl::AssetControl(HWND owner, HINSTANCE hInstance, int x, int y, ContentManager *content):
+AssetControl::AssetControl(HWND owner, HINSTANCE hInstance, int x, int y, ContentManager *content, unsigned asset):
     IControl(owner, hInstance),
-	_content(content)
+	_content(content),
+	AssetReference(asset)
 {
 	HDC hdc = GetDC(owner);
 

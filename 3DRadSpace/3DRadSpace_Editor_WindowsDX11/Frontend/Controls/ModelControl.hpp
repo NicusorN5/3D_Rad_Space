@@ -27,7 +27,7 @@ public:
 	ModelControl(ModelControl&&) = default;
 	ModelControl& operator=(ModelControl&&) = default;
 
-	HWND GetPictureBox();
+	HWND GetPictureBox() const noexcept;
 
 	void HandleClick(HWND clickedHandle) override;
 
