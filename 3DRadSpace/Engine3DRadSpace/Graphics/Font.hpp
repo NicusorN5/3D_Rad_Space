@@ -55,6 +55,7 @@ namespace Engine3DRadSpace::Graphics
 		std::optional<Glyph> GetCharGlyph(char chr) const noexcept;
 
 		Reflection::UUID GetUUID() const noexcept override;
+		const char* FileExtension() const noexcept override;
 
 		~Font();
 

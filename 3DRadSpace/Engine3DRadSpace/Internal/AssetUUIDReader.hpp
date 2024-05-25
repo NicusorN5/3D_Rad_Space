@@ -13,7 +13,15 @@ namespace Engine3DRadSpace::Internal
 		template<Content::AssetType T>
 		static Reflection::UUID GetUUID(Tag<T> dummy)
 		{
+			(void)dummy;
 			return (T(AssetUUIDReader{})).GetUUID();
+		}
+
+		template<Content::AssetType T>
+		static const char* GetFileExtension(Tag<T> dummy)
+		{
+			(void)dummy;
+			return (T(AssetUUIDReader{})).FileExtension();
 		}
 	};
 }

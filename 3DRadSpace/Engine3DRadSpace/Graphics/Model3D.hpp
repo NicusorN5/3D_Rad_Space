@@ -11,7 +11,7 @@ namespace Engine3DRadSpace::Internal
 
 namespace Engine3DRadSpace::Graphics
 {
-	class DLLEXPORT Model3D : public Content::IAsset
+	class DLLEXPORT Model3D final : public Content::IAsset
 	{
 		GraphicsDevice* _device;
 		std::vector<std::unique_ptr<ModelMesh>> _meshes;
@@ -49,6 +49,11 @@ namespace Engine3DRadSpace::Graphics
 		void SetShaders(std::span<std::shared_ptr<Shaders::Effect>> effects);
 
 		Reflection::UUID GetUUID() const noexcept override;
+		/// <summary>
+		/// Refer to https://github.com/assimp/assimp/blob/master/doc/Fileformats.md for all supported file formats.
+		/// </summary>
+		/// <returns></returns>
+		const char* FileExtension() const noexcept override;
 
 		~Model3D() = default;
 

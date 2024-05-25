@@ -8,7 +8,7 @@ using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Logging;
 
 RenderTarget::RenderTarget(GraphicsDevice *device, PixelFormat format) :
-	Texture2D(device, true, format)
+	Texture2D(device, std::monostate{}, true, format)
 {
 #ifdef USING_DX11
 	HRESULT r = device->_device->CreateRenderTargetView(_texture.Get(), nullptr, _renderTarget.GetAddressOf());

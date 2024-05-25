@@ -20,6 +20,7 @@ class AssetManagerDialog : public Dialog
 	std::unique_ptr<AssetListRenderer> _renderer;
 
 	Engine3DRadSpace::Reflection::UUID _assetType;
+	const char* _fileFilter = nullptr;
 
 	void _createForms();
 	void _loadAssetIcons();
@@ -40,6 +41,7 @@ public:
 		using namespace Engine3DRadSpace::Internal;
 
 		_assetType = AssetUUIDReader::GetUUID(Tag<T>{});
+		_fileFilter = AssetUUIDReader::GetFileExtension(Tag<T>{});
 
 		auto v = Dialog::ShowDialog(static_cast<void*>(this));
 		return AssetID<T>(static_cast<unsigned>(v));

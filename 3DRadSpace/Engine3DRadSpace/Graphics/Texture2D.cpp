@@ -15,45 +15,10 @@ using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Logging;
 using namespace Engine3DRadSpace::Math;
 
-Texture2D::Texture2D(GraphicsDevice* device, const std::string &filename):
-	_device(device),
-	_width(0),
-	_height(0)
-{
-#ifdef USING_DX11
-	ID3D11Resource **resource = reinterpret_cast<ID3D11Resource **>(_texture.GetAddressOf());
-
-	wchar_t path[_MAX_PATH]{};
-	MultiByteToWideChar(CP_ACP, 0, filename.c_str(), (int)filename.length(), path, _MAX_PATH);
-
-	HRESULT r = DirectX::CreateWICTextureFromFile(
-		device->_device.Get(),
-		device->_context.Get(),
-		path,
-		resource,
-		_resourceView.GetAddressOf()
-	);
-	if (FAILED(r))
-	{
-		r = DirectX::CreateDDSTextureFromFile(
-			device->_device.Get(),
-			device->_context.Get(),
-			path,
-			resource,
-			_resourceView.GetAddressOf()
-			);
-		return;
-	}
-
-	if(FAILED(r)) throw ResourceLoadingError(Tag<Texture2D>{}, filename, "Failed to create a texture!");
-
-	_retrieveSize();
-#endif
-}
-
-Texture2D::Texture2D(GraphicsDevice* device, const std::wstring &filename):
+Texture2D::Texture2D(GraphicsDevice* device, const std::filesystem::path &path):
 	_device(device)
 {
+	auto filename = path.wstring();
 #ifdef USING_DX11
 	ID3D11Resource** resource = reinterpret_cast<ID3D11Resource**>(_texture.GetAddressOf());
 
@@ -79,7 +44,7 @@ Texture2D::Texture2D(GraphicsDevice* device, const std::wstring &filename):
 	{
 		char mbPath[_MAX_PATH]{};
 		WideCharToMultiByte(CP_ACP, 0, filename.c_str(), int(filename.length()), mbPath, _MAX_PATH, nullptr, nullptr);
-		throw ResourceLoadingError(Tag<Texture2D>{}, mbPath, "Failed to create a texture!");
+		throw ResourceLoadingError(Tag<Texture2D>{}, mbPath, std::system_category().message(r));
 	}
 
 	_retrieveSize();
@@ -109,10 +74,10 @@ Texture2D::Texture2D(GraphicsDevice *device, std::span<Color> colors, unsigned x
 	textureData.SysMemPitch = sizeof(Color) * x;
 
 	HRESULT r = device->_device->CreateTexture2D(&tDesc, &textureData, _texture.GetAddressOf());
-	if (FAILED(r)) throw Exception("Failed to initialize a 2D texture!");
+	if (FAILED(r)) throw Exception("Failed to initialize a 2D texture!" + std::system_category().message(r));
 
 	r = device->_device->CreateShaderResourceView(_texture.Get(), nullptr, _resourceView.GetAddressOf());
-	if (FAILED(r)) throw Exception("Failed to create a shader resource view!");
+	if (FAILED(r)) throw Exception("Failed to create a shader resource view! " + std::system_category().message(r));
 #endif
 	_debugInfoTX2D();
 }
@@ -140,10 +105,10 @@ Texture2D::Texture2D(GraphicsDevice* device, void* buffer, unsigned x, unsigned 
 	textureData.SysMemPitch = sizeof(Color) * x;
 
 	HRESULT r = device->_device->CreateTexture2D(&tDesc, &textureData, _texture.GetAddressOf());
-	if (FAILED(r)) throw Exception("Failed to initialize a 2D texture!");
+	if (FAILED(r)) throw Exception("Failed to initialize a 2D texture!" + std::system_category().message(r));
 
 	r = device->_device->CreateShaderResourceView(_texture.Get(), nullptr, _resourceView.GetAddressOf());
-	if (FAILED(r)) throw Exception("Failed to create a shader resource view!");
+	if (FAILED(r)) throw Exception("Failed to create a shader resource view!" + std::system_category().message(r));
 #endif
 	_debugInfoTX2D();
 }
@@ -171,10 +136,10 @@ Texture2D::Texture2D(GraphicsDevice* device, Color* colors, unsigned x, unsigned
 	data.SysMemPitch = sizeof(Color) * x;
 
 	HRESULT r = device->_device->CreateTexture2D(&desc, &data, _texture.GetAddressOf());
-	if (FAILED(r)) throw Exception("Failed to initialize a 2D texture!");
+	if (FAILED(r)) throw Exception("Failed to initialize a 2D texture!" + std::system_category().message(r));
 
 	r = device->_device->CreateShaderResourceView(_texture.Get(), nullptr, _resourceView.GetAddressOf());
-	if (FAILED(r)) throw Exception("Failed to create a shader resource view!");
+	if (FAILED(r)) throw Exception("Failed to create a shader resource view!" + std::system_category().message(r));
 #endif
 	_debugInfoTX2D();
 }
@@ -204,7 +169,7 @@ Texture2D::Texture2D(GraphicsDevice* device,const uint8_t* imageBuffer, size_t s
 			_resourceView.GetAddressOf()
 		);
 	}
-	if (FAILED(r)) throw Exception("Failed to create texture from memory!");
+	if (FAILED(r)) throw Exception("Failed to create texture from memory!" + std::system_category().message(r));
 
 	_retrieveSize();
 #endif
@@ -229,10 +194,10 @@ Texture2D::Texture2D(GraphicsDevice *device, unsigned x, unsigned y, PixelFormat
 	desc.Format = _getTextureFormat(format);
 
 	HRESULT r = device->_device->CreateTexture2D(&desc, nullptr, _texture.GetAddressOf());
-	if (FAILED(r)) throw Exception("Failed to initialize a 2D texture!");
+	if (FAILED(r)) throw Exception("Failed to initialize a 2D texture!" + std::system_category().message(r));
 
 	r = device->_device->CreateShaderResourceView(_texture.Get(), nullptr, _resourceView.GetAddressOf());
-	if (FAILED(r)) throw Exception("Failed to create a shader resource view!");
+	if (FAILED(r)) throw Exception("Failed to create a shader resource view!" + std::system_category().message(r));
 #endif
 	_debugInfoTX2D();
 }
@@ -446,17 +411,18 @@ Texture2D::Texture2D(GraphicsDevice *device, unsigned x, unsigned y, bool bindRe
 	desc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
 
 	HRESULT r = device->_device->CreateTexture2D(&desc, nullptr, _texture.GetAddressOf());
-	if (FAILED(r)) throw Exception("Failed to initialize a 2D texture!");
+	if (FAILED(r)) throw Exception("Failed to initialize a 2D texture!" + std::system_category().message(r));
 
 	r = device->_device->CreateShaderResourceView(_texture.Get(), nullptr, _resourceView.GetAddressOf());
-	if (FAILED(r)) throw Exception("Failed to create a shader resource view!");
+	if (FAILED(r)) throw Exception("Failed to create a shader resource view!" + std::system_category().message(r));
 #endif
 	_debugInfoTX2D();
 }
 
-Texture2D::Texture2D(GraphicsDevice *device, bool bindRenderTarget, PixelFormat format):
+Texture2D::Texture2D(GraphicsDevice *device, std::monostate dummy, bool bindRenderTarget, PixelFormat format):
 	_device(device)
 {
+	(void)dummy;
 #ifdef USING_DX11
 	D3D11_TEXTURE2D_DESC desc{};
 	desc.Width = device->_resolution.X;
@@ -471,10 +437,10 @@ Texture2D::Texture2D(GraphicsDevice *device, bool bindRenderTarget, PixelFormat 
 	desc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
 
 	HRESULT r = device->_device->CreateTexture2D(&desc, nullptr, _texture.GetAddressOf());
-	if (FAILED(r)) throw Exception("Failed to initialize a 2D texture!");
+	if (FAILED(r)) throw Exception("Failed to initialize a 2D texture!" + std::system_category().message(r));
 
 	r = device->_device->CreateShaderResourceView(_texture.Get(), nullptr, _resourceView.GetAddressOf());
-	if (FAILED(r)) throw Exception("Failed to create a shader resource view!");
+	if (FAILED(r)) throw Exception("Failed to create a shader resource view!" + std::system_category().message(r));
 #endif
 
 	_width = device->_resolution.X;
@@ -489,6 +455,7 @@ Engine3DRadSpace::Graphics::Texture2D::Texture2D(Internal::AssetUUIDReader a):
 {
 }
 
+#ifdef USING_DX11
 Texture2D::Texture2D(GraphicsDevice* device, Microsoft::WRL::ComPtr<ID3D11Texture2D>&& texture, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>&& resource) :
 	_device(device),
 	_texture(std::move(texture)),
@@ -497,13 +464,15 @@ Texture2D::Texture2D(GraphicsDevice* device, Microsoft::WRL::ComPtr<ID3D11Textur
 	_retrieveSize();
 }
 
-Texture2D::Texture2D(GraphicsDevice* device, Microsoft::WRL::ComPtr<ID3D11Texture2D>&& texture) :
+Texture2D::Texture2D(GraphicsDevice* device, std::monostate dummy, Microsoft::WRL::ComPtr<ID3D11Texture2D> && texture) :
 	_device(device),
 	_texture(std::move(texture)),
 	_resourceView(nullptr)
 {
+	(void)dummy;
 	_retrieveSize();
 }
+#endif
 
 void Texture2D::SetColors(Color** colors, unsigned x, unsigned y)
 {
@@ -511,7 +480,7 @@ void Texture2D::SetColors(Color** colors, unsigned x, unsigned y)
 	D3D11_MAPPED_SUBRESOURCE resource;
 
 	HRESULT r = _device->_context->Map(_texture.Get(), 0, D3D11_MAP_WRITE, 0, &resource);
-	if (FAILED(r)) throw std::exception("Failed to map a texture!");
+	if (FAILED(r)) throw Exception("Failed to map a texture!" + std::system_category().message(r));
 
 	memcpy(resource.pData, colors, sizeof(Color) * x * y);
 	_device->_context->Unmap(_texture.Get(), 0);
@@ -535,10 +504,10 @@ Texture2D Texture2D::CreateStaging(Texture2D* texture)
 
 	Microsoft::WRL::ComPtr<ID3D11Texture2D> stagingTexture;
 	HRESULT r = texture->_device->_device->CreateTexture2D(&desc, nullptr, &stagingTexture);
-	if (FAILED(r)) throw Exception("Failed to create a staging texture!");
+	if (FAILED(r)) throw Exception("Failed to create a staging texture!" + std::system_category().message(r));
 #endif
 
-	return Texture2D(texture->_device, std::move(stagingTexture));
+	return Texture2D(texture->_device, std::monostate(), std::move(stagingTexture));
 }
 
 void Texture2D::Resize(unsigned newX, unsigned newY)
@@ -561,14 +530,14 @@ void Texture2D::Resize(unsigned newX, unsigned newY)
 
 	Microsoft::WRL::ComPtr<ID3D11Texture2D> stagingTexture;
 	HRESULT r = _device->_device->CreateTexture2D(&desc, nullptr, &stagingTexture);
-	if (FAILED(r)) throw Exception("Failed to create a staging texture!");
+	if (FAILED(r)) throw Exception("Failed to create a staging texture!" + std::system_category().message(r));
 
 	//2.) Copy initial texture into the staging texture
 	_device->_context->CopyResource(stagingTexture.Get(), _texture.Get());
 
 	D3D11_MAPPED_SUBRESOURCE mappedRes{};
 	r = _device->_context->Map(stagingTexture.Get(), 0, D3D11_MAP_READ, 0, &mappedRes);
-	if (FAILED(r)) throw Exception("Failed to map the staging texture!");
+	if (FAILED(r)) throw Exception("Failed to map the staging texture!" + std::system_category().message(r));
 
 	struct ColorInt
 	{
@@ -607,10 +576,10 @@ void Texture2D::Resize(unsigned newX, unsigned newY)
 
 	resizedTextureDesc.MipLevels = 1;
 	r = _device->_device->CreateTexture2D(&resizedTextureDesc, &newSubresource, _texture.ReleaseAndGetAddressOf());
-	if (FAILED(r)) throw Exception("Failed to recreate the texture!");
+	if (FAILED(r)) throw Exception("Failed to recreate the texture!" + std::system_category().message(r));
 	
 	r = _device->_device->CreateShaderResourceView(_texture.Get(), nullptr, _resourceView.ReleaseAndGetAddressOf()); //recreate the shader resource view for the new texture
-	if (FAILED(r)) throw Exception("Failed to recreate the shader resource view!");
+	if (FAILED(r)) throw Exception("Failed to recreate the shader resource view!" + std::system_category().message(r));
 #endif
 	//6.) Update fields
 	_width = newX;
@@ -624,7 +593,7 @@ void Texture2D::SaveToFile(const std::string &path)
 	MultiByteToWideChar(CP_ACP, 0, path.c_str(), -1, wpath, _MAX_PATH);
 
 	HRESULT r = DirectX::SaveWICTextureToFile(_device->_context.Get(), _texture.Get(), GUID_ContainerFormatPng, wpath, nullptr, nullptr, true);
-	if(FAILED(r)) throw Exception("Failed to save file!");
+	if(FAILED(r)) throw Exception("Failed to save file!" + std::system_category().message(r));
 #endif
 }
 
@@ -654,11 +623,11 @@ Texture2D Texture2D::Clone()
 	this->_texture->GetDesc(&desc);
 
 	HRESULT r = _device->_device->CreateTexture2D(&desc, nullptr, copy.GetAddressOf());
-	if (FAILED(r)) throw Exception("Failed to create staging texture");
+	if (FAILED(r)) throw Exception("Failed to create staging texture" + std::system_category().message(r));
 
 	_device->_context->CopyResource(copy.Get(), staging._texture.Get());
 
-	return Texture2D(_device, std::move(copy));
+	return Texture2D(_device, std::monostate(), std::move(copy));
 #endif
 }
 
@@ -672,8 +641,21 @@ void* Texture2D::ResourceViewHandle() const noexcept
 	return _resourceView.Get();
 }
 
-Reflection::UUID Engine3DRadSpace::Graphics::Texture2D::GetUUID() const noexcept
+Reflection::UUID Texture2D::GetUUID() const noexcept
 {
 	// {5AAE5C7A-C0E7-405A-B6FD-03CF9E3E36CC}
 	return { 0x5aae5c7a, 0xc0e7, 0x405a, { 0xb6, 0xfd, 0x3, 0xcf, 0x9e, 0x3e, 0x36, 0xcc } };
+}
+
+const char* Texture2D::FileExtension() const noexcept
+{
+	//Image formats supported by Texture2D::Texture2D, with support from DirectXTK.
+	return  "Supported image format (*.bmp;*.dib;.*jpg;*.jpeg;*.gif;*.tiff;*.tif;*.png;*.dds)\0*.bmp;*.jpg;*.jpeg;*.gif;*.tiff;*.tif;*.png;*.dds\0"
+			"Bitmap image(*.bmp;*.dib)\0*.bmp;*.dib\0"
+			"Joint Photographic Experts Group (JPEG) image(*.jpg;*.jpeg)\0*.jpg;*.jpeg\0"
+			"Graphics Interchange Format (GIF) image(*.gif)\0*.gif\0"
+			"Tagged Image File Format (TIFF) image(*.tiff)\0*.tiff\0"
+			"Portable Network Graphics (PNG) image(*.png)\0*.png\0"
+			"DirectDraw Surface image(*.dds)\0*.dds\0"
+			"All Files(*.*)\0*.*\0\0";
 }

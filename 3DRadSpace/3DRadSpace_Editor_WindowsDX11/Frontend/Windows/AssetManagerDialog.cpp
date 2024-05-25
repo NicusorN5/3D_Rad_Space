@@ -71,9 +71,10 @@ INT_PTR WINAPI AssetManager_DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 						OPENFILENAMEA ofn{};
 						ofn.lStructSize = sizeof(OPENFILENAMEA);
-						ofn.Flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST;
+						ofn.Flags = 0;
 						ofn.hwndOwner = assetManager->window;
 						ofn.hInstance = assetManager->hInstance;
+						ofn.lpstrFilter = assetManager->_fileFilter;
 						ofn.lpstrFile = filename;
 						ofn.nMaxFile = _MAX_PATH;
 

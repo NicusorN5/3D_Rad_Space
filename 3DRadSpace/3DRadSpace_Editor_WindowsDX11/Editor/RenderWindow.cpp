@@ -63,6 +63,8 @@ void RenderWindow::Load(Content::ContentManager *content)
 	//testTexture = content->Load<Texture2D>("gradient.png");
 	//testTexture->Resize(256, 256);
 
+	testTexture = new Texture2D(Device.get(), "gradient.png");
+
 	//fish = content->Load<Model3D>("Data\\Models\\YellowFish.x");
 	//content->Load<Model3D>("Data\\Models\\terrain0100.x");
 

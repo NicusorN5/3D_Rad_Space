@@ -320,10 +320,22 @@ void Model3D::SetShaders(std::span<std::shared_ptr<Shaders::Effect>> effects)
 	}
 }
 
-Reflection::UUID Engine3DRadSpace::Graphics::Model3D::GetUUID() const noexcept
+Reflection::UUID Model3D::GetUUID() const noexcept
 {
 	// {A405951A-7454-4A03-868C-1D2022D43F45}
 	return { 0xa405951a, 0x7454, 0x4a03, { 0x86, 0x8c, 0x1d, 0x20, 0x22, 0xd4, 0x3f, 0x45 } };
+}
+
+const char* Model3D::FileExtension() const noexcept
+{
+	return  "Autodesk 3ds Max Model (*.3ds)\0*.3ds\0"
+			"3D Manufacturing Format(*.3mf)\0*.3mf\0"
+			"COLLADA Model (*.dae)\0*.dae\0"
+			"Filmbox (FBX) Mesh (*.fbx)\0*.fbx\0"
+			"(glTF) (*.gltf;*.glb)\0*.gltf;*.glb\0"
+			"Wavefront OBJ (*.obj)\0*.obj\0"
+			"DirectX Mesh (*.x)\0*.x\0"
+			"All Files(*.*)\0*.*\0\0";
 }
 
 ModelMesh * Model3D::operator[](unsigned i)

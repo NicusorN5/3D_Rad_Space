@@ -81,6 +81,7 @@ void TextPrint::EditorDraw(Graphics::SpriteBatch* spriteBatch, double dt, bool s
 REFL_BEGIN(TextPrint, "TextPrint", "2D Objects", "Text element on the screen")
 REFL_FIELD(TextPrint, std::string, Name, "Name", "TextPrint", "Object name")
 REFL_FIELD(TextPrint, bool, Visible, "Visible", true, "Is the text visible?")
+REFL_FIELD(TextPrint, std::string, Text, "Text", "Hello world!", "Printed text")
 REFL_FIELD(TextPrint, RefFont, Font, "Font", 0, "Font asset")
 REFL_FIELD(TextPrint, Vector2, Position, "Position", Vector2::Zero(), "Normalized screen position X, Y in [0-1]")
 REFL_FIELD(TextPrint, float, Rotation, "Rotation (rad)", 0.0f, "Rotations in radians")

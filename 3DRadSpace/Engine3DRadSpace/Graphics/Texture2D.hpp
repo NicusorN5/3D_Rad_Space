@@ -18,8 +18,8 @@ namespace Engine3DRadSpace::Graphics
 
 		void _debugInfoTX2D();
 		void _debugInfoRT();
-        Texture2D(GraphicsDevice* device, Microsoft::WRL::ComPtr<ID3D11Texture2D>&& texture, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>&& resource);
-        Texture2D(GraphicsDevice* device, Microsoft::WRL::ComPtr<ID3D11Texture2D>&& texture);
+        explicit Texture2D(GraphicsDevice* device, Microsoft::WRL::ComPtr<ID3D11Texture2D>&& texture, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>&& resource);
+        explicit Texture2D(GraphicsDevice* device, std::monostate dummy, Microsoft::WRL::ComPtr<ID3D11Texture2D>&& texture);
 	protected:
 #ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11Texture2D> _texture;
@@ -30,16 +30,22 @@ namespace Engine3DRadSpace::Graphics
 #endif
 		void _retrieveSize();
 
-		Texture2D(GraphicsDevice *device, unsigned x, unsigned y, bool bindRenderTarget, PixelFormat format = PixelFormat::R32G32B32A32_Float);
-		explicit Texture2D(GraphicsDevice *device, bool bindRenderTarget = false, PixelFormat format = PixelFormat::R32G32B32A32_Float);
-		Texture2D(Internal::AssetUUIDReader);
+		explicit Texture2D(GraphicsDevice *device, unsigned x, unsigned y, bool bindRenderTarget, PixelFormat format = PixelFormat::R32G32B32A32_Float);
+		/// <summary>
+		/// Used by RenderTarget.
+		/// </summary>
+		/// <param name="device"></param>
+		/// <param name="dummy">Hack. Used because C++ converts const char* to bool by default over std::filesystem::path.</param>
+		/// <param name="bindRenderTarget">Bind render target creation flag</param>
+		/// <param name="format">Texture format.</param>
+		explicit Texture2D(GraphicsDevice *device, std::monostate dummy, bool bindRenderTarget, PixelFormat format = PixelFormat::R32G32B32A32_Float);
+		explicit Texture2D(Internal::AssetUUIDReader);
 	public:
-		explicit Texture2D(GraphicsDevice* device, const std::string &fileName);
-		explicit Texture2D(GraphicsDevice* device, const std::wstring &filename);
+		Texture2D(GraphicsDevice* device, const std::filesystem::path& path);
 
 		explicit Texture2D(GraphicsDevice *device, std::span<Color> colors, unsigned x, unsigned y);
 		explicit Texture2D(GraphicsDevice *device, Color* colors, unsigned x, unsigned y);
-		explicit Texture2D(GraphicsDevice* device, void* buffer, unsigned x, unsigned y, PixelFormat format = PixelFormat::R32G32B32A32_Float);
+		explicit Texture2D(GraphicsDevice *device, void* buffer, unsigned x, unsigned y, PixelFormat format = PixelFormat::R32G32B32A32_Float);
 		explicit Texture2D(GraphicsDevice *device, const uint8_t* imageBuffer, size_t size);
 		explicit Texture2D(GraphicsDevice *device, unsigned x, unsigned y, PixelFormat format = PixelFormat::R32G32B32A32_Float);
 
@@ -67,6 +73,7 @@ namespace Engine3DRadSpace::Graphics
 		virtual ~Texture2D() = default;
 
 		Reflection::UUID GetUUID() const noexcept override;
+		const char* FileExtension() const noexcept override;
 
 		friend class GraphicsDevice;
 		friend class IVertexShader;

@@ -741,6 +741,14 @@ bool EditObjectDialog::setObject()
 					j += sizeof(AssetID<Model3D>);
 					break;
 				}
+				case FieldRepresentationType::Font:
+				{
+					auto fontControl = static_cast<FontControl*>(std::get<IControl*>(windows[i++]));
+
+					memcpy_s(newStruct.get() + j, sizeof(AssetID<Font>), &fontControl->AssetReference, sizeof(AssetID<Font>));
+					j += sizeof(AssetID<Font>);
+					break;
+				}
 				case FieldRepresentationType::Key:
 				{
 					HWND hotkey = std::get<HWND>(windows[i++]);

@@ -17,7 +17,17 @@ namespace Engine3DRadSpace::Content
 	protected:
 		IAsset() = default;
 	public:
+		/// <summary>
+		/// Represents a unique identifier for the asset type.
+		/// </summary>
+		/// <returns></returns>
 		virtual Reflection::UUID GetUUID() const noexcept = 0;
+		/// <summary>
+		/// File extension used as a filter for the editor.
+		/// </summary>
+		/// <returns></returns>
+		virtual const char* FileExtension() const noexcept = 0;
+
 		virtual ~IAsset() = default;
 	};
 
