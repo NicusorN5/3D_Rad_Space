@@ -43,11 +43,9 @@ INT_PTR __stdcall EditObjectDialog_DlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			{
 				if(lParam == reinterpret_cast<LPARAM>(eod->okButton))
 				{
-					if(eod->setObject())
-					{
-						EndDialog(hwnd, IDOK);
-						return 1;
-					}
+					eod->setObject();
+					EndDialog(hwnd, IDOK);
+					return 1;
 				}
 				if(lParam == reinterpret_cast<LPARAM>(eod->cancelButton))
 				{
@@ -545,7 +543,7 @@ void EditObjectDialog::createForms()
 	);
 }
 
-bool EditObjectDialog::setObject()
+void EditObjectDialog::setObject()
 {
 	int i = 0;
 	for(auto field : *objRefl)
@@ -791,7 +789,6 @@ bool EditObjectDialog::setObject()
 
 		field->Set(object, newStruct.get());
 	}
-	return true;
 }
 
 IObject* EditObjectDialog::ShowDialog()

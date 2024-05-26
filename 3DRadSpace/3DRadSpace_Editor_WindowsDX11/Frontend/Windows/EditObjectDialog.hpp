@@ -19,7 +19,7 @@ class EditObjectDialog : public Dialog
 	HWND cancelButton;
 
 	void createForms();
-	bool setObject();
+	void setObject();
 public:
 	EditObjectDialog(
 		HWND owner,

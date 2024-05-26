@@ -64,4 +64,6 @@ public:
 
 	bool IsFocused() const;
 	void Reset3DCursor();
+
+	~RenderWindow();
 };

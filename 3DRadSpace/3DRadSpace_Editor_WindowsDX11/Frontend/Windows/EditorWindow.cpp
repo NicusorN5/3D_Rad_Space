@@ -739,7 +739,7 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 					if(objID.second.has_value())
 					{
 						IObject *obj = gEditorWindow->editor->Objects->Find(objID.second.value());
-						
+
 						EditObjectDialog eod(
 							gEditorWindow->_mainWindow,
 							gEditorWindow->_hInstance,
@@ -761,7 +761,7 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 							item.pszText = const_cast<char *>(new_obj->Name.c_str());
 							SendMessageA(gEditorWindow->_listBox, TVM_SETITEMA, 0, reinterpret_cast<LPARAM>(&item));
 
-							new_obj->Load(gEditorWindow->GetContentManager());
+							new_obj->EditorLoad(gEditorWindow->GetContentManager());
 						}
 					}
 					break;

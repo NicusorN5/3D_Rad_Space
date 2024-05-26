@@ -39,7 +39,7 @@ void TextPrint::Load(Content::ContentManager* content)
         _font = content->Load<Graphics::Font>(*_path, &Font);
         _path.reset();
     }
-    if (_font == nullptr && Font)
+    if (Font)
     {
         _font = static_cast<Graphics::Font*>((*content)[Font]);
     }

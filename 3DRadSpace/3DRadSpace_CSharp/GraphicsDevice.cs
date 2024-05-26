@@ -32,7 +32,7 @@ namespace Engine3DRadSpace
 			_graphicsDevice_Clear(_graphicsDeviceHandle, clearColor);
 		}
 
-		public void SetViewport(ref Viewport viewport)
+		public void SetViewport(Viewport viewport)
 		{
 			_graphicsDevice_SetViewport(_graphicsDeviceHandle, ref viewport);
 		}

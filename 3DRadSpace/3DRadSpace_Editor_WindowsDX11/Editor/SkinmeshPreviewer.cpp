@@ -26,7 +26,7 @@ SkinmeshPreviewer::SkinmeshPreviewer(const std::filesystem::path &meshPath):
 		}
 	}
 
-	_initialZoom = _skinmesh->GetModel()->GetBoundingSphere().Radius * 2.0f;
+	_zoom = _initialZoom = _skinmesh->GetModel()->GetBoundingSphere().Radius * 2.0f;
 
 	Camera camera("");
 	camera.LookAt = Vector3::Zero();

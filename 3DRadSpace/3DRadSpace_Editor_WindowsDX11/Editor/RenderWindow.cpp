@@ -132,6 +132,8 @@ void RenderWindow::Update(Keyboard& keyboard, Mouse& mouse, double dt)
 
 double theta = 0.0f;
 
+bool bleeeh = false;
+
 void RenderWindow::Draw(Matrix4x4 &view, Matrix4x4 &projection, double dt)
 {
 	Camera.Draw(view, projection, dt);
@@ -175,11 +177,18 @@ void RenderWindow::Draw(Matrix4x4 &view, Matrix4x4 &projection, double dt)
 
 	auto defUV = RectangleF(0.0f, 0.0f, 1.0f, 1.0f);
 
-	SpriteBatch->Begin(SpriteBatchSortMode::Immediate);
-	SpriteBatch->DrawNormalized(testTexture, RectangleF(0.1f, 0.1f, 0.1f, 0.1f), defUV, Colors::White, float(theta));
-	theta += 1.0 * dt;
-	//theta = std::clamp<float>(theta, 0.0f, 2 * std::numbers::pi);
-	SpriteBatch->End();
+	/*
+	if (!bleeeh)
+	{
+		SpriteBatch->Begin(SpriteBatchSortMode::Immediate);
+		SpriteBatch->DrawNormalized(testTexture, RectangleF(0.1f, 0.1f, 0.1f, 0.1f), defUV, Colors::White, float(theta));
+		theta += 1.0 * dt;
+		//theta = std::clamp<float>(theta, 0.0f, 2 * std::numbers::pi);
+		SpriteBatch->End();
+
+		bleeeh = true;
+	}
+	*/
 }
 
 void RenderWindow::Draw(Graphics::SpriteBatch* spriteBatch, double dt)
@@ -194,4 +203,9 @@ bool RenderWindow::IsFocused() const
 void RenderWindow::Reset3DCursor()
 {
 	cursor3D = Vector3::Zero();
+}
+
+RenderWindow::~RenderWindow()
+{
+	delete testTexture;
 }

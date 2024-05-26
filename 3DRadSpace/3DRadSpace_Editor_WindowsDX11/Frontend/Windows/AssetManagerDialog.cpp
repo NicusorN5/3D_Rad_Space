@@ -254,7 +254,7 @@ void AssetManagerDialog::_loadAssetIcons()
 			}
 
 			unsigned w, h;
-			HBITMAP image = loadImageFromFile(imagePath.c_str(), w, h);
+			HBITMAP image = loadImageFromFile(imagePath, w, h);
 
 			if (image == nullptr) //if failed to render and save an image, fall back to the default one.
 				image = loadImageFromFile("Data//NoAsset.png", w, h);

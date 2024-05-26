@@ -43,7 +43,7 @@ void Skinmesh::Load(Content::ContentManager *content)
         _model = content->Load<Model3D>(*_path);
         _path.reset();
     }
-    if (_model == nullptr && Model)
+    if (Model)
     {
         _model = static_cast<Model3D*>((*content)[Model]);
     }
@@ -110,9 +110,9 @@ std::optional<float> Skinmesh::Intersects(const Ray&r)
                     return *reinterpret_cast<Vector3*>((static_cast<std::byte*>(vertexData)) + (meshPart->VertexBuffer->StructSize() * index));
                 };
                 //Assuming VS_POSITION3 is the first element.
-                Vector3 t1 = readVector(i);
-                Vector3 t2 = readVector(i+1);
-                Vector3 t3 = readVector(i+3);
+                Vector3 t1 = readVector(reinterpret_cast<unsigned*>(indexData)[i]);
+                Vector3 t2 = readVector(reinterpret_cast<unsigned*>(indexData)[i+1]);
+                Vector3 t3 = readVector(reinterpret_cast<unsigned*>(indexData)[i+2]);
 
                 Triangle tri{ t1, t2, t3 };
                 
