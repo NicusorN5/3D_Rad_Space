@@ -22,6 +22,7 @@
 #include <map>
 #include <typeindex>
 #include <cassert>
+#include <ranges>
 
 #ifdef _WIN32
 #define NOMINMAX

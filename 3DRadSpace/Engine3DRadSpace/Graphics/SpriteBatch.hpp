@@ -96,7 +96,7 @@ namespace Engine3DRadSpace::Graphics
 		SpriteBatch(SpriteBatch &&) noexcept = default;
 
 		SpriteBatch& operator=(SpriteBatch &) = delete;
-		SpriteBatch &operator=(SpriteBatch &&) noexcept = default;
+		SpriteBatch& operator=(SpriteBatch &&) noexcept = default;
 
 		void Begin(SpriteBatchSortMode sortingMode = SpriteBatchSortMode::Immediate);
 		void Begin(SpriteBatchSortMode sortingMode, SamplerState samplerState);

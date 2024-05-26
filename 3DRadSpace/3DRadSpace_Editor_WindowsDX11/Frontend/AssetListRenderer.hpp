@@ -26,7 +26,6 @@ public:
 		std::unique_ptr<T> asset = std::make_unique<T>(_device.get(), assetPath);
 
 		bool r = AssetRenderer<T>(_device.get(), imagePath, asset.get());
-		_device->Present();
 		return r;
 	}
 

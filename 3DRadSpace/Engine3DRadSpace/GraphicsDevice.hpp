@@ -84,8 +84,7 @@ namespace Engine3DRadSpace
 		void DrawAuto();
 		void Present();
 		
-		void SaveBackBufferToFile(const std::string &path);
-		void SaveBackBufferToFile(const std::wstring &path);
+		void SaveBackBufferToFile(const std::filesystem::path& path);
 
 		bool EnableVSync;
 

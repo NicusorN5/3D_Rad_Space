@@ -3,6 +3,9 @@
 
 class FontControl : public AssetControl
 {
+	//TODO: make _image and _bitmap part of AssetControl
+	HBITMAP _image;
+	HWND _pictureBox;
 public:
 	FontControl(
 		HWND owner,

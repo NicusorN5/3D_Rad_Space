@@ -131,7 +131,7 @@ void GraphicsDevice::SetViewports(std::span<Viewport> viewports)
 #endif // USING_DX11
 }
 
-Viewport Engine3DRadSpace::GraphicsDevice::GetViewport()
+Viewport GraphicsDevice::GetViewport()
 {
 #ifdef USING_DX11
 	UINT numVp = 1;
@@ -216,21 +216,10 @@ void GraphicsDevice::Present()
 #endif // USING_DX11
 }
 
-void GraphicsDevice::SaveBackBufferToFile(const std::string &path)
+void GraphicsDevice::SaveBackBufferToFile(const std::filesystem::path &path)
 {
 #ifdef USING_DX11
-	wchar_t wpath[_MAX_PATH]{};
-	MultiByteToWideChar(CP_ACP, 0, path.c_str(), -1, wpath, _MAX_PATH);
-
-	HRESULT r = DirectX::SaveWICTextureToFile(_context.Get(), _screenTexture.Get(), GUID_ContainerFormatPng, wpath, nullptr, nullptr, true);
-	if(FAILED(r)) throw std::exception("Failed to save file!");
-#endif
-}
-
-void GraphicsDevice::SaveBackBufferToFile(const std::wstring &path)
-{
-#ifdef USING_DX11
-	HRESULT r = DirectX::SaveWICTextureToFile(_context.Get(), _screenTexture.Get(), GUID_ContainerFormatPng, path.c_str(), nullptr, nullptr, true);
+	HRESULT r = DirectX::SaveWICTextureToFile(_context.Get(), _screenTexture.Get(), GUID_ContainerFormatPng, path.wstring().c_str(), nullptr, nullptr, true);
 	if(FAILED(r)) throw std::exception("Failed to save file!");
 #endif
 }

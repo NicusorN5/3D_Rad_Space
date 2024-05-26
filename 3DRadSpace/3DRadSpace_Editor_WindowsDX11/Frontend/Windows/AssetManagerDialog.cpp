@@ -233,10 +233,12 @@ void AssetManagerDialog::_loadAssetIcons()
 
 			if (!std::filesystem::exists(imagePath))
 			{
+				//TODO: Find a way to use UUIDs instead of RTTI.
 				std::unordered_map<size_t, int> type_map =
 				{
 					{typeid(Graphics::Model3D).hash_code(), 1},
 					{typeid(Graphics::Texture2D).hash_code(), 2},
+					{typeid(Graphics::Font).hash_code(), 3}
 				};
 
 				switch (type_map[asset.RTTI.hash_code()])
@@ -246,6 +248,9 @@ void AssetManagerDialog::_loadAssetIcons()
 					break;
 				case 2:
 					if (_renderer) _renderer->RenderAsset<Graphics::Texture2D>(imagePath, asset.Path);
+					break;
+				case 3:
+					if (_renderer) _renderer->RenderAsset<Graphics::Font>(imagePath, asset.Path);
 					break;
 				default:
 					break;
