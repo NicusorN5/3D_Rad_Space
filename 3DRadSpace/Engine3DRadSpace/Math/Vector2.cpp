@@ -182,8 +182,10 @@ Vector2 Vector2::Hadamard(const Vector2& a, const Vector2& b)
 
 Vector2& Vector2::Transform(const Matrix3x3& m)
 {
-    X = m.M11 * X + m.M12 * Y + m.M13;
-    Y = m.M21 * X + m.M22 * Y + m.M23;
+    Vector2 cpy(*this);
+
+    X = m.M11 * cpy.X + m.M12 * cpy.Y + m.M13;
+    Y = m.M21 * cpy.X + m.M22 * cpy.Y + m.M23;
 
     return *this;
 }
@@ -192,6 +194,6 @@ Vector2 Vector2::Transform(const Vector2& v, const Matrix3x3& m)
 {
     return Vector2{
         v.X * m.M11 + v.Y * m.M12 + m.M13,
-        v.X * m.M21 + v.Y * m.M22 + m.M13
+        v.X * m.M21 + v.Y * m.M22 + m.M23
     };
 }

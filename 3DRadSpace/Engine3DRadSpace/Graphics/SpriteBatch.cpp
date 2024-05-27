@@ -100,16 +100,11 @@ void SpriteBatch::_drawEntry(const spriteBatchEntry &entry)
 	b -= center;
 	c -= center;
 	d -= center;
-	
-	a.Transform(rotation);
-	b.Transform(rotation);
-	c.Transform(rotation);
-	d.Transform(rotation);
 
-	a += center;
-	b += center;
-	c += center;
-	d += center;
+	a.Transform(rotation).Transform(Matrix3x3::CreateTranslation(center));
+	b.Transform(rotation).Transform(Matrix3x3::CreateTranslation(center));
+	c.Transform(rotation).Transform(Matrix3x3::CreateTranslation(center));
+	d.Transform(rotation).Transform(Matrix3x3::CreateTranslation(center));
 
 	//TODO: use a "mega VBO"
 	auto quad = _createQuad( a, b, c, d, entry.flipU, entry.flipV, entry.uvSource);

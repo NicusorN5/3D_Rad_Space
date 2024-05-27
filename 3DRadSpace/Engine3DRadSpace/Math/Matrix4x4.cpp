@@ -426,20 +426,6 @@ Matrix4x4 Matrix4x4::operator-=(const Matrix4x4 &m) noexcept
 
 Matrix4x4 Matrix4x4::operator*(const Matrix4x4& m) const noexcept
 {
-	/*
-	auto m1 = DirectX::XMMATRIX(reinterpret_cast<float*>(const_cast<Matrix4x4*>(this)));
-	auto m2 = DirectX::XMMATRIX(reinterpret_cast<float*>(const_cast<Matrix4x4*>(&mat)));
-
-	auto m = DirectX::XMMatrixMultiply(m1, m2);
-
-	return Matrix4x4(
-		m.r[0].m128_f32[0], m.r[0].m128_f32[1], m.r[0].m128_f32[2], m.r[0].m128_f32[3],
-		m.r[1].m128_f32[0], m.r[1].m128_f32[1], m.r[1].m128_f32[2], m.r[1].m128_f32[3],
-		m.r[2].m128_f32[0], m.r[2].m128_f32[1], m.r[2].m128_f32[2], m.r[2].m128_f32[3],
-		m.r[3].m128_f32[0], m.r[3].m128_f32[1], m.r[3].m128_f32[2], m.r[3].m128_f32[3]
-	);
-	*/
-	
 	Matrix4x4 r;
 	r.M11 = M11 * m.M11 + M12 * m.M21 + M13 * m.M31 + M14 * m.M41;
 	r.M12 = M11 * m.M12 + M12 * m.M22 + M13 * m.M32 + M14 * m.M42;

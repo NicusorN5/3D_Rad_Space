@@ -201,9 +201,11 @@ Vector3& Vector3::Transform(const Quaternion& q)
 
 Vector3& Vector3::Transform(const Matrix4x4& m)
 {
-    this->X = X * m.M11 + Y * m.M12 + Z * m.M13 + m.M14;
-    this->Y = X * m.M21 + Y * m.M22 + Z * m.M23 + m.M24;
-    this->Z = X * m.M31 + Y * m.M32 + Z * m.M33 + m.M34;
+    Vector3 cpy(*this);
+
+    this->X = cpy.X * m.M11 + cpy.Y * m.M12 + cpy.Z * m.M13 + m.M14;
+    this->Y = cpy.X * m.M21 + cpy.Y * m.M22 + cpy.Z * m.M23 + m.M24;
+    this->Z = cpy.X * m.M31 + cpy.Y * m.M32 + cpy.Z * m.M33 + m.M34;
 
     return *this;
 }

@@ -189,6 +189,12 @@ void RenderWindow::Draw(Matrix4x4 &view, Matrix4x4 &projection, double dt)
 		bleeeh = true;
 	}
 	*/
+
+	SpriteBatch->Begin(SpriteBatchSortMode::Immediate);
+	SpriteBatch->DrawNormalized(testTexture, RectangleF(0.1f, 0.1f, 0.1f, 0.1f), defUV, Colors::White, float(theta));
+	theta += 1.0 * dt;
+	//theta = std::clamp<float>(theta, 0.0f, 2 * std::numbers::pi);
+	SpriteBatch->End();
 }
 
 void RenderWindow::Draw(Graphics::SpriteBatch* spriteBatch, double dt)

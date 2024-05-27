@@ -190,35 +190,24 @@ Matrix3x3 Matrix3x3::operator*(const Matrix3x3& m) const noexcept
 {
 	return Matrix3x3
 	{
-		M11 * m.M11 + M12 * m.M21 + M13 * m.M13,
-		M11 * m.M12 + M12 * m.M22 + M13 + m.M23,
+
+		M11 * m.M11 + M12 * m.M21 + M13 * m.M31,
+		M11 * m.M12 + M12 * m.M22 + M13 * m.M32,
 		M11 * m.M13 + M12 * m.M23 + M13 * m.M33,
 
-		M21 * m.M11 + M22 + m.M21 + M23 * m.M11,
-		M21 * m.M12 + M22 + m.M22 + M23 * m.M21,
-		M21 * m.M13 + M22 + m.M23 + M23 * m.M31,
+		M21 * m.M11 + M22 * m.M21 + M23 * m.M31,
+		M21 * m.M12 + M22 * m.M22 + M23 * m.M32,
+		M21 * m.M13 + M22 * m.M23 + M23 * m.M33,
 
-		M31 * m.M11 + M32 + m.M21 + M33 * m.M11,
-		M31 * m.M12 + M32 + m.M22 + M33 * m.M21,
-		M31 * m.M13 + M32 + m.M23 + M33 * m.M31,
+		M31 * m.M11 + M32 * m.M21 + M33 * m.M31,
+		M31 * m.M12 + M32 * m.M22 + M33 * m.M32,
+		M31 * m.M13 + M32 * m.M23 + M33 * m.M33
 	};
 }
 
 Matrix3x3& Matrix3x3::operator*=(const Matrix3x3& m) noexcept
 {
-	M11 = M11 * m.M11 + M12 * m.M21 + M13 * m.M13;
-	M12 = M11 * m.M12 + M12 * m.M22 + M13 + m.M23;
-	M13 = M11 * m.M13 + M12 * m.M23 + M13 * m.M33;
-
-	M21 = M21 * m.M11 + M22 + m.M21 + M23 * m.M11;
-	M22 = M21 * m.M12 + M22 + m.M22 + M23 * m.M21;
-	M23 = M21 * m.M13 + M22 + m.M23 + M23 * m.M31;
-
-	M31 = M31 * m.M11 + M32 + m.M21 + M33 * m.M11;
-	M32 = M31 * m.M12 + M32 + m.M22 + M33 * m.M21;
-	M33 = M31 * m.M13 + M32 + m.M23 + M33 * m.M31;
-
-	return *this;
+	return *this = (*this) * m;
 }
 
 Matrix3x3 Matrix3x3::operator*(float s) const noexcept
