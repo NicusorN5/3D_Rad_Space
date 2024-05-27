@@ -2,8 +2,8 @@
 #include "AssetControl.hpp"
 #include <Engine3DRadSpace/Reflection/Reflection.hpp>
 #include <Engine3DRadSpace/Content/ContentManager.hpp>
+#include "../../Editor/SkinmeshPreviewer.hpp"
 
-class SkinmeshPreviewer;
 class ModelControl : public AssetControl
 {
 	HWND _pictureBox = nullptr;

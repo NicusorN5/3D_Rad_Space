@@ -28,7 +28,7 @@
 #define NOMINMAX
 #include <wrl/client.h>
 
-#ifdef _WINDLL 
+#ifdef _WINDLL
 	#define DLLEXPORT __declspec(dllexport)
 #else
 	#define DLLEXPORT __declspec(dllimport)

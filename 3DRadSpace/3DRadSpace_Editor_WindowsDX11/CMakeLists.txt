@@ -1,0 +1,35 @@
+cmake_minimum_required(VERSION 3.21)
+
+project("3DRadSpace-editor")
+
+file(GLOB_RECURSE 3DRadSpace-editor-src CONFIGURE_DEPENDS "*.cpp" "*.hpp" )
+add_executable(3DRadSpace-editor WIN32 ${3DRadSpace-editor-src})
+
+target_sources(3DRadSpace-editor PRIVATE 3DRadSpace_Editor_WindowsDX11.rc)
+
+if (CMAKE_VERSION VERSION_GREATER 3.12)
+  set_property(TARGET 3DRadSpace-editor PROPERTY CXX_STANDARD 23)
+endif()
+
+if(MSVC)
+	#Disable warning 4251 : 'type' : class 'type1' needs to have dll-interface to be used by clients of class 'type2'
+	target_compile_options(3DRadSpace-editor PRIVATE "/wd4251")
+	#Use UNICODE.
+	target_compile_definitions(3DRadSpace-editor PUBLIC UNICODE _UNICODE)
+endif()
+
+if(WIN32)
+	target_compile_definitions(3DRadSpace-editor PRIVATE USING_DX11=1)
+elseif(LINUX)
+	target_compile_definitions(3DRadSpace-editor PRIVATE USING_VULKAN=1)
+endif()
+
+#Link 3DRadSpace
+target_link_libraries(3DRadSpace-editor PRIVATE 3DRadSpace)
+target_include_directories(3DRadSpace-editor PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)
+
+#Nlohmann JSON
+find_package(nlohmann_json CONFIG REQUIRED)
+target_link_libraries(3DRadSpace-editor PRIVATE nlohmann_json::nlohmann_json)
+
+install(FILES $<TARGET_RUNTIME_DLLS:3DRadSpace-editor> TYPE BIN)

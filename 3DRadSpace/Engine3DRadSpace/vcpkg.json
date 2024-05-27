@@ -1,0 +1,12 @@
+{
+  "name": "3d-rad-space",
+  "version-string": "0.1.0a",
+  "dependencies": [
+    "assimp",
+    "directxtk",
+    "freetype",
+    "nlohmann-json",
+    "openal-soft",
+    "physx"
+  ]
+}

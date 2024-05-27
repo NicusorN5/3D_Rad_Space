@@ -41,5 +41,5 @@ VertexOut VS_Main(VertexIn v)
 
 float4 PS_Main(VertexOut v) : SV_TARGET
 {
-    return float4(TintColor.rgb, TextureModel.Sample(TextureSampler, v.UV) * TintColor.a);
+    return TintColor * TextureModel.Sample(TextureSampler, v.UV);
 }

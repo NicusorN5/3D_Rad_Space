@@ -21,8 +21,6 @@ Old releases can be found [here](https://github.com/3DRadSpace/3D_Rad_Space/rele
 
 2.) Install the dependencies:
 
-- Google test
-> `vcpkg install gtest:x64-windows`
 - Windows API 
 > Included in Windows SDK, use VS Installer
 >
@@ -30,7 +28,7 @@ Old releases can be found [here](https://github.com/3DRadSpace/3D_Rad_Space/rele
 - DirectX11 Toolkit (directxtk_desktop_2019)
 > Can be easily installed by using NuGet.
 - Assimp
-> Install latest version using vcpkg: (⚠️ NuGet versions are outdated!)
+> Install latest version using vcpkg: (⚠️ NuGet versions can cause conflicts!)
 
 > `.\vcpkg install assimp:x64-Windows`
 - nlohmann JSON
@@ -42,6 +40,9 @@ Old releases can be found [here](https://github.com/3DRadSpace/3D_Rad_Space/rele
 - NVidia PhysX 5.30
 > `.\vcpkg install physx:x64-windows`
 > 
+
+- Google test (Optional, for test units.)
+> `vcpkg install gtest:x64-windows`
 
 ⚠️ If there are compilation errors such as:
 ```
@@ -59,11 +60,11 @@ to
 ```
 at `<vcpkg root>\include\physx\extensions\PxCustomGeometryExt.h` L35, L36.
 
-2.) Open the .sln file ( `\3DRadSpace\3DRadSpace.sln` ) using Visual Studio 2022
+2.) Open the folder as a CMake project (preferably using Visual Studio 2022 / other IDEs were not tested yet).
 
-3.) Set the starting project to `3DRadSpace_Editor_WINDX11`
+3.) Set the starting project to `3DRadSpace-editor.exe`.
 
-4.) Compile the solution (Ctrl+Shift+B or F5) with any desired configuration (`Debug`/`Release`)
+4.) Compile the solution (Ctrl+Shift+B or F5) with any desired configuration (`x64-Debug`/`x64-Release`).
 
 Notices: Only x64-Windows is supported.
 
