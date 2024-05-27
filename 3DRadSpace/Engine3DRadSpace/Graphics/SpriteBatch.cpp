@@ -106,19 +106,18 @@ void SpriteBatch::_drawEntry(const spriteBatchEntry &entry)
 	c.Transform(rotation).Transform(Matrix3x3::CreateTranslation(center));
 	d.Transform(rotation).Transform(Matrix3x3::CreateTranslation(center));
 
-	//TODO: use a "mega VBO"
 	auto quad = _createQuad( a, b, c, d, entry.flipU, entry.flipV, entry.uvSource);
-	VertexBufferV<VertexPointUV> vertexBuffer(_device, quad);
+	
+	_vertexBuffer->SetData(quad);
 
 	_prepareGraphicsDevice();
 	_setEntry(entry);
-	vertexBuffer.Draw();
+	_vertexBuffer->Draw();
 	_restoreGraphicsDevice();
 }
 
 void SpriteBatch::_drawAllEntries_SortByTexture()
 {
-	std::vector<std::unique_ptr<VertexBufferV<VertexPointUV>>> vertexBuffers;
 	unsigned lastID = 1;
 
 	std::vector<VertexPointUV> currentVertices;
@@ -133,19 +132,31 @@ void SpriteBatch::_drawAllEntries_SortByTexture()
 		}
 		else
 		{
-			vertexBuffers.push_back(std::make_unique<VertexBufferV<VertexPointUV>>(_device, currentVertices));
+			bool reallocationNeeded = false;
+			if (currentVertices.size() > this->_vertexCapacity)
+			{
+				reallocationNeeded = true;
+
+				while (currentVertices.size() > this->_vertexCapacity)
+				{
+					this->_vertexCapacity *= 2; //growth factor
+				}
+			}
+			
+			if (reallocationNeeded)
+			{
+				_vertexBuffer = std::make_unique<VertexBufferV<VertexPointUV>>(_device, nullptr, _vertexCapacity);
+			}
+
+			_vertexBuffer->SetData(currentVertices);
+			_vertexBuffer->Draw(0);
+
 			currentVertices.clear();
 		}
 	}
 
-	vertexBuffers.push_back(std::make_unique<VertexBufferV<VertexPointUV>>(_device, currentVertices));
-	currentVertices.clear();
-
-	for(unsigned i =0; i < unsigned(vertexBuffers.size()); i++)
-	{
-		_spriteShader->SetTexture(this->_textures[i]);
-		vertexBuffers[i]->Draw();
-	}
+	_vertexBuffer->SetData(currentVertices);
+	_vertexBuffer->Draw(0);
 
 	_restoreGraphicsDevice();
 }
@@ -180,6 +191,7 @@ SpriteBatch::SpriteBatch(GraphicsDevice *device) :
 	_oldStencilRef(0)
 {
 	_spriteShader = std::make_unique<SpriteShader>(device);
+	_vertexBuffer = std::make_unique<VertexBufferV<VertexPointUV>>(device, nullptr, 1024);
 
 	_rasterizerState = std::make_unique<RasterizerState>(device, RasterizerFillMode::Solid);
 	_samplerState = std::make_unique<SamplerState>(SamplerState::PointWrap(device));

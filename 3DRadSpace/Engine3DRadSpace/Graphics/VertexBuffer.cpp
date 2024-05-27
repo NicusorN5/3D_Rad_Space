@@ -15,6 +15,28 @@ void VertexBuffer::_debugInfo()
 #endif
 }
 
+D3D11_USAGE VertexBuffer::_to_d3d11_usage(BufferUsage usage)
+{
+	switch (usage)
+	{
+	case BufferUsage::ReadWriteGPU: return D3D11_USAGE_DEFAULT;
+	case BufferUsage::ReadOnlyGPU: return D3D11_USAGE_IMMUTABLE;
+	case BufferUsage::ReadOnlyGPU_WriteOnlyCPU: return D3D11_USAGE_DYNAMIC;
+	case BufferUsage::Staging: return D3D11_USAGE_STAGING;
+	default: return D3D11_USAGE_DEFAULT;
+	}
+}
+
+UINT Engine3DRadSpace::Graphics::VertexBuffer::d3d11_cpu_usage(BufferUsage usage)
+{
+	switch (usage)
+	{
+	case BufferUsage::ReadOnlyGPU_WriteOnlyCPU: return D3D11_CPU_ACCESS_FLAG::D3D11_CPU_ACCESS_WRITE;
+	case BufferUsage::Staging: return D3D11_CPU_ACCESS_FLAG::D3D11_CPU_ACCESS_READ;
+	default: return 0;
+	}
+}
+
 VertexBuffer::VertexBuffer(
 	_In_ GraphicsDevice* device,
 	_In_reads_bytes_(p_structSize * numVertices) const void* data,
@@ -29,14 +51,15 @@ VertexBuffer::VertexBuffer(
 #ifdef USING_DX11
 	D3D11_BUFFER_DESC vertexBuffDesc{};
 	vertexBuffDesc.ByteWidth = UINT(_structSize * numVertices);
-	vertexBuffDesc.Usage = D3D11_USAGE_DEFAULT;
+	vertexBuffDesc.Usage = _to_d3d11_usage(usage);
 	vertexBuffDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	vertexBuffDesc.StructureByteStride = UINT(_structSize);
+	vertexBuffDesc.CPUAccessFlags = d3d11_cpu_usage(usage);
 
 	D3D11_SUBRESOURCE_DATA resource{};
 	resource.pSysMem = data;
 
-	HRESULT r = device->_device->CreateBuffer(&vertexBuffDesc, &resource, _buffer.GetAddressOf());
+	HRESULT r = device->_device->CreateBuffer(&vertexBuffDesc, data != nullptr ? &resource : nullptr, _buffer.GetAddressOf());
 	if (FAILED(r)) throw Exception("Failed to create a vertex buffer!");
 #endif
 	_debugInfo();

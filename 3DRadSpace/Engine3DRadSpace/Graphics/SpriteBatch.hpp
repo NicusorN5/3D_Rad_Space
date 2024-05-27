@@ -15,11 +15,11 @@ namespace Engine3DRadSpace::Graphics
 		/// </summary>
 		Immediate,
 		/// <summary>
-		/// Sort by texture.
+		/// Sort by texture. Use this if you want to optimize the number of draw calls.
 		/// </summary>
 		SortedByTexture,
 		/// <summary>
-		/// Sort by depth. From front (0.0f) to back.
+		/// Sort by depth. From front (0.0f) to back (-inf).
 		/// </summary>
 		SortedByDepth_FrontToBack,
 		/// <summary>
@@ -40,6 +40,9 @@ namespace Engine3DRadSpace::Graphics
 		} _state;
 
 		std::unique_ptr<Shaders::SpriteShader> _spriteShader;
+
+		std::unique_ptr<VertexBufferV<VertexPointUV>> _vertexBuffer;
+		size_t _vertexCapacity = 1024;
 
 		struct spriteBatchEntry
 		{
