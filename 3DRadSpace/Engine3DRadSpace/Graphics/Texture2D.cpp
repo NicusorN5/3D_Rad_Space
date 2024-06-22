@@ -650,7 +650,7 @@ Reflection::UUID Texture2D::GetUUID() const noexcept
 const char* Texture2D::FileExtension() const noexcept
 {
 	//Image formats supported by Texture2D::Texture2D, with support from DirectXTK.
-	return  "Supported image format (*.bmp;*.dib;.*jpg;*.jpeg;*.gif;*.tiff;*.tif;*.png;*.dds)\0*.bmp;*.jpg;*.jpeg;*.gif;*.tiff;*.tif;*.png;*.dds\0"
+	return  "Supported image formats (*.bmp;*.dib;.*jpg;*.jpeg;*.gif;*.tiff;*.tif;*.png;*.dds)\0*.bmp;*.jpg;*.jpeg;*.gif;*.tiff;*.tif;*.png;*.dds\0"
 			"Bitmap image(*.bmp;*.dib)\0*.bmp;*.dib\0"
 			"Joint Photographic Experts Group (JPEG) image(*.jpg;*.jpeg)\0*.jpg;*.jpeg\0"
 			"Graphics Interchange Format (GIF) image(*.gif)\0*.gif\0"

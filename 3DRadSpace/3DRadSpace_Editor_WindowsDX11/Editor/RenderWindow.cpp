@@ -6,8 +6,7 @@
 
 RenderWindow::RenderWindow(HWND parent, HINSTANCE hInstance) :
 	Game(Engine3DRadSpace::Window(hInstance, parent)),
-	editorWindow(parent), 
-	testTexture(nullptr)
+	editorWindow(parent)
 {
 }
 
@@ -60,16 +59,7 @@ Model3D *fish = nullptr;
 
 void RenderWindow::Load(Content::ContentManager *content)
 {
-	//testTexture = content->Load<Texture2D>("gradient.png");
-	//testTexture->Resize(256, 256);
 
-	testTexture = new Texture2D(Device.get(), "gradient.png");
-
-	//fish = content->Load<Model3D>("Data\\Models\\YellowFish.x");
-	//content->Load<Model3D>("Data\\Models\\terrain0100.x");
-
-	//testFont = std::make_unique<Font>(Device.get(), "Data\\Fonts\\arial.ttf");
-	//this->ClearColor.R = 0.128;
 }
 
 void RenderWindow::Update(Keyboard& keyboard, Mouse& mouse, double dt)
@@ -130,10 +120,6 @@ void RenderWindow::Update(Keyboard& keyboard, Mouse& mouse, double dt)
 	Camera.LookAt = cursor3D;
 }
 
-double theta = 0.0f;
-
-bool bleeeh = false;
-
 void RenderWindow::Draw(Matrix4x4 &view, Matrix4x4 &projection, double dt)
 {
 	Camera.Draw(view, projection, dt);
@@ -148,15 +134,6 @@ void RenderWindow::Draw(Matrix4x4 &view, Matrix4x4 &projection, double dt)
 
 	if (_keyboardTest)
 	{
-		//SpriteBatch->Draw((*testFont)['A'], Math::Rectangle(0, 0, 50, 50));
-		//SpriteBatch->DrawNormalized((*testFont)['A'], RectangleF(0.1f, 0.1f, 0.2f, 0.2f));
-		//frenderer->Render(*testFont, 'A');
-		
-		//SpriteBatch->Begin(SpriteBatchSortMode::Immediate);
-		//SpriteBatch->DrawString(testFont.get(), "Ttest qwertyuiopasdfghjklzxcvbnm;", Point(10, 20), 1);
-		//SpriteBatch->End();
-
-		//SpriteBatch->Draw(this->)
 	}
 
 	//Main rendering pass
@@ -174,27 +151,6 @@ void RenderWindow::Draw(Matrix4x4 &view, Matrix4x4 &projection, double dt)
 				break;
 		}
 	}
-
-	auto defUV = RectangleF(0.0f, 0.0f, 1.0f, 1.0f);
-
-	/*
-	if (!bleeeh)
-	{
-		SpriteBatch->Begin(SpriteBatchSortMode::Immediate);
-		SpriteBatch->DrawNormalized(testTexture, RectangleF(0.1f, 0.1f, 0.1f, 0.1f), defUV, Colors::White, float(theta));
-		theta += 1.0 * dt;
-		//theta = std::clamp<float>(theta, 0.0f, 2 * std::numbers::pi);
-		SpriteBatch->End();
-
-		bleeeh = true;
-	}
-	*/
-
-	SpriteBatch->Begin(SpriteBatchSortMode::Immediate);
-	SpriteBatch->DrawNormalized(testTexture, RectangleF(0.1f, 0.1f, 0.1f, 0.1f), defUV, Colors::White, float(theta));
-	theta += 1.0 * dt;
-	//theta = std::clamp<float>(theta, 0.0f, 2 * std::numbers::pi);
-	SpriteBatch->End();
 }
 
 void RenderWindow::Draw(Graphics::SpriteBatch* spriteBatch, double dt)
@@ -213,5 +169,4 @@ void RenderWindow::Reset3DCursor()
 
 RenderWindow::~RenderWindow()
 {
-	delete testTexture;
 }

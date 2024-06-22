@@ -170,7 +170,6 @@ void SpriteBatch::_drawAllEntries_SortByTexture()
 			}
 
 			_spriteShader->SetTexture(_textures[entry.textureID]);
-
 			_vertexBuffer->SetData(currentVertices);
 			_indexBuffer->SetData(currentIndices);
 			_device->DrawVertexBufferWithindices(_vertexBuffer.get(), _indexBuffer.get());
@@ -179,6 +178,7 @@ void SpriteBatch::_drawAllEntries_SortByTexture()
 		}
 	}
 
+	_spriteShader->SetTexture(_textures[lastID]);
 	_vertexBuffer->SetData(currentVertices);
 	_indexBuffer->SetData(currentIndices);
 	_device->DrawVertexBufferWithindices(_vertexBuffer.get(), _indexBuffer.get());
@@ -375,8 +375,8 @@ void SpriteBatch::DrawString(Font* font, const std::string& text, const Vector2&
 	int x = static_cast<int>(pos.X * screenSize.X);
 	int y = static_cast<int>(pos.Y * screenSize.Y);
 
-	//End();
-	//Begin(SpriteBatchSortMode::SortedByTexture);
+	End();
+	Begin(SpriteBatchSortMode::SortedByTexture);
 
 	for (auto&& c : text)
 	{
@@ -393,14 +393,12 @@ void SpriteBatch::DrawString(Font* font, const std::string& text, const Vector2&
 
 		auto src = font->GetCharSourceRectangle(c).value();
 
-		//Draw(chrTexture, rcChar, tintColor, 0.0f, flipMode, depth);
-
 		Draw(font->GetTexture(), rcChar, src, tintColor, rotation, flipMode, depth);
 
 		x += glyph.Advance >> 6;
 	}
 
-	//End();
+	End();
 	_state = oldState;
 	_sortingMode = oldSortMode;
 }

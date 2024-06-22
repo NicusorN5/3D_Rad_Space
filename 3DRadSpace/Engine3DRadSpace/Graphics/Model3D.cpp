@@ -328,7 +328,8 @@ Reflection::UUID Model3D::GetUUID() const noexcept
 
 const char* Model3D::FileExtension() const noexcept
 {
-	return  "Autodesk 3ds Max Model (*.3ds)\0*.3ds\0"
+	return  "All supported mesh files (*.3ds;*.3mf;*.dae;*.fbx;*.gltf;*.glb;*.obj;*.x)\0*.3ds;*.3mf;*.dae;*.fbx;*.gltf;*.glb;*.obj;*.x"
+			"Autodesk 3ds Max Model (*.3ds)\0*.3ds\0"
 			"3D Manufacturing Format(*.3mf)\0*.3mf\0"
 			"COLLADA Model (*.dae)\0*.dae\0"
 			"Filmbox (FBX) Mesh (*.fbx)\0*.fbx\0"

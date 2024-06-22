@@ -46,7 +46,7 @@ namespace Engine3DRadSpace
 		public:
 			VertexBuffer(
 				_In_ GraphicsDevice* device, 
-				_In_reads_bytes_(p_structSize * numVertices) const void* data, 
+				_In_reads_bytes_opt_(p_structSize * numVertices) const void* data,
 				size_t p_structSize,
 				size_t numVertices, 
 				BufferUsage usage = BufferUsage::ReadOnlyGPU_WriteOnlyCPU

@@ -45,13 +45,11 @@ class RenderWindow : public Engine3DRadSpace::Game
 	std::unique_ptr<BasicTextured> texturedShader;
 	std::unique_ptr<SamplerState> samplerState;
 
-	Texture2D* testTexture;
 	std::unique_ptr<PickingShader> _pickingShader;
 
 	bool _keyboardTest = false;
 
 	std::unique_ptr<Font> testFont;
-	std::unique_ptr<VertexBufferV<VertexPointUV>> fontBuff;
 public:
 	RenderWindow(HWND parent, HINSTANCE hInstance);
 
