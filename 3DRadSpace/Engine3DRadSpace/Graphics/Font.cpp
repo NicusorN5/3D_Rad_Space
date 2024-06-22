@@ -1,5 +1,4 @@
 #include "Font.hpp"
-
 #include "PixelFormat.hpp"
 #include "../Logging/Exception.hpp"
 #include "Texture2D.hpp"
@@ -49,47 +48,90 @@ Font::Font(GraphicsDevice* device, const std::filesystem::path& path, unsigned s
 		_supportedCharacters = defaultSupportedCharacters;
 	}
 
-	for(auto c : _supportedCharacters)
+	//Precomputate a font texture atlas size. Using a naive implementation.
+
+	//Initial allocated size.
+	unsigned atlasX = 256;
+	unsigned atlasY = 256;
+
+	unsigned currentX = 0;
+	unsigned currentY = 0;
+
+	unsigned boundaryY = 0;
+
+	bool finished = false;
+
+fontSizeComputation:
+	while (!finished)
 	{
-		if (FT_Load_Char(_font, c, FT_LOAD_RENDER) != 0)
-			continue;
-
-		auto width = _font->glyph->bitmap.width;
-		auto height = _font->glyph->bitmap.rows;
-		auto fontBitmapBuffer = _font->glyph->bitmap.buffer;
-
-		auto glyph = Glyph
+		for (auto c : _supportedCharacters)
 		{
-			.Character = c,
-			.Size = Point{static_cast<int>(width), static_cast<int>(height)},
-			.Bearing = Point{_font->glyph->bitmap_left, _font->glyph->bitmap_top},
-			.Advance = static_cast<unsigned>(_font->glyph->advance.x)
-		};
+			if (FT_Load_Char(_font, c, FT_LOAD_COMPUTE_METRICS))
+				continue;
 
-		//TODO: Use a font "megatexture" instead of one texture for each character for performance reasons.
-		[[likely]] if(fontBitmapBuffer != nullptr)
-		{
-			std::unique_ptr<Color[]> glyphBuffer = std::make_unique<Color[]>(size_t(width) * height);
+			auto w = _font->glyph->bitmap.width;
+			auto h = _font->glyph->bitmap.rows;
 
-			for (size_t j = 0; j < height; j++)
+			auto glyph = Glyph
 			{
-				for (size_t i = 0; i < width; i++)
+				.Character = c,
+				.Size = Point{static_cast<int>(w), static_cast<int>(h)},
+				.Bearing = Point{_font->glyph->bitmap_left, _font->glyph->bitmap_top},
+				.Advance = static_cast<unsigned>(_font->glyph->advance.x)
+			};
+
+			_glyphs.emplace_back(glyph, Math::Rectangle(currentX, currentY, w, h));
+
+			currentX += w;
+			boundaryY = std::max(boundaryY, h);
+
+			//move to new line
+			if (currentX >= atlasX)
+			{
+				currentX = 0;
+				currentY += boundaryY;
+
+				//if image size is exceeded, resize and then recalculate the atlas.
+				if (currentY >= atlasY)
 				{
-					auto p = (j * width) + i;
-					auto alpha = static_cast<float>(_font->glyph->bitmap.buffer[p]) / 255.0f;
-					glyphBuffer[p] = Color(alpha, alpha, alpha, alpha);
+					atlasX *= 2;
+					atlasY *= 2;
+
+					_glyphs.clear();
+					goto fontSizeComputation;
 				}
 			}
-			//TODO: Might want to change to R32, but it simply doesn't work.
-			_characters.emplace_back(glyph, std::make_unique<Texture2D>(_device, glyphBuffer.get(), width, height, PixelFormat::R32G32B32A32_Float));
 		}
-		else
+
+		atlasY = currentY + boundaryY;
+		finished = true;
+	}
+
+	std::unique_ptr<Color[]> fontAtlas = std::make_unique<Color[]>(atlasX * atlasY);
+
+	for(auto &[glyph, rc] : _glyphs)
+	{
+		if (FT_Load_Char(_font, glyph.Character, FT_LOAD_RENDER))
+			continue;
+
+		using std::ranges::views::iota;
+
+		for (auto x : iota(0, glyph.Size.X))
 		{
-			//create a transparent texture.
-			std::array<Color, 4> transparentColors = { 0 };
-			_characters.emplace_back(glyph, std::make_unique<Texture2D>(_device, transparentColors, 2, 2));
+			for (auto y : iota(0, glyph.Size.Y))
+			{
+				auto index1 = (atlasX * (y + rc.Y)) + x + rc.X;
+				auto index2 = (rc.Width * y) + x;
+
+				auto alpha = static_cast<float>(_font->glyph->bitmap.buffer[index2]) / 255.0f;
+				
+				fontAtlas[index1] = Color(alpha, alpha, alpha, alpha);
+			}
 		}
 	}
+
+	_texture = std::make_unique<Texture2D>(_device, static_cast<void*>(fontAtlas.get()), atlasX, atlasY, PixelFormat::R32G32B32A32_Float);
+
 	_valid = true;
 }
 
@@ -116,14 +158,9 @@ const std::string Font::SupportedCharacters() const noexcept
 	return _supportedCharacters;
 }
 
-Texture2D* Font::operator[](char chr) const noexcept
+Texture2D* Font::GetTexture() const noexcept
 {
-	for (auto& [glyph, ptr] : this->_characters)
-	{
-		if (glyph.Character == chr) 
- 			return ptr.get();
-	}
-	return nullptr;
+	return _texture.get();
 }
 
 Font::~Font()
@@ -137,10 +174,20 @@ Font::~Font()
 
 std::optional<Glyph> Font::GetCharGlyph(char chr) const noexcept
 {
-	for (auto& [glyph, ptr] : this->_characters)
+	for (auto& [glyph, _] : _glyphs)
 	{
 		if (glyph.Character == chr)
 			return std::make_optional<Glyph>(glyph);
+	}
+	return std::nullopt;
+}
+
+std::optional<Math::Rectangle> Engine3DRadSpace::Graphics::Font::GetCharSourceRectangle(char chr) const noexcept
+{
+	for (auto& [glyph, rectangle] : _glyphs)
+	{
+		if (glyph.Character == chr)
+			return std::make_optional<Math::Rectangle>(rectangle);
 	}
 	return std::nullopt;
 }

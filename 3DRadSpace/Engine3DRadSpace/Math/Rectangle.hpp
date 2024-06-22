@@ -20,6 +20,8 @@ namespace Engine3DRadSpace
 			Point BottomRight() const;
 			Point Center() const;
 
+			int Area() const noexcept;
+
 			bool operator ==(const Rectangle& r) const = default;
 			bool operator !=(const Rectangle& r) const = default;
 		};
@@ -38,6 +40,8 @@ namespace Engine3DRadSpace
 			Vector2 BottomLeft() const;
 			Vector2 BottomRight() const;
 			Vector2 Center() const;
+
+			float Area() const noexcept;
 
 			bool operator ==(const RectangleF& r) const = default;
 			bool operator !=(const RectangleF& r) const = default;

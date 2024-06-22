@@ -4,6 +4,13 @@ using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Graphics::Shaders;
 
+static inline std::array<InputLayoutElement, 3> sprite_elements =
+{
+	InputLayoutElement::Position_Vec2,
+	InputLayoutElement::TextureCoordinate2D,
+	InputLayoutElement::Color
+};
+
 SpriteShader::VertexShader::VertexShader(GraphicsDevice *device) :
 	IVertexShader(device, sprite_elements, std::filesystem::path("Data\\Shaders\\Sprite.hlsl"), "VS_Main")
 {
@@ -21,14 +28,6 @@ SpriteShader::PixelShader::PixelShader(GraphicsDevice *device) : IPixelShader(de
 SpriteShader::SpriteShader(GraphicsDevice *device) :
 	Effect(device, new VertexShader(device), new PixelShader(device))
 {
-	Data default_data = {Colors::White, false, false};
-	SetData(default_data);
-}
-
-void SpriteShader::SetData(const Data &d)
-{
-	_vertex->SetData(0, &d, sizeof(Data));
-	_pixel->SetData(0, &d, sizeof(Data));
 }
 
 void SpriteShader::SetTexture(Texture2D *texture)

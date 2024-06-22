@@ -69,11 +69,12 @@ void VertexBuffer::SetData(void *data, size_t size)
 {
 #ifdef USING_DX11
 	D3D11_MAPPED_SUBRESOURCE res{};
-	res.pData = data;
-	res.DepthPitch = (UINT)(size);
 
-	HRESULT r = _device->_context->Map(_buffer.Get(), 0, D3D11_MAP_READ_WRITE, 0, &res);
+	HRESULT r = _device->_context->Map(_buffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &res);
 	if (FAILED(r)) throw Exception("Failed to write a vertex buffer!");
+
+	memset(res.pData, 0, _numVerts * _structSize);
+	memcpy_s(res.pData, _numVerts * _structSize, data, _numVerts * _structSize);
 	
 	_device->_context->Unmap(_buffer.Get(), 0);
 #endif

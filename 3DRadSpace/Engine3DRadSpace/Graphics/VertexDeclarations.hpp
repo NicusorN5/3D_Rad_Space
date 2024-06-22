@@ -85,6 +85,13 @@ namespace Engine3DRadSpace::Graphics
 		Math::Vector2 UV;
 	};
 
+	struct VertexPointUVColor
+	{
+		Math::Vector2 Position;
+		Math::Vector2 UV;
+		Color Color;
+	};
+
 	template <typename V>
 	concept VertexDecl = requires(V v)
 	{

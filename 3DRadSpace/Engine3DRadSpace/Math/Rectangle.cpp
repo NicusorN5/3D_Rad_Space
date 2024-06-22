@@ -28,6 +28,11 @@ Point Rectangle::Center() const
     return Point((X + Width) / 2, (Y + Height) / 2);
 }
 
+int Rectangle::Area() const noexcept
+{
+    return Width * Height;
+}
+
 
 // ------------------------------------------------------------------------------ //
 
@@ -56,4 +61,9 @@ Vector2 RectangleF::BottomRight() const
 Vector2 RectangleF::Center() const
 {
     return Vector2((X + Width) / 2.0f, (Y + Height) / 2.0f);
+}
+
+float RectangleF::Area() const noexcept
+{
+    return Width * Height;
 }

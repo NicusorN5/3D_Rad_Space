@@ -1,6 +1,7 @@
 #pragma once
 #include "Texture2D.hpp"
 #include "VertexBuffer.hpp"
+#include "IndexBuffer.hpp"
 #include "Shaders/SpriteShader.hpp"
 #include "DepthStencilState.hpp"
 #include "FlipMode.hpp"
@@ -41,8 +42,9 @@ namespace Engine3DRadSpace::Graphics
 
 		std::unique_ptr<Shaders::SpriteShader> _spriteShader;
 
-		std::unique_ptr<VertexBufferV<VertexPointUV>> _vertexBuffer;
-		size_t _vertexCapacity = 1024;
+		std::unique_ptr<VertexBufferV<VertexPointUVColor>> _vertexBuffer;
+		std::unique_ptr<IndexBuffer> _indexBuffer;
+		size_t _capacity = 256;
 
 		struct spriteBatchEntry
 		{
@@ -63,20 +65,34 @@ namespace Engine3DRadSpace::Graphics
 
 		std::multiset<spriteBatchEntry> _entries;
 
-		std::unordered_map<unsigned, Texture2D *> _textures;
+		std::vector<Texture2D*> _textures;
 
-		static std::array<VertexPointUV,6> _createQuad(const Math::RectangleF &r, bool flipU = false, bool flipV = false);
-		static std::array<VertexPointUV, 6> _createQuad(const Math::Vector2& a, const Math::Vector2& b, const Math::Vector2& c, const Math::Vector2& d, bool flipU, bool flipV,
-														const Math::RectangleF uvRect = Math::RectangleF(0.0f,0.0f,1.0f,1.0f));
-		void _setEntry(const spriteBatchEntry &entry);
+		static std::array<VertexPointUVColor, 4> _createQuad(
+			const Math::RectangleF &r,
+			bool flipU = false,
+			bool flipV = false,
+			const Color &tintColor = Colors::White
+		);
+		
+		static std::array<VertexPointUVColor, 4> _createQuad(
+			const Math::Vector2& a,
+			const Math::Vector2& b,
+			const Math::Vector2& c,
+			const Math::Vector2& d,
+			bool flipU,
+			bool flipV,
+			const Color &tintColor = Colors::White, 
+			const Math::RectangleF uvRect = Math::RectangleF(0.0f,0.0f,1.0f,1.0f)
+		);
+		
+		static std::array<unsigned, 6> _createIndexQuad(unsigned offset);
+		
 		void _prepareGraphicsDevice();
 
 		void _drawEntry(const spriteBatchEntry& entry);
 		void _drawAllEntries_SortByTexture();
 		void _drawAllEntries();
 		void _restoreGraphicsDevice();
-
-		unsigned _lastID;
 
 #ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11RasterizerState> _oldRasterizerState;
@@ -102,7 +118,7 @@ namespace Engine3DRadSpace::Graphics
 		SpriteBatch& operator=(SpriteBatch &&) noexcept = default;
 
 		void Begin(SpriteBatchSortMode sortingMode = SpriteBatchSortMode::Immediate);
-		void Begin(SpriteBatchSortMode sortingMode, SamplerState samplerState);
+		void Begin(SpriteBatchSortMode sortingMode, SamplerState &&samplerState);
 		
 		void DrawNormalized(Texture2D* texture, const Math::RectangleF& coords, const Math::RectangleF& source = Math::RectangleF(0.0f, 0.0f, 1.0f, 1.0f), Color tintColor = Colors::White, float rotation = 0.0f, FlipMode flipMode = FlipMode::None, float depth = 0);
 		void DrawNormalized(Texture2D* texture, const Math::RectangleF& coords, const Math::Rectangle source, Color tintColor = Colors::White, float rotation = 0.0f, FlipMode flipMode = FlipMode::None, float depth = 0);

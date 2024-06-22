@@ -32,7 +32,8 @@ namespace Engine3DRadSpace::Graphics
 
 		static FontManager _manager;
 	
-		std::vector<std::pair<Glyph, std::unique_ptr<Texture2D>>> _characters;
+		std::vector<std::pair<Glyph, Math::Rectangle>> _glyphs;
+		std::unique_ptr<Texture2D> _texture;
 		unsigned _size;
 
 		Font(Internal::AssetUUIDReader dummy);
@@ -49,10 +50,10 @@ namespace Engine3DRadSpace::Graphics
 		unsigned Size() const noexcept;
 		const std::string SupportedCharacters() const noexcept;
 
-		[[deprecated("To be removed when font megatextures are used.")]]
-		Texture2D* operator[](char chr) const noexcept;
+		Texture2D* GetTexture() const noexcept;
 
 		std::optional<Glyph> GetCharGlyph(char chr) const noexcept;
+		std::optional<Math::Rectangle> GetCharSourceRectangle(char chr) const noexcept;
 
 		Reflection::UUID GetUUID() const noexcept override;
 		const char* FileExtension() const noexcept override;

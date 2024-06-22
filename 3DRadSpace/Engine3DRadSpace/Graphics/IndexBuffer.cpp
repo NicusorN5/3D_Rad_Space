@@ -23,9 +23,10 @@ IndexBuffer::IndexBuffer(GraphicsDevice* device,std::span<unsigned> indices):
 #ifdef USING_DX11
 	D3D11_BUFFER_DESC desc{};
 	desc.ByteWidth = UINT(indices.size() * sizeof(unsigned));
-	desc.Usage = D3D11_USAGE_DEFAULT;
+	desc.Usage = D3D11_USAGE_DYNAMIC;
 	desc.BindFlags = D3D11_BIND_INDEX_BUFFER;
 	desc.StructureByteStride = sizeof(unsigned);
+	desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
 	D3D11_SUBRESOURCE_DATA data{};
 	data.pSysMem = &indices[0];
@@ -44,14 +45,15 @@ IndexBuffer::IndexBuffer(GraphicsDevice* device, unsigned* indices, size_t numin
 #ifdef USING_DX11
 	D3D11_BUFFER_DESC desc{};
 	desc.ByteWidth = UINT(numindices * sizeof(unsigned));
-	desc.Usage = D3D11_USAGE_DEFAULT;
+	desc.Usage = D3D11_USAGE_DYNAMIC;
 	desc.BindFlags = D3D11_BIND_INDEX_BUFFER;
 	desc.StructureByteStride = sizeof(unsigned);
+	desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
 	D3D11_SUBRESOURCE_DATA data{};
 	data.pSysMem = indices;
 
-	HRESULT r = device->_device->CreateBuffer(&desc, &data, &_indexBuffer);
+	HRESULT r = device->_device->CreateBuffer(&desc, indices != nullptr ? &data : nullptr, &_indexBuffer);
 	if (FAILED(r)) throw Exception("Failed to create a index buffer!");
 #endif
 	_debugInfo();
@@ -61,8 +63,10 @@ void IndexBuffer::SetData(std::span<unsigned> newindices)
 {
 #ifdef USING_DX11
 	D3D11_MAPPED_SUBRESOURCE mappedBuff{};
-	HRESULT r = _device->_context->Map(_indexBuffer.Get(), 0, D3D11_MAP_WRITE, 0, &mappedBuff);
+	HRESULT r = _device->_context->Map(_indexBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedBuff);
 	if (FAILED(r)) throw Exception("Failed to map a index buffer!");
+
+	memset(mappedBuff.pData, 0, _numIndices * sizeof(unsigned));
 	memcpy(mappedBuff.pData, &newindices[0], newindices.size_bytes());
 	_device->_context->Unmap(_indexBuffer.Get(), 0);
 #endif

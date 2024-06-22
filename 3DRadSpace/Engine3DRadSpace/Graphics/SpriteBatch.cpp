@@ -9,7 +9,7 @@ using namespace Engine3DRadSpace::Math;
 
 constexpr Math::RectangleF _fullDefaultUV(0.0f, 0.0f, 1.0f, 1.0f);
 
-std::array<VertexPointUV,6> SpriteBatch::_createQuad(const RectangleF &r, bool flipU, bool flipV)
+std::array<VertexPointUVColor,4> SpriteBatch::_createQuad(const RectangleF &r, bool flipU, bool flipV, const Color &tintColor)
 {
 /*
 	B -- C
@@ -22,50 +22,68 @@ std::array<VertexPointUV,6> SpriteBatch::_createQuad(const RectangleF &r, bool f
 	C -> D -> A
 */
 	Vector2 a = r.BottomLeft();
-	//a = Vector2::ConvertFromNormalizedScreenSpaceToClipSpace(a);
-
 	Vector2 b = r.TopLeft();
-	//b = Vector2::ConvertFromNormalizedScreenSpaceToClipSpace(b);
-
 	Vector2 c = r.TopRight();
-	//c = Vector2::ConvertFromNormalizedScreenSpaceToClipSpace(c);
-
 	Vector2 d = r.BottomRight();
-	//d = Vector2::ConvertFromNormalizedScreenSpaceToClipSpace(d);
 
-	return _createQuad(a, b, c, d, flipU, flipV);
+	return _createQuad(a, b, c, d, flipU, flipV, tintColor);
 }
 
-std::array<VertexPointUV, 6> SpriteBatch::_createQuad(const Math::Vector2& a, const Math::Vector2& b, const Math::Vector2& c, const Math::Vector2& d, bool flipU, bool flipV, const Math::RectangleF uvRect)
+std::array<VertexPointUVColor, 4> SpriteBatch::_createQuad(const Math::Vector2& a, const Math::Vector2& b, const Math::Vector2& c, const Math::Vector2& d, bool flipU, bool flipV,const Color &tintColor, const Math::RectangleF uvRect)
 {
 	Vector2 uv_a = uvRect.BottomLeft();
 	Vector2 uv_b = uvRect.TopLeft();
 	Vector2 uv_c = uvRect.TopRight();
 	Vector2 uv_d = uvRect.BottomRight();
 
+	if (flipU)
+	{
+		auto flipX = [](Vector2& uv)
+		{
+			uv.X = 1 - uv.X;
+		};
+
+		flipX(uv_a);
+		flipX(uv_b);
+		flipX(uv_c);
+		flipX(uv_d);
+	}
+
+	if (flipV)
+	{
+		auto flipY = [](Vector2& uv)
+		{
+			uv.Y = 1 - uv.Y;
+		};
+
+		flipY(uv_a);
+		flipY(uv_b);
+		flipY(uv_c);
+		flipY(uv_d);
+	}
+
 	std::array quad =
 	{
-		VertexPointUV{Vector2::ConvertFromNormalizedScreenSpaceToClipSpace(a), uv_a},
-		VertexPointUV{Vector2::ConvertFromNormalizedScreenSpaceToClipSpace(b), uv_b},
-		VertexPointUV{Vector2::ConvertFromNormalizedScreenSpaceToClipSpace(c), uv_c},
-
-		VertexPointUV{Vector2::ConvertFromNormalizedScreenSpaceToClipSpace(c), uv_c},
-		VertexPointUV{Vector2::ConvertFromNormalizedScreenSpaceToClipSpace(d), uv_d},
-		VertexPointUV{Vector2::ConvertFromNormalizedScreenSpaceToClipSpace(a), uv_a}
+		VertexPointUVColor{Vector2::ConvertFromNormalizedScreenSpaceToClipSpace(a), uv_a, tintColor},
+		VertexPointUVColor{Vector2::ConvertFromNormalizedScreenSpaceToClipSpace(b), uv_b, tintColor},
+		VertexPointUVColor{Vector2::ConvertFromNormalizedScreenSpaceToClipSpace(c), uv_c, tintColor},
+		VertexPointUVColor{Vector2::ConvertFromNormalizedScreenSpaceToClipSpace(d), uv_d, tintColor},
 	};
 
 	return quad;
 }
 
-void SpriteBatch::_setEntry(const spriteBatchEntry &entry)
+std::array<unsigned, 6> SpriteBatch::_createIndexQuad(unsigned offset)
 {
-	SpriteShader::Data data;
-	data.FlipU = entry.flipU;
-	data.FlipV = entry.flipV;
-	data.TintColor = entry.tintColor;
+	return std::array<unsigned, 6>{
+		offset, // A
+		offset + 1, // B
+		offset + 2, // C
 
-	_spriteShader->SetData(data);
-	_spriteShader->SetTexture(_textures[entry.textureID]);
+		offset + 2, //C
+		offset + 3, //D
+		offset //A
+	};
 }
 
 void SpriteBatch::_prepareGraphicsDevice()
@@ -106,13 +124,17 @@ void SpriteBatch::_drawEntry(const spriteBatchEntry &entry)
 	c.Transform(rotation).Transform(Matrix3x3::CreateTranslation(center));
 	d.Transform(rotation).Transform(Matrix3x3::CreateTranslation(center));
 
-	auto quad = _createQuad( a, b, c, d, entry.flipU, entry.flipV, entry.uvSource);
-	
+	auto quad = _createQuad( a, b, c, d, entry.flipU, entry.flipV, entry.tintColor, entry.uvSource);
 	_vertexBuffer->SetData(quad);
 
+	auto indices = _createIndexQuad(0);
+	_indexBuffer->SetData(indices);
+
 	_prepareGraphicsDevice();
-	_setEntry(entry);
-	_vertexBuffer->Draw();
+
+	_spriteShader->SetTexture(_textures[entry.textureID]);
+
+	_device->DrawVertexBufferWithindices(_vertexBuffer.get(), _indexBuffer.get());
 	_restoreGraphicsDevice();
 }
 
@@ -120,43 +142,46 @@ void SpriteBatch::_drawAllEntries_SortByTexture()
 {
 	unsigned lastID = 1;
 
-	std::vector<VertexPointUV> currentVertices;
+	std::vector<VertexPointUVColor> currentVertices;
+	std::vector<unsigned> currentIndices;
 	_prepareGraphicsDevice();
+
+	unsigned i = 0;
 	for(auto &entry : _entries)
 	{
 		if(entry.textureID == lastID)
 		{
 			auto& [min, max] = entry.coords;
-			auto quad = _createQuad(min.X, min.Y, max.X, max.Y, entry.flipU, entry.flipV);
+			auto quad = _createQuad(min.X, min.Y, max.X, max.Y, entry.flipU, entry.flipV, entry.tintColor);
 			currentVertices.insert(currentVertices.end(), quad.begin(), quad.end());
+
+			auto indices = _createIndexQuad(i);
+			currentIndices.insert(currentIndices.end(), indices.begin(), indices.end());
+			i += 4;
 		}
 		else
 		{
-			bool reallocationNeeded = false;
-			if (currentVertices.size() > this->_vertexCapacity)
+			if (currentVertices.size() > _capacity * 4) //if capacity is exceeded, reallocate:
 			{
-				reallocationNeeded = true;
+				_capacity *= 2; //growth factor
 
-				while (currentVertices.size() > this->_vertexCapacity)
-				{
-					this->_vertexCapacity *= 2; //growth factor
-				}
+				_vertexBuffer = std::make_unique<VertexBufferV<VertexPointUVColor>>(_device, nullptr, _capacity * 4);
+				_indexBuffer = std::make_unique<IndexBuffer>(_device, nullptr, _capacity * 6);
 			}
-			
-			if (reallocationNeeded)
-			{
-				_vertexBuffer = std::make_unique<VertexBufferV<VertexPointUV>>(_device, nullptr, _vertexCapacity);
-			}
+
+			_spriteShader->SetTexture(_textures[entry.textureID]);
 
 			_vertexBuffer->SetData(currentVertices);
-			_vertexBuffer->Draw(0);
+			_indexBuffer->SetData(currentIndices);
+			_device->DrawVertexBufferWithindices(_vertexBuffer.get(), _indexBuffer.get());
 
 			currentVertices.clear();
 		}
 	}
 
 	_vertexBuffer->SetData(currentVertices);
-	_vertexBuffer->Draw(0);
+	_indexBuffer->SetData(currentIndices);
+	_device->DrawVertexBufferWithindices(_vertexBuffer.get(), _indexBuffer.get());
 
 	_restoreGraphicsDevice();
 }
@@ -185,42 +210,42 @@ SpriteBatch::SpriteBatch(GraphicsDevice *device) :
 	_device(device),
 	_sortingMode(SpriteBatchSortMode::Immediate),
 	_state(Immediate),
-	_lastID(1),
 	_oldBlendFactor{},
 	_oldSampleMask(0),
 	_oldStencilRef(0)
 {
 	_spriteShader = std::make_unique<SpriteShader>(device);
-	_vertexBuffer = std::make_unique<VertexBufferV<VertexPointUV>>(device, nullptr, 1024);
+	// 256 quads: 1024 vertices and 1536 indices
+	_vertexBuffer = std::make_unique<VertexBufferV<VertexPointUVColor>>(device, nullptr, _capacity * 4);
+	_indexBuffer = std::make_unique<IndexBuffer>(device, nullptr, _capacity * 6);
 
 	_rasterizerState = std::make_unique<RasterizerState>(device, RasterizerFillMode::Solid);
 	_samplerState = std::make_unique<SamplerState>(SamplerState::PointWrap(device));
 	_depthBufferState = std::make_unique<DepthStencilState>(DepthStencilState::DepthNone(device));
 	_blendState = std::make_unique<BlendState>(BlendState::AlphaBlend(device));
+
+	_textures.push_back(nullptr);
 }
 
 void SpriteBatch::Begin(SpriteBatchSortMode sortingMode)
 {
 	if(sortingMode == SpriteBatchSortMode::Immediate)
 	{
-		if(_state == BeginCalled) throw std::logic_error("Begin() was already called with the sorting mode set by texture!");
-
 		_state = Immediate;
-		return;
 	}
-	else if(sortingMode == SpriteBatchSortMode::SortedByTexture)
+	else
 	{
-		if(_state == Immediate) return;
-		if(_state == EndCalled)
+		if(_state == EndCalled || _state == Immediate)
 		{
 			_state = BeginCalled;
-			return;
 		}
 		else throw std::logic_error("Begin() was called when the sprite batch was waiting for entries.");
 	}
+
+	_sortingMode = sortingMode;
 }
 
-void SpriteBatch::Begin(SpriteBatchSortMode sortingMode, SamplerState samplerState)
+void SpriteBatch::Begin(SpriteBatchSortMode sortingMode, SamplerState &&samplerState)
 {
 	_samplerState = std::make_unique<SamplerState>(std::move(samplerState));
 	Begin(sortingMode);
@@ -235,10 +260,10 @@ void SpriteBatch::DrawNormalized(Texture2D* texture, const Math::RectangleF& coo
 
 	if (_state == Immediate)
 	{
-		_textures[1] = texture;
+		_textures[0] = texture;
 		spriteBatchEntry tempEntry
 		{
-			.textureID = 1u,
+			.textureID = 0u,
 			.coords = std::make_pair(min, max),
 			.uvSource = source,
 			.tintColor = tintColor,
@@ -250,14 +275,35 @@ void SpriteBatch::DrawNormalized(Texture2D* texture, const Math::RectangleF& coo
 		};
 
 		_drawEntry(tempEntry);
-		_textures.clear();
 	}
-	else if (_state == BeginCalled)
+	
+	if (_state == BeginCalled)
 	{
+		bool textureExists = false;
+		unsigned int index = 0;
+
+		//find texture id:
+		for (int i = 0; i < _textures.size(); ++i)
+		{
+			if (_textures[i] == texture)
+			{
+				textureExists = true;
+				index = i;
+				break;
+			}
+		}
+
+		//add new texture handle if it doesn't exist:
+		if (!textureExists)
+		{
+			_textures.push_back(texture);
+			index = _textures.size() - 1;
+		}
+
 		_entries.insert(
 			spriteBatchEntry
 			{
-				.textureID = _lastID,
+				.textureID = index,
 				.coords = std::make_pair(min, max),
 				.uvSource = source,
 				.tintColor = tintColor,
@@ -320,6 +366,8 @@ void SpriteBatch::DrawString(Font* font, const std::string& text, const Vector2&
 {
 	if (font == nullptr) return;
 
+	auto oldState = _state;
+	auto oldSortMode = _sortingMode;
 	auto screenSize = _device->Resolution();
 
 	//accLen = 0 at i = 0.
@@ -327,33 +375,37 @@ void SpriteBatch::DrawString(Font* font, const std::string& text, const Vector2&
 	int x = static_cast<int>(pos.X * screenSize.X);
 	int y = static_cast<int>(pos.Y * screenSize.Y);
 
+	//End();
+	//Begin(SpriteBatchSortMode::SortedByTexture);
+
 	for (auto&& c : text)
 	{
-		//TODO: Switch to a font megatexture.
-#pragma warning(push)
-#pragma warning(disable : 4996)
-		auto chrTexture = font->operator[](c);
-		if (chrTexture != nullptr)
-		{
-			auto glyph = font->GetCharGlyph(c).value();
+		if (!font->GetCharGlyph(c).has_value()) continue;
 
-			Math::Rectangle rcChar;
-			// https://learnopengl.com/In-Practice/Text-Rendering
-			rcChar.X = x + glyph.Bearing.X * size;
-			//rcChar.Y = y - (glyph.Size.Y - glyph.Bearing.Y) * size;
-			rcChar.Y = y - (glyph.Bearing.Y * size);
-			rcChar.Width = glyph.Size.X * size;
-			rcChar.Height = glyph.Size.Y * size;
-			                
-			Draw(chrTexture, rcChar, tintColor, 0.0f, flipMode, depth);
+		auto glyph = font->GetCharGlyph(c).value();
 
-			x += glyph.Advance >> 6;
-		}
-#pragma warning(pop)
+		Math::Rectangle rcChar;
+		// https://learnopengl.com/In-Practice/Text-Rendering
+		rcChar.X = x + glyph.Bearing.X * size;
+		rcChar.Y = y - (glyph.Bearing.Y * size);
+		rcChar.Width = glyph.Size.X * size;
+		rcChar.Height = glyph.Size.Y * size;
+
+		auto src = font->GetCharSourceRectangle(c).value();
+
+		//Draw(chrTexture, rcChar, tintColor, 0.0f, flipMode, depth);
+
+		Draw(font->GetTexture(), rcChar, src, tintColor, rotation, flipMode, depth);
+
+		x += glyph.Advance >> 6;
 	}
+
+	//End();
+	_state = oldState;
+	_sortingMode = oldSortMode;
 }
 
-void Engine3DRadSpace::Graphics::SpriteBatch::DrawString(Font* font, const std::string& text, const Math::Point& pos, float size, Color tintColor, float rotation, FlipMode flipMode, float depth)
+void SpriteBatch::DrawString(Font* font, const std::string& text, const Math::Point& pos, float size, Color tintColor, float rotation, FlipMode flipMode, float depth)
 {
 	auto screenSize = _device->Resolution();
 	Vector2 p(
@@ -378,8 +430,10 @@ void SpriteBatch::End()
 		else _drawAllEntries();
 
 		_state = EndCalled;
-		_lastID = 1;
 		_textures.clear();
+		_textures.push_back(nullptr);
+
+		_entries.clear();
 	}
 }
 
