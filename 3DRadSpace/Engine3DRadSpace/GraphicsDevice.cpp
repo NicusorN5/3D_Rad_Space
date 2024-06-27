@@ -181,6 +181,17 @@ void GraphicsDevice::DrawVertexBufferWithindices(VertexBuffer* vertexBuffer, Ind
 #endif
 }
 
+void GraphicsDevice::DrawVertexBufferWithindices(VertexBuffer* vertexBuffer, IndexBuffer* indexBuffer, unsigned numIndices)
+{
+#ifdef USING_DX11
+	UINT strides = UINT(vertexBuffer->_structSize);
+	UINT offsets = 0;
+	_context->IASetIndexBuffer(indexBuffer->_indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
+	_context->IASetVertexBuffers(0, 1, vertexBuffer->_buffer.GetAddressOf(), &strides, &offsets);
+	_context->DrawIndexed(numIndices, 0u, 0u);
+#endif
+}
+
 void GraphicsDevice::Present()
 {
 #ifdef USING_DX11

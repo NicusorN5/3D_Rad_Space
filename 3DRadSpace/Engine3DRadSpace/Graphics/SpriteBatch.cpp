@@ -146,6 +146,13 @@ void SpriteBatch::_drawAllEntries_SortByTexture()
 	std::vector<unsigned> currentIndices;
 	_prepareGraphicsDevice();
 
+	auto draw = [&]()
+	{
+		_vertexBuffer->SetData(currentVertices);
+		_indexBuffer->SetData(currentIndices);
+		_device->DrawVertexBufferWithindices(_vertexBuffer.get(), _indexBuffer.get());
+	};
+
 	unsigned i = 0;
 	for(auto &entry : _entries)
 	{
@@ -170,18 +177,14 @@ void SpriteBatch::_drawAllEntries_SortByTexture()
 			}
 
 			_spriteShader->SetTexture(_textures[entry.textureID]);
-			_vertexBuffer->SetData(currentVertices);
-			_indexBuffer->SetData(currentIndices);
-			_device->DrawVertexBufferWithindices(_vertexBuffer.get(), _indexBuffer.get());
+			draw();
 
 			currentVertices.clear();
 		}
 	}
 
 	_spriteShader->SetTexture(_textures[lastID]);
-	_vertexBuffer->SetData(currentVertices);
-	_indexBuffer->SetData(currentIndices);
-	_device->DrawVertexBufferWithindices(_vertexBuffer.get(), _indexBuffer.get());
+	draw();
 
 	_restoreGraphicsDevice();
 }

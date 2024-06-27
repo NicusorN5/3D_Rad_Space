@@ -52,10 +52,12 @@ namespace Engine3DRadSpace
 
 		GraphicsDevice() = delete;
 		explicit GraphicsDevice(void* nativeWindowHandle, unsigned width = 800, unsigned height = 600);
-		
+
 		GraphicsDevice(GraphicsDevice&) = delete;
 		GraphicsDevice(GraphicsDevice&&) = delete;
-		GraphicsDevice& operator=(GraphicsDevice&) = delete;
+
+		GraphicsDevice& operator=(const GraphicsDevice&) = delete;
+		GraphicsDevice& operator=(GraphicsDevice&&) = delete;
 
 		void Clear(const Color& clearColor = { 0.0f,0.0f,0.0f,1.0f });
 
@@ -65,32 +67,33 @@ namespace Engine3DRadSpace
 		void SetViewports(std::span<Viewport> viewports);
 		Viewport GetViewport();
 
-		void SetRenderTarget(Graphics::RenderTarget *remderTarget);
-		void SetRenderTargetAndDepth(Graphics::RenderTarget *renderTarget, Graphics::DepthStencilBuffer *depthBuffer);
+		void SetRenderTarget(Graphics::RenderTarget* remderTarget);
+		void SetRenderTargetAndDepth(Graphics::RenderTarget* renderTarget, Graphics::DepthStencilBuffer* depthBuffer);
 
 		void DrawVertexBuffer(Graphics::VertexBuffer* vertexBuffer, unsigned startSlot = 0);
 		void DrawVertexBufferWithindices(Graphics::VertexBuffer* vertexBuffer, Graphics::IndexBuffer* indexBuffer);
+		void DrawVertexBufferWithindices(Graphics::VertexBuffer* vertexBuffer, Graphics::IndexBuffer* indexBuffer, unsigned numIndices);
 
-		void SetShader(Graphics::IShader *shader);
+		void SetShader(Graphics::IShader* shader);
 
-		void SetRasterizerState(const Graphics::RasterizerState *state);
+		void SetRasterizerState(const Graphics::RasterizerState* state);
 
-		void SetDepthStencilBuffer(Graphics::DepthStencilBuffer *depthBuffer);
-		void SetDepthStencilState(Graphics::DepthStencilState *depthState, unsigned ref);
+		void SetDepthStencilBuffer(Graphics::DepthStencilBuffer* depthBuffer);
+		void SetDepthStencilState(Graphics::DepthStencilState* depthState, unsigned ref);
 
-		void SetBlendState(Graphics::BlendState *blendState, const Color &blendFactor = Colors::Black, unsigned sampleMask = 0xFFFFFFFF);
+		void SetBlendState(Graphics::BlendState* blendState, const Color& blendFactor = Colors::Black, unsigned sampleMask = 0xFFFFFFFF);
 
 		void SetTopology(Graphics::VertexTopology topology);
 		void DrawAuto();
 		void Present();
-		
+
 		void SaveBackBufferToFile(const std::filesystem::path& path);
 
 		bool EnableVSync;
 
 		Math::Point Resolution() const noexcept;
 
-		void ResizeBackBuffer(const Math::Point &newResolution);
+		void ResizeBackBuffer(const Math::Point& newResolution);
 		void ToggleFullScreen();
 
 		~GraphicsDevice();

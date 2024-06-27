@@ -13,6 +13,15 @@ endif()
 if(MSVC)
 	#Disable warning 4251 : 'type' : class 'type1' needs to have dll-interface to be used by clients of class 'type2'
 	target_compile_options(3DRadSpace PRIVATE "/wd4251")
+	#Fix C4530
+	target_compile_options(3DRadSpace PRIVATE "/EHsc")
+	# Create separate pdb debug info files
+	target_compile_options(3DRadSpace PRIVATE "/Zi")
+
+	#MSVC doesn't define NDEBUG itself, dirty hack.
+	if (CMAKE_BUILD_TYPE STREQUAL "Release" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
+		target_compile_definitions(3DRadSpace PUBLIC NDEBUG 1)
+	endif()
 endif()
 
 if(WIN32)

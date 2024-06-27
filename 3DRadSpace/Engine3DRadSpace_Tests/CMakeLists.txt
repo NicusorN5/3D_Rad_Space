@@ -14,6 +14,18 @@ elseif(LINUX)
 	target_compile_definitions(3DRadSpace-tests PRIVATE USING_VULKAN=1)
 endif()
 
+if(MSVC)
+	#Fix C4530
+	target_compile_options(3DRadSpace-tests PRIVATE "/EHsc")
+	# Create separate pdb debug info files
+	target_compile_options(3DRadSpace-tests PRIVATE "/Zi")
+
+	#MSVC doesn't define NDEBUG itself, dirty hack.
+	if (CMAKE_BUILD_TYPE STREQUAL "Release" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
+		target_compile_definitions(3DRadSpace-editor PUBLIC NDEBUG 1)
+	endif()
+endif()
+
 #Link 3DRadSpace
 target_link_libraries(3DRadSpace-tests PRIVATE 3DRadSpace)
 target_include_directories(3DRadSpace-tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)
