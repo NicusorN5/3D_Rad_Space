@@ -63,8 +63,3 @@
 #else
 #define DLLEXPORT
 #endif
-
-//Check compiler support
-#ifndef __cplusplus
-#error A C++ 23 supporting compiler is required!
-#endif

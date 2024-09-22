@@ -16,8 +16,6 @@ namespace Engine3DRadSpace
 		constexpr Color& operator *=(const Color& c) noexcept;
 
 		constexpr float operator[](int i) const;
-
-		constexpr auto operator<=>(const Color& c) const noexcept = default;
 	};
 	namespace Colors
 	{
@@ -31,5 +29,6 @@ namespace Engine3DRadSpace
 		constexpr Color Yellow = { 1.0f, 1.0f, 0.0f, 1.0f };
 		constexpr Color Pink = { 1.0f, 0.0f, 1.0f, 1.0f };
 		constexpr Color Cyan = { 0.0f, 1.0f, 1.0f, 1.0f };
+		//TODO: Add more colors.
 	};
 }

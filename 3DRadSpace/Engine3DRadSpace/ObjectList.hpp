@@ -27,6 +27,9 @@ namespace Engine3DRadSpace
 
 			ObjectInstance(IObject* obj);
 
+			ObjectInstance(const ObjectInstance& copy) = delete;
+			ObjectInstance(ObjectInstance&&) = default;
+
 			template<GameObject O>
 			ObjectInstance(std::unique_ptr<O>&& obj);
 
@@ -35,16 +38,19 @@ namespace Engine3DRadSpace
 
 			template<>
 			ObjectInstance(std::unique_ptr<IObject> &&obj);
+
+			ObjectInstance& operator=(const ObjectInstance&) = delete;
+			ObjectInstance& operator=(ObjectInstance&&) noexcept = default;
 		};
 	private:
 		std::vector<ObjectInstance> _objects;
 		Game* _game;
 	public:
 		ObjectList(Game* owner);
-		ObjectList(ObjectList&) = delete;
+		ObjectList(const ObjectList&) = delete;
 		ObjectList(ObjectList&&) noexcept = default;
 
-		ObjectList& operator=(ObjectList&) = delete;
+		ObjectList& operator=(const ObjectList&) = delete;
 		ObjectList& operator=(ObjectList&&) noexcept = default;
 
 		template<GameObject O, typename ...Params>
@@ -73,9 +79,9 @@ namespace Engine3DRadSpace
 
 		void RemoveIf(std::function<bool(IObject*)> f);
 
-		void Replace(IObject* obj, unsigned id);
+		void Replace(IObject* obj, unsigned id) noexcept;
 
-		void Clear();
+		void Clear() noexcept;
 
 		IObject* operator[](size_t i) const;
 		size_t Count() const noexcept;

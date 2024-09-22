@@ -10,5 +10,9 @@ namespace Engine3DRadSpace::Audio
 		Sound(AudioEngine* audio, const std::filesystem::path& path);
 
 		Sound(const Sound&) = delete;
+		Sound(Sound&&) = default;
+
+		Sound& operator=(const Sound&) = delete;
+		Sound& operator=(Sound&&) = default;
 	};
 }

@@ -22,7 +22,7 @@ namespace Engine3DRadSpace::Audio
 		std::vector<std::string> ListAudioDevices() const noexcept;
 
 		void SetListener(const Math::Vector3& vector);
-		void CreateAudioSource(AudioSource& source);
+		void CreateAudioSource(const AudioSource& source);
 
 		~AudioEngine();
 

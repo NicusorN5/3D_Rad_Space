@@ -51,7 +51,9 @@ namespace Engine3DRadSpace
 
 		~Window();
 
+#ifdef _WIN32
 		friend LRESULT DLLEXPORT CALLBACK GameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+#endif
 	};
 }
 

@@ -12,7 +12,7 @@
 #include <Engine3DRadSpace/Graphics/Font.hpp>
 #include <Engine3DRadSpace/Algorithms/Picking/PickingRenderTargetRender.hpp>
 
-//Despite uisng namespaces are ill-advised to be used in headers, this header is not meant to be included in other files.
+//Despite using namespaces are ill-advised to be used in headers, this header is not meant to be included in other files.
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Algorithms;
 using namespace Engine3DRadSpace::Algorithms::Picking;

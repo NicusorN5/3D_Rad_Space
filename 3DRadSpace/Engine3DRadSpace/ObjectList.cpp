@@ -97,12 +97,12 @@ void ObjectList::RemoveIf(std::function<bool(IObject*)> f)
 		});
 }
 
-void ObjectList::Replace(IObject* obj, unsigned id)
+void ObjectList::Replace(IObject* obj, unsigned id) noexcept
 {
 	_objects[id].Object.reset(obj);
 }
 
-void ObjectList::Clear()
+void ObjectList::Clear() noexcept
 {
 	_objects.clear();
 }

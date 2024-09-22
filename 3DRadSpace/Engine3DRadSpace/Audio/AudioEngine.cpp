@@ -50,7 +50,7 @@ void AudioEngine::SetListener(const Math::Vector3& vector)
 	alListener3f(0, vector.X, vector.Y, vector.Z);
 }
 
-void AudioEngine::CreateAudioSource(AudioSource& source)
+void AudioEngine::CreateAudioSource(const AudioSource& source)
 {
 
 }
@@ -63,4 +63,5 @@ AudioEngine::~AudioEngine()
 
 void AudioEngine::Update(double dt)
 {
+
 }

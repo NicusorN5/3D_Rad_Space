@@ -328,7 +328,7 @@ Reflection::UUID Model3D::GetUUID() const noexcept
 
 const char* Model3D::FileExtension() const noexcept
 {
-	return  "All supported mesh files (*.3ds;*.3mf;*.dae;*.fbx;*.gltf;*.glb;*.obj;*.x)\0*.3ds;*.3mf;*.dae;*.fbx;*.gltf;*.glb;*.obj;*.x"
+	return  "All supported mesh files (*.3ds;*.3mf;*.dae;*.fbx;*.gltf;*.glb;*.obj;*.x)\0*.3ds;*.3mf;*.dae;*.fbx;*.gltf;*.glb;*.obj;*.x\0"
 			"Autodesk 3ds Max Model (*.3ds)\0*.3ds\0"
 			"3D Manufacturing Format(*.3mf)\0*.3mf\0"
 			"COLLADA Model (*.dae)\0*.dae\0"
@@ -339,7 +339,7 @@ const char* Model3D::FileExtension() const noexcept
 			"All Files(*.*)\0*.*\0\0";
 }
 
-ModelMesh * Model3D::operator[](unsigned i)
+ModelMesh* Model3D::operator[](unsigned i)
 {
 	return _meshes.at(i).get();
 }

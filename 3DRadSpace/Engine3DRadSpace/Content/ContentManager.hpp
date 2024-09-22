@@ -62,8 +62,8 @@ namespace Engine3DRadSpace::Content
 		ContentManager(const ContentManager &) = delete;
 		ContentManager(ContentManager &&) noexcept = default;
 
-		ContentManager &operator = (const ContentManager &) = delete;
-		ContentManager &operator = (ContentManager &&) noexcept = default;
+		ContentManager &operator =(const ContentManager &) = delete;
+		ContentManager &operator =(ContentManager &&) noexcept = default;
 
 		template<AssetType T>
 		T* Load(const std::filesystem::path& path, AssetID<T>* refID = nullptr);

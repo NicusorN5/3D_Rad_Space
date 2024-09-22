@@ -33,31 +33,4 @@ namespace Engine3DRadSpace::Reflection
 		{
 		}
 	};
-
-	/*
-	template<typename Obj, typename Fn>
-	class ReflectedFunction {};
-
-	template<typename Obj, typename R, ReflectableType... Args>
-	class ReflectedFunction<Obj, R(Args...)>
-	{
-		unsigned _numParams = sizeof...(Args);
-		std::vector<FieldRepresentation> _parametersInfo;
-		FieldRepresentation _retType;
-		
-		template<ReflectableType A>
-		void _initializeParams(A a)
-		{
-			_parametersInfo.push_back(GetFieldRepresentation<A>());
-		}
-
-		template<ReflectableType A, ReflectableType ...Args>
-		void _initializeParams(A a, Args... args)
-		{
-			_initializeParams<A>(a);
-			_initializeParams<Args>(args);
-		}
-	};
-	*/
-
 }

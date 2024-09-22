@@ -72,7 +72,6 @@ LRESULT CALLBACK Engine3DRadSpace::GameWndProc(HWND hwnd, UINT msg, WPARAM wPara
     }
     return DefWindowProcA(hwnd, msg, wParam, lParam);
 }
-
 #endif
 
 void Window::_keyUp(uint8_t k)
