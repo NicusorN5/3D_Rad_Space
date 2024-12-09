@@ -10,6 +10,8 @@ namespace Engine3DRadSpace::Audio
 	{
 		ALCdevice *_audioDevice;
 		ALCcontext* _audioContext;
+
+		bool _hasEAX2support = false;
 	public:
 		AudioEngine();
 
@@ -23,6 +25,8 @@ namespace Engine3DRadSpace::Audio
 
 		void SetListener(const Math::Vector3& vector);
 		void CreateAudioSource(const AudioSource& source);
+
+		bool HasEAX2Support() const noexcept;
 
 		~AudioEngine();
 

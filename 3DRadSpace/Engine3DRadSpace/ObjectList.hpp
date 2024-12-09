@@ -2,7 +2,6 @@
 #include "IObject3D.hpp"
 #include "IObject2D.hpp"
 #include "Reflection/ReflectedObject.hpp"
-//#include "Internal/InitializationFlag.hpp"
 #include "Game.hpp"
 
 namespace Engine3DRadSpace

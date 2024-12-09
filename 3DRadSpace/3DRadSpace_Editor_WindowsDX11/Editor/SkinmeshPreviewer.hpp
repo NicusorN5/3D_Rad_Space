@@ -26,7 +26,7 @@ public:
 	SkinmeshPreviewer(SkinmeshPreviewer &) = delete;
 	SkinmeshPreviewer &operator=(SkinmeshPreviewer &) = delete;
 
-	void Update(Engine3DRadSpace::Input::Keyboard &keyboard, Engine3DRadSpace::Input::Mouse &mouse, double dt) override;
-	void Draw(Engine3DRadSpace::Math::Matrix4x4& view, Engine3DRadSpace::Math::Matrix4x4& projection, double dt) override;
+	void Update() override;
+	void Draw3D() override;
 };
 

@@ -20,13 +20,10 @@ namespace Engine3DRadSpace
 	class DLLEXPORT Game : public IUpdateable, public IDrawable3D, public IDrawable2D, public IInitiializable, public ILoadable
 	{
 	private:
-		bool _valid;
+		bool _valid = false;
 		bool _running = true;
 		bool _wasInitialized = false;
 		bool _wasLoaded = false;
-
-		double u_dt = 0;
-		double d_dt = 0;
 	public:
 		Game(const std::string &title, unsigned width = 800, unsigned height = 600, bool fullscreen = false);
 		Game(Window&& window);
@@ -49,8 +46,14 @@ namespace Engine3DRadSpace
 
 		Color ClearColor = Colors::Black;
 
+		Input::Keyboard& Keyboard;
+		Input::Mouse& Mouse;
+
 		std::unique_ptr<Physics::PhysicsEngine> Physics;
 		std::unique_ptr<Audio::AudioEngine> Audio;
+
+		double Draw_dt = 0;
+		double Update_dt = 0;
 
 		void Run();
 		void RunOneFrame();
@@ -64,13 +67,13 @@ namespace Engine3DRadSpace
 
 		Math::Ray GetMouseRay(const Math::Vector2& mousePosition, const Math::Matrix4x4& view, const Math::Matrix4x4& projection);
 
-		virtual ~Game();
-
 		virtual void Initialize() override;
-		virtual void Load(Content::ContentManager* content) override;
-		virtual void Load(Content::ContentManager* content, const std::filesystem::path &path) override;
-		virtual void Update(Input::Keyboard& keyboard, Input::Mouse& mouse, double dt) override;
-		virtual void Draw(Math::Matrix4x4& view, Math::Matrix4x4& projection, double dt) override;
-		virtual void Draw(Graphics::SpriteBatch* spriteBatch, double dt) override;
+		virtual void Load() override;
+		virtual void Load(const std::filesystem::path &path) override;
+		virtual void Update() override;
+		virtual void Draw3D() override;
+		virtual void Draw2D() override;
+
+		~Game() override;
 	};
 }

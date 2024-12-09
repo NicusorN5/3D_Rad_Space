@@ -9,7 +9,6 @@
 #include "Graphics/DepthStencilBuffer.hpp"
 #include "Graphics/BlendState.hpp"
 
-
 namespace Engine3DRadSpace::Graphics
 {
 	template<VertexDecl V> class VertexBufferV;

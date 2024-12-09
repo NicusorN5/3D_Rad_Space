@@ -474,7 +474,7 @@ bool Serializer::LoadProject(ObjectList* lst, ContentManager *content, const std
 		lst->Add(obj);
 
 		obj->EditorInitialize();
-		obj->EditorLoad(content);
+		obj->EditorLoad();
 	}
 
 	return true;

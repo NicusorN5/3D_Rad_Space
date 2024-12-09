@@ -11,7 +11,10 @@ using namespace Engine3DRadSpace::Content;
 class TestObject : public IObject3D
 {
 public:
-	TestObject() : IObject3D("Test object"), Integer(5), Float(1.0f), TestKey(Key::Space)
+	TestObject() : IObject3D("Test object"), 
+		Integer(5),
+		Float(1.0f), 
+		TestKey(Key::Space)
 	{
 	}
 
@@ -19,23 +22,28 @@ public:
 	void Initialize() override
 	{
 	}
-	void Load(ContentManager *content)
-	{
-	}
-	void Load(ContentManager* content, const std::filesystem::path &dummy)
+
+	void Load() override
 	{
 	}
 
-	void Update(Keyboard& keyboard, Mouse& mouse, double dt) override
+	void Load(const std::filesystem::path &dummy) override
 	{
 	}
-	void Draw(Matrix4x4& view, Matrix4x4& projection, double dt) override
+
+	void Update() override
 	{
 	}
+
+	void Draw3D() override
+	{
+	}
+
 	void EditorInitialize() override
 	{
 	}
-	void EditorDraw(const Matrix4x4& view, const Matrix4x4& projection, double dt, bool selected) override
+
+	void EditorDraw3D(bool selected) override
 	{
 	}
 	
@@ -44,7 +52,7 @@ public:
 		// {017161C9-9EB7-4C10-AEEE-24347466586D}
 		return {0x17161c9, 0x9eb7, 0x4c10, { 0xae, 0xee, 0x24, 0x34, 0x74, 0x66, 0x58, 0x6d }};
 	}
-	void EditorLoad(ContentManager*content) override
+	void EditorLoad() override
 	{
 	}
 	std::optional<float> Intersects(const Ray&r) override

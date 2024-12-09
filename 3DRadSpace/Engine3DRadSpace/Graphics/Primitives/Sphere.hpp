@@ -1,19 +1,13 @@
 #pragma once
-#include "../../IDrawable3D.hpp"
+#include "IPrimitive.hpp"
 #include "../Shaders/BlankShader.hpp"
 #include "../VertexBuffer.hpp"
 #include "../IndexBuffer.hpp"
 
 namespace Engine3DRadSpace::Graphics::Primitives
 {
-	class DLLEXPORT Sphere : public IDrawable3D
+	class DLLEXPORT Sphere : public IPrimitive
 	{
-		GraphicsDevice *_device;
-		std::unique_ptr<VertexBufferV<VertexPositionColor>> _vertices;
-		std::unique_ptr<IndexBuffer> _indices;
-
-		std::shared_ptr<Shaders::BlankShader> _shader;
-
 		float _radius;
 	public:
 		Sphere(GraphicsDevice *device, float radius, Color color, unsigned resolution);
@@ -28,7 +22,6 @@ namespace Engine3DRadSpace::Graphics::Primitives
 
 		float GetRadius() const noexcept;
 
-		virtual void Draw(Math::Matrix4x4 &view, Math::Matrix4x4 &projection, double dt) override;
-
+		void Draw3D() override;
 	};
 }

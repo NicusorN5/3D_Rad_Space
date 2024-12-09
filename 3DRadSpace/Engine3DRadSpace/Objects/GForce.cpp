@@ -18,15 +18,15 @@ void GForce::Initialize()
         _game->RequestPhysicsInitialization(Gravity);
 }
 
-void GForce::Update(Input::Keyboard& keyboard, Input::Mouse& mouse, double dt)
+void GForce::Update()
 {
 }
 
-void GForce::Load(Content::ContentManager* content)
+void GForce::Load()
 {
 }
 
-void GForce::Load(Content::ContentManager* content, const std::filesystem::path &path)
+void GForce::Load(const std::filesystem::path &path)
 {
 }
 
@@ -34,7 +34,7 @@ void GForce::EditorInitialize()
 {
 }
 
-void GForce::EditorLoad(Content::ContentManager* content)
+void GForce::EditorLoad()
 {
 }
 

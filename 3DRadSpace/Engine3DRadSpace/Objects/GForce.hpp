@@ -35,18 +35,18 @@ namespace Engine3DRadSpace::Objects
 		/// <param name="keyboard">Not used.</param>
 		/// <param name="mouse">Not used.</param>
 		/// <param name="dt">Not used.</param>
-		void Update(Input::Keyboard& keyboard, Input::Mouse& mouse, double dt) override;
+		void Update() override;
 		/// <summary>
 		/// Not used. From IObject
 		/// </summary>
 		/// <param name="content">Not used.</param>
-		void Load(Content::ContentManager* content) override;
+		void Load() override;
 		/// <summary>
 		/// Not used. From IObject.
 		/// </summary>
 		/// <param name="content">Not used.</param>
 		/// <param name="path">Not used.</param>
-		void Load(Content::ContentManager* content, const std::filesystem::path& path);
+		void Load(const std::filesystem::path& path);
 		/// <summary>
 		/// Not used. The editor doesn't use physics at runtime. From IObject.
 		/// </summary>
@@ -55,7 +55,7 @@ namespace Engine3DRadSpace::Objects
 		/// Not used. From IObject.
 		/// </summary>
 		/// <param name="content">Not used.</param>
-		void EditorLoad(Content::ContentManager* content) override;
+		void EditorLoad() override;
 		/// <summary>
 		/// Returns unique identifier used for serialization.
 		/// </summary>

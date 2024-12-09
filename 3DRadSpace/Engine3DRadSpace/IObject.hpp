@@ -29,7 +29,7 @@ namespace Engine3DRadSpace
 		bool Visible;
 
 		virtual void EditorInitialize() = 0;
-		virtual void EditorLoad(Content::ContentManager *content) = 0;
+		virtual void EditorLoad() = 0;
 
 		virtual Reflection::UUID GetUUID() const noexcept = 0;
 

@@ -1,16 +1,11 @@
-#include "../VertexBuffer.hpp"
-#include "../../IDrawable3D.hpp"
-#include "../Shaders/BlankShader.hpp"
+#pragma once
+#include "IPrimitive.hpp"
 
 namespace Engine3DRadSpace::Graphics::Primitives
 {
-	class DLLEXPORT Lines : public IDrawable3D
+	class DLLEXPORT Lines : public IPrimitive
 	{
-		std::unique_ptr<VertexBufferV<VertexPositionColor>> _vertices;
 		std::unique_ptr<RasterizerState> _lineRasterizer;
-		GraphicsDevice *_device;
-
-		std::shared_ptr<Shaders::BlankShader> simpleShader;
 #ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11RasterizerState> _oldRasterizerState;
 #endif
@@ -23,11 +18,9 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		Lines &operator=(const Lines &) = delete;
 		Lines &operator=(Lines &&) noexcept = default;
 
-		Math::Matrix4x4 Transform = Math::Matrix4x4();
-
 		VertexBufferV<VertexPositionColor>* GetVertexBuffer() const noexcept;
 		RasterizerState* GetLineRasterizer() const noexcept;
 
-		virtual void Draw(Math::Matrix4x4 &view, Math::Matrix4x4 &projection, double dt) override;
+		virtual void Draw3D() override;
 	};
 }

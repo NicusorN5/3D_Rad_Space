@@ -25,7 +25,8 @@ std::array<VertexPositionColor, 8> Box::_createVerts(const BoundingBox&b, const 
 }
 
 Box::Box(GraphicsDevice *device, const BoundingBox&b, Color color) :
-    _device(device)
+    IPrimitive(device),
+    _box(b)
 {
     auto box_vertices = _createVerts(b, color);
     _vertices = std::make_unique<VertexBufferV<VertexPositionColor>>(device, box_vertices);
@@ -83,11 +84,6 @@ void Box::SetColor(const Color&color)
     _vertices->SetData(verts);
 }
 
-void Box::SetTransform(const Matrix4x4&m)
-{
-    _worldMat = m;
-}
-
 VertexBufferV<VertexPositionColor>* Box::GetVertexBuffer() const noexcept
 {
     return _vertices.get();
@@ -98,10 +94,10 @@ IndexBuffer* Box::GetIndexBuffer() const noexcept
     return _indices.get();
 }
 
-void Box::Draw(Matrix4x4 &view, Matrix4x4 &projection, double dt)
+void Box::Draw3D()
 {
     _shader->SetBasic();
-    Matrix4x4 mvp = _worldMat * view * projection;
+    Matrix4x4 mvp = Transform * View * Projection;
     _shader->SetTransformation(mvp);
     
     _device->SetTopology(VertexTopology::TriangleList);

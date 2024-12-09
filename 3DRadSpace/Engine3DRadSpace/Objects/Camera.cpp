@@ -1,6 +1,7 @@
 #include "Camera.hpp"
 #include "../Reflection/Reflection.hpp"
 #include "../Graphics/Model3D.hpp"
+#include "../Game.hpp"
 
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Objects;
@@ -24,15 +25,15 @@ void Camera::EditorInitialize()
 
 static std::unique_ptr<Model3D> cameraModel;
 
-void Camera::EditorLoad(Content::ContentManager *content)
+void Camera::EditorLoad()
 {
 	if(cameraModel == nullptr)
 	{
-		cameraModel = std::make_unique<Model3D>(content->GetDevice(), "Data\\Models\\Camera.x");
+		cameraModel = std::make_unique<Model3D>(_game->Content->GetDevice(), "Data\\Models\\Camera.x");
 	}
 }
 
-void Camera::Draw(Matrix4x4& view, Matrix4x4& projection, double dt)
+void Camera::Draw3D()
 {
 	Vector3 focus(0, 0, 0);
 	switch (this->LookMode)
@@ -47,20 +48,20 @@ void Camera::Draw(Matrix4x4& view, Matrix4x4& projection, double dt)
 		break;
 	}
 	
-	view = Matrix4x4::CreateLookAtView(Position, focus, UpwardsDir);
-	projection = Matrix4x4::CreatePerspectiveProjection(AspectRatio, FieldOfView, NearPlaneDistance, FarPlaneDistance);
+	_game->View = Matrix4x4::CreateLookAtView(Position, focus, UpwardsDir);
+	_game->Projection = Matrix4x4::CreatePerspectiveProjection(AspectRatio, FieldOfView, NearPlaneDistance, FarPlaneDistance);
 }
 
-void Camera::Update(Input::Keyboard& keyboard, Input::Mouse& mouse, double dt) { } //Do nothing
+void Camera::Update() { } //Do nothing
 
 Matrix4x4 Camera::GetModelMartix()
 {
 	return Matrix4x4::CreateFromQuaternion(Rotation) * Matrix4x4::CreateTranslation(Position);
 }
 
-void Camera::EditorDraw(const Matrix4x4& view, const Matrix4x4& projection, double dt, bool selected)
+void Camera::EditorDraw3D(bool selected)
 {
-	cameraModel->Draw(GetModelMartix(), view, projection);
+	cameraModel->Draw(GetModelMartix(), _game->View, _game->Projection);
 }
 
 std::optional<float> Camera::Intersects(const Ray&r)
@@ -82,11 +83,11 @@ void Camera::Initialize()
 {
 }
 
-void Camera::Load(Content::ContentManager *content)
+void Camera::Load()
 {
 }
 
-void Camera::Load(Content::ContentManager* content, const std::filesystem::path& path)
+void Camera::Load(const std::filesystem::path& path)
 {
 }
 

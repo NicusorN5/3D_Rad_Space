@@ -23,6 +23,11 @@ AudioEngine::AudioEngine()
 		throw Exception("Failed to create audio scene!");
 	}
 
+	alcMakeContextCurrent(_audioContext);
+
+	_hasEAX2support = static_cast<bool>(alIsExtensionPresent("EAX2.0"));
+
+	alGetError(); //clear error flag
 }
 
 std::vector<std::string> AudioEngine::ListAudioDevices() const noexcept
@@ -55,8 +60,14 @@ void AudioEngine::CreateAudioSource(const AudioSource& source)
 
 }
 
+bool AudioEngine::HasEAX2Support() const noexcept
+{
+	return _hasEAX2support;
+}
+
 AudioEngine::~AudioEngine()
 {
+	alcMakeContextCurrent(_audioContext);
 	alcDestroyContext(_audioContext);
 	alcCloseDevice(_audioDevice);
 }

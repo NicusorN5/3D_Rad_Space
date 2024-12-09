@@ -9,7 +9,7 @@ using namespace Engine3DRadSpace::Graphics::Shaders;
 using namespace Engine3DRadSpace::Math;
 
 Sphere::Sphere(GraphicsDevice *device, float radius, Color color, unsigned resolution):
-	_device(device),
+	IPrimitive(device),
 	_radius(radius)
 {
 	if (resolution <= 1) resolution = 2;
@@ -50,14 +50,15 @@ Sphere::Sphere(GraphicsDevice *device, float radius, Color color, unsigned resol
 	_shader = ShaderManager::LoadShader<BlankShader>(device);
 }
 
-float Engine3DRadSpace::Graphics::Primitives::Sphere::GetRadius() const noexcept
+float Sphere::GetRadius() const noexcept
 {
 	return _radius;
 }
 
-void Sphere::Draw(Matrix4x4&view, Matrix4x4&projection, double dt)
+void Sphere::Draw3D()
 {
 	_shader->SetBasic();
+	_shader->SetTransformation(_mvp());
 	_device->SetTopology(VertexTopology::TriangleList);
 	_device->DrawVertexBufferWithindices(_vertices.get(), _indices.get());
 }

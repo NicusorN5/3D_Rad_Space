@@ -6,7 +6,7 @@ namespace Engine3DRadSpace
 	class DLLEXPORT IDrawable2D
 	{
 	public:
-		virtual void Draw(Graphics::SpriteBatch* spriteBatch, double dt) = 0;
+		virtual void Draw2D() = 0;
 
 		~IDrawable2D() = default;
 	};

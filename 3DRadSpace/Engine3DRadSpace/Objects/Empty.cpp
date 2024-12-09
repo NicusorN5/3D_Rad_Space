@@ -13,15 +13,15 @@ void Empty::Initialize()
 {
 }
 
-void Empty::Update(Input::Keyboard& keyboard, Input::Mouse& mouse, double dt)
+void Empty::Update()
 {
 }
 
-void Empty::Load(Content::ContentManager* content)
+void Empty::Load()
 {
 }
 
-void Empty::Load(Content::ContentManager* content, const std::filesystem::path& path)
+void Empty::Load(const std::filesystem::path& path)
 {
 }
 
@@ -29,7 +29,7 @@ void Empty::EditorInitialize()
 {
 }
 
-void Empty::EditorLoad(Content::ContentManager* content)
+void Empty::EditorLoad()
 {
 }
 
@@ -39,11 +39,11 @@ Reflection::UUID Empty::GetUUID() const noexcept
 	return { 0x408dfc5d, 0xc1e7, 0x4482, { 0x80, 0x40, 0xb3, 0xc8, 0x36, 0x9e, 0x75, 0xec } };
 }
 
-void Empty::Draw(Math::Matrix4x4& view, Math::Matrix4x4& projection, double dt)
+void Empty::Draw3D()
 {
 }
 
-void Empty::EditorDraw(const Math::Matrix4x4& view, const Math::Matrix4x4& projection, double dt, bool selected)
+void Empty::EditorDraw3D(bool selected)
 {
 }
 

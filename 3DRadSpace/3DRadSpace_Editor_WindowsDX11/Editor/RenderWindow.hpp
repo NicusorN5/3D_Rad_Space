@@ -54,11 +54,11 @@ public:
 	RenderWindow(HWND parent, HINSTANCE hInstance);
 
 	void Initialize() override;
-	void Load(ContentManager *content) override;
-	void Update(Keyboard& keyboard, Engine3DRadSpace::Input::Mouse& mouse, double dt) override;
-	void Draw(Matrix4x4 &view, Matrix4x4 &projection, double dt) override;
+	void Load() override;
+	void Update() override;
+	void Draw2D() override;
 
-	void Draw(Graphics::SpriteBatch* spriteBatch, double dt) override;
+	void Draw3D() override;
 
 	bool IsFocused() const;
 	void Reset3DCursor();

@@ -57,23 +57,23 @@ void RenderWindow::Initialize()
 
 Model3D *fish = nullptr;
 
-void RenderWindow::Load(Content::ContentManager *content)
+void RenderWindow::Load()
 {
 
 }
 
-void RenderWindow::Update(Keyboard& keyboard, Mouse& mouse, double dt)
+void RenderWindow::Update()
 {
-	zoom = mouse.ScrollWheel();
+	zoom = Mouse.ScrollWheel();
 	if (zoom < -4.0f) zoom = -4.0f;
 
-	if (mouse.LeftButton() == ButtonState::Pressed && IsFocused())
+	if (Mouse.LeftButton() == ButtonState::Pressed && IsFocused())
 	{
 		Point screenCenter = Window->Size() / 2;
-		Point mousePos = mouse.Position();
+		Point mousePos = Mouse.Position();
 		Window->SetMousePosition(screenCenter);
 
-		Vector2 mouseDelta = (Vector2)(screenCenter - mousePos) * float(dt);
+		Vector2 mouseDelta = (Vector2)(screenCenter - mousePos) * float(Update_dt);
 		cameraPos -= mouseDelta * Settings::CameraSensitivity.Value;
 
 		cameraPos.Y = std::clamp<float>(
@@ -83,9 +83,9 @@ void RenderWindow::Update(Keyboard& keyboard, Mouse& mouse, double dt)
 		);
 	}
 
-	if (mouse.RightButton() == ButtonState::Pressed)
+	if (Mouse.RightButton() == ButtonState::Pressed)
 	{
-		auto ray = GetMouseRay(mouse.Position(), View, Projection);
+		auto ray = GetMouseRay(Mouse.Position(), View, Projection);
 
 		for (auto& obj : *Objects)
 		{
@@ -108,7 +108,7 @@ void RenderWindow::Update(Keyboard& keyboard, Mouse& mouse, double dt)
 	//else _keyboardTest = false;
 
 	
-	if(keyboard.IsKeyDown(Key::Space))
+	if(Keyboard.IsKeyDown(Key::Space))
 	{
 		_keyboardTest = true;
 	}
@@ -120,16 +120,16 @@ void RenderWindow::Update(Keyboard& keyboard, Mouse& mouse, double dt)
 	Camera.LookAt = cursor3D;
 }
 
-void RenderWindow::Draw(Matrix4x4 &view, Matrix4x4 &projection, double dt)
+void RenderWindow::Draw3D()
 {
-	Camera.Draw(view, projection, dt);
+	Camera.Draw3D();
 
 	axis->Transform = Matrix4x4::CreateTranslation(cursor3D);
-	axis->Draw(View, Projection, dt);
+	axis->Draw3D();
 
 	if (Settings::ShowGrid.Value)
 	{
-		grid->Draw(View, Projection, dt);
+		grid->Draw3D();
 	}
 
 	if (_keyboardTest)
@@ -142,10 +142,10 @@ void RenderWindow::Draw(Matrix4x4 &view, Matrix4x4 &projection, double dt)
 		switch(obj.InternalType)
 		{
 		case ObjectList::ObjectInstance::ObjectType::IObject2D:
-				static_cast<IObject2D *>(obj.Object.get())->EditorDraw(SpriteBatch.get(), dt, false);
+				static_cast<IObject2D *>(obj.Object.get())->EditorDraw2D(false);
 				break;
 			case ObjectList::ObjectInstance::ObjectType::IObject3D:
-				static_cast<IObject3D *>(obj.Object.get())->EditorDraw(View, Projection, dt, false);
+				static_cast<IObject3D *>(obj.Object.get())->EditorDraw3D(false);
 				break;
 			default:
 				break;
@@ -153,8 +153,9 @@ void RenderWindow::Draw(Matrix4x4 &view, Matrix4x4 &projection, double dt)
 	}
 }
 
-void RenderWindow::Draw(Graphics::SpriteBatch* spriteBatch, double dt)
+void RenderWindow::Draw2D()
 {
+	
 }
 
 bool RenderWindow::IsFocused() const

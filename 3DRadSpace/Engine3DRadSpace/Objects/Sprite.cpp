@@ -1,5 +1,5 @@
-
 #include "Sprite.hpp"
+#include "../Game.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
@@ -45,48 +45,48 @@ void Sprite::Initialize()
 {
 }
 
-void Sprite::Load(Content::ContentManager *content)
+void Sprite::Load()
 {
 	if(_tempResourceString != nullptr)
 	{
-		_texture = content->Load<Texture2D>(*_tempResourceString);
+		_texture = _game->Content->Load<Texture2D>(*_tempResourceString);
 		_tempResourceString.reset();
 	}
-	else _texture = static_cast<Texture2D *>((content->operator[](Image)));
+	else _texture = static_cast<Texture2D *>((_game->Content->operator[](Image)));
 }
 
-void Sprite::Load(Content::ContentManager* content, const std::filesystem::path &path)
+void Sprite::Load(const std::filesystem::path &path)
 {
-	_texture = content->Load<Texture2D>(path, &Image);
+	_texture = _game->Content->Load<Texture2D>(path, &Image);
 }
 
 
-void Sprite::Update(Keyboard&keyboard, Mouse&mouse, double dt)
+void Sprite::Update()
 {
 }
 
-void Sprite::Draw(SpriteBatch *spriteBatch, double dt)
+void Sprite::Draw2D()
 {
 	FlipMode flip = (FlipU ? FlipMode::FlipHorizontally : FlipMode::None) | (FlipV ? FlipMode::FlipVertically : FlipMode::None);
-	spriteBatch->DrawNormalized(_texture, RectangleF(Position.X, Position.Y, Scale.X, Scale.Y), Engine3DRadSpace::Math::RectangleF(0,0,1,1), TintColor, Rotation, flip, Depth);
+	_game->SpriteBatch->DrawNormalized(_texture, RectangleF(Position.X, Position.Y, Scale.X, Scale.Y), Engine3DRadSpace::Math::RectangleF(0,0,1,1), TintColor, Rotation, flip, Depth);
 }
 
 void Sprite::EditorInitialize()
 {
 }
 
-void Sprite::EditorLoad(Content::ContentManager *content)
+void Sprite::EditorLoad()
 {
-	auto asset = content->operator[](Image);
+	auto asset = _game->Content->operator[](Image);
 	if(asset != nullptr) _texture = static_cast<Texture2D *>(asset);
-	else _texture = content->Load<Texture2D>("Data//NoAsset.png");
+	else _texture = _game->Content->Load<Texture2D>("Data//NoAsset.png");
 }
 
-void Sprite::EditorDraw(SpriteBatch *spriteBatch, double dt, bool selected)
+void Sprite::EditorDraw2D(bool selected)
 {
 	Color nTint = selected ? Colors::Red : TintColor;
 	FlipMode flip = (FlipU ? FlipMode::FlipHorizontally : FlipMode::None) | (FlipV ? FlipMode::FlipVertically : FlipMode::None);
-	spriteBatch->DrawNormalized(_texture, RectangleF(Position.X, Position.Y, Scale.X, Scale.Y), Engine3DRadSpace::Math::RectangleF(0, 0, 1, 1), TintColor, Rotation, flip, Depth);
+	_game->SpriteBatch->DrawNormalized(_texture, RectangleF(Position.X, Position.Y, Scale.X, Scale.Y), Engine3DRadSpace::Math::RectangleF(0, 0, 1, 1), TintColor, Rotation, flip, Depth);
 }
 
 Reflection::UUID Sprite::GetUUID() const noexcept

@@ -12,7 +12,9 @@ using namespace Engine3DRadSpace::Math;
 
 Game::Game(const std::string &title, unsigned width, unsigned height, bool fullscreen) :
 	Window(std::make_unique<Engine3DRadSpace::Window>(title, width, height)),
-	Objects(std::make_unique<Engine3DRadSpace::ObjectList>(this))
+	Objects(std::make_unique<Engine3DRadSpace::ObjectList>(this)),
+	Keyboard(Window->GetKeyboardState()),
+	Mouse(Window->GetMouseState())
 {
 	Device = std::make_unique<GraphicsDevice>(Window->NativeHandle(),width,height);
 	Content = std::make_unique<Content::ContentManager>(Device.get());
@@ -22,7 +24,9 @@ Game::Game(const std::string &title, unsigned width, unsigned height, bool fulls
 
 Game::Game(Engine3DRadSpace::Window &&window) :
 	Window(std::make_unique<Engine3DRadSpace::Window>(std::move(window))),
-	Objects(std::make_unique<Engine3DRadSpace::ObjectList>(this))
+	Objects(std::make_unique<Engine3DRadSpace::ObjectList>(this)),
+	Keyboard(Window->GetKeyboardState()),
+	Mouse(Window->GetMouseState())
 {
 	Math::Point size = Window->Size();
 
@@ -34,12 +38,10 @@ Game::Game(Engine3DRadSpace::Window &&window) :
 
 void Game::Run()
 {
-	Game::Initialize();
 	Initialize();
 	_wasInitialized = true;
 
-	Game::Load(Content.get());
-	Load(Content.get());
+	Load();
 	_wasLoaded = true;
 
 	while (_running && Window->NativeHandle() != nullptr)
@@ -56,27 +58,26 @@ void Game::RunOneFrame()
 	auto& keyboard = Window->GetKeyboardState();
 	auto& mouse = Window->GetMouseState();
 
-	Game::Update(keyboard, mouse, u_dt);
-	this->Update(Window->GetKeyboardState(), Window->GetMouseState(), u_dt);
+	Update();
 	auto ts_u2 = std::chrono::high_resolution_clock::now();
 
 	std::chrono::duration<double> uDiff = ts_u2 - ts_u1;
-	u_dt = uDiff.count();
+	Update_dt = uDiff.count();
 
 	auto ts_d1 = std::chrono::high_resolution_clock::now();
 
 	this->Device->SetViewport();
 	this->Device->Clear(ClearColor);
 
-	Game::Draw(View, Projection, d_dt);
-	this->Draw(View,Projection,d_dt);
+	Draw3D();
+	Draw2D();
 
-	this->Device->Present();
+	Device->Present();
 
 	auto ts_d2 = std::chrono::high_resolution_clock::now();
 
 	std::chrono::duration<double> dDiff = ts_d2 - ts_d1;
-	d_dt = dDiff.count();
+	Draw_dt = dDiff.count();
 }
 
 void Game::Exit()
@@ -123,45 +124,45 @@ Game::~Game()
 }
 
 
-void Game::Load(ContentManager* content)
+void Game::Load()
 {
 	for (auto& [object, type] : *Objects)
 	{
-		object->Load(content);
+		object->Load();
 	}
 }
 
-void Game::Load(Content::ContentManager* content, const std::filesystem::path& path)
+void Game::Load(const std::filesystem::path& path)
 {
 
 }
 
-void Game::Update(Keyboard& keyboard, Mouse& mouse, double dt)
+void Game::Update()
 {
 	for (auto& [object, type] : *Objects)
 	{
-		object->Update(keyboard, mouse, dt);
+		object->Update();
 	}
 }
 
-void Game::Draw(Math::Matrix4x4& view, Math::Matrix4x4& projection, double dt)
+void Game::Draw3D()
 {
 	for (auto& [object, type] : *Objects)
 	{
 		if (type == ObjectList::ObjectInstance::ObjectType::IObject3D)
 		{
-			(static_cast<IObject3D*>(object.get()))->Draw(view, projection, dt);
+			(static_cast<IObject3D*>(object.get()))->Draw3D();
 		}
 	}
 }
 
-void Game::Draw(Graphics::SpriteBatch* spriteBatch, double dt)
+void Game::Draw2D()
 {
 	for (auto& [object, type] : *Objects)
 	{
 		if (type == ObjectList::ObjectInstance::ObjectType::IObject2D)
 		{
-			(static_cast<IObject2D*>(object.get()))->Draw(spriteBatch, dt);
+			(static_cast<IObject2D*>(object.get()))->Draw2D();
 		}
 	}
 }

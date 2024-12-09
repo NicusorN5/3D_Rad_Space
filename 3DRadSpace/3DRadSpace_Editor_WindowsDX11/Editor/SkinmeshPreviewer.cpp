@@ -16,7 +16,7 @@ SkinmeshPreviewer::SkinmeshPreviewer(const std::filesystem::path &meshPath):
 	_basicShader.reset(new BasicTextured(Device.get()));
 
 	_skinmesh = std::make_unique<Skinmesh>("", true, meshPath);
-	_skinmesh->Load(Content.get());
+	_skinmesh->Load();
 
 	for (auto& meshPart : *_skinmesh->GetModel())
 	{
@@ -37,17 +37,17 @@ SkinmeshPreviewer::SkinmeshPreviewer(const std::filesystem::path &meshPath):
 	_camera = static_cast<Camera*>((*Objects)[cameraID]);
 }
 
-void SkinmeshPreviewer::Update(Keyboard &keyboard, Mouse &mouse, double dt)
+void SkinmeshPreviewer::Update()
 {
-	_zoom = _initialZoom - mouse.ScrollWheel();
-	if(mouse.LeftButton() == ButtonState::Pressed && Window->IsFocused())
+	_zoom = _initialZoom - Mouse.ScrollWheel();
+	if(Mouse.LeftButton() == ButtonState::Pressed && Window->IsFocused())
 	{
 		Point screenCenter = Window->Size() / 2;
-		Point mousePos = mouse.Position();
+		Point mousePos = Mouse.Position();
 		Window->SetMousePosition(screenCenter);
 
 		Point pd = screenCenter - mousePos;
-		Vector2 mouseDelta = static_cast<Vector2>(pd) * float(dt);
+		Vector2 mouseDelta = static_cast<Vector2>(pd) * float(Draw_dt);
 		_camCoords -= mouseDelta * Settings::CameraSensitivity.Value;
 
 		_camCoords.Y = std::clamp<float>(
@@ -60,7 +60,7 @@ void SkinmeshPreviewer::Update(Keyboard &keyboard, Mouse &mouse, double dt)
 	_camera->Position = _zoom * Vector3::UnitZ().Transform(q);
 }
 
-void SkinmeshPreviewer::Draw(Matrix4x4& view, Matrix4x4& projection, double dt)
+void SkinmeshPreviewer::Draw3D()
 {
-	_skinmesh->Draw(view, projection, dt);
+	_skinmesh->Draw3D();
 }

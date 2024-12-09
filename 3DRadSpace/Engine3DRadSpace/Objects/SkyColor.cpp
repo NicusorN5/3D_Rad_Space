@@ -13,15 +13,15 @@ void SkyColor::Initialize()
 {
 }
 
-void SkyColor::Update(Input::Keyboard& keyboard, Input::Mouse& mouse, double dt)
+void SkyColor::Update()
 {
 }
 
-void SkyColor::Load(Content::ContentManager* content)
+void SkyColor::Load()
 {
 }
 
-void SkyColor::Load(Content::ContentManager* content, const std::filesystem::path& path)
+void SkyColor::Load(const std::filesystem::path& path)
 {
 }
 
@@ -29,7 +29,7 @@ void SkyColor::EditorInitialize()
 {
 }
 
-void SkyColor::EditorLoad(Content::ContentManager* content)
+void SkyColor::EditorLoad()
 {
 }
 
@@ -39,15 +39,15 @@ Reflection::UUID SkyColor::GetUUID() const noexcept
 	return { 0xeea241c5, 0x99c5, 0x4a41, { 0x9e, 0x65, 0xf6, 0x73, 0x88, 0x8c, 0xeb, 0xc4 } };
 }
 
-void SkyColor::Draw(Graphics::SpriteBatch* spriteBatch, double dt)
+void SkyColor::Draw2D()
 {
 	if(Enabled) 
 		_game->ClearColor = Colour;
 }
 
-void SkyColor::EditorDraw(Graphics::SpriteBatch* spriteBatch, double dt, bool selected)
+void SkyColor::EditorDraw2D(bool selected)
 {
-	Draw(spriteBatch, dt);
+	Draw2D();
 }
 
 REFL_BEGIN(SkyColor,"SkyColor", "Rendering", "Sets the backbuffer clear color")

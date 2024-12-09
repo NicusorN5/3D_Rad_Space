@@ -466,7 +466,7 @@ void EditorWindow::Run()
 {
 	//Modified code from Window::Run() so accelerators(keyboard shortcuts) are also translated.
 	editor->Initialize();
-	editor->Load(editor->Content.get());
+	editor->Load();
 
 	double u_dt = 0;
 	double d_dt = 0;
@@ -483,7 +483,7 @@ void EditorWindow::Run()
 		}
 
 		auto ts_u1 = std::chrono::steady_clock::now();
-		editor->Update(editor->Window->GetKeyboardState(), editor->Window->GetMouseState(), u_dt);
+		editor->Update();
 		auto ts_u2 = std::chrono::steady_clock::now();
 
 		std::chrono::duration<double> uDiff = ts_u2 - ts_u1;
@@ -493,7 +493,8 @@ void EditorWindow::Run()
 
 		this->editor->Device->SetViewport();
 		this->editor->Device->Clear(editor->ClearColor);
-		this->editor->Draw(this->editor->View, this->editor->Projection, d_dt);
+		this->editor->Draw3D();
+		this->editor->Draw2D();
 		this->editor->Device->Present();
 
 		auto ts_d2 = std::chrono::steady_clock::now();
@@ -697,7 +698,7 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 					if (obj != nullptr && obj != reinterpret_cast<void*>(IDCANCEL))
 					{
 						obj->EditorInitialize();
-						obj->EditorLoad(gEditorWindow->editor->Content.get());
+						obj->EditorLoad();
 						gEditorWindow->AddObject(obj);
 					}
 					break;
@@ -761,7 +762,7 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 							item.pszText = const_cast<char *>(new_obj->Name.c_str());
 							SendMessageA(gEditorWindow->_listBox, TVM_SETITEMA, 0, reinterpret_cast<LPARAM>(&item));
 
-							new_obj->EditorLoad(gEditorWindow->GetContentManager());
+							new_obj->EditorLoad();
 						}
 					}
 					break;

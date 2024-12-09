@@ -7,13 +7,11 @@ using namespace Engine3DRadSpace::Graphics::Primitives;
 using namespace Engine3DRadSpace::Graphics::Shaders;
 using namespace Engine3DRadSpace::Math;
 
-Lines::Lines(GraphicsDevice *device, std::span<VertexPositionColor> points):
-	_device(device)
+Lines::Lines(GraphicsDevice* device, std::span<VertexPositionColor> points) :
+	IPrimitive(device)
 {
 	_vertices = std::make_unique<VertexBufferV<VertexPositionColor>>(device, points);
 	_lineRasterizer = std::make_unique<RasterizerState>(device, RasterizerFillMode::Solid, RasterizerCullMode::None);
-
-	simpleShader = Content::ShaderManager::LoadShader<BlankShader>(device);
 }
 
 VertexBufferV<VertexPositionColor>* Lines::GetVertexBuffer() const noexcept
@@ -26,13 +24,13 @@ RasterizerState* Lines::GetLineRasterizer() const noexcept
 	return _lineRasterizer.get();
 }
 
-void Lines::Draw(Matrix4x4&view, Matrix4x4&projection, double dt)
+void Lines::Draw3D()
 {
 #ifdef USING_DX11
 	_device->_context->RSGetState(_oldRasterizerState.GetAddressOf());
 #endif
-	simpleShader->SetAll();
-	simpleShader->SetTransformation(Transform * view * projection);
+	_shader->SetAll();
+	_shader->SetTransformation(_mvp());
 
 	_device->SetRasterizerState(_lineRasterizer.get());
 	_device->SetTopology(VertexTopology::LineList);

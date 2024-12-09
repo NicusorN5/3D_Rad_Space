@@ -379,7 +379,7 @@ void SpriteBatch::DrawString(Font* font, const std::string& text, const Vector2&
 	int y = static_cast<int>(pos.Y * screenSize.Y);
 
 	End();
-	Begin(SpriteBatchSortMode::SortedByTexture);
+	Begin(SpriteBatchSortMode::Immediate);
 
 	for (auto&& c : text)
 	{

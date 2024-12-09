@@ -173,7 +173,7 @@ int Engine3DRadSpace::Legacy::iObjectScan(int obj_x, const Math::Vector3& origin
 void DLLEXPORT Engine3DRadSpace::Legacy::iObjectRefresh(int obj_x, const std::filesystem::path& path)
 {
 	auto obj = (*objList)[obj_x];
-	obj->Load(obj->GetGame()->Content.get(), path);
+	obj->Load(path);
 }
 
 /*

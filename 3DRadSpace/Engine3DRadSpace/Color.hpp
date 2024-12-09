@@ -16,6 +16,8 @@ namespace Engine3DRadSpace
 		constexpr Color& operator *=(const Color& c) noexcept;
 
 		constexpr float operator[](int i) const;
+
+		friend auto operator <=>(const Color& a, const Color& b) noexcept = default;
 	};
 	namespace Colors
 	{

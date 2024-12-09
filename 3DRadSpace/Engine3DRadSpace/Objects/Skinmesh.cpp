@@ -1,4 +1,5 @@
 #include "Skinmesh.hpp"
+#include "../Game.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Math;
@@ -12,16 +13,29 @@ Skinmesh::Skinmesh() :
 {
 }
 
-Skinmesh::Skinmesh(const std::string &name, bool visible, RefModel3D model, 
-    const Vector3&pos, const Quaternion&rot, const Vector3&pivot, const Vector3&scale) :
-    IObject3D(name, visible, visible, pos, pivot, rot, scale),
+Skinmesh::Skinmesh(
+    const std::string &name,
+    bool visible,
+    RefModel3D model, 
+    const Vector3 &pos,
+    const Quaternion &rot,
+    const Vector3& pivot,
+    const Vector3& scale
+    ) : IObject3D(name, visible, visible, pos, pivot, rot, scale),
     Model(model),
     _model(nullptr)
 {
 }
 
-Skinmesh::Skinmesh(const std::string &name, bool visible, const std::filesystem::path &path, const
-                   Vector3&pos, const Quaternion&rot, const Vector3&pivot, const Vector3& scale) :
+Skinmesh::Skinmesh(
+    const std::string &name,
+    bool visible,
+    const std::filesystem::path &path,
+    const Vector3 &pos, 
+    const Quaternion &rot,
+    const Vector3 &pivot,
+    const Vector3& scale
+) :
     Skinmesh(name, visible, 0, pos, rot, pivot, scale)
 {
     _path = std::make_unique<std::string>(path.string());
@@ -36,25 +50,25 @@ void Skinmesh::Initialize()
 {
 }
 
-void Skinmesh::Load(Content::ContentManager *content)
+void Skinmesh::Load()
 {
     if (_path != nullptr)
     {
-        _model = content->Load<Model3D>(*_path);
+        _model = _game->Content->Load<Model3D>(*_path);
         _path.reset();
     }
     if (Model)
     {
-        _model = static_cast<Model3D*>((*content)[Model]);
+        _model = static_cast<Model3D*>((*_game->Content)[Model]);
     }
 }
 
-void Skinmesh::Load(Content::ContentManager* content,const std::filesystem::path& path)
+void Skinmesh::Load(const std::filesystem::path& path)
 {
-    _model = content->Load<Model3D>(path, &Model);
+    _model = _game->Content->Load<Model3D>(path, &Model);
 }
 
-void Skinmesh::Update(Input::Keyboard &keyboard, Input::Mouse &mouse, double dt)
+void Skinmesh::Update()
 {
 }
 
@@ -62,9 +76,9 @@ void Skinmesh::EditorInitialize()
 {
 }
 
-void Skinmesh::EditorLoad(Content::ContentManager *content)
+void Skinmesh::EditorLoad()
 {
-    Load(content);
+    Load();
 }
 
 Reflection::UUID Skinmesh::GetUUID() const noexcept
@@ -73,13 +87,13 @@ Reflection::UUID Skinmesh::GetUUID() const noexcept
     return {0xc3a243f6, 0x23e2, 0x437f, { 0xae, 0x8a, 0xb8, 0xe8, 0xc2, 0xa6, 0xe9, 0x44 }};
 }
 
-void Skinmesh::Draw(Matrix4x4&view, Matrix4x4&projection, double dt)
+void Skinmesh::Draw3D()
 {
     if(Visible && _model)
-        _model->Draw(GetModelMartix(), view, projection);
+        _model->Draw(GetModelMartix(), _game->View, _game->Projection);
 }
 
-void Skinmesh::EditorDraw(const Matrix4x4&view, const Matrix4x4&projection, double dt, bool selected)
+void Skinmesh::EditorDraw3D(bool selected)
 {
     if(selected)
     {
@@ -87,7 +101,7 @@ void Skinmesh::EditorDraw(const Matrix4x4&view, const Matrix4x4&projection, doub
     }
     if (_model)
     {
-        _model->Draw(GetModelMartix(), view, projection);
+        _model->Draw(GetModelMartix(), _game->View, _game->Projection);
     }
 }
 
@@ -128,11 +142,11 @@ std::optional<float> Skinmesh::Intersects(const Ray&r)
 }
 
 REFL_BEGIN(Skinmesh, "Skinmesh", "3D Objects", "3D model")
-REFL_FIELD(Skinmesh, std::string, Name, "Name","Skinmesh","Object's name")
-REFL_FIELD(Skinmesh, bool, Visible, "Visible", true, "Is the object visible?")
-REFL_FIELD(Skinmesh, RefModel3D, Model, "Model", 0, "The skinmesh model")
-REFL_FIELD(Skinmesh, Vector3, Position, "Position", Vector3::Zero(), "Object's position in world space")
-REFL_FIELD(Skinmesh, Quaternion, Rotation, "Rotation", Quaternion(), "Object's rotation")
-REFL_FIELD(Skinmesh, Vector3, RotationCenter, "Rotation Center", Vector3::Zero(), "The rotation pivot")
-REFL_FIELD(Skinmesh, Vector3, Scale, "Scale", Vector3::One(), "The skinmesh scale")
+    REFL_FIELD(Skinmesh, std::string, Name, "Name","Skinmesh","Object's name")
+    REFL_FIELD(Skinmesh, bool, Visible, "Visible", true, "Is the object visible?")
+    REFL_FIELD(Skinmesh, RefModel3D, Model, "Model", 0, "The skinmesh model")
+    REFL_FIELD(Skinmesh, Vector3, Position, "Position", Vector3::Zero(), "Object's position in world space")
+    REFL_FIELD(Skinmesh, Quaternion, Rotation, "Rotation", Quaternion(), "Object's rotation")
+    REFL_FIELD(Skinmesh, Vector3, RotationCenter, "Rotation Center", Vector3::Zero(), "The rotation pivot")
+    REFL_FIELD(Skinmesh, Vector3, Scale, "Scale", Vector3::One(), "The skinmesh scale")
 REFL_END

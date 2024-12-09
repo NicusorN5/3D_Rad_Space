@@ -7,10 +7,7 @@ namespace Engine3DRadSpace
 	class DLLEXPORT IDrawable3D
 	{
 	public:
-		virtual void Draw(
-			Math::Matrix4x4& view,
-			Math::Matrix4x4& projection,
-			double dt) = 0;
+		virtual void Draw3D() = 0;
 		virtual ~IDrawable3D() = default;
 	};
 }
