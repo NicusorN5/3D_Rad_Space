@@ -11,7 +11,7 @@ Engine3DRadSpace::ObjectList::ObjectList(Game* owner):
 
 unsigned ObjectList::Add(IObject* obj)
 {
-	obj->internalInitialize(_game);
+	obj->InternalInitialize(_game);
 
 	std::unique_ptr<IObject> ptr;
 	ptr.reset(obj);

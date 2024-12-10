@@ -21,12 +21,16 @@ namespace Engine3DRadSpace
 		/// <param name="enabled"></param>
 		/// <param name="visible"></param>
 		explicit IObject(const std::string& name = "Empty", bool enabled = false, bool visible = false);
-
-		void internalInitialize(Game* game);
 	public:
 		std::string Name;
 		bool Enabled;
 		bool Visible;
+
+		/// <summary>
+		/// Called by ObjectsList to set the _game Game instance. If there are objects manually managed, this MUST be called before Initialize or EditorInitialize.
+		/// </summary>
+		/// <param name="game">Application context</param>
+		void InternalInitialize(Game* game);
 
 		virtual void EditorInitialize() = 0;
 		virtual void EditorLoad() = 0;

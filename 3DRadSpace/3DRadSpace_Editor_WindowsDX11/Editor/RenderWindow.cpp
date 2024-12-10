@@ -49,6 +49,8 @@ void RenderWindow::Initialize()
 
 	axis = std::make_unique<Primitives::Lines>(Device.get(), axisLines);
 	grid = std::make_unique<Primitives::Lines>(Device.get(), dLines);
+
+	Camera.InternalInitialize(this);
 	Camera.LookMode = Camera::CameraMode::UseLookAtCoordinates;
 	Camera.FarPlaneDistance = 10'000.0f;
 
@@ -125,10 +127,14 @@ void RenderWindow::Draw3D()
 	Camera.Draw3D();
 
 	axis->Transform = Matrix4x4::CreateTranslation(cursor3D);
+	axis->View = View;
+	axis->Projection = Projection;
 	axis->Draw3D();
 
 	if (Settings::ShowGrid.Value)
 	{
+		grid->View = View;
+		grid->Projection = Projection;
 		grid->Draw3D();
 	}
 

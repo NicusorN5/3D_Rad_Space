@@ -697,6 +697,7 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 					auto obj = dialog.ShowDialog();
 					if (obj != nullptr && obj != reinterpret_cast<void*>(IDCANCEL))
 					{
+						obj->InternalInitialize(gEditorWindow->editor.get());
 						obj->EditorInitialize();
 						obj->EditorLoad();
 						gEditorWindow->AddObject(obj);

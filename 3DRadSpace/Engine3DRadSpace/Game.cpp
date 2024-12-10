@@ -171,7 +171,7 @@ void Game::Initialize()
 {
 	for (auto& [object, type] : *Objects)
 	{
-		object->internalInitialize(this);
+		object->InternalInitialize(this);
 		object->Initialize();
 	}
 }

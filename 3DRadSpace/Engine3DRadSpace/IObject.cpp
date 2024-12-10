@@ -12,7 +12,7 @@ IObject::IObject(const std::string &name, bool enabled, bool visible) :
 {
 }
 
-void Engine3DRadSpace::IObject::internalInitialize(Game* game)
+void Engine3DRadSpace::IObject::InternalInitialize(Game* game)
 {
 	_game = game;
 	_device = game->Device.get();
