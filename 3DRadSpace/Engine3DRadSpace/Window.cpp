@@ -264,7 +264,12 @@ RectangleF Window::RectangleF() const noexcept
     RECT r;
     GetClientRect(static_cast<HWND>(_window), &r);
     
-    return { (float)r.left, (float)r.top, (float)(r.right - r.left), (float)(r.bottom - r.top) };
+    return Math::RectangleF(
+        static_cast<float>(r.left),
+        static_cast<float>(r.top),
+        static_cast<float>(r.right - r.left),
+        static_cast<float>(r.bottom - r.top)
+    );
 #endif //  _WIN32
 }
 
@@ -274,7 +279,12 @@ Math::Rectangle Window::Rectangle() const noexcept
     RECT r;
     GetClientRect(static_cast<HWND>(_window), &r);
 
-    return {r.left, r.top, r.right - r.left, r.bottom - r.top };
+    return Math::Rectangle{
+        r.left,
+        r.top,
+        r.right - r.left,
+        r.bottom - r.top 
+    };
 #endif //  _WIN32
 }
 

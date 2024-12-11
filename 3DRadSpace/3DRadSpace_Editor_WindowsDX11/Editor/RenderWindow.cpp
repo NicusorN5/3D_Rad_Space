@@ -59,10 +59,14 @@ void RenderWindow::Initialize()
 
 Model3D *fish = nullptr;
 
+Font* font = nullptr;
+
 void RenderWindow::Load()
 {
-
+	font = new Font(Device.get(), "Data//Fonts//Arial.ttf");
 }
+
+Vector2 mouseDelta;
 
 void RenderWindow::Update()
 {
@@ -75,7 +79,7 @@ void RenderWindow::Update()
 		Point mousePos = Mouse.Position();
 		Window->SetMousePosition(screenCenter);
 
-		Vector2 mouseDelta = (Vector2)(screenCenter - mousePos) * float(Update_dt);
+		mouseDelta = (Vector2)(screenCenter - mousePos) * float(Update_dt);
 		cameraPos -= mouseDelta * Settings::CameraSensitivity.Value;
 
 		cameraPos.Y = std::clamp<float>(
@@ -161,7 +165,14 @@ void RenderWindow::Draw3D()
 
 void RenderWindow::Draw2D()
 {
-	
+	SpriteBatch->Begin();
+	SpriteBatch->DrawString(
+		font,
+		std::format("Mouse delta : {} {}", mouseDelta.X, mouseDelta.Y),
+		Point(20, 20),
+		1
+	);
+	SpriteBatch->End();
 }
 
 bool RenderWindow::IsFocused() const

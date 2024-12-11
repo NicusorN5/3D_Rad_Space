@@ -36,7 +36,6 @@ int Rectangle::Area() const noexcept
 
 // ------------------------------------------------------------------------------ //
 
-
 Vector2 RectangleF::TopLeft() const
 {
     return Vector2(X, Y);

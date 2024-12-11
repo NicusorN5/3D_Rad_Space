@@ -5,22 +5,22 @@ using namespace Engine3DRadSpace::Math;
 
 Vector2 Vector2::Zero()
 {
-    return { 0,0 };
+    return Vector2{ 0,0 };
 }
 
 Vector2 Vector2::UnitX()
 {
-    return { 1,0 };
+    return Vector2{ 1,0 };
 }
 
 Vector2 Vector2::UnitY()
 {
-    return { 0,1 };
+    return Vector2{ 0,1 };
 }
 
 Vector2 Vector2::One()
 {
-    return { 1,1 };
+    return Vector2{ 1,1 };
 }
 
 float Vector2::Length() const

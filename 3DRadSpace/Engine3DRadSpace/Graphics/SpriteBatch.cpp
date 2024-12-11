@@ -159,7 +159,12 @@ void SpriteBatch::_drawAllEntries_SortByTexture()
 		if(entry.textureID == lastID)
 		{
 			auto& [min, max] = entry.coords;
-			auto quad = _createQuad(min.X, min.Y, max.X, max.Y, entry.flipU, entry.flipV, entry.tintColor);
+			auto quad = _createQuad(
+				Math::RectangleF(min,max),
+				entry.flipU, 
+				entry.flipV,
+				entry.tintColor
+			);
 			currentVertices.insert(currentVertices.end(), quad.begin(), quad.end());
 
 			auto indices = _createIndexQuad(i);
@@ -331,22 +336,20 @@ void SpriteBatch::Draw(Texture2D* texture, const Math::Rectangle& coords, const 
 	if (texture == nullptr) return;
 
 	auto screenSize = _device->Resolution();
-	RectangleF nCoords =
-	{
+	RectangleF nCoords(
 		static_cast<float>(coords.X) / static_cast<float>(screenSize.X),
 		static_cast<float>(coords.Y) / static_cast<float>(screenSize.Y),
 		static_cast<float>(coords.Width) / static_cast<float>(screenSize.X),
-		static_cast<float>(coords.Height) / static_cast<float>(screenSize.Y),
-	};
+		static_cast<float>(coords.Height) / static_cast<float>(screenSize.Y)
+	);
 
 	auto textureSize = texture->Size();
-	RectangleF nSource =
-	{
+	RectangleF nSource(
 		static_cast<float>(source.X) / static_cast<float>(textureSize.X),
 		static_cast<float>(source.Y) / static_cast<float>(textureSize.Y),
 		static_cast<float>(source.Width) / static_cast<float>(textureSize.X),
-		static_cast<float>(source.Height) / static_cast<float>(textureSize.Y),
-	};
+		static_cast<float>(source.Height) / static_cast<float>(textureSize.Y)
+	);
 
 	DrawNormalized(texture, nCoords, nSource, tintColor, rotation, flipMode, depth);
 }
@@ -354,13 +357,12 @@ void SpriteBatch::Draw(Texture2D* texture, const Math::Rectangle& coords, const 
 void SpriteBatch::Draw(Texture2D* texture, const Math::Rectangle& coords, Color tintColor, float rotation, FlipMode flipMode, float depth)
 {
 	auto screenSize = _device->Resolution();
-	RectangleF nCoords =
-	{
+	RectangleF nCoords(
 		static_cast<float>(coords.X) / static_cast<float>(screenSize.X),
 		static_cast<float>(coords.Y) / static_cast<float>(screenSize.Y),
 		static_cast<float>(coords.Width) / static_cast<float>(screenSize.X),
-		static_cast<float>(coords.Height) / static_cast<float>(screenSize.Y),
-	};
+		static_cast<float>(coords.Height) / static_cast<float>(screenSize.Y)
+	);
 
 	DrawNormalized(texture, nCoords, _fullDefaultUV, tintColor, rotation, flipMode, depth);
 }
@@ -379,7 +381,7 @@ void SpriteBatch::DrawString(Font* font, const std::string& text, const Vector2&
 	int y = static_cast<int>(pos.Y * screenSize.Y);
 
 	End();
-	Begin(SpriteBatchSortMode::Immediate);
+	Begin(SpriteBatchSortMode::SortedByTexture);
 
 	for (auto&& c : text)
 	{

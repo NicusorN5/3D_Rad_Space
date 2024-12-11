@@ -11,7 +11,11 @@ using namespace Engine3DRadSpace::Objects;
 using namespace Engine3DRadSpace::Math;
 
 SkinmeshPreviewer::SkinmeshPreviewer(const std::filesystem::path &meshPath):
-	Game(std::string("Skinmesh previewer -") + meshPath.string())
+	Game(std::string("Skinmesh previewer -") + meshPath.string()),
+	_camCoords(
+		cosf(std::numbers::pi_v<float> / 6), //30 degrees = pi/6 radians
+		sinf(std::numbers::pi_v<float> / 6)
+	)
 {
 	_basicShader.reset(new BasicTextured(Device.get()));
 

@@ -55,9 +55,6 @@ void Game::RunOneFrame()
 {
 	auto ts_u1 = std::chrono::high_resolution_clock::now();
 
-	auto& keyboard = Window->GetKeyboardState();
-	auto& mouse = Window->GetMouseState();
-
 	Update();
 	auto ts_u2 = std::chrono::high_resolution_clock::now();
 

@@ -7,7 +7,7 @@ namespace Engine3DRadSpace::Math
 	struct DLLEXPORT Vector2
 	{
 		float X, Y;
-		Vector2(float x = 0.0f, float y = 0.0f) :X(x), Y(y) {};
+		explicit Vector2(float x = 0.0f, float y = 0.0f) :X(x), Y(y) {};
 
 		static Vector2 Zero();
 		static Vector2 UnitX();

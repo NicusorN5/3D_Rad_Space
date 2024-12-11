@@ -79,8 +79,10 @@ void EditorWindow::_findUpdate()
 		MessageBoxA(_mainWindow, "Out of memory", "Update error", MB_ICONERROR | MB_OK);
 		return;
 	case INET_E_DOWNLOAD_FAILURE:
-
 		MessageBoxA(_mainWindow, "Network error. Check your internet connection.", "Update error", MB_ICONERROR | MB_OK);
+		return;
+	case 0x800c0005: //The system cannot locate the resource specified.
+		MessageBoxA(_mainWindow, "Network error. Domain is down", "Update error", MB_ICONERROR | MB_OK);
 		return;
 	default:
 		MessageBoxA(_mainWindow, "Unknown error.", "Update error", MB_ICONERROR | MB_OK);
@@ -468,8 +470,6 @@ void EditorWindow::Run()
 	editor->Initialize();
 	editor->Load();
 
-	double u_dt = 0;
-	double d_dt = 0;
 	while (_running && this->editor)
 	{
 		MSG msg;
@@ -487,7 +487,7 @@ void EditorWindow::Run()
 		auto ts_u2 = std::chrono::steady_clock::now();
 
 		std::chrono::duration<double> uDiff = ts_u2 - ts_u1;
-		u_dt = uDiff.count();
+		editor->Update_dt = uDiff.count();
 
 		auto ts_d1 = std::chrono::steady_clock::now();
 
@@ -500,7 +500,7 @@ void EditorWindow::Run()
 		auto ts_d2 = std::chrono::steady_clock::now();
 
 		std::chrono::duration<double> dDiff = ts_d2 - ts_d1;
-		d_dt = dDiff.count();
+		editor->Draw_dt = dDiff.count();
 	}
 }
 

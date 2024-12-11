@@ -26,11 +26,10 @@ using namespace Engine3DRadSpace::Objects;
 
 class RenderWindow : public Engine3DRadSpace::Game
 {
-	Vector2 cameraPos =
-	{
+	Vector2 cameraPos = Vector2(
 		cosf(std::numbers::pi_v<float> / 6), //30 degrees = pi/6 radians
 		sinf(std::numbers::pi_v<float> / 6)
-	};
+	);
 
 	Vector3 cursor3D = Vector3::Zero();
 

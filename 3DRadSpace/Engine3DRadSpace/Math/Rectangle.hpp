@@ -7,7 +7,21 @@ namespace Engine3DRadSpace
 	{
 		struct DLLEXPORT Rectangle
 		{
-			Rectangle(int x = 0, int y = 0, int w = 0, int h = 0) : X(x), Y(y), Width(w), Height(h) {};
+			explicit constexpr Rectangle(int x = 0, int y = 0, int w = 0, int h = 0) :
+				X(x),
+				Y(y),
+				Width(w),
+				Height(h)
+			{
+			}
+			explicit Rectangle(Point min, Point max) :
+				X(min.X),
+				Y(min.Y),
+				Width(max.X - min.X),
+				Height(max.Y - min.Y)
+			{
+			}
+
 
 			int X;
 			int Y;
@@ -28,7 +42,20 @@ namespace Engine3DRadSpace
 
 		struct DLLEXPORT RectangleF
 		{
-			constexpr RectangleF(float x = 0, float y = 0, float w = 0, float h = 0) : X(x), Y(y), Width(w), Height(h) {};
+			explicit constexpr RectangleF(float x = 0, float y = 0, float w = 0, float h = 0) :
+				X(x),
+				Y(y),
+				Width(w),
+				Height(h)
+			{
+			}
+			explicit RectangleF(Vector2 min, Vector2 max) :
+				X(min.X),
+				Y(min.Y),
+				Width(max.X - min.X),
+				Height(max.Y - min.Y)
+			{
+			}
 
 			float X;
 			float Y;

@@ -14,13 +14,8 @@ class SkinmeshPreviewer : public Engine3DRadSpace::Game
 	std::shared_ptr<Engine3DRadSpace::Graphics::Shaders::BasicTextured> _basicShader;
 	float _zoom;
 	float _initialZoom;
-	Engine3DRadSpace::Math::Vector2 _camCoords =
-	{
-		cosf(std::numbers::pi_v<float> / 6), //30 degrees = pi/6 radians
-		sinf(std::numbers::pi_v<float> / 6)
-	};
+	Engine3DRadSpace::Math::Vector2 _camCoords;
 public:
-
 	explicit SkinmeshPreviewer(const std::filesystem::path& modelPath);
 
 	SkinmeshPreviewer(SkinmeshPreviewer &) = delete;
