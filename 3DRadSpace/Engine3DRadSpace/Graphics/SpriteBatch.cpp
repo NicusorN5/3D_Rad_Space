@@ -149,11 +149,12 @@ void SpriteBatch::_drawAllEntries_SortByTexture()
 	auto draw = [&]()
 	{
 		_vertexBuffer->SetData(currentVertices);
-		_indexBuffer->SetData(currentIndices);
-		_device->DrawVertexBufferWithindices(_vertexBuffer.get(), _indexBuffer.get());
+		//_indexBuffer->SetData(currentIndices);
+		//_device->DrawVertexBufferWithindices(_vertexBuffer.get(), _indexBuffer.get());
+		_device->DrawVertexBuffer(_vertexBuffer.get());
 	};
 
-	unsigned i = 0;
+	//unsigned i = 0;
 	for(auto &entry : _entries)
 	{
 		if(entry.textureID == lastID)
@@ -167,9 +168,9 @@ void SpriteBatch::_drawAllEntries_SortByTexture()
 			);
 			currentVertices.insert(currentVertices.end(), quad.begin(), quad.end());
 
-			auto indices = _createIndexQuad(i);
-			currentIndices.insert(currentIndices.end(), indices.begin(), indices.end());
-			i += 4;
+			//auto indices = _createIndexQuad(i);
+			//currentIndices.insert(currentIndices.end(), indices.begin(), indices.end());
+			//i += 4;
 		}
 		else
 		{
@@ -178,7 +179,7 @@ void SpriteBatch::_drawAllEntries_SortByTexture()
 				_capacity *= 2; //growth factor
 
 				_vertexBuffer = std::make_unique<VertexBufferV<VertexPointUVColor>>(_device, nullptr, _capacity * 4);
-				_indexBuffer = std::make_unique<IndexBuffer>(_device, nullptr, _capacity * 6);
+				//_indexBuffer = std::make_unique<IndexBuffer>(_device, nullptr, _capacity * 6);
 			}
 
 			_spriteShader->SetTexture(_textures[entry.textureID]);
@@ -381,7 +382,7 @@ void SpriteBatch::DrawString(Font* font, const std::string& text, const Vector2&
 	int y = static_cast<int>(pos.Y * screenSize.Y);
 
 	End();
-	Begin(SpriteBatchSortMode::SortedByTexture);
+	Begin(SpriteBatchSortMode::Immediate);
 
 	for (auto&& c : text)
 	{

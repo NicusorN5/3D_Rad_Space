@@ -124,7 +124,7 @@ Vector3 Quaternion::ToYawPitchRoll() const
     Vector3 r;
     float sinr_cosp = 2 * (W * X + Y * Z);
     float cosr_cosp = 1 - 2 * (X * X + Y * Y);
-    r.Z = std::atan2f(sinr_cosp, cosr_cosp);
+    r.X = std::atan2f(sinr_cosp, cosr_cosp);
 
     // pitch (y-axis rotation)
     float sinp = std::sqrtf(1 + 2 * (W * Y - X * Z));
