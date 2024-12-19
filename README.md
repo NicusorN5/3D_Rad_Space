@@ -19,16 +19,16 @@ Old releases can be found [here](https://github.com/3DRadSpace/3D_Rad_Space/rele
 1.) Download the source using Git
 `git clone https://github.com/3DRadSpace/3D_Rad_Space`
 
-2.) Install the dependencies:
+2.) Install the dependencies (⚠️ NuGet versions can cause conflicts)
 
 - Windows API 
 > Included in Windows SDK, use VS Installer
 >
 > ⚠️ Source won't compile if using versions < 10.0.20348.0
 - DirectX11 Toolkit (directxtk_desktop_2019)
-> Can be easily installed by using NuGet.
+> `.\vcpkg install directxtk:x64-Windows`
 - Assimp
-> Install latest version using vcpkg: (⚠️ NuGet versions can cause conflicts!)
+> Install latest version using vcpkg: 
 
 > `.\vcpkg install assimp:x64-Windows`
 - nlohmann JSON
