@@ -21,7 +21,7 @@ std::span<InputLayoutElement> SpriteShader::VertexShader::InputLayout()
 	return sprite_elements;
 }
 
-SpriteShader::PixelShader::PixelShader(GraphicsDevice *device) : IPixelShader(device, std::filesystem::path("Data\\Shaders\\Sprite.hlsl"), "PS_Main")
+SpriteShader::PixelShader::PixelShader(GraphicsDevice *device) : IFragmentShader(device, std::filesystem::path("Data\\Shaders\\Sprite.hlsl"), "PS_Main")
 {
 }
 

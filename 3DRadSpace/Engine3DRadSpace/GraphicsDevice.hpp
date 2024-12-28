@@ -45,6 +45,8 @@ namespace Engine3DRadSpace
 		std::unique_ptr<Graphics::DepthStencilState> _stencilState;
 		std::unique_ptr<Graphics::BlendState> _blendState;
 
+		///Used for rendering post effects
+		std::unique_ptr<Graphics::VertexBufferV<Graphics::VertexPointUV>> _screenQuad;
 	public:
 		Microsoft::WRL::ComPtr<ID3D11Device> _device;
 		Microsoft::WRL::ComPtr<ID3D11DeviceContext> _context;
@@ -94,6 +96,9 @@ namespace Engine3DRadSpace
 
 		void ResizeBackBuffer(const Math::Point& newResolution);
 		void ToggleFullScreen();
+
+		void SetScreenQuad();
+		void DrawScreenQuad();
 
 		~GraphicsDevice();
 

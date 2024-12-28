@@ -70,6 +70,8 @@ namespace Engine3DRadSpace
 			size_t StructSize() const noexcept;
 			size_t NumVertices() const noexcept;
 
+			void SetDebugName(const std::string& name);
+
 			virtual ~VertexBuffer() = default;
 
 			friend class GraphicsDevice;

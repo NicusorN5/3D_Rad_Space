@@ -168,7 +168,7 @@ void RenderWindow::Draw2D()
 	SpriteBatch->Begin();
 	SpriteBatch->DrawString(
 		font,
-		std::format("Mouse delta : {} {}", mouseDelta.X, mouseDelta.Y),
+		std::format("M", mouseDelta.X, mouseDelta.Y),
 		Point(20, 20),
 		1
 	);

@@ -15,7 +15,7 @@ std::span<InputLayoutElement> BasicTextured::VertexShader::InputLayout()
 }
 
 BasicTextured::PixelShader::PixelShader(GraphicsDevice* device) :
-	IPixelShader(device, std::filesystem::path("Data\\Shaders\\PositionNormalTangentUV.hlsl"), "PS_Main")
+	IFragmentShader(device, std::filesystem::path("Data\\Shaders\\PositionNormalTangentUV.hlsl"), "PS_Main")
 {
 }
 

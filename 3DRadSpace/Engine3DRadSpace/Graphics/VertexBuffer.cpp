@@ -127,3 +127,12 @@ size_t VertexBuffer::NumVertices() const noexcept
 {
 	return _numVerts;
 }
+
+void VertexBuffer::SetDebugName(const std::string& name)
+{
+#ifdef _DEBUG
+#ifdef USING_DX11
+	_buffer->SetPrivateData(WKPDID_D3DDebugObjectName, name.length() - 1, name.c_str());
+#endif
+#endif
+}

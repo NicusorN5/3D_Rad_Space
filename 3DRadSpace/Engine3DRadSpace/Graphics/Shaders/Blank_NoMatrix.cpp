@@ -16,7 +16,7 @@ std::span<InputLayoutElement> Blank_NoMatrix::TrivialVertexShader::InputLayout()
 }
 
 Blank_NoMatrix::TrivialPixelShader::TrivialPixelShader(GraphicsDevice* device) :
-	IPixelShader(device, std::filesystem::path("Data\\Shaders\\PositionColor_NoMat.hlsl"), "PS_Main")
+	IFragmentShader(device, std::filesystem::path("Data\\Shaders\\PositionColor_NoMat.hlsl"), "PS_Main")
 {
 }
 

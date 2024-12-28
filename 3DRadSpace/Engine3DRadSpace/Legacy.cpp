@@ -2,6 +2,7 @@
 #include "Physics/IPhysicsObject.hpp"
 #include "Game.hpp"
 #include "Objects/Skinmesh.hpp"
+#include "Objects/TextPrint.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Math;
@@ -9,10 +10,16 @@ using namespace Engine3DRadSpace::Objects;
 using namespace Engine3DRadSpace::Physics;
 
 static ObjectList *objList;
+static std::filesystem::path projectPath;
 
 void Engine3DRadSpace::Legacy::SetObjectList(ObjectList *list)
 {
 	objList = list;
+}
+
+void DLLEXPORT Engine3DRadSpace::Legacy::SetProjectPath(const std::filesystem::path& path)
+{
+	projectPath = path;
 }
 
 void Engine3DRadSpace::Legacy::iObjectStart(unsigned obj_x)
@@ -44,6 +51,13 @@ void DLLEXPORT Engine3DRadSpace::Legacy::iObjectShowHideSwitch(unsigned obj_x)
 {
 	(*objList)[obj_x]->Visible = !((*objList)[obj_x]->Visible);
 }
+
+/* TO-DO: Allowing objects to be resetted would require re-reading the project, then a refactor would be necessary.
+void DLLEXPORT Engine3DRadSpace::Legacy::iObjectReset(unsigned obj_x)
+{
+	
+}
+*/
 
 void Engine3DRadSpace::Legacy::iObjectOrientation(int obj_x, Quaternion& q)
 {
@@ -143,6 +157,33 @@ void DLLEXPORT Engine3DRadSpace::Legacy::iObjectTorqueApply(int obj_x, Math::Vec
 	if (obj != nullptr) obj->ApplyTorque(v);
 }
 
+void DLLEXPORT Engine3DRadSpace::Legacy::iObjectAngularAccelerationApply(int obj_x, Math::Vector3& v)
+{
+	auto obj = dynamic_cast<IPhysicsObject*>((*objList)[obj_x]);
+	if(obj != nullptr) obj->ApplyAngularAcceleration(v);
+}
+
+void DLLEXPORT Engine3DRadSpace::Legacy::iObjectForceApply(int ojb_x, Math::Vector3 f, Math::Vector3* p)
+{
+	auto obj = dynamic_cast<IPhysicsObject*>((*objList)[ojb_x]);
+	if(obj != nullptr)
+	{
+		if(p != nullptr) obj->ApplyForce(f, *p);
+		else obj->ApplyForce(f);
+	}
+}
+
+void DLLEXPORT Engine3DRadSpace::Legacy::iObjectAccelerationApply(int obj_x, const Math::Vector3& acc)
+{
+	auto obj = dynamic_cast<IPhysicsObject*>((*objList)[obj_x]);
+	if(obj != nullptr) obj->ApplyAcceleration(acc);
+}
+
+void DLLEXPORT Engine3DRadSpace::Legacy::iObjectDampingApply(int obj_x, Math::Vector3& v, bool is_rotation, bool local_axis)
+{
+	
+}
+
 int Engine3DRadSpace::Legacy::iObjectScan(int obj_x, const Math::Vector3& origin, const Math::Vector3& direction, float radius, Math::Vector3& contactPoint, Math::Vector3& contactNormal)
 {
 	auto obj = dynamic_cast<IObject3D*>((*objList)[obj_x]);
@@ -168,6 +209,12 @@ int Engine3DRadSpace::Legacy::iObjectScan(int obj_x, const Math::Vector3& origin
 		else return false;
 	}
 	else return false;
+}
+
+void Engine3DRadSpace::Legacy::iObjectTextSet(int obj_x, const std::string str)
+{
+	auto txtPrint = dynamic_cast<TextPrint*>((*objList)[obj_x]);
+	if(txtPrint != nullptr) txtPrint->Text = str;
 }
 
 void DLLEXPORT Engine3DRadSpace::Legacy::iObjectRefresh(int obj_x, const std::filesystem::path& path)

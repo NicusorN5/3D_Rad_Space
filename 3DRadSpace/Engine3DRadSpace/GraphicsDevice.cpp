@@ -21,7 +21,7 @@ using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Logging;
 using namespace Engine3DRadSpace::Math;
 
-GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, unsigned width, unsigned height) :
+Engine3DRadSpace::GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, unsigned width, unsigned height) :
 	EnableVSync(true),
 	_resolution(width, height)
 {
@@ -72,6 +72,39 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, unsigned width, unsigne
 	_blendState = std::make_unique<BlendState>(this);
 
 	_context->OMSetDepthStencilState(_stencilState->_state.Get(), 1);
+
+	//create screen quad - used for post effects
+	auto rr = RectangleF(0, 0, 1, 1);
+	Vector2 a = rr.BottomLeft();
+	a = Vector2::ConvertFromNormalizedScreenSpaceToClipSpace(a);
+
+	Vector2 b = rr.TopLeft();
+	b = Vector2::ConvertFromNormalizedScreenSpaceToClipSpace(b);
+
+	Vector2 c = rr.TopRight();
+	c = Vector2::ConvertFromNormalizedScreenSpaceToClipSpace(c);
+
+	Vector2 d = rr.BottomRight();
+	d = Vector2::ConvertFromNormalizedScreenSpaceToClipSpace(d);
+
+	Vector2 uv_a = Vector2(0, 1);
+	Vector2 uv_b = Vector2(0, 0);
+	Vector2 uv_c = Vector2(1, 0);
+	Vector2 uv_d = Vector2(1, 1);
+
+	std::array<VertexPointUV, 6> quad =
+	{
+		VertexPointUV{a, uv_a},
+		VertexPointUV{b, uv_b},
+		VertexPointUV{c, uv_c},
+
+		VertexPointUV{a, uv_a},
+		VertexPointUV{c, uv_c},
+		VertexPointUV{d, uv_d}
+	};
+
+	_screenQuad = std::make_unique<VertexBufferV<VertexPointUV>>(this, quad);
+	_screenQuad->SetDebugName("GraphicsDevice::_screenQuad");
 
 #if _DEBUG
 	const char deviceName[] = "GraphicsDevice::_device";
@@ -348,6 +381,16 @@ void GraphicsDevice::ResizeBackBuffer(const Math::Point &newResolution)
 void GraphicsDevice::ToggleFullScreen()
 {
 	_swapChain->SetFullscreenState(_fullscreen = !_fullscreen, nullptr);
+}
+
+void Engine3DRadSpace::GraphicsDevice::SetScreenQuad()
+{
+	_screenQuad->Set();
+}
+
+void Engine3DRadSpace::GraphicsDevice::DrawScreenQuad()
+{
+	DrawVertexBuffer(_screenQuad.get());
 }
 
 GraphicsDevice::~GraphicsDevice()

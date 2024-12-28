@@ -31,7 +31,7 @@ namespace Engine3DRadSpace::Physics
 		Math::Vector3 MaxAngularVelocity;
 
 		/// <summary>
-		/// If true, the fields Position, Rotation, Scale, Mass, Damping, Velocity, etc will be set after a Game::Update() call ends.
+		/// If true, the fields Position, Rotation, Scale, Mass, Damping, Velocity, etc will be set after a ::Update() call ends.
 		/// </summary>
 		bool UpdatePropertiesAfterFrame = false;
 
@@ -59,7 +59,11 @@ namespace Engine3DRadSpace::Physics
 		virtual bool Read(PhysicsProperty property) const = 0;
 
 		virtual bool ApplyForce(const Math::Vector3& force) = 0;
+		virtual bool ApplyForce(const Math::Vector3& force, const Math::Vector3& center) = 0;
 		virtual bool ApplyTorque(const Math::Vector3& force) = 0;
+
+		virtual bool ApplyAcceleration(const Math::Vector3& acc) = 0;
+		virtual bool ApplyAngularAcceleration(const Math::Vector3& acc) = 0;
 
 		virtual ~IPhysicsObject() = default;
 	};

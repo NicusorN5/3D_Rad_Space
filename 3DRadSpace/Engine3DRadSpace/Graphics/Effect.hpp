@@ -15,9 +15,9 @@ namespace Engine3DRadSpace::Graphics::Shaders
 		std::unique_ptr<IHullShader> _hull;
 		std::unique_ptr<IDomainShader> _domain;
 		std::unique_ptr<IGeometryShader> _geometry;
-		std::unique_ptr<IPixelShader> _pixel;
+		std::unique_ptr<IFragmentShader> _pixel;
 	public:
-		Effect(GraphicsDevice *device, IVertexShader* vertexShader, IPixelShader* fragmentShader, IHullShader* hullShader = nullptr,
+		Effect(GraphicsDevice *device, IVertexShader* vertexShader, IFragmentShader* fragmentShader, IHullShader* hullShader = nullptr,
 			IDomainShader* domainShader = nullptr, IGeometryShader* geometryShader = nullptr);
 
 		Effect(const Effect &p) = delete;

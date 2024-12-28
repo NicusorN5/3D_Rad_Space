@@ -6,7 +6,7 @@ using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Logging;
 
-void IPixelShader::_createShader()
+void IFragmentShader::_createShader()
 {
 #ifdef USING_DX11
 	HRESULT r = _device->_device->CreatePixelShader(
@@ -18,13 +18,13 @@ void IPixelShader::_createShader()
 	if(FAILED(r)) throw ShaderCompilationError("Failed to create a pixel shader!");
 
 #ifdef _DEBUG
-	const char shaderName[] = "IPixelShader::_shader";
+	const char shaderName[] = "IFragmentShader::_shader";
 	_shader->SetPrivateData(WKPDID_D3DDebugObjectName, sizeof(shaderName), shaderName);
 #endif
 #endif
 }
 
-const char * IPixelShader::_determineTarget()
+const char * IFragmentShader::_determineTarget()
 {
 	switch(_featureLevel)
 	{
@@ -41,35 +41,35 @@ const char * IPixelShader::_determineTarget()
 	}
 }
 
-IPixelShader::IPixelShader(GraphicsDevice *device, const char *shaderSource, const char *entryFunction, ShaderFeatureLevel fl):
+IFragmentShader::IFragmentShader(GraphicsDevice *device, const char *shaderSource, const char *entryFunction, ShaderFeatureLevel fl):
 	IShader(device, shaderSource, entryFunction, fl)
 {
 	_compileShader(shaderSource, _determineTarget());
 	_createShader();
 }
 
-IPixelShader::IPixelShader(GraphicsDevice *device, const std::filesystem::path &path, const char *entryFunction, ShaderFeatureLevel fl):
+IFragmentShader::IFragmentShader(GraphicsDevice *device, const std::filesystem::path &path, const char *entryFunction, ShaderFeatureLevel fl):
 	IShader(device, path, entryFunction, fl)
 {
 	_compileShaderFromFile(path.string().c_str(), _determineTarget());
 	_createShader();
 }
 
-void IPixelShader::SetTexture(unsigned index, Texture2D *texture)
+void IFragmentShader::SetTexture(unsigned index, Texture2D *texture)
 {
 #ifdef USING_DX11
 	_device->_context->PSSetShaderResources(index, 1, texture->_resourceView.GetAddressOf());
 #endif // USING_DX11
 }
 
-void IPixelShader::SetSampler(unsigned index, SamplerState *samplerState)
+void IFragmentShader::SetSampler(unsigned index, SamplerState *samplerState)
 {
 #ifdef USING_DX11
 	_device->_context->PSSetSamplers(0, 1, samplerState->_samplerState.GetAddressOf());
 #endif
 }
 
-void IPixelShader::SetShader()
+void IFragmentShader::SetShader()
 {
 #ifdef USING_DX11
 	unsigned i;
@@ -80,7 +80,7 @@ void IPixelShader::SetShader()
 #endif
 }
 
-void* IPixelShader::GetHandle() const noexcept
+void* IFragmentShader::GetHandle() const noexcept
 {
 #ifdef USING_DX11
 	return static_cast<void*>(_shader.Get());

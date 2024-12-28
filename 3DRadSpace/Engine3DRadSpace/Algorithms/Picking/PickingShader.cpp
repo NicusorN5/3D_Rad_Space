@@ -15,7 +15,7 @@ std::span<InputLayoutElement> PickingShader::VertexShader::InputLayout()
 }
 
 PickingShader::PixelShader::PixelShader(GraphicsDevice* device) :
-	IPixelShader(device, std::filesystem::path("Data\\Shaders\\PickInfo.hlsl"), "PS_Main")
+	IFragmentShader(device, std::filesystem::path("Data\\Shaders\\PickInfo.hlsl"), "PS_Main")
 {
 }
 

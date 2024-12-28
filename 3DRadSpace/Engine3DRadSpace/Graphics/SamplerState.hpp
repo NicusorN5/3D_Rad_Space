@@ -56,7 +56,7 @@ namespace Engine3DRadSpace::Graphics
 		~SamplerState() = default;
 
 		friend class IVertexShader;
-		friend class IPixelShader;
+		friend class IFragmentShader;
 		friend class IHullShader;
 		friend class IDomainShader;
 		friend class IGeometryShader;

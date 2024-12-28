@@ -13,7 +13,7 @@ namespace Engine3DRadSpace::Graphics::Shaders
 			virtual std::span<InputLayoutElement> InputLayout();
 		};
 
-		class TrivialPixelShader : public IPixelShader
+		class TrivialPixelShader : public IFragmentShader
 		{
 		public:
 			explicit TrivialPixelShader(GraphicsDevice *device);

@@ -23,6 +23,7 @@
 #include <typeindex>
 #include <cassert>
 #include <ranges>
+#include <random>
 
 #ifdef _WIN32
 #define NOMINMAX

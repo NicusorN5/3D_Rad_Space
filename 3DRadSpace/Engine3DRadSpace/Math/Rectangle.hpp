@@ -22,7 +22,6 @@ namespace Engine3DRadSpace
 			{
 			}
 
-
 			int X;
 			int Y;
 			int Width;

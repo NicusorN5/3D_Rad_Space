@@ -15,7 +15,7 @@ namespace Engine3DRadSpace::Graphics::Shaders
 			std::span<InputLayoutElement> InputLayout() override;
 		};
 
-		class PixelShader : public IPixelShader
+		class PixelShader : public IFragmentShader
 		{
 		public:
 			explicit PixelShader(GraphicsDevice* Device);

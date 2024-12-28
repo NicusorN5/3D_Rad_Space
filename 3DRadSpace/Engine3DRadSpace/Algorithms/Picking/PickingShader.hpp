@@ -15,7 +15,7 @@ namespace Engine3DRadSpace::Algorithms::Picking
 			std::span<Graphics::InputLayoutElement> InputLayout() override;
 		};
 
-		class PixelShader : public Graphics::IPixelShader
+		class PixelShader : public Graphics::IFragmentShader
 		{
 		public:
 			explicit PixelShader(GraphicsDevice* device);

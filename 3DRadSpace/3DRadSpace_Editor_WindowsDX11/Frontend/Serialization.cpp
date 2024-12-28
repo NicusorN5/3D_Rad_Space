@@ -2,6 +2,7 @@
 #include <Engine3DRadSpace/Content/AssetID.hpp>
 #include <fstream>
 #include <ranges>
+#include "Windows\AddObjectDialog.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;

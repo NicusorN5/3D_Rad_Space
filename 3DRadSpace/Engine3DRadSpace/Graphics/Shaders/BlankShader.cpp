@@ -10,7 +10,7 @@ BlankShader::VertexShader::VertexShader(GraphicsDevice* device):
 }
 
 BlankShader::PixelShader::PixelShader(GraphicsDevice* device) :
-	IPixelShader(device, std::filesystem::path("Data\\Shaders\\PositionColor.hlsl"), "PS_Main")
+	IFragmentShader(device, std::filesystem::path("Data\\Shaders\\PositionColor.hlsl"), "PS_Main")
 {
 }
 
