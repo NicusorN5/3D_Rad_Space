@@ -8,10 +8,15 @@ namespace Engine3DRadSpace::Graphics
 #ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11RenderTargetView> _renderTarget;
 #endif
-		RenderTarget(GraphicsDevice* device, std::monostate cpy);
+	protected:
+		explicit RenderTarget(GraphicsDevice* device, std::monostate cpy);
+		explicit RenderTarget(Internal::AssetUUIDReader r);
 	public:
 		RenderTarget(GraphicsDevice *device, PixelFormat format = PixelFormat::R32G32B32A32_Float);
 		RenderTarget(GraphicsDevice* device, unsigned x, unsigned y, PixelFormat format = PixelFormat::R32G32B32A32_Float);
+
+		RenderTarget(RenderTarget&&) noexcept = default;
+		RenderTarget& operator=(RenderTarget&&) noexcept = default;
 
 		void* RenderTargetHandle() const noexcept;
 
@@ -20,7 +25,7 @@ namespace Engine3DRadSpace::Graphics
 
 		~RenderTarget() = default;
 
-		friend class GraphicsDevice;
+		friend class Engine3DRadSpace::GraphicsDevice;
 	};
 }
 

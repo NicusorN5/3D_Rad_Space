@@ -1,4 +1,3 @@
-
 #include "Game.hpp"
 #include "ObjectList.hpp"
 
@@ -7,6 +6,7 @@ using namespace Engine3DRadSpace::Audio;
 using namespace Engine3DRadSpace::Content;
 using namespace Engine3DRadSpace::Input;
 using namespace Engine3DRadSpace::Graphics;
+using namespace Engine3DRadSpace::Graphics::Rendering;
 using namespace Engine3DRadSpace::Physics;
 using namespace Engine3DRadSpace::Math;
 
@@ -19,6 +19,7 @@ Game::Game(const std::string &title, unsigned width, unsigned height, bool fulls
 	Device = std::make_unique<GraphicsDevice>(Window->NativeHandle(),width,height);
 	Content = std::make_unique<Content::ContentManager>(Device.get());
 	SpriteBatch = std::make_unique<Graphics::SpriteBatch>(Device.get());
+	PostProcesses = std::make_unique<Graphics::Rendering::PostProcessCollection>(Device.get());
 	_valid = true;
 }
 
@@ -33,6 +34,7 @@ Game::Game(Engine3DRadSpace::Window &&window) :
 	Device = std::make_unique<GraphicsDevice>(Window->NativeHandle(), size.X, size.Y);
 	Content = std::make_unique<Content::ContentManager>(Device.get());
 	SpriteBatch = std::make_unique<Graphics::SpriteBatch>(Device.get());
+	PostProcesses = std::make_unique<Graphics::Rendering::PostProcessCollection>(Device.get());
 	_valid = true;
 }
 
@@ -68,6 +70,8 @@ void Game::RunOneFrame()
 
 	Draw3D();
 	Draw2D();
+
+	PostProcesses->ApplyAll();
 
 	Device->Present();
 

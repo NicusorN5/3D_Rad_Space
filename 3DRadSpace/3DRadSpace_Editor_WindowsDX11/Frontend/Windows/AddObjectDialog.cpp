@@ -10,6 +10,7 @@ REFL_FWD(GForce)
 REFL_FWD(Empty)
 REFL_FWD(SkyColor)
 REFL_FWD(TextPrint)
+REFL_FWD(Fog)
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Reflection;
@@ -128,7 +129,9 @@ void AddObjectDialog::InitializeReflData()
 			&CameraReflInstance, //Event On Key
 			&CameraReflInstance, //EventOnLocation
 			&CameraReflInstance, //ExitFade
-			&CameraReflInstance, //Fog
+			*/
+			{FogReflInstance.ObjectUUID, &FogReflInstance}, //Fog
+			/*
 			&CameraReflInstance, //Force
 			&CameraReflInstance, //FPVCamera
 			&CameraReflInstance, //Settings*/

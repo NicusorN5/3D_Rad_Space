@@ -3,7 +3,7 @@
 #include "IHullShader.hpp"
 #include "IDomainShader.hpp"
 #include "IGeometryShader.hpp"
-#include "IPixelShader.hpp"
+#include "IFragmentShader.hpp"
 
 namespace Engine3DRadSpace::Graphics::Shaders
 {

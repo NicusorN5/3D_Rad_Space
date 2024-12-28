@@ -21,6 +21,8 @@ namespace Engine3DRadSpace::Graphics::Rendering
 		float FogBegin;
 		float FogEnd;
 
+		void Apply() override;
+
 		~LinearPixelFogEffect() override = default;
 	};
 }

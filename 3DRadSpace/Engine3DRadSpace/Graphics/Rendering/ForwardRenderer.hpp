@@ -3,7 +3,7 @@
 
 namespace Engine3DRadSpace::Graphics::Rendering
 {
-	class ForwardRenderer final : public IRenderer
+	class DLLEXPORT ForwardRenderer final : public IRenderer
 	{
 		bool _beginCalled = false;
 	public:

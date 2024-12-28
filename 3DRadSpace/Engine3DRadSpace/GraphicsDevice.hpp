@@ -34,10 +34,9 @@ namespace Engine3DRadSpace
 	{
 #ifdef USING_DX11
 		Microsoft::WRL::ComPtr<IDXGISwapChain> _swapChain;
-
-		Microsoft::WRL::ComPtr<ID3D11Texture2D> _screenTexture;
-		Microsoft::WRL::ComPtr<ID3D11RenderTargetView> _mainRenderTarget;
 #endif
+		std::unique_ptr<Graphics::RenderTarget> _backbufferRT;
+
 		Math::Point _resolution;
 		bool _fullscreen = false;
 
@@ -99,6 +98,9 @@ namespace Engine3DRadSpace
 
 		void SetScreenQuad();
 		void DrawScreenQuad();
+
+		std::unique_ptr<Graphics::RenderTarget> GetBackBuffer(int index);
+		Graphics::DepthStencilBuffer& GetDepthBuffer();
 
 		~GraphicsDevice();
 

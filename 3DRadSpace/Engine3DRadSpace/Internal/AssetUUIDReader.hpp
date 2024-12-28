@@ -6,7 +6,8 @@
 namespace Engine3DRadSpace::Internal
 {
 	/// <summary>
-	/// Since it is impossible to obtain a vtable function without a instance, this exists.
+	/// Since it is impossible to obtain a vtable function without a instance, this exists. 
+	/// DO NOT use constructors using this argument, as they create invalid objects!
 	/// </summary>
 	struct AssetUUIDReader
 	{

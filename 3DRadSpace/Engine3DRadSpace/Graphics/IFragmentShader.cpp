@@ -1,4 +1,4 @@
-#include "IPixelShader.hpp"
+#include "IFragmentShader.hpp"
 #include "ShaderCompilationError.hpp"
 #include "../Logging/ResourceLoadingError.hpp"
 

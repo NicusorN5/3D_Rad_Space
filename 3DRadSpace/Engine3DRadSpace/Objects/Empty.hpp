@@ -4,7 +4,7 @@
 
 namespace Engine3DRadSpace::Objects
 {
-	class Empty : public IObject3D
+	class DLLEXPORT Empty : public IObject3D
 	{
 	public:
 		Empty(const std::string& name = "", const Math::Vector3& pos = {0,0,0}, const Math::Vector3& pivot = {0,0,0},

@@ -37,7 +37,7 @@ namespace Engine3DRadSpace
 
 			~IndexBuffer() = default;
 
-			friend class GraphicsDevice;
+			friend class Engine3DRadSpace::GraphicsDevice;
 			friend class ModelMeshPart;
 		};
 	}

@@ -30,10 +30,10 @@ namespace Engine3DRadSpace::Graphics
 		IShader(GraphicsDevice* device, const std::filesystem::path& path, const char* entry, ShaderFeatureLevel featureLevel = ShaderFeatureLevel::DX_V4);
 	public:
 		IShader(IShader&) = delete;
-		IShader(IShader&&) noexcept = delete;
+		IShader(IShader&&) noexcept = default;
 
 		IShader& operator=(IShader&) = delete;
-		IShader &operator=(IShader &&) noexcept = delete;
+		IShader &operator=(IShader &&) noexcept = default;
 
 		void SetData(unsigned index,const void *data, unsigned dataSize);
 		virtual void SetTexture(unsigned index, Texture2D *texture) = 0;
@@ -48,6 +48,6 @@ namespace Engine3DRadSpace::Graphics
 
 		virtual ~IShader() = default;
 
-		friend class GraphicsDevice;
+		friend class Engine3DRadSpace::GraphicsDevice;
 	};
 }

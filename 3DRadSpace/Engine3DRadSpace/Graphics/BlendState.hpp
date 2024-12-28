@@ -98,6 +98,6 @@ namespace Engine3DRadSpace::Graphics
 
         static BlendState GetCurrentBlendState(GraphicsDevice* device);
 
-		friend class GraphicsDevice;
+		friend class Engine3DRadSpace::GraphicsDevice;
 	};
 }

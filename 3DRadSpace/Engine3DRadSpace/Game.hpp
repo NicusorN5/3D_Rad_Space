@@ -13,6 +13,7 @@
 #include "Reflection/ReflectedObject.hpp"
 #include "Physics/PhysicsEngine.hpp"
 #include "Audio/AudioEngine.hpp"
+#include "Graphics/Rendering/PostProcessCollection.hpp"
 
 namespace Engine3DRadSpace
 {
@@ -51,6 +52,7 @@ namespace Engine3DRadSpace
 
 		std::unique_ptr<Physics::PhysicsEngine> Physics;
 		std::unique_ptr<Audio::AudioEngine> Audio;
+		std::unique_ptr<Graphics::Rendering::PostProcessCollection> PostProcesses;
 
 		double Draw_dt = 0;
 		double Update_dt = 0;

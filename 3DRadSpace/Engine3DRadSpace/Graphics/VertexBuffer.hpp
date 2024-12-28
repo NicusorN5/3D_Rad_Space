@@ -74,7 +74,7 @@ namespace Engine3DRadSpace
 
 			virtual ~VertexBuffer() = default;
 
-			friend class GraphicsDevice;
+			friend class Engine3DRadSpace::GraphicsDevice;
 			friend class ModelMeshPart;
 		};
 
@@ -87,7 +87,7 @@ namespace Engine3DRadSpace
 
 			void SetData(std::span<V> data);
 
-			friend class GraphicsDevice;
+			friend class Engine3DRadSpace::GraphicsDevice;
 		};
 
 		template<VertexDecl V>

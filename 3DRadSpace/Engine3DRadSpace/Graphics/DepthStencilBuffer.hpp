@@ -4,6 +4,7 @@
 
 namespace Engine3DRadSpace::Graphics
 {
+	class Texture2D;
 	class DLLEXPORT DepthStencilBuffer
 	{
 #ifdef USING_DX11
@@ -24,8 +25,10 @@ namespace Engine3DRadSpace::Graphics
 		void* GetViewHandle() const noexcept;
 		void* GetDepthTextureHandle() const noexcept;
 
+		std::unique_ptr<Texture2D> GetDepthTexture() const;
+
 		~DepthStencilBuffer() = default;
 
-		friend class GraphicsDevice;
+		friend class Engine3DRadSpace::GraphicsDevice;
 	};
 }

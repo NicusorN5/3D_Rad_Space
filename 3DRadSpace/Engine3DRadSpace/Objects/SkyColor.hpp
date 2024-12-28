@@ -4,7 +4,7 @@
 
 namespace Engine3DRadSpace::Objects
 {
-	class SkyColor : public IObject2D
+	class DLLEXPORT SkyColor : public IObject2D
 	{
 	public:
 		SkyColor(const std::string& name ="SkyColor", bool enabled = true, Color color = Colors::Black);

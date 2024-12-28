@@ -63,6 +63,6 @@ namespace Engine3DRadSpace::Graphics
 
 		virtual ~IVertexShader() = default;
 
-		friend class GraphicsDevice;
+		friend class Engine3DRadSpace::GraphicsDevice;
 	};
 }

@@ -6,6 +6,7 @@
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Logging;
+using namespace Engine3DRadSpace::Internal;
 
 RenderTarget::RenderTarget(GraphicsDevice *device, PixelFormat format) :
 	Texture2D(device, std::monostate{}, true, format)
@@ -37,9 +38,15 @@ RenderTarget::RenderTarget(GraphicsDevice* device, std::monostate cpy) :
 	ID3D11Resource* res;
 	_renderTarget->GetResource(&res);
 
-	ID3D11Texture2D *texture;
-	HRESULT r = res->QueryInterface<ID3D11Texture2D>(&texture);
+	HRESULT r = res->QueryInterface<ID3D11Texture2D>(&_texture);
+	if(FAILED(r)) throw Exception("Failed to get the texture from the render target!");
 #endif
+}
+
+RenderTarget::RenderTarget(AssetUUIDReader r) :
+	Texture2D(r)
+{
+	(void)r;
 }
 
 RenderTarget RenderTarget::GetCurrentRenderTarget(GraphicsDevice* device)

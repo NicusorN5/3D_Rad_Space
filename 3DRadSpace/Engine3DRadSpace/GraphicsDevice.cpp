@@ -4,6 +4,7 @@
 #include "Graphics/IndexBuffer.hpp"
 #include "Graphics/RenderTarget.hpp"
 #include "Graphics/DepthStencilBuffer.hpp"
+#include "Internal\AssetUUIDReader.hpp"
 
 #ifdef  USING_DX11
 #pragma comment(lib,"d3d11.lib")
@@ -21,7 +22,7 @@ using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Logging;
 using namespace Engine3DRadSpace::Math;
 
-Engine3DRadSpace::GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, unsigned width, unsigned height) :
+GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, unsigned width, unsigned height) :
 	EnableVSync(true),
 	_resolution(width, height)
 {
@@ -61,10 +62,15 @@ Engine3DRadSpace::GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, unsig
 	);
 	if (FAILED(r)) throw Exception("D3D11CreateDeviceAndSwapChain failed!");
 
-	r = _swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), static_cast<void**>(&_screenTexture));
+	_backbufferRT = std::make_unique<RenderTarget>(std::move(RenderTarget(Internal::AssetUUIDReader{}))); //create a invalid render target, then correctly assign it.
+	_backbufferRT->_device = this; //assign device handle
+
+	//assign texture to main render target.
+	r = _swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), static_cast<void**>(&_backbufferRT->_texture));
 	if (FAILED(r)) throw Exception("Failed to get the back buffer texture!");
 
-	r = _device->CreateRenderTargetView(_screenTexture.Get(), nullptr, &_mainRenderTarget);
+	//assign render target view
+	r = _device->CreateRenderTargetView(_backbufferRT->_texture.Get(), nullptr, _backbufferRT->_renderTarget.GetAddressOf());
 	if (FAILED(r)) throw Exception("Failed to create the main render target!");
 
 	_stencilBuffer = std::make_unique<DepthStencilBuffer>(this);
@@ -119,10 +125,10 @@ Engine3DRadSpace::GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, unsig
 void GraphicsDevice::Clear(const Color& clearColor)
 {
 #ifdef USING_DX11
-	_context->OMSetRenderTargets(1, _mainRenderTarget.GetAddressOf(), _stencilBuffer->_depthView.Get());
+	_context->OMSetRenderTargets(1, _backbufferRT->_renderTarget.GetAddressOf(), _stencilBuffer->_depthView.Get());
 
 	float color[4] = { clearColor.R,clearColor.G,clearColor.B,clearColor.A };
-	_context->ClearRenderTargetView(_mainRenderTarget.Get(), color);
+	_context->ClearRenderTargetView(_backbufferRT->_renderTarget.Get(), color);
 	_context->ClearDepthStencilView(_stencilBuffer->_depthView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0xFF);
 #endif
 }
@@ -178,7 +184,7 @@ Viewport GraphicsDevice::GetViewport()
 void GraphicsDevice::SetRenderTarget(RenderTarget*renderTarget)
 {
 #ifdef USING_DX11
-	auto rt = renderTarget != nullptr ? renderTarget->_renderTarget.GetAddressOf() : _mainRenderTarget.GetAddressOf();
+	auto rt = renderTarget != nullptr ? renderTarget->_renderTarget.GetAddressOf() : _backbufferRT->_renderTarget.GetAddressOf();
 	_context->OMSetRenderTargets(1, rt, _stencilBuffer->_depthView.Get());
 #endif
 }
@@ -187,7 +193,7 @@ void GraphicsDevice::SetRenderTargetAndDepth(RenderTarget *renderTarget, DepthSt
 {
 #ifdef USING_DX11
 	auto depthviewBuffer = depthBuffer != nullptr ? depthBuffer->_depthView.Get() : _stencilBuffer->_depthView.Get();
-	auto renderTargetView = renderTarget != nullptr ? renderTarget->_renderTarget.GetAddressOf() : _mainRenderTarget.GetAddressOf();
+	auto renderTargetView = renderTarget != nullptr ? renderTarget->_renderTarget.GetAddressOf() : _backbufferRT->_renderTarget.GetAddressOf();
 	_context->OMSetRenderTargets(1, renderTargetView, depthviewBuffer);
 #endif
 }
@@ -263,7 +269,7 @@ void GraphicsDevice::Present()
 void GraphicsDevice::SaveBackBufferToFile(const std::filesystem::path &path)
 {
 #ifdef USING_DX11
-	HRESULT r = DirectX::SaveWICTextureToFile(_context.Get(), _screenTexture.Get(), GUID_ContainerFormatPng, path.wstring().c_str(), nullptr, nullptr, true);
+	HRESULT r = DirectX::SaveWICTextureToFile(_context.Get(), _backbufferRT->_texture.Get(), GUID_ContainerFormatPng, path.wstring().c_str(), nullptr, nullptr, true);
 	if(FAILED(r)) throw std::exception("Failed to save file!");
 #endif
 }
@@ -374,7 +380,7 @@ void GraphicsDevice::ResizeBackBuffer(const Math::Point &newResolution)
 		throw std::exception("Failed to resize buffers!");
 	}
 
-	r = _swapChain->GetBuffer(0, IID_PPV_ARGS(_screenTexture.GetAddressOf()));
+	r = _swapChain->GetBuffer(0, IID_PPV_ARGS(_backbufferRT->_texture.GetAddressOf()));
 	if(FAILED(r)) throw std::exception("Failed to get the back buffer texture!");
 }
 
@@ -391,6 +397,16 @@ void Engine3DRadSpace::GraphicsDevice::SetScreenQuad()
 void Engine3DRadSpace::GraphicsDevice::DrawScreenQuad()
 {
 	DrawVertexBuffer(_screenQuad.get());
+}
+
+std::unique_ptr<RenderTarget> Engine3DRadSpace::GraphicsDevice::GetBackBuffer(int index)
+{
+	return std::make_unique<RenderTarget>(std::move(RenderTarget::GetCurrentRenderTarget(this)));
+}
+
+DepthStencilBuffer& Engine3DRadSpace::GraphicsDevice::GetDepthBuffer()
+{
+	return *this->_stencilBuffer;
 }
 
 GraphicsDevice::~GraphicsDevice()

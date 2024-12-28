@@ -1,4 +1,5 @@
 #include "LinearPixelFogEffect.hpp"
+#include "../DepthStencilBuffer.hpp"
 
 using namespace Engine3DRadSpace::Graphics::Rendering;
 
@@ -11,4 +12,25 @@ LinearPixelFogEffect::LinearPixelFogEffect(GraphicsDevice* device) : PostProcess
 	FogBegin(0.0f), 
 	FogEnd(1.0f)
 {
+}
+
+void LinearPixelFogEffect::Apply()
+{
+	PostProcessEffect::Apply();
+	
+	struct FogData
+	{
+		Color FogColor;
+		float FogBegin;
+		float FogEnd;
+	} fogData;
+
+	fogData.FogColor = FogColor;
+	fogData.FogBegin = FogBegin;
+	fogData.FogEnd = FogEnd;
+
+	this->SetData(0, &fogData, sizeof(FogData));
+
+	auto depthBuffer = _device->GetDepthBuffer().GetDepthTexture();
+	this->SetTexture(1, depthBuffer.get());
 }

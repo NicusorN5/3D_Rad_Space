@@ -11,6 +11,7 @@ namespace Engine3DRadSpace::Internal
 
 namespace Engine3DRadSpace::Graphics
 {
+	class DepthStencilBuffer;
 	class DLLEXPORT Texture2D : public Content::IAsset
 	{
 		unsigned _width;
@@ -75,12 +76,13 @@ namespace Engine3DRadSpace::Graphics
 		Reflection::UUID GetUUID() const noexcept override;
 		const char* FileExtension() const noexcept override;
 
-		friend class GraphicsDevice;
+		friend class Engine3DRadSpace::GraphicsDevice;
 		friend class IVertexShader;
 		friend class IFragmentShader;
 		friend class IHullShader;
 		friend class IDomainShader;
 		friend class IGeometryShader;
+		friend class Graphics::DepthStencilBuffer;
 		friend struct Internal::AssetUUIDReader;
 	};
 }

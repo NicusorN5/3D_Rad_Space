@@ -1,5 +1,6 @@
 #include "DepthStencilBuffer.hpp"
 #include "../Logging/Exception.hpp"
+#include "Texture2D.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
@@ -53,4 +54,13 @@ void* DepthStencilBuffer::GetViewHandle() const noexcept
 void* DepthStencilBuffer::GetDepthTextureHandle() const noexcept
 {
 	return static_cast<void*>(_depthTexture.Get());
+}
+
+std::unique_ptr<Texture2D> Engine3DRadSpace::Graphics::DepthStencilBuffer::GetDepthTexture() const
+{
+#ifdef USING_DX11
+	Microsoft::WRL::ComPtr<ID3D11Texture2D> texture(_depthTexture);
+	Texture2D tex(_device, std::monostate{}, std::move(texture));
+	return std::make_unique<Texture2D>(std::move(tex));
+#endif
 }

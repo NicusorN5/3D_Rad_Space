@@ -16,10 +16,10 @@ namespace Engine3DRadSpace::Graphics
 		IFragmentShader(GraphicsDevice* device, const std::filesystem::path& path, const char* entryFunction, ShaderFeatureLevel fl = ShaderFeatureLevel::DX_V4);
 	public:
 		IFragmentShader(IFragmentShader &) = delete;
-		IFragmentShader(IFragmentShader &&) noexcept = delete;
+		IFragmentShader(IFragmentShader &&) noexcept = default;
 
 		IFragmentShader &operator = (IFragmentShader &) = delete;
-		IFragmentShader &operator = (IFragmentShader &&) noexcept = delete;
+		IFragmentShader &operator = (IFragmentShader &&) noexcept = default;
 
 		void SetTexture(unsigned index, Texture2D *texture) override;
 		void SetSampler(unsigned index, SamplerState *samplerState) override;
@@ -28,6 +28,6 @@ namespace Engine3DRadSpace::Graphics
 
 		virtual ~IFragmentShader() = default;
 
-		friend class GraphicsDevice;
+		friend class Engine3DRadSpace::GraphicsDevice;
 	};
 }

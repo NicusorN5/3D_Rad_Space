@@ -75,7 +75,7 @@ namespace Engine3DRadSpace
 
 			~RasterizerState() = default;
 
-			friend class GraphicsDevice;
+			friend class Engine3DRadSpace::GraphicsDevice;
 		};
 	}
 }
