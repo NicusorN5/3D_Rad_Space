@@ -11,6 +11,7 @@ REFL_FWD(Empty)
 REFL_FWD(SkyColor)
 REFL_FWD(TextPrint)
 REFL_FWD(Fog)
+REFL_FWD(Counter)
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Reflection;
@@ -121,9 +122,7 @@ void AddObjectDialog::InitializeReflData()
 		Objects =
 		{
 			{CameraReflInstance.ObjectUUID, &CameraReflInstance}, //Camera
-			/*
-			&CameraReflInstance, //Counter
-			*/
+			{CounterReflInstance.ObjectUUID, &CounterReflInstance}, //Counter
 			{EmptyReflInstance.ObjectUUID, &EmptyReflInstance}, //Empty
 			/*
 			&CameraReflInstance, //Event On Key

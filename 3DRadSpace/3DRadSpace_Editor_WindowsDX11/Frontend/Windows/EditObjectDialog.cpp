@@ -670,7 +670,7 @@ void EditObjectDialog::setObject()
 						case sizeof(double):
 						{
 							double value = std::stod(text);
-							memcpy_s(newStruct.get() + j, sizeof(float), &value, sizeof(double));
+							memcpy_s(newStruct.get() + j, sizeof(double), &value, sizeof(double));
 							j += sizeof(double);
 							break;
 						}

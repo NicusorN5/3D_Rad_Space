@@ -4,7 +4,7 @@
 namespace Engine3DRadSpace::Algorithms
 {
 	/// <summary>
-	/// A implementation of Damerau Levenshtein string distance. Time complexity is O(N*M).
+	/// A implementation of Damerau Levenshtein string edit distance. Time complexity is O(N*M).
 	/// A temporary N*M matrix is dynamically allocated while calculating the distance.
 	/// </summary>
 	/// <param name="a">A string</param>
