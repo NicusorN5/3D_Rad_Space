@@ -57,6 +57,7 @@ void Game::RunOneFrame()
 {
 	auto ts_u1 = std::chrono::high_resolution_clock::now();
 
+	PostProcesses->DisableAll(); //to be re-enabled by the objects
 	Update();
 	auto ts_u2 = std::chrono::high_resolution_clock::now();
 

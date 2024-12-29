@@ -105,5 +105,8 @@ namespace Engine3DRadSpace::Graphics::Rendering
 		size_t Length() const noexcept;
 
 		void ApplyAll();
+
+		void EnableAll();
+		void DisableAll();
 	};
 }

@@ -21,3 +21,19 @@ void PostProcessCollection::ApplyAll()
 		effect->Draw();
 	}
 }
+
+void PostProcessCollection::EnableAll()
+{
+	for(auto& effect : _effects)
+	{
+		effect->Enabled = false;
+	}
+}
+
+void PostProcessCollection::DisableAll()
+{
+	for(auto& effect : _effects)
+	{
+		effect->Enabled = false;
+	}
+}

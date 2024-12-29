@@ -483,6 +483,7 @@ void EditorWindow::Run()
 		}
 
 		auto ts_u1 = std::chrono::steady_clock::now();
+		editor->PostProcesses->DisableAll();
 		editor->Update();
 		auto ts_u2 = std::chrono::steady_clock::now();
 
