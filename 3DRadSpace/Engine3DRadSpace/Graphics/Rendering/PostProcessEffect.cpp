@@ -16,6 +16,17 @@ PostProcessEffect::PostProcessEffect(
 {
 }
 
+PostProcessEffect::PostProcessEffect(
+	GraphicsDevice* device,
+	const std::filesystem::path &path,
+	const char* entryFunction, 
+	ShaderFeatureLevel fl
+) : 
+	IFragmentShader(device, path, entryFunction, fl),
+	_vertex(device, fl)
+{
+}
+
 void PostProcessEffect::Apply()
 {
 	//TODO : create a full screen quad and apply the shader to it.
@@ -33,7 +44,13 @@ void Engine3DRadSpace::Graphics::Rendering::PostProcessEffect::Draw()
 }
 
 PostProcessEffect::PostProcessVertex::PostProcessVertex(GraphicsDevice* device, ShaderFeatureLevel fl) :
-	IVertexShader(device, _elements, "Data\\Shaders\\PostProcessBase_Main.hlsl", "PostProcessBase_Main", fl)
+	IVertexShader(
+		device, 
+		_elements, 
+		std::filesystem::path("Data\\Shaders\\PostProcessBase.hlsl"),
+		"PostProcessBase_Main",
+		fl
+	)
 {
 }
 

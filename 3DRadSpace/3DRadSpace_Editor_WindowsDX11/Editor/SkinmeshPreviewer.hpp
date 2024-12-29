@@ -9,7 +9,7 @@ namespace Engine3DRadSpace::Objects
 
 class SkinmeshPreviewer : public Engine3DRadSpace::Game
 {
-	Engine3DRadSpace::Objects::Camera *_camera;
+	std::unique_ptr<Engine3DRadSpace::Objects::Camera> _camera;
 	std::unique_ptr<Engine3DRadSpace::Objects::Skinmesh> _skinmesh;
 	std::shared_ptr<Engine3DRadSpace::Graphics::Shaders::BasicTextured> _basicShader;
 	float _zoom;

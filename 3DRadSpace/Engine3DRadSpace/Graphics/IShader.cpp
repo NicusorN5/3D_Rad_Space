@@ -53,8 +53,11 @@ void IShader::_compileShader(const char *source, const char* target)
 	);
 	if (_errorBlob.Get() != nullptr)
 	{
-		if (FAILED(r))
+		if(FAILED(r))
+		{
+			MessageBoxA(nullptr, static_cast<char*>(_errorBlob->GetBufferPointer()), "Shader compilation error!", MB_ICONERROR);
 			throw Exception(std::string("Shader compilation failure! \r\n") + static_cast<char*>(_errorBlob->GetBufferPointer()));
+		}
 	}
 	else SetLastWarning(Warning(r, (char*)_errorBlob->GetBufferPointer(), 2, nullptr));
 #endif
@@ -75,7 +78,7 @@ void IShader::_compileShaderFromFile(const char* path, const char* target)
 	HRESULT r = D3DCompileFromFile(
 		wpath,
 		nullptr,
-		nullptr,
+		D3D_COMPILE_STANDARD_FILE_INCLUDE,
 		_entry,
 		target,
 		shaderFlags,
@@ -89,8 +92,11 @@ void IShader::_compileShaderFromFile(const char* path, const char* target)
 		if (_errorBlob.Get() != nullptr)
 			SetLastWarning(Warning(r, (char*)_errorBlob->GetBufferPointer(), 2, nullptr));
 
-		if (FAILED(r))
+		if(FAILED(r))
+		{
+			MessageBoxA(nullptr, static_cast<char*>(_errorBlob->GetBufferPointer()), "Shader compilation error!", MB_ICONERROR);
 			throw Exception(std::string("Shader compilation failure! \r\n") + static_cast<char*>(_errorBlob->GetBufferPointer()));
+		}
 	}
 #endif
 }

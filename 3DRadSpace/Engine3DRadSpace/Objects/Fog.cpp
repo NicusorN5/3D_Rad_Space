@@ -35,6 +35,7 @@ void Fog::Load(const std::filesystem::path& path)
 
 void Fog::EditorInitialize()
 {
+	Initialize();
 }
 
 void Fog::EditorLoad()

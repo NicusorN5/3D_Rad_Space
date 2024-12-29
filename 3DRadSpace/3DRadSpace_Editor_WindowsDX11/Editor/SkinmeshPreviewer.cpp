@@ -20,6 +20,7 @@ SkinmeshPreviewer::SkinmeshPreviewer(const std::filesystem::path &meshPath):
 	_basicShader.reset(new BasicTextured(Device.get()));
 
 	_skinmesh = std::make_unique<Skinmesh>("", true, meshPath);
+	_skinmesh->InternalInitialize(this);
 	_skinmesh->Load();
 
 	for (auto& meshPart : *_skinmesh->GetModel())
@@ -32,14 +33,12 @@ SkinmeshPreviewer::SkinmeshPreviewer(const std::filesystem::path &meshPath):
 
 	_zoom = _initialZoom = _skinmesh->GetModel()->GetBoundingSphere().Radius * 2.0f;
 
-	Camera camera("");
-	camera.InternalInitialize(this);
-	camera.LookAt = Vector3::Zero();
+	_camera = std::make_unique<Camera>("");
+	_camera->InternalInitialize(this);
+	_camera->LookAt = Vector3::Zero();
 
-	camera.LookMode = Camera::CameraMode::UseLookAtCoordinates;
-	auto cameraID = Objects->AddNew<Camera>(std::move(camera));
+	_camera->LookMode = Camera::CameraMode::UseLookAtCoordinates;
 
-	_camera = static_cast<Camera*>((*Objects)[cameraID]);
 }
 
 void SkinmeshPreviewer::Update()
@@ -67,5 +66,6 @@ void SkinmeshPreviewer::Update()
 
 void SkinmeshPreviewer::Draw3D()
 {
+	_camera->Draw3D();
 	_skinmesh->Draw3D();
 }

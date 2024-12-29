@@ -52,7 +52,7 @@ void RenderWindow::Initialize()
 
 	Camera.InternalInitialize(this);
 	Camera.LookMode = Camera::CameraMode::UseLookAtCoordinates;
-	Camera.FarPlaneDistance = 10'000.0f;
+	Camera.FarPlaneDistance = 500.0f;
 
 	_pickingShader = std::make_unique<PickingShader>(Device.get());
 }

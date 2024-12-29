@@ -28,6 +28,13 @@ namespace Engine3DRadSpace::Graphics::Rendering
 			 const char* entryFunction, 
 			 ShaderFeatureLevel fl = ShaderFeatureLevel::DX_V4
 		 );
+
+		 	 PostProcessEffect(
+			 GraphicsDevice* device, 
+			 const std::filesystem::path &shaderPath, 
+			 const char* entryFunction, 
+			 ShaderFeatureLevel fl = ShaderFeatureLevel::DX_V4
+		 );
 	public:
 		bool Enabled = true;
 
