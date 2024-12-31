@@ -14,4 +14,5 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
 add_subdirectory(Engine3DRadSpace)
 add_subdirectory(3DRadSpace_Editor_WindowsDX11)
+add_subdirectory(3DRadSpace_Compiler)
 add_subdirectory(Engine3DRadSpace_Tests)

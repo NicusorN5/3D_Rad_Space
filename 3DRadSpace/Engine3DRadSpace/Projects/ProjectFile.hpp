@@ -3,8 +3,6 @@
 
 namespace Engine3DRadSpace::Projects
 {
-	class ProjectFile
-	{
-
-	};
+	ObjectList Load(std::filesystem::path& path);
+	void Save(const ObjectList& list, std::filesystem::path& path);
 }

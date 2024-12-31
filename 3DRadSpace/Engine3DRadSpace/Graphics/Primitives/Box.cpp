@@ -9,7 +9,7 @@ using namespace Engine3DRadSpace::Graphics::Primitives;
 using namespace Engine3DRadSpace::Graphics::Shaders;
 using namespace Engine3DRadSpace::Math;
 
-std::array<VertexPositionColor, 8> Box::_createVerts(const BoundingBox&b, const Color& color)
+std::array<VertexPositionColor, 8> Box::CreateVertices(const BoundingBox&b, const Color& color)
 {
     return std::array<VertexPositionColor, 8>
     {
@@ -24,21 +24,16 @@ std::array<VertexPositionColor, 8> Box::_createVerts(const BoundingBox&b, const 
     };
 }
 
-Box::Box(GraphicsDevice *device, const BoundingBox&b, Color color) :
-    IPrimitive(device),
-    _box(b)
+std::array<unsigned, 36> Box::CreateIndices()
 {
-    auto box_vertices = _createVerts(b, color);
-    _vertices = std::make_unique<VertexBufferV<VertexPositionColor>>(device, box_vertices);
-
-    std::array<unsigned, 36> indices =
+    return
     {
         //-Y face
         0, 3, 6,
         0, 6, 1,
         //+Y face
         7, 5, 2,
-        4, 7, 2, 
+        4, 7, 2,
         // -X face
         0, 2, 5,
         0, 5, 3,
@@ -51,8 +46,17 @@ Box::Box(GraphicsDevice *device, const BoundingBox&b, Color color) :
         //+Z face
         3, 5, 7,
         3, 7, 6
-        
     };
+}
+
+Box::Box(GraphicsDevice *device, const BoundingBox&b, Color color) :
+    IPrimitive(device),
+    _box(b)
+{
+    auto box_vertices = CreateVertices(b, color);
+    _vertices = std::make_unique<VertexBufferV<VertexPositionColor>>(device, box_vertices);
+
+    std::array<unsigned, 36> indices = CreateIndices();
     _indices = std::make_unique<IndexBuffer>(device, indices);
 
     _shader = ShaderManager::LoadShader<BlankShader>(device);
@@ -67,7 +71,7 @@ void Box::SetBoundingBox(const BoundingBox&b)
 {
     _box = b;
 
-    auto box_vertices = _createVerts(b, _color);
+    auto box_vertices = CreateVertices(b, _color);
     _vertices->SetData(box_vertices);
 }
 
@@ -80,7 +84,7 @@ void Box::SetColor(const Color&color)
 {
     _color = color;
 
-    auto verts = _createVerts(_box, color);
+    auto verts = CreateVertices(_box, color);
     _vertices->SetData(verts);
 }
 

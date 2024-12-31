@@ -10,9 +10,11 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		Math::BoundingBox _box;
 		Color _color;
 
-		std::array<VertexPositionColor, 8> _createVerts(const Math::BoundingBox &b, const Color &color);
 	public:
 		Box(GraphicsDevice *device,const Math::BoundingBox &b, Color color);
+
+		static std::array<VertexPositionColor, 8> CreateVertices(const Math::BoundingBox &b, const Color &color);
+		static std::array<unsigned, 36> CreateIndices();
 
 		Box(const Box &) = delete;
 		Box(Box &&b) noexcept = default;
