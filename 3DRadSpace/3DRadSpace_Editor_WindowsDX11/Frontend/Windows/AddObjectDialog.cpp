@@ -1,22 +1,10 @@
 #include "AddObjectDialog.hpp"
 #include "..\..\resource.h"
 #include <CommCtrl.h>
-
-//Forward declarations of object reflection data
-REFL_FWD(Camera)
-REFL_FWD(Sprite)
-REFL_FWD(Skinmesh)
-REFL_FWD(GForce)
-REFL_FWD(Empty)
-REFL_FWD(SkyColor)
-REFL_FWD(TextPrint)
-REFL_FWD(Fog)
-REFL_FWD(Counter)
+#include <Engine3DRadSpace/Internal/Objects.hpp>
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Reflection;
-
-std::vector<std::pair<Reflection::UUID, ReflectedObject *>> AddObjectDialog::Objects;
 
 INT_PTR WINAPI AddObjectDialog_DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -62,7 +50,7 @@ INT_PTR WINAPI AddObjectDialog_DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 					if(item->iItem >= 0)
 					{
-						EditObjectDialog dialog(hwnd, aod->hInstance, aod->Objects[item->iItem].second, aod->_content);
+						EditObjectDialog dialog(hwnd, aod->hInstance, &_3drsp_internal_objects_list[item->iItem], aod->_content);
 						EndDialog(hwnd, reinterpret_cast<INT_PTR>(dialog.ShowDialog()));
 					}
 					break;
@@ -114,59 +102,6 @@ AddObjectDialog::AddObjectDialog(HWND owner_window, HINSTANCE instance, Content:
 {
 }
 
-void AddObjectDialog::InitializeReflData()
-{
-	//hardcoded list of already implemented objects.
-	if (Objects.size() == 0)
-	{
-		Objects =
-		{
-			{CameraReflInstance.ObjectUUID, &CameraReflInstance}, //Camera
-			{CounterReflInstance.ObjectUUID, &CounterReflInstance}, //Counter
-			{EmptyReflInstance.ObjectUUID, &EmptyReflInstance}, //Empty
-			/*
-			&CameraReflInstance, //Event On Key
-			&CameraReflInstance, //EventOnLocation
-			&CameraReflInstance, //ExitFade
-			*/
-			{FogReflInstance.ObjectUUID, &FogReflInstance}, //Fog
-			/*
-			&CameraReflInstance, //Force
-			&CameraReflInstance, //FPVCamera
-			&CameraReflInstance, //Settings*/
-			{GForceReflInstance.ObjectUUID, &GForceReflInstance}, //G-Force
-			/*
-			&CameraReflInstance, //Group
-			&CameraReflInstance, //Network chat
-			&CameraReflInstance, //Rigidbody
-			&CameraReflInstance, //C# Script
-			*/
-			{SkinmeshReflInstance.ObjectUUID, &SkinmeshReflInstance}, //Skinmesh
-			/*
-			&CameraReflInstance, //Skybox
-			*/
-			{SkyColorReflInstance.ObjectUUID, &SkyColorReflInstance},
-			/*
-			&CameraReflInstance, //SoundEffect
-			&CameraReflInstance, //SoundSource
-			&CameraReflInstance, //C++ source
-			*/
-			{SpriteReflInstance.ObjectUUID, &SpriteReflInstance}, //Sprite
-			{TextPrintReflInstance.ObjectUUID, &TextPrintReflInstance}, //Textprint
-		};
-	}
-}
-
-ReflectedObject*AddObjectDialog::GetReflDataFromUUID(const Reflection::UUID &uuid)
-{
-	for(auto &[obj_uuid, refl] : Objects)
-	{
-		if(obj_uuid == uuid)
-			return refl;
-	}
-	return nullptr;
-}
-
 IObject* AddObjectDialog::ShowDialog()
 {
 	return reinterpret_cast<IObject*>(Dialog::ShowDialog(static_cast<void *>(this)));
@@ -179,11 +114,13 @@ struct objectItem
 
 void AddObjectDialog::createForms()
 {
+	auto& Objects = _3drsp_internal_objects_list;
+
 	//Create the list view control
 	listView = CreateWindowExA(0, "SysListView32", "", WS_VISIBLE | WS_CHILD | LVS_ALIGNTOP, 0, 0, 800, 600, window, nullptr, hInstance, nullptr);
 	if (listView == nullptr) throw std::exception("Failed to create a list view control!");
 	SendMessageA(listView, LVM_ENABLEGROUPVIEW, true, 0);
-	SendMessageA(listView, LVM_SETITEMCOUNT, this->Objects.size(), LVSICF_NOSCROLL);
+	SendMessageA(listView, LVM_SETITEMCOUNT, Objects.size(), LVSICF_NOSCROLL);
 
 	//Create the image list
 	imageList = ImageList_Create(64, 64, ILC_COLOR32, 20, 5);
@@ -195,29 +132,29 @@ void AddObjectDialog::createForms()
 	std::vector<std::pair<std::string, objectItem>> objects;
 	std::unordered_map<std::string, int> categories;
 
-	InitializeReflData();
+	Internal::LoadDefaultObjects();
 
 	//populate the dictionaries
 	for ( int i = IDB_PNG1, j = 0, k = 1 ; i <= IDB_PNG24 && j < Objects.size(); i++, j++, k++)
 	{
 		auto image = MAKEINTRESOURCEW(i);
 
-		if (Objects[j].second == nullptr) continue;
+		//if (Objects[j].second == nullptr) continue;
 		
 		int categoryID = 0;
 
-		if(categories.find(Objects[j].second->Category) == categories.end())
+		if(categories.find(Objects[j].Category) == categories.end())
 		{
-			categories[Objects[j].second->Category] = k;
+			categories[Objects[j].Category] = k;
 			categoryID = k;
-			addCategory(Objects[j].second->Category, categoryID);
+			addCategory(Objects[j].Category, categoryID);
 		}
 		else
 		{
-			categoryID = categories[Objects[j].second->Category];
+			categoryID = categories[Objects[j].Category];
 		}
 		
-		objects.emplace_back(std::string(Objects[j].second->Name), objectItem{image, categoryID});
+		objects.emplace_back(std::string(Objects[j].Name), objectItem{image, categoryID});
 	}
 
 	//Populate the image list with the object data (icons and names)
@@ -227,7 +164,7 @@ void AddObjectDialog::createForms()
 		int imgIndex = ImageList_Add(imageList, img, nullptr);
 		DeleteObject(img);
 
-		addObject(name, imgIndex, obj.categoryID );
+		addObject(name, imgIndex, obj.categoryID);
 	}
 
 	resize();

@@ -1,9 +1,6 @@
 #pragma once
 #include "../Math/Rectangle.hpp"
 
-#include <ft2build.h>
-#include FT_FREETYPE_H
-
 namespace Engine3DRadSpace::Graphics
 {
 	struct Glyph

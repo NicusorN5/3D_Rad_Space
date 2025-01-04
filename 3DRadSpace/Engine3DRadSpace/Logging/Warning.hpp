@@ -11,7 +11,7 @@ namespace Engine3DRadSpace::Logging
 		const void *Extra;
 
 		Warning(const int32_t code, const int severity);
-		Warning(const int32_t code, const char *details,const int severity, const void *extra = nullptr);
+		Warning(const int32_t code, const std::string& details, const int severity, const void* extra = nullptr);
 	};
 
 	typedef void (*FuncWarningHandler)(const Warning& warning);

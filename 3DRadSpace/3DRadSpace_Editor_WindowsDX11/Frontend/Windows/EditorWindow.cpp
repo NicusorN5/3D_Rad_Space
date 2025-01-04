@@ -13,13 +13,15 @@
 
 #include "../AutoupdaterState.hpp"
 #include "UpdateProgressWindow.hpp"
-#include "../Serialization.hpp"
+#include <Engine3DRadSpace\Internal\Objects.hpp>
 #include <thread>
+#include <Engine3DRadSpace\Projects\Serialization.hpp>
 
 using namespace Engine3DRadSpace;
+using namespace Engine3DRadSpace::Internal;
 using namespace Engine3DRadSpace::Logging;
 using namespace Engine3DRadSpace::Math;
-using namespace Engine3DRadSpace::Internal;
+using namespace Engine3DRadSpace::Projects;
 
 EditorWindow* gEditorWindow = nullptr;
 
@@ -623,7 +625,7 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 						gEditorWindow->editor->Content->Clear();
 						SetWorkingDirectory();
-						Serializer::LoadProject(gEditorWindow->editor->Objects.get(), gEditorWindow->editor->Content.get(), filebuff);
+						LoadProject(gEditorWindow->editor->Objects.get(), gEditorWindow->editor->Content.get(), filebuff);
 
 						SendMessageA(gEditorWindow->_listBox, LVM_DELETEALLITEMS, 0, 0);
 
@@ -747,7 +749,7 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 						EditObjectDialog eod(
 							gEditorWindow->_mainWindow,
 							gEditorWindow->_hInstance,
-							AddObjectDialog::GetReflDataFromUUID(obj->GetUUID()),
+							Internal::GetReflDataFromUUID(obj->GetUUID()),
 							gEditorWindow->GetContentManager(),
 							obj
 						);

@@ -22,7 +22,7 @@ CubeMapSkybox::CubeMapSkybox(GraphicsDevice* device, std::array<Texture2D, 6> &&
  //       VertexPositionUV{ b.Position + b.Scale, color }, // 7
  //   };
 
-	_vertices = std::make_unique<VertexBufferV<VertexPositionColor>>(device, vertices);
+	//_vertices = std::make_unique<VertexBufferV<VertexPositionColor>>(device, vertices);
 
 	std::array<unsigned, 36> indices = Box::CreateIndices();
 	_indices = std::make_unique<IndexBuffer>(device, indices);

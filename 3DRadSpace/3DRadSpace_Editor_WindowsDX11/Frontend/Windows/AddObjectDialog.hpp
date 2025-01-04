@@ -21,11 +21,6 @@ class AddObjectDialog : public Dialog
 public:
 	AddObjectDialog(HWND owner, HINSTANCE hInstance, Engine3DRadSpace::Content::ContentManager *content);
 
-	static std::vector<std::pair<Engine3DRadSpace::Reflection::UUID, Engine3DRadSpace::Reflection::ReflectedObject *>> Objects;
-
-	static void InitializeReflData();
-	static Engine3DRadSpace::Reflection::ReflectedObject *GetReflDataFromUUID(const Engine3DRadSpace::Reflection::UUID &uuid);
-
 	[[nodiscard]] Engine3DRadSpace::IObject* ShowDialog();
 
 	friend INT_PTR WINAPI AddObjectDialog_DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);

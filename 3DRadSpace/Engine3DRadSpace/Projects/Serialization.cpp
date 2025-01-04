@@ -1,13 +1,15 @@
 #include "Serialization.hpp"
-#include <Engine3DRadSpace/Content/AssetID.hpp>
+#include "../Content/AssetID.hpp"
+#include "../Internal/Objects.hpp"
+#include "../ObjectList.hpp"
 #include <fstream>
-#include <ranges>
-#include "Windows\AddObjectDialog.hpp"
 
 using namespace Engine3DRadSpace;
-using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Content;
+using namespace Engine3DRadSpace::Graphics;
+using namespace Engine3DRadSpace::Internal;
 using namespace Engine3DRadSpace::Math;
+using namespace Engine3DRadSpace::Reflection;
 
 void Engine3DRadSpace::Reflection::to_json(json& j, const UUID& uuid)
 {
@@ -46,18 +48,17 @@ void Engine3DRadSpace::Reflection::from_json(const json& j, UUID& uuid)
 	uuid.Data4[7] = j["Data4"]["7"].get<unsigned char>();
 }
 
-json Serializer::SerializeObject(IObject* obj)
+json Engine3DRadSpace::Projects::Serializer::SerializeObject(IObject* obj)
 {
 	json r;
 	void* objPtr = static_cast<void*>(obj);
 
-	using namespace Engine3DRadSpace::Reflection;
-	using namespace Engine3DRadSpace::Content;
-
 	r["UUID"] = obj->GetUUID();
 
-	AddObjectDialog::InitializeReflData();
-	auto refl = AddObjectDialog::GetReflDataFromUUID(obj->GetUUID());
+	LoadDefaultObjects();
+	auto refl = GetReflDataFromUUID(obj->GetUUID());
+	if(refl == nullptr) return r;
+	
 	for (auto& field : *refl)
 	{
 		json jsonField;
@@ -238,14 +239,13 @@ json Serializer::SerializeObject(IObject* obj)
 	return r;
 }
 
-[[nodiscard]] IObject* Serializer::DeserializeObject(const json& j)
+[[nodiscard]] IObject* Engine3DRadSpace::Projects::Serializer::DeserializeObject(const json& j)
 {
-	using namespace Engine3DRadSpace::Reflection;
-
 	Reflection::UUID uuid = j["UUID"];
 
-	AddObjectDialog::InitializeReflData();
-	auto refl = AddObjectDialog::GetReflDataFromUUID(uuid);
+	LoadDefaultObjects();
+	auto refl = GetReflDataFromUUID(uuid);
+	if(refl == nullptr) return nullptr;
 
 	auto r = refl->CreateBlankObject();
 
@@ -447,7 +447,7 @@ json Serializer::SerializeObject(IObject* obj)
 	return r;
 }
 
-bool Serializer::LoadProject(ObjectList* lst, ContentManager *content, const std::filesystem::path& projectPath) //Internal::InitializationFlag f )
+bool Engine3DRadSpace::Projects::Serializer::LoadProject(ObjectList* lst, ContentManager *content, const std::filesystem::path& projectPath) //Internal::InitializationFlag f )
 {
 	std::ifstream file(projectPath);
 
@@ -481,7 +481,7 @@ bool Serializer::LoadProject(ObjectList* lst, ContentManager *content, const std
 	return true;
 }
 
-bool Serializer::SaveProject(ObjectList* lst, ContentManager* content,const std::filesystem::path& projectPath)
+bool Engine3DRadSpace::Projects::Serializer::SaveProject(ObjectList* lst, ContentManager* content,const std::filesystem::path& projectPath)
 {
 	std::ofstream file(projectPath);
 

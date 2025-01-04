@@ -8,7 +8,7 @@ using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace;
 
-FT_Library Font::FontManager::FreeTypeLib;
+FT_Library FreeTypeLib;
 
 Font::FontManager::FontManager()
 {
@@ -30,7 +30,7 @@ Font::Font(GraphicsDevice* device, const std::filesystem::path& path, unsigned s
 	_size(size),
 	_supportedCharacters(supportedCharacters != nullptr ? supportedCharacters : "")
 {
-	if(FT_New_Face(FontManager::FreeTypeLib, path.string().c_str(), 0, &_font))
+	if(FT_New_Face(FreeTypeLib, path.string().c_str(), 0, &_font))
 	{
 		throw Exception("Failed to load font " + path.string()  + " !");
 	}

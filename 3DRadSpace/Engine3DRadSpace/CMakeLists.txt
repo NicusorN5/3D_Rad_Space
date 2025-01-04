@@ -57,3 +57,7 @@ target_link_libraries(3DRadSpace PRIVATE OpenAL::OpenAL)
 #NVidia PhysX
 find_package(unofficial-omniverse-physx-sdk CONFIG REQUIRED)
 target_link_libraries(3DRadSpace PRIVATE unofficial::omniverse-physx-sdk::sdk)
+
+#Nlohmann JSON
+find_package(nlohmann_json CONFIG REQUIRED)
+target_link_libraries(3DRadSpace PRIVATE nlohmann_json::nlohmann_json)

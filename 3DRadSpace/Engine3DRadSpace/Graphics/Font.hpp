@@ -4,6 +4,9 @@
 #include "../GraphicsDevice.hpp"
 #include "..\Internal\AssetUUIDReader.hpp"
 
+#include <ft2build.h>
+#include FT_FREETYPE_H
+
 namespace Engine3DRadSpace::Graphics
 {
 	class DLLEXPORT Font : public Content::IAsset
@@ -19,13 +22,11 @@ namespace Engine3DRadSpace::Graphics
 			FontManager& operator=(FontManager&&) = delete;
 
 			~FontManager();
-
-			static FT_Library FreeTypeLib;
 		};
 
 		bool _valid;
 		
-		FT_Face _font;
+		void* _font;
 		std::string _supportedCharacters;
 
 		GraphicsDevice* _device;

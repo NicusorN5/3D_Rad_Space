@@ -11,7 +11,7 @@ Warning::Warning(const int32_t code,const int severity) :
 {
 }
 
-Warning::Warning(const int32_t code, const char *details,const int severity, const void *extra) :
+Warning::Warning(const int32_t code, const std::string& details, const int severity, const void* extra) :
 	Details(details),
 	Code(code),
 	Severity(severity),
