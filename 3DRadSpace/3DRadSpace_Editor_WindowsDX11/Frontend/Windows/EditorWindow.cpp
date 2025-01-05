@@ -625,7 +625,7 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 						gEditorWindow->editor->Content->Clear();
 						SetWorkingDirectory();
-						LoadProject(gEditorWindow->editor->Objects.get(), gEditorWindow->editor->Content.get(), filebuff);
+						Serializer::LoadProject(gEditorWindow->editor->Objects.get(), gEditorWindow->editor->Content.get(), filebuff);
 
 						SendMessageA(gEditorWindow->_listBox, LVM_DELETEALLITEMS, 0, 0);
 

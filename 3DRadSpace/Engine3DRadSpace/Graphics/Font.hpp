@@ -4,9 +4,6 @@
 #include "../GraphicsDevice.hpp"
 #include "..\Internal\AssetUUIDReader.hpp"
 
-#include <ft2build.h>
-#include FT_FREETYPE_H
-
 namespace Engine3DRadSpace::Graphics
 {
 	class DLLEXPORT Font : public Content::IAsset
@@ -43,10 +40,10 @@ namespace Engine3DRadSpace::Graphics
 		Font(GraphicsDevice* device, const std::filesystem::path &path);
 
 		Font(const Font&) = delete;
-		Font(Font&& font) noexcept = default;
+		Font(Font&& font) noexcept;
 
 		Font& operator=(const Font&) = delete;
-		Font& operator=(Font&&) noexcept = default;
+		Font& operator=(Font&&) noexcept;
 
 		unsigned Size() const noexcept;
 		const std::string SupportedCharacters() const noexcept;

@@ -3,6 +3,9 @@
 #include "../Logging/Exception.hpp"
 #include "Texture2D.hpp"
 
+#include <ft2build.h>
+#include FT_FREETYPE_H
+
 using namespace Engine3DRadSpace::Logging;
 using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Graphics;
@@ -30,12 +33,15 @@ Font::Font(GraphicsDevice* device, const std::filesystem::path& path, unsigned s
 	_size(size),
 	_supportedCharacters(supportedCharacters != nullptr ? supportedCharacters : "")
 {
-	if(FT_New_Face(FreeTypeLib, path.string().c_str(), 0, &_font))
+	_font = new FT_Face();
+	auto font = *static_cast<FT_Face*>(_font);
+
+	if(FT_New_Face(FreeTypeLib, path.string().c_str(), 0, &font))
 	{
 		throw Exception("Failed to load font " + path.string()  + " !");
 	}
 
-	FT_Set_Pixel_Sizes(_font, 0, size);
+	FT_Set_Pixel_Sizes(font, 0, size);
 
 	if(supportedCharacters == nullptr)
 	{
@@ -66,18 +72,18 @@ fontSizeComputation:
 	{
 		for (auto c : _supportedCharacters)
 		{
-			if (FT_Load_Char(_font, c, FT_LOAD_COMPUTE_METRICS))
+			if (FT_Load_Char(font, c, FT_LOAD_COMPUTE_METRICS))
 				continue;
 
-			auto w = _font->glyph->bitmap.width;
-			auto h = _font->glyph->bitmap.rows;
+			auto w = font->glyph->bitmap.width;
+			auto h = font->glyph->bitmap.rows;
 
 			auto glyph = Glyph
 			{
 				.Character = c,
 				.Size = Point{static_cast<int>(w), static_cast<int>(h)},
-				.Bearing = Point{_font->glyph->bitmap_left, _font->glyph->bitmap_top},
-				.Advance = static_cast<unsigned>(_font->glyph->advance.x)
+				.Bearing = Point{font->glyph->bitmap_left, font->glyph->bitmap_top},
+				.Advance = static_cast<unsigned>(font->glyph->advance.x)
 			};
 
 			_glyphs.emplace_back(glyph, Math::Rectangle(currentX, currentY, w, h));
@@ -111,7 +117,7 @@ fontSizeComputation:
 
 	for(auto &[glyph, rc] : _glyphs)
 	{
-		if (FT_Load_Char(_font, glyph.Character, FT_LOAD_RENDER))
+		if (FT_Load_Char(font, glyph.Character, FT_LOAD_RENDER))
 			continue;
 
 		using std::ranges::views::iota;
@@ -123,7 +129,7 @@ fontSizeComputation:
 				auto index1 = (atlasX * (y + rc.Y)) + x + rc.X;
 				auto index2 = (rc.Width * y) + x;
 
-				auto alpha = static_cast<float>(_font->glyph->bitmap.buffer[index2]) / 255.0f;
+				auto alpha = static_cast<float>(font->glyph->bitmap.buffer[index2]) / 255.0f;
 				
 				fontAtlas[index1] = Color(alpha, alpha, alpha, alpha);
 			}
@@ -139,6 +145,19 @@ Font::Font(GraphicsDevice* device, const std::filesystem::path& path) : Font(dev
 {
 }
 
+Font::Font(Font&& font) noexcept :
+	_valid(font._valid),
+	_font(font._font),
+	_device(font._device),
+	_size(font._size),
+	_supportedCharacters(std::move(font._supportedCharacters)),
+	_glyphs(std::move(font._glyphs)),
+	_texture(std::move(font._texture))
+{
+	font._valid = false;
+	font._font = nullptr;
+}
+
 Font::Font(Internal::AssetUUIDReader dummy) :
 	_valid(false),
 	_font{},
@@ -146,6 +165,23 @@ Font::Font(Internal::AssetUUIDReader dummy) :
 	_size(0)
 {
 	(void)dummy;
+}
+
+Font& Font::operator=(Font&& font) noexcept
+{
+	if(this != &font)
+	{
+		_valid = font._valid;
+		_font = font._font;
+		_device = font._device;
+		_size = font._size;
+		_supportedCharacters = std::move(font._supportedCharacters);
+		_glyphs = std::move(font._glyphs);
+		_texture = std::move(font._texture);
+		font._valid = false;
+		font._font = nullptr;
+	}
+	return *this;
 }
 
 unsigned Font::Size() const noexcept
@@ -167,7 +203,7 @@ Font::~Font()
 {
 	if (_valid)
 	{
-		FT_Done_Face(_font);
+		FT_Done_Face(*static_cast<FT_Face*>(_font));
 		_valid = false;
 	}
 }

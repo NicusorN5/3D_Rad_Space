@@ -18,6 +18,11 @@ if(MSVC)
 	# Create separate pdb debug info files
 	target_compile_options(3DRadSpace PRIVATE "/Zi")
 
+	#enable address sanitizer if using a debug configuration
+	if(3DRadSpace-editor STREQUAL "Debug")
+		target_compile_options(3DRadSpace-editor PRIVATE "/fsanitize=address")
+	endif()
+
 	#MSVC doesn't define NDEBUG itself, dirty hack.
 	if (CMAKE_BUILD_TYPE STREQUAL "Release" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
 		target_compile_definitions(3DRadSpace PUBLIC NDEBUG 1)

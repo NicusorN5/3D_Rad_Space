@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.21)
 project("3DRadSpace-compiler")
 
 file(GLOB_RECURSE 3DRadSpace-compiler-src CONFIGURE_DEPENDS "*.cpp" "*.hpp" )
-add_executable(3DRadSpace-compiler WIN32 ${3DRadSpace-compiler-src})
+add_executable(3DRadSpace-compiler ${3DRadSpace-compiler-src})
 #target_sources(3DRadSpace-compiler PRIVATE 3DRadSpace_Compiler.rc)
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
@@ -33,5 +33,5 @@ elseif(LINUX)
 endif()
 
 #Link 3DRadSpace
-target_link_libraries(3DRadSpace-compiler PRIVATE 3DRadSpace)
-target_include_directories(3DRadSpace-compiler PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)
+#target_link_libraries(3DRadSpace-compiler PRIVATE 3DRadSpace)
+#target_include_directories(3DRadSpace-compiler PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)

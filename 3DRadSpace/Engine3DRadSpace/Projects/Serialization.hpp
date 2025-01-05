@@ -13,7 +13,7 @@ namespace Engine3DRadSpace::Reflection
 
 namespace Engine3DRadSpace::Projects
 {
-	class Serializer
+	class DLLEXPORT Serializer
 	{
 	public:
 		static json SerializeObject(Engine3DRadSpace::IObject* obj);
