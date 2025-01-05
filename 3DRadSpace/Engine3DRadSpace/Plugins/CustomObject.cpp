@@ -3,7 +3,7 @@
 
 using namespace Engine3DRadSpace::Plugins;
 
-extern std::vector<Engine3DRadSpace::Reflection::ReflectedObject> _3drsp_internal_objects_list;
+extern std::vector<Engine3DRadSpace::Reflection::ReflectedObject*> _3drsp_internal_objects_list;
 
 void Engine3DRadSpace::Plugins::LoadCustomObjectsFromLibHandle(void* libraryHandle)
 {
@@ -23,18 +23,18 @@ void Engine3DRadSpace::Plugins::LoadCustomObjectsFromLibHandle(void* libraryHand
 			for(auto& internalObject : _3drsp_internal_objects_list)
 			{
 				//if UUIDs are in conflicting, generate a new UUID. Used a while loop in case there's two consecutive UUIDs that are the same.
-				while(internalObject.ObjectUUID == object.ObjectUUID)
+				while(internalObject->ObjectUUID == object->ObjectUUID)
 				{
-					object.ObjectUUID = Reflection::UUID::New();
+					object->ObjectUUID = Reflection::UUID::New();
 
 					std::string warning = "Conflicting UUIDs for";
-					warning += object.Name + " and " + internalObject.Name;
+					warning += object->Name + " and " + internalObject->Name;
 					Logging::SetLastWarning(Logging::Warning(2001, warning.c_str(), 1, nullptr));
 				}
 			}
 
 			_3drsp_internal_objects_list.push_back(object);
-			Logging::SetLastMessage(Logging::Message(1000, "Loaded custom object " + object.Name, 1, nullptr));
+			Logging::SetLastMessage(Logging::Message(1000, "Loaded custom object " + object->Name, 1, nullptr));
 		}
 	}
 }

@@ -64,3 +64,7 @@
 #else
 #define DLLEXPORT
 #endif
+
+#if _DEBUG
+#define _DISABLE_VECTOR_ANNOTATION
+#endif // 

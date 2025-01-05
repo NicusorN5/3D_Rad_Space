@@ -19,4 +19,4 @@ namespace Engine3DRadSpace::Internal
 	Reflection::ReflectedObject DLLEXPORT *GetReflDataFromUUID(const Reflection::UUID &uuid);
 }
 
-extern DLLEXPORT std::vector<Engine3DRadSpace::Reflection::ReflectedObject> _3drsp_internal_objects_list;
+extern DLLEXPORT std::vector<Engine3DRadSpace::Reflection::ReflectedObject*> _3drsp_internal_objects_list;

@@ -15,7 +15,7 @@ REFL_FWD(Counter)
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Reflection;
 
-std::vector<ReflectedObject> _3drsp_internal_objects_list;
+std::vector<ReflectedObject*> _3drsp_internal_objects_list;
 
 void Engine3DRadSpace::Internal::LoadDefaultObjects()
 {
@@ -23,38 +23,38 @@ void Engine3DRadSpace::Internal::LoadDefaultObjects()
 
 	_3drsp_internal_objects_list =
 	{
-		CameraReflInstance, //Camera
-		CounterReflInstance, //Counter
-		EmptyReflInstance, //Empty
+		&CameraReflInstance, //Camera
+		&CounterReflInstance, //Counter
+		&EmptyReflInstance, //Empty
 		/*
 		CameraReflInstance, //Event On Key
 		CameraReflInstance, //EventOnLocation
 		CameraReflInstance, //ExitFade
 		*/
-		FogReflInstance, //Fog
+		&FogReflInstance, //Fog
 		/*
 		CameraReflInstance, //Force
 		CameraReflInstance, //FPVCamera
 		CameraReflInstance, //Settings*/
-		GForceReflInstance, //G-Force
+		&GForceReflInstance, //G-Force
 		/*
 		CameraReflInstance, //Group
 		CameraReflInstance, //Network chat
 		CameraReflInstance, //Rigidbody
 		CameraReflInstance, //C# Script
 		*/
-		SkinmeshReflInstance, //Skinmesh
+		&SkinmeshReflInstance, //Skinmesh
 		/*
 		CameraReflInstance, //Skybox
 		*/
-		SkyColorReflInstance,
+		&SkyColorReflInstance,
 		/*
 		CameraReflInstance, //SoundEffect
 		CameraReflInstance, //SoundSource
 		CameraReflInstance, //C++ source
 		*/
-		SpriteReflInstance, //Sprite
-		TextPrintReflInstance, //Textprint
+		&SpriteReflInstance, //Sprite
+		&TextPrintReflInstance, //Textprint
 	};
 }
 
@@ -62,8 +62,8 @@ ReflectedObject* Engine3DRadSpace::Internal::GetReflDataFromUUID(const Reflectio
 {
 	for(auto &refl : _3drsp_internal_objects_list)
 	{
-		if(uuid == refl.ObjectUUID)
-			return &refl;
+		if(uuid == refl->ObjectUUID)
+			return refl;
 	}
 	return nullptr;
 }

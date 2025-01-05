@@ -50,7 +50,7 @@ INT_PTR WINAPI AddObjectDialog_DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 					if(item->iItem >= 0)
 					{
-						EditObjectDialog dialog(hwnd, aod->hInstance, &_3drsp_internal_objects_list[item->iItem], aod->_content);
+						EditObjectDialog dialog(hwnd, aod->hInstance, _3drsp_internal_objects_list[item->iItem], aod->_content);
 						EndDialog(hwnd, reinterpret_cast<INT_PTR>(dialog.ShowDialog()));
 					}
 					break;
@@ -143,18 +143,18 @@ void AddObjectDialog::createForms()
 		
 		int categoryID = 0;
 
-		if(categories.find(Objects[j].Category) == categories.end())
+		if(categories.find(Objects[j]->Category) == categories.end())
 		{
-			categories[Objects[j].Category] = k;
+			categories[Objects[j]->Category] = k;
 			categoryID = k;
-			addCategory(Objects[j].Category, categoryID);
+			addCategory(Objects[j]->Category, categoryID);
 		}
 		else
 		{
-			categoryID = categories[Objects[j].Category];
+			categoryID = categories[Objects[j]->Category];
 		}
 		
-		objects.emplace_back(std::string(Objects[j].Name), objectItem{image, categoryID});
+		objects.emplace_back(std::string(Objects[j]->Name), objectItem{image, categoryID});
 	}
 
 	//Populate the image list with the object data (icons and names)
