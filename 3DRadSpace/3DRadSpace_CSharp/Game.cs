@@ -5,8 +5,8 @@
 		bool _valid;
 		bool _running = true;
 
-		double u_dt = 0;
-		double d_dt = 0;
+		double u_dt;
+		double d_dt;
 
 		protected List<Tuple<int, object>> objects;
 

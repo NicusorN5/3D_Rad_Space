@@ -17,6 +17,8 @@
 #include <dxgi1_3.h>
 #endif //  USING_DX11
 
+#include "Logging.hpp"
+
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Logging;
@@ -120,6 +122,7 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, unsigned width, unsigne
 	_context->SetPrivateData(WKPDID_D3DDebugObjectName, sizeof(contextName) - 1, contextName);
 #endif
 #endif
+	Logging::SetLastMessage("Created D3D11 backend");
 }
 
 void GraphicsDevice::Clear(const Color& clearColor)

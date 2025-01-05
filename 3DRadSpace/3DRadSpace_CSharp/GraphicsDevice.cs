@@ -5,7 +5,7 @@ namespace Engine3DRadSpace
 	public class GraphicsDevice : IDisposable
 	{
 		private IntPtr _graphicsDeviceHandle = IntPtr.Zero;
-		private bool _disposed = false;
+		private bool _disposed;
 
 		[DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "??0GraphicsDevice@Engine3DRadSpace@@QEAA@PEAXII@Z")]
 		static extern private IntPtr _createGraphicsDevice(IntPtr windowHandle, uint width, uint height);

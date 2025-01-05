@@ -18,5 +18,6 @@ namespace Engine3DRadSpace::Logging
 	extern FuncWarningHandler WarningHandler;
 
 	void DLLEXPORT SetLastWarning(const Warning &warning);
+	void DLLEXPORT SetLastWarning(const std::string &warning_text);
 	void DLLEXPORT DefaultWarningHandler(const Warning &warning);
 }

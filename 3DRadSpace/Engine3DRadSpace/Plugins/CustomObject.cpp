@@ -34,7 +34,7 @@ void Engine3DRadSpace::Plugins::LoadCustomObjectsFromLibHandle(void* libraryHand
 			}
 
 			_3drsp_internal_objects_list.push_back(object);
-			Logging::SetLastMessage(Logging::Message(1000, "Loaded custom object " + object->Name, 1, nullptr));
+			Logging::SetLastMessage(Logging::Message(1000, "Loaded custom object " + object->Name, nullptr));
 		}
 	}
 }

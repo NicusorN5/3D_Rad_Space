@@ -9,13 +9,13 @@ namespace Engine3DRadSpace::Logging
 		int32_t Code;
 		const void *Extra;
 
-		Message(const int32_t code, const int severity);
-		Message(const int32_t code, const std::string& details, const int severity, const void* extra = nullptr);
+		Message(const int32_t code, const std::string& details, const void* extra = nullptr);
 	};
 
 	typedef void (*FuncMessageHandler)(const Message& warning);
 	extern FuncMessageHandler MessageHandler;
 
 	void DLLEXPORT SetLastMessage(const Message &warning);
+	void SetLastMessage(const std::string& msg);
 	void DLLEXPORT DefaultMessageHandler(const Message &warning);
 }
