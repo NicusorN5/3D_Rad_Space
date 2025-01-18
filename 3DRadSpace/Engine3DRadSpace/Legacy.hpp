@@ -88,7 +88,7 @@ namespace Engine3DRadSpace::Legacy
 	//iShaderTextureDestroy(int)
 	//iShaderTextureSet(OBJ_X,string,int)
 
-	//int iStringLen(const std::string);
-	//void iStringUCase(string, string)
-	//iStringLCase(string,string)
+	int DLLEXPORT iStringLen(const std::string& str);
+	void DLLEXPORT iStringUCase(const std::string& in, std::string& out);
+	void DLLEXPORT iStringLCase(const std::string& in, std::string& out);
 }

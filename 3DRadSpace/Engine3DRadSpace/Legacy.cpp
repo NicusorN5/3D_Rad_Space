@@ -223,6 +223,29 @@ void DLLEXPORT Engine3DRadSpace::Legacy::iObjectRefresh(int obj_x, const std::fi
 	obj->Load(path);
 }
 
+int DLLEXPORT Engine3DRadSpace::Legacy::iStringLen(const std::string& str)
+{
+	return static_cast<int>(str.length());
+}
+
+void DLLEXPORT Engine3DRadSpace::Legacy::iStringUCase(const std::string& in, std::string& out)
+{
+	out = in;
+	std::transform(out.begin(), out.end(), out.begin(), [](char c)
+	{
+		return static_cast<char>(std::toupper(c));
+	});
+}
+
+void DLLEXPORT Engine3DRadSpace::Legacy::iStringLCase(const std::string& in, std::string& out)
+{
+	out = in;
+	std::transform(out.begin(), out.end(), out.begin(), [](char c)
+	{
+		return static_cast<char>(std::tolower(c));
+	});
+}
+
 /*
 void DLLEXPORT Engine3DRadSpace::Legacy::iShaderSet(int obj_x, const std::string& path)
 {
