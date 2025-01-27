@@ -22,6 +22,8 @@ namespace Engine3DRadSpace::Graphics
 		IFragmentShader &operator = (IFragmentShader &&) noexcept = default;
 
 		void SetTexture(unsigned index, Texture2D *texture) override;
+		void SetTextures(std::span<Texture2D*> textures);
+		//void SetTextures(unsigned index, std::span<Texture2D*> textures);
 		void SetSampler(unsigned index, SamplerState *samplerState) override;
 		void SetShader() override;
 		void* GetHandle() const noexcept override;

@@ -1,5 +1,6 @@
 #pragma once
 #include "PostProcessEffect.hpp"
+#include "../RenderTarget.hpp"
 
 namespace Engine3DRadSpace::Graphics::Rendering
 {
@@ -8,6 +9,8 @@ namespace Engine3DRadSpace::Graphics::Rendering
 	private:
 		GraphicsDevice* _device;
 		std::vector<std::unique_ptr<PostProcessEffect>> _effects;
+
+		std::unique_ptr<RenderTarget> _effectRT;
 	public:
 		PostProcessCollection(GraphicsDevice* device);
 

@@ -1,6 +1,7 @@
 #pragma once
 #include "../IFragmentShader.hpp"
 #include "..\IVertexShader.hpp"
+#include "../RenderTarget.hpp"
 
 namespace Engine3DRadSpace::Graphics::Rendering
 {
@@ -21,6 +22,7 @@ namespace Engine3DRadSpace::Graphics::Rendering
 			PostProcessVertex(GraphicsDevice* device, ShaderFeatureLevel fl);
 			std::span<InputLayoutElement> InputLayout() override;
 		} _vertex;
+
 	protected:
 		 PostProcessEffect(
 			 GraphicsDevice* device, 

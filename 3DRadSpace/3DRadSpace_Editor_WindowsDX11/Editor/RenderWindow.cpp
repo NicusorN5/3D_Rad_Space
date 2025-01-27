@@ -149,30 +149,33 @@ void RenderWindow::Draw3D()
 	//Main rendering pass
 	for(auto &obj : *Objects)
 	{
-		switch(obj.InternalType)
+		if(obj.InternalType == ObjectList::ObjectInstance::ObjectType::IObject3D)
 		{
-		case ObjectList::ObjectInstance::ObjectType::IObject2D:
-				static_cast<IObject2D *>(obj.Object.get())->EditorDraw2D(false);
-				break;
-			case ObjectList::ObjectInstance::ObjectType::IObject3D:
-				static_cast<IObject3D *>(obj.Object.get())->EditorDraw3D(false);
-				break;
-			default:
-				break;
+			static_cast<IObject3D*>(obj.Object.get())->EditorDraw3D(false);
 		}
 	}
 }
 
 void RenderWindow::Draw2D()
 {
+	this->ClearColor = Color(0, 0, 0, 1);
+
 	SpriteBatch->Begin();
 	SpriteBatch->DrawString(
 		font,
-		std::format("M", mouseDelta.X, mouseDelta.Y),
+		std::format("Mouse {} {}", mouseDelta.X, mouseDelta.Y),
 		Point(20, 20),
 		1
 	);
 	SpriteBatch->End();
+
+	for(auto &obj : *Objects)
+	{
+		if(obj.InternalType == ObjectList::ObjectInstance::ObjectType::IObject2D)
+		{
+			static_cast<IObject2D*>(obj.Object.get())->EditorDraw2D(false);
+		}
+	}
 }
 
 bool RenderWindow::IsFocused() const

@@ -62,6 +62,21 @@ void IFragmentShader::SetTexture(unsigned index, Texture2D *texture)
 #endif // USING_DX11
 }
 
+void IFragmentShader::SetTextures(std::span<Texture2D*> textures)
+{
+#ifdef USING_DX11
+	std::unique_ptr<ID3D11ShaderResourceView* []> srvs = std::make_unique<ID3D11ShaderResourceView* []>(textures.size());
+	auto len = textures.size();
+
+	for(decltype(len) i = 0; i < len; i++)
+	{
+		srvs[i] = textures[i]->_resourceView.Get();
+	}
+
+	_device->_context->PSSetShaderResources(0, len, srvs.get());
+#endif // USING_DX11
+}
+
 void IFragmentShader::SetSampler(unsigned index, SamplerState *samplerState)
 {
 #ifdef USING_DX11

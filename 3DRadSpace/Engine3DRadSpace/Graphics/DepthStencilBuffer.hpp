@@ -1,16 +1,15 @@
 #pragma once
 #include "../GraphicsDevice.hpp"
-#include "DepthStencilState.hpp"
+#include "Texture2D.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {
-	class Texture2D;
 	class DLLEXPORT DepthStencilBuffer
 	{
 #ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilView> _depthView;
-		Microsoft::WRL::ComPtr<ID3D11Texture2D> _depthTexture;
 #endif
+		std::unique_ptr<Texture2D> _depthTexture;
 		GraphicsDevice *_device;
 		void _createDepthTexture();
 	public:
@@ -24,8 +23,8 @@ namespace Engine3DRadSpace::Graphics
 
 		void* GetViewHandle() const noexcept;
 		void* GetDepthTextureHandle() const noexcept;
-
-		std::unique_ptr<Texture2D> GetDepthTexture() const;
+		
+		Texture2D* GetDepthTexture() const noexcept;
 
 		~DepthStencilBuffer() = default;
 

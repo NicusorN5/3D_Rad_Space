@@ -280,7 +280,7 @@ void AssetManagerDialog::_loadAssetIcons()
 			SendMessageA(_assetList, LVM_INSERTITEMA, 0, reinterpret_cast<LPARAM>(&item)); //add item first, then load image next
 		}
 	});
-	imageLoader.join();
+	imageLoader.detach();
 }
 
 AssetManagerDialog::AssetManagerDialog(HWND owner, HINSTANCE instance, ContentManager *content) :

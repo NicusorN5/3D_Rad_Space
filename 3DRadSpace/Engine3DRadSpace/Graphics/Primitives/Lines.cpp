@@ -26,6 +26,7 @@ RasterizerState* Lines::GetLineRasterizer() const noexcept
 
 void Lines::Draw3D()
 {
+	//TODO: Remove low level call, provide method to get old raster state and swap later.
 #ifdef USING_DX11
 	_device->_context->RSGetState(_oldRasterizerState.GetAddressOf());
 #endif

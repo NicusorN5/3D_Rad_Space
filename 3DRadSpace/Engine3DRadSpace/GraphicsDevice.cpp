@@ -38,11 +38,11 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, unsigned width, unsigne
 	swapChainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_STRETCHED;
 	swapChainDesc.Windowed = true;
 	swapChainDesc.SampleDesc = { 1, 0 }; //count, quality
-	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT | DXGI_USAGE_SHADER_INPUT ;
 	swapChainDesc.OutputWindow = static_cast<HWND>(nativeWindowHandle);
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
 
-#if _DEBUG
+#if !_DEBUG
 	UINT flags = D3D11_CREATE_DEVICE_DEBUG;
 #else
 	UINT flags = 0;
@@ -70,6 +70,16 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, unsigned width, unsigne
 	//assign texture to main render target.
 	r = _swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), static_cast<void**>(&_backbufferRT->_texture));
 	if (FAILED(r)) throw Exception("Failed to get the back buffer texture!");
+
+	//Create shader resource view for back buffer
+	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+	srvDesc.Format = DXGI_FORMAT_R16G16B16A16_FLOAT;
+	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	srvDesc.Texture2D.MipLevels = -1;
+	srvDesc.Texture2D.MostDetailedMip = 0;
+
+	r = _device->CreateShaderResourceView(_backbufferRT->_texture.Get(), &srvDesc, _backbufferRT->_resourceView.GetAddressOf());
+	if(FAILED(r)) throw Exception("Failed to create shader resource view for the back buffer!");
 
 	//assign render target view
 	r = _device->CreateRenderTargetView(_backbufferRT->_texture.Get(), nullptr, _backbufferRT->_renderTarget.GetAddressOf());
@@ -184,7 +194,7 @@ Viewport GraphicsDevice::GetViewport()
 #endif
 }
 
-void GraphicsDevice::SetRenderTarget(RenderTarget*renderTarget)
+void GraphicsDevice::SetRenderTarget(RenderTarget *renderTarget)
 {
 #ifdef USING_DX11
 	auto rt = renderTarget != nullptr ? renderTarget->_renderTarget.GetAddressOf() : _backbufferRT->_renderTarget.GetAddressOf();
@@ -192,12 +202,20 @@ void GraphicsDevice::SetRenderTarget(RenderTarget*renderTarget)
 #endif
 }
 
-void GraphicsDevice::SetRenderTargetAndDepth(RenderTarget *renderTarget, DepthStencilBuffer*depthBuffer)
+void GraphicsDevice::SetRenderTargetAndDepth(RenderTarget *renderTarget, DepthStencilBuffer *depthBuffer)
 {
 #ifdef USING_DX11
 	auto depthviewBuffer = depthBuffer != nullptr ? depthBuffer->_depthView.Get() : _stencilBuffer->_depthView.Get();
 	auto renderTargetView = renderTarget != nullptr ? renderTarget->_renderTarget.GetAddressOf() : _backbufferRT->_renderTarget.GetAddressOf();
 	_context->OMSetRenderTargets(1, renderTargetView, depthviewBuffer);
+#endif
+}
+
+void GraphicsDevice::SetRenderTargetAndDisableDepth(RenderTarget* renderTarget)
+{
+#ifdef USING_DX11
+	auto renderTargetView = renderTarget != nullptr ? renderTarget->_renderTarget.GetAddressOf() : _backbufferRT->_renderTarget.GetAddressOf();
+	_context->OMSetRenderTargets(1, renderTargetView, nullptr);
 #endif
 }
 
@@ -402,9 +420,14 @@ void Engine3DRadSpace::GraphicsDevice::DrawScreenQuad()
 	DrawVertexBuffer(_screenQuad.get());
 }
 
-std::unique_ptr<RenderTarget> Engine3DRadSpace::GraphicsDevice::GetBackBuffer(int index)
+RenderTarget* Engine3DRadSpace::GraphicsDevice::GetBackBuffer()
 {
-	return std::make_unique<RenderTarget>(std::move(RenderTarget::GetCurrentRenderTarget(this)));
+	return _backbufferRT.get();
+}
+
+Graphics::Texture2D* Engine3DRadSpace::GraphicsDevice::GetBackBufferTexture()
+{
+	return static_cast<Texture2D*>(_backbufferRT.get());
 }
 
 DepthStencilBuffer& Engine3DRadSpace::GraphicsDevice::GetDepthBuffer()

@@ -9,6 +9,7 @@
 #include "../Logging/Exception.hpp"
 #include "../Logging/ResourceLoadingError.hpp"
 #include "../Internal/AssetUUIDReader.hpp"
+#include "../GraphicsDevice.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
@@ -408,7 +409,7 @@ Texture2D::Texture2D(GraphicsDevice *device, unsigned x, unsigned y, bool bindRe
 	desc.MipLevels = 1;
 	desc.SampleDesc.Count = 1;
 	desc.SampleDesc.Quality = 0;
-	desc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	desc.Format = _getTextureFormat(format);;
 
 	HRESULT r = device->_device->CreateTexture2D(&desc, nullptr, _texture.GetAddressOf());
 	if (FAILED(r)) throw Exception("Failed to initialize a 2D texture!" + std::system_category().message(r));
@@ -428,13 +429,13 @@ Texture2D::Texture2D(GraphicsDevice *device, std::monostate dummy, bool bindRend
 	desc.Width = device->_resolution.X;
 	desc.Height = device->_resolution.Y;
 	desc.ArraySize = 1;
-	desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	desc.Usage = D3D11_USAGE_DYNAMIC;
+	desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+	desc.Usage = D3D11_USAGE_DEFAULT;
 	desc.BindFlags = D3D11_BIND_SHADER_RESOURCE | (bindRenderTarget ? D3D11_BIND_RENDER_TARGET : 0);
 	desc.MipLevels = 1;
 	desc.SampleDesc.Count = 1;
 	desc.SampleDesc.Quality = 0;
-	desc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	desc.Format = _getTextureFormat(format);
 
 	HRESULT r = device->_device->CreateTexture2D(&desc, nullptr, _texture.GetAddressOf());
 	if (FAILED(r)) throw Exception("Failed to initialize a 2D texture!" + std::system_category().message(r));

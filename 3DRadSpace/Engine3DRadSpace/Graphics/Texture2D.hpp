@@ -1,13 +1,9 @@
 #pragma once
-#include "../GraphicsDevice.hpp"
+//#include "../GraphicsDevice.hpp"
 #include "PixelFormat.hpp"
 #include "../Math/Point.hpp"
 #include "../Content/IAsset.hpp"
-
-namespace Engine3DRadSpace::Internal
-{
-	struct AssetUUIDReader;
-}
+#include "../Color.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {
@@ -82,8 +78,8 @@ namespace Engine3DRadSpace::Graphics
 		friend class IHullShader;
 		friend class IDomainShader;
 		friend class IGeometryShader;
-		friend class Graphics::DepthStencilBuffer;
 		friend struct Internal::AssetUUIDReader;
+		friend class DepthStencilBuffer;
 	};
 }
 

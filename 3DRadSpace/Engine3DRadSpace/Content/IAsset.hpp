@@ -1,13 +1,17 @@
 #pragma once
-#include "../GraphicsDevice.hpp"
+//#include "../GraphicsDevice.hpp"
 #include "../Reflection/UUID.hpp"
 
 #include "../Audio/AudioEngine.hpp"
 #include "../Physics/PhysicsEngine.hpp"
 
-namespace Engine3DRadSpace::Internal
+namespace Engine3DRadSpace
 {
-	struct AssetUUIDReader;
+	class GraphicsDevice;
+	namespace Internal
+	{
+		struct AssetUUIDReader;
+	}
 }
 
 namespace Engine3DRadSpace::Content

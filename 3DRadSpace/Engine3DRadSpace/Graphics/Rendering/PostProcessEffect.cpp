@@ -33,8 +33,7 @@ void PostProcessEffect::Apply()
 	_device->SetScreenQuad();
 	_device->SetShader(&_vertex);
 	
-	auto backbuffer = _device->GetBackBuffer(0);
-	this->SetTexture(0, dynamic_cast<Texture2D*>(backbuffer.get()) );
+	this->SetTexture(0, _device->GetBackBufferTexture());
 	SetShader();
 }
 

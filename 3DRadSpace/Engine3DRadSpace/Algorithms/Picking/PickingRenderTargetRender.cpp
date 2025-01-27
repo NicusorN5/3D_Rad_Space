@@ -34,14 +34,16 @@ std::optional<unsigned> Engine3DRadSpace::Algorithms::Picking::PickingRenderTarg
 
 	auto renderTarget = static_cast<ID3D11Texture2D*>(_renderTarget->RenderTargetHandle());
 
+	/*
 	HRESULT r = _device->_context->Map(renderTarget, 0, D3D11_MAP_READ, 0, &mappedSubresource);
 	if (FAILED(r)) throw Logging::Exception("Failed to map the ID texture!");
 
 	unsigned ID = *static_cast<int*>(mappedSubresource.pData) + (mouseCoords.Y * _renderTarget->Width()) + mouseCoords.X;
 
 	_device->_context->Unmap(renderTarget, 0);
-
+	
 	if (ID != 0) return ID + 1;
+	*/
 	return std::nullopt;
 #endif
 }

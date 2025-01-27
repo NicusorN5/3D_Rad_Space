@@ -1,7 +1,7 @@
-
 #include "RenderTarget.hpp"
 #include "../Logging/Exception.hpp"
 #include "../Internal/AssetUUIDReader.hpp"
+#include "../GraphicsDevice.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
@@ -52,6 +52,11 @@ RenderTarget::RenderTarget(AssetUUIDReader r) :
 RenderTarget RenderTarget::GetCurrentRenderTarget(GraphicsDevice* device)
 {
 	return RenderTarget(device, std::monostate{});
+}
+
+std::array<RenderTarget*, D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT> Engine3DRadSpace::Graphics::RenderTarget::GetCurrentRenderTargets(GraphicsDevice* device)
+{
+	return std::array<RenderTarget*, D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT>();
 }
 
 void* RenderTarget::RenderTargetHandle() const noexcept

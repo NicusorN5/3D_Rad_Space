@@ -32,5 +32,8 @@ void LinearPixelFogEffect::Apply()
 	this->SetData(0, &fogData, sizeof(FogData));
 
 	auto depthBuffer = _device->GetDepthBuffer().GetDepthTexture();
-	this->SetTexture(1, depthBuffer.get());
+	
+	std::array<Texture2D*, 2> textures = { _device->GetBackBufferTexture(), depthBuffer};
+
+	this->SetTextures(textures);
 }
