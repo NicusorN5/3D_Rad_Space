@@ -122,6 +122,13 @@ Model3D::Model3D(GraphicsDevice* Device, const std::filesystem::path& path) :
 				}
 			}
 		}
+
+		if(vertices.empty() || indices.empty())
+		{
+			meshParts.push_back(nullptr);
+			continue;
+		}
+
 		auto mesh = std::make_unique<ModelMeshPart>(Device, basicTexturedNBT, &vertices[0], numVerts, structSize, indices);
 		
 		//determine bounding box and sphere
@@ -206,6 +213,8 @@ Model3D::Model3D(GraphicsDevice* Device, const std::filesystem::path& path) :
 void Model3D::_processNode(std::vector<std::unique_ptr<ModelMeshPart>> &parts, void* currentNode)
 {
 	if (currentNode == nullptr) return;
+	if(parts.empty()) return;
+
 	auto node = static_cast<aiNode*>(currentNode);
 	
 	if(node->mNumMeshes == 0) return;
@@ -213,6 +222,8 @@ void Model3D::_processNode(std::vector<std::unique_ptr<ModelMeshPart>> &parts, v
 	std::vector<std::unique_ptr<ModelMeshPart>> lparts;
 	for (unsigned i = 0; i < node->mNumMeshes; i++)
 	{
+		if(parts[node->mMeshes[i]] == nullptr) continue;
+
 		lparts.push_back(std::move(parts[node->mMeshes[i]]));
 		lparts[i]->Transform = Matrix4x4(reinterpret_cast<float*>(&node->mTransformation));
 	}

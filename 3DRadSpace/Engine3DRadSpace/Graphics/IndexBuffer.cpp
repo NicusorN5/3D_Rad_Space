@@ -49,7 +49,7 @@ IndexBuffer::IndexBuffer(GraphicsDevice* device, unsigned* indices, size_t numin
 	desc.BindFlags = D3D11_BIND_INDEX_BUFFER;
 	desc.StructureByteStride = sizeof(unsigned);
 	desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-
+	
 	D3D11_SUBRESOURCE_DATA data{};
 	data.pSysMem = indices;
 

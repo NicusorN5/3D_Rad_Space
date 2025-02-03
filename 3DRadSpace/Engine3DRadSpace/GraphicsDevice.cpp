@@ -71,6 +71,8 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, unsigned width, unsigne
 	r = _swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), static_cast<void**>(&_backbufferRT->_texture));
 	if (FAILED(r)) throw Exception("Failed to get the back buffer texture!");
 
+	_backbufferRT->_retrieveSize();
+
 	//Create shader resource view for back buffer
 	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
 	srvDesc.Format = DXGI_FORMAT_R16G16B16A16_FLOAT;
@@ -427,7 +429,7 @@ RenderTarget* Engine3DRadSpace::GraphicsDevice::GetBackBuffer()
 
 Graphics::Texture2D* Engine3DRadSpace::GraphicsDevice::GetBackBufferTexture()
 {
-	return static_cast<Texture2D*>(_backbufferRT.get());
+	return static_cast<Texture2D*>(this->_backbufferRT.get());
 }
 
 DepthStencilBuffer& Engine3DRadSpace::GraphicsDevice::GetDepthBuffer()

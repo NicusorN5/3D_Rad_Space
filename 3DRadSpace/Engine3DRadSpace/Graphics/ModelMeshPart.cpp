@@ -51,6 +51,8 @@ ModelMeshPart& ModelMeshPart::operator=(ModelMeshPart&& meshPart) noexcept
 
 void ModelMeshPart::Draw()
 {
+	if(_device == nullptr) return;
+
 	_shaders->SetAll();
 
 	for(int i = 0; i < Textures.size(); i++)
