@@ -472,7 +472,7 @@ RenderTarget* Engine3DRadSpace::GraphicsDevice::GetBackBuffer()
 
 Graphics::Texture2D* Engine3DRadSpace::GraphicsDevice::GetBackBufferTexture()
 {
-	return static_cast<Texture2D*>(this->_backbufferRT.get());
+	return dynamic_cast<Texture2D*>(this->_backbufferRT.get());
 }
 
 DepthStencilBuffer& Engine3DRadSpace::GraphicsDevice::GetDepthBuffer()

@@ -497,8 +497,8 @@ void EditorWindow::Run()
 		this->editor->Device->SetViewport();
 		this->editor->Device->Clear(editor->ClearColor);
 		this->editor->Draw3D();
-		this->editor->Draw2D();
 		this->editor->PostProcesses->ApplyAll();
+		this->editor->Draw2D();
 		this->editor->Device->Present();
 
 		auto ts_d2 = std::chrono::steady_clock::now();

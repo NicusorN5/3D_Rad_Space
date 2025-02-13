@@ -70,9 +70,10 @@ void Game::RunOneFrame()
 	this->Device->Clear(ClearColor);
 
 	Draw3D();
-	Draw2D();
 
 	PostProcesses->ApplyAll();
+
+	Draw2D();
 
 	Device->Present();
 
