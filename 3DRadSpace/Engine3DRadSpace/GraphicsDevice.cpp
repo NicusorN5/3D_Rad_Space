@@ -148,6 +148,21 @@ void GraphicsDevice::Clear(const Color& clearColor)
 #endif
 }
 
+void GraphicsDevice::ClearRenderTarget(RenderTarget* rt, const Color& clearColor)
+{
+#ifdef USING_DX11
+	float color[4] = { clearColor.R,clearColor.G,clearColor.B,clearColor.A };
+	_context->ClearRenderTargetView(rt->_renderTarget.Get(), color);
+#endif
+}
+
+void GraphicsDevice::ClearDepthBuffer(DepthStencilBuffer* depth)
+{
+#ifdef USING_DX11
+	_context->ClearDepthStencilView(_stencilBuffer->_depthView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0xFF);
+#endif
+}
+
 void GraphicsDevice::SetViewport()
 {
 #ifdef USING_DX11
@@ -201,6 +216,14 @@ void GraphicsDevice::SetRenderTarget(RenderTarget *renderTarget)
 #ifdef USING_DX11
 	auto rt = renderTarget != nullptr ? renderTarget->_renderTarget.GetAddressOf() : _backbufferRT->_renderTarget.GetAddressOf();
 	_context->OMSetRenderTargets(1, rt, _stencilBuffer->_depthView.Get());
+#endif
+}
+
+void GraphicsDevice::UnbindRenderTargetAndDepth()
+{
+#ifdef USING_DX11
+	ID3D11RenderTargetView* nullRTV = nullptr;
+	_context->OMSetRenderTargets(1, &nullRTV, nullptr );
 #endif
 }
 
@@ -292,8 +315,12 @@ void GraphicsDevice::Present()
 void GraphicsDevice::SaveBackBufferToFile(const std::filesystem::path &path)
 {
 #ifdef USING_DX11
+	UnbindRenderTargetAndDepth();
+
 	HRESULT r = DirectX::SaveWICTextureToFile(_context.Get(), _backbufferRT->_texture.Get(), GUID_ContainerFormatPng, path.wstring().c_str(), nullptr, nullptr, true);
 	if(FAILED(r)) throw std::exception("Failed to save file!");
+
+	SetRenderTargetAndDepth(nullptr, nullptr);
 #endif
 }
 
@@ -396,6 +423,7 @@ Math::Point GraphicsDevice::Resolution() const noexcept
 
 void GraphicsDevice::ResizeBackBuffer(const Math::Point &newResolution)
 {
+#ifdef USING_DX11
 	_context->ClearState();
 	HRESULT r = _swapChain->ResizeBuffers(0, newResolution.X, newResolution.Y, DXGI_FORMAT_UNKNOWN, 0);
 	if(FAILED(r))
@@ -405,11 +433,26 @@ void GraphicsDevice::ResizeBackBuffer(const Math::Point &newResolution)
 
 	r = _swapChain->GetBuffer(0, IID_PPV_ARGS(_backbufferRT->_texture.GetAddressOf()));
 	if(FAILED(r)) throw std::exception("Failed to get the back buffer texture!");
+#endif
 }
 
 void GraphicsDevice::ToggleFullScreen()
 {
-	_swapChain->SetFullscreenState(_fullscreen = !_fullscreen, nullptr);
+#ifdef USING_DX11
+	HRESULT r = _swapChain->SetFullscreenState(_fullscreen = !_fullscreen, nullptr);
+	
+	switch(r)
+	{
+		case S_OK :
+			return;
+		case DXGI_ERROR_NOT_CURRENTLY_AVAILABLE :
+			return;
+		case DXGI_STATUS_MODE_CHANGE_IN_PROGRESS:
+			return;
+		default:
+			throw Exception(std::format("Failure toggling to fullscreen - HRESULT : {:x}", r));
+	}
+#endif
 }
 
 void Engine3DRadSpace::GraphicsDevice::SetScreenQuad()

@@ -506,6 +506,8 @@ Texture2D Texture2D::CreateStaging(Texture2D* texture)
 	Microsoft::WRL::ComPtr<ID3D11Texture2D> stagingTexture;
 	HRESULT r = texture->_device->_device->CreateTexture2D(&desc, nullptr, &stagingTexture);
 	if (FAILED(r)) throw Exception("Failed to create a staging texture!" + std::system_category().message(r));
+
+	texture->_device->_context->CopyResource(stagingTexture.Get(), texture->_texture.Get());
 #endif
 
 	return Texture2D(texture->_device, std::monostate(), std::move(stagingTexture));

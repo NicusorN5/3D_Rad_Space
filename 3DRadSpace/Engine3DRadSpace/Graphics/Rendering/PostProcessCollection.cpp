@@ -17,7 +17,6 @@ void PostProcessCollection::ApplyAll()
 {
 	for(auto& effect : _effects)
 	{
-		_device->SetRenderTargetAndDisableDepth(_effectRT.get());
 		effect->Apply();
 		_device->SetRenderTargetAndDisableDepth(nullptr);
 		effect->Draw();

@@ -23,8 +23,9 @@ namespace Engine3DRadSpace::Graphics::Rendering
 			std::span<InputLayoutElement> InputLayout() override;
 		} _vertex;
 
+		void _setRenderSurface(GraphicsDevice* device);
 	protected:
-		 PostProcessEffect(
+		PostProcessEffect(
 			 GraphicsDevice* device, 
 			 const char* shaderSource, 
 			 const char* entryFunction, 
@@ -39,6 +40,8 @@ namespace Engine3DRadSpace::Graphics::Rendering
 		 );
 	public:
 		bool Enabled = true;
+
+		std::shared_ptr<RenderTarget> _renderSurface;
 
 		virtual void Apply();
 		void Draw();

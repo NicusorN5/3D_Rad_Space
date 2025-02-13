@@ -71,7 +71,9 @@ namespace Engine3DRadSpace
 		GraphicsDevice& operator=(const GraphicsDevice&) = delete;
 		GraphicsDevice& operator=(GraphicsDevice&&) = delete;
 
-		void Clear(const Color& clearColor = { 0.0f,0.0f,0.0f,1.0f });
+		void Clear(const Color& clearColor = { 0.0f, 0.0f, 0.0f, 1.0f });
+		void ClearRenderTarget(Graphics::RenderTarget* rt, const Color& clearColor = { 0.0f, 0.0f, 0.0f, 1.0f });
+		void ClearDepthBuffer(Graphics::DepthStencilBuffer* depth);
 
 		void SetViewport();
 		void SetViewport(const Viewport& viewport);
@@ -80,17 +82,47 @@ namespace Engine3DRadSpace
 		Viewport GetViewport();
 		
 		/// <summary>
-		/// Sets the current render target.
+		/// Sets the current render target. Depth buffer is set to the default depth buffer.
 		/// </summary>
 		/// <param name="remderTarget">Render target pointer reference. Using null will use the backbuffer.</param>
 		void SetRenderTarget(Graphics::RenderTarget* renderTarget);
+		/// <summary>
+		/// Unbinds the current render target and depth buffer. 
+		/// </summary>
+		/// <remarks>
+		/// When called, there's no valid render surface that's assigned to the GPU. 
+		/// </remarks>
+		void UnbindRenderTargetAndDepth();
+		/// <summary>
+		/// Sets both render target and depth stencil buffer.
+		/// </summary>
+		/// <param name="renderTarget">Render surface to be drawn into. If null, it is set to the backbuffer.</param>
+		/// <param name="depthBuffer">Depth stencil buffer. If null, will be set to the default non-null buffer.</param>
 		void SetRenderTargetAndDepth(Graphics::RenderTarget* renderTarget, Graphics::DepthStencilBuffer* depthBuffer);
+		/// <summary>
+		/// Sets the render target, but unbinds the depth buffer.
+		/// </summary>
+		/// <param name="renderTarget">Render surface to be drawn into. If null, it is set to the backbuffer.</param>
 		void SetRenderTargetAndDisableDepth(Graphics::RenderTarget* renderTarget);
 
+		/// <summary>
+		/// Draws a vertex buffer into the selected render target.
+		/// </summary>
+		/// <param name="vertexBuffer">Vertex buffer.</param>
+		/// <param name="startSlot">Index of the first buffer.</param>
 		void DrawVertexBuffer(Graphics::VertexBuffer* vertexBuffer, unsigned startSlot = 0);
+		/// <summary>
+		/// Draws a vertex buffer ordered by a index buffer into the selected render target.
+		/// </summary>
+		/// <param name="vertexBuffer">Vertex buffer.</param>
+		/// <param name="indexBuffer">Index buffer.</param>
 		void DrawVertexBufferWithindices(Graphics::VertexBuffer* vertexBuffer, Graphics::IndexBuffer* indexBuffer);
 		void DrawVertexBufferWithindices(Graphics::VertexBuffer* vertexBuffer, Graphics::IndexBuffer* indexBuffer, unsigned numIndices);
 
+		/// <summary>
+		/// Sets a shader for the graphics pipeline.
+		/// </summary>
+		/// <param name="shader">Either a vertex shader, fragment shader, geometry shader, etc...</param>
 		void SetShader(Graphics::IShader* shader);
 
 		void SetRasterizerState(const Graphics::RasterizerState* state);
@@ -100,17 +132,43 @@ namespace Engine3DRadSpace
 
 		void SetBlendState(Graphics::BlendState* blendState, const Color& blendFactor = Colors::Black, unsigned sampleMask = 0xFFFFFFFF);
 
+		/// <summary>
+		/// Sets the topology used by the vertex buffer.
+		/// </summary>
+		/// <param name="topology"></param>
 		void SetTopology(Graphics::VertexTopology topology);
 		void DrawAuto();
+		/// <summary>
+		/// Swaps the front and backbuffer, thus outputting the backbuffer to the screen.
+		/// </summary>
 		void Present();
 
+		/// <summary>
+		/// Writes the backbuffer to a file. 
+		/// </summary>
+		/// <param name="path">PNG format image path.</param>
 		void SaveBackBufferToFile(const std::filesystem::path& path);
 
 		bool EnableVSync;
 
+		/// <summary>
+		/// Returns the backbuffer width and height.
+		/// </summary>
+		/// <returns></returns>
 		Math::Point Resolution() const noexcept;
 
+		/// <summary>
+		/// Resizes the back buffer, stencil buffer.
+		/// </summary>
+		/// <param name="newResolution">New resolution. Use 0,0 to match window size.</param>
+		/// <remarks>
+		/// Number of swap chain textures is preserved.
+		/// Texture format will be same as the previous pixel format.
+		/// </remarks>
 		void ResizeBackBuffer(const Math::Point& newResolution);
+		/// <summary>
+		/// Switches the fullscreen state.
+		/// </summary>
 		void ToggleFullScreen();
 
 		void SetScreenQuad();
