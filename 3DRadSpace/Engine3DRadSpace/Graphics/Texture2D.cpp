@@ -621,6 +621,7 @@ Texture2D Texture2D::Clone()
 
 #ifdef USING_DX11
 	Microsoft::WRL::ComPtr<ID3D11Texture2D> copy = nullptr;
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> srv = nullptr;
 
 	D3D11_TEXTURE2D_DESC desc{};
 	this->_texture->GetDesc(&desc);
@@ -630,7 +631,10 @@ Texture2D Texture2D::Clone()
 
 	_device->_context->CopyResource(copy.Get(), staging._texture.Get());
 
-	return Texture2D(_device, std::monostate(), std::move(copy));
+	r = _device->_device->CreateShaderResourceView(_texture.Get(), nullptr, srv.GetAddressOf()); //recreate the shader resource view for the new texture
+	if (FAILED(r)) throw Exception("Failed to recreate the shader resource view!" + std::system_category().message(r));
+
+	return Texture2D(_device, std::move(copy), std::move(srv));
 #endif
 }
 

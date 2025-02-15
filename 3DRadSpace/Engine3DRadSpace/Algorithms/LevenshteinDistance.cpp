@@ -1,4 +1,10 @@
-
+/// ------------------------------------------------------------------------------------------------
+/// File:   Algorithms/LevenshteinDistance.cpp
+/// Copyright (C) 2025, 3DRadSpace
+/// License: The MIT License
+/// ------------------------------------------------------------------------------------------------
+/// Source for a Damerau-Levenshtein string distance implementation. 
+/// ------------------------------------------------------------------------------------------------
 #include "LevenshteinDistance.hpp"
 
 int Engine3DRadSpace::Algorithms::DamerauLevenshteinDistance(const std::string& a, const std::string& b)

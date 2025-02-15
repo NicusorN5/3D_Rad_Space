@@ -42,10 +42,11 @@ namespace Engine3DRadSpace::Graphics::Rendering
 		bool Enabled = true;
 
 		std::shared_ptr<RenderTarget> _renderSurface;
+		std::shared_ptr<Texture2D> _bkbuff_cpy;
 
 		virtual void Apply();
 		void Draw();
 
-		virtual ~PostProcessEffect() = default;
+		virtual ~PostProcessEffect();
 	};
 }
