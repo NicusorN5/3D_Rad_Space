@@ -5,6 +5,7 @@ using namespace Engine3DRadSpace::Math;
 Quaternion Quaternion::FromYawPitchRoll(float yaw, float pitch, float roll)
 {
     //https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+    //Modified code from wikipedia : cy,sy and cp,sp were swapped - wikipedia example used Z+ up, we use Y+ up.
 
     float cr = cosf(roll * 0.5f);
     float sr = sinf(roll * 0.5f);
@@ -13,10 +14,10 @@ Quaternion Quaternion::FromYawPitchRoll(float yaw, float pitch, float roll)
     float cy = cosf(yaw * 0.5f);
     float sy = sinf(yaw * 0.5f);
 
-    float w = cr * cp * cy + sr * sp * sy;
-    float x = sr * cp * cy - cr * sp * sy;
-    float y = cr * sp * cy + sr * cp * sy;
-    float z = cr * cp * sy - sr * sp * cy;
+    float w = cr * cy * cp + sr * sy * sp;
+    float x = sr * cy * cp - cr * sy * sp;
+    float y = cr * sy * cp + sr * cy * sp;
+    float z = cr * cy * sp - sr * sy * cp;
     return Quaternion(x, y, z, w);
 }
 
@@ -91,7 +92,8 @@ float Quaternion::Length() const
 
 Quaternion Quaternion::Normalize()
 {
-    return *this / Length();
+    *this /= Length();
+    return *this;
 }
 
 Quaternion Quaternion::Conjugate()
@@ -122,19 +124,21 @@ Vector3 Quaternion::ToYawPitchRoll() const
 {
     //https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
     Vector3 r;
-    float sinr_cosp = 2 * (W * X + Y * Z);
-    float cosr_cosp = 1 - 2 * (X * X + Y * Y);
-    r.X = std::atan2f(sinr_cosp, cosr_cosp);
 
-    // pitch (y-axis rotation)
-    float sinp = std::sqrtf(1 + 2 * (W * Y - X * Z));
-    float cosp = std::sqrtf(1 - 2 * (W * Y - X * Z));
-    r.Y = 2.0f * std::atan2f(sinp, cosp) - std::numbers::pi_v<float> / 2.0f;
-
-    // yaw (z-axis rotation)
+    // yaw (Y-axis rotation)
     float siny_cosp = 2 * (W * Z + X * Y);
     float cosy_cosp = 1 - 2 * (Y * Y + Z * Z);
-    r.Z = std::atan2f(siny_cosp, cosy_cosp);
+    r.Y = std::atan2f(siny_cosp, cosy_cosp);
+
+    // pitch (x-axis rotation)
+    float sinp = std::sqrtf(1 + 2 * (W * Y - X * Z));
+    float cosp = std::sqrtf(1 - 2 * (W * Y - X * Z));
+    r.X = 2.0f * std::atan2f(sinp, cosp) - std::numbers::pi_v<float> / 2.0f;
+
+    // roll (z-axis rotation)
+    float sinr_cosp = 2 * (W * X + Y * Z);
+    float cosr_cosp = 1 - 2 * (X * X + Y * Y);
+    r.Z = std::atan2f(sinr_cosp, cosr_cosp);
 
     return r;
 }
@@ -184,22 +188,23 @@ Quaternion Quaternion::operator*(const Quaternion& q) const
 {
     //https://stackoverflow.com/questions/19956555/how-to-multiply-two-quaternions
     Quaternion r;
-    r.X = W* q.W - X * q.X - Y * q.Y - Z * q.Z;
-    r.Y = W* q.X + X * q.W + Y * q.Z - Z * q.Y;
-    r.Z = W* q.Y - X * q.Z + Y * q.W + Z * q.X;
-    r.W = W* q.Z + X * q.Y - Y * q.Z + Z * q.W;
+    r.W = W* q.W - X * q.X - Y * q.Y - Z * q.Z;
+    r.X = W* q.X + X * q.W + Y * q.Z - Z * q.Y;
+    r.Y = W* q.Y - X * q.Z + Y * q.W + Z * q.X;
+    r.Z = W* q.Z + X * q.Y - Y * q.Z + Z * q.W;
 
     return r;
 }
 
 Quaternion Quaternion::operator*=(const Quaternion &q)
 {
-    X = W * q.W - X * q.X - Y * q.Y - Z * q.Z;
-    Y = W * q.X + X * q.W + Y * q.Z - Z * q.Y;
-    Z = W * q.Y - X * q.Z + Y * q.W + Z * q.X;
-    W = W * q.Z + X * q.Y - Y * q.Z + Z * q.W;
+    Quaternion cpy;
+    cpy.W = W * q.W - X * q.X - Y * q.Y - Z * q.Z;
+    cpy.X = W * q.X + X * q.W + Y * q.Z - Z * q.Y;
+    cpy.Y = W * q.Y - X * q.Z + Y * q.W + Z * q.X;
+    cpy.Z = W * q.Z + X * q.Y - Y * q.Z + Z * q.W;
 
-    return *this;
+    return *this = cpy;
 }
 
 Quaternion Quaternion::operator/(float s) const

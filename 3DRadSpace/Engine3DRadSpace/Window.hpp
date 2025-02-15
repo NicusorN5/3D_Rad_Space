@@ -49,6 +49,12 @@ namespace Engine3DRadSpace
 		
 		void SetMousePosition(const Math::Point& p);
 
+		/// <summary>
+		/// Sets the window title.
+		/// </summary>
+		/// <param name="title">Title string.</param>
+		void SetTitle(const std::string& title);
+
 		~Window();
 
 #ifdef _WIN32

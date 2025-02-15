@@ -44,6 +44,9 @@ namespace Engine3DRadSpace
 	private:
 		std::vector<ObjectInstance> _objects;
 		Game* _game;
+
+		void _validate(ObjectInstance& instance);
+		void _validate(IObject* instance);
 	public:
 		ObjectList(Game* owner);
 		ObjectList(const ObjectList&) = delete;
@@ -56,7 +59,7 @@ namespace Engine3DRadSpace
 		std::pair<O*, unsigned> AddNew(Params&& ...p);
 
 		template<GameObject O>
-		unsigned AddNew(O&& object);
+		std::pair<O*, unsigned> AddNew(O&& object);
 
 		unsigned Add(IObject* obj);
 
@@ -100,6 +103,8 @@ namespace Engine3DRadSpace
 	template<GameObject O>
 	inline ObjectList::ObjectInstance::ObjectInstance(O&& obj)
 	{
+		Object.reset(new O(std::move(obj)));
+
 		InternalType = ObjectType::IObject;
 		if constexpr (std::is_base_of_v<IObject2D, O>) InternalType = ObjectType::IObject2D;
 		else if constexpr (std::is_base_of_v<IObject3D, O>) InternalType = ObjectType::IObject3D;
@@ -109,26 +114,17 @@ namespace Engine3DRadSpace
 	inline std::pair<O*, unsigned> ObjectList::AddNew(Params&& ...p)
 	{
 		auto& obj = _objects.emplace_back(std::make_unique<O>(std::forward<Params>(p)...));
-
-		if (_game->WasInitialized())
-		{
-			obj.Object->internalInitialize(_game);
-			obj.Object->Initialize();
-		}
-
-		if (_game->WasLoaded())
-		{
-			obj.Object->Load(_game->Content.get());
-		}
-
+		_validate(obj);
 		return std::make_pair(static_cast<O*>(obj.Object.get()), unsigned(_objects.size() - 1));
 	}
 
 	template<GameObject O>
-	inline unsigned ObjectList::AddNew(O&& object)
+	inline std::pair<O*, unsigned> ObjectList::AddNew(O&& object)
 	{
-		_objects.emplace_back(std::move(object));
-		return unsigned(_objects.size() - 1);
+		auto index = _objects.size() - 1;
+		auto& obj = _objects.emplace_back(std::move(object));
+		_validate(obj);
+		return std::make_pair(static_cast<O*>(obj.Object.get()), unsigned(index));
 	}
 
 	template<GameObject O>

@@ -1,25 +1,5 @@
 #include "Math.hpp"
 
-constexpr float Engine3DRadSpace::Math::ToRadians(float degrees)
-{
-    return static_cast<float>(std::numbers::pi * degrees / 180);
-}
-
-constexpr float Engine3DRadSpace::Math::ToDegrees(float radians)
-{
-    return static_cast<float>(radians * 180 / std::numbers::pi_v<float>);
-}
-
-constexpr double Engine3DRadSpace::Math::ToRadians(double degrees)
-{
-    return std::numbers::pi * degrees / 180;
-}
-
-constexpr double Engine3DRadSpace::Math::ToDegrees(double radians)
-{
-    return radians * 180 / std::numbers::pi;
-}
-
 constexpr double Engine3DRadSpace::Math::CatmullRom(double value1, double value2, double value3, double value4, double amount)
 {
     //http://www.mvps.org/directx/articles/catmull/

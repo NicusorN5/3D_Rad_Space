@@ -9,6 +9,37 @@ Engine3DRadSpace::ObjectList::ObjectList(Game* owner):
 {
 }
 
+
+void Engine3DRadSpace::ObjectList::_validate(ObjectInstance& instance)
+{
+	instance.Object->InternalInitialize(_game);
+	
+	if (_game->WasInitialized())
+	{
+		instance.Object->Initialize();
+	}
+
+	if (_game->WasLoaded())
+	{
+		instance.Object->Load();
+	}
+}
+
+void Engine3DRadSpace::ObjectList::_validate(IObject* instance)
+{
+	if (_game->WasInitialized())
+	{
+		instance->InternalInitialize(_game);
+		instance->Initialize();
+	}
+
+	if (_game->WasLoaded())
+	{
+		instance->Load();
+	}
+}
+
+
 unsigned ObjectList::Add(IObject* obj)
 {
 	obj->InternalInitialize(_game);
@@ -16,42 +47,12 @@ unsigned ObjectList::Add(IObject* obj)
 	std::unique_ptr<IObject> ptr;
 	ptr.reset(obj);
 
-	_objects.emplace_back(std::move(ptr));
+	auto& added_obj = _objects.emplace_back(std::move(ptr));
+
+	_validate(added_obj);
+
 	return unsigned(_objects.size() - 1);
 }
-
-/*
-unsigned ObjectList::Add(IObject* obj, InitializationFlag flag)
-{
-	bool internalInitialize = flag != InitializationFlag::NoInitialization;
-	bool initialize = flag == InitializationFlag::Initialize || flag == InitializationFlag::InitializeAndLoad;
-	bool load = flag == InitializationFlag::InitializeAndLoad || flag == InitializationFlag::Load;
-
-	if (internalInitialize) obj->internalInitialize(_game);
-	if (initialize) obj->Initialize();
-	if (load) obj->Load(_game->Content.get());
-
-	obj->internalInitialize(_game);
-	obj->Initialize();
-	obj->Load(_game->Content.get());
-
-	std::unique_ptr<IObject> ptr;
-	ptr.reset(obj);
-
-	_objects.emplace_back(std::move(ptr));
-	return unsigned(_objects.size() - 1);
-}
-
-unsigned ObjectList::Add(IObject2D* obj, InitializationFlag flag)
-{
-	return Add(static_cast<IObject*>(obj), flag);
-}
-
-unsigned ObjectList::Add(IObject3D* obj, InitializationFlag flag)
-{
-	return Add(static_cast<IObject*>(obj), flag);
-}
-*/
 
 IObject* ObjectList::Find(unsigned id) const
 {

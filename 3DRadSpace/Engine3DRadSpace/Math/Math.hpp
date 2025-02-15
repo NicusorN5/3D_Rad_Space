@@ -3,11 +3,17 @@
 
 namespace Engine3DRadSpace::Math
 {
-	constexpr float DLLEXPORT ToRadians(float degrees);
-	constexpr float DLLEXPORT ToDegrees(float radians);
+	template<typename T> 
+	constexpr T ToRadians(T degrees)
+	{
+		return static_cast<T>(std::numbers::pi * degrees / 180);
+	}
 
-	constexpr double DLLEXPORT ToRadians(double degrees);
-	constexpr double DLLEXPORT ToDegrees(double radians);
+	template<typename T>
+	constexpr T ToDegrees(T radians)
+	{
+		return static_cast<T>(radians * 180 / std::numbers::pi);
+	}
 
 	constexpr double DLLEXPORT CatmullRom(double value1, double value2, double value3, double value4, double amount);
 	constexpr double DLLEXPORT Hermite(double value1, double tangent1, double value2, double tangent2, double amount);

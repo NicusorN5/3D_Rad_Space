@@ -31,6 +31,7 @@ namespace Engine3DRadSpace
 		constexpr Color Yellow = { 1.0f, 1.0f, 0.0f, 1.0f };
 		constexpr Color Pink = { 1.0f, 0.0f, 1.0f, 1.0f };
 		constexpr Color Cyan = { 0.0f, 1.0f, 1.0f, 1.0f };
+		constexpr Color CornflowerBlue = {0.392f, 0.584f, 0.929f, 1.0f};
 		//TODO: Add more colors.
 	};
 }
