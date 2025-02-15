@@ -1,7 +1,15 @@
+/// ------------------------------------------------------------------------------------------------
+/// File:   Graphics/PixelFormat.hpp
+/// Copyright (C) 2025, 3DRadSpace
+/// License: CC0-1.0 license
+/// ------------------------------------------------------------------------------------------------
 #pragma once
 
 namespace Engine3DRadSpace::Graphics
 {
+    /// <summary>
+    /// Represents all texture pixel formats supported when creating a Texture2D.
+    /// </summary>
     enum class PixelFormat : unsigned int
     {
         Unknown = 0,

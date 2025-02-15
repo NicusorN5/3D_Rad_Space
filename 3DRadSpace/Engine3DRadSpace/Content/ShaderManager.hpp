@@ -1,9 +1,17 @@
+/// ------------------------------------------------------------------------------------------------
+/// File:   Content/ShaderManager.hpp
+/// Copyright (C) 2025, 3DRadSpace
+/// License: CC0-1.0 license
+/// ------------------------------------------------------------------------------------------------
 #pragma once
 #include "../Graphics/Effect.hpp"
 #include "../Tag.hpp"
 
 namespace Engine3DRadSpace::Content
 {
+	/// <summary>
+	/// A type S is a ShaderCollection if it inherits Effect and is constructable from a GraphicsDevice pointer.
+	/// </summary>
 	template<typename S>
 	concept ShaderCollection = std::is_base_of<Graphics::Shaders::Effect,S>::value
 		&& requires(GraphicsDevice* device)
@@ -11,6 +19,12 @@ namespace Engine3DRadSpace::Content
 		S(device); //Shaders must be constructible from the graphics device.
 	};
 
+	/// <summary>
+	/// A RTTI type-id <-> Effect dictionary.
+	/// </summary>
+	/// <remarks>
+	/// Constructors are deleted since this is almost a namespace.
+	/// </remarks>
 	class DLLEXPORT ShaderManager
 	{
 		static std::unordered_map<size_t, std::shared_ptr<Graphics::Shaders::Effect>> _shaders;
@@ -22,14 +36,30 @@ namespace Engine3DRadSpace::Content
 		ShaderManager &operator=(const ShaderManager &) = delete;
 		ShaderManager &operator=(ShaderManager &&) noexcept = delete;
 
+		/// <summary>
+		/// Creates a shader of type S, then it is inserted into the internal dictionary(unordered map).
+		/// </summary>
+		/// <typeparam name="S">Shader effect type.</typeparam>
+		/// <param name="device">Graphics device handle used to instantiate the shader.</param>
+		/// <returns></returns>
 		template<ShaderCollection S>
 		static std::shared_ptr<S> LoadShader(GraphicsDevice *device);
 
+		/// <summary>
+		/// Retrieves a shader instance of type S.
+		/// </summary>
+		/// <typeparam name="S">Effect type.</typeparam>
+		/// <param name="t">Dummy variable. Use {} as a parameter.</param>
+		/// <returns>An effect of type S.</returns>
 		template<ShaderCollection S>
 		static S* GetShader(Tag<S> t);
 
-		~ShaderManager() = default;
-
+		/// <summary>
+		/// Frees up the stored shaders.
+		/// </summary>
+		/// <remarks>
+		/// Ideally, this should be called before the application exits.
+		/// </remarks>
 		static void ReleaseAll();
 	};
 

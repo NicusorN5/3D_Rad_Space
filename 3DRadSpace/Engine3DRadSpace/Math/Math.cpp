@@ -1,3 +1,8 @@
+/// ------------------------------------------------------------------------------------------------
+/// File:   Math/Math.cpp
+/// Copyright (C) 2025, 3DRadSpace
+/// License: CC0-1.0 license
+/// ------------------------------------------------------------------------------------------------
 #include "Math.hpp"
 
 constexpr double Engine3DRadSpace::Math::CatmullRom(double value1, double value2, double value3, double value4, double amount)

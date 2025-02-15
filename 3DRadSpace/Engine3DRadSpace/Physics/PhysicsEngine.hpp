@@ -1,40 +1,42 @@
+/// ------------------------------------------------------------------------------------------------
+/// File:   Physics/PhysicsEngine.hpp
+/// Copyright (C) 2025, 3DRadSpace
+/// License: CC0-1.0 license
+/// ------------------------------------------------------------------------------------------------
 #pragma once
 #include "PhysicsSettings.hpp"
 
-//PhysX class forward declarations
+//PhysX class forward declarations - TODO : REMOVE.
 namespace physx
 {
-	class PxFoundation;
 	class PxDefaultAllocator;
 	class PxDefaultErrorCallback;
-
-	class PxPvd;
-	class PxPvdTransport;
-
-	class PxPhysics;
-	class PxDefaultCpuDispatcher;
-
-	class PxScene;
 }
 
 namespace Engine3DRadSpace::Physics
 {
-	/*
-		Manages physics scene, and physics object factory.
-	*/
+	/// <summary>
+	/// Manages physics scene, and physics object factory.
+	/// </summary>
 	class DLLEXPORT PhysicsEngine
 	{
 		std::unique_ptr<physx::PxDefaultAllocator> _allocator;
 		std::unique_ptr<physx::PxDefaultErrorCallback> _errCallback;
 
-		physx::PxFoundation* _foundation;
-		physx::PxPvd* _pvd;
-		physx::PxPvdTransport* _pvdTransport;
+		//physx::PxFoundation*
+		void* _foundation;
+		//physx::PxPvd
+		void* _pvd;
+		//physx::PxPvdTransport
+		void* _pvdTransport;
 
-		physx::PxPhysics* _physics;
-		physx::PxDefaultCpuDispatcher* _cpuDispatcher;
+		///physx::PxPhysics
+		void* _physics;
+		//physx::PxDefaultCpuDispatcher
+		void* _cpuDispatcher;
 
-		physx::PxScene* _scene;
+		//physx::PxScene
+		void* _scene;
 
 		double _accTimer = 0;
 		double _timeStep;

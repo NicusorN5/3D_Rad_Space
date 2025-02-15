@@ -1,7 +1,7 @@
 /// ------------------------------------------------------------------------------------------------
 /// File:   Algorithms/FixedArray.hpp
 /// Copyright (C) 2025, 3DRadSpace
-/// License: The MIT License
+/// License: CC0-1.0 license
 /// ------------------------------------------------------------------------------------------------
 #pragma once
 #include "../Libs.hpp"
@@ -92,6 +92,9 @@ namespace Engine3DRadSpace::Algorithms
 			return _num;
 		}
 
+		/// <summary>
+		/// Iterator used in range for loops. C++ STL specific syntax is used.
+		/// </summary>
 		struct Iterator
 		{
 		public:
@@ -155,6 +158,7 @@ namespace Engine3DRadSpace::Algorithms
 		{
 			return Iterator(_data.get());
 		}
+
 		Iterator end()
 		{
 			return Iterator(static_cast<T*>(_data.get()) + _num);

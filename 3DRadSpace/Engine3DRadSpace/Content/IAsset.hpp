@@ -1,5 +1,9 @@
+/// ------------------------------------------------------------------------------------------------
+/// File:   Content/IAsset.hpp
+/// Copyright (C) 2025, 3DRadSpace
+/// License: CC0-1.0 license
+/// ------------------------------------------------------------------------------------------------
 #pragma once
-//#include "../GraphicsDevice.hpp"
 #include "../Reflection/UUID.hpp"
 
 #include "../Audio/AudioEngine.hpp"
@@ -16,6 +20,9 @@ namespace Engine3DRadSpace
 
 namespace Engine3DRadSpace::Content
 {
+	/// <summary>
+	/// Asset base type.
+	/// </summary>
 	class DLLEXPORT IAsset
 	{
 	protected:

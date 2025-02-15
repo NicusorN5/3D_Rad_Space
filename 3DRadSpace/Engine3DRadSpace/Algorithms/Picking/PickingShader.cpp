@@ -1,3 +1,8 @@
+/// ------------------------------------------------------------------------------------------------
+/// File:   Algorithms/Picking/PickingShader.cpp
+/// Copyright (C) 2025, 3DRadSpace
+/// License: CC0-1.0 license
+/// ------------------------------------------------------------------------------------------------
 #include "PickingShader.hpp"
 
 using namespace Engine3DRadSpace;

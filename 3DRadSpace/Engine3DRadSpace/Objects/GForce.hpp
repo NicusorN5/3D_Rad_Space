@@ -1,3 +1,8 @@
+/// ------------------------------------------------------------------------------------------------
+/// File:   Objects/GForce.hpp
+/// Copyright (C) 2025, 3DRadSpace
+/// License: CC0-1.0 license
+/// ------------------------------------------------------------------------------------------------
 #pragma once
 
 #include "../IObject.hpp"
@@ -8,6 +13,9 @@ namespace Engine3DRadSpace::Objects
 	/// <summary>
 	/// A GForce object is a object that enables physics simulation and specifies the gravity.
 	/// </summary>
+	/// <remarks>
+	/// You can avoid using this object, by manually initializing the physics. See the Game class.
+	/// </remarks>
 	class DLLEXPORT GForce : public IObject
 	{
 	public:

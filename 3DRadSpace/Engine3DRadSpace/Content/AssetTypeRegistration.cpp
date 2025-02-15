@@ -1,3 +1,8 @@
+/// ------------------------------------------------------------------------------------------------
+/// File:   Content/AssetTypeRegistration.cpp
+/// Copyright (C) 2025, 3DRadSpace
+/// License: CC0-1.0 license
+/// ------------------------------------------------------------------------------------------------
 #include "AssetTypeRegistration.hpp"
 #include "../Graphics/Texture2D.hpp"
 #include "../Graphics/Model3D.hpp"

@@ -1,3 +1,8 @@
+/// ------------------------------------------------------------------------------------------------
+/// File:   Graphics/ModelMeshPart.hpp
+/// Copyright (C) 2025, 3DRadSpace
+/// License: CC0-1.0 license
+/// ------------------------------------------------------------------------------------------------
 #pragma once
 #include "VertexBuffer.hpp"
 #include "IndexBuffer.hpp"
@@ -7,6 +12,9 @@
 
 namespace Engine3DRadSpace::Graphics
 {
+	/// <summary>
+	/// Represents a mesh formed by a index and vertex buffer, plus an effect.
+	/// </summary>
 	class DLLEXPORT ModelMeshPart
 	{
 		GraphicsDevice* _device;

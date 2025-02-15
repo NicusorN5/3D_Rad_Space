@@ -1,9 +1,17 @@
+/// ------------------------------------------------------------------------------------------------
+/// File:   Graphics/Rendering/PostProcessCollection.hpp
+/// Copyright (C) 2025, 3DRadSpace
+/// License: CC0-1.0 license
+/// ------------------------------------------------------------------------------------------------
 #pragma once
 #include "PostProcessEffect.hpp"
 #include "../RenderTarget.hpp"
 
 namespace Engine3DRadSpace::Graphics::Rendering
 {
+	/// <summary>
+	/// Represents multiple post processes, one applied after the other.
+	/// </summary>
 	class DLLEXPORT PostProcessCollection
 	{
 	private:
@@ -12,11 +20,21 @@ namespace Engine3DRadSpace::Graphics::Rendering
 
 		std::unique_ptr<RenderTarget> _effectRT;
 	public:
+		/// <summary>
+		/// Instantiates the list of effects.
+		/// </summary>
+		/// <param name="device">Graphics device.</param>
 		PostProcessCollection(GraphicsDevice* device);
 
 		PostProcessCollection(PostProcessCollection&&) noexcept = default;
 		PostProcessCollection& operator=(PostProcessCollection&&) noexcept = default;
 
+		/// <summary>
+		/// Adds an effect of type E into the list. 
+		/// </summary>
+		/// <typeparam name="E">Must inherit PostProcessEffect</typeparam>
+		/// <param name="avoid_duplicate">If there's an other instance of E, do not add a new instance.</param>
+		/// <returns></returns>
 		template<typename E>
 		E& Add(bool avoid_duplicate = true)
 		{
@@ -33,12 +51,23 @@ namespace Engine3DRadSpace::Graphics::Rendering
 			return *dynamic_cast<E*>(_effects[_effects.size() - 1].get());
 		}
 
+		/// <summary>
+		/// Returns the index-th effect.
+		/// </summary>
+		/// <typeparam name="E">Expected type.</typeparam>
+		/// <param name="index">Array index</param>
+		/// <returns>Pointer to a instance of type E.</returns>
 		template<typename E>
 		E* At(int index)
 		{
 			return dynamic_cast<E*>(_effects[index].get());
 		}
 
+		/// <summary>
+		/// Checks if one or more instances of type E exist in the list.
+		/// </summary>
+		/// <typeparam name="E">Effect type</typeparam>
+		/// <returns>Count of instances of E.</returns>
 		template<typename E>
 		std::optional<size_t> Exists()
 		{
@@ -52,6 +81,11 @@ namespace Engine3DRadSpace::Graphics::Rendering
 			return std::nullopt;
 		}
 
+		/// <summary>
+		/// Gets an reference to a instance of type E. Throws a exception if E doesn't exist.
+		/// </summary>
+		/// <typeparam name="E">Effect type.</typeparam>
+		/// <returns>Rerefence to E.</returns>
 		template<typename E>
 		E& Get()
 		{
@@ -66,6 +100,11 @@ namespace Engine3DRadSpace::Graphics::Rendering
 			}
 		}
 
+		/// <summary>
+		/// Gets a pointer to an effect of type E. If doesn't exist, nullptr is returned.
+		/// </summary>
+		/// <typeparam name="E">Effect type.</typeparam>
+		/// <returns>Pointer to an instance of E.</returns>
 		template<typename E>
 		E* TryGet()
 		{
@@ -105,11 +144,24 @@ namespace Engine3DRadSpace::Graphics::Rendering
 			throw std::exception("Effect not found!");
 		}
 
+		/// <summary>
+		/// Returns the count of effects in the list, no matter their types.
+		/// </summary>
+		/// <returns></returns>
 		size_t Length() const noexcept;
 
+		/// <summary>
+		/// Applies all effects, all after the other.
+		/// </summary>
 		void ApplyAll();
 
+		/// <summary>
+		/// Enables all effects.
+		/// </summary>
 		void EnableAll();
+		/// <summary>
+		/// Disables all effects.
+		/// </summary>
 		void DisableAll();
 	};
 }

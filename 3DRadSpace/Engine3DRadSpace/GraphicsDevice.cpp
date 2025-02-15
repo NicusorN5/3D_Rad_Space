@@ -1,3 +1,8 @@
+/// ------------------------------------------------------------------------------------------------
+/// File:   GraphicsDevice.cpp
+/// Copyright (C) 2025, 3DRadSpace
+/// License: CC0-1.0 license
+/// ------------------------------------------------------------------------------------------------
 #include "GraphicsDevice.hpp"
 #include "Logging/Exception.hpp"
 #include "Graphics/VertexBuffer.hpp"

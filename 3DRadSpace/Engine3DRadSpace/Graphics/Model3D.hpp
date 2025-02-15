@@ -1,3 +1,8 @@
+/// ------------------------------------------------------------------------------------------------
+/// File:   Graphics/Model3D.hpp
+/// Copyright (C) 2025, 3DRadSpace
+/// License: CC0-1.0 license
+/// ------------------------------------------------------------------------------------------------
 #pragma once
 #include "ModelMesh.hpp"
 #include "Shaders/BasicTextured.hpp"
@@ -11,6 +16,12 @@ namespace Engine3DRadSpace::Internal
 
 namespace Engine3DRadSpace::Graphics
 {
+	/// <summary>
+	/// Represents a 3D model, composed of multiple ModelMesh instances.
+	/// </summary>
+	/// <remarks>
+	/// Assimp is used to load the model.
+	/// </remarks>
 	class DLLEXPORT Model3D final : public Content::IAsset
 	{
 		GraphicsDevice* _device;

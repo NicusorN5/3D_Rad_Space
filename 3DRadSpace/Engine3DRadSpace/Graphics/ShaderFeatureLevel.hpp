@@ -1,12 +1,29 @@
+/// ------------------------------------------------------------------------------------------------
+/// File:   Graphics/ShaderFeatureLevel.hpp
+/// Copyright (C) 2025, 3DRadSpace
+/// License: CC0-1.0 license
+/// ------------------------------------------------------------------------------------------------
 #pragma once
 
 namespace Engine3DRadSpace::Graphics
 {
 	enum class ShaderFeatureLevel : char
 	{
+		/// <summary>
+		/// DirectX feature level 4.0
+		/// </summary>
 		DX_V4,
+		/// <summary>
+		/// DirectX feature level 4.1
+		/// </summary>
 		DX_V4_1,
+		/// <summary>
+		/// DirectX feature level 5.0
+		/// </summary>
 		DX_V5,
+		/// <summary>
+		/// DirectX feature level 6.0
+		/// </summary>
 		DX_V6,
 	};
 }

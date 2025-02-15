@@ -1,8 +1,16 @@
+/// ------------------------------------------------------------------------------------------------
+/// File:   Graphics/IDomainShader.hpp
+/// Copyright (C) 2025, 3DRadSpace
+/// License: CC0-1.0 license
+/// ------------------------------------------------------------------------------------------------
 #pragma once
 #include "IShader.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {
+	/// <summary>
+	/// Represents a domain shader.
+	/// </summary>
 	class DLLEXPORT IDomainShader : public IShader
 	{
 #ifdef USING_DX11

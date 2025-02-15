@@ -1,9 +1,17 @@
+/// ------------------------------------------------------------------------------------------------
+/// File:   Objects/Empty.hpp
+/// Copyright (C) 2025, 3DRadSpace
+/// License: CC0-1.0 license
+/// ------------------------------------------------------------------------------------------------
 #pragma once
 #include "..\IObject3D.hpp"
 #include "..\Reflection\Reflection.hpp"
 
 namespace Engine3DRadSpace::Objects
 {
+	/// <summary>
+	/// Represents a blank object, with no behiavour. Can be used as a dummy, or plain 3D transform.
+	/// </summary>
 	class DLLEXPORT Empty : public IObject3D
 	{
 	public:

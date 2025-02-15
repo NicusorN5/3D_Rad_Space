@@ -1,3 +1,8 @@
+/// ------------------------------------------------------------------------------------------------
+/// File:   Graphics/Shaders/BasicTextured.hpp
+/// Copyright (C) 2025, 3DRadSpace
+/// License: CC0-1.0 license
+/// ------------------------------------------------------------------------------------------------
 #pragma once
 #include "../Effect.hpp"
 #include "..\..\Math\Matrix4x4.hpp"
@@ -5,6 +10,9 @@
 
 namespace Engine3DRadSpace::Graphics::Shaders
 {
+	/// <summary>
+	/// Represents a trivial 3D effect supporting one albedo texture.
+	/// </summary>
 	class DLLEXPORT BasicTextured : public Effect
 	{
 		class VertexShader : public IVertexShader
@@ -29,10 +37,26 @@ namespace Engine3DRadSpace::Graphics::Shaders
 			InputLayoutElement::TextureCoordinate2D
 		};
 	public:
+		/// <summary>
+		/// Constructs a instance of this effect.
+		/// </summary>
+		/// <param name="device"></param>
 		explicit BasicTextured(GraphicsDevice* device);
 
+		/// <summary>
+		/// Sets the MVP transform of the mesh being rendered.
+		/// </summary>
+		/// <param name="m">Model View Projection transform</param>
 		void SetTransform(const Math::Matrix4x4& m);
+		/// <summary>
+		/// Sets the albedo texture.
+		/// </summary>
+		/// <param name="texture"></param>
 		void SetTexture(Texture2D* texture);
+		/// <summary>
+		/// Sets the sampler state used to sample the texture.
+		/// </summary>
+		/// <param name="state">Sampler state pointer.</param>
 		void SetSampler(SamplerState* state);
 	};
 }

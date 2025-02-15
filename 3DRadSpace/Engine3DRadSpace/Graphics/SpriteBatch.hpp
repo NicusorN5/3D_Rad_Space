@@ -1,3 +1,9 @@
+/// ------------------------------------------------------------------------------------------------
+/// File:   Graphics/SpriteBatch.hpp
+/// Copyright (C) 2025, 3DRadSpace
+/// License: CC0-1.0 license
+/// ------------------------------------------------------------------------------------------------
+
 #pragma once
 #include "Texture2D.hpp"
 #include "VertexBuffer.hpp"
@@ -9,6 +15,9 @@
 
 namespace Engine3DRadSpace::Graphics
 {
+	/// <summary>
+	/// Represents how the sprite batch sorts the submitted sprites.
+	/// </summary>
 	enum class SpriteBatchSortMode
 	{
 		/// <summary>
@@ -29,6 +38,9 @@ namespace Engine3DRadSpace::Graphics
 		SortedByDepth_BackToFront,
 	};
 
+	/// <summary>
+	/// A SpriteBatch renders 2D sprites with a specified order.
+	/// </summary>
 	class DLLEXPORT SpriteBatch
 	{
 		GraphicsDevice *_device;
@@ -109,6 +121,10 @@ namespace Engine3DRadSpace::Graphics
 		std::unique_ptr<DepthStencilState> _depthBufferState;
 		std::unique_ptr<BlendState> _blendState;
 	public:
+		/// <summary>
+		/// Constructs a sprite batch.
+		/// </summary>
+		/// <param name="device">Graphics device</param>
 		SpriteBatch(GraphicsDevice *device);
 
 		SpriteBatch(SpriteBatch &) = delete;

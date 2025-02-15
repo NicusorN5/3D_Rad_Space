@@ -1,3 +1,8 @@
+/// ------------------------------------------------------------------------------------------------
+/// File:   Objects/Camera.hpp
+/// Copyright (C) 2025, 3DRadSpace
+/// License: CC0-1.0 license
+/// ------------------------------------------------------------------------------------------------
 #pragma once
 #include "../IObject3D.hpp"
 #include "../Math/Math.hpp"
@@ -5,6 +10,12 @@
 
 namespace Engine3DRadSpace::Objects
 {
+	/// <summary>
+	/// Represents a 3D Camera.
+	/// </summary>
+	/// <remarks>
+	/// This object updates the view, and projection matrices in the Draw3D() method. You may manually set these matrices without this.
+	/// </remarks>
 	class DLLEXPORT Camera : public IObject3D
 	{
 	public:

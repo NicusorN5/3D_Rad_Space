@@ -1,7 +1,7 @@
 /// ------------------------------------------------------------------------------------------------
 /// File:   Algorithms/LevenshteinDistance.hpp
 /// Copyright (C) 2025, 3DRadSpace
-/// License: The MIT License
+/// License: CC0-1.0 license
 /// ------------------------------------------------------------------------------------------------
 #pragma once
 #include "../Libs.hpp"

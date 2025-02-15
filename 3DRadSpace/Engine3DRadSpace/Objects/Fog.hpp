@@ -1,3 +1,8 @@
+/// ------------------------------------------------------------------------------------------------
+/// File:   Objects/Fog.hpp
+/// Copyright (C) 2025, 3DRadSpace
+/// License: CC0-1.0 license
+/// ------------------------------------------------------------------------------------------------
 #pragma once
 #include "../IObject.hpp"
 #include "..\Reflection\Reflection.hpp"
@@ -9,6 +14,9 @@ namespace Engine3DRadSpace::Graphics::Rendering
 
 namespace Engine3DRadSpace::Objects
 {
+	/// <summary>
+	/// This object controls the Fog effect.
+	/// </summary>
 	class DLLEXPORT Fog: public IObject
 	{
 	protected:

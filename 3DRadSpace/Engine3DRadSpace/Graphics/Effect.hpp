@@ -1,3 +1,8 @@
+/// ------------------------------------------------------------------------------------------------
+/// File:   Graphics/Effect.hpp
+/// Copyright (C) 2025, 3DRadSpace
+/// License: CC0-1.0 license
+/// ------------------------------------------------------------------------------------------------
 #pragma once
 #include "IVertexShader.hpp"
 #include "IHullShader.hpp"
@@ -7,6 +12,9 @@
 
 namespace Engine3DRadSpace::Graphics::Shaders
 {
+	/// <summary>
+	/// Represents a vertex, hull, domain, geometry and fragment shader.
+	/// </summary>
 	class DLLEXPORT Effect
 	{
 	protected:
@@ -26,18 +34,66 @@ namespace Engine3DRadSpace::Graphics::Shaders
 		Effect &operator =(const Effect &p) = delete;
 		Effect& operator =(Effect&& p) noexcept = default;
 		
+		/// <summary>
+		/// Sets all the effects.
+		/// </summary>
+		/// <returns>Number of effects succesfully set.</returns>
 		int SetAll() const noexcept;
+		/// <summary>
+		/// Sets the vertex and fragment shaders.
+		/// </summary>
+		/// <returns>Count of shaders applied.</returns>
 		int SetBasic() const noexcept;
+		/// <summary>
+		/// Sets the vertex shader.
+		/// </summary>
+		/// <returns>True if it was successfully set.</returns>
 		bool SetVertex() const noexcept;
+		/// <summary>
+		/// Sets the hull shader.
+		/// </summary>
+		/// <returns>True if it was successfully set.</returns>
 		bool SetHull() const noexcept;
+		/// <summary>
+		/// Sets the domain shader.
+		/// </summary>
+		/// <returns>True if it was successfully set.</returns>
 		bool SetDomain() const noexcept;
+		/// <summary>
+		/// Sets the geometry shader.
+		/// </summary>
+		/// <returns>True if it was successfully set.</returns>
 		bool SetGeometry() const noexcept;
+		/// <summary>
+		/// Sets the fragment shader.
+		/// </summary>
+		/// <returns>True if it was successfully set.</returns>
 		bool SetFragment() const noexcept;
 
+		/// <summary>
+		/// Gets the instance of the vertex shader.
+		/// </summary>
+		/// <returns>VertexShader instance, nullptr if not assigned.</returns>
 		IShader* GetVertexShader() const noexcept;
+		/// <summary>
+		/// Gets the instance of the hull shader.
+		/// </summary>
+		/// <returns>HullShader instance, nullptr if not assigned.</returns>
 		IShader* GetHullShader() const noexcept;
+		/// <summary>
+		/// Gets the instance of the domain shader.
+		/// </summary>
+		/// <returns>DomainShader instance, nullptr if not assigned.</returns>
 		IShader* GetDomainShader() const noexcept;
+		/// <summary>
+		/// Gets the instance of the geometry shader.
+		/// </summary>
+		/// <returns>GeometryShader instance, nullptr if not assigned.</returns>
 		IShader* GetGeometryShader() const noexcept;
+		/// <summary>
+		/// Gets the instance of the fragment/pixel shader.
+		/// </summary>
+		/// <returns>FragmentShader instance, nullptr if not assigned.</returns>
 		IShader* GetPixelShader() const noexcept;
 
 		virtual ~Effect() = default;

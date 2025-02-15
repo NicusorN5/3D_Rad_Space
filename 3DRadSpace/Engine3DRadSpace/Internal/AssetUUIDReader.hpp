@@ -1,3 +1,8 @@
+/// ------------------------------------------------------------------------------------------------
+/// File:   Internal/AssetUUIDReader.hpp
+/// Copyright (C) 2025, 3DRadSpace
+/// License: CC0-1.0 license
+/// ------------------------------------------------------------------------------------------------
 #pragma once
 #include "../Reflection/UUID.hpp"
 #include "../Content/IAsset.hpp"
@@ -6,7 +11,7 @@
 namespace Engine3DRadSpace::Internal
 {
 	/// <summary>
-	/// Since it is impossible to obtain a vtable function without a instance, this exists. 
+	/// HACK - Since it is impossible to obtain a vtable function without a instance, this exists. 
 	/// DO NOT use constructors using this argument, as they create invalid objects!
 	/// </summary>
 	struct AssetUUIDReader

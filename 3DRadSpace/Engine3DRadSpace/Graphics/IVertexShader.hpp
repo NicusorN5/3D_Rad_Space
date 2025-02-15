@@ -1,8 +1,16 @@
+/// ------------------------------------------------------------------------------------------------
+/// File:   Graphics/IVertexShader.hpp
+/// Copyright (C) 2025, 3DRadSpace
+/// License: CC0-1.0 license
+/// ------------------------------------------------------------------------------------------------
 #pragma once
 #include "IShader.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {
+	/// <summary>
+	/// Represents the type of a input layout element.
+	/// </summary>
 	enum class InputLayoutElement
 	{
 		Position_Vec2 = 0,
@@ -31,6 +39,10 @@ namespace Engine3DRadSpace::Graphics
 		BlendWeights,
 		PointSize,
 	};
+
+	/// <summary>
+	/// Represents a vertex shader.
+	/// </summary>
 	class DLLEXPORT IVertexShader : public IShader
 	{
 #ifdef USING_DX11

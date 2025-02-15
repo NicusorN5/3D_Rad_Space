@@ -1,8 +1,16 @@
+/// ------------------------------------------------------------------------------------------------
+/// File:   Audio/AudioSource.cpp
+/// Copyright (C) 2025, 3DRadSpace
+/// License: CC0-1.0 license
+/// ------------------------------------------------------------------------------------------------
 #pragma once
 #include "../Math/Vector3.hpp"
 
 namespace Engine3DRadSpace::Audio
 {
+	/// <summary>
+	/// Represents a 3D sound instance.
+	/// </summary>
 	struct AudioSource
 	{
 		float Pitch;

@@ -1,3 +1,8 @@
+/// ------------------------------------------------------------------------------------------------
+/// File:   Graphics/Shaders/Blank_NoMatrix.cpp
+/// Copyright (C) 2025, 3DRadSpace
+/// License: CC0-1.0 license
+/// ------------------------------------------------------------------------------------------------
 #include "Blank_NoMatrix.hpp"
 
 using namespace Engine3DRadSpace::Graphics;

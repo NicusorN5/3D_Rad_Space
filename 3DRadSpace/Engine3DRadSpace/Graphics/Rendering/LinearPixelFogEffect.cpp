@@ -1,3 +1,8 @@
+/// ------------------------------------------------------------------------------------------------
+/// File:   Graphics/Rendering/LinearPixelFogEffect.cpp
+/// Copyright (C) 2025, 3DRadSpace
+/// License: CC0-1.0 license
+/// ------------------------------------------------------------------------------------------------
 #include "LinearPixelFogEffect.hpp"
 #include "../DepthStencilBuffer.hpp"
 

@@ -1,9 +1,17 @@
+/// ------------------------------------------------------------------------------------------------
+/// File:   Graphics/Shaders/BlankShader.hpp
+/// Copyright (C) 2025, 3DRadSpace
+/// License: CC0-1.0 license
+/// ------------------------------------------------------------------------------------------------
 #pragma once
 #include "../Effect.hpp"
 #include "..\..\Math\Matrix4x4.hpp"
 
 namespace Engine3DRadSpace::Graphics::Shaders
 {
+	/// <summary>
+	/// Represents a trivial 3D effect, with vertex colouring.
+	/// </summary>
 	class DLLEXPORT BlankShader : public Effect
 	{
 		class VertexShader : public IVertexShader
@@ -22,6 +30,10 @@ namespace Engine3DRadSpace::Graphics::Shaders
 		static inline InputLayoutElement elements[2] = { InputLayoutElement::Position_Vec3, InputLayoutElement::Color };
 
 	public:
+		/// <summary>
+		/// Constructs the shader.
+		/// </summary>
+		/// <param name="device">Graphics context.</param>
 		explicit BlankShader(GraphicsDevice* device);
 
 		/// <summary>

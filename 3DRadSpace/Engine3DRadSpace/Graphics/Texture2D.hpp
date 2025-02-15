@@ -1,5 +1,9 @@
+/// ------------------------------------------------------------------------------------------------
+/// File:   Graphics/Texture2D.hpp
+/// Copyright (C) 2025, 3DRadSpace
+/// License: CC0-1.0 license
+/// ------------------------------------------------------------------------------------------------
 #pragma once
-//#include "../GraphicsDevice.hpp"
 #include "PixelFormat.hpp"
 #include "../Math/Point.hpp"
 #include "../Content/IAsset.hpp"

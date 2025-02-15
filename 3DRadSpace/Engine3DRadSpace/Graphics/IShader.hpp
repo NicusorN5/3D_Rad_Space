@@ -1,3 +1,8 @@
+/// ------------------------------------------------------------------------------------------------
+/// File:   Graphics/IShader.hpp
+/// Copyright (C) 2025, 3DRadSpace
+/// License: CC0-1.0 license
+/// ------------------------------------------------------------------------------------------------
 #pragma once
 #include "Texture2D.hpp"
 #include "SamplerState.hpp"
@@ -9,6 +14,12 @@ namespace Engine3DRadSpace::Graphics
 	using Array_ValidConstantBuffers = std::array<ID3D11Buffer *, D3D11_COMMONSHADER_CONSTANT_BUFFER_API_SLOT_COUNT>;
 #endif
 
+	/// <summary>
+	/// Represents the base type of IVertexShader, IFragmentShader, IHullShader, et cetera...
+	/// </summary>
+	/// <remarks>
+	/// 
+	/// </remarks>
 	class DLLEXPORT IShader
 	{
 	protected:

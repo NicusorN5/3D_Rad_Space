@@ -1,8 +1,16 @@
+/// ------------------------------------------------------------------------------------------------
+/// File:   Graphics/FlipMode.hpp
+/// Copyright (C) 2025, 3DRadSpace
+/// License: CC0-1.0 license
+/// ------------------------------------------------------------------------------------------------
 #pragma once
 #include "../Libs.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {
+	/// <summary>
+	/// Represents how a image can be flipped.
+	/// </summary>
 	enum class FlipMode : uint8_t
 	{
 		None = 0,
@@ -11,6 +19,18 @@ namespace Engine3DRadSpace::Graphics
 		FlipHorizontallyAndVertically = 0b11,
 	};
 
+	/// <summary>
+	/// Bitwise AND operator between two FlipModes.
+	/// </summary>
+	/// <param name="a">FlipMode</param>
+	/// <param name="b">FlipMode</param>
+	/// <returns>a * b</returns>
 	FlipMode DLLEXPORT operator&(FlipMode a, FlipMode b);
+	/// <summary>
+	/// Bitwise OR operator between two FlipModes.
+	/// </summary>
+	/// <param name="a">FlipMode</param>
+	/// <param name="b">FlipMode</param>
+	/// <returns>a + b</returns>
 	FlipMode DLLEXPORT operator|(FlipMode a, FlipMode b);
 }

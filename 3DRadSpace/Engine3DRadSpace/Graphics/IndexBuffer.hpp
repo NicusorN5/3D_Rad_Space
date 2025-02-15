@@ -1,3 +1,8 @@
+/// ------------------------------------------------------------------------------------------------
+/// File:   Graphics/IndexBuffer.hpp
+/// Copyright (C) 2025, 3DRadSpace
+/// License: CC0-1.0 license
+/// ------------------------------------------------------------------------------------------------
 #pragma once
 #include "../Libs.hpp"
 
@@ -6,6 +11,13 @@ namespace Engine3DRadSpace
 	class GraphicsDevice;
 	namespace Graphics
 	{
+		/// <summary>
+		/// Represents a index buffer.
+		/// </summary>
+		/// <remarks>
+		/// Since this is a GPU resource, copy constructors are removed.
+		/// Creating IndexBuffers with 0 length will result in errors - debug layer errors or segmentation faults from the GPU driver, possibly terminating the application.
+		/// </remarks>
 		class DLLEXPORT IndexBuffer
 		{
 #ifdef USING_DX11
@@ -17,7 +29,18 @@ namespace Engine3DRadSpace
 
 			void _debugInfo();
 		public:
+			/// <summary>
+			/// Constructs a index buffer from the specified indices.
+			/// </summary>
+			/// <param name="device">Graphics device handle.</param>
+			/// <param name="indices">Array of indices. Must not be empty.</param>
 			IndexBuffer(GraphicsDevice* device, std::span<unsigned> indices);
+			/// <summary>
+			/// Constructs a index buffer from the specified indices.
+			/// </summary>
+			/// <param name="device">Graphics device.</param>
+			/// <param name="indices">Pointer to a array of unsigned indices.</param>
+			/// <param name="numindices">Number of indices. Must not be 0.</param>
 			IndexBuffer(GraphicsDevice* device, unsigned* indices, size_t numindices);
 
 			IndexBuffer(IndexBuffer &) = delete;
@@ -26,13 +49,37 @@ namespace Engine3DRadSpace
 			IndexBuffer &operator=(IndexBuffer &) = delete;
 			IndexBuffer &operator=(IndexBuffer &&) noexcept = default;
 
+			/// <summary>
+			/// Sets this index buffer to the GPU.
+			/// </summary>
+			/// <param name="index"></param>
 			void Set(unsigned index = 0);
+			/// <summary>
+			/// Sets new indices to this index buffer instance.
+			/// </summary>
+			/// <param name="newindices"></param>
 			void SetData(std::span<unsigned> newindices);
 
+			/// <summary>
+			/// Maps this IndexBuffer to the CPU, so it can be read from. EndRead() must be called after!
+			/// </summary>
+			/// <param name="data">Pointer of a void* containing the indices.</param>
+			/// <returns>The number of inidices</returns>
 			size_t ReadData(void** data);
+			/// <summary>
+			/// Call after ReadDate(), so this IndexBuffer is unmapped from the CPU.
+			/// </summary>
 			void EndRead();
 
+			/// <summary>
+			/// Returns the number of indices this IndexBuffer instance has.
+			/// </summary>
+			/// <returns>Number of indices</returns>
 			unsigned NumIndices() const noexcept;
+			/// <summary>
+			/// Returns the native handle of this IndexBuffer.
+			/// </summary>
+			/// <returns>ID3D11Buffer on DirectX11.</returns>
 			void* GetHandle() const noexcept;
 
 			~IndexBuffer() = default;

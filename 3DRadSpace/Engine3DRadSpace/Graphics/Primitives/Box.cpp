@@ -1,3 +1,8 @@
+/// ------------------------------------------------------------------------------------------------
+/// File:   Graphics/Primitives/Box.cpp
+/// Copyright (C) 2025, 3DRadSpace
+/// License: CC0-1.0 license
+/// ------------------------------------------------------------------------------------------------
 #include "Box.hpp"
 #include "../Shaders/BlankShader.hpp"
 #include "../../Content/ShaderManager.hpp"
