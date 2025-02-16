@@ -4,24 +4,29 @@
 /// License: CC0-1.0 license
 /// ------------------------------------------------------------------------------------------------
 #pragma once
-#include "AudioSource.hpp"
+#include "AudioError.hpp"
 #include "../IUpdateable.hpp"
+#include "../Math/Vector3.hpp"
 
-struct ALCdevice;
-struct ALCcontext;
 namespace Engine3DRadSpace::Audio
 {
+	class SoundInstance;
 	/// <summary>
 	/// Instances and handles audio device handles.
 	/// </summary>
 	class DLLEXPORT AudioEngine 
 	{
-		ALCdevice *_audioDevice;
-		ALCcontext* _audioContext;
+		void* _audioDevice;
+		void* _audioContext;
 
 		bool _hasEAX2support = false;
+
+		std::vector<SoundInstance*> _instances;
+
+		void _initializeContext();
 	public:
 		AudioEngine();
+		AudioEngine(const std::string& deviceName);
 
 		AudioEngine(const AudioEngine&) = delete;
 		AudioEngine(AudioEngine&&) = delete;
@@ -29,10 +34,9 @@ namespace Engine3DRadSpace::Audio
 		AudioEngine& operator=(const AudioEngine&) = delete;
 		AudioEngine& operator=(AudioEngine&&) = delete;
 
-		std::vector<std::string> ListAudioDevices() const noexcept;
+		static std::vector<std::string> ListAudioDevices();
 
 		void SetListener(const Math::Vector3& vector);
-		void CreateAudioSource(const AudioSource& source);
 
 		bool HasEAX2Support() const noexcept;
 
@@ -40,5 +44,7 @@ namespace Engine3DRadSpace::Audio
 
 		// Inherited via IUpdateable
 		void Update(double dt);
+
+		std::optional<AudioError> CheckErrors();
 	};
 }

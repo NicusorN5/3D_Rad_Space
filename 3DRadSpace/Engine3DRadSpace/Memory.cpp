@@ -1,14 +1,10 @@
 /// ------------------------------------------------------------------------------------------------
-/// File:   Memory.hpp
+/// File:   Memory.cpp
 /// Copyright (C) 2025, 3DRadSpace
 /// License: CC0-1.0 license
 /// ------------------------------------------------------------------------------------------------
-#include <Windows.h>
-#include <cstdlib>
-#include <cstdio>
-#include <exception>
-#include <stacktrace>
-#include <iostream>
+#include "Memory.hpp"
+
 
 /*
 #ifdef _DEBUG

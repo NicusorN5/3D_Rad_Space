@@ -3,7 +3,7 @@
 /// Copyright (C) 2025, 3DRadSpace
 /// License: CC0-1.0 license
 /// ------------------------------------------------------------------------------------------------
-/// #pragma once
+#pragma once
 #include "../IFragmentShader.hpp"
 #include "..\IVertexShader.hpp"
 #include "../RenderTarget.hpp"

@@ -29,6 +29,7 @@
 #include <cassert>
 #include <ranges>
 #include <random>
+#include <fstream>
 
 #ifdef _WIN32
 #define NOMINMAX

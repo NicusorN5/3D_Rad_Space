@@ -20,7 +20,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 	/// </remarks>
 	class DLLEXPORT Lines : public IPrimitive
 	{
-		static std::unique_ptr<RasterizerState> _lineRasterizer;
+		std::unique_ptr<RasterizerState> _lineRasterizer;
 #ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11RasterizerState> _oldRasterizerState;
 #endif

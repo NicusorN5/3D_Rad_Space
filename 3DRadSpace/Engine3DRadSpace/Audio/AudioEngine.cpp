@@ -12,6 +12,22 @@
 using namespace Engine3DRadSpace::Audio;
 using namespace Engine3DRadSpace::Logging;
 
+void AudioEngine::_initializeContext()
+{
+	//Create audio scene
+	_audioContext = alcCreateContext(static_cast<ALCdevice*>(_audioDevice), nullptr);
+	if(!_audioContext)
+	{
+		throw Exception("Failed to create audio scene!");
+	}
+
+	alcMakeContextCurrent(static_cast<ALCcontext*>(_audioContext));
+
+	_hasEAX2support = static_cast<bool>(alIsExtensionPresent("EAX2.0"));
+
+	alGetError(); //clear error flag
+}
+
 AudioEngine::AudioEngine()
 {
 	//Createa default audio device
@@ -21,21 +37,22 @@ AudioEngine::AudioEngine()
 		throw Exception("Audio device initialization failed!");
 	}
 
-	//Create audio scene
-	_audioContext = alcCreateContext(_audioDevice, nullptr);
-	if(!_audioContext)
-	{
-		throw Exception("Failed to create audio scene!");
-	}
-
-	alcMakeContextCurrent(_audioContext);
-
-	_hasEAX2support = static_cast<bool>(alIsExtensionPresent("EAX2.0"));
-
-	alGetError(); //clear error flag
+	_initializeContext();
 }
 
-std::vector<std::string> AudioEngine::ListAudioDevices() const noexcept
+AudioEngine::AudioEngine(const std::string& deviceName)
+{
+	//Createa default audio device
+	_audioDevice = alcOpenDevice(deviceName.c_str());
+	if(!_audioDevice)
+	{
+		throw Exception("Audio device initialization failed! " + deviceName +" was specified.");
+	}
+
+	_initializeContext();
+}
+
+std::vector<std::string> AudioEngine::ListAudioDevices()
 {
 	std::vector<std::string> deviceList;
 
@@ -60,11 +77,6 @@ void AudioEngine::SetListener(const Math::Vector3& vector)
 	alListener3f(0, vector.X, vector.Y, vector.Z);
 }
 
-void AudioEngine::CreateAudioSource(const AudioSource& source)
-{
-
-}
-
 bool AudioEngine::HasEAX2Support() const noexcept
 {
 	return _hasEAX2support;
@@ -72,12 +84,36 @@ bool AudioEngine::HasEAX2Support() const noexcept
 
 AudioEngine::~AudioEngine()
 {
-	alcMakeContextCurrent(_audioContext);
-	alcDestroyContext(_audioContext);
-	alcCloseDevice(_audioDevice);
+	auto context = static_cast<ALCcontext*>(_audioContext);
+	auto device = alcGetContextsDevice(context);
+
+	alcMakeContextCurrent(nullptr);
+	alcDestroyContext(context);
+	alcCloseDevice(device);
 }
 
 void AudioEngine::Update(double dt)
 {
+}
 
+std::optional<AudioError> AudioEngine::CheckErrors()
+{
+	ALenum error = alGetError();
+	if(error == AL_NO_ERROR) return std::nullopt;
+
+	switch(error)
+	{
+		case AL_INVALID_NAME:
+			return AudioError::BadID;
+		case AL_INVALID_ENUM:
+			return AudioError::InvalidEnum;
+		case AL_INVALID_VALUE:
+			return AudioError::InvalidValue;
+		case AL_INVALID_OPERATION:
+			return AudioError::InvalidOperation;
+		case AL_OUT_OF_MEMORY:
+			return AudioError::OutOfMemory;
+		default:
+			return AudioError::Unspecified;
+	}
 }

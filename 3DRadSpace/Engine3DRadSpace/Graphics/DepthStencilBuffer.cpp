@@ -46,8 +46,6 @@ void DepthStencilBuffer::_createDepthTexture()
 	r = _device->_device->CreateShaderResourceView(depthTexture.Get(), &sr_desc, depthView.GetAddressOf());
 	if(FAILED(r)) throw Exception("Failed to create the depth stencil shader resource view!");
 
-	_depthTexture.reset(new Texture2D(_device, std::move(depthTexture), std::move(depthView)));
-
 #ifdef _DEBUG
 	const char depthTextureName[] = "DepthStencilBuffer::_depthTexture";
 	depthTexture->SetPrivateData(WKPDID_D3DDebugObjectName, sizeof(depthTextureName) - 1, depthTextureName);
@@ -55,6 +53,8 @@ void DepthStencilBuffer::_createDepthTexture()
 	const char depthViewName[] = "DepthStencilBuffer::_depthView";
 	_depthView->SetPrivateData(WKPDID_D3DDebugObjectName, sizeof(depthViewName) - 1, depthViewName);
 #endif // _DEBUG
+
+	_depthTexture.reset(new Texture2D(_device, std::move(depthTexture), std::move(depthView)));
 
 #endif //  USING_DX11
 }

@@ -121,7 +121,7 @@ void RenderWindow::Update()
 	else _keyboardTest = false;
 	
 
-	Quaternion q = Quaternion::FromYawPitchRoll(-cameraPos.Y, 0, 0) * Quaternion::FromYawPitchRoll(0, -cameraPos.X, 0);
+	Quaternion q = Quaternion::FromYawPitchRoll(-cameraPos.Y, -cameraPos.X, 0);
 	Camera.Position = cursor3D + Vector3::UnitZ().Transform(q) * (zoom + 5);
 	Camera.LookAt = cursor3D;
 }
