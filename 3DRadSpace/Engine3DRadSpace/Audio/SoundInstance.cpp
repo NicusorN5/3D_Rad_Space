@@ -125,6 +125,8 @@ void SoundInstance::SetSource(const AudioSource& source)
 
 	auto looping = _source.Looping ? AL_TRUE : AL_FALSE;
 	alSourcei(_sourceID, AL_LOOPING, looping);
+
+	if(_audio->CheckErrors().has_value()) throw int(5);
 }
 
 SoundState SoundInstance::GetState()
@@ -152,6 +154,7 @@ SoundState SoundInstance::GetState()
 void SoundInstance::Play()
 {
 	if(GetState() == SoundState::Playing) return; //do not overlap the same sound instance
+	//alGetError();
 
 	alSourcePlay(_sourceID);
 	if(_audio->CheckErrors().has_value()) throw int(5);

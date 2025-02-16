@@ -35,9 +35,9 @@ void MyGame::Load()
 {
 	Game::Load();
 
-	_sound = this->Content->Load<Sound>("Data\\Sounds\\sound.wav");
-	_soundInstance = std::make_unique<SoundInstance>(_sound);
-	_soundInstance->SetLooping(false);
+	//_sound = this->Content->Load<Sound>("Data\\Sounds\\sound.wav");
+	//_soundInstance = std::make_unique<SoundInstance>(_sound);
+	//_soundInstance->SetLooping(true);
 
 	// zoom the camera into the model.
 	float distance = _fish->GetModel()->GetBoundingSphere().Radius + 0.25f;
@@ -53,7 +53,7 @@ void MyGame::Update()
 
 	if(Keyboard.IsKeyDown(Key::Space))
 	{
-		_soundInstance->Play();
+		//_soundInstance->Play();
 	}
 }
 
