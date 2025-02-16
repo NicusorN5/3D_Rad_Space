@@ -16,6 +16,7 @@ REFL_FWD(SkyColor)
 REFL_FWD(TextPrint)
 REFL_FWD(Fog)
 REFL_FWD(Counter)
+REFL_FWD(ExitFade)
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Reflection;
@@ -34,8 +35,8 @@ void Engine3DRadSpace::Internal::LoadDefaultObjects()
 		/*
 		CameraReflInstance, //Event On Key
 		CameraReflInstance, //EventOnLocation
-		CameraReflInstance, //ExitFade
 		*/
+		&ExitFadeReflInstance, //ExitFade
 		&FogReflInstance, //Fog
 		/*
 		CameraReflInstance, //Force
