@@ -712,6 +712,27 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				case ACC_ADD_ASSET:
 					break;
 				case CMD_AddAddon:
+				{
+					char filebuff[_MAX_PATH]{};
+
+					OPENFILENAMEA ofn{};
+					ofn.lStructSize = sizeof(OPENFILENAMEA);
+					ofn.hwndOwner = gEditorWindow->_mainWindow;
+					ofn.lpstrTitle = "Open a 3DRadSpace project...";
+					ofn.lpstrFile = filebuff;
+					ofn.nMaxFile = _MAX_PATH;
+					ofn.lpstrFilter = FileFilter;
+					ofn.hInstance = gEditorWindow->_hInstance;
+
+					if(GetOpenFileNameA(&ofn))
+					{
+						SetWorkingDirectory();
+						Serializer::LoadProject(gEditorWindow->editor->Objects.get(), gEditorWindow->editor->Content.get(), filebuff);
+					}
+					else if(GetLastError() != 0)
+						MessageBoxA(gEditorWindow->_mainWindow, std::format("Error trying to create the open file dialog box! : {}", GetLastError()).c_str(), "Test", MB_OK | MB_ICONWARNING);
+					break;
+				}
 				case ACC_ADD_PREFAB:
 					break;
 				case CMD_ResetCursor:

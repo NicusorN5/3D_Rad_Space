@@ -5,6 +5,7 @@
 /// ------------------------------------------------------------------------------------------------
 #include "Game.hpp"
 #include "ObjectList.hpp"
+#include "Projects\Serialization.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Audio;
@@ -142,7 +143,14 @@ void Game::Load()
 
 void Game::Load(const std::filesystem::path& path)
 {
+	_newScene = path;
+}
 
+void Game::_loadScene()
+{
+	this->Objects->Clear();
+	AppendScene(_newScene.value());
+	_newScene = std::nullopt;
 }
 
 void Game::Update()
@@ -151,6 +159,8 @@ void Game::Update()
 	{
 		object->Update();
 	}
+
+	if(_newScene.has_value()) _loadScene();
 }
 
 void Game::Draw3D()
@@ -173,6 +183,12 @@ void Game::Draw2D()
 			(static_cast<IObject2D*>(object.get()))->Draw2D();
 		}
 	}
+}
+
+void Game::AppendScene(const std::filesystem::path& path)
+{
+	bool r = Projects::Serializer::LoadProject(this->Objects.get(), this->Content.get(), path);
+	if(!r) throw Logging::Exception("Failed to load project " + path.string());
 }
 
 void Game::Initialize()

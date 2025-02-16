@@ -30,6 +30,10 @@ namespace Engine3DRadSpace
 		bool _running = true;
 		bool _wasInitialized = false;
 		bool _wasLoaded = false;
+
+		std::optional<std::filesystem::path> _newScene;
+
+		void _loadScene();
 	public:
 		Game(const std::string &title, unsigned width = 800, unsigned height = 600, bool fullscreen = false);
 		Game(Window&& window);
@@ -76,10 +80,17 @@ namespace Engine3DRadSpace
 
 		virtual void Initialize() override;
 		virtual void Load() override;
+		/// <summary>
+		/// Loads a scene from file.
+		/// </summary>
+		/// <param name="path">3drsp file.</param>
 		virtual void Load(const std::filesystem::path &path) override;
+
 		virtual void Update() override;
 		virtual void Draw3D() override;
 		virtual void Draw2D() override;
+
+		void AppendScene(const std::filesystem::path& path);
 
 		~Game() override;
 	};
