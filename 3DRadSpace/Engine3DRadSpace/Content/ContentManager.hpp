@@ -84,7 +84,7 @@ namespace Engine3DRadSpace::Content
 		template<AssetType T, typename ...Args>
 		T* Load(const std::filesystem::path& path, AssetID<T>* refID, Args&& ...params);
 
-		IAsset* Load(Reflection::UUID uuid, const std::filesystem::path& path, unsigned* refID = nullptr);
+		IAsset* Load(const Reflection::UUID &uuid, const std::filesystem::path& path, unsigned* refID = nullptr);
 
 		void Reload(unsigned ref);
 

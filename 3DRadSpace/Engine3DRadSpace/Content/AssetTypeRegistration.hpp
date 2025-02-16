@@ -20,7 +20,7 @@ namespace Engine3DRadSpace::Internal
 
 namespace Engine3DRadSpace::Content
 {
-	DLLEXPORT IAsset* CreateAssetInstance(Reflection::UUID uuid, AssetFactory* factory,const std::filesystem::path& path);
+	DLLEXPORT IAsset* CreateAssetInstance(const Reflection::UUID &uuid, AssetFactory* factory,const std::filesystem::path& path);
 
 	template<AssetType T>
 	bool RegisterAssetType()

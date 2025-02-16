@@ -26,7 +26,7 @@ std::optional<AudioBuffer> AudioBuffer::FromWAV(const std::filesystem::path& pat
     auto convertToInt = [](char* buffer, int len) -> int
     {
         int a = 0;
-        if(!IsBigEndian())
+        if(!(std::endian::native == std::endian::big))
             for(int i = 0; i < len; i++)
                 ((char*)&a)[i] = buffer[i];
         else

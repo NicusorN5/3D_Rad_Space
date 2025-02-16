@@ -21,7 +21,7 @@ ContentManager::ContentManager(Game* owner) :
 	CreateAssetInstance({}, nullptr, "");
 }
 
-IAsset* ContentManager::Load(Reflection::UUID uuid, const std::filesystem::path& path, unsigned* refID)
+IAsset* ContentManager::Load(const Reflection::UUID &uuid, const std::filesystem::path& path, unsigned* refID)
 {
 	auto asset = CreateAssetInstance(uuid, &_factory, path);
 	

@@ -17,7 +17,7 @@ using namespace Engine3DRadSpace::Content;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Internal;
 
-IAsset* Engine3DRadSpace::Content::CreateAssetInstance(Reflection::UUID nuuid, AssetFactory* factory,const std::filesystem::path& path)
+IAsset* Engine3DRadSpace::Content::CreateAssetInstance(const Reflection::UUID &nuuid, AssetFactory* factory,const std::filesystem::path& path)
 {
 	if (Internal::assetTypes.empty())
 	{

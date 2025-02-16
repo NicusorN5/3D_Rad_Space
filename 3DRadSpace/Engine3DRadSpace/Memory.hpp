@@ -8,9 +8,5 @@
 
 namespace Engine3DRadSpace::Memory
 {
-	constexpr bool IsBigEndian()
-	{
-        int a = 1;
-        return !((char*)&a)[0];
-    }
+
 }
