@@ -4,14 +4,21 @@
 /// License: CC0-1.0 license
 /// ------------------------------------------------------------------------------------------------
 #pragma once
-#include "IAsset.hpp"
-#include "../GraphicsDevice.hpp"
 #include "../Reflection/UUID.hpp"
 #include "AssetID.hpp"
 #include "AssetTypeRegistration.hpp"
+#include "AssetFactory.hpp"
+
+namespace Engine3DRadSpace
+{
+	class Game;
+}
 
 namespace Engine3DRadSpace::Content
 {
+	/// <summary>
+	/// 
+	/// </summary>
 	class DLLEXPORT ContentManager
 	{
 		struct AssetEntry
@@ -59,10 +66,11 @@ namespace Engine3DRadSpace::Content
 		};
 
 		unsigned _lastID;
-		GraphicsDevice* _device;
 		std::vector<AssetEntry> _assets;
+
+		AssetFactory _factory;
 	public:
-		ContentManager(GraphicsDevice *device);
+		ContentManager(Game* owner);
 
 		ContentManager(const ContentManager &) = delete;
 		ContentManager(ContentManager &&) noexcept = default;
@@ -122,11 +130,10 @@ namespace Engine3DRadSpace::Content
 	template<AssetType T>
 	inline T* ContentManager::Load(const std::filesystem::path& path, AssetID<T> *refID)
 	{
-		std::unique_ptr<IAsset> a;
-		auto ptr = new T(_device, path);
-		a.reset(ptr);
+		auto asset = _factory.Create<T>(path);
+		auto ptr = asset.get();
 
-		_assets.emplace_back(std::move(a), path);
+		_assets.emplace_back(std::move(asset), path);
 		_assets[_assets.size() - 1].ID = _assets.size() - 1;
 
 		if (refID)
@@ -139,11 +146,10 @@ namespace Engine3DRadSpace::Content
 	template<AssetType T, typename ...Args>
 	inline T* ContentManager::Load(const std::filesystem::path& path, AssetID<T>* refID, Args && ...params)
 	{
-		std::unique_ptr<IAsset> a;
-		auto ptr = new T(_device, path, std::forward<Args>(params)...);
-		a.reset(ptr);
+		auto asset = _factory.Create<T>(path, std::forward<Args>(params)...);
+		auto ptr = asset.get();
 
-		_assets.emplace_back(std::move(a), path);
+		_assets.emplace_back(std::move(asset), path);
 		_assets[_assets.size() - 1].ID = _assets.size() - 1;
 
 		if (refID)

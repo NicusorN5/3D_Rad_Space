@@ -4,7 +4,9 @@
 #include <Engine3DRadSpace\ObjectList.hpp>
 #include <Engine3DRadSpace\Math\Quaternion.hpp>
 
+using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Objects;
+using namespace Engine3DRadSpace::Input;
 using namespace Engine3DRadSpace::Math;
 
 MyGame::MyGame() : Game("3DRadSpace Empty", 800, 600)
@@ -15,8 +17,6 @@ void MyGame::Initialize()
 {
 	Game::Initialize();
 
-	this->RequestAudioInitialization();
-	this->RequestPhysicsInitialization({0, -9.8f, 0});
 	this->ClearColor = Colors::CornflowerBlue;
 
 	//Add a camera viewing the fish model
@@ -35,6 +35,10 @@ void MyGame::Load()
 {
 	Game::Load();
 
+	_sound = this->Content->Load<Sound>("Data\\Sounds\\sound.wav");
+	_soundInstance = std::make_unique<SoundInstance>(_sound);
+	_soundInstance->SetLooping(false);
+
 	// zoom the camera into the model.
 	float distance = _fish->GetModel()->GetBoundingSphere().Radius + 0.25f;
 	_cam->Position *= distance;
@@ -46,6 +50,11 @@ void MyGame::Update()
 	//rotate the model around the Y axis.
 	_fish->Rotation *= Quaternion::FromYawPitchRoll(this->Draw_dt, 0, 0);
 	_fish->Rotation.Normalize();
+
+	if(Keyboard.IsKeyDown(Key::Space))
+	{
+		_soundInstance->Play();
+	}
 }
 
 void MyGame::Draw3D()

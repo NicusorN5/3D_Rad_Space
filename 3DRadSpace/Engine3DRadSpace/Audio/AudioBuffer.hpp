@@ -9,7 +9,7 @@
 namespace Engine3DRadSpace::Audio
 {
 	class Sound;
-	class AudioBuffer
+	class DLLEXPORT AudioBuffer
 	{
 	protected:
 		std::unique_ptr<char[]> _buffer;

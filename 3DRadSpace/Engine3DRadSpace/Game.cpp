@@ -22,7 +22,7 @@ Game::Game(const std::string &title, unsigned width, unsigned height, bool fulls
 	Mouse(Window->GetMouseState())
 {
 	Device = std::make_unique<GraphicsDevice>(Window->NativeHandle(),width,height);
-	Content = std::make_unique<Content::ContentManager>(Device.get());
+	Content = std::make_unique<Content::ContentManager>(this);
 	SpriteBatch = std::make_unique<Graphics::SpriteBatch>(Device.get());
 	PostProcesses = std::make_unique<Graphics::Rendering::PostProcessCollection>(Device.get());
 	_valid = true;
@@ -37,7 +37,7 @@ Game::Game(Engine3DRadSpace::Window &&window) :
 	Math::Point size = Window->Size();
 
 	Device = std::make_unique<GraphicsDevice>(Window->NativeHandle(), size.X, size.Y);
-	Content = std::make_unique<Content::ContentManager>(Device.get());
+	Content = std::make_unique<Content::ContentManager>(this);
 	SpriteBatch = std::make_unique<Graphics::SpriteBatch>(Device.get());
 	PostProcesses = std::make_unique<Graphics::Rendering::PostProcessCollection>(Device.get());
 	_valid = true;

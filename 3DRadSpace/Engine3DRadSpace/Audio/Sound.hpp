@@ -14,7 +14,7 @@ namespace Engine3DRadSpace::Audio
 	/// <summary>
 	/// Represents a audio clip.
 	/// </summary>
-	class Sound : public Content::IAsset
+	class DLLEXPORT Sound : public Content::IAsset
 	{
 	protected:
 		AudioEngine* _audio;
@@ -22,6 +22,8 @@ namespace Engine3DRadSpace::Audio
 		unsigned int _bufferID;
 	
 		AudioBuffer _attemptLoading(const std::filesystem::path& path);
+
+		Sound(Internal::AssetUUIDReader dummy);
 	public:
 		Sound(AudioEngine* audio, const std::filesystem::path& path);
 
@@ -38,5 +40,6 @@ namespace Engine3DRadSpace::Audio
 		~Sound();
 
 		friend class SoundInstance;
+		friend struct Internal::AssetUUIDReader;
 	};
 }

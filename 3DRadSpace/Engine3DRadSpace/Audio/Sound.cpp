@@ -4,6 +4,7 @@
 /// License: CC0-1.0 license
 /// ------------------------------------------------------------------------------------------------
 #include "Sound.hpp"
+#include "../Internal/AssetUUIDReader.hpp"
 #include "../Logging/Exception.hpp"
 #include <al.h>
 
@@ -12,7 +13,7 @@ using namespace Engine3DRadSpace::Audio;
 using namespace Engine3DRadSpace::Logging;
 using namespace Engine3DRadSpace::Reflection;
 
-AudioBuffer Engine3DRadSpace::Audio::Sound::_attemptLoading(const std::filesystem::path& path)
+AudioBuffer Sound::_attemptLoading(const std::filesystem::path& path)
 {
 	auto wav = AudioBuffer::FromWAV(path);
 	if(wav.has_value()) return std::move(wav.value());
@@ -20,9 +21,16 @@ AudioBuffer Engine3DRadSpace::Audio::Sound::_attemptLoading(const std::filesyste
 	throw Exception("Failed to load a sound file! Invalid format or corrupted file!");
 }
 
+Sound::Sound(Internal::AssetUUIDReader dummy) :
+	_audio(nullptr),
+	_sound(nullptr,0,0,0,0,0),
+	_bufferID(0)
+{
+}
+
 Sound::Sound(AudioEngine *audio, const std::filesystem::path& path) :
 	_audio(audio),
-	_sound(_attemptLoading(path))
+	_sound(std::move(_attemptLoading(path)))
 {
 	//Generate OpenAL sound buffer
     alGenBuffers(1, &_bufferID); //Create one buffer

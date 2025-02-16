@@ -5,7 +5,11 @@
 /// ------------------------------------------------------------------------------------------------
 #pragma once
 #include "IAsset.hpp"
-#include "../Game.hpp"
+
+namespace Engine3DRadSpace
+{
+	class Game;
+}
 
 namespace Engine3DRadSpace::Content
 {
@@ -19,10 +23,10 @@ namespace Engine3DRadSpace::Content
 		AssetFactory(Game* game);
 
 		AssetFactory(const AssetFactory&) = delete;
-		AssetFactory(AssetFactory&&) = delete;
+		AssetFactory(AssetFactory&&);
 
 		AssetFactory& operator=(const AssetFactory&) = delete;
-		AssetFactory& operator=(AssetFactory&&) = delete;
+		AssetFactory& operator=(AssetFactory&&);
 
 		template<AssetType T, typename ...Args>
 		std::unique_ptr<T> Create(const std::filesystem::path& path, Args&& ...args)
@@ -32,24 +36,30 @@ namespace Engine3DRadSpace::Content
 			using namespace Engine3DRadSpace::Physics;
 
 			//can be constructed from a GraphicsDevice
-			if constexpr (std::is_constructible_v<T, GraphicsDevice*, const std::filesystem::path&>)
+			if constexpr (ConstructibleFromGraphicsDevice<T>)
 			{
 				return std::make_unique<T>(_device, path, std::forward<Args>(args)...);
 			}
 
 			//can be constructed from a AudioEngine
-			else if constexpr (std::is_constructible_v<T, AudioEngine*, const std::filesystem::path&>)
+			else if constexpr (ConstructibleFromAudioEngine<T>)
 			{
 				return std::make_unique<T>(_audio, path, std::forward<Args>(args)...);
 			}
 
 			//can be constructed from a PhysicsEngine
-			else if constexpr (std::is_constructible_v<T, PhysicsEngine*, const std::filesystem::path&>)
+			else if constexpr (ConstructibleFromPhysicsEngine<T>)
 			{
 				return std::make_unique<T>(_physics, path, std::forward<Args>(args)...);
 			}
 
 			//We don't consider assets that need to be constructed from multiple abstraction layers (either GraphicsDevice, AudioEngine, PhysicsEngine, et cetera...)
 		}
+
+
+
+		GraphicsDevice* Device() const noexcept;
+		Audio::AudioEngine* Audio() const noexcept;
+		Physics::PhysicsEngine* Physics() const noexcept;
 	};
 }

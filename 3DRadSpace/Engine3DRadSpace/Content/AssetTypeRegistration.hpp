@@ -4,42 +4,66 @@
 /// License: CC0-1.0 license
 /// ------------------------------------------------------------------------------------------------
 #pragma once
-#include "IAsset.hpp"
-
-#include "../Graphics/Model3D.hpp"
-#include "../Graphics/Texture2D.hpp"
+#include "AssetFactory.hpp"
 #include "../Internal/AssetUUIDReader.hpp"
 
 namespace Engine3DRadSpace::Internal
 {
-	typedef Content::IAsset* (*AssetCtor)(GraphicsDevice* device, const std::filesystem::path& path);
+	typedef Content::IAsset* (*AssetCtor1)(GraphicsDevice* device, const std::filesystem::path& path);
+	typedef Content::IAsset* (*AssetCtor2)(Physics::PhysicsEngine* device, const std::filesystem::path& path);
+	typedef Content::IAsset* (*AssetCtor3)(Audio::AudioEngine* device, const std::filesystem::path& path);
+
+	typedef std::variant<AssetCtor1, AssetCtor2, AssetCtor3> AssetCtor;
+
 	inline std::vector<std::pair<Engine3DRadSpace::Reflection::UUID, Engine3DRadSpace::Internal::AssetCtor>> assetTypes;
 }
 
 namespace Engine3DRadSpace::Content
 {
-	template<AssetType T>
-	IAsset* CreateAssetInstance(GraphicsDevice* device, std::filesystem::path& path)
-	{
-		return new T(device, path);
-	}
-
-	DLLEXPORT IAsset* CreateAssetInstance(Reflection::UUID uuid, GraphicsDevice* device,const std::filesystem::path& path);
+	DLLEXPORT IAsset* CreateAssetInstance(Reflection::UUID uuid, AssetFactory* factory,const std::filesystem::path& path);
 
 	template<AssetType T>
 	bool RegisterAssetType()
 	{
+		using namespace Engine3DRadSpace::Audio;
+		using namespace Engine3DRadSpace::Physics;
+
 		for (auto& [uuid, ctor] : Internal::assetTypes)
 		{
 			if (uuid == Internal::AssetUUIDReader::GetUUID(Tag<T>()))
 				return false;
 		}
-		Internal::assetTypes.emplace_back(Internal::AssetUUIDReader::GetUUID(Tag<T>()),
-			[](GraphicsDevice* device, const std::filesystem::path& path) -> Content::IAsset*
-			{
-				return static_cast<Content::IAsset*>(new T(device, path));
-			}								  
-		);
+
+		if constexpr(ConstructibleFromGraphicsDevice<T>)
+		{
+			Internal::assetTypes.emplace_back(Internal::AssetUUIDReader::GetUUID(Tag<T>()),
+				[](GraphicsDevice* device, const std::filesystem::path& path) -> Content::IAsset*
+				{
+					return static_cast<Content::IAsset*>(new T(device, path));
+				}							  
+			);
+		}
+
+		if constexpr(ConstructibleFromPhysicsEngine<T>)
+		{
+			Internal::assetTypes.emplace_back(Internal::AssetUUIDReader::GetUUID(Tag<T>()),
+				[](PhysicsEngine* physics, const std::filesystem::path& path) -> Content::IAsset*
+				{
+					return static_cast<Content::IAsset*>(new T(physics, path));
+				}							  
+			);
+		}
+
+		if constexpr(ConstructibleFromAudioEngine<T>)
+		{
+			Internal::assetTypes.emplace_back(Internal::AssetUUIDReader::GetUUID(Tag<T>()),
+				[](AudioEngine* audio, const std::filesystem::path& path) -> Content::IAsset*
+				{
+					return static_cast<Content::IAsset*>(new T(audio, path));
+				}							  
+			);
+		}
+
 		return true;
 	}
 }

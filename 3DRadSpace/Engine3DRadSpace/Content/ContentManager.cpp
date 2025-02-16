@@ -10,17 +10,20 @@ using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content;
 using namespace Engine3DRadSpace::Reflection;
 
-ContentManager::ContentManager(GraphicsDevice *device):
-	_device(device),
-	_lastID(1)
+ContentManager::ContentManager(Game* owner) :
+	_lastID(1),
+	_factory(owner)
 {
 	//We add a null asset at index 0 because reference IDs are unsigned integers.
 	_assets.emplace_back(nullptr);
+
+	//Register asset types
+	CreateAssetInstance({}, nullptr, "");
 }
 
 IAsset* ContentManager::Load(Reflection::UUID uuid, const std::filesystem::path& path, unsigned* refID)
 {
-	auto asset = CreateAssetInstance(uuid, _device, path);
+	auto asset = CreateAssetInstance(uuid, &_factory, path);
 	
 	std::unique_ptr<IAsset> ptrAsset;
 	ptrAsset.reset(asset);
@@ -38,7 +41,7 @@ IAsset* ContentManager::Load(Reflection::UUID uuid, const std::filesystem::path&
 
 void ContentManager::Reload(unsigned id)
 {
-	auto asset = CreateAssetInstance(_assets[id].Entry->GetUUID(), _device, _assets[id].Path);
+	auto asset = CreateAssetInstance(_assets[id].Entry->GetUUID(), &_factory, _assets[id].Path);
 	_assets[id].Entry.reset(asset);
 }
 
@@ -85,5 +88,5 @@ size_t Engine3DRadSpace::Content::ContentManager::Count() const noexcept
 
 GraphicsDevice* ContentManager::GetDevice() const noexcept
 {
-	return _device;
+	return _factory.Device();
 }
