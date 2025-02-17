@@ -34,7 +34,7 @@ void ExitFade::Draw2D()
 			_game->Exit();
 		else
 		{
-			//TODO Load project
+			_game->AppendScene(ProjectPath);
 		}
 	}
 }
