@@ -15,6 +15,10 @@ namespace Engine3DRadSpace::Graphics::Primitives
 	/// <summary>
 	/// Base class for vertex coloured primitive shapes.
 	/// </summary>
+	/// <remarks>
+	/// IPrimitive is the base for vertex coloured, trivial meshes without normals, UV coordinates, bitangents, etc...
+	/// Primitives are meant to wrap a vertex Position Color declared buffer and a index buffer.
+	/// </remarks>
 	class IPrimitive : public IDrawable3D
 	{
 	protected:

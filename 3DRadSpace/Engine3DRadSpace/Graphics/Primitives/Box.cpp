@@ -106,8 +106,7 @@ IndexBuffer* Box::GetIndexBuffer() const noexcept
 void Box::Draw3D()
 {
     _shader->SetBasic();
-    Matrix4x4 mvp = Transform * View * Projection;
-    _shader->SetTransformation(mvp);
+    _shader->SetTransformation(_mvp());
     
     _device->SetTopology(VertexTopology::TriangleList);
     _device->DrawVertexBufferWithindices(_vertices.get(), _indices.get());

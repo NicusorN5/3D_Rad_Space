@@ -92,7 +92,7 @@ std::optional<float> Ray::Intersects(const BoundingBox &box) const
 
 }
 
-std::optional<float> Ray::Intersects(const Plane& plane) const
+std::optional<float> Ray::Intersects(const BoundingPlane& plane) const
 {
     //https://stackoverflow.com/questions/23975555/how-to-do-ray-plane-intersection
     const float denom = Vector3::Dot(plane.Normal, Direction);

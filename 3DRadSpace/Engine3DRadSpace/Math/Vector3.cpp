@@ -194,17 +194,20 @@ float Vector3::Dot(const Vector3& a, const Vector3& b)
 
 Vector3& Vector3::Transform(const Quaternion& q)
 {
-    Vector3 cpy(*this);
+    Vector3 v(*this);
 
-    float x = 2 * (q.Y * Z - q.Z * Y);
-    float y = 2 * (q.Z * X - q.X * Z);
-    float z = 2 * (q.X * Y - q.Y * X);
+     // Extract the vector part of the quaternion
+    Vector3 u(q.Im());
 
-    cpy.X = X + x * q.W + (q.Y * z - q.Z * y);
-    cpy.Y = Y + y * q.W + (q.Z * x - q.X * z);
-    cpy.Z = Z + z * q.W + (q.X * y - q.Y * x);
+    // Extract the scalar part of the quaternion
+    float s = q.W;
 
-    return *this = cpy;
+    // Do the math
+    auto vprime = 2.0f * Dot(u, v) * u
+           + (s*s - Dot(u, u)) * v
+           + 2.0f * s * Cross(u, v);
+
+    return *this = vprime;
 }
 
 Vector3& Vector3::Transform(const Matrix4x4& m)

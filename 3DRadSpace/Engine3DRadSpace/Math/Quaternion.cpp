@@ -10,8 +10,6 @@ using namespace Engine3DRadSpace::Math;
 Quaternion Quaternion::FromYawPitchRoll(float yaw, float pitch, float roll)
 {
     //https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
-    
-    std::swap(yaw, pitch);
 
     float cr = cosf(roll * 0.5f);
     float sr = sinf(roll * 0.5f);
@@ -92,7 +90,7 @@ Quaternion Quaternion::FromVectorToVector(const Vector3& a, const Vector3& b)
     return q.Normalize();
 }
 
-float Quaternion::Length() const
+float Quaternion::Length() const noexcept
 {
     return sqrtf((X * X) + (Y * Y) + (Z * Z) + (W * W));
 }
@@ -103,7 +101,7 @@ Quaternion Quaternion::Normalize()
     return *this;
 }
 
-Quaternion Quaternion::Conjugate()
+Quaternion Quaternion::Conjugate() noexcept
 {
     this->X *= -1;
     this->Y *= -1;
@@ -113,7 +111,7 @@ Quaternion Quaternion::Conjugate()
 
 Quaternion Quaternion::Inverse()
 {
-    float num2 = (((X * X) + (Y * Y)) + (Z * Z)) + (W * W);
+    float num2 = Dot(*this);
     float num = 1.0f / num2;
     X = -X * num;
     Y = -Y * num;
@@ -122,7 +120,27 @@ Quaternion Quaternion::Inverse()
     return *this;
 }
 
-Vector3 Quaternion::Im() const
+float Quaternion::Dot(const Quaternion& q)
+{
+    return X * q.X + Y * q.Y + Z * q.Z + W * q.W;
+}
+
+float Quaternion::Dot(const Quaternion& a, const Quaternion& b)
+{
+    return a.X * b.X + a.Y * b.Y + a.Z * b.Z + a.W * b.W;
+}
+
+float& Quaternion::Re() noexcept
+{
+    return W;
+}
+
+float Quaternion::Re() const noexcept
+{
+    return W;
+}
+
+Vector3 Quaternion::Im() const noexcept
 {
     return Vector3(X,Y,Z);
 }
@@ -150,7 +168,7 @@ Vector3 Quaternion::ToYawPitchRoll() const
     return r;
 }
 
-Quaternion Quaternion::operator+(const Quaternion &q) const
+Quaternion Quaternion::operator+(const Quaternion &q) const noexcept
 {
     return Quaternion
     {
@@ -161,7 +179,7 @@ Quaternion Quaternion::operator+(const Quaternion &q) const
     };
 }
 
-Quaternion Quaternion::operator+=(const Quaternion &q)
+Quaternion Quaternion::operator+=(const Quaternion &q) noexcept
 {
     X += q.X;
     Y += q.Y;
@@ -171,7 +189,7 @@ Quaternion Quaternion::operator+=(const Quaternion &q)
     return *this;
 }
 
-Quaternion Engine3DRadSpace::Math::Quaternion::operator-(const Quaternion& q) const
+Quaternion Engine3DRadSpace::Math::Quaternion::operator-(const Quaternion& q) const noexcept
 {
     return Quaternion{
         X - q.X,
@@ -181,7 +199,7 @@ Quaternion Engine3DRadSpace::Math::Quaternion::operator-(const Quaternion& q) co
     };
 }
 
-Quaternion& Engine3DRadSpace::Math::Quaternion::operator-(const Quaternion& q)
+Quaternion& Engine3DRadSpace::Math::Quaternion::operator-(const Quaternion& q) noexcept
 {
     X -= q.X;
     Y -= q.Y;
@@ -191,19 +209,20 @@ Quaternion& Engine3DRadSpace::Math::Quaternion::operator-(const Quaternion& q)
     return *this;
 }
 
-Quaternion Quaternion::operator*(const Quaternion& q) const
+Quaternion Quaternion::operator*(const Quaternion& q) const noexcept
 {
     //https://stackoverflow.com/questions/19956555/how-to-multiply-two-quaternions
     Quaternion r;
-    r.W = W* q.W - X * q.X - Y * q.Y - Z * q.Z;
-    r.X = W* q.X + X * q.W + Y * q.Z - Z * q.Y;
-    r.Y = W* q.Y - X * q.Z + Y * q.W + Z * q.X;
-    r.Z = W* q.Z + X * q.Y - Y * q.Z + Z * q.W;
+
+    r.W = W * q.W - X * q.X - Y * q.Y - Z * q.Z;  // 1
+    r.X = W * q.X + X * q.W + Y * q.Z - Z * q.Y;  // i
+    r.Y = W * q.Y - X * q.Z + Y * q.W + Z * q.X;  // j
+    r.Z = W * q.Z + X * q.Y - Y * q.Z + Z * q.W;  // k
 
     return r;
 }
 
-Quaternion Quaternion::operator*=(const Quaternion &q)
+Quaternion Quaternion::operator*=(const Quaternion &q) noexcept
 {
     Quaternion cpy;
     cpy.W = W * q.W - X * q.X - Y * q.Y - Z * q.Z;
@@ -244,7 +263,7 @@ Quaternion Engine3DRadSpace::Math::operator/(float f, const Quaternion& q)
     };
 }
 
-Quaternion Engine3DRadSpace::Math::operator*(float s, const Quaternion& q)
+Quaternion Engine3DRadSpace::Math::operator*(float s, const Quaternion& q) noexcept
 {
     return Quaternion
     {

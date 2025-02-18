@@ -11,6 +11,9 @@ namespace Engine3DRadSpace::Math
 	struct Vector3;
 	struct Matrix4x4;
 
+	/// <summary>
+	/// A quaternion is a hyper-complex number that represents 3D rotations the same way 2D rotations can be represented by a complex number.
+	/// </summary>
 	struct DLLEXPORT Quaternion
 	{
 		float X, Y, Z, W;
@@ -22,31 +25,36 @@ namespace Engine3DRadSpace::Math
 		static Quaternion FromMatrix(const Matrix4x4& m);
 		static Quaternion FromVectorToVector(const Vector3& a, const Vector3& b);
 
-		float Length() const;
+		float Length() const noexcept;
 		Quaternion Normalize();
-		Quaternion Conjugate();
+		Quaternion Conjugate() noexcept;
 		Quaternion Inverse();
 
-		Vector3 Im() const;
+		float Dot(const Quaternion& q);
+		static float Dot(const Quaternion& a, const Quaternion& b);
+
+		float& Re() noexcept;
+		float Re() const noexcept;
+		Vector3 Im() const noexcept;
 		
 		Vector3 ToYawPitchRoll() const;
 
-		Quaternion operator +(const Quaternion &q) const;
-		Quaternion operator +=(const Quaternion &q);
+		Quaternion operator +(const Quaternion& q) const noexcept;
+		Quaternion operator +=(const Quaternion& q) noexcept;
 
-		Quaternion operator -(const Quaternion& q) const;
-		Quaternion& operator-(const Quaternion& q);
+		Quaternion operator -(const Quaternion& q) const noexcept;
+		Quaternion& operator-(const Quaternion& q) noexcept;
 
-		Quaternion operator *(const Quaternion &q) const;
-		Quaternion operator *=(const Quaternion &q);
+		Quaternion operator *(const Quaternion& q) const noexcept;
+		Quaternion operator *=(const Quaternion& q) noexcept;
 
 		Quaternion operator /(float s) const;
 		Quaternion operator /=(float s);
 
-		auto operator <=>(const Quaternion& q) const = default;
+		auto operator <=>(const Quaternion& q) const noexcept = default;
 	};
 
 	Quaternion operator /(float f, const Quaternion& q);
-	Quaternion operator *(float s, const Quaternion& q);
+	Quaternion operator *(float s, const Quaternion& q) noexcept;
 }
 

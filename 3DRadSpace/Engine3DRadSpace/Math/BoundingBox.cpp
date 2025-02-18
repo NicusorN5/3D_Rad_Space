@@ -89,7 +89,7 @@ bool BoundingBox::Intersects(const BoundingSphere& sphere) const noexcept
 	return distanceSquared < radiusSquared;
 }
 
-bool BoundingBox::Intersects(const Plane& plane) const noexcept
+bool BoundingBox::Intersects(const BoundingPlane& plane) const noexcept
 {
 	//https://gdbooks.gitbooks.io/3dcollisions/content/Chapter2/static_aabb_plane.html
 

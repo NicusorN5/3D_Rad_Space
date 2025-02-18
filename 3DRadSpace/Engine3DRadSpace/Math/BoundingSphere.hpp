@@ -9,7 +9,7 @@
 namespace Engine3DRadSpace::Math
 {
 	struct BoundingBox;
-	struct Plane;
+	struct BoundingPlane;
 	struct Ray;
 	struct DLLEXPORT BoundingSphere
 	{
@@ -25,7 +25,7 @@ namespace Engine3DRadSpace::Math
 
 		bool Intersects(const BoundingBox& box) const;
 		bool Intersects(const BoundingSphere& sphere) const;
-		bool Intersects(const Plane& plane) const;
+		bool Intersects(const BoundingPlane& plane) const;
 		bool Intersects(const Ray& ray) const;
 
 		bool Contains(const Vector3& p) const;

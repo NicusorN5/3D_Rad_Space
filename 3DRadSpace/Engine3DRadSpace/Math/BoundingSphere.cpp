@@ -61,7 +61,7 @@ bool Engine3DRadSpace::Math::BoundingSphere::Intersects(const BoundingSphere& sp
 	return (sphere.Center - Center).LengthSquared() <= pow(sphere.Radius + Radius, 2);
 }
 
-bool Engine3DRadSpace::Math::BoundingSphere::Intersects(const Plane& plane) const
+bool Engine3DRadSpace::Math::BoundingSphere::Intersects(const BoundingPlane& plane) const
 {
 	//https://www.cuemath.com/geometry/distance-between-point-and-plane/
 	float ax = plane.Normal.X * Center.X;

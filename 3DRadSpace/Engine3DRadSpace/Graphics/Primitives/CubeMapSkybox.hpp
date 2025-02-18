@@ -4,17 +4,21 @@
 /// License: CC0-1.0 license
 /// ------------------------------------------------------------------------------------------------
 #pragma once
-#include "IPrimitive.hpp"
+#include "../ModelMeshPart.hpp"
 
 namespace Engine3DRadSpace::Graphics::Primitives
 {
 	/// <summary>
 	/// Inverted Box primitive used primarly for skyboxes.
 	/// </summary>
-	class CubeMapSkybox: public IPrimitive
+	/// <remarks>
+	/// This doesn't inherit IPrimitive - since this renders a textured mesh.
+	/// </remarks>
+	class CubeMapSkybox final
 	{
-	protected:
-		std::array<Texture2D, 6> _faces;	
+		std::array<Texture2D, 6> _faces;
+
+		std::unique_ptr<ModelMeshPart> _skyboxMesh;
 	public:
 		/// <summary>
 		/// Constructs a new instance of the CubeMapSkybox class.

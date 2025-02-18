@@ -1,5 +1,5 @@
 /// ------------------------------------------------------------------------------------------------
-/// File:   Math/Plane.hpp
+/// File:   Math/BoundingBoundingPlane.hpp
 /// Copyright (C) 2025, 3DRadSpace
 /// License: CC0-1.0 license
 /// ------------------------------------------------------------------------------------------------
@@ -12,7 +12,7 @@ namespace Engine3DRadSpace::Math
 	struct BoundingSphere;
 	struct Ray;
 	/// Represents a plane with the equation p(x,y,z) = Normal.X * x + Normal.Y * y + Normal.Z * z + D
-	struct Plane
+	struct BoundingPlane
 	{
 		Vector3 Normal;
 		float D;
