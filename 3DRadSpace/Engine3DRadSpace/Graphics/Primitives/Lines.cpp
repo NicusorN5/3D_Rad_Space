@@ -12,6 +12,22 @@ using namespace Engine3DRadSpace::Graphics::Primitives;
 using namespace Engine3DRadSpace::Graphics::Shaders;
 using namespace Engine3DRadSpace::Math;
 
+void Lines::_swapRasterizer()
+{
+//TODO: Remove low level call, provide method to get old raster state
+#ifdef USING_DX11
+	_device->_context->RSGetState(_oldRasterizerState.GetAddressOf());
+#endif
+	_device->SetRasterizerState(_lineRasterizer.get());
+}
+
+void Lines::_restoreRasterizer()
+{
+#ifdef USING_DX11
+	_device->_context->RSSetState(_oldRasterizerState.Get());
+#endif
+}
+
 Lines::Lines(GraphicsDevice* device, std::span<VertexPositionColor> points) :
 	IPrimitive(device)
 {
@@ -31,17 +47,12 @@ RasterizerState* Lines::GetLineRasterizer() const noexcept
 
 void Lines::Draw3D()
 {
-	//TODO: Remove low level call, provide method to get old raster state and swap later.
-#ifdef USING_DX11
-	_device->_context->RSGetState(_oldRasterizerState.GetAddressOf());
-#endif
+	_swapRasterizer();
 	_shader->SetAll();
 	_shader->SetTransformation(_mvp());
 
 	_device->SetRasterizerState(_lineRasterizer.get());
 	_device->SetTopology(VertexTopology::LineList);
 	_vertices->Draw();
-#ifdef USING_DX11
-	_device->_context->RSSetState(_oldRasterizerState.Get());
-#endif
+	_restoreRasterizer();
 }

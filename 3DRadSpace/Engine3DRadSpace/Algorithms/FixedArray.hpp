@@ -33,7 +33,7 @@ namespace Engine3DRadSpace::Algorithms
 		/// Copies elements from an initializer list.
 		/// </summary>
 		/// <param name="lst">Initializer list</param>
-		FixedArray(std::initializer_list<T> lst)
+		explicit FixedArray(std::initializer_list<T> lst)
 		{
 			_num = std::distance(lst.begin(), lst.end());
 			_data = std::make_unique<T[]>(_num);
@@ -43,18 +43,6 @@ namespace Engine3DRadSpace::Algorithms
 				_data[i] = e;
 				i++;
 			}
-		}
-
-		/// <summary>
-		/// Copy constructor.
-		/// </summary>
-		/// <param name="c">Object to be copied.</param>
-		FixedArray(const FixedArray& c) :
-			_num(c._num),
-			_data(std::make_unique<T[]>(c._num))
-		{
-			const size_t s = _num * sizeof(T);
-			memcpy_s(_data.get(), s, c._data.get(), s);
 		}
 
 		/// <summary>
@@ -162,6 +150,11 @@ namespace Engine3DRadSpace::Algorithms
 		Iterator end()
 		{
 			return Iterator(static_cast<T*>(_data.get()) + _num);
+		}
+
+		operator std::span<T>()
+		{
+			return std::span<T>(&(*begin()), &(*end()));
 		}
 	};
 }

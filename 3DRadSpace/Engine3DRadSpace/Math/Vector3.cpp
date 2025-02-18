@@ -165,11 +165,12 @@ Vector3 Vector3::operator/(float s) const
 
 Vector3 Vector3::Cross(const Vector3& v)
 {
-    X = Y * v.Z - Z * v.Y;
-    Y = Z * v.X - X * v.Z;
-    Z = X * v.Y - Y * v.X;
+    Vector3 cpy(*this);
+    cpy.X = Y * v.Z - Z * v.Y;
+    cpy.Y = Z * v.X - X * v.Z;
+    cpy.Z = X * v.Y - Y * v.X;
 
-    return *this;
+    return *this = cpy;
 }
 
 Vector3 Vector3::Cross(const Vector3& v1, const Vector3& v2)
@@ -193,15 +194,17 @@ float Vector3::Dot(const Vector3& a, const Vector3& b)
 
 Vector3& Vector3::Transform(const Quaternion& q)
 {
+    Vector3 cpy(*this);
+
     float x = 2 * (q.Y * Z - q.Z * Y);
     float y = 2 * (q.Z * X - q.X * Z);
     float z = 2 * (q.X * Y - q.Y * X);
 
-    this->X = X + x * q.W + (q.Y * z - q.Z * y);
-    this->Y = Y + y * q.W + (q.Z * x - q.X * z);
-    this->Z = Z + z * q.W + (q.X * y - q.Y * x);
+    cpy.X = X + x * q.W + (q.Y * z - q.Z * y);
+    cpy.Y = Y + y * q.W + (q.Z * x - q.X * z);
+    cpy.Z = Z + z * q.W + (q.X * y - q.Y * x);
 
-    return *this;
+    return *this = cpy;
 }
 
 Vector3& Vector3::Transform(const Matrix4x4& m)
@@ -232,8 +235,8 @@ Vector3 Vector3::Transform(const Vector3& v, const Matrix4x4& m)
 Vector3& Vector3::Hadamard(const Vector3& v)
 {
     X *= v.X;
-    Y += v.Y;
-    Z += v.Z;
+    Y *= v.Y;
+    Z *= v.Z;
     return *this;
 }
 

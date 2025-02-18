@@ -121,7 +121,7 @@ void RenderWindow::Update()
 	else _keyboardTest = false;
 	
 
-	Quaternion q = Quaternion::FromYawPitchRoll(-cameraPos.Y, -cameraPos.X, 0);
+	Quaternion q = Quaternion::FromYawPitchRoll(0, -cameraPos.X, 0) * Quaternion::FromYawPitchRoll(-cameraPos.Y, 0, 0);
 	Camera.Position = cursor3D + Vector3::UnitZ().Transform(q) * (zoom + 5);
 	Camera.LookAt = cursor3D;
 }
@@ -163,7 +163,7 @@ void RenderWindow::Draw2D()
 	SpriteBatch->Begin();
 	SpriteBatch->DrawString(
 		font,
-		std::format("Mouse {} {}", mouseDelta.X, mouseDelta.Y),
+		std::format("Mouse {} {}", cameraPos.X, cameraPos.Y),
 		Point(20, 20),
 		1
 	);

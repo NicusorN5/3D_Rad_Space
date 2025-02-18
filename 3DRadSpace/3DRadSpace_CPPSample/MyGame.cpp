@@ -9,6 +9,9 @@ using namespace Engine3DRadSpace::Objects;
 using namespace Engine3DRadSpace::Input;
 using namespace Engine3DRadSpace::Math;
 
+using namespace Engine3DRadSpace::Graphics;
+using namespace Engine3DRadSpace::Graphics::Primitives;
+
 MyGame::MyGame() : Game("3DRadSpace Empty", 800, 600)
 {
 }
@@ -42,6 +45,8 @@ void MyGame::Load()
 	// zoom the camera into the model.
 	float distance = _fish->GetModel()->GetBoundingSphere().Radius + 0.25f;
 	_cam->Position *= distance;
+
+	_testCircle = std::make_unique<Circle>(Device.get());
 }
 
 void MyGame::Update()
@@ -60,6 +65,10 @@ void MyGame::Update()
 void MyGame::Draw3D()
 {
 	Game::Draw3D();
+
+	_testCircle->View = this->View;
+	_testCircle->Projection = this->Projection;
+	_testCircle->Draw3D();
 }
 
 void MyGame::Draw2D()

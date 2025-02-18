@@ -10,7 +10,8 @@ using namespace Engine3DRadSpace::Math;
 Quaternion Quaternion::FromYawPitchRoll(float yaw, float pitch, float roll)
 {
     //https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
-    //Modified code from wikipedia : cy,sy and cp,sp were swapped - wikipedia example used Z+ up, we use Y+ up.
+    
+    std::swap(yaw, pitch);
 
     float cr = cosf(roll * 0.5f);
     float sr = sinf(roll * 0.5f);
@@ -19,11 +20,12 @@ Quaternion Quaternion::FromYawPitchRoll(float yaw, float pitch, float roll)
     float cy = cosf(yaw * 0.5f);
     float sy = sinf(yaw * 0.5f);
 
-    float w = cr * cy * cp + sr * sy * sp;
-    float x = sr * cy * cp - cr * sy * sp;
-    float y = cr * sy * cp + sr * cy * sp;
-    float z = cr * cy * sp - sr * sy * cp;
-    return Quaternion(x, y, z, w);
+    Quaternion q;
+    q.W = cr * cp * cy + sr * sp * sy;
+    q.X = sr * cp * cy - cr * sp * sy;
+    q.Y = cr * sp * cy + sr * cp * sy;
+    q.Z = cr * cp * sy - sr * sp * cy;
+    return q;
 }
 
 Quaternion Quaternion::FromAxisAngle(const Vector3& axis, float angle)

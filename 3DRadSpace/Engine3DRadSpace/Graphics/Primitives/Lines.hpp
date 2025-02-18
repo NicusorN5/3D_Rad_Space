@@ -24,6 +24,9 @@ namespace Engine3DRadSpace::Graphics::Primitives
 #ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11RasterizerState> _oldRasterizerState;
 #endif
+	protected:
+		void _swapRasterizer();
+		void _restoreRasterizer();
 	public:
 		/// <summary>
 		/// Constructs a line mesh, from the specified array of vertices.

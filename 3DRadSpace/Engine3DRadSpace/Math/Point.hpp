@@ -11,7 +11,6 @@ namespace Engine3DRadSpace
 {
 	namespace Math
 	{
-		struct Vector2;
 		struct DLLEXPORT Point
 		{
 			constexpr Point(int x = 0, int y = 0) : X(x), Y(y) {};
