@@ -1,13 +1,11 @@
-/// ------------------------------------------------------------------------------------------------
-/// File:   Color.hpp
-/// Copyright (C) 2025, 3DRadSpace
-/// License: CC0-1.0 license
-/// ------------------------------------------------------------------------------------------------
 #pragma once
 #include "Libs.hpp"
 
 namespace Engine3DRadSpace
 {
+	/// <summary>
+	/// Represents a Unit RGBA color.
+	/// </summary>
 	struct DLLEXPORT Color
 	{
 		float R;
@@ -15,15 +13,44 @@ namespace Engine3DRadSpace
 		float B;
 		float A;
 
+		/// <summary>
+		/// Constructs a color from 4 components.
+		/// </summary>
+		/// <param name="r">Red component.</param>
+		/// <param name="g">Green component.</param>
+		/// <param name="b">Blue component.</param>
+		/// <param name="a">Transparency component, called alpha.</param>
 		constexpr Color(float r = 0.00f, float g = 0.00f, float b = 0.00f, float a = 1.00f) : R(r), G(g), B(b), A(a) {};
+		/// <summary>
+		/// Constructs a color from RBGA values made of unsigned 8-bytes numbers.
+		/// </summary>
+		/// <param name="r">Red component.</param>
+		/// <param name="g">Green component.</param>
+		/// <param name="b">Blue component.</param>
+		/// <param name="a">Transparency component, called alpha.</param>
+		/// <returns>Unit RGBA color.</returns>
 		static Color FromRGB(uint8_t r, uint8_t g, uint8_t b, uint8_t a = 255);
+		/// <summary>
+		/// Comptes a Hadamard product between two colors.
+		/// </summary>
+		/// <param name="c">Color</param>
+		/// <returns>*this * c</returns>
 		constexpr Color operator *(const Color& c) const noexcept;
+		/// <summary>
+		/// Computes a
+		/// </summary>
+		/// <param name="c"></param>
+		/// <returns></returns>
 		constexpr Color& operator *=(const Color& c) noexcept;
 
 		constexpr float operator[](int i) const;
 
 		friend auto operator <=>(const Color& a, const Color& b) noexcept = default;
 	};
+
+	/// <summary>
+	/// This namespace contains a set of predefined colors.
+	/// </summary>
 	namespace Colors
 	{
 		constexpr Color White = {1.0f, 1.0f, 1.0f, 1.0f};

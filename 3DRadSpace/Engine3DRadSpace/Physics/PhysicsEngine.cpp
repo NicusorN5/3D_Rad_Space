@@ -1,8 +1,3 @@
-/// ------------------------------------------------------------------------------------------------
-/// File:   Physics/PhysicsEngine.cpp
-/// Copyright (C) 2025, 3DRadSpace
-/// License: CC0-1.0 license
-/// ------------------------------------------------------------------------------------------------
 #include "PhysicsEngine.hpp"
 #include <physx/PxPhysicsAPI.h>
 #include <physx/extensions/PxDefaultAllocator.h>
@@ -12,15 +7,29 @@ using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Physics;
 using namespace Engine3DRadSpace::Logging;
 
+static void _pxDefaultAllocatorDeleter(void* _allocator)
+{
+	delete static_cast<physx::PxDefaultAllocator*>(_allocator);
+}
+
+static void _pxDefaultErrorCallbackDeleter(void* _errCallback)
+{
+	delete static_cast<physx::PxDefaultErrorCallback*>(_errCallback);
+}
+
 PhysicsEngine::PhysicsEngine(const PhysicsSettings& settings) :
 	_timeStep(settings.TimeStep)
 {
 	if (!settings.PhysicsEnabled) return;
 
-	_allocator = std::make_unique<physx::PxDefaultAllocator>();
-	_errCallback = std::make_unique<physx::PxDefaultErrorCallback>();
+	_allocator = std::unique_ptr<void, std::function<void(void*)>> (new physx::PxDefaultAllocator, _pxDefaultAllocatorDeleter);
+	_errCallback = std::unique_ptr<void, std::function<void(void*)>> (new physx::PxDefaultErrorCallback, _pxDefaultErrorCallbackDeleter);
 
-	_foundation = PxCreateFoundation(PX_PHYSICS_VERSION, *_allocator, *_errCallback);
+	_foundation = PxCreateFoundation(
+		PX_PHYSICS_VERSION,
+		*static_cast<physx::PxDefaultAllocator*>(_allocator.get()),
+		*static_cast<physx::PxDefaultErrorCallback*>(_errCallback.get())
+	);
 	if (_foundation == nullptr) throw Exception("Failed to create PxFoundation");
 	auto foundation = static_cast<physx::PxFoundation*>(_foundation);
 

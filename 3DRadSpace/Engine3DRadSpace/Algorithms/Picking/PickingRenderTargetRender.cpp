@@ -1,8 +1,3 @@
-/// ------------------------------------------------------------------------------------------------
-/// File:   Algorithms/Picking/PickingRenderTargetRender.cpp
-/// Copyright (C) 2025, 3DRadSpace
-/// License: CC0-1.0 license
-/// ------------------------------------------------------------------------------------------------
 #include "PickingRenderTargetRender.hpp"
 
 using namespace Engine3DRadSpace::Algorithms::Picking;

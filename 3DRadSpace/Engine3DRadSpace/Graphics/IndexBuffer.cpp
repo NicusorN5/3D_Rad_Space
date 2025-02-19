@@ -1,8 +1,3 @@
-/// ------------------------------------------------------------------------------------------------
-/// File:   Graphics/IndexBuffer.cpp
-/// Copyright (C) 2025, 3DRadSpace
-/// License: CC0-1.0 license
-/// ------------------------------------------------------------------------------------------------
 #include "IndexBuffer.hpp"
 #include "../GraphicsDevice.hpp"
 #include "../Logging/Exception.hpp"

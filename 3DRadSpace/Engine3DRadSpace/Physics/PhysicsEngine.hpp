@@ -1,17 +1,5 @@
-/// ------------------------------------------------------------------------------------------------
-/// File:   Physics/PhysicsEngine.hpp
-/// Copyright (C) 2025, 3DRadSpace
-/// License: CC0-1.0 license
-/// ------------------------------------------------------------------------------------------------
 #pragma once
 #include "PhysicsSettings.hpp"
-
-//PhysX class forward declarations - TODO : REMOVE.
-namespace physx
-{
-	class PxDefaultAllocator;
-	class PxDefaultErrorCallback;
-}
 
 namespace Engine3DRadSpace::Physics
 {
@@ -20,8 +8,8 @@ namespace Engine3DRadSpace::Physics
 	/// </summary>
 	class DLLEXPORT PhysicsEngine
 	{
-		std::unique_ptr<physx::PxDefaultAllocator> _allocator;
-		std::unique_ptr<physx::PxDefaultErrorCallback> _errCallback;
+		std::unique_ptr<void, std::function<void(void*)>> _allocator;
+		std::unique_ptr<void, std::function<void(void*)>> _errCallback;
 
 		//physx::PxFoundation*
 		void* _foundation;

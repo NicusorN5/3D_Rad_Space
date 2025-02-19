@@ -1,8 +1,3 @@
-/// ------------------------------------------------------------------------------------------------
-/// File:   Graphics/IFragmentShader.cpp
-/// Copyright (C) 2025, 3DRadSpace
-/// License: CC0-1.0 license
-/// ------------------------------------------------------------------------------------------------
 #include "IFragmentShader.hpp"
 #include "ShaderCompilationError.hpp"
 #include "../Logging/ResourceLoadingError.hpp"

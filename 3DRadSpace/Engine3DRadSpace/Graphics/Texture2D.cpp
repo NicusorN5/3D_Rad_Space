@@ -1,10 +1,5 @@
-/// ------------------------------------------------------------------------------------------------
-/// File:   Graphics/Texture2D.cpp
-/// Copyright (C) 2025, 3DRadSpace
-/// License: CC0-1.0 license
-/// ------------------------------------------------------------------------------------------------
-
 #include "Texture2D.hpp"
+
 #ifdef USING_DX11
 #include <directxtk/WICTextureLoader.h>
 #include <directxtk/DDSTextureLoader.h>

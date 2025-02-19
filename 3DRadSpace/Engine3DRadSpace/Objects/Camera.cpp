@@ -1,8 +1,3 @@
-/// ------------------------------------------------------------------------------------------------
-/// File:   Objects/Camera.cpp
-/// Copyright (C) 2025, 3DRadSpace
-/// License: CC0-1.0 license
-/// ------------------------------------------------------------------------------------------------
 #include "Camera.hpp"
 #include "../Reflection/Reflection.hpp"
 #include "../Graphics/Model3D.hpp"

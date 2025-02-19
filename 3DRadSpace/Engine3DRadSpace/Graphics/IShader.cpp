@@ -1,8 +1,3 @@
-/// ------------------------------------------------------------------------------------------------
-/// File:   Graphics/IShader.cpp
-/// Copyright (C) 2025, 3DRadSpace
-/// License: CC0-1.0 license
-/// ------------------------------------------------------------------------------------------------
 #include "IShader.hpp"
 #include "../Logging/Exception.hpp"
 #include "../Logging/Warning.hpp"

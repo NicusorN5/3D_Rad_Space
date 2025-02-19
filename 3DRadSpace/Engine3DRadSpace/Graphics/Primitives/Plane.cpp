@@ -1,8 +1,3 @@
-/// ------------------------------------------------------------------------------------------------
-/// File:   Graphics/Primitives/Plane.cpp
-/// Copyright (C) 2025, 3DRadSpace
-/// License: CC0-1.0 license
-/// ------------------------------------------------------------------------------------------------
 #include "Plane.hpp"
 
 using namespace Engine3DRadSpace;
@@ -25,7 +20,7 @@ std::array<VertexPositionColor, 4> Plane::CreateVertices(const Color& color, con
 	std::array<VertexPositionColor, 4> vertices;
 
 	Vector2 s(size * 0.5f);
-	//							+y
+	//							+z
 	//						    /\              
 	//				1			|              2
 	//							|

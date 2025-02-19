@@ -1,8 +1,3 @@
-/// ------------------------------------------------------------------------------------------------
-/// File:   Math/BoundingSphere.cpp
-/// Copyright (C) 2025, 3DRadSpace
-/// License: CC0-1.0 license
-/// ------------------------------------------------------------------------------------------------
 #include "BoundingSphere.hpp"
 #include "BoundingBox.hpp"
 #include "Ray.hpp"

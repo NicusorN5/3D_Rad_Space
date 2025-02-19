@@ -1,9 +1,3 @@
-/// ------------------------------------------------------------------------------------------------
-/// File:   Graphics/SpriteBatch.hpp
-/// Copyright (C) 2025, 3DRadSpace
-/// License: CC0-1.0 license
-/// ------------------------------------------------------------------------------------------------
-
 #pragma once
 #include "Texture2D.hpp"
 #include "VertexBuffer.hpp"

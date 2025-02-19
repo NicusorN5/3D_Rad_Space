@@ -1,8 +1,3 @@
-/// ------------------------------------------------------------------------------------------------
-/// File:   Graphics/RenderTarget.cpp
-/// Copyright (C) 2025, 3DRadSpace
-/// License: CC0-1.0 license
-/// ------------------------------------------------------------------------------------------------
 #include "RenderTarget.hpp"
 #include "../Logging/Exception.hpp"
 #include "../Internal/AssetUUIDReader.hpp"

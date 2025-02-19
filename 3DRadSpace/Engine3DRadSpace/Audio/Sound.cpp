@@ -1,8 +1,3 @@
-/// ------------------------------------------------------------------------------------------------
-/// File:   Audio/Sound.cpp
-/// Copyright (C) 2025, 3DRadSpace
-/// License: CC0-1.0 license
-/// ------------------------------------------------------------------------------------------------
 #include "Sound.hpp"
 #include "../Internal/AssetUUIDReader.hpp"
 #include "../Logging/Exception.hpp"

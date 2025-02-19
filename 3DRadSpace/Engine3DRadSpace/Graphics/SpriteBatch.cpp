@@ -1,8 +1,3 @@
-/// ------------------------------------------------------------------------------------------------
-/// File:   Graphics/SpriteBatch.cpp
-/// Copyright (C) 2025, 3DRadSpace
-/// License: CC0-1.0 license
-/// ------------------------------------------------------------------------------------------------
 #include "SpriteBatch.hpp"
 #include "../Math/Matrix3x3.hpp"
 #include "../Math/Math.hpp"

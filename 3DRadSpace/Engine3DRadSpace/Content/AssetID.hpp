@@ -1,13 +1,12 @@
-/// ------------------------------------------------------------------------------------------------
-/// File:   Content/AssetID.hpp
-/// Copyright (C) 2025, 3DRadSpace
-/// License: CC0-1.0 license
-/// ------------------------------------------------------------------------------------------------
 #pragma once
 #include "IAsset.hpp"
 
 namespace Engine3DRadSpace::Content
 {
+	/// <summary>
+	/// Numerical identified of an asset, paired with a template type.
+	/// </summary>
+	/// <typeparam name="T">T must be a AssetType - must inherit IAsset and be constructible from a factory class and a path.</typeparam>
 	template<AssetType T>
 	struct AssetID
 	{
