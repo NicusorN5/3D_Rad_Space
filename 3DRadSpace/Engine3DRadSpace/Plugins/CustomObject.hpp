@@ -9,9 +9,8 @@ namespace Engine3DRadSpace::Plugins
 	typedef std::span<Reflection::ReflectedObject*> (*LoadCustomObjects)(void);
 
 	/// <summary>
-	/// Loads custom objects from a library handle.
+	/// Loads custom objects from a library handle for the editor.
 	/// </summary>
-	/// 
-	/// <param name="libraryHandle">HMODULE in Windows</param>
+	/// <param name="libraryHandle">HMODULE in Windows, void* in Linux</param>
 	void LoadCustomObjectsFromLibHandle(void* libraryHandle);
 }

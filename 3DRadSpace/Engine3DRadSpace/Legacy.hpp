@@ -1,20 +1,20 @@
 #pragma once
-#include "ObjectList.hpp"
+#include "3DRadSpace.hpp"
 
 /*
 	Set of legacy functions from the old engine. Source: https://3drad.boards.net/page/script-reference
 */
 
-namespace Engine3DRadSpace::Legacy
+extern "C"
 {
 	//
 	//Global state functions. As a end-user, ignore these two.
 	//
 
 	//Sets the global state, since a list of objects is required.
-	void DLLEXPORT SetObjectList(ObjectList* list);
+	void DLLEXPORT SetObjectList(Engine3DRadSpace::ObjectList* list);
 	//Sets project file path used when resetting objects.
-	void DLLEXPORT SetProjectPath(const std::filesystem::path& path);
+	void DLLEXPORT SetProjectPath(const char* path);
 
 
 	//
@@ -28,30 +28,40 @@ namespace Engine3DRadSpace::Legacy
 	void DLLEXPORT iObjectHide(unsigned obj_x);
 	void DLLEXPORT iObjectShowHideSwitch(unsigned obj_x);
 	//void DLLEXPORT iObjectReset(unsigned obj_x);
-	void DLLEXPORT iObjectOrientation(int obj_x, Math::Quaternion& q);
-	void DLLEXPORT iObjectOrientationSet(int obj_x, const Math::Quaternion& q);
+	void DLLEXPORT iObjectOrientation(int obj_x, Engine3DRadSpace::Math::Quaternion& q);
+	void DLLEXPORT iObjectOrientationSet(int obj_x, const Engine3DRadSpace::Math::Quaternion& q);
 	//void iObjectOrientationReset(OBJ_X,Quaternion)
-	void DLLEXPORT iObjectLocation(int obj_x, Math::Vector3& v);
-	void DLLEXPORT iObjectLocationSet(int obj_x,const Math::Vector3 &v);
+	void DLLEXPORT iObjectLocation(int obj_x, Engine3DRadSpace::Math::Vector3& v);
+	void DLLEXPORT iObjectLocationSet(int obj_x,const Engine3DRadSpace::Math::Vector3 &v);
 	//void iObjectLocationReset(OBJ_X,Vector3)
 	//void iObjectPositionReset(OBJ_X,Quaternion,Vector3)
-	void DLLEXPORT iObjectScaleSet(int obj_x, const Math::Vector3& v);
-	void DLLEXPORT iObjectScale(int obj_x, Math::Vector3& v);
+	void DLLEXPORT iObjectScaleSet(int obj_x, const Engine3DRadSpace::Math::Vector3& v);
+	void DLLEXPORT iObjectScale(int obj_x, Engine3DRadSpace::Math::Vector3& v);
 	float DLLEXPORT iObjectKmh(int obj_x);
-	void DLLEXPORT iObjectVelocity(int obj_x, Math::Vector3& v);
-	void DLLEXPORT iObjectVelocitySet(int obj_x, Math::Vector3& v);
-	void DLLEXPORT iObjectSpin(int obj_x, Math::Vector3& v);
-	void DLLEXPORT iObjectSpinSet(int obj_x, Math::Vector3& v);
-	void DLLEXPORT iObjectTorqueApply(int obj_x, Math::Vector3& v);
-	void DLLEXPORT iObjectAngularAccelerationApply(int obj_x, Math::Vector3& v);
-	void DLLEXPORT iObjectForceApply(int ojb_x, Math::Vector3 f, Math::Vector3 *p);
-	void DLLEXPORT iObjectAccelerationApply(int obj_x, const Math::Vector3& acc);
-	void DLLEXPORT iObjectDampingApply(int obj_x, Math::Vector3& v, bool is_rotation, bool local_axis);
+	void DLLEXPORT iObjectVelocity(int obj_x, Engine3DRadSpace::Math::Vector3& v);
+	void DLLEXPORT iObjectVelocitySet(int obj_x, Engine3DRadSpace::Math::Vector3& v);
+	void DLLEXPORT iObjectSpin(int obj_x, Engine3DRadSpace::Math::Vector3& v);
+	void DLLEXPORT iObjectSpinSet(int obj_x, Engine3DRadSpace::Math::Vector3& v);
+	void DLLEXPORT iObjectTorqueApply(int obj_x, Engine3DRadSpace::Math::Vector3& v);
+	void DLLEXPORT iObjectAngularAccelerationApply(int obj_x, Engine3DRadSpace::Math::Vector3& v);
+	void DLLEXPORT iObjectForceApply(int ojb_x, Engine3DRadSpace::Math::Vector3 f, Engine3DRadSpace::Math::Vector3 *p);
+	void DLLEXPORT iObjectAccelerationApply(int obj_x, const Engine3DRadSpace::Math::Vector3& acc);
+	void DLLEXPORT iObjectDampingApply(int obj_x, Engine3DRadSpace::Math::Vector3& v, bool is_rotation, bool local_axis);
 	//float iObjectPicked(OBJ_X, Vector3)
-	int iObjectScan(int obj_x,const Math::Vector3 &origin,const Math::Vector3 &direction, float radius, Math::Vector3& contactPoint, Math::Vector3& contactNormal);
-	void iObjectTextSet(int obj_x, const std::string str);
+	int DLLEXPORT iObjectScan(
+		int obj_x,
+		const Engine3DRadSpace::Math::Vector3 &origin,
+		const Engine3DRadSpace::Math::Vector3 &direction,
+		float radius,
+		Engine3DRadSpace::Math::Vector3& contactPoint,
+		Engine3DRadSpace::Math::Vector3& contactNormal
+	);
+	void DLLEXPORT iObjectTextSet(
+		int obj_x,
+		const char* str
+	);
 	//iObjectParamSet(OBJ_X,int,float)
-	void DLLEXPORT iObjectRefresh(int obj_x, const std::filesystem::path &path);
+	void DLLEXPORT iObjectRefresh(int obj_x, const char* path);
 	//int iObjectBonesCount(OBJ_X)
 	//void iObjectBoneOrientation(OBJ_X,int,Quaternion,int)
 	//iObjectBoneLocation(OBJ_X,int,Vector3,int)
@@ -88,7 +98,7 @@ namespace Engine3DRadSpace::Legacy
 	//iShaderTextureDestroy(int)
 	//iShaderTextureSet(OBJ_X,string,int)
 
-	int DLLEXPORT iStringLen(const std::string& str);
-	void DLLEXPORT iStringUCase(const std::string& in, std::string& out);
-	void DLLEXPORT iStringLCase(const std::string& in, std::string& out);
+	int DLLEXPORT iStringLen(const char* str);
+	void DLLEXPORT iStringUCase(const char* in, char* out);
+	void DLLEXPORT iStringLCase(const char* in, char* out);
 }

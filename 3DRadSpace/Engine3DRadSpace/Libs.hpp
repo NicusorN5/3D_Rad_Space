@@ -8,7 +8,6 @@
 #include <sal.h>
 #include <array>
 #include <format>
-#include <span>
 #include <chrono>
 #include <numbers>
 #include <limits>
@@ -25,6 +24,7 @@
 #include <ranges>
 #include <random>
 #include <fstream>
+#include <expected>
 
 #ifdef _WIN32
 #define NOMINMAX

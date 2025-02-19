@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>_3DRadSpace_CSharp_Sample</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <IsPackable>false</IsPackable>
+    <IsTestProject>false</IsTestProject>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\3DRadSpace_CSharp\3DRadSpace_CSharp.csproj" />
+  </ItemGroup>
+
+</Project>
