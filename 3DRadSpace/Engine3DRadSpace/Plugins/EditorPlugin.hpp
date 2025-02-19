@@ -27,6 +27,14 @@ namespace Engine3DRadSpace::Plugins
 	typedef bool (*PluginMain)();
 
 	/// <summary>
+	/// Called when unloading the plugin.
+	/// </summary>
+	/// <returns>
+	/// True if succeded.
+	/// </returns>
+	typedef bool (*PluginUnload)();
+
+	/// <summary>
 	/// Error when attempted to load a 3DRadSpace plugin.
 	/// </summary>
 	enum class PluginLoadingError

@@ -9,7 +9,9 @@
 ///   Including it would also cause a circular depedency, since Legacy.hpp includes this header.
 /// [2] - As already specified, this is meant for projects that use the engine as a framework.
 
-//Engine3DRadSpace::...
+//Header files ordered alphabetically and by namespaces.
+
+//Engine3DRadSpace
 #include "Color.hpp"
 #include "Game.hpp"
 #include "GraphicsDevice.hpp"
@@ -116,8 +118,8 @@
 //Engine3DRadSpace::Logging
 #include "Logging\Exception.hpp"
 #include "Logging\Message.hpp"
-#include "Logging\ResourceLoadingError.hpp
-#include "Logging\Warning.hpp
+#include "Logging\ResourceLoadingError.hpp"
+#include "Logging\Warning.hpp"
 
 //Engine3DRadSpace::Math
 #include "Math\BoundingBox.hpp"
@@ -156,6 +158,8 @@
 //Engine3DRadSpace::Plugins
 #include "Plugins\CustomObject.hpp"
 #include "Plugins\EditorPlugin.hpp"
+#include "Plugins\OS.hpp"
+#include "Plugins\PluginInfo.hpp"
 
 //Engine3DRadSpace::Projects
 #include "Projects\Serialization.hpp"

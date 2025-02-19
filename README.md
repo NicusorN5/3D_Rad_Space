@@ -28,8 +28,6 @@ Old releases can be found [here](https://github.com/3DRadSpace/3D_Rad_Space/rele
 - DirectX11 Toolkit (directxtk_desktop_2019)
 > `.\vcpkg install directxtk:x64-Windows`
 - Assimp
-> Install latest version using vcpkg: 
-
 > `.\vcpkg install assimp:x64-Windows`
 - nlohmann JSON
 > `.\vcpkg install nlohmann-json:x64-windows`
@@ -39,7 +37,8 @@ Old releases can be found [here](https://github.com/3DRadSpace/3D_Rad_Space/rele
 > `.\vcpkg install openal-soft:x64-windows`
 - NVidia PhysX 5.30
 > `.\vcpkg install physx:x64-windows`
-> 
+- AngelScript (optional, for the AngelScript plugin)
+> '.\vcpkg install angelscript:x64-windows'
 
 - Google test (Optional, for test units.)
 > `vcpkg install gtest:x64-windows`

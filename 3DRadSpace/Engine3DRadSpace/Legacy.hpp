@@ -5,7 +5,7 @@
 	Set of legacy functions from the old engine. Source: https://3drad.boards.net/page/script-reference
 */
 
-extern "C"
+namespace Engine3DRadSpace::Legacy
 {
 	//
 	//Global state functions. As a end-user, ignore these two.
@@ -14,9 +14,11 @@ extern "C"
 	//Sets the global state, since a list of objects is required.
 	void DLLEXPORT SetObjectList(Engine3DRadSpace::ObjectList* list);
 	//Sets project file path used when resetting objects.
-	void DLLEXPORT SetProjectPath(const char* path);
+	void DLLEXPORT SetProjectPath(const std::filesystem::path &path);
+}
 
-
+extern "C"
+{
 	//
 	//	Object functions.
 	//
@@ -58,10 +60,10 @@ extern "C"
 	);
 	void DLLEXPORT iObjectTextSet(
 		int obj_x,
-		const char* str
+		const std::string& str
 	);
 	//iObjectParamSet(OBJ_X,int,float)
-	void DLLEXPORT iObjectRefresh(int obj_x, const char* path);
+	void DLLEXPORT iObjectRefresh(int obj_x, const std::string& path);
 	//int iObjectBonesCount(OBJ_X)
 	//void iObjectBoneOrientation(OBJ_X,int,Quaternion,int)
 	//iObjectBoneLocation(OBJ_X,int,Vector3,int)
@@ -98,7 +100,7 @@ extern "C"
 	//iShaderTextureDestroy(int)
 	//iShaderTextureSet(OBJ_X,string,int)
 
-	int DLLEXPORT iStringLen(const char* str);
-	void DLLEXPORT iStringUCase(const char* in, char* out);
-	void DLLEXPORT iStringLCase(const char* in, char* out);
+	int DLLEXPORT iStringLen(const std::string &str);
+	void DLLEXPORT iStringUCase(const std::string &in, std::string &out);
+	void DLLEXPORT iStringLCase(const std::string &in, std::string &out);
 }

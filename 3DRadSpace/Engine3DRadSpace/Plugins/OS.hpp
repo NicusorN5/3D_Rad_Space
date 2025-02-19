@@ -18,7 +18,7 @@ namespace Engine3DRadSpace::Plugins
 	F GetFunctionFromLibrary(void* libraryHandle, const std::string& name)
 	{
 #ifdef _WIN32
-		auto f = reinterpret_cast<F>(GetProcAddress(static_cast<HMODULE>(libraryHandle), name));
+		auto f = reinterpret_cast<F>(GetProcAddress(static_cast<HMODULE>(libraryHandle), name.c_str()));
 #elif _LINUX
 		auto f = reinterpret_cast<F>(dlsym(libraryHandle, name));
 #endif
@@ -30,5 +30,5 @@ namespace Engine3DRadSpace::Plugins
 	/// </summary>
 	/// <param name="path">Path to DLL/library.</param>
 	/// <returns>Module handle of the loaded library.</returns>
-	void* DLLEXPORT Load_Library(const std::filesystem& path);
+	DLLEXPORT void* Load_Library(const std::filesystem::path& path);
 }

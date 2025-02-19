@@ -1,12 +1,16 @@
-#include "Game.hpp"
+#include "3DRadSpace.hpp"
 
 using namespace Engine3DRadSpace;
-using namespace Engine3DRadSpace::
 
 extern "C"
 {
-	void* DLLEXPORT create_Window()
+	DLLEXPORT void* create_Window(const char*title, unsigned x, unsigned y)
 	{
+		return new Window(title, x, y);
+	}
 
+	DLLEXPORT void destruct_Window(void* window)
+	{
+		delete static_cast<Window*>(window);
 	}
 }

@@ -1,0 +1,8 @@
+The files:
+	-scriptstdstring.cpp
+	-scriptstdstring.h
+	-scriptstdstring_utils.cpp
+
+	-scriptarray.cpp
+	-scriptarray.h
+are taken from AngelScript's samples. These aren't part of 3DRadSpace itself.

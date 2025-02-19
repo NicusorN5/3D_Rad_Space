@@ -8,12 +8,12 @@ using namespace Engine3DRadSpace::Physics;
 static ObjectList *objList;
 static std::filesystem::path projectPath;
 
-void SetObjectList(ObjectList *list)
+void Engine3DRadSpace::Legacy::SetObjectList(ObjectList *list)
 {
 	objList = list;
 }
 
-void SetProjectPath(const char* path)
+void Engine3DRadSpace::Legacy::SetProjectPath(const std::filesystem::path &path)
 {
 	projectPath = std::filesystem::path(path);
 }
@@ -207,41 +207,43 @@ int iObjectScan(int obj_x, const Math::Vector3& origin, const Math::Vector3& dir
 	else return false;
 }
 
-void iObjectTextSet(int obj_x, const std::string str)
+void iObjectTextSet(int obj_x, const std::string &str)
 {
 	auto txtPrint = dynamic_cast<TextPrint*>((*objList)[obj_x]);
 	if(txtPrint != nullptr) txtPrint->Text = str;
 }
 
-void iObjectRefresh(int obj_x, const std::filesystem::path& path)
+void iObjectRefresh(int obj_x, const std::string& path)
 {
 	auto obj = (*objList)[obj_x];
 	obj->Load(path);
 }
 
-int iStringLen(const char* str)
+int iStringLen(const std::string &str)
 {
-	return static_cast<int>(std::string(str).length());
+	return str.length();
 }
 
-void iStringUCase(const char* in, char* out)
+void iStringUCase(const std::string &in, std::string &out)
 {
-	size_t l = std::string(in).length();
-	strcpy_s(out, l , in);
-	std::transform(out, out + l, out, [](char c)
+	out = in;
+
+	std::transform(in.begin(), in.end(), out.begin(),
+	[](char c) -> char
 	{
-		return std::toupper(c);
+		return std::tolower(c);
 	});
 }
 
-void iStringLCase(const char* in, char* out)
+void iStringLCase(const std::string& in, std::string& out)
 {
-	size_t l = std::string(in).length();
-	strcpy_s(out, l , in);
-	std::transform(out, out + l, out, [](char c)
+	out = in;
+
+	std::transform(in.begin(), in.end(), out.begin(),
+	[](char c) -> char
 	{
 		return std::tolower(c);
-	});	
+	});
 }
 
 void iShaderSet(int obj_x, const std::string& path)
@@ -251,7 +253,7 @@ void iShaderSet(int obj_x, const std::string& path)
 	{
 		for (auto& meshPart : *mesh)
 		{
-			meshPart->SetShaders()
+			//meshPart->SetShaders()
 		}
 	}
 }
