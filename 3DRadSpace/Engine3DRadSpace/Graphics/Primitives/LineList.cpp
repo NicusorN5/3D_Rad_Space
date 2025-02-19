@@ -1,4 +1,4 @@
-#include "Lines.hpp"
+#include "LineList.hpp"
 #include "../../Content/ShaderManager.hpp"
 
 using namespace Engine3DRadSpace;
@@ -7,7 +7,7 @@ using namespace Engine3DRadSpace::Graphics::Primitives;
 using namespace Engine3DRadSpace::Graphics::Shaders;
 using namespace Engine3DRadSpace::Math;
 
-void Lines::_swapRasterizer()
+void LineList::_swapRasterizer()
 {
 //TODO: Remove low level call, provide method to get old raster state
 #ifdef USING_DX11
@@ -16,31 +16,31 @@ void Lines::_swapRasterizer()
 	_device->SetRasterizerState(_lineRasterizer.get());
 }
 
-void Lines::_restoreRasterizer()
+void LineList::_restoreRasterizer()
 {
 #ifdef USING_DX11
 	_device->_context->RSSetState(_oldRasterizerState.Get());
 #endif
 }
 
-Lines::Lines(GraphicsDevice* device, std::span<VertexPositionColor> points) :
+LineList::LineList(GraphicsDevice* device, std::span<VertexPositionColor> points) :
 	IPrimitive(device)
 {
 	_vertices = std::make_unique<VertexBufferV<VertexPositionColor>>(device, points);
 	_lineRasterizer = std::make_unique<RasterizerState>(device, RasterizerFillMode::Solid, RasterizerCullMode::None);
 }
 
-VertexBufferV<VertexPositionColor>* Lines::GetVertexBuffer() const noexcept
+VertexBufferV<VertexPositionColor>* LineList::GetVertexBuffer() const noexcept
 {
 	return _vertices.get();
 }
 
-RasterizerState* Lines::GetLineRasterizer() const noexcept
+RasterizerState* LineList::GetLineRasterizer() const noexcept
 {
 	return _lineRasterizer.get();
 }
 
-void Lines::Draw3D()
+void LineList::Draw3D()
 {
 	_swapRasterizer();
 	_shader->SetAll();

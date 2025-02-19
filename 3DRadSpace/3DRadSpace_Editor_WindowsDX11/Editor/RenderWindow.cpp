@@ -47,8 +47,8 @@ void RenderWindow::Initialize()
 		dLines.push_back(VertexPositionColor{ Vector3(-halfNumLines, 0, float(i)), Colors::Gray });
 	}
 
-	axis = std::make_unique<Primitives::Lines>(Device.get(), axisLines);
-	grid = std::make_unique<Primitives::Lines>(Device.get(), dLines);
+	axis = std::make_unique<Primitives::LineList>(Device.get(), axisLines);
+	grid = std::make_unique<Primitives::LineList>(Device.get(), dLines);
 
 	Camera.InternalInitialize(this);
 	Camera.LookMode = Camera::CameraMode::UseLookAtCoordinates;

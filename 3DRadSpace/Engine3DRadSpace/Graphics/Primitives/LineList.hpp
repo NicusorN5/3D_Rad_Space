@@ -13,7 +13,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 	/// The topology used for drawing lines is a list of lines, thus duplicate coordinates could be needed.
 	/// One could prefer drawing a wireframe mesh, but changing the rasterizer state.
 	/// </remarks>
-	class DLLEXPORT Lines : public IPrimitive
+	class DLLEXPORT LineList : public IPrimitive
 	{
 		std::unique_ptr<RasterizerState> _lineRasterizer;
 #ifdef USING_DX11
@@ -28,13 +28,13 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		/// </summary>
 		/// <param name="device">Graphics device.</param>
 		/// <param name="points">List of points.</param>
-		Lines(GraphicsDevice *device, std::span<VertexPositionColor> points);
+		LineList(GraphicsDevice *device, std::span<VertexPositionColor> points);
 
-		Lines(const Lines &) = delete;
-		Lines(Lines &&) noexcept = default;
+		LineList(const LineList &) = delete;
+		LineList(LineList &&) noexcept = default;
 
-		Lines &operator=(const Lines &) = delete;
-		Lines &operator=(Lines &&) noexcept = default;
+		LineList &operator=(const LineList &) = delete;
+		LineList &operator=(LineList &&) noexcept = default;
 
 		/// <summary>
 		/// Gets the vertex buffer this instance was build with.

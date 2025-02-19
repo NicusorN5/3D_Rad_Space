@@ -34,7 +34,8 @@ namespace Engine3DRadSpace::Graphics
 
 	namespace Primitives
 	{
-		class Lines;
+		class LineList;
+		class LineStrip;
 	}
 }
 
@@ -202,6 +203,7 @@ namespace Engine3DRadSpace
 		friend class Graphics::IFragmentShader;
 
 		//TODO : Remove
-		friend class Graphics::Primitives::Lines;
+		friend class Graphics::Primitives::LineList;
+		friend class Graphics::Primitives::LineStrip;
 	};
 }

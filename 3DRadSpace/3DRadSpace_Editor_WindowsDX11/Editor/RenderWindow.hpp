@@ -8,7 +8,7 @@
 #include <Engine3DRadSpace/Graphics/Model3D.hpp>
 #include <Engine3DRadSpace/Graphics/Shaders/BasicTextured.hpp>
 #include <Engine3DRadSpace/Graphics/SpriteBatch.hpp>
-#include <Engine3DRadSpace/Graphics/Primitives/Lines.hpp>
+#include <Engine3DRadSpace/Graphics/Primitives/LineList.hpp>
 #include <Engine3DRadSpace/Graphics/Font.hpp>
 #include <Engine3DRadSpace/Algorithms/Picking/PickingRenderTargetRender.hpp>
 
@@ -35,8 +35,8 @@ class RenderWindow : public Engine3DRadSpace::Game
 
 	HWND editorWindow;
 	Camera Camera;
-	std::unique_ptr<Lines> axis;
-	std::unique_ptr<Lines> grid;
+	std::unique_ptr<LineList> axis;
+	std::unique_ptr<LineList> grid;
 
 	float zoom = 5.0f;
 	float timer = 0;

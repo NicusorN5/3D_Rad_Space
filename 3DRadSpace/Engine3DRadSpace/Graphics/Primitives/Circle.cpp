@@ -7,7 +7,7 @@ using namespace Engine3DRadSpace::Graphics::Primitives;
 using namespace Engine3DRadSpace::Math;
 
 Circle::Circle(GraphicsDevice* device, float radius, Color color, unsigned resolution) :
-	Lines(device, CreateCircleVertices(radius, resolution, color)),
+	LineStrip(device, CreateCircleVertices(radius, resolution, color)),
 	_radius(radius)
 {
 }
@@ -31,17 +31,6 @@ FixedArray<VertexPositionColor> Circle::CreateCircleVertices(float radius, unsig
 	vertices[resolution - 1] = vertices[0];
 
 	return vertices;
-}
-
-void Circle::Draw3D()
-{
-	_swapRasterizer();
-	_shader->SetAll();
-	_shader->SetTransformation(_mvp());
-
-	_device->SetTopology(VertexTopology::LineStrip);
-	_vertices->Draw();
-	_restoreRasterizer();
 }
 
 float Circle::GetRadius() const noexcept
