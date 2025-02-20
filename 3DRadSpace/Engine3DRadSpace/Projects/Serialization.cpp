@@ -481,6 +481,18 @@ bool Engine3DRadSpace::Projects::Serializer::LoadProject(ObjectList* lst, Conten
 	return true;
 }
 
+[[nodiscard]] Engine3DRadSpace::IObject* Engine3DRadSpace::Projects::Serializer::LoadObjectFromProject(const std::filesystem::path &path ,unsigned id)
+{
+	std::ifstream file(path);
+
+	if (file.bad() || file.bad()) return false;
+
+	json j;
+	file >> j;
+
+	return DeserializeObject(j["objects"][std::to_string(id)]);
+}
+
 bool Engine3DRadSpace::Projects::Serializer::SaveProject(ObjectList* lst, ContentManager* content,const std::filesystem::path& projectPath)
 {
 	std::ofstream file(projectPath);

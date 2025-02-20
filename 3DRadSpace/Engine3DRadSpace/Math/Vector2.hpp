@@ -4,6 +4,9 @@
 namespace Engine3DRadSpace::Math
 {
 	struct Matrix3x3;
+	/// <summary>
+	/// A 2D vector.
+	/// </summary>
 	struct DLLEXPORT Vector2
 	{
 		float X, Y;
@@ -20,7 +23,8 @@ namespace Engine3DRadSpace::Math
 		float Dot(const Vector2 &v) const;
 		static float Dot(const Vector2& a, const Vector2& b);
 		
-		Vector2 Normalize();
+		Vector2& Normalize();
+		static Vector2 Normalize(const Vector2& v);
 
 		Vector2& operator +=(const Vector2& v);
 		Vector2 operator +(const Vector2 &v) const;

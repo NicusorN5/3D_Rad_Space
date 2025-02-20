@@ -13,10 +13,24 @@ namespace Engine3DRadSpace::Reflection
 
 namespace Engine3DRadSpace::Projects
 {
+	/// <summary>
+	/// Handles object and project loading/unloading.
+	/// </summary>
 	class DLLEXPORT Serializer
 	{
 	public:
+		Serializer() = delete;
+		/// <summary>
+		/// Serializes a object into JSON.
+		/// </summary>
+		/// <param name="obj">Reference to an object.</param>
+		/// <returns>JSON data.</returns>
 		static json SerializeObject(Engine3DRadSpace::IObject* obj);
+		/// <summary>
+		/// Creates an object from JSON data.
+		/// </summary>
+		/// <param name="j">JSON data, usually from a project file.</param>
+		/// <returns>Newly allocated object. Must be freed.</returns>
 		static [[nodiscard]] Engine3DRadSpace::IObject* DeserializeObject(const json& j);
 
 		static bool LoadProject(
@@ -25,6 +39,21 @@ namespace Engine3DRadSpace::Projects
 			const std::filesystem::path& projectPath
 		);
 
+		/// <summary>
+		/// Loads a single object from a project file. Used when resetting objects.
+		/// </summary>
+		/// <param name="path">Path to project.</param>
+		/// <param name="id">Object ID.</param>
+		/// <returns>Newly allocated object. Must be freed.</returns>
+		static [[nodiscard]] Engine3DRadSpace::IObject* LoadObjectFromProject(const std::filesystem::path& path, unsigned id);
+
+		/// <summary>
+		/// Saves all the objects and asset data into a 3DRSP file.
+		/// </summary>
+		/// <param name="lst">Object list.</param>
+		/// <param name="content">Content manager.</param>
+		/// <param name="projectPath">File to save to.</param>
+		/// <returns>True if succeded.</returns>
 		static bool SaveProject(Engine3DRadSpace::ObjectList* lst, Engine3DRadSpace::Content::ContentManager* content, const std::filesystem::path& projectPath);
 	};
 }

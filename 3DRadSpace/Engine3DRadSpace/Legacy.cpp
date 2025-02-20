@@ -4,6 +4,7 @@ using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Objects;
 using namespace Engine3DRadSpace::Physics;
+using namespace Engine3DRadSpace::Projects;
 
 static ObjectList *objList;
 static std::filesystem::path projectPath;
@@ -48,53 +49,86 @@ void iObjectShowHideSwitch(unsigned obj_x)
 	(*objList)[obj_x]->Visible = !((*objList)[obj_x]->Visible);
 }
 
-/* TO-DO: Allowing objects to be resetted would require re-reading the project, then a refactor would be necessary.
 void iObjectReset(unsigned obj_x)
 {
-	
+	auto obj = Serializer::LoadObjectFromProject(projectPath, obj_x);
+	objList->Replace(obj, obj_x);
 }
-*/
 
-void iObjectOrientation(int obj_x, Quaternion& q)
+void iObjectOrientation(unsigned obj_x, Quaternion& q)
 {
-	auto obj = dynamic_cast<IObject3D*>((*objList)[obj_x]);
-	if (obj != nullptr) q = obj->Rotation;
-	else q = Quaternion();
+	auto refobj = (*objList)[obj_x];
+	if(auto obj = dynamic_cast<IObject3D*>(refobj); obj != nullptr)
+	{
+		q = obj->Rotation;
+		return;
+	}
+	if(auto obj = dynamic_cast<IObject2D*>(refobj); obj != nullptr)
+	{
+		auto r = obj->Rotation;
+		q = Quaternion(r, r, r, r);
+		return;
+	}
+	q = Quaternion();
 }
 
-void iObjectOrientationSet(int obj_x, const Quaternion& q)
+void iObjectOrientationSet(unsigned obj_x, const Quaternion& q)
 {
-	auto obj = dynamic_cast<IObject3D*>((*objList)[obj_x]);
-	if (obj != nullptr) obj->Rotation = q;
+	auto refobj = (*objList)[obj_x];
+	if(auto obj = dynamic_cast<IObject3D*>(refobj); obj != nullptr) obj->Rotation = q;
+	if(auto obj = dynamic_cast<IObject2D*>(refobj); obj != nullptr) obj->Rotation = q.X;
 }
 
-void iObjectLocation(int obj_x, Vector3& v)
+void iObjectOrientationReset(unsigned obj_x, Quaternion& q)
+{
+	std::unique_ptr<IObject> temp;
+	temp.reset(Serializer::LoadObjectFromProject(projectPath, obj_x));
+
+	if(auto refobj_lst = dynamic_cast<IObject3D*>((*objList)[obj_x]), temp_obj = dynamic_cast<IObject3D*>(temp.get()); refobj_lst != nullptr && temp_obj != nullptr)
+	{
+		q = refobj_lst->Rotation = temp_obj->Rotation;
+	}
+}
+
+void iObjectLocation(unsigned obj_x, Vector3& v)
 {
 	auto obj = dynamic_cast<IObject3D*>((*objList)[obj_x]);
 	if (obj != nullptr) v = obj->Position;
 	else v = Vector3();
 }
 
-void iObjectLocationSet(int obj_x, const Vector3& v)
+void iObjectLocationSet(unsigned obj_x, const Vector3& v)
 {
-	auto obj = dynamic_cast<IObject3D*>((*objList)[obj_x]);
-	if (obj != nullptr) obj->Position = v;
+	auto refobj = (*objList)[obj_x];
+	if(auto obj = dynamic_cast<IObject3D*>(refobj); obj != nullptr) obj->Position = v;
+	if(auto obj = dynamic_cast<IObject2D*>(refobj); obj != nullptr) obj->Position = Vector2(v.X, v.Y);
 }
 
-void iObjectScaleSet(int obj_x, const Vector3& v)
+void DLLEXPORT iObjectLocationReset(unsigned obj_x, Engine3DRadSpace::Math::Vector3& v)
+{
+	std::unique_ptr<IObject> temp;
+	temp.reset(Serializer::LoadObjectFromProject(projectPath, obj_x));
+
+	if(auto refobj_lst = dynamic_cast<IObject3D*>((*objList)[obj_x]), temp_obj = dynamic_cast<IObject3D*>(temp.get()); refobj_lst != nullptr && temp_obj != nullptr)
+	{
+		v = refobj_lst->Position = temp_obj->Position;
+	}
+}
+
+void iObjectScaleSet(unsigned obj_x, const Vector3& v)
 {
 	auto obj = dynamic_cast<IObject3D*>((*objList)[obj_x]);
 	if (obj != nullptr) obj->Scale = v;
 }
 
-void iObjectScale(int obj_x, Vector3& v)
+void iObjectScale(unsigned obj_x, Vector3& v)
 {
 	auto obj = dynamic_cast<IObject3D*>((*objList)[obj_x]);
 	if (obj != nullptr) v = obj->Scale;
 	else v = Math::Vector3();
 }
 
-float iObjectKmh(int obj_x)
+float iObjectKmh(unsigned obj_x)
 {
 	auto obj = dynamic_cast<IPhysicsObject*>((*objList)[obj_x]);
 	if (obj != nullptr)
@@ -105,7 +139,7 @@ float iObjectKmh(int obj_x)
 	else return 0.0f;
 }
 
-void iObjectVelocity(int obj_x, Math::Vector3& v)
+void iObjectVelocity(unsigned obj_x, Math::Vector3& v)
 {
 	auto obj = dynamic_cast<IPhysicsObject*>((*objList)[obj_x]);
 	if (obj != nullptr)
@@ -116,7 +150,7 @@ void iObjectVelocity(int obj_x, Math::Vector3& v)
 	else v = Vector3::Zero();
 }
 
-void iObjectVelocitySet(int obj_x, Math::Vector3& v)
+void iObjectVelocitySet(unsigned obj_x, Math::Vector3& v)
 {
 	auto obj = dynamic_cast<IPhysicsObject*>((*objList)[obj_x]);
 	if (obj != nullptr)
@@ -126,7 +160,7 @@ void iObjectVelocitySet(int obj_x, Math::Vector3& v)
 	}
 }
 
-void iObjectSpin(int obj_x, Math::Vector3& v)
+void iObjectSpin(unsigned obj_x, Math::Vector3& v)
 {
 	auto obj = dynamic_cast<IPhysicsObject*>((*objList)[obj_x]);
 	if (obj != nullptr)
@@ -137,7 +171,7 @@ void iObjectSpin(int obj_x, Math::Vector3& v)
 	else v = Vector3::Zero();
 }
 
-void iObjectSpinSet(int obj_x, Math::Vector3& v)
+void iObjectSpinSet(unsigned obj_x, Math::Vector3& v)
 {
 	auto obj = dynamic_cast<IPhysicsObject*>((*objList)[obj_x]);
 	if (obj != nullptr)
@@ -147,19 +181,19 @@ void iObjectSpinSet(int obj_x, Math::Vector3& v)
 	}
 }
 
-void iObjectTorqueApply(int obj_x, Math::Vector3& v)
+void iObjectTorqueApply(unsigned obj_x, Math::Vector3& v)
 {
 	auto obj = dynamic_cast<IPhysicsObject*>((*objList)[obj_x]);
 	if (obj != nullptr) obj->ApplyTorque(v);
 }
 
-void iObjectAngularAccelerationApply(int obj_x, Math::Vector3& v)
+void iObjectAngularAccelerationApply(unsigned obj_x, Math::Vector3& v)
 {
 	auto obj = dynamic_cast<IPhysicsObject*>((*objList)[obj_x]);
 	if(obj != nullptr) obj->ApplyAngularAcceleration(v);
 }
 
-void iObjectForceApply(int ojb_x, Math::Vector3 f, Math::Vector3* p)
+void iObjectForceApply(unsigned ojb_x, Math::Vector3 f, Math::Vector3* p)
 {
 	auto obj = dynamic_cast<IPhysicsObject*>((*objList)[ojb_x]);
 	if(obj != nullptr)
@@ -169,18 +203,24 @@ void iObjectForceApply(int ojb_x, Math::Vector3 f, Math::Vector3* p)
 	}
 }
 
-void iObjectAccelerationApply(int obj_x, const Math::Vector3& acc)
+void iObjectAccelerationApply(unsigned obj_x, const Math::Vector3& acc)
 {
 	auto obj = dynamic_cast<IPhysicsObject*>((*objList)[obj_x]);
 	if(obj != nullptr) obj->ApplyAcceleration(acc);
 }
 
-void iObjectDampingApply(int obj_x, Math::Vector3& v, bool is_rotation, bool local_axis)
+void iObjectDampingApply(unsigned obj_x, Math::Vector3& v, bool is_rotation, bool local_axis)
 {
 	
 }
 
-int iObjectScan(int obj_x, const Math::Vector3& origin, const Math::Vector3& direction, float radius, Math::Vector3& contactPoint, Math::Vector3& contactNormal)
+int iObjectScan(
+	unsigned obj_x, 
+	const Math::Vector3& origin,
+	const Math::Vector3& direction,
+	float radius,
+	Math::Vector3& contactPoint, 
+	Math::Vector3& contactNormal)
 {
 	auto obj = dynamic_cast<IObject3D*>((*objList)[obj_x]);
 	if (obj != nullptr)
@@ -207,13 +247,13 @@ int iObjectScan(int obj_x, const Math::Vector3& origin, const Math::Vector3& dir
 	else return false;
 }
 
-void iObjectTextSet(int obj_x, const std::string &str)
+void iObjectTextSet(unsigned obj_x, const std::string &str)
 {
 	auto txtPrint = dynamic_cast<TextPrint*>((*objList)[obj_x]);
 	if(txtPrint != nullptr) txtPrint->Text = str;
 }
 
-void iObjectRefresh(int obj_x, const std::string& path)
+void iObjectRefresh(unsigned obj_x, const std::string& path)
 {
 	auto obj = (*objList)[obj_x];
 	obj->Load(path);
@@ -246,7 +286,7 @@ void iStringLCase(const std::string& in, std::string& out)
 	});
 }
 
-void iShaderSet(int obj_x, const std::string& path)
+void iShaderSet(unsigned obj_x, const std::string& path)
 {
 	auto obj = dynamic_cast<Skinmesh*>((*objList)[obj_x]);
 	for (auto& mesh : *obj->GetModel())

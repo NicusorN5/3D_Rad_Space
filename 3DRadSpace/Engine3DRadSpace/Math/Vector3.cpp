@@ -78,7 +78,7 @@ Vector3& Vector3::Normalize()
     return *this;
 }
 
-Vector3 Engine3DRadSpace::Math::Vector3::Normalize(const Vector3& v)
+Vector3 Vector3::Normalize(const Vector3& v)
 {
     float l = v.Length();
     return { v.X / l, v.Y / l, v.Z / l };
@@ -118,7 +118,7 @@ Vector3& Vector3::operator-()
     return *this;
 }
 
-Vector3 Engine3DRadSpace::Math::Vector3::operator-() const
+Vector3 Vector3::operator-() const
 {
     Vector3 c(*this);
     c.X *= 1;
@@ -158,7 +158,7 @@ Vector3 Vector3::operator/(float s) const
     );
 }
 
-Vector3 Vector3::Cross(const Vector3& v)
+Vector3& Vector3::Cross(const Vector3& v)
 {
     Vector3 cpy(*this);
     cpy.X = Y * v.Z - Z * v.Y;

@@ -5,13 +5,6 @@ namespace Engine3DRadSpace
 	public class Game
 	{
 		private IntPtr _gameHandle = IntPtr.Zero;
-		private bool _disposed;
-
-		bool _valid;
-		bool _running = true;
-
-		double u_dt;
-		double d_dt;
 
 		protected List<Tuple<int, object>> objects;
 

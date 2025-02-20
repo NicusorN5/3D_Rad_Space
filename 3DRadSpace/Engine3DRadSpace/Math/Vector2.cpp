@@ -43,12 +43,21 @@ float Vector2::Dot(const Vector2& a, const Vector2& b)
     return a.X * b.X + a.Y * b.Y;
 }
 
-Vector2 Vector2::Normalize()
+Vector2& Vector2::Normalize()
 {
     const float l = Length();
     X /= l;
     Y /= l;
     return *this;
+}
+
+Vector2 Vector2::Normalize(const Vector2& v)
+{
+    float l = v.Length();
+    return Vector2(
+        v.X / l,
+        v.Y / l
+    );
 }
 
 Vector2& Vector2::operator+=(const Vector2& v)

@@ -100,7 +100,16 @@ void ObjectList::RemoveIf(std::function<bool(IObject*)> f)
 
 void ObjectList::Replace(IObject* obj, unsigned id) noexcept
 {
+	auto context = _objects[id].Object->GetGame();
 	_objects[id].Object.reset(obj);
+
+	_objects[id].Object->InternalInitialize(context);
+
+	if(context->WasInitialized())
+		_objects[id].Object->Initialize();
+
+	if(context->WasLoaded())
+		_objects[id].Object->Load();
 }
 
 void ObjectList::Clear() noexcept
