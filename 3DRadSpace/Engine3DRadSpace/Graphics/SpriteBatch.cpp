@@ -9,7 +9,13 @@ using namespace Engine3DRadSpace::Math;
 
 constexpr Math::RectangleF _fullDefaultUV(0.0f, 0.0f, 1.0f, 1.0f);
 
-std::array<VertexPointUVColor,4> SpriteBatch::_createQuad(const RectangleF &r, bool flipU, bool flipV, const Color &tintColor)
+std::array<VertexPointUVColor,4> SpriteBatch::_createQuad(
+	const RectangleF &r, 
+	bool flipU,
+	bool flipV, 
+	const Color &tintColor,
+	const RectangleF &uvRect
+)
 {
 /*
 	B -- C
@@ -26,10 +32,10 @@ std::array<VertexPointUVColor,4> SpriteBatch::_createQuad(const RectangleF &r, b
 	Vector2 c = r.TopRight();
 	Vector2 d = r.BottomRight();
 
-	return _createQuad(a, b, c, d, flipU, flipV, tintColor);
+	return _createQuad(a, b, c, d, flipU, flipV, tintColor, uvRect);
 }
 
-std::array<VertexPointUVColor, 4> SpriteBatch::_createQuad(const Math::Vector2& a, const Math::Vector2& b, const Math::Vector2& c, const Math::Vector2& d, bool flipU, bool flipV,const Color &tintColor, const Math::RectangleF uvRect)
+std::array<VertexPointUVColor, 4> SpriteBatch::_createQuad(const Math::Vector2& a, const Math::Vector2& b, const Math::Vector2& c, const Math::Vector2& d, bool flipU, bool flipV,const Color &tintColor, const Math::RectangleF &uvRect)
 {
 	Vector2 uv_a = uvRect.BottomLeft();
 	Vector2 uv_b = uvRect.TopLeft();
@@ -165,7 +171,8 @@ void SpriteBatch::_drawAllEntries_SortByTexture()
 				Math::RectangleF(min,max),
 				entry.flipU, 
 				entry.flipV,
-				entry.tintColor
+				entry.tintColor,
+				entry.uvSource
 			);
 			currentVertices.insert(currentVertices.end(), quad.begin(), quad.end());
 
@@ -184,7 +191,7 @@ void SpriteBatch::_drawAllEntries_SortByTexture()
 			}
 
 			_spriteShader->SetTexture(_textures[entry.textureID]);
-			draw();
+			//draw();
 
 			currentVertices.clear();
 		}
@@ -229,7 +236,7 @@ SpriteBatch::SpriteBatch(GraphicsDevice *device) :
 	_vertexBuffer = std::make_unique<VertexBufferV<VertexPointUVColor>>(device, nullptr, _capacity * 4);
 	_indexBuffer = std::make_unique<IndexBuffer>(device, nullptr, _capacity * 6);
 
-	_rasterizerState = std::make_unique<RasterizerState>(device, RasterizerFillMode::Solid);
+	_rasterizerState = std::make_unique<RasterizerState>(device, RasterizerFillMode::Solid, RasterizerCullMode::CullBack);
 	_samplerState = std::make_unique<SamplerState>(SamplerState::PointWrap(device));
 	_depthBufferState = std::make_unique<DepthStencilState>(DepthStencilState::DepthNone(device));
 	_blendState = std::make_unique<BlendState>(BlendState::AlphaBlend(device));
@@ -383,8 +390,8 @@ void SpriteBatch::DrawString(Font* font, const std::string& text, const Vector2&
 	int y = static_cast<int>(pos.Y * screenSize.Y);
 
 	End();
-	//Begin(SpriteBatchSortMode::SortedByTexture); <-- TODO: MUST FIX!
-	Begin(SpriteBatchSortMode::Immediate);
+	Begin(SpriteBatchSortMode::SortedByTexture); //<-- TODO: MUST FIX!
+	//Begin(SpriteBatchSortMode::Immediate);
 
 	for (auto&& c : text)
 	{

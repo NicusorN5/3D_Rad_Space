@@ -87,6 +87,14 @@ void iObjectOrientationReset(unsigned obj_x, Quaternion& q)
 	if(auto refobj_lst = dynamic_cast<IObject3D*>((*objList)[obj_x]), temp_obj = dynamic_cast<IObject3D*>(temp.get()); refobj_lst != nullptr && temp_obj != nullptr)
 	{
 		q = refobj_lst->Rotation = temp_obj->Rotation;
+		return;
+	}
+
+	if(auto refobj_lst = dynamic_cast<IObject2D*>((*objList)[obj_x]), temp_obj = dynamic_cast<IObject2D*>(temp.get()); refobj_lst != nullptr && temp_obj != nullptr)
+	{
+		float theta = refobj_lst->Rotation = temp_obj->Rotation;
+		q = Quaternion(theta, theta, theta, theta);
+		return;
 	}
 }
 
@@ -112,6 +120,17 @@ void DLLEXPORT iObjectLocationReset(unsigned obj_x, Engine3DRadSpace::Math::Vect
 	if(auto refobj_lst = dynamic_cast<IObject3D*>((*objList)[obj_x]), temp_obj = dynamic_cast<IObject3D*>(temp.get()); refobj_lst != nullptr && temp_obj != nullptr)
 	{
 		v = refobj_lst->Position = temp_obj->Position;
+	}
+}
+
+void DLLEXPORT iObjectPositionReset(unsigned obj_x, Engine3DRadSpace::Math::Quaternion& outRotation, Engine3DRadSpace::Math::Vector3& outLocation)
+{
+	std::unique_ptr<IObject> temp;
+	temp.reset(Serializer::LoadObjectFromProject(projectPath, obj_x));
+	if(auto refobj_lst = dynamic_cast<IObject3D*>((*objList)[obj_x]), temp_obj = dynamic_cast<IObject3D*>(temp.get()); refobj_lst != nullptr && temp_obj != nullptr)
+	{
+		outLocation = refobj_lst->Position = temp_obj->Position;
+		outRotation = refobj_lst->Rotation = temp_obj->Rotation;
 	}
 }
 

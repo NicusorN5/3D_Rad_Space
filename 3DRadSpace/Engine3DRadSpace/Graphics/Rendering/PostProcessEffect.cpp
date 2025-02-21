@@ -75,17 +75,18 @@ void PostProcessEffect::Apply()
 
 void Engine3DRadSpace::Graphics::Rendering::PostProcessEffect::Draw()
 {
+	_device->SetTopology(VertexTopology::TriangleList);
 	_device->DrawScreenQuad();
 }
 
 PostProcessEffect::~PostProcessEffect()
 {
 	//if there's only one reference remaining, it is from the global variables themselfs.
-	if(ppeff_render_surface.use_count() == 1)
-		ppeff_render_surface.reset();
+	//if(ppeff_render_surface.use_count() == 1)
+	//	ppeff_render_surface.reset();
 
-	if(ppeff_backbuffer_cpy.use_count() == 1)
-		ppeff_backbuffer_cpy.reset();
+	//if(ppeff_backbuffer_cpy.use_count() == 1)
+	//	ppeff_backbuffer_cpy.reset();
 }
 
 PostProcessEffect::PostProcessVertex::PostProcessVertex(GraphicsDevice* device, ShaderFeatureLevel fl) :

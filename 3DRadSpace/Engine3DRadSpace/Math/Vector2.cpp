@@ -28,6 +28,11 @@ float Vector2::Length() const
     return sqrtf(X*X + Y*Y);
 }
 
+float Vector2::LengthSquared() const
+{
+    return X * X + Y * Y;
+}
+
 float Vector2::Angle() const
 {
     return atan2(Y, X);

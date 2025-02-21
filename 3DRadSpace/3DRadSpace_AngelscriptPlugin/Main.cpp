@@ -16,7 +16,20 @@ extern "C"
 	__declspec(dllexport) bool PluginUnload()
 	{
 		_angelscriptWrapper.reset();
+		return true;
 	}
 
-	__declspec(dllexport) Engine3DRadSpace::Plugins::PluginInfo  
+	__declspec(dllexport) Engine3DRadSpace::Plugins::PluginInfo LoadPluginInfo()
+	{
+		return Engine3DRadSpace::Plugins::PluginInfo
+		{
+			.Name = "3DRadSpace Angelscript plugin",
+			.Version = "0.1.0-Alpha",
+			.Author = "3DRadSpace",
+
+			.Description = "AngelScript scripting language support for 3DRadSpace.",
+			.Homepage = "3dradspace.github.io",
+			.IconFilename = "AngelScript.png"
+		};
+	}
 }

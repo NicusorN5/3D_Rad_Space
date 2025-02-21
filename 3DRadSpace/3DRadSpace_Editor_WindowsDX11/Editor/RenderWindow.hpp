@@ -48,7 +48,7 @@ class RenderWindow : public Engine3DRadSpace::Game
 
 	bool _keyboardTest = false;
 
-	std::unique_ptr<Font> testFont;
+	std::unique_ptr<Font> _font;
 public:
 	RenderWindow(HWND parent, HINSTANCE hInstance);
 

@@ -101,8 +101,8 @@ int __stdcall WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 	Engine3DRadSpace::Content::ShaderManager::ReleaseAll();
 
 #if _DEBUG
-	_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG);
-	_CrtDumpMemoryLeaks();
+	//_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG);
+	//_CrtDumpMemoryLeaks();
 #endif
 
 	return 0;

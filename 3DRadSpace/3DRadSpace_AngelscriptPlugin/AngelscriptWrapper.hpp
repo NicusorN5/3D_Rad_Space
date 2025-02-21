@@ -7,5 +7,7 @@ namespace Engine3DRadSpace_Angelscript
 		void* _engine;
 	public:
 		AngelScriptWrapper();
+
+		~AngelScriptWrapper();
 	};
 }

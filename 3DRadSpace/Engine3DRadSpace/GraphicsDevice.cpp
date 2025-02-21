@@ -42,7 +42,7 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, unsigned width, unsigne
 	swapChainDesc.OutputWindow = static_cast<HWND>(nativeWindowHandle);
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
 
-#if !_DEBUG
+#if _DEBUG
 	UINT flags = D3D11_CREATE_DEVICE_DEBUG;
 #else
 	UINT flags = 0;
@@ -71,6 +71,7 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, unsigned width, unsigne
 	r = _swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), static_cast<void**>(&_backbufferRT->_texture));
 	if (FAILED(r)) throw Exception("Failed to get the back buffer texture!");
 
+	//_backbufferRT->_texture->Release();
 	_backbufferRT->_retrieveSize();
 
 	//Create shader resource view for back buffer
@@ -118,9 +119,9 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, unsigned width, unsigne
 		VertexPointUV{b, uv_b},
 		VertexPointUV{c, uv_c},
 
-		VertexPointUV{a, uv_a},
-		VertexPointUV{c, uv_c},
-		VertexPointUV{d, uv_d}
+		VertexPointUV{c, uv_a},
+		VertexPointUV(d, uv_d),
+		VertexPointUV{a, uv_a}
 	};
 
 	_screenQuad = std::make_unique<VertexBufferV<VertexPointUV>>(this, quad);
@@ -132,6 +133,15 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, unsigned width, unsigne
 
 	const char contextName[] = "GraphicsDevice::_context";
 	_context->SetPrivateData(WKPDID_D3DDebugObjectName, sizeof(contextName) - 1, contextName);
+
+	const char textureBackbufferName[] = "GraphicsDevice::_backbufferRT::_texture";
+	_backbufferRT->_texture->SetPrivateData(WKPDID_D3DDebugObjectName, sizeof(textureBackbufferName) - 1, textureBackbufferName);
+
+	const char textureBackBufferViewName[] = "GraphicsDevice::_backBufferRT::_resourceView";
+	_backbufferRT->_resourceView->SetPrivateData(WKPDID_D3DDebugObjectName, sizeof(textureBackBufferViewName) - 1, textureBackBufferViewName);
+
+	const char renderTargetBackBufferName[] = "GraphicsDevice::_backBufferRT::_renderTarget";
+	_backbufferRT->_renderTarget->SetPrivateData(WKPDID_D3DDebugObjectName, sizeof(renderTargetBackBufferName) - 1, renderTargetBackBufferName);
 #endif
 #endif
 	Logging::SetLastMessage("Created D3D11 backend");

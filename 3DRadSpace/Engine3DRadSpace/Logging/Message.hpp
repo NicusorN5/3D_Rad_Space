@@ -16,6 +16,6 @@ namespace Engine3DRadSpace::Logging
 	extern FuncMessageHandler MessageHandler;
 
 	void DLLEXPORT SetLastMessage(const Message &warning);
-	void SetLastMessage(const std::string& msg);
+	void DLLEXPORT SetLastMessage(const std::string& msg);
 	void DLLEXPORT DefaultMessageHandler(const Message &warning);
 }

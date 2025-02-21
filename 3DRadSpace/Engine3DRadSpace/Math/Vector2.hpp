@@ -18,6 +18,7 @@ namespace Engine3DRadSpace::Math
 		static Vector2 One();
 
 		float Length() const;
+		float LengthSquared() const;
 		float Angle() const;
 		
 		float Dot(const Vector2 &v) const;

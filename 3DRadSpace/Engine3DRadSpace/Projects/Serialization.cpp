@@ -485,7 +485,7 @@ bool Engine3DRadSpace::Projects::Serializer::LoadProject(ObjectList* lst, Conten
 {
 	std::ifstream file(path);
 
-	if (file.bad() || file.bad()) return false;
+	if (file.bad() || file.bad()) return nullptr;
 
 	json j;
 	file >> j;

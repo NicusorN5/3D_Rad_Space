@@ -57,13 +57,9 @@ void RenderWindow::Initialize()
 	_pickingShader = std::make_unique<PickingShader>(Device.get());
 }
 
-Model3D *fish = nullptr;
-
-Font* font = nullptr;
-
 void RenderWindow::Load()
 {
-	font = new Font(Device.get(), "Data//Fonts//Arial.ttf");
+	_font = std::make_unique<Font>(Device.get(), "Data//Fonts//Arial.ttf");
 }
 
 Vector2 mouseDelta;
@@ -163,7 +159,7 @@ void RenderWindow::Draw2D()
 
 	SpriteBatch->Begin();
 	SpriteBatch->DrawString(
-		font,
+		_font.get(),
 		std::format("Mouse {} {}", cameraPos.X, cameraPos.Y),
 		Point(20, 20),
 		1

@@ -77,7 +77,8 @@ namespace Engine3DRadSpace::Graphics
 			const Math::RectangleF &r,
 			bool flipU = false,
 			bool flipV = false,
-			const Color &tintColor = Colors::White
+			const Color &tintColor = Colors::White,
+			const Math::RectangleF &uvRect = Math::RectangleF(0.0f,0.0f,1.0f,1.0f)
 		);
 		
 		static std::array<VertexPointUVColor, 4> _createQuad(
@@ -88,7 +89,7 @@ namespace Engine3DRadSpace::Graphics
 			bool flipU,
 			bool flipV,
 			const Color &tintColor = Colors::White, 
-			const Math::RectangleF uvRect = Math::RectangleF(0.0f,0.0f,1.0f,1.0f)
+			const Math::RectangleF &uvRect = Math::RectangleF(0.0f,0.0f,1.0f,1.0f)
 		);
 		
 		static std::array<unsigned, 6> _createIndexQuad(unsigned offset);
