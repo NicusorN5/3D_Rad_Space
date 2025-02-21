@@ -618,8 +618,7 @@ Point Texture2D::Size() const noexcept
 
 Texture2D Texture2D::Clone()
 {
-	Texture2D staging = CreateStaging(this);
-
+	//Texture2D staging = CreateStaging(this);
 #ifdef USING_DX11
 	Microsoft::WRL::ComPtr<ID3D11Texture2D> copy = nullptr;
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> srv = nullptr;
@@ -630,12 +629,19 @@ Texture2D Texture2D::Clone()
 	HRESULT r = _device->_device->CreateTexture2D(&desc, nullptr, copy.GetAddressOf());
 	if (FAILED(r)) throw Exception("Failed to create staging texture" + std::system_category().message(r));
 
-	_device->_context->CopyResource(copy.Get(), staging._texture.Get());
+	_device->_context->CopyResource(copy.Get(), _texture.Get());
 
 	r = _device->_device->CreateShaderResourceView(_texture.Get(), nullptr, srv.GetAddressOf()); //recreate the shader resource view for the new texture
 	if (FAILED(r)) throw Exception("Failed to recreate the shader resource view!" + std::system_category().message(r));
 
 	return Texture2D(_device, std::move(copy), std::move(srv));
+#endif
+}
+
+void Texture2D::Copy(Texture2D* destination, Texture2D* source)
+{
+#ifdef USING_DX11
+	destination->_device->_context->CopyResource(destination->_texture.Get(), source->_texture.Get());
 #endif
 }
 

@@ -179,6 +179,8 @@ namespace Engine3DRadSpace
 		Graphics::Texture2D *GetBackBufferTexture();
 		Graphics::DepthStencilBuffer& GetDepthBuffer();
 
+		//Graphics::PixelFormat BackBufferFormat() const noexcept;
+
 		~GraphicsDevice();
 
 		template<Graphics::VertexDecl V> friend class Graphics::VertexBufferV;

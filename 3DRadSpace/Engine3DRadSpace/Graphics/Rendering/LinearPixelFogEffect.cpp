@@ -20,23 +20,15 @@ void LinearPixelFogEffect::Apply()
 	
 	struct alignas(16) FogData
 	{
-		Color FogColor;
 		float FogBegin;
 		float FogEnd;
+		//float _unused[2];
+		Color FogColor;
 	} fogData;
 
 	fogData.FogColor = FogColor;
 	fogData.FogBegin = FogBegin;
 	fogData.FogEnd = FogEnd;
 
-	this->SetData(0, &fogData, sizeof(FogData));
-
-	auto depthBuffer = _device->GetDepthBuffer().GetDepthTexture();
-	
-	auto backbuffer = _device->GetBackBuffer();
-	Texture2D& backBuffer = *backbuffer;
-
-	std::array<Texture2D*, 2> textures = { &backBuffer, depthBuffer};
-
-	this->SetTextures(textures);
+	this->SetData(0, &fogData, sizeof(fogData));
 }

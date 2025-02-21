@@ -119,7 +119,7 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, unsigned width, unsigne
 		VertexPointUV{b, uv_b},
 		VertexPointUV{c, uv_c},
 
-		VertexPointUV{c, uv_a},
+		VertexPointUV{c, uv_c},
 		VertexPointUV(d, uv_d),
 		VertexPointUV{a, uv_a}
 	};

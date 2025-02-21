@@ -5,7 +5,9 @@ using namespace Engine3DRadSpace::Graphics::Rendering;
 PostProcessCollection::PostProcessCollection(GraphicsDevice* device):
 	_device(device)
 {
-	_effectRT = std::make_unique<RenderTarget>(device);
+	//TODO - Get the backbuffer and depth buffer format from the device, don't hardcode them.
+	_backbuffer_cpy = std::make_unique<Texture2D>(device, device->Resolution().X, device->Resolution().Y, PixelFormat::R16G16B16A16_Float);
+	_depthbuffer_cpy = std::make_unique<Texture2D>(std::move(device->GetDepthBuffer().CloneDepthTexture()));
 }
 
 size_t PostProcessCollection::Length() const noexcept
@@ -17,6 +19,10 @@ void PostProcessCollection::ApplyAll()
 {
 	for(auto& effect : _effects)
 	{
+		_device->UnbindRenderTargetAndDepth();
+		Texture2D::Copy(_backbuffer_cpy.get(), _device->GetBackBufferTexture());
+		Texture2D::Copy(_depthbuffer_cpy.get(), _device->GetDepthBuffer().GetDepthTexture());
+
 		effect->Apply();
 		_device->SetRenderTargetAndDisableDepth(nullptr);
 		effect->Draw();

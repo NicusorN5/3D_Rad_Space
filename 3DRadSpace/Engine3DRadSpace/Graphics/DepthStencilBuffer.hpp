@@ -14,6 +14,10 @@ namespace Engine3DRadSpace::Graphics
 	{
 #ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilView> _depthView;
+
+		D3D11_TEXTURE2D_DESC _defaultDepthDesc();
+		D3D11_DEPTH_STENCIL_VIEW_DESC _defaultDepthViewDesc();
+		D3D11_SHADER_RESOURCE_VIEW_DESC _defaultShaderViewDesc();
 #endif
 		std::unique_ptr<Texture2D> _depthTexture;
 		GraphicsDevice *_device;
@@ -47,6 +51,8 @@ namespace Engine3DRadSpace::Graphics
 		/// </summary>
 		/// <returns>Depth Stencil texture pointer.</returns>
 		Texture2D* GetDepthTexture() const noexcept;
+
+		Texture2D CloneDepthTexture();
 
 		~DepthStencilBuffer() = default;
 

@@ -178,10 +178,11 @@ void SpriteBatch::_drawAllEntries_SortByTexture()
 
 			auto indices = _createIndexQuad(i);
 			currentIndices.insert(currentIndices.end(), indices.begin(), indices.end());
-			i += 4;
+			i += 4; //4 vertices per quad
 		}
 		else
 		{
+			//Resize vertex and index GPU buffers when switching texture
 			if (currentVertices.size() > _capacity * 4) //if capacity is exceeded, reallocate:
 			{
 				_capacity *= 2; //growth factor
@@ -190,8 +191,9 @@ void SpriteBatch::_drawAllEntries_SortByTexture()
 				_indexBuffer = std::make_unique<IndexBuffer>(_device, nullptr, _capacity * 6);
 			}
 
+			lastID = entry.textureID;
 			_spriteShader->SetTexture(_textures[entry.textureID]);
-			//draw();
+			draw();
 
 			currentVertices.clear();
 		}

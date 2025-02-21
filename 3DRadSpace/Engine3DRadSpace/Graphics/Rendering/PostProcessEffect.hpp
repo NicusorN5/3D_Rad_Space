@@ -26,8 +26,6 @@ namespace Engine3DRadSpace::Graphics::Rendering
 			PostProcessVertex(GraphicsDevice* device, ShaderFeatureLevel fl);
 			std::span<InputLayoutElement> InputLayout() override;
 		} _vertex;
-
-		void _setRenderSurface(GraphicsDevice* device);
 	protected:
 		PostProcessEffect(
 			 GraphicsDevice* device, 
@@ -43,8 +41,8 @@ namespace Engine3DRadSpace::Graphics::Rendering
 			 ShaderFeatureLevel fl = ShaderFeatureLevel::DX_V4
 		 );
 
-		std::shared_ptr<RenderTarget> _renderSurface;
-		std::shared_ptr<Texture2D> _bkbuff_cpy;
+		Texture2D* _backbuffer_copy;
+		Texture2D* _depthBuffer_copy;
 	public:
 		/// <summary>
 		/// Is this effect enabled?
@@ -60,6 +58,8 @@ namespace Engine3DRadSpace::Graphics::Rendering
 		/// </summary>
 		void Draw();
 
-		virtual ~PostProcessEffect();
+		virtual ~PostProcessEffect() = default;
+
+		friend class PostProcessCollection;
 	};
 }

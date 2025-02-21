@@ -7,6 +7,10 @@
 namespace Engine3DRadSpace::Graphics
 {
 	class DepthStencilBuffer;
+	/// <summary>
+	/// Represents a 2D texture.
+	/// <remarks>
+	/// </remarks>
 	class DLLEXPORT Texture2D : public Content::IAsset
 	{
 		unsigned _width;
@@ -37,12 +41,54 @@ namespace Engine3DRadSpace::Graphics
 		explicit Texture2D(GraphicsDevice *device, std::monostate dummy, bool bindRenderTarget, PixelFormat format = PixelFormat::R32G32B32A32_Float);
 		explicit Texture2D(Internal::AssetUUIDReader);
 	public:
+		/// <summary>
+		/// Loads a texture from a file.
+		/// </summary>
+		/// <param name="device">Device context</param>
+		/// <param name="path">Image file</param>
 		Texture2D(GraphicsDevice* device, const std::filesystem::path& path);
 
+		/// <summary>
+		/// Creates a texture from a span of Colors.
+		/// </summary>
+		/// <param name="device">Device context.</param>
+		/// <param name="colors">Color array. Size must be x * y.</param>
+		/// <param name="x">Width of the texture</param>
+		/// <param name="y">Height</param>
 		explicit Texture2D(GraphicsDevice *device, std::span<Color> colors, unsigned x, unsigned y);
+		/// <summary>
+		/// Creates a texture from a Color array.
+		/// <param name="device">Device context.</param>
+		/// <param name="colors">Color array. Size must be x * y.</param>
+		/// <pram name="x">Width of the texture.</param>
+		/// <param name="y">Height of the texture.</param>
 		explicit Texture2D(GraphicsDevice *device, Color* colors, unsigned x, unsigned y);
+		/// <summary>
+		/// Creates a texture from a buffer with a specified pixel format.
+		/// </summary>
+		/// <param name="device">Device context.</param>
+		/// <param name="colors">Color array. Size must be x * y.</param>
+		/// <pram name="x">Width of the texture.</param>
+		/// <param name="y">Height of the texture.</param>
+		/// <param name="format">Pixel format.</param>
 		explicit Texture2D(GraphicsDevice *device, void* buffer, unsigned x, unsigned y, PixelFormat format = PixelFormat::R32G32B32A32_Float);
+		/// <summary>
+		/// Creates a texture from an image buffer.
+		/// </summary>
+		/// <param name="device">Device context.</param>
+		/// <param name="imageBuffer">Must be an image.</param>
+		/// <param name="size">Size of the buffer.</param>
+		/// <remarks>
+		/// This calls CreateWICTextureFromMemory.
+		/// </remarks>
 		explicit Texture2D(GraphicsDevice *device, const uint8_t* imageBuffer, size_t size);
+		/// <summary>
+		/// Creates a texture with specified width, height and format, but unspecified initial data.
+		/// </summary>
+		/// <param name="device">Device context.</param>
+		/// <param name="x">Width</param>
+		/// <param name="y">Height</param>
+		/// <param name="format">Pixel format</param>
 		explicit Texture2D(GraphicsDevice *device, unsigned x, unsigned y, PixelFormat format = PixelFormat::R32G32B32A32_Float);
 
 		Texture2D(const Texture2D &) = delete;
@@ -52,6 +98,11 @@ namespace Engine3DRadSpace::Graphics
 		Texture2D& operator=(Texture2D&&) noexcept = default;
 
 		void SetColors(Color** colors, unsigned x, unsigned y);
+		/// <summary>
+		/// Resizes the texture using nearest neighbor interpolation.
+		/// </summary>
+		/// <param name="newX">New width</param>
+		/// <param name="newY">New height</param>
 		void Resize(unsigned newX, unsigned newY);
 
 		void SaveToFile(const std::string &path);
@@ -62,6 +113,8 @@ namespace Engine3DRadSpace::Graphics
 
         static Texture2D CreateStaging(Texture2D* texture);
         Texture2D Clone();
+
+		static void Copy(Texture2D* destination, Texture2D* source);
 
 		void* TextureHandle() const noexcept;
 		void* ResourceViewHandle() const noexcept;

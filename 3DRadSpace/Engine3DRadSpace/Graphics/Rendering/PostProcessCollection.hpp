@@ -13,7 +13,8 @@ namespace Engine3DRadSpace::Graphics::Rendering
 		GraphicsDevice* _device;
 		std::vector<std::unique_ptr<PostProcessEffect>> _effects;
 
-		std::unique_ptr<RenderTarget> _effectRT;
+		std::unique_ptr<Texture2D> _backbuffer_cpy;
+		std::unique_ptr<Texture2D> _depthbuffer_cpy;
 	public:
 		/// <summary>
 		/// Instantiates the list of effects.
@@ -42,7 +43,14 @@ namespace Engine3DRadSpace::Graphics::Rendering
 				}
 			}
 
-			_effects.push_back(std::make_unique<E>(_device));
+			auto effect = std::make_unique<E>(_device);
+
+			auto ref = static_cast<PostProcessEffect*>(effect.get());
+			//ref->_output = _output.get();
+			ref->_backbuffer_copy = _backbuffer_cpy.get();
+			ref->_depthBuffer_copy = _depthbuffer_cpy.get();
+
+			_effects.emplace_back(std::move(effect));
 			return *dynamic_cast<E*>(_effects[_effects.size() - 1].get());
 		}
 

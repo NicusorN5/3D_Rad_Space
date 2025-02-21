@@ -16,13 +16,13 @@ using namespace Engine3DRadSpace::Math;
 
 //using namespace AngelScript;
 
-void AngelScriptWrapper_MessageCallback(const AngelScript::asSMessageInfo* msg, void* param)
+void AngelScriptWrapper_MessageCallback(const asSMessageInfo* msg, void* param)
 {
-	if(msg->type == AngelScript::asMSGTYPE_WARNING)
+	if(msg->type == asMSGTYPE_WARNING)
 		SetLastWarning(std::format("({}, {}) : Warning {}", msg->section, msg->row, msg->col, msg->message));
-	else if(msg->type == AngelScript::asMSGTYPE_INFORMATION)
+	else if(msg->type == asMSGTYPE_INFORMATION)
 		SetLastMessage(std::format("({}, {}) : Information {}", msg->section, msg->row, msg->col, msg->message));
-	if(msg->type == AngelScript::asMSGTYPE_ERROR)
+	if(msg->type == asMSGTYPE_ERROR)
 		SetLastWarning(std::format("({}, {}) : Error {}", msg->section, msg->row, msg->col, msg->message));
 }
 
