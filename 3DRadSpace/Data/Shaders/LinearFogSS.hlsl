@@ -17,6 +17,6 @@ cbuffer FogInfo : register(b0)
 
 float4 PS_Main(VertexOut v) : SV_TARGET
 {
-    return Main.Sample(TextureSampler, v.UV) * float4(1,0,0,1) + //color component
-    FogColor * saturate((FogEnd - Depth.Sample(TextureSampler, v.UV) / (FogEnd - FogBegin))); //linear fog component
+    //float4 fog = FogColor * saturate((FogEnd - Depth.Sample(TextureSampler, v.UV).r / (FogEnd - FogBegin))); //linear fog component
+    return Main.Sample(TextureSampler, v.UV) * FogColor; //+ fog;
 }

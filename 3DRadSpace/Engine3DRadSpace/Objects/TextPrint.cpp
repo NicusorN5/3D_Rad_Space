@@ -81,6 +81,10 @@ void TextPrint::EditorLoad()
     Load();
 }
 
+void TextPrint::EditorUpdate()
+{
+}
+
 Reflection::UUID TextPrint::GetUUID() const noexcept
 {
     // {12B25ECE-A980-4A58-9388-872AEA9FD2B5}

@@ -33,6 +33,10 @@ void Empty::EditorLoad()
 {
 }
 
+void Empty::EditorUpdate()
+{
+}
+
 Reflection::UUID Empty::GetUUID() const noexcept
 {
 	// {408DFC5D-C1E7-4482-8040-B3C8369E75EC}

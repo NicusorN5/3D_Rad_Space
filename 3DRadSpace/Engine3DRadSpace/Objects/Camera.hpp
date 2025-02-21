@@ -41,6 +41,7 @@ namespace Engine3DRadSpace::Objects
 	
 		void EditorInitialize() override;
 		void EditorLoad() override;
+		void EditorUpdate() override;
 
 		/// <summary>
 		/// Sets the view and projection matrices.

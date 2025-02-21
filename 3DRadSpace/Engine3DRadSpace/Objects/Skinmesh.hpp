@@ -48,6 +48,7 @@ namespace Engine3DRadSpace::Objects
 		Reflection::UUID GetUUID() const noexcept override;
 		void Draw3D() override;
 		void EditorDraw3D(bool selected) override;
+		void EditorUpdate() override;
 		std::optional<float> Intersects(const Math::Ray &r) override;
 
 		~Skinmesh() override = default;

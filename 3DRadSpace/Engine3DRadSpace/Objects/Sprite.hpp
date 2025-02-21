@@ -56,6 +56,7 @@ namespace Engine3DRadSpace::Objects
 
 		void EditorInitialize() override;
 		void EditorLoad() override;
+		void EditorUpdate() override;
 		void EditorDraw2D(bool selected) override;
 		Reflection::UUID GetUUID() const noexcept override;
 

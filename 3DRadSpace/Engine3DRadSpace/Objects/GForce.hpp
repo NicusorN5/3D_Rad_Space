@@ -57,8 +57,12 @@ namespace Engine3DRadSpace::Objects
 		/// <summary>
 		/// Not used. From IObject.
 		/// </summary>
-		/// <param name="content">Not used.</param>
 		void EditorLoad() override;
+		 /// <summary>
+		/// Not used. From IObject.
+		/// </summary>
+		void EditorUpdate() override;
+
 		/// <summary>
 		/// Returns unique identifier used for serialization.
 		/// </summary>

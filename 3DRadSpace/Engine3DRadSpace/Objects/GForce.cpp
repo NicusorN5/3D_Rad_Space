@@ -38,6 +38,10 @@ void GForce::EditorLoad()
 {
 }
 
+void GForce::EditorUpdate()
+{
+}
+
 Reflection::UUID GForce::GetUUID() const noexcept
 {
     // {F671F8DA-03D9-4273-B88E-A0C15A18ACEB}

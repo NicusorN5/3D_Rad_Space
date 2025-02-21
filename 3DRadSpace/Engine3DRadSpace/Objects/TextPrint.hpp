@@ -48,6 +48,7 @@ namespace Engine3DRadSpace::Objects
 		void Load(const std::filesystem::path& path) override;
 		void EditorInitialize() override;
 		void EditorLoad() override;
+		void EditorUpdate() override;
 		Reflection::UUID GetUUID() const noexcept override;
 		void Draw2D() override;
 		void EditorDraw2D(bool selected) override;

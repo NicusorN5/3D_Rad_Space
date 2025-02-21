@@ -46,6 +46,10 @@ public:
 	void EditorDraw3D(bool selected) override
 	{
 	}
+
+	void EditorUpdate() override
+	{
+	}
 	
 	Reflection::UUID GetUUID() const noexcept override
 	{

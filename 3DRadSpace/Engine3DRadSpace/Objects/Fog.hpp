@@ -31,6 +31,7 @@ namespace Engine3DRadSpace::Objects
 
 		void Initialize() override;
 		void EditorInitialize() override;
+		void EditorUpdate() override;
 
 		void Load() override;
 		void Load(const std::filesystem::path& path) override;

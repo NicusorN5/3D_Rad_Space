@@ -34,6 +34,7 @@ namespace Engine3DRadSpace
 
 		virtual void EditorInitialize() = 0;
 		virtual void EditorLoad() = 0;
+		virtual void EditorUpdate() = 0;
 
 		virtual Reflection::UUID GetUUID() const noexcept = 0;
 

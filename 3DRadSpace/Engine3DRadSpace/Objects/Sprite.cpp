@@ -82,6 +82,10 @@ void Sprite::EditorLoad()
 	else _texture = _game->Content->Load<Texture2D>("Data//NoAsset.png");
 }
 
+void Sprite::EditorUpdate()
+{
+}
+
 void Sprite::EditorDraw2D(bool selected)
 {
 	Color nTint = selected ? Colors::Red : TintColor;

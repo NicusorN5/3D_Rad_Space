@@ -34,6 +34,7 @@ namespace Engine3DRadSpace::Objects
 		void EditorLoad() override;
 
 		void Update() override;
+		void EditorUpdate() override;
 
 		void Save();
 

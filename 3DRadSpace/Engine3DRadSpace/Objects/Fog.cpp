@@ -38,6 +38,11 @@ void Fog::EditorInitialize()
 	Initialize();
 }
 
+void Fog::EditorUpdate()
+{
+	Update();
+}
+
 void Fog::EditorLoad()
 {
 }

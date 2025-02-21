@@ -50,8 +50,8 @@ namespace Engine3DRadSpace::Graphics::Rendering
 			ref->_backbuffer_copy = _backbuffer_cpy.get();
 			ref->_depthBuffer_copy = _depthbuffer_cpy.get();
 
-			_effects.emplace_back(std::move(effect));
-			return *dynamic_cast<E*>(_effects[_effects.size() - 1].get());
+			auto &r = _effects.emplace_back(std::move(effect));
+			return *(static_cast<E*>(r.get()));
 		}
 
 		/// <summary>

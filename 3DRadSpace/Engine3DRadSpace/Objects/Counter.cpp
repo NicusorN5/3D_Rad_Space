@@ -71,6 +71,10 @@ void Counter::Update()
 	}
 }
 
+void Counter::EditorUpdate()
+{
+}
+
 Counter::~Counter()
 {
 	Save();

@@ -105,6 +105,10 @@ void Skinmesh::EditorDraw3D(bool selected)
     }
 }
 
+void Skinmesh::EditorUpdate()
+{
+}
+
 std::optional<float> Skinmesh::Intersects(const Ray&r)
 {
     for (auto& mesh : *_model)

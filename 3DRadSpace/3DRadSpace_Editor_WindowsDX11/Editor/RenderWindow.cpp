@@ -66,6 +66,11 @@ Vector2 mouseDelta;
 
 void RenderWindow::Update()
 {
+	for(auto &obj : *Objects)
+	{
+		obj.Object->EditorUpdate();
+	}
+
 	zoom = Mouse.ScrollWheel();
 	if (zoom < -4.0f) zoom = -4.0f;
 

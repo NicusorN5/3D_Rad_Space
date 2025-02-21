@@ -55,6 +55,10 @@ void ExitFade::EditorLoad()
 {
 }
 
+void ExitFade::EditorUpdate()
+{
+}
+
 Reflection::UUID Objects::ExitFade::GetUUID() const noexcept
 {
 	// {1243BB88-6FF5-43AD-97D6-8907FAE54528}

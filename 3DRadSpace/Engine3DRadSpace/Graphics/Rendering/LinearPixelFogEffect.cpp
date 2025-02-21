@@ -22,7 +22,7 @@ void LinearPixelFogEffect::Apply()
 	{
 		float FogBegin;
 		float FogEnd;
-		//float _unused[2];
+		float _padding[2];
 		Color FogColor;
 	} fogData;
 

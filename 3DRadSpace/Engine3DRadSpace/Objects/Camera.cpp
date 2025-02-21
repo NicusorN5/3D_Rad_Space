@@ -33,6 +33,10 @@ void Camera::EditorLoad()
 	}
 }
 
+void Camera::EditorUpdate()
+{
+}
+
 void Camera::Draw3D()
 {
 	Vector3 focus(0, 0, 0);
