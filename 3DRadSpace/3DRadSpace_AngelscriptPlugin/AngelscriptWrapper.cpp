@@ -76,6 +76,51 @@ static void v3dtor(Vector3* v)
 	v->~Vector3();
 }
 
+static void v4ctor_def(Vector4* self)
+{
+	new (self) Vector4();
+}
+
+static void v4ctor(float x, float y, float z, float w, Vector4* self)
+{
+	new (self) Vector4(x, y, z, w);
+}
+
+static void v4ctor_list(float* list, Vector4* self)
+{
+	new (self) Vector4(list[0], list[1], list[2], list[3]);
+}
+
+static void v4ctor_cpy(const Vector4& copy, Vector4 *self)
+{
+	new (self) Vector4(copy);
+}
+
+static void v4dtor(Vector4* self)
+{
+	self->~Vector4();
+}
+
+static void q_ctor_def(Quaternion* self)
+{
+	new (self) Quaternion;
+}
+
+static void q_ctor(float x, float y, float z, float w, Quaternion* self)
+{
+	new (self) Quaternion(x, y, z, w);
+}
+
+static void q_ctor_list(float* list, Quaternion* self)
+{
+	new (self) Quaternion(list[0], list[1], list[2], list[3]);
+}
+
+static void q_ctor_cpy(const Quaternion& copy, Quaternion* self)
+{
+	new (self) Quaternion(copy);
+}
+
 AngelScriptWrapper::AngelScriptWrapper()
 {
 	// Create the script engine
@@ -171,6 +216,86 @@ AngelScriptWrapper::AngelScriptWrapper()
 	r = engine->RegisterObjectMethod("Vector3","Vector3 opDiv(float)", asMETHOD(Vector3,operator/),  asCALL_THISCALL); assert(r >= 0);
 	r = engine->RegisterObjectMethod("Vector3","Vector3 opMul_r(float)",asFUNCTIONPR(operator*,(float, const Vector3&),Vector3), asCALL_CDECL_OBJLAST); assert(r >= 0);
 	r = engine->RegisterObjectMethod("Vector3","Vector3 opDiv_r(float)",asFUNCTIONPR(operator/,(float, const Vector3&),Vector3), asCALL_CDECL_OBJLAST); assert(r >= 0);
+#pragma endregion
+
+#pragma region Vector4
+	r = engine->RegisterObjectType("Vector4", sizeof(Vector4), asOBJ_VALUE | asOBJ_POD); assert(r >= 0);
+
+	//constructors
+	r = engine->RegisterObjectBehaviour("Vector4", asBEHAVE_CONSTRUCT, "void f()", asFUNCTION(v4ctor_def), asCALL_CDECL); assert(r >= 0);
+	r = engine->RegisterObjectBehaviour("Vector4", asBEHAVE_CONSTRUCT, "void f(float, float, float, float)", asFUNCTION(v4ctor), asCALL_CDECL_OBJFIRST); assert(r >= 0);
+	r = engine->RegisterObjectBehaviour("Vector4", asBEHAVE_LIST_CONSTRUCT, "void f(int &in){float, float, float, float}", asFUNCTION(v4ctor_list), asCALL_CDECL_OBJFIRST); assert(r >= 0);
+	r = engine->RegisterObjectBehaviour("Vector4", asBEHAVE_CONSTRUCT, "void f(const Vector4&)", asFUNCTION(v4ctor_cpy), asCALL_CDECL_OBJLAST); assert(r >= 0);
+
+	//fields
+	r = engine->RegisterObjectProperty("Vector4", "float X", asOFFSET(Vector4, X)); assert(r >= 0);
+	r = engine->RegisterObjectProperty("Vector4", "float Y", asOFFSET(Vector4, Y)); assert(r >= 0);
+	r = engine->RegisterObjectProperty("Vector4", "float Z", asOFFSET(Vector4, Z)); assert(r >= 0);
+	r = engine->RegisterObjectProperty("Vector4", "float W", asOFFSET(Vector4, W)); assert(r >= 0);
+
+	//methods
+	r = engine->RegisterObjectMethod("Vector4", "float Length()", asMETHOD(Vector4, Length), asCALL_THISCALL); assert(r >= 0);
+	r = engine->RegisterObjectMethod("Vector4", "float LengthSquared()", asMETHOD(Vector4, LengthSquared), asCALL_THISCALL); assert(r >= 0);
+	r = engine->RegisterObjectMethod("Vector4", "float Dot(const Vector4&)", asMETHODPR(Vector4,Dot,(const Vector4&) const,float), asCALL_CDECL_OBJFIRST); assert(r >= 0);
+	r = engine->RegisterObjectMethod("Vector4", "Vector4& Normalize()", asMETHODPR(Vector4, Normalize,(),Vector4&), asCALL_THISCALL); assert(r >= 0);
+	r = engine->RegisterObjectMethod("Vector4", "Vector4& Hadamard(const Vector4&)", asMETHODPR(Vector4, Hadamard, (const Vector4&), Vector4&),  asCALL_THISCALL); assert(r >= 0);
+	r = engine->RegisterObjectMethod("Vector4", "Vector4& Transform(const Matrix4x4&)", asMETHODPR(Vector4, Transform, (const Matrix4x4&), Vector4&),  asCALL_THISCALL); assert(r >= 0);
+	//r = engine->RegisterObjectMethod("Vector4", "Vector3& Transform(const Quaternion&)", asMETHODPR(Vector4, Transform, (const Quaternion&), Vector3&),  asCALL_THISCALL); assert(r >= 0);
+
+	//operators
+	r = engine->RegisterObjectMethod("Vector4","Vector4 opNeg()", asMETHODPR(Vector4, operator-,(),Vector4&),  asCALL_THISCALL); assert(r >= 0);
+	r = engine->RegisterObjectMethod("Vector4","Vector4& opAddAssign(const Vector4&)", asMETHOD(Vector4, operator+=),  asCALL_THISCALL); assert(r >= 0);
+	r = engine->RegisterObjectMethod("Vector4","Vector4& opSubAssign(const Vector4&)", asMETHOD(Vector4, operator-=),  asCALL_THISCALL); assert(r >= 0);
+	r = engine->RegisterObjectMethod("Vector4","Vector4& opMulAssign(float)", asMETHOD(Vector4, operator*=),  asCALL_THISCALL); assert(r >= 0);
+	r = engine->RegisterObjectMethod("Vector4","Vector4& opDivAssign(float)", asMETHOD(Vector4, operator/=),  asCALL_THISCALL); assert(r >= 0);
+	r = engine->RegisterObjectMethod("Vector4","Vector4& opDivAssign(float)", asMETHOD(Vector4, operator/=),  asCALL_THISCALL); assert(r >= 0);
+	r = engine->RegisterObjectMethod("Vector4","Vector4 opAdd(const Vector4&)", asMETHOD(Vector4,operator+),  asCALL_THISCALL); assert(r >= 0);
+	r = engine->RegisterObjectMethod("Vector4","Vector4 opSub(const Vector4&)", asMETHODPR(Vector4,operator-,(const Vector4&) const,Vector4),  asCALL_THISCALL); assert(r >= 0);
+	r = engine->RegisterObjectMethod("Vector4","Vector4 opMul(float)", asMETHODPR(Vector4,operator*,(float) const,Vector4),  asCALL_THISCALL); assert(r >= 0);
+	r = engine->RegisterObjectMethod("Vector4","Vector4 opDiv(float)", asMETHOD(Vector4,operator/),  asCALL_THISCALL); assert(r >= 0);
+	r = engine->RegisterObjectMethod("Vector4","Vector4 opMul_r(float)",asFUNCTIONPR(operator*,(float, const Vector4&),Vector4), asCALL_CDECL_OBJLAST); assert(r >= 0);
+	r = engine->RegisterObjectMethod("Vector4","Vector4 opDiv_r(float)",asFUNCTIONPR(operator/,(float, const Vector4&),Vector4), asCALL_CDECL_OBJLAST); assert(r >= 0);
+#pragma endregion
+
+#pragma region Quaternion
+	r = engine->RegisterObjectType("Quaternion", sizeof(Quaternion), asOBJ_VALUE | asOBJ_POD); assert(r >= 0);
+
+	//constructors
+	r = engine->RegisterObjectBehaviour("Quaternion", asBEHAVE_CONSTRUCT, "void f()", asFUNCTION(q_ctor_def), asCALL_CDECL); assert(r >= 0);
+	r = engine->RegisterObjectBehaviour("Quaternion", asBEHAVE_CONSTRUCT, "void f(float, float, float, float)", asFUNCTION(q_ctor), asCALL_CDECL_OBJLAST); assert(r >= 0);
+	r = engine->RegisterObjectBehaviour("Quaternion", asBEHAVE_LIST_CONSTRUCT, "void f(int &in){float, float, float, float}", asFUNCTION(q_ctor_list), asCALL_CDECL_OBJLAST); assert(r >= 0);
+	r = engine->RegisterObjectBehaviour("Quaternion", asBEHAVE_CONSTRUCT, "void f(const Quaternion&)", asFUNCTION(q_ctor_cpy), asCALL_CDECL_OBJLAST); assert(r >= 0);
+
+	//fields
+	r = engine->RegisterObjectProperty("Quaternion", "float X", asOFFSET(Quaternion, X)); assert(r >= 0);
+	r = engine->RegisterObjectProperty("Quaternion", "float Y", asOFFSET(Quaternion, Y)); assert(r >= 0);
+	r = engine->RegisterObjectProperty("Quaternion", "float Z", asOFFSET(Quaternion, Z)); assert(r >= 0);
+	r = engine->RegisterObjectProperty("Quaternion", "float W", asOFFSET(Quaternion, W)); assert(r >= 0);
+
+	//methods
+	r = engine->RegisterObjectMethod("Quaternion", "float Length()", asMETHOD(Quaternion, Length), asCALL_THISCALL); assert(r >= 0);
+	r = engine->RegisterObjectMethod("Quaternion", "float LengthSquared()", asMETHOD(Quaternion, LengthSquared), asCALL_THISCALL); assert(r >= 0);
+	r = engine->RegisterObjectMethod("Quaternion", "float Dot(const Quaternion&)", asMETHODPR(Quaternion,Dot,(const Quaternion&) const,float), asCALL_THISCALL); assert(r >= 0);
+	r = engine->RegisterObjectMethod("Quaternion", "Quaternion& Normalize()", asMETHODPR(Quaternion, Normalize,(),Quaternion&), asCALL_THISCALL); assert(r >= 0);
+	r = engine->RegisterObjectMethod("Quaternion", "Quaternion& Hadamard(const Quaternion&)", asMETHODPR(Quaternion, Hadamard, (const Quaternion&), Quaternion&),  asCALL_THISCALL); assert(r >= 0);
+
+	//operators
+	r = engine->RegisterObjectMethod("Quaternion","Quaternion opNeg()", asMETHODPR(Quaternion, operator-,(),Quaternion&),  asCALL_THISCALL); assert(r >= 0);
+	r = engine->RegisterObjectMethod("Quaternion","Quaternion& opAddAssign(const Quaternion&)", asMETHOD(Quaternion, operator+=),  asCALL_THISCALL); assert(r >= 0);
+	r = engine->RegisterObjectMethod("Quaternion","Quaternion& opSubAssign(const Quaternion&)", asMETHOD(Quaternion, operator-=),  asCALL_THISCALL); assert(r >= 0);
+	r = engine->RegisterObjectMethod("Quaternion","Quaternion& opMulAssign(float)", asMETHODPR(Quaternion, operator*=, (const Quaternion&), Quaternion&),  asCALL_THISCALL); assert(r >= 0);
+	r = engine->RegisterObjectMethod("Quaternion","Quaternion& opDivAssign(float)", asMETHOD(Quaternion, operator/=),  asCALL_THISCALL); assert(r >= 0);
+	r = engine->RegisterObjectMethod("Quaternion","Quaternion& opDivAssign(float)", asMETHOD(Quaternion, operator/=),  asCALL_THISCALL); assert(r >= 0);
+	r = engine->RegisterObjectMethod("Quaternion","Quaternion opAdd(const Quaternion&)", asMETHOD(Quaternion,operator+),  asCALL_THISCALL); assert(r >= 0);
+	r = engine->RegisterObjectMethod("Quaternion","Quaternion opSub(const Quaternion&)", asMETHODPR(Quaternion,operator-,(const Quaternion&) const,Quaternion),  asCALL_THISCALL); assert(r >= 0);
+	r = engine->RegisterObjectMethod("Quaternion","Quaternion opMul(float)", asMETHODPR(Quaternion,operator*,(float) const,Quaternion),  asCALL_THISCALL); assert(r >= 0);
+	r = engine->RegisterObjectMethod("Quaternion","Quaternion opDiv(float)", asMETHOD(Quaternion,operator/),  asCALL_THISCALL); assert(r >= 0);
+	r = engine->RegisterObjectMethod("Quaternion","Quaternion opMul_r(float)",asFUNCTIONPR(operator*,(float, const Quaternion&),Quaternion), asCALL_CDECL_OBJLAST); assert(r >= 0);
+	r = engine->RegisterObjectMethod("Quaternion","Quaternion opDiv_r(float)",asFUNCTIONPR(operator/,(float, const Quaternion&),Quaternion), asCALL_CDECL_OBJLAST); assert(r >= 0);
+#pragma endregion
+
+#pragma region Matrix3x3
+	r = engine->RegisterObjectType("Matrix3x3", sizeof(Matrix3x3), asOBJ_VALUE | asOBJ_POD); assert(r >= 0);
 #pragma endregion
 
 #pragma region Legacy

@@ -21,11 +21,12 @@ namespace Engine3DRadSpace::Math
 		static Quaternion FromVectorToVector(const Vector3& a, const Vector3& b);
 
 		float Length() const noexcept;
-		Quaternion Normalize();
-		Quaternion Conjugate() noexcept;
-		Quaternion Inverse();
+		float LengthSquared() const noexcept;
+		Quaternion& Normalize();
+		Quaternion& Conjugate() noexcept;
+		Quaternion& Inverse();
 
-		float Dot(const Quaternion& q);
+		float Dot(const Quaternion& q) const noexcept;
 		static float Dot(const Quaternion& a, const Quaternion& b);
 
 		float& Re() noexcept;
@@ -34,22 +35,29 @@ namespace Engine3DRadSpace::Math
 		
 		Vector3 ToYawPitchRoll() const;
 
+		Quaternion& Hadamard(const Quaternion& q);
+
+		Quaternion& operator-() noexcept;
+
 		Quaternion operator +(const Quaternion& q) const noexcept;
-		Quaternion operator +=(const Quaternion& q) noexcept;
+		Quaternion& operator +=(const Quaternion& q) noexcept;
 
 		Quaternion operator -(const Quaternion& q) const noexcept;
-		Quaternion& operator-(const Quaternion& q) noexcept;
+		Quaternion& operator -=(const Quaternion& q) noexcept;
 
 		Quaternion operator *(const Quaternion& q) const noexcept;
-		Quaternion operator *=(const Quaternion& q) noexcept;
+		Quaternion& operator *=(const Quaternion& q) noexcept;
+
+		Quaternion operator*(float s) const noexcept;
+		Quaternion& operator *=(float s) noexcept;
 
 		Quaternion operator /(float s) const;
-		Quaternion operator /=(float s);
+		Quaternion& operator /=(float s);
 
 		auto operator <=>(const Quaternion& q) const noexcept = default;
 	};
 
-	Quaternion operator /(float f, const Quaternion& q);
-	Quaternion operator *(float s, const Quaternion& q) noexcept;
+	Quaternion DLLEXPORT operator /(float f, const Quaternion& q);
+	Quaternion DLLEXPORT operator *(float s, const Quaternion& q) noexcept;
 }
 

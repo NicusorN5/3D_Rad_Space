@@ -24,19 +24,31 @@ Texture2D::Texture2D(GraphicsDevice* device, const std::filesystem::path &path):
 #ifdef USING_DX11
 	ID3D11Resource** resource = reinterpret_cast<ID3D11Resource**>(_texture.GetAddressOf());
 
-	HRESULT r = DirectX::CreateWICTextureFromFile(
+	HRESULT r = DirectX::CreateWICTextureFromFileEx(
 		device->_device.Get(),
 		device->_context.Get(),
 		filename.c_str(),
+		0u,
+		D3D11_USAGE_DEFAULT,
+		D3D11_BIND_SHADER_RESOURCE,
+		D3D11_CPU_ACCESS_WRITE,
+		0,
+		DirectX::DX11::WIC_LOADER_FORCE_SRGB,
 		resource,
 		_resourceView.GetAddressOf()
 	);
 	if (FAILED(r))
 	{
-		r = DirectX::CreateDDSTextureFromFile(
+		r = DirectX::CreateDDSTextureFromFileEx(
 			device->_device.Get(),
 			device->_context.Get(),
 			filename.c_str(),
+			0,
+			D3D11_USAGE_DEFAULT,
+			D3D11_BIND_SHADER_RESOURCE,
+			D3D11_CPU_ACCESS_WRITE,
+			0,
+			DirectX::DX11::DDS_LOADER_FLAGS::DDS_LOADER_FORCE_SRGB,
 			resource,
 			_resourceView.GetAddressOf()
 		);

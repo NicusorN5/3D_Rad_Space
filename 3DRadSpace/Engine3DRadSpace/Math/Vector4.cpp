@@ -37,6 +37,16 @@ float Vector4::LengthSquared() const
 	return X * X + Y * Y + Z * Z + W * W;
 }
 
+Vector4& Engine3DRadSpace::Math::Vector4::Normalize()
+{
+	float l = Length();
+	X /= l;
+	Y /= l;
+	Z /= l;
+	W /= l;
+	return *this;
+}
+
 float Vector4::Dot(const Vector4& a, const Vector4& b)
 {
 	return a.X * b.X + a.Y * b.Y + a.Z * b.Z + a.W * b.W;

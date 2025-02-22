@@ -19,6 +19,8 @@ namespace Engine3DRadSpace::Math
 		float Length() const;
 		float LengthSquared() const;
 
+		Vector4& Normalize();
+
 		static float Dot(const Vector4& a, const Vector4 &b);
 		float Dot(const Vector4& v) const;
 
@@ -46,6 +48,6 @@ namespace Engine3DRadSpace::Math
 		auto operator <=>(const Vector4& v) const = default;
 	};
 
-	Vector4 operator *(float scalar, const Vector4& v);
-	Vector4 operator /(float scalar, const Vector4& v);
+	Vector4 DLLEXPORT operator *(float scalar, const Vector4& v);
+	Vector4 DLLEXPORT operator /(float scalar, const Vector4& v);
 }

@@ -45,3 +45,6 @@ target_include_directories(3DRadSpace-editor PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
 #Nlohmann JSON
 find_package(nlohmann_json CONFIG REQUIRED)
 target_link_libraries(3DRadSpace-editor PRIVATE nlohmann_json::nlohmann_json)
+
+#Copy assets
+#file(COPY ../Data DESTINATION ${CMAKE_BINARY_DIR})

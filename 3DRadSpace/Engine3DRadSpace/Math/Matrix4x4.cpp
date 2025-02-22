@@ -164,12 +164,13 @@ Matrix4x4 Matrix4x4::CreatePerspectiveProjection(float aspectRatio, float FOV, f
 	float h = 1.0f / tan(FOV * 0.5f);
 	float w = h / aspectRatio;
 	float a = fpd / (npd - fpd);
+	float b = npd * a;
 
 	return Matrix4x4(
 		w, 0, 0, 0,
 		0, h, 0, 0,
 		0, 0, a, -1,
-		0, 0, npd * a, 0
+		0, 0, b, 0
 	);
 }
 

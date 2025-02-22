@@ -35,7 +35,7 @@ void PostProcessEffect::Apply()
 	_device->SetShader(&_vertex);
 
 	this->SetTexture(0, _backbuffer_copy);
-	this->SetTexture(1, _depthBuffer_copy);
+	this->SetTexture(1, _device->GetDepthBuffer().GetDepthTexture());
 	SetShader();
 }
 

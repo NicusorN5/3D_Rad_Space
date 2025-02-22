@@ -90,13 +90,18 @@ float Quaternion::Length() const noexcept
     return sqrtf((X * X) + (Y * Y) + (Z * Z) + (W * W));
 }
 
-Quaternion Quaternion::Normalize()
+float Quaternion::LengthSquared() const noexcept
+{
+    return (X * X) + (Y * Y) + (Z * Z) + (W * W);
+}
+
+Quaternion& Quaternion::Normalize()
 {
     *this /= Length();
     return *this;
 }
 
-Quaternion Quaternion::Conjugate() noexcept
+Quaternion& Quaternion::Conjugate() noexcept
 {
     this->X *= -1;
     this->Y *= -1;
@@ -104,7 +109,7 @@ Quaternion Quaternion::Conjugate() noexcept
     return *this;
 }
 
-Quaternion Quaternion::Inverse()
+Quaternion& Quaternion::Inverse()
 {
     float num2 = Dot(*this);
     float num = 1.0f / num2;
@@ -115,7 +120,7 @@ Quaternion Quaternion::Inverse()
     return *this;
 }
 
-float Quaternion::Dot(const Quaternion& q)
+float Quaternion::Dot(const Quaternion& q) const noexcept
 {
     return X * q.X + Y * q.Y + Z * q.Z + W * q.W;
 }
@@ -163,6 +168,24 @@ Vector3 Quaternion::ToYawPitchRoll() const
     return r;
 }
 
+Quaternion& Quaternion::Hadamard(const Quaternion& q)
+{
+    X *= q.X;
+    Y *= q.Y;
+    Z *= q.Z;
+    W *= q.W;
+    return *this;
+}
+
+Quaternion& Quaternion::operator-() noexcept
+{
+    X *= -1;
+    Y *= -1;
+    Z *= -1;
+    W *= -1;
+    return *this;
+}
+
 Quaternion Quaternion::operator+(const Quaternion &q) const noexcept
 {
     return Quaternion
@@ -174,7 +197,7 @@ Quaternion Quaternion::operator+(const Quaternion &q) const noexcept
     };
 }
 
-Quaternion Quaternion::operator+=(const Quaternion &q) noexcept
+Quaternion& Quaternion::operator+=(const Quaternion &q) noexcept
 {
     X += q.X;
     Y += q.Y;
@@ -184,7 +207,7 @@ Quaternion Quaternion::operator+=(const Quaternion &q) noexcept
     return *this;
 }
 
-Quaternion Engine3DRadSpace::Math::Quaternion::operator-(const Quaternion& q) const noexcept
+Quaternion Quaternion::operator-(const Quaternion& q) const noexcept
 {
     return Quaternion{
         X - q.X,
@@ -194,7 +217,7 @@ Quaternion Engine3DRadSpace::Math::Quaternion::operator-(const Quaternion& q) co
     };
 }
 
-Quaternion& Engine3DRadSpace::Math::Quaternion::operator-(const Quaternion& q) noexcept
+Quaternion& Quaternion::operator -=(const Quaternion& q) noexcept
 {
     X -= q.X;
     Y -= q.Y;
@@ -217,7 +240,7 @@ Quaternion Quaternion::operator*(const Quaternion& q) const noexcept
     return r;
 }
 
-Quaternion Quaternion::operator*=(const Quaternion &q) noexcept
+Quaternion& Quaternion::operator*=(const Quaternion &q) noexcept
 {
     Quaternion cpy;
     cpy.W = W * q.W - X * q.X - Y * q.Y - Z * q.Z;
@@ -226,6 +249,25 @@ Quaternion Quaternion::operator*=(const Quaternion &q) noexcept
     cpy.Z = W * q.Z + X * q.Y - Y * q.Z + Z * q.W;
 
     return *this = cpy;
+}
+
+Quaternion Quaternion::operator*(float s) const noexcept
+{
+    return Quaternion(
+        X * s,   
+        Y * s,   
+        Z * s,   
+        W * s  
+    );
+}
+
+Quaternion& Quaternion::operator*=(float s) noexcept
+{
+    X *= s;
+    Y *= s;
+    Z *= s;
+    W *= s;
+    return *this;
 }
 
 Quaternion Quaternion::operator/(float s) const
@@ -237,7 +279,7 @@ Quaternion Quaternion::operator/(float s) const
         this->W / s);
 }
 
-Quaternion Quaternion::operator/=(float s)
+Quaternion& Quaternion::operator/=(float s)
 {
     X /= s;
     Y /= s;
