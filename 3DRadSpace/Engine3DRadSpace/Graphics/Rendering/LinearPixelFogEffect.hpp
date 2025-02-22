@@ -35,6 +35,15 @@ namespace Engine3DRadSpace::Graphics::Rendering
 		float FogEnd;
 
 		/// <summary>
+		/// Used to linearlize the depth buffer.
+		/// </summary>
+		float NearPlaneDistance;
+		/// <summary>
+		/// Used to linearlize the depth buffer.
+		/// </summary>
+		float FarPlaneDistance;
+
+		/// <summary>
 		/// Applies this effect to the render target.
 		/// </summary>
 		void Apply() override;

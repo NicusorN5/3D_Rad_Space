@@ -2,6 +2,7 @@
 #include "../Reflection/Reflection.hpp"
 #include "../Graphics/Model3D.hpp"
 #include "../Game.hpp"
+#include "../ObjectList.hpp"
 
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Objects;
@@ -21,6 +22,7 @@ Camera::Camera(const std::string& name, bool visible, Vector3 pos, Vector3 look_
 
 void Camera::EditorInitialize()
 {
+	Update();
 }
 
 static std::unique_ptr<Model3D> cameraModel;
@@ -35,6 +37,7 @@ void Camera::EditorLoad()
 
 void Camera::EditorUpdate()
 {
+	Update();
 }
 
 void Camera::Draw3D()
@@ -54,9 +57,13 @@ void Camera::Draw3D()
 	
 	_game->View = Matrix4x4::CreateLookAtView(Position, focus, UpwardsDir);
 	_game->Projection = Matrix4x4::CreatePerspectiveProjection(AspectRatio, FieldOfView, NearPlaneDistance, FarPlaneDistance);
+	Update();
 }
 
-void Camera::Update() { } //Do nothing
+void Camera::Update() 
+{ 
+	_game->Objects->_camera = this;
+}
 
 Matrix4x4 Camera::GetModelMartix()
 {
@@ -65,6 +72,7 @@ Matrix4x4 Camera::GetModelMartix()
 
 void Camera::EditorDraw3D(bool selected)
 {
+	Update();
 	cameraModel->Draw(GetModelMartix(), _game->View, _game->Projection);
 }
 
@@ -85,6 +93,7 @@ Engine3DRadSpace::Reflection::UUID Camera::GetUUID() const noexcept
 
 void Camera::Initialize()
 {
+	Update();
 }
 
 void Camera::Load()
@@ -100,6 +109,9 @@ Camera::~Camera()
 	//Deallocate camera model early, to avoid DirectX debug layer STATE_CREATION warnings, despite the Camera editor model being a std::unique_ptr.
 	if (cameraModel != nullptr)
 		cameraModel.reset();
+
+	//Remove the camera reference from the game object list.
+	if(_game) _game->Objects->_camera = nullptr;
 }
 
 REFL_BEGIN(Camera,"Camera","Camera objects","Perspective camera")

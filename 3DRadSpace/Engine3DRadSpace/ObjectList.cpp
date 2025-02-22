@@ -158,3 +158,8 @@ ObjectList::ObjectInstance::ObjectInstance(IObject* obj)
 	if (dynamic_cast<IObject2D*>(ptr) != nullptr) InternalType = ObjectType::IObject2D;
 	else if (dynamic_cast<IObject3D*>(ptr) != nullptr)  InternalType = ObjectType::IObject3D;
 }
+
+Objects::Camera* ObjectList::GetRenderingCamera()
+{
+	return this->_camera;
+}

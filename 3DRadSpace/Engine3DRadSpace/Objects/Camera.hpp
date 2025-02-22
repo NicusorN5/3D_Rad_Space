@@ -49,7 +49,7 @@ namespace Engine3DRadSpace::Objects
 		void Draw3D() override;
 
 		/// <summary>
-		/// Not used.
+		/// Sets an internal reference in Game::Objects list.
 		/// </summary>
 		void Update() override;
 

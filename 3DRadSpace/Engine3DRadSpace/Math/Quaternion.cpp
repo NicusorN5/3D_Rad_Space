@@ -18,6 +18,7 @@ Quaternion Quaternion::FromYawPitchRoll(float yaw, float pitch, float roll)
     q.X = sr * cp * cy - cr * sp * sy;
     q.Y = cr * sp * cy + sr * cp * sy;
     q.Z = cr * cp * sy - sr * sp * cy;
+
     return q;
 }
 
@@ -111,12 +112,11 @@ Quaternion& Quaternion::Conjugate() noexcept
 
 Quaternion& Quaternion::Inverse()
 {
-    float num2 = Dot(*this);
-    float num = 1.0f / num2;
-    X = -X * num;
-    Y = -Y * num;
-    Z = -Z * num;
-    W = W * num;
+    float invdot = 1.0f / Dot(*this);
+    X = -X * invdot;
+    Y = -Y * invdot;
+    Z = -Z * invdot;
+    W = W * invdot;
     return *this;
 }
 

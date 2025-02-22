@@ -111,7 +111,7 @@ Texture2D DepthStencilBuffer::CloneDepthTexture()
 	HRESULT r = _device->_device->CreateTexture2D(&desc, nullptr, newDepthTexture.GetAddressOf());
 	if(FAILED(r)) throw Exception("Failed to create the depth texture!");
 
-	r = _device->_device->CreateShaderResourceView(newDepthTexture.Get(), &viewDesc, texture._resourceView.GetAddressOf());
+	r = _device->_device->CreateShaderResourceView(newDepthTexture.Get(), &viewDesc, srv.GetAddressOf());
 	if(FAILED(r)) throw Exception("Failed to create the depth stencil shader resource view!");
 
 	texture._texture = std::move(newDepthTexture);

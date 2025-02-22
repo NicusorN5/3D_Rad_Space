@@ -1,10 +1,14 @@
 #include "Fog.hpp"
 #include "../Game.hpp"
 #include "../Graphics/Rendering/LinearPixelFogEffect.hpp"
+#include "../Math/Vector3.hpp"
+#include "../Objects/Camera.hpp"
+#include "../ObjectList.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Objects;
 using namespace Engine3DRadSpace::Graphics::Rendering;
+using namespace Engine3DRadSpace::Math;
 
 Engine3DRadSpace::Objects::Fog::Fog() : 
 	Fog("Fog", true, 0.5f, 0.9f, Colors::White)
@@ -49,48 +53,14 @@ void Fog::EditorLoad()
 
 void Fog::Update()
 {
-	/*
-	Assume:
-
-	Perspective projection matrix is:
-	
-	Projection = (
-		w, 0, 0, 0,
-		0, h, 0, 0,
-		0, 0, a, -1,
-		0, 0, b, 0
-	) 
-	with:
-	 -> b = npd * a;
-	 -> a = fpd / (npd - fpd);
-	
-	then:
-
-	b = npd * a => npd = b / a.
-
-	a = fpd / (npd - fpd) => (npd - fpd) * a = fpd
-	a * npd - a * fpd = fpd => a * npd = fpd + a * fpd => a * npd = fpd * (1 + a) => fpd = a * npd / (1 + a).
-
-	conclusion:
-	-> npd = b / a.
-	-> fpd = a * npd / (1 + a)
-	*/
-
-	//Projection[3][3]
-	float a = _game->Projection.M33;
-	//Projection[3][4]
-	float b = _game->Projection.M34;
-	//Near plane distance, recovered from projection matrix as above.
-	float npd = b / a;
-	//Far plane distance, calculated as above from projection matrix.
-	float fpd = a * npd / (1 + a);
-
 	_effect->Enabled = Enabled;
 	_effect->FogColor = FogColor;
 
-	//Multiply with fpd to convert to normalized space [0,1] used in the depth buffer.
-	_effect->FogBegin = FogBegin / fpd;
-	_effect->FogEnd = FogEnd / fpd;
+	_effect->NearPlaneDistance = _game->Objects->GetRenderingCamera()->NearPlaneDistance;
+	_effect->FarPlaneDistance = _game->Objects->GetRenderingCamera()->FarPlaneDistance;
+
+	_effect->FogBegin = FogBegin / 500;
+	_effect->FogEnd = FogEnd / 500;
 }
 
 Reflection::UUID Fog::GetUUID() const noexcept

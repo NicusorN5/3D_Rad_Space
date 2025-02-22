@@ -22,13 +22,17 @@ void LinearPixelFogEffect::Apply()
 	{
 		float FogBegin;
 		float FogEnd;
-		float _padding[2];
+		float Near;
+		float Far;
 		Color FogColor;
 	} fogData;
 
 	fogData.FogColor = FogColor;
 	fogData.FogBegin = FogBegin;
 	fogData.FogEnd = FogEnd;
+
+	fogData.Near = NearPlaneDistance;
+	fogData.Far = FarPlaneDistance;
 
 	this->SetData(0, &fogData, sizeof(fogData));
 }

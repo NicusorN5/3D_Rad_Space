@@ -4,6 +4,11 @@
 #include "Reflection/ReflectedObject.hpp"
 #include "Game.hpp"
 
+namespace Engine3DRadSpace::Objects
+{
+	class Camera;
+}
+
 namespace Engine3DRadSpace
 {
 	template<typename O>
@@ -44,6 +49,7 @@ namespace Engine3DRadSpace
 	private:
 		std::vector<ObjectInstance> _objects;
 		Game* _game;
+		Objects::Camera* _camera;
 
 		void _validate(ObjectInstance& instance);
 		void _validate(IObject* instance);
@@ -75,6 +81,8 @@ namespace Engine3DRadSpace
 		template<GameObject O>
 		O* Find(unsigned i = 0) const;
 
+		Objects::Camera* GetRenderingCamera();
+
 		void Remove(unsigned id);
 		void Remove(const std::string& name);
 		void Remove(IObject* obj);
@@ -90,6 +98,8 @@ namespace Engine3DRadSpace
 
 		std::vector<ObjectInstance>::iterator begin();
 		std::vector<ObjectInstance>::iterator end();
+
+		friend class Objects::Camera;
 	};
 
 	template<GameObject O>
