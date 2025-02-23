@@ -54,7 +54,19 @@ VertexBuffer::VertexBuffer(
 	vertexBuffDesc.Usage = _to_d3d11_usage(usage);
 	vertexBuffDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	vertexBuffDesc.StructureByteStride = UINT(_structSize);
-	vertexBuffDesc.CPUAccessFlags = d3d11_cpu_usage(usage);
+	
+	switch(_to_d3d11_usage(usage))
+	{
+		case D3D11_USAGE_DYNAMIC:
+			vertexBuffDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+			break;
+		case D3D11_USAGE_STAGING:
+			vertexBuffDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+			break;
+		default:
+			vertexBuffDesc.CPUAccessFlags = 0;
+			break;
+	}
 
 	D3D11_SUBRESOURCE_DATA resource{};
 	resource.pSysMem = data;

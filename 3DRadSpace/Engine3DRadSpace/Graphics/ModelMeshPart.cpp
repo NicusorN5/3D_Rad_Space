@@ -25,30 +25,6 @@ ModelMeshPart::ModelMeshPart(GraphicsDevice *Device, std::shared_ptr<Effect> sha
 	IndexBuffer = std::make_unique<Graphics::IndexBuffer>(Device, indices);
 }
 
-ModelMeshPart::ModelMeshPart(ModelMeshPart&& meshPart) noexcept :
-	_device(meshPart._device),
-	_shaders(meshPart._shaders),
-	IndexBuffer(std::move(meshPart.IndexBuffer)),
-	VertexBuffer(std::move(meshPart.VertexBuffer)),
-	Transform(meshPart.Transform),
-	Textures(std::move(meshPart.Textures)),
-	TextureSamplers(std::move(meshPart.TextureSamplers))
-{
-}
-
-ModelMeshPart& ModelMeshPart::operator=(ModelMeshPart&& meshPart) noexcept
-{
-	_device = meshPart._device;
-	_shaders = meshPart._shaders;
-	IndexBuffer = std::move(meshPart.IndexBuffer);
-	VertexBuffer = std::move(meshPart.VertexBuffer);
-	Textures = std::move(meshPart.Textures);
-	TextureSamplers = std::move(meshPart.TextureSamplers);
-	Transform = meshPart.Transform;
-
-	return *this;
-}
-
 void ModelMeshPart::Draw()
 {
 	if(_device == nullptr) return;

@@ -12,7 +12,7 @@ Circle::Circle(GraphicsDevice* device, float radius, Color color, unsigned resol
 {
 }
 
-FixedArray<VertexPositionColor> Circle::CreateCircleVertices(float radius, unsigned resolution, Color color)
+[[nodiscard]] FixedArray<VertexPositionColor> Circle::CreateCircleVertices(float radius, unsigned resolution, Color color)
 {
 	resolution = std::max(resolution, 3u); //create a circle from a minimum of three points.
 

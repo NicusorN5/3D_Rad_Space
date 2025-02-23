@@ -16,7 +16,6 @@ namespace Engine3DRadSpace::Algorithms::Picking
 	{
 		std::shared_ptr<PickingShader> _shader;
 		std::unique_ptr<Graphics::RenderTarget> _renderTarget;
-		std::unique_ptr<Graphics::DepthStencilBuffer> _depthBuffer;
 
 		bool _isDrawing = false;
 	public:

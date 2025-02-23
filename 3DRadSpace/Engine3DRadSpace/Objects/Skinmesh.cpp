@@ -115,6 +115,8 @@ std::optional<float> Skinmesh::Intersects(const Ray&r)
     {
         for (auto& meshPart : *mesh)
         {
+            if(!r.Intersects(meshPart->GetBoundingSphere())) return std::nullopt;
+
             void* vertexData = nullptr;
             size_t numVerts = meshPart->VertexBuffer->ReadData(&vertexData);
 

@@ -86,6 +86,6 @@ namespace Engine3DRadSpace::Content
 	template<ShaderCollection S>
 	inline S *ShaderManager::GetShader(Tag<S> t)
 	{
-		return _shaders[typeid(S).hash_code()];
+		return static_cast<S*>(_shaders[typeid(S).hash_code()].get());
 	}
 }

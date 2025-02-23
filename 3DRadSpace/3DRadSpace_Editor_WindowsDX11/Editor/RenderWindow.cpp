@@ -54,12 +54,15 @@ void RenderWindow::Initialize()
 	Camera.LookMode = Camera::CameraMode::UseLookAtCoordinates;
 	Camera.FarPlaneDistance = 500.0f;
 
-	_pickingShader = std::make_unique<PickingShader>(Device.get());
+	_picking = std::make_unique<PickingRenderTargetRender>(Device.get());
 }
 
 void RenderWindow::Load()
 {
 	_font = std::make_unique<Font>(Device.get(), "Data//Fonts//Arial.ttf");
+
+	sob = std::make_unique<Texture2D>(Device.get(), "sob.png");
+	sob->Resize(256, 256);
 }
 
 Vector2 mouseDelta;
@@ -109,8 +112,10 @@ void RenderWindow::Update()
 				}
 			}
 		}
+		
 
-		//_keyboardTest = true;
+		_requestedPicking = true;
+		_pickingCoords = Mouse.Position();
 	}
 	//else _keyboardTest = false;
 
@@ -149,14 +154,37 @@ void RenderWindow::Draw3D()
 	{
 	}
 
-	//Main rendering pass
-	for(auto &obj : *Objects)
+	auto drawAllObjects = [this]()
 	{
-		if(obj.InternalType == ObjectList::ObjectInstance::ObjectType::IObject3D)
+		for(auto& obj : *Objects)
 		{
-			static_cast<IObject3D*>(obj.Object.get())->EditorDraw3D(false);
+			if(obj.InternalType == ObjectList::ObjectInstance::ObjectType::IObject3D)
+			{
+				static_cast<IObject3D*>(obj.Object.get())->EditorDraw3D(obj.Object.get() == this->_selectedObject);
+			}
+		}
+	};
+
+	//Main rendering pass
+	drawAllObjects();	
+
+	//Picking pass
+	/*
+	if(_requestedPicking)
+	{
+		this->_picking->Begin();
+		drawAllObjects();
+		this->_picking->End();
+
+		auto id = this->_picking->Pick(this->_pickingCoords);
+		if(id.has_value())
+		{
+			auto selection = Objects->operator[](id.value());
+			_selectedObject = selection;
+			this->cursor3D = static_cast<IObject3D*>(selection)->Position;
 		}
 	}
+	*/
 }
 
 void RenderWindow::Draw2D()
@@ -170,6 +198,9 @@ void RenderWindow::Draw2D()
 		Point(20, 20),
 		1
 	);
+
+	if(_keyboardTest)
+		SpriteBatch->DrawNormalized(sob.get(), RectangleF(0, 0, 1, 1));
 	SpriteBatch->End();
 
 	for(auto &obj : *Objects)

@@ -25,8 +25,10 @@ namespace Engine3DRadSpace::Graphics
 		Microsoft::WRL::ComPtr<ID3D11Texture2D> _texture;
 		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> _resourceView;
 		GraphicsDevice *_device;
+		PixelFormat _format;
 
         DXGI_FORMAT _getTextureFormat(PixelFormat format);
+		PixelFormat _getTextureFormatFromDX(DXGI_FORMAT format);
 #endif
 		void _retrieveSize();
 
@@ -113,6 +115,9 @@ namespace Engine3DRadSpace::Graphics
 
         static Texture2D CreateStaging(Texture2D* texture);
         Texture2D Clone();
+
+		std::pair<void*,size_t> BeginRead(unsigned resourceID = 0);
+		void EndRead(unsigned resourceID = 0);
 
 		static void Copy(Texture2D* destination, Texture2D* source);
 

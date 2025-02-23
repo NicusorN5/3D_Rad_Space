@@ -1,5 +1,6 @@
 #include "ContentManager.hpp"
 #include "AssetTypeRegistration.hpp"
+#include "../Logging.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content;

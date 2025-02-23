@@ -44,11 +44,18 @@ class RenderWindow : public Engine3DRadSpace::Game
 	std::unique_ptr<BasicTextured> texturedShader;
 	std::unique_ptr<SamplerState> samplerState;
 
-	std::unique_ptr<PickingShader> _pickingShader;
+	std::unique_ptr<PickingRenderTargetRender> _picking;
 
 	bool _keyboardTest = false;
 
 	std::unique_ptr<Font> _font;
+
+	bool _requestedPicking = false;
+	Math::Point _pickingCoords;
+	IObject* _selectedObject = nullptr;
+
+	std::unique_ptr<Texture2D> sob;
+
 public:
 	RenderWindow(HWND parent, HINSTANCE hInstance);
 

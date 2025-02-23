@@ -35,11 +35,11 @@ namespace Engine3DRadSpace::Graphics
 			std::span<unsigned> indices
 		);
 
-		ModelMeshPart(ModelMeshPart&& meshPart) noexcept;
+		ModelMeshPart(ModelMeshPart&& meshPart) noexcept = default;
 		ModelMeshPart(ModelMeshPart& meshPart) = delete;
 
 		ModelMeshPart& operator=(ModelMeshPart&) = delete;
-		ModelMeshPart& operator=(ModelMeshPart&& meshPart) noexcept;
+		ModelMeshPart& operator=(ModelMeshPart&& meshPart) noexcept = default;
 
 		template<VertexDecl V>
 		ModelMeshPart(
