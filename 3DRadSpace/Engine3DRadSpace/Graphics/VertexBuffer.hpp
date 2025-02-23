@@ -24,6 +24,8 @@ namespace Engine3DRadSpace
 
 			size_t _numVerts;
 			size_t _structSize;
+
+			VertexBuffer(GraphicsDevice* device, Microsoft::WRL::ComPtr<ID3D11Buffer>&& vertexBuffer, size_t p_structSize, size_t numVertices);
 		public:
 			VertexBuffer(
 				_In_ GraphicsDevice* device, 
@@ -52,6 +54,8 @@ namespace Engine3DRadSpace
 			size_t NumVertices() const noexcept;
 
 			void SetDebugName(const std::string& name);
+
+			[[nodiscard]] VertexBuffer CreateStaging();
 
 			virtual ~VertexBuffer() = default;
 

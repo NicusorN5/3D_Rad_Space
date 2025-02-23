@@ -115,19 +115,21 @@ std::optional<float> Skinmesh::Intersects(const Ray&r)
     {
         for (auto& meshPart : *mesh)
         {
-            if(!r.Intersects(meshPart->GetBoundingSphere())) return std::nullopt;
+            if(!r.Intersects(meshPart->GetBoundingSphere())) continue;
+
+            auto [vertex, index] = meshPart->CreateStagingBuffers();
 
             void* vertexData = nullptr;
-            size_t numVerts = meshPart->VertexBuffer->ReadData(&vertexData);
+            size_t numVerts = vertex->ReadData(&vertexData);
 
             void* indexData = nullptr;
-            size_t numIndices = meshPart->IndexBuffer->ReadData(&indexData);
+            size_t numIndices = index->ReadData(&indexData);
 
             for (size_t i = 0; i < numIndices; i += 3)
             {
-                auto readVector = [&meshPart, &vertexData](size_t index) -> Vector3
+                auto readVector = [&vertex, &vertexData](size_t index) -> Vector3
                 {
-                    return *reinterpret_cast<Vector3*>((static_cast<std::byte*>(vertexData)) + (meshPart->VertexBuffer->StructSize() * index));
+                    return *reinterpret_cast<Vector3*>((static_cast<std::byte*>(vertexData)) + (vertex->StructSize() * index));
                 };
                 //Assuming VS_POSITION3 is the first element.
                 Vector3 t1 = readVector(reinterpret_cast<unsigned*>(indexData)[i]);
@@ -140,11 +142,11 @@ std::optional<float> Skinmesh::Intersects(const Ray&r)
                 if (dst.has_value()) return dst;
             }
 
-            meshPart->VertexBuffer->EndRead();
-            meshPart->IndexBuffer->EndRead();
+            vertex->EndRead();
+            index->EndRead();
         }
     }
-    return false;
+    return std::nullopt;
 }
 
 REFL_BEGIN(Skinmesh, "Skinmesh", "3D Objects", "3D model")

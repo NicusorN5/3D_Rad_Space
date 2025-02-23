@@ -23,6 +23,10 @@ namespace Engine3DRadSpace
 			unsigned _numIndices;
 
 			void _debugInfo();
+
+#ifdef USING_DX11
+			IndexBuffer(GraphicsDevice* device, Microsoft::WRL::ComPtr<ID3D11Buffer>&& buffer,unsigned numIndices);
+#endif
 		public:
 			/// <summary>
 			/// Constructs a index buffer from the specified indices.
@@ -76,6 +80,8 @@ namespace Engine3DRadSpace
 			/// </summary>
 			/// <returns>ID3D11Buffer on DirectX11.</returns>
 			void* GetHandle() const noexcept;
+
+			IndexBuffer CreateStaging();
 
 			~IndexBuffer() = default;
 

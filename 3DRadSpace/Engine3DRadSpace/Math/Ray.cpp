@@ -1,15 +1,38 @@
 #include "Ray.hpp"
+#include "Math.hpp"
 
 using namespace Engine3DRadSpace::Math;
 
 std::optional<float> Ray::Intersects(const BoundingSphere &sph) const
 {
-    //https://en.wikipedia.org/wiki/Line%E2%80%93sphere_intersection
-    float a = Direction.Dot(Origin - sph.Center);
-    float nabla = powf(a, 2) - ((Origin - sph.Center).LengthSquared() - powf(sph.Radius, 2));
+    Vector3 difference = sph.Center - Origin;
 
-    if(nabla < 0) return std::nullopt;
-    else return a - sqrtf(nabla);
+    float differenceLengthSquared = difference.LengthSquared();
+    float sphereRadiusSquared = sph.Radius * sph.Radius;
+
+    // If the distance between the ray start and the sphere's centre is less than
+    // the radius of the sphere, it means we've intersected. N.B. checking the LengthSquared is faster.
+    if(differenceLengthSquared < sphereRadiusSquared) return 0;
+
+    float distanceAlongRay = Vector3::Dot(Direction, difference);
+    // If the ray is pointing away from the sphere then we don't ever intersect
+    if(distanceAlongRay < 0) return std::nullopt;
+
+    // Next we kinda use Pythagoras to check if we are within the bounds of the sphere
+    // if x = radius of sphere
+    // if y = distance between ray position and sphere centre
+    // if z = the distance we've travelled along the ray
+    // if x^2 + z^2 - y^2 < 0, we do not intersect
+    return sphereRadiusSquared + distanceAlongRay * distanceAlongRay - differenceLengthSquared;
+
+
+ //   //https://en.wikipedia.org/wiki/Line%E2%80%93sphere_intersection
+ //   float a = Direction.Dot(Origin - sph.Center);
+ //   float nabla = powf(a, 2) - (powf((Origin - sph.Center).Length(),2) - powf(sph.Radius, 2));
+
+ //   if(nabla < 0) return std::nullopt;
+	//if(Math::WithinEpsilon(nabla, 0)) return -a;
+ //   if(nabla > 0) return std::min(-a - sqrtf(nabla), -a + sqrt(nabla));
 }
 
 std::optional<float> Ray::Intersects(const Triangle &tri) const

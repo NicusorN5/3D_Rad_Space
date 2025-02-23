@@ -628,7 +628,8 @@ Texture2D::Texture2D(GraphicsDevice *device, std::monostate dummy, bool bindRend
 Engine3DRadSpace::Graphics::Texture2D::Texture2D(Internal::AssetUUIDReader a):
 	_device(nullptr),
 	_width(0),
-	_height(0)
+	_height(0),
+	_format(PixelFormat::Unknown)
 {
 }
 

@@ -104,7 +104,8 @@ void RenderWindow::Update()
 				auto dst = static_cast<IObject3D*>(obj.Object.get())->Intersects(ray);
 				if (dst.has_value())
 				{
-					cursor3D = ray.Origin + ray.Direction * dst.value();
+					cursor3D = ray.Origin + (ray.Direction * dst.value());
+					_selectedObject = obj.Object.get();
 					if (std::isnan(cursor3D.X) || std::isnan(cursor3D.Y) || std::isnan(cursor3D.Z))
 					{
 						cursor3D = Vector3::Zero();

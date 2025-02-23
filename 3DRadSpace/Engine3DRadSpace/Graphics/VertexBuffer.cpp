@@ -53,20 +53,8 @@ VertexBuffer::VertexBuffer(
 	vertexBuffDesc.ByteWidth = UINT(_structSize * numVertices);
 	vertexBuffDesc.Usage = _to_d3d11_usage(usage);
 	vertexBuffDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	vertexBuffDesc.CPUAccessFlags = d3d11_cpu_usage(usage);
 	vertexBuffDesc.StructureByteStride = UINT(_structSize);
-	
-	switch(_to_d3d11_usage(usage))
-	{
-		case D3D11_USAGE_DYNAMIC:
-			vertexBuffDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-			break;
-		case D3D11_USAGE_STAGING:
-			vertexBuffDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
-			break;
-		default:
-			vertexBuffDesc.CPUAccessFlags = 0;
-			break;
-	}
 
 	D3D11_SUBRESOURCE_DATA resource{};
 	resource.pSysMem = data;
@@ -75,6 +63,20 @@ VertexBuffer::VertexBuffer(
 	if (FAILED(r)) throw Exception("Failed to create a vertex buffer!");
 #endif
 	_debugInfo();
+}
+
+
+VertexBuffer::VertexBuffer(
+	_In_ GraphicsDevice* device,
+	Microsoft::WRL::ComPtr<ID3D11Buffer>&& vertexBuffer,
+	size_t p_structSize,
+	size_t numVertices
+):
+	_device(device),
+	_buffer(std::move(vertexBuffer)),
+	_numVerts(numVertices),
+	_structSize(p_structSize)
+{
 }
 
 void VertexBuffer::SetData(void *data, size_t size)
@@ -103,7 +105,7 @@ size_t VertexBuffer::ReadData(void** data)
 #endif
 }
 
-void Engine3DRadSpace::Graphics::VertexBuffer::EndRead()
+void VertexBuffer::EndRead()
 {
 #ifdef USING_DX11
 	_device->_context->Unmap(_buffer.Get(), 0);
@@ -146,5 +148,25 @@ void VertexBuffer::SetDebugName(const std::string& name)
 #ifdef USING_DX11
 	_buffer->SetPrivateData(WKPDID_D3DDebugObjectName, name.length() - 1, name.c_str());
 #endif
+#endif
+}
+
+VertexBuffer VertexBuffer::CreateStaging()
+{
+#ifdef USING_DX11
+	Microsoft::WRL::ComPtr<ID3D11Buffer> staging = nullptr;
+	D3D11_BUFFER_DESC desc{};
+	desc.ByteWidth = UINT(_structSize * _numVerts);
+	desc.Usage = D3D11_USAGE_STAGING;
+	desc.BindFlags = 0;
+	desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+	desc.MiscFlags = 0;
+	desc.StructureByteStride = UINT(_structSize);
+
+	HRESULT r = _device->_device->CreateBuffer(&desc, nullptr, staging.GetAddressOf());
+	if(FAILED(r)) throw Exception("Failed to create a staging buffer!" + std::system_category().message(r));
+	
+	_device->_context->CopyResource(staging.Get(), _buffer.Get());
+	return VertexBuffer(_device, std::move(staging), _structSize, _numVerts);
 #endif
 }

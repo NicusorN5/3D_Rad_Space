@@ -107,3 +107,23 @@ void ModelMeshPart::SetShaders(std::shared_ptr<Effect> shaders)
 {
 	_shaders = shaders;
 }
+
+std::pair<Graphics::VertexBuffer*, Graphics::IndexBuffer*> ModelMeshPart::CreateStagingBuffers()
+{
+	if(!_stagingVertex)
+	{
+		auto vert = VertexBuffer->CreateStaging();
+		_stagingVertex = std::make_unique<Graphics::VertexBuffer>(std::move(vert));
+	}
+	
+	if(!_stagingIndex)
+	{
+		auto ind = IndexBuffer->CreateStaging();
+		_stagingIndex = std::make_unique<Graphics::IndexBuffer>(std::move(ind));
+	}
+
+	return std::make_pair<Graphics::VertexBuffer*, Graphics::IndexBuffer*>(
+		_stagingVertex.get(),
+		_stagingIndex.get()
+	);
+}

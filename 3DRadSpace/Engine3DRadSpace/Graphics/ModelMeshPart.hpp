@@ -18,6 +18,9 @@ namespace Engine3DRadSpace::Graphics
 
 		Math::BoundingBox _box;
 		Math::BoundingSphere _sphere;
+
+		std::unique_ptr<VertexBuffer> _stagingVertex;
+		std::unique_ptr<IndexBuffer> _stagingIndex;
 	public:
 		std::unique_ptr<IndexBuffer> IndexBuffer;
 		std::unique_ptr<VertexBuffer> VertexBuffer;
@@ -62,6 +65,12 @@ namespace Engine3DRadSpace::Graphics
 
 		Shaders::Effect* GetShaders() const noexcept;
 		void SetShaders(std::shared_ptr<Shaders::Effect> shaders);
+
+		/// <summary>
+		/// Creates staging vertex and index buffers available for CPU reading if they don't exist. If they already exist, returns the already created buffers.
+		/// </summary>
+		/// <returns>Pair of vertex and index buffers pointer references</returns>
+		std::pair<Graphics::VertexBuffer*, Graphics::IndexBuffer*> CreateStagingBuffers();
 
 		~ModelMeshPart() = default;
 

@@ -16,6 +16,13 @@ void IndexBuffer::_debugInfo()
 #endif
 }
 
+IndexBuffer::IndexBuffer(GraphicsDevice* device, Microsoft::WRL::ComPtr<ID3D11Buffer>&& buffer, unsigned numIndices) :
+	_device(device),
+	_indexBuffer(std::move(buffer)),
+	_numIndices(numIndices)
+{
+}
+
 IndexBuffer::IndexBuffer(GraphicsDevice* device,std::span<unsigned> indices):
 	_device(device),
 	_numIndices(unsigned(indices.size()))
@@ -99,6 +106,25 @@ void* IndexBuffer::GetHandle() const noexcept
 {
 #ifdef USING_DX11
 	return static_cast<void*>(_indexBuffer.Get());
+#endif
+}
+
+IndexBuffer IndexBuffer::CreateStaging()
+{
+#ifdef USING_DX11
+	D3D11_BUFFER_DESC stagingIndexBufferDesc;
+	_indexBuffer->GetDesc(&stagingIndexBufferDesc);
+	stagingIndexBufferDesc.Usage = D3D11_USAGE_STAGING;
+	stagingIndexBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+	stagingIndexBufferDesc.BindFlags = 0;
+
+	Microsoft::WRL::ComPtr<ID3D11Buffer> stagingIndexBuffer;
+	HRESULT r = _device->_device->CreateBuffer(&stagingIndexBufferDesc, nullptr, stagingIndexBuffer.GetAddressOf());
+	if(FAILED(r)) throw Exception("Failed to create a staging index buffer!" + std::system_category().message(r));
+
+	_device->_context->CopyResource(stagingIndexBuffer.Get(), _indexBuffer.Get());
+
+	return IndexBuffer(_device, std::move(stagingIndexBuffer), stagingIndexBufferDesc.ByteWidth / sizeof(unsigned));
 #endif
 }
 

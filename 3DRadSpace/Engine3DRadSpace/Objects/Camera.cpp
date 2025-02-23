@@ -78,9 +78,10 @@ void Camera::EditorDraw3D(bool selected)
 
 std::optional<float> Camera::Intersects(const Ray&r)
 {
-	if (r.Intersects(BoundingSphere(Position, 1.5f)).has_value())
+	auto f = r.Intersects(BoundingSphere(Position, 1.5f));
+	if (f.has_value())
 	{
-		return std::make_optional<float>(abs((r.Origin - Position).Length()));
+		return f;
 	}
 	else return std::nullopt;
 }
