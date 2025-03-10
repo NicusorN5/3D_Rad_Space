@@ -46,8 +46,6 @@ void MyGame::Load()
 	// zoom the camera into the model.
 	float distance = _fish->GetModel()->GetBoundingSphere().Radius + 0.25f;
 	_cam->Position *= distance;
-
-	_plane = std::make_unique<Graphics::Primitives::Plane>(Device.get(), Colors::Red, Vector2::One());
 }
 
 void MyGame::Update()
@@ -66,11 +64,6 @@ void MyGame::Update()
 void MyGame::Draw3D()
 {
 	Game::Draw3D();
-
-	_plane->View = View;
-	_plane->Projection = Projection;
-
-	_plane->Draw3D();
 }
 
 void MyGame::Draw2D()

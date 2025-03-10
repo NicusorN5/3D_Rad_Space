@@ -625,7 +625,7 @@ Texture2D::Texture2D(GraphicsDevice *device, std::monostate dummy, bool bindRend
 	_debugInfoRT();
 }
 
-Engine3DRadSpace::Graphics::Texture2D::Texture2D(Internal::AssetUUIDReader a):
+Texture2D::Texture2D(Internal::AssetUUIDReader a):
 	_device(nullptr),
 	_width(0),
 	_height(0),
@@ -744,7 +744,6 @@ Point Texture2D::Size() const noexcept
 
 Texture2D Texture2D::Clone()
 {
-	//Texture2D staging = CreateStaging(this);
 #ifdef USING_DX11
 	Microsoft::WRL::ComPtr<ID3D11Texture2D> copy = nullptr;
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> srv = nullptr;
@@ -808,7 +807,7 @@ Reflection::UUID Texture2D::GetUUID() const noexcept
 const char* Texture2D::FileExtension() const noexcept
 {
 	//Image formats supported by Texture2D::Texture2D, with support from DirectXTK.
-	return  "Supported image formats (*.bmp;*.dib;.*jpg;*.jpeg;*.gif;*.tiff;*.tif;*.png;*.dds)\0*.bmp;*.jpg;*.jpeg;*.gif;*.tiff;*.tif;*.png;*.dds\0"
+	return  "Supported image formats (*.bmp;*.dib;.*jpg;*.jpeg;*.gif;*.tiff;*.tif;*.png;*.dds)\0*.bmp;*.jpg;*.jpeg;*.gif;*.tiff;*.tif;*.png;*.dds)\0"
 			"Bitmap image(*.bmp;*.dib)\0*.bmp;*.dib\0"
 			"Joint Photographic Experts Group (JPEG) image(*.jpg;*.jpeg)\0*.jpg;*.jpeg\0"
 			"Graphics Interchange Format (GIF) image(*.gif)\0*.gif\0"

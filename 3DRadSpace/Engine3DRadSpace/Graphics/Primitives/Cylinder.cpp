@@ -72,7 +72,7 @@ Cylinder::Cylinder(GraphicsDevice *device, float radius, float height, float tes
 		r[pos + 3] = i[3];
 	};
 
-	for(auto vi = 3 * resolution, i = 0u; vi < 6 * resolution; vi += 4, ++i)
+	for(auto vi = 3 * resolution, i = 0u; vi < 6 * (resolution - 1); vi += 4, ++i)
 	{
 		std::array<unsigned, 4> quad = {
 			i + 2,
@@ -82,6 +82,13 @@ Cylinder::Cylinder(GraphicsDevice *device, float radius, float height, float tes
 		};
 		add_quad(vi, quad);
 	}
+
+	//add last quad
+
+	std::array<unsigned, 4> last_quad = {
+
+	};
+
 
 	return r;
 }

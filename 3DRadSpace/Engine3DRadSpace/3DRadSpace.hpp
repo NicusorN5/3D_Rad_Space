@@ -153,7 +153,6 @@
 #include "Physics\IPhysicsObject.hpp"
 #include "Physics\PhysicsEngine.hpp"
 #include "Physics\PhysicsSettings.hpp"
-#include "Physics\StaticRigidbody.hpp"
 
 //Engine3DRadSpace::Plugins
 #include "Plugins\CustomObject.hpp"

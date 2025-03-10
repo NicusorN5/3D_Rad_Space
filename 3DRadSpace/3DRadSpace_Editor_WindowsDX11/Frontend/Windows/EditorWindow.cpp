@@ -237,10 +237,14 @@ void EditorWindow::_parseCmdArgs(const std::string &cmdArgs)
 				{
 					case 1:
 					{
+						Settings::StartupUpdate.Value = false;
 						break;
 					}
 					case 2:
 					{
+						Settings::CameraSensitivity.Value = 5.0f;
+						Settings::ShowGrid.Value = true;
+						Settings::StartupUpdate.Value = true;
 						break;
 					}
 					case 3:

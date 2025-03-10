@@ -3,7 +3,6 @@
 #include <Engine3DRadSpace\Objects\Skinmesh.hpp>
 #include <Engine3DRadSpace\Objects\Camera.hpp>
 #include <Engine3DRadSpace\Audio\SoundInstance.hpp>
-#include <Engine3DRadSpace\Graphics\Primitives\Plane.hpp>
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Audio;
@@ -17,8 +16,6 @@ class MyGame : public Game
 
 	Sound* _sound = nullptr;
 	std::unique_ptr<SoundInstance> _soundInstance;
-
-	std::unique_ptr<Engine3DRadSpace::Graphics::Primitives::Plane> _plane;
 public:
 	MyGame();
 

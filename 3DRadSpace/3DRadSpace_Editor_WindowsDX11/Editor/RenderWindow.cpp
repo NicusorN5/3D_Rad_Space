@@ -61,8 +61,8 @@ void RenderWindow::Load()
 {
 	_font = std::make_unique<Font>(Device.get(), "Data//Fonts//Arial.ttf");
 
-	sob = std::make_unique<Texture2D>(Device.get(), "sob.png");
-	sob->Resize(256, 256);
+	//sob = std::make_unique<Texture2D>(Device.get(), "sob.png");
+	//sob->Resize(256, 256);
 }
 
 Vector2 mouseDelta;
@@ -200,8 +200,8 @@ void RenderWindow::Draw2D()
 		1
 	);
 
-	if(_keyboardTest)
-		SpriteBatch->DrawNormalized(sob.get(), RectangleF(0, 0, 1, 1));
+	//if(_keyboardTest)
+	//	SpriteBatch->DrawNormalized(sob.get(), RectangleF(0, 0, 1, 1));
 	SpriteBatch->End();
 
 	for(auto &obj : *Objects)
