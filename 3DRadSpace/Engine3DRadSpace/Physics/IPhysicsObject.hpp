@@ -17,10 +17,10 @@ namespace Engine3DRadSpace::Physics
 		float DynamicFriction = 0;
 		float Restitution = 0;
 
-		Math::Vector3 LinearVelocity = Vector3::Zero();
-		Math::Vector3 AngularVelocity = Vector3::Zero();
+		Math::Vector3 LinearVelocity = Math::Vector3::Zero();
+		Math::Vector3 AngularVelocity = Math::Vector3::Zero();
 
-		Math::Vector3 MaxAngularVelocity = Vector3::Zero();
+		Math::Vector3 MaxAngularVelocity = Math::Vector3::Zero();
 
 		/// <summary>
 		/// If true, the fields Position, Rotation, Scale, Mass, Damping, Velocity, etc will be set after a ::Update() call ends.
