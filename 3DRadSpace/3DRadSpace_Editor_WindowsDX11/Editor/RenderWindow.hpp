@@ -11,6 +11,7 @@
 #include <Engine3DRadSpace/Graphics/Primitives/LineList.hpp>
 #include <Engine3DRadSpace/Graphics/Font.hpp>
 #include <Engine3DRadSpace/Algorithms/Picking/PickingRenderTargetRender.hpp>
+#include <Engine3DRadSpace/Graphics/Primitives/CubeMapSkybox.hpp>
 
 //Despite using namespaces are ill-advised to be used in headers, this header is not meant to be included in other files.
 using namespace Engine3DRadSpace;
@@ -55,6 +56,8 @@ class RenderWindow : public Engine3DRadSpace::Game
 	IObject* _selectedObject = nullptr;
 
 	std::unique_ptr<Texture2D> sob;
+
+	std::unique_ptr<CubeMapSkybox> skybox;
 
 public:
 	RenderWindow(HWND parent, HINSTANCE hInstance);

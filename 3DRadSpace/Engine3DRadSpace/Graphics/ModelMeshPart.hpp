@@ -34,7 +34,9 @@ namespace Engine3DRadSpace::Graphics
 		ModelMeshPart(
 			GraphicsDevice *Device,
 			std::shared_ptr<Shaders::Effect> shaders, 
-			void* vertices, size_t numVerts, size_t structSize, 
+			void* vertices, 
+			size_t numVerts,
+			size_t structSize, 
 			std::span<unsigned> indices
 		);
 
@@ -48,7 +50,8 @@ namespace Engine3DRadSpace::Graphics
 		ModelMeshPart(
 			std::shared_ptr<Shaders::Effect> shaders,
 			GraphicsDevice* Device,
-			std::span<V> vertices, std::span<unsigned> indices
+			std::span<V> vertices,
+			std::span<unsigned> indices
 		);
 
 		Math::Matrix4x4 Transform = Math::Matrix4x4();

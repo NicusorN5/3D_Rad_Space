@@ -344,7 +344,7 @@ const char* Model3D::FileExtension() const noexcept
 			"3D Manufacturing Format(*.3mf)\0*.3mf\0"
 			"COLLADA Model (*.dae)\0*.dae\0"
 			"Filmbox (FBX) Mesh (*.fbx)\0*.fbx\0"
-			"(glTF) (*.gltf;*.glb)\0*.gltf;*.glb\0"
+			"Graphics Library Transmission Format(glTF) (*.gltf;*.glb)\0*.gltf;*.glb\0"
 			"Wavefront OBJ (*.obj)\0*.obj\0"
 			"DirectX Mesh (*.x)\0*.x\0"
 			"All Files(*.*)\0*.*\0\0";
