@@ -1,4 +1,5 @@
 #include "PickingRenderTargetRender.hpp"
+#include "..\..\Content\ShaderManager.hpp"
 
 using namespace Engine3DRadSpace::Algorithms::Picking;
 

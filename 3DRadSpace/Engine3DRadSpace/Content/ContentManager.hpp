@@ -1,7 +1,6 @@
 #pragma once
 #include "../Reflection/UUID.hpp"
 #include "AssetID.hpp"
-#include "AssetTypeRegistration.hpp"
 #include "AssetFactory.hpp"
 
 namespace Engine3DRadSpace

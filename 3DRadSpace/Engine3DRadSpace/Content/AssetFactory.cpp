@@ -1,5 +1,7 @@
 #include "AssetFactory.hpp"
 #include "../Game.hpp"
+#include "..\Internal\Assets.hpp"
+using namespace Engine3DRadSpace::Internal;
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Audio;
@@ -63,4 +65,29 @@ Audio::AudioEngine* AssetFactory::Audio() const noexcept
 Physics::PhysicsEngine* AssetFactory::Physics() const noexcept
 {
 	return this->_physics;
+}
+
+IAsset* AssetFactory::CreateAssetInstance(const Reflection::UUID &nuuid ,const std::filesystem::path& path)
+{
+	Engine3DRadSpace::Internal::RegisterDefaultAssets();
+	if (this == nullptr) return nullptr;
+	
+	for (auto& [uuid, ctor] : Internal::asset_types)
+	{
+		if(uuid == nuuid)
+		{
+			switch(ctor.index())
+			{
+				case 0:
+					return std::get<AssetCtor1>(ctor)(_device, path);
+				case 1:
+					return std::get<AssetCtor2>(ctor)(_physics, path);
+				case 2:
+					return std::get<AssetCtor3>(ctor)(_audio, path);
+				default:
+					std::unreachable();
+			}
+		}
+	}
+	return nullptr;
 }

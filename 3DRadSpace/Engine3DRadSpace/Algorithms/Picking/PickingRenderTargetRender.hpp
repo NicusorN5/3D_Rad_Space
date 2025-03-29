@@ -1,9 +1,6 @@
 #pragma once
 #include "PickingShader.hpp"
 #include "..\..\Graphics\RenderTarget.hpp"
-#include "..\..\IDrawable3D.hpp"
-#include "..\..\Graphics\Model3D.hpp"
-#include "..\..\Content\ShaderManager.hpp"
 #include "..\..\Math\Point.hpp"
 #include "../../Graphics/Rendering/IRenderer.hpp"
 

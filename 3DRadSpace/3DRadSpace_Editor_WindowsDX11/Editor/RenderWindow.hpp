@@ -5,11 +5,11 @@
 #include <Engine3DRadSpace\Math\Matrix4x4.hpp>
 #include <Engine3DRadSpace/Math/Vector2.hpp>
 #include <Engine3DRadSpace/Objects/Camera.hpp>
-#include <Engine3DRadSpace/Graphics/Model3D.hpp>
+#include <Engine3DRadSpace/Content/Assets/Model3D.hpp>
 #include <Engine3DRadSpace/Graphics/Shaders/BasicTextured.hpp>
 #include <Engine3DRadSpace/Graphics/SpriteBatch.hpp>
 #include <Engine3DRadSpace/Graphics/Primitives/LineList.hpp>
-#include <Engine3DRadSpace/Graphics/Font.hpp>
+#include <Engine3DRadSpace/Content/Assets/Font.hpp>
 #include <Engine3DRadSpace/Algorithms/Picking/PickingRenderTargetRender.hpp>
 #include <Engine3DRadSpace/Graphics/Primitives/CubeMapSkybox.hpp>
 
@@ -18,6 +18,7 @@ using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Algorithms;
 using namespace Engine3DRadSpace::Algorithms::Picking;
 using namespace Engine3DRadSpace::Content;
+using namespace Engine3DRadSpace::Content::Assets;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Graphics::Primitives;
 using namespace Engine3DRadSpace::Graphics::Shaders;
@@ -56,8 +57,6 @@ class RenderWindow : public Engine3DRadSpace::Game
 	IObject* _selectedObject = nullptr;
 
 	std::unique_ptr<Texture2D> sob;
-
-	std::unique_ptr<CubeMapSkybox> skybox;
 
 public:
 	RenderWindow(HWND parent, HINSTANCE hInstance);

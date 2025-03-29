@@ -1,10 +1,10 @@
 #pragma once
-#include "Glyph.hpp"
-#include "../Content/IAsset.hpp"
-#include "../GraphicsDevice.hpp"
-#include "..\Internal\AssetUUIDReader.hpp"
+#include "../../Graphics/Glyph.hpp"
+#include "../IAsset.hpp"
+#include "../../GraphicsDevice.hpp"
+#include "../../Internal/AssetUUIDReader.hpp"
 
-namespace Engine3DRadSpace::Graphics
+namespace Engine3DRadSpace::Content::Assets
 {
 	/// <summary>
 	/// Represents a Font.
@@ -37,8 +37,8 @@ namespace Engine3DRadSpace::Graphics
 
 		static FontManager _manager;
 	
-		std::vector<std::pair<Glyph, Math::Rectangle>> _glyphs;
-		std::unique_ptr<Texture2D> _texture;
+		std::vector<std::pair<Graphics::Glyph, Math::Rectangle>> _glyphs;
+		std::unique_ptr<Graphics::Texture2D> _texture;
 		unsigned _size;
 
 		Font(Internal::AssetUUIDReader dummy);
@@ -79,14 +79,14 @@ namespace Engine3DRadSpace::Graphics
 		/// Returns the texture containing all glyphs.
 		/// </summary>
 		/// <returns></returns>
-		Texture2D* GetTexture() const noexcept;
+		Graphics::Texture2D* GetTexture() const noexcept;
 
 		/// <summary>
 		/// Gets the glyph of a specific character.
 		/// </summary>
 		/// <param name="chr">Character.</param>
 		/// <returns>Nullopt if that character is not supported.</returns>
-		std::optional<Glyph> GetCharGlyph(char chr) const noexcept;
+		std::optional<Graphics::Glyph> GetCharGlyph(char chr) const noexcept;
 		/// <summary>
 		/// Gets the source rectangle of a specified character.
 		/// </summary>

@@ -8,7 +8,7 @@
 #include <wincodec.h>
 #endif // USING_DX11
 #include "../Logging/Exception.hpp"
-#include "../Logging/ResourceLoadingError.hpp"
+#include "../Logging/AssetLoadingError.hpp"
 #include "../Internal/AssetUUIDReader.hpp"
 #include "../GraphicsDevice.hpp"
 #include "RenderTarget.hpp"
@@ -62,7 +62,7 @@ Texture2D::Texture2D(GraphicsDevice* device, const std::filesystem::path &path):
 	{
 		char mbPath[_MAX_PATH]{};
 		WideCharToMultiByte(CP_ACP, 0, filename.c_str(), int(filename.length()), mbPath, _MAX_PATH, nullptr, nullptr);
-		throw ResourceLoadingError(Tag<Texture2D>{}, mbPath, std::system_category().message(r));
+		throw AssetLoadingError(Tag<Texture2D>{}, mbPath, std::system_category().message(r));
 	}
 
 	_retrieveSize();

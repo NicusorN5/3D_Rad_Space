@@ -1,24 +1,25 @@
 #include "Model3D.hpp"
+#include "../../Logging/Exception.hpp"
+#include "../../Logging/AssetLoadingError.hpp"
+#include "../ShaderManager.hpp"
+#include "../../Internal/AssetUUIDReader.hpp"
+
 #include <assimp/scene.h>
 #include <assimp/mesh.h>
 #include <assimp/material.h>
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
-#include "../Logging/Exception.hpp"
-#include <filesystem>
-#include "../Logging/ResourceLoadingError.hpp"
-#include "../Content/ShaderManager.hpp"
-#include "../Internal/AssetUUIDReader.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content;
+using namespace Engine3DRadSpace::Content::Assets;
 using namespace Engine3DRadSpace::Logging;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Math;
 
 Assimp::Importer importer;
 
-Engine3DRadSpace::Graphics::Model3D::Model3D(Internal::AssetUUIDReader) : 
+Model3D::Model3D(Internal::AssetUUIDReader) : 
 	_device(nullptr)
 {
 }
@@ -29,7 +30,7 @@ Model3D::Model3D(GraphicsDevice* Device, const std::filesystem::path& path) :
 	//basicTexturedNBT = std::make_unique<Shaders::BasicTextured>(Device);
 	auto basicTexturedNBT = ShaderManager::LoadShader<Shaders::BasicTextured>(Device);
 
-	if (!std::filesystem::exists(path)) throw ResourceLoadingError(Tag<Model3D>{}, path, "This file doesn't exist!");
+	if (!std::filesystem::exists(path)) throw AssetLoadingError(Tag<Model3D>{}, path, "This file doesn't exist!");
 
 	const aiScene* scene = importer.ReadFile(path.string(),
 		aiProcess_Triangulate |
@@ -49,9 +50,9 @@ Model3D::Model3D(GraphicsDevice* Device, const std::filesystem::path& path) :
 	);
 
 	if(scene == nullptr)
-		throw ResourceLoadingError(Tag<Model3D>{}, path, importer.GetErrorString());
+		throw AssetLoadingError(Tag<Model3D>{}, path, importer.GetErrorString());
 	if(!scene->HasMeshes())
-		throw ResourceLoadingError(Tag<Model3D>{}, path, "The scene doesn't contain any models!");
+		throw AssetLoadingError(Tag<Model3D>{}, path, "The scene doesn't contain any models!");
 	
 	//loop meshes
 	std::vector<std::unique_ptr<ModelMeshPart>> meshParts;

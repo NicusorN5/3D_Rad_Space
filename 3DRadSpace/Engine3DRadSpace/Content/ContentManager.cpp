@@ -1,5 +1,4 @@
 #include "ContentManager.hpp"
-#include "AssetTypeRegistration.hpp"
 #include "../Logging.hpp"
 
 using namespace Engine3DRadSpace;
@@ -12,14 +11,11 @@ ContentManager::ContentManager(Game* owner) :
 {
 	//We add a null asset at index 0 because reference IDs are unsigned integers.
 	_assets.emplace_back(nullptr);
-
-	//Register asset types
-	CreateAssetInstance({}, nullptr, "");
 }
 
 IAsset* ContentManager::Load(const Reflection::UUID &uuid, const std::filesystem::path& path, unsigned* refID)
 {
-	auto asset = CreateAssetInstance(uuid, &_factory, path);
+	auto asset = _factory.CreateAssetInstance(uuid, path);
 	
 	std::unique_ptr<IAsset> ptrAsset;
 	ptrAsset.reset(asset);
@@ -37,7 +33,7 @@ IAsset* ContentManager::Load(const Reflection::UUID &uuid, const std::filesystem
 
 void ContentManager::Reload(unsigned id)
 {
-	auto asset = CreateAssetInstance(_assets[id].Entry->GetUUID(), &_factory, _assets[id].Path);
+	auto asset = _factory.CreateAssetInstance(_assets[id].Entry->GetUUID(), _assets[id].Path);
 	_assets[id].Entry.reset(asset);
 }
 

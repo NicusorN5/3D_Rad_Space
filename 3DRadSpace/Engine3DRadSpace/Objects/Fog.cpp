@@ -59,8 +59,8 @@ void Fog::Update()
 	_effect->NearPlaneDistance = _game->Objects->GetRenderingCamera()->NearPlaneDistance;
 	_effect->FarPlaneDistance = _game->Objects->GetRenderingCamera()->FarPlaneDistance;
 
-	_effect->FogBegin = FogBegin / 500;
-	_effect->FogEnd = FogEnd / 500;
+	_effect->FogBegin = FogBegin / _effect->FarPlaneDistance;
+	_effect->FogEnd = FogEnd / _effect->FarPlaneDistance;
 }
 
 Reflection::UUID Fog::GetUUID() const noexcept

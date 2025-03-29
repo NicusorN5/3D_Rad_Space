@@ -51,10 +51,10 @@ namespace Engine3DRadSpace::Content
 			//We don't consider assets that need to be constructed from multiple abstraction layers (either GraphicsDevice, AudioEngine, PhysicsEngine, et cetera...)
 		}
 
-
-
 		GraphicsDevice* Device() const noexcept;
 		Audio::AudioEngine* Audio() const noexcept;
 		Physics::PhysicsEngine* Physics() const noexcept;
+
+		IAsset* CreateAssetInstance(const Reflection::UUID& nuuid, const std::filesystem::path& path);
 	};
 }

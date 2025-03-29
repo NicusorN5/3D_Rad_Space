@@ -1,15 +1,15 @@
 #pragma once
-#include "ModelMesh.hpp"
-#include "Shaders/BasicTextured.hpp"
-#include "../Math/BoundingSphere.hpp"
-#include "../Math/BoundingBox.hpp"
+#include "../../Graphics/ModelMesh.hpp"
+#include "../../Graphics/Shaders/BasicTextured.hpp"
+#include "../../Math/BoundingSphere.hpp"
+#include "../../Math/BoundingBox.hpp"
 
 namespace Engine3DRadSpace::Internal
 {
 	struct AssetUUIDReader;
 }
 
-namespace Engine3DRadSpace::Graphics
+namespace Engine3DRadSpace::Content::Assets
 {
 	/// <summary>
 	/// Represents a 3D model, composed of multiple ModelMesh instances.
@@ -20,9 +20,9 @@ namespace Engine3DRadSpace::Graphics
 	class DLLEXPORT Model3D final : public Content::IAsset
 	{
 		GraphicsDevice* _device;
-		std::vector<std::unique_ptr<ModelMesh>> _meshes;
+		std::vector<std::unique_ptr<Graphics::ModelMesh>> _meshes;
 
-		void _processNode(std::vector<std::unique_ptr<ModelMeshPart>> &parts,void* currentNode);
+		void _processNode(std::vector<std::unique_ptr<Graphics::ModelMeshPart>> &parts, void* currentNode);
 
 		Math::BoundingSphere _sphere;
 		Math::BoundingBox _box;
@@ -43,7 +43,7 @@ namespace Engine3DRadSpace::Graphics
 		void Draw(const Math::Matrix4x4 &m);
 		void Draw(const Math::Matrix4x4 &model, const Math::Matrix4x4 &view, const Math::Matrix4x4 &proj);
 
-		using iterator = std::vector<std::unique_ptr<ModelMesh>>::iterator;
+		using iterator = std::vector<std::unique_ptr<Graphics::ModelMesh>>::iterator;
 		iterator begin();
 		iterator end();
 		size_t NumMeshes();
@@ -51,8 +51,8 @@ namespace Engine3DRadSpace::Graphics
 		Math::BoundingBox GetBoundingBox() const noexcept;
 		Math::BoundingSphere GetBoundingSphere() const noexcept;
 
-		void SetShader(std::shared_ptr<Shaders::Effect> effect);
-		void SetShaders(std::span<std::shared_ptr<Shaders::Effect>> effects);
+		void SetShader(std::shared_ptr<Graphics::Shaders::Effect> effect);
+		void SetShaders(std::span<std::shared_ptr<Graphics::Shaders::Effect>> effects);
 
 		Reflection::UUID GetUUID() const noexcept override;
 		/// <summary>
@@ -63,7 +63,7 @@ namespace Engine3DRadSpace::Graphics
 
 		~Model3D() = default;
 
-		ModelMesh *operator[](unsigned i);
+		Graphics::ModelMesh *operator[](unsigned i);
 		
 		friend struct Internal::AssetUUIDReader;
 	};

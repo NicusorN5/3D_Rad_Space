@@ -34,7 +34,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		///     5 - Positive Z - PZ
 		///		6 - Negative Z - NZ
 		/// </remarks>
-		CubeMapSkybox(GraphicsDevice* device, std::array<Texture2D,6> &&faces);
+		CubeMapSkybox(GraphicsDevice* device, std::array<Texture2D, 6> &&faces);
 
 		/// <summary>
 		/// Model/world transform for this primitive. Usually only made of scale and translation(camera position). 

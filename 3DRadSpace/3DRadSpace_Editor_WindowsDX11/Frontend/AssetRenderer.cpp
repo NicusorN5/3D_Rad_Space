@@ -1,9 +1,11 @@
 #include "AssetRenderer.hpp"
+#include <Engine3DRadSpace\Content\Assets\Model3D.hpp>
 #include <Engine3DRadSpace\Math\Matrix4x4.hpp>
 #include <Engine3DRadSpace/Graphics/Shaders/BasicTextured.hpp>
 #include <Engine3DRadSpace\Graphics\SpriteBatch.hpp>
 
 using namespace Engine3DRadSpace;
+using namespace Engine3DRadSpace::Content::Assets;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Graphics::Shaders;
 using namespace Engine3DRadSpace::Math;
@@ -57,7 +59,7 @@ template<> bool AssetRenderer(GraphicsDevice *device, const std::string &imagePa
 }
 
 template<>
-bool AssetRenderer(Engine3DRadSpace::GraphicsDevice* device, const std::string& imagePath, Engine3DRadSpace::Graphics::Font* font)
+bool AssetRenderer(GraphicsDevice* device, const std::string& imagePath, Font* font)
 {
 	using std::ranges::views::iota;
 	if (device && font)

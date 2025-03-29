@@ -7,6 +7,7 @@
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content;
+using namespace Engine3DRadSpace::Content::Assets;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Input;
 using namespace Engine3DRadSpace::Math;

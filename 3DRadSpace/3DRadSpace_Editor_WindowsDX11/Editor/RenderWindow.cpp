@@ -1,5 +1,5 @@
 #include "RenderWindow.hpp"
-#include <Engine3DRadSpace/Graphics/Font.hpp>
+#include <Engine3DRadSpace/Content/Assets/Font.hpp>
 #include "../Frontend/Settings.hpp"
 #include <Engine3DRadSpace/Graphics/Primitives/Box.hpp>
 #include <Engine3DRadSpace/ObjectList.hpp>
@@ -63,23 +63,6 @@ void RenderWindow::Load()
 
 	//sob = std::make_unique<Texture2D>(Device.get(), "sob.png");
 	//sob->Resize(256, 256);
-
-	try
-	{
-		skybox = std::make_unique<CubeMapSkybox>(Device.get(), std::array<Texture2D, 6>
-		{
-			Texture2D(Device.get(), "Data//Skyboxes//0//px.jpg"),
-			Texture2D(Device.get(), "Data//Skyboxes//0//nx.jpg"),
-			Texture2D(Device.get(), "Data//Skyboxes//0//py.jpg"),
-			Texture2D(Device.get(), "Data//Skyboxes//0//ny.jpg"),
-			Texture2D(Device.get(), "Data//Skyboxes//0//pz.jpg"),
-			Texture2D(Device.get(), "Data//Skyboxes//0//nz.jpg")
-		});
-	}
-	catch(Logging::Exception& e)
-	{
-		MessageBoxA(editorWindow, e.what(), "Failed to load skybox!", MB_ICONERROR);
-	}
 }
 
 Vector2 mouseDelta;
@@ -203,11 +186,6 @@ void RenderWindow::Draw3D()
 		}
 	}
 	*/
-
-	//auto scale = Camera.FarPlaneDistance * 0.99f;
-	//skybox->Model = Matrix4x4::CreateScale(Vector3(scale, scale, scale)) *  Matrix4x4::CreateTranslation(Camera.Position);
-	skybox->SetTransformFromCamera(Camera);
-	skybox->Draw3D();
 }
 
 void RenderWindow::Draw2D()

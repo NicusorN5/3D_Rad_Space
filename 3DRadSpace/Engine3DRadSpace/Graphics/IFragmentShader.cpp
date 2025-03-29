@@ -1,6 +1,5 @@
 #include "IFragmentShader.hpp"
 #include "ShaderCompilationError.hpp"
-#include "../Logging/ResourceLoadingError.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;

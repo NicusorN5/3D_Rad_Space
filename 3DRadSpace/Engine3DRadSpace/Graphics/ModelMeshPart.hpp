@@ -5,6 +5,11 @@
 #include "../Math/BoundingSphere.hpp"
 #include "../Math/BoundingBox.hpp"
 
+namespace Engine3DRadSpace::Content::Assets
+{
+	class Model3D;
+}
+
 namespace Engine3DRadSpace::Graphics
 {
 	/// <summary>
@@ -77,7 +82,7 @@ namespace Engine3DRadSpace::Graphics
 
 		~ModelMeshPart() = default;
 
-		friend class Model3D;
+		friend class Engine3DRadSpace::Content::Assets::Model3D;
 	};
 
 	template<VertexDecl V>

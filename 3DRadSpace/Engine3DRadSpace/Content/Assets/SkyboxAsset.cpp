@@ -1,0 +1,87 @@
+#include "SkyboxAsset.hpp"
+#include "../../Logging/AssetLoadingError.hpp"
+
+using namespace Engine3DRadSpace;
+using namespace Engine3DRadSpace::Content;
+using namespace Engine3DRadSpace::Content::Assets;
+using namespace Engine3DRadSpace::Graphics;
+using namespace Engine3DRadSpace::Graphics::Primitives;
+using namespace Engine3DRadSpace::Logging;
+using namespace Engine3DRadSpace::Reflection;
+
+CubeMapSkybox SkyboxAsset::_loadCubeMap(GraphicsDevice *device, const std::filesystem::path& path)
+{
+	if(!std::filesystem::exists(path))
+	{
+		throw AssetLoadingError(Tag<SkyboxAsset>{}, path, "File does not exist");
+	}
+
+	std::ifstream file(path);
+
+	if(!file.is_open())
+	{
+		throw Logging::AssetLoadingError(Tag<SkyboxAsset>{}, path, "Failed to open file");
+	}
+
+	if(path.extension() == ".skybox")
+	{
+		std::array<std::filesystem::path, 6> texturePaths;
+
+		for(int i = 0; i < 6; ++i)
+		{
+			std::string texturePath;
+			std::getline(file, texturePath);
+
+			texturePaths[i] = texturePath;
+		}
+		
+		std::array<Texture2D, 6> cubeMap =
+		{
+			Texture2D(device, texturePaths[0]),
+			Texture2D(device, texturePaths[1]),
+			Texture2D(device, texturePaths[2]),
+			Texture2D(device, texturePaths[3]),
+			Texture2D(device, texturePaths[4]),
+			Texture2D(device, texturePaths[5]),
+		};
+
+		return CubeMapSkybox(device, std::move(cubeMap));
+	}
+	else if(path.extension() == ".dds")
+	{
+		//TODO: Implement DDS loading
+		throw AssetLoadingError(Tag<SkyboxAsset>{}, path, "DDS loading not implemented");
+	}
+	else
+	{
+		throw AssetLoadingError(Tag<SkyboxAsset>{}, path, "Unsupported file format");
+	}
+}
+
+SkyboxAsset::SkyboxAsset(GraphicsDevice *device, const std::filesystem::path& path) :
+	_skybox(_loadCubeMap(device, path))
+{
+}
+
+CubeMapSkybox& SkyboxAsset::GetSkybox() noexcept
+{
+	return _skybox;
+}
+
+CubeMapSkybox* SkyboxAsset::operator->() noexcept
+{
+	return &_skybox;
+}
+
+Reflection::UUID SkyboxAsset::GetUUID() const noexcept
+{
+	// {9B7A328E-9B10-4FFC-9E3B-0A79214BB6CA}
+	return { 0x9b7a328e, 0x9b10, 0x4ffc, { 0x9e, 0x3b, 0xa, 0x79, 0x21, 0x4b, 0xb6, 0xca } };
+}
+
+const char* SkyboxAsset::FileExtension() const noexcept
+{
+	return "Skybox file(*.skybox)\0*.skybox\0"
+			"Direct Draw Surface(*.dds)\0*.dds\0";
+			"All Files(*.*)\0*.*\0\0";
+}

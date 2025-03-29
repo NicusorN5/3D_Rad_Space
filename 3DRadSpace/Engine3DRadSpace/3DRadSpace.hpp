@@ -49,10 +49,13 @@
 //Engine3DRadSpace::Content
 #include "Content\AssetFactory.hpp"
 #include "Content\AssetID.hpp"
-#include "Content\AssetTypeRegistration.hpp"
 #include "Content\ContentManager.hpp"
 #include "Content\IAsset.hpp"
 #include "Content\ShaderManager.hpp"
+//Engine3DRadSpace::Content::Assets
+#include "Content\Assets\Font.hpp"
+#include "Content\Assets\Model3D.hpp"
+#include "Content\Assets\SkyboxAsset.hpp"
 
 //Engine3DRadSpace::Graphics
 #include "Graphics\BlendState.hpp"
@@ -60,7 +63,6 @@
 #include "Graphics\DepthStencilBuffer.hpp"
 #include "Graphics\DepthStencilState.hpp"
 #include "Graphics\FlipMode.hpp"
-#include "Graphics\Font.hpp"
 #include "Graphics\Glyph.hpp"
 #include "Graphics\IDomainShader.hpp"
 #include "Graphics\IFragmentShader.hpp"
@@ -69,7 +71,6 @@
 #include "Graphics\IndexBuffer.hpp"
 #include "Graphics\IShader.hpp"
 #include "Graphics\IVertexShader.hpp"
-#include "Graphics\Model3D.hpp"
 #include "Graphics\ModelMesh.hpp"
 #include "Graphics\ModelMeshPart.hpp"
 #include "Graphics\PixelFormat.hpp"
@@ -87,6 +88,7 @@
 //Engine3DRadSpace::Graphics::Primitives
 #include "Graphics\Primitives\Box.hpp"
 #include "Graphics\Primitives\Circle.hpp"
+#include "Graphics\Primitives\CubeMapSkybox.hpp"
 #include "Graphics\Primitives\IPrimitive.hpp"
 #include "Graphics\Primitives\LineList.hpp"
 #include "Graphics\Primitives\LineStrip.hpp"
@@ -106,6 +108,7 @@
 #include "Graphics\Shaders\BasicTextured.hpp"
 #include "Graphics\Shaders\BlankShader.hpp"
 #include "Graphics\Shaders\Blank_NoMatrix.hpp"
+#include "Graphics\Shaders\SkyboxShader.hpp"
 #include "Graphics\Shaders\SpriteShader.hpp"
 
 //Engine3DRadSpace::Input
@@ -118,7 +121,7 @@
 //Engine3DRadSpace::Logging
 #include "Logging\Exception.hpp"
 #include "Logging\Message.hpp"
-#include "Logging\ResourceLoadingError.hpp"
+#include "Logging\AssetLoadingError.hpp"
 #include "Logging\Warning.hpp"
 
 //Engine3DRadSpace::Math

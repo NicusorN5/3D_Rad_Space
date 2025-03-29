@@ -1,9 +1,10 @@
 #include "Camera.hpp"
 #include "../Reflection/Reflection.hpp"
-#include "../Graphics/Model3D.hpp"
+#include "../Content/Assets/Model3D.hpp"
 #include "../Game.hpp"
 #include "../ObjectList.hpp"
 
+using namespace Engine3DRadSpace::Content::Assets;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Objects;
 using namespace Engine3DRadSpace::Math;
@@ -51,14 +52,14 @@ Matrix4x4 Camera::GetViewMatrix() const noexcept
 	case CameraMode::UseLookAtCoordinates:
 		focus = this->LookAt;
 		break;
-	default: //Normally we wouldn't get here. Do not set the focus vector.
-		break;
+	default: 
+		std::unreachable();
 	}
 
 	return Matrix4x4::CreateLookAtView(Position, focus, UpwardsDir);
 }
 
-Matrix4x4 Camera::GetProjectionMatrix() const noexcept
+Matrix4x4 Camera::GetProjectionMatrix() const
 {
 	return Matrix4x4::CreatePerspectiveProjection(AspectRatio, FieldOfView, NearPlaneDistance, FarPlaneDistance);
 }

@@ -43,8 +43,12 @@ namespace Engine3DRadSpace::Objects
 		void EditorLoad() override;
 		void EditorUpdate() override;
 
+		/// <summary>
+		/// Gets the View matrix of the camera.
+		/// </summary>
+		/// <returns>View matrix</returns>
 		Math::Matrix4x4 GetViewMatrix() const noexcept;
-		Math::Matrix4x4 GetProjectionMatrix() const noexcept;
+		Math::Matrix4x4 GetProjectionMatrix() const;
 
 		/// <summary>
 		/// Sets the view and projection matrices.

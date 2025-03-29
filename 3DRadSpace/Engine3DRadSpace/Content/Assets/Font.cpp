@@ -1,11 +1,13 @@
 #include "Font.hpp"
-#include "PixelFormat.hpp"
-#include "../Logging/Exception.hpp"
-#include "Texture2D.hpp"
+#include "../../Graphics/PixelFormat.hpp"
+#include "../../Logging/Exception.hpp"
+#include "../../Logging/AssetLoadingError.hpp"
+#include "../../Graphics/Texture2D.hpp"
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
+using namespace Engine3DRadSpace::Content::Assets;
 using namespace Engine3DRadSpace::Logging;
 using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Graphics;
@@ -38,7 +40,7 @@ Font::Font(GraphicsDevice* device, const std::filesystem::path& path, unsigned s
 
 	if(FT_New_Face(FreeTypeLib, path.string().c_str(), 0, &font))
 	{
-		throw Exception("Failed to load font " + path.string()  + " !");
+		throw Logging::AssetLoadingError(Tag<Font>{}, path, "Failed to load font!");
 	}
 
 	FT_Set_Pixel_Sizes(font, 0, size);
@@ -218,7 +220,7 @@ std::optional<Glyph> Font::GetCharGlyph(char chr) const noexcept
 	return std::nullopt;
 }
 
-std::optional<Math::Rectangle> Engine3DRadSpace::Graphics::Font::GetCharSourceRectangle(char chr) const noexcept
+std::optional<Math::Rectangle> Font::GetCharSourceRectangle(char chr) const noexcept
 {
 	for (auto& [glyph, rectangle] : _glyphs)
 	{

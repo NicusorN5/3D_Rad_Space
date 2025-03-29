@@ -1,6 +1,5 @@
 #pragma once
-#include "AssetFactory.hpp"
-#include "../Internal/AssetUUIDReader.hpp"
+#include "../Content/IAsset.hpp"
 
 namespace Engine3DRadSpace::Internal
 {
@@ -10,51 +9,50 @@ namespace Engine3DRadSpace::Internal
 
 	typedef std::variant<AssetCtor1, AssetCtor2, AssetCtor3> AssetCtor;
 
-	inline std::vector<std::pair<Engine3DRadSpace::Reflection::UUID, Engine3DRadSpace::Internal::AssetCtor>> assetTypes;
-}
+	inline std::vector<std::pair<Engine3DRadSpace::Reflection::UUID, Engine3DRadSpace::Internal::AssetCtor>> asset_types;
 
-namespace Engine3DRadSpace::Content
-{
-	DLLEXPORT IAsset* CreateAssetInstance(const Reflection::UUID &uuid, AssetFactory* factory,const std::filesystem::path& path);
+	void RegisterDefaultAssets();
 
-	template<AssetType T>
+	template<Content::AssetType T>
 	bool RegisterAssetType()
 	{
 		using namespace Engine3DRadSpace::Audio;
 		using namespace Engine3DRadSpace::Physics;
+		using namespace Engine3DRadSpace::Content;
+		using namespace Engine3DRadSpace::Internal;
 
-		for (auto& [uuid, ctor] : Internal::assetTypes)
+		for (auto& [uuid, ctor] : asset_types)
 		{
-			if (uuid == Internal::AssetUUIDReader::GetUUID(Tag<T>()))
+			if (uuid == AssetUUIDReader::GetUUID(Tag<T>()))
 				return false;
 		}
 
 		if constexpr(ConstructibleFromGraphicsDevice<T>)
 		{
-			Internal::assetTypes.emplace_back(Internal::AssetUUIDReader::GetUUID(Tag<T>()),
+			asset_types.emplace_back(AssetUUIDReader::GetUUID(Tag<T>()),
 				[](GraphicsDevice* device, const std::filesystem::path& path) -> Content::IAsset*
 				{
-					return static_cast<Content::IAsset*>(new T(device, path));
+					return static_cast<IAsset*>(new T(device, path));
 				}							  
 			);
 		}
 
 		if constexpr(ConstructibleFromPhysicsEngine<T>)
 		{
-			Internal::assetTypes.emplace_back(Internal::AssetUUIDReader::GetUUID(Tag<T>()),
+			asset_types.emplace_back(AssetUUIDReader::GetUUID(Tag<T>()),
 				[](PhysicsEngine* physics, const std::filesystem::path& path) -> Content::IAsset*
 				{
-					return static_cast<Content::IAsset*>(new T(physics, path));
+					return static_cast<IAsset*>(new T(physics, path));
 				}							  
 			);
 		}
 
 		if constexpr(ConstructibleFromAudioEngine<T>)
 		{
-			Internal::assetTypes.emplace_back(Internal::AssetUUIDReader::GetUUID(Tag<T>()),
+			asset_types.emplace_back(AssetUUIDReader::GetUUID(Tag<T>()),
 				[](AudioEngine* audio, const std::filesystem::path& path) -> Content::IAsset*
 				{
-					return static_cast<Content::IAsset*>(new T(audio, path));
+					return static_cast<IAsset*>(new T(audio, path));
 				}							  
 			);
 		}

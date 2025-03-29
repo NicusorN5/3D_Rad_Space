@@ -10,11 +10,11 @@
 #include "../Math/Quaternion.hpp"
 #include "../Math/Rectangle.hpp"
 #include "../Graphics/Texture2D.hpp"
-#include "../Graphics/Model3D.hpp"
+#include "../Content/Assets/Model3D.hpp"
+#include "../Content/Assets/Font.hpp"
 #include "../Input/Keyboard.hpp"
 #include "../Concepts.hpp"
 #include "../Content/AssetID.hpp"
-#include "../Graphics/Font.hpp"
 
 namespace Engine3DRadSpace
 {
@@ -59,8 +59,8 @@ namespace Engine3DRadSpace::Reflection
 	FieldRepresentation GetFieldRepresentation() { return { {FieldRepresentationType::Custom,""} }; }
 	
 	template<> FieldRepresentation DLLEXPORT GetFieldRepresentation<Content::AssetID<Graphics::Texture2D>>();
-	template<> FieldRepresentation DLLEXPORT GetFieldRepresentation<Content::AssetID<Graphics::Model3D>>();
-	template<> FieldRepresentation DLLEXPORT GetFieldRepresentation<Content::AssetID<Graphics::Font>>();
+	template<> FieldRepresentation DLLEXPORT GetFieldRepresentation<Content::AssetID<Content::Assets::Model3D>>();
+	template<> FieldRepresentation DLLEXPORT GetFieldRepresentation<Content::AssetID<Content::Assets::Font>>();
 
 	template<> FieldRepresentation DLLEXPORT GetFieldRepresentation<Input::Key>();
 
