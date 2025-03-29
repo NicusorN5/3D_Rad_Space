@@ -122,7 +122,7 @@ Camera::~Camera()
 		cameraModel.reset();
 
 	//Remove the camera reference from the game object list.
-	if(_game->Objects->_camera == this)
+	if(_game && _game->Objects->_camera == this)
 	{
 		_game->Objects->_camera = nullptr;
 	}

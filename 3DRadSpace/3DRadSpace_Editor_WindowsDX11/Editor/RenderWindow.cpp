@@ -206,8 +206,7 @@ void RenderWindow::Draw3D()
 
 	//auto scale = Camera.FarPlaneDistance * 0.99f;
 	//skybox->Model = Matrix4x4::CreateScale(Vector3(scale, scale, scale)) *  Matrix4x4::CreateTranslation(Camera.Position);
-	skybox->View = View;
-	skybox->Projection = Projection;
+	skybox->SetTransformFromCamera(Camera);
 	skybox->Draw3D();
 }
 
