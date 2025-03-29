@@ -47,8 +47,12 @@ namespace Engine3DRadSpace::Content
 	concept ConstructibleFromPhysicsEngine = std::is_constructible_v<T, Physics::PhysicsEngine*, const std::filesystem::path&>;
 
 	template<typename T>
+	concept ConstructibleFromPath = std::is_constructible_v<T, const std::filesystem::path&>;
+
+	template<typename T>
 	concept AssetType = std::is_base_of_v<IAsset, T> &&
 		( ConstructibleFromGraphicsDevice<T> ||
 		ConstructibleFromAudioEngine<T> ||
-		ConstructibleFromPhysicsEngine<T> );
+		ConstructibleFromPhysicsEngine<T> ||
+		ConstructibleFromPath<T>);
 }

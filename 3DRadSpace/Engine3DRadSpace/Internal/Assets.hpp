@@ -6,8 +6,9 @@ namespace Engine3DRadSpace::Internal
 	typedef Content::IAsset* (*AssetCtor1)(GraphicsDevice* device, const std::filesystem::path& path);
 	typedef Content::IAsset* (*AssetCtor2)(Physics::PhysicsEngine* device, const std::filesystem::path& path);
 	typedef Content::IAsset* (*AssetCtor3)(Audio::AudioEngine* device, const std::filesystem::path& path);
+	typedef Content::IAsset* (*AssetCtor4)(const std::filesystem::path& path);
 
-	typedef std::variant<AssetCtor1, AssetCtor2, AssetCtor3> AssetCtor;
+	typedef std::variant<AssetCtor1, AssetCtor2, AssetCtor3, AssetCtor4> AssetCtor;
 
 	inline std::vector<std::pair<Engine3DRadSpace::Reflection::UUID, Engine3DRadSpace::Internal::AssetCtor>> asset_types;
 
@@ -53,6 +54,16 @@ namespace Engine3DRadSpace::Internal
 				[](AudioEngine* audio, const std::filesystem::path& path) -> Content::IAsset*
 				{
 					return static_cast<IAsset*>(new T(audio, path));
+				}							  
+			);
+		}
+
+		if constexpr(ConstructibleFromPath<T>)
+		{
+			asset_types.emplace_back(AssetUUIDReader::GetUUID(Tag<T>()),
+				[](AudioEngine* audio, const std::filesystem::path& path) -> Content::IAsset*
+				{
+					return static_cast<IAsset*>(new T(path));
 				}							  
 			);
 		}

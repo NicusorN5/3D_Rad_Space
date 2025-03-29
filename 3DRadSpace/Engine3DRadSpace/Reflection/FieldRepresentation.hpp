@@ -1,8 +1,3 @@
-/// ------------------------------------------------------------------------------------------------
-/// File:   Reflection/FieldRepresentation.hpp
-/// Copyright (C) 2025, 3DRadSpace
-/// License: CC0-1.0 license
-/// ------------------------------------------------------------------------------------------------
 #pragma once
 #include "../Libs.hpp"
 #include "../Color.hpp"
@@ -12,6 +7,7 @@
 #include "../Graphics/Texture2D.hpp"
 #include "../Content/Assets/Model3D.hpp"
 #include "../Content/Assets/Font.hpp"
+#include "../Content/Assets/SkyboxAsset.hpp"
 #include "../Input/Keyboard.hpp"
 #include "../Concepts.hpp"
 #include "../Content/AssetID.hpp"
@@ -37,6 +33,7 @@ namespace Engine3DRadSpace::Reflection
 		Key,
 		Enum,
 		Color,
+		Skybox,
 		Custom,
 	};
 
@@ -61,6 +58,7 @@ namespace Engine3DRadSpace::Reflection
 	template<> FieldRepresentation DLLEXPORT GetFieldRepresentation<Content::AssetID<Graphics::Texture2D>>();
 	template<> FieldRepresentation DLLEXPORT GetFieldRepresentation<Content::AssetID<Content::Assets::Model3D>>();
 	template<> FieldRepresentation DLLEXPORT GetFieldRepresentation<Content::AssetID<Content::Assets::Font>>();
+	template<> FieldRepresentation DLLEXPORT GetFieldRepresentation<Content::AssetID<Content::Assets::SkyboxAsset>>();
 
 	template<> FieldRepresentation DLLEXPORT GetFieldRepresentation<Input::Key>();
 

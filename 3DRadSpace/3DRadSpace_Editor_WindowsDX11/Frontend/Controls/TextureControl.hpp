@@ -5,6 +5,7 @@
 
 class TextureControl : public AssetControl
 {
+protected:
 	HWND _pictureBox;
 	HBITMAP _image;
 public:

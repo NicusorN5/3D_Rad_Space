@@ -7,7 +7,7 @@ using namespace Engine3DRadSpace::Physics;
 
 void StaticRigidbody::_generateRigidbody()
 {
-	_game->Physics.get();
+	//_game->Physics.get();
 }
 
 StaticRigidbody::StaticRigidbody() :

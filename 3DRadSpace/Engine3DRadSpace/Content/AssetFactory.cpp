@@ -84,6 +84,8 @@ IAsset* AssetFactory::CreateAssetInstance(const Reflection::UUID &nuuid ,const s
 					return std::get<AssetCtor2>(ctor)(_physics, path);
 				case 2:
 					return std::get<AssetCtor3>(ctor)(_audio, path);
+				case 3:
+					return std::get<AssetCtor4>(ctor)(path);
 				default:
 					std::unreachable();
 			}

@@ -1,8 +1,3 @@
-/// ------------------------------------------------------------------------------------------------
-/// File:   Reflection/Reflection.hpp
-/// Copyright (C) 2025, 3DRadSpace
-/// License: CC0-1.0 license
-/// ------------------------------------------------------------------------------------------------
 #pragma once
 
 ///Reflecting IObject types:
@@ -35,9 +30,19 @@
 #define REFL_ENUM_ENTRY(Name, Num) ::Engine3DRadSpace::Reflection::EnumEntry{ .VisibleName = Name, .Value = static_cast<int>(Num)},
 
 //Ends enum reflection
-#define REFL_ENUM_END ::Engine3DRadSpace::Reflection::EnumEntry{ .VisibleName = "__SentinelValue", .Value = std::numeric_limits<int>::max()}});
+#define REFL_ENUM_END ::Engine3DRadSpace::Reflection::EnumEntry{ .VisibleName = "INT_MAX", .Value = std::numeric_limits<int>::max()}});
 
 //Forward reference to enumeration reflection instance
 #define REFL_ENUM_FWD(EnumType) extern ::Engine3DRadSpace::Reflection::ReflectedEnum EnumName##EnumReflInstance;
 
 #define REFL_FIELD_ENUM(ObjectType, EnumType, FieldName, FieldVisibleName, DefaultValue, Description) static_cast<::Engine3DRadSpace::Reflection::IReflectedEnum*>()
+
+
+
+
+
+
+///Reflecting assets:
+#include "ReflectedAsset.hpp"
+
+#define REFL_ASSET_ID(ObjectType, AssetType, FieldName, FieldVisibleName, Description) static_cast<::Engine3DRadSpace::Reflection::IReflectedAsset*>( new ::Engine3DRadSpace::Reflection::ReflectedAsset<ObjectType, AssetType>(offsetof(ObjectType, FieldName), FieldVisibleName, Description)),

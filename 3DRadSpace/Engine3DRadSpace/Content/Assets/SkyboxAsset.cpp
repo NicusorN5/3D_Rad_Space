@@ -1,5 +1,6 @@
 #include "SkyboxAsset.hpp"
 #include "../../Logging/AssetLoadingError.hpp"
+#include "../../Internal/AssetUUIDReader.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content;
@@ -32,7 +33,7 @@ CubeMapSkybox SkyboxAsset::_loadCubeMap(GraphicsDevice *device, const std::files
 			std::string texturePath;
 			std::getline(file, texturePath);
 
-			texturePaths[i] = texturePath;
+			texturePaths[i] = std::filesystem::path(path).remove_filename().append(texturePath);
 		}
 		
 		std::array<Texture2D, 6> cubeMap =
@@ -56,6 +57,12 @@ CubeMapSkybox SkyboxAsset::_loadCubeMap(GraphicsDevice *device, const std::files
 	{
 		throw AssetLoadingError(Tag<SkyboxAsset>{}, path, "Unsupported file format");
 	}
+}
+
+SkyboxAsset::SkyboxAsset(Internal::AssetUUIDReader dummy) :
+	_skybox(nullptr)
+{
+	(void)dummy;
 }
 
 SkyboxAsset::SkyboxAsset(GraphicsDevice *device, const std::filesystem::path& path) :

@@ -1,8 +1,3 @@
-/// ------------------------------------------------------------------------------------------------
-/// File:   Reflection/ReflectedFunction.hpp
-/// Copyright (C) 2025, 3DRadSpace
-/// License: CC0-1.0 license
-/// ------------------------------------------------------------------------------------------------
 #pragma once
 #include "FieldRepresentation.hpp"
 #include "ReflectedObject.hpp"

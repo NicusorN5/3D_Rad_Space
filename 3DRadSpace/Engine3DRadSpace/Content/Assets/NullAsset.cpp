@@ -1,7 +1,17 @@
 #include "NullAsset.hpp"
+#include "../../Internal/AssetUUIDReader.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content::Assets;
+
+NullAsset::NullAsset(const std::filesystem::path& dummy)
+{
+	(void)dummy;
+}
+
+NullAsset::NullAsset(Internal::AssetUUIDReader dummy)
+{
+}
 
 Reflection::UUID NullAsset::GetUUID() const noexcept
 {

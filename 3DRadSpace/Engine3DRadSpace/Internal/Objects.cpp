@@ -12,6 +12,7 @@ REFL_FWD(TextPrint)
 REFL_FWD(Fog)
 REFL_FWD(Counter)
 REFL_FWD(ExitFade)
+REFL_FWD(Skybox)
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Reflection;
@@ -45,9 +46,7 @@ void Engine3DRadSpace::Internal::LoadDefaultObjects()
 		CameraReflInstance, //C# Script
 		*/
 		&SkinmeshReflInstance, //Skinmesh
-		/*
-		CameraReflInstance, //Skybox
-		*/
+		&SkyboxReflInstance, //Skybox
 		&SkyColorReflInstance,
 		/*
 		CameraReflInstance, //SoundEffect

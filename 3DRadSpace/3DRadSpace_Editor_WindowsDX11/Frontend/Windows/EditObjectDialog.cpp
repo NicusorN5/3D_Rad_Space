@@ -7,6 +7,7 @@
 #include "..\Controls\TextureControl.hpp"
 #include "..\Controls\ModelControl.hpp"
 #include "..\Controls\FontControl.hpp"
+#include "..\Controls\SkyboxControl.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content;
@@ -465,6 +466,17 @@ void EditObjectDialog::createForms()
 				setMax(inc_y, textboxHeight + 5);
 				break;
 			}
+			case FieldRepresentationType::Skybox:
+			{
+				auto value = *static_cast<const AssetID<SkyboxAsset>*>(valuePtr);
+				
+				SkyboxControl *ctrl = new SkyboxControl(window, hInstance, _content, value, fieldName, x, y);
+				windows.push_back(ctrl);
+
+				setMax(inc_y, ctrl->AccY() + 5 + textboxHeight);
+				px = ctrl->AccX() > 205 ? ctrl->AccX() : 205;
+				break;
+			}
 			case FieldRepresentationType::Custom:
 			{
 				break;
@@ -778,6 +790,14 @@ void EditObjectDialog::setObject()
 
 					memcpy_s(newStruct.get() + j, sizeof(Color), &color, sizeof(Color));
 					j += sizeof(Color);
+					break;
+				}
+				case FieldRepresentationType::Skybox:
+				{
+					auto skyboxCtrl = static_cast<SkyboxControl *>(std::get<IControl *>(windows[i++]));
+					
+					memcpy_s(newStruct.get() + j, sizeof(AssetID<SkyboxAsset>), &skyboxCtrl->AssetReference, sizeof(AssetID<Texture2D>));
+					j += sizeof(AssetID<SkyboxAsset>);
 					break;
 				}
 				case FieldRepresentationType::Custom:

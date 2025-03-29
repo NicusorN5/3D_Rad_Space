@@ -19,8 +19,9 @@ namespace Engine3DRadSpace::Plugins
 	/// </returns>
 	/// <remarks>
 	/// When called, PluginMain has to:
-	/// - Initialize reflection data for custom objects
 	/// - Load resources related to the plugin itself, such as images, windows..., etc. Meaning that it is safe to create windows, display messages boxes here, unline Windows's in DllMain.
+	/// - Define new asset types, if any
+	// - Initialize reflection data for custom objects, if any
 	/// - Optionally find the editor window, and apply modifications and hooks.
 	/// If failed, return false, then call Logging::SetLastError() to report the failure.
 	/// </remarks>
