@@ -2,6 +2,11 @@
 #include "../ModelMeshPart.hpp"
 #include "../../IDrawable3D.hpp"
 
+namespace Engine3DRadSpace::Objects
+{
+	class Camera;
+}
+
 namespace Engine3DRadSpace::Graphics::Primitives
 {
 	/// <summary>
@@ -43,6 +48,8 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		/// Camera projection matrix.
 		/// </summary>
 		Math::Matrix4x4 Projection = Math::Matrix4x4();
+
+		void SetTransformFromCamera(const Objects::Camera& camera);
 
 		void Draw3D() override;
 	};

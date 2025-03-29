@@ -32,7 +32,7 @@ void BasicTextured::SetTransform(const Matrix4x4& m)
 
 void BasicTextured::SetTexture(Texture2D* texture)
 {
-	_vertex->SetTexture(0, texture);
+	_pixel->SetTexture(0, texture);
 }
 
 void BasicTextured::SetSampler(SamplerState* state)

@@ -55,7 +55,7 @@ void IShader::_compileShader(const char *source, const char* target)
 	{
 		if(FAILED(r))
 		{
-			MessageBoxA(nullptr, static_cast<char*>(_errorBlob->GetBufferPointer()), "Shader compilation error!", MB_ICONERROR);
+			//MessageBoxA(nullptr, static_cast<char*>(_errorBlob->GetBufferPointer()), "Shader compilation error!", MB_ICONERROR);
 			throw Exception(std::string("Shader compilation failure! \r\n") + static_cast<char*>(_errorBlob->GetBufferPointer()));
 		}
 	}
@@ -121,7 +121,7 @@ IShader::IShader(GraphicsDevice *Device, const std::filesystem::path &path, cons
 {
 }
 
-void IShader::SetData(unsigned index,const void *data, unsigned dataSize)
+void IShader::SetData(unsigned index, const void *data, unsigned dataSize)
 {
 #ifdef USING_DX11
 	if (_constantBuffers[index].Get() == nullptr)

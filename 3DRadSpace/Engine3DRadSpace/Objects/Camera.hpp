@@ -43,6 +43,9 @@ namespace Engine3DRadSpace::Objects
 		void EditorLoad() override;
 		void EditorUpdate() override;
 
+		Math::Matrix4x4 GetViewMatrix() const noexcept;
+		Math::Matrix4x4 GetProjectionMatrix() const noexcept;
+
 		/// <summary>
 		/// Sets the view and projection matrices.
 		/// </summary>

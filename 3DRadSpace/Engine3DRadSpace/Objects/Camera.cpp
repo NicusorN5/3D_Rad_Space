@@ -40,7 +40,7 @@ void Camera::EditorUpdate()
 	Update();
 }
 
-void Camera::Draw3D()
+Matrix4x4 Camera::GetViewMatrix() const noexcept
 {
 	Vector3 focus(0, 0, 0);
 	switch (this->LookMode)
@@ -54,9 +54,19 @@ void Camera::Draw3D()
 	default: //Normally we wouldn't get here. Do not set the focus vector.
 		break;
 	}
-	
-	_game->View = Matrix4x4::CreateLookAtView(Position, focus, UpwardsDir);
-	_game->Projection = Matrix4x4::CreatePerspectiveProjection(AspectRatio, FieldOfView, NearPlaneDistance, FarPlaneDistance);
+
+	return Matrix4x4::CreateLookAtView(Position, focus, UpwardsDir);
+}
+
+Matrix4x4 Camera::GetProjectionMatrix() const noexcept
+{
+	return Matrix4x4::CreatePerspectiveProjection(AspectRatio, FieldOfView, NearPlaneDistance, FarPlaneDistance);
+}
+
+void Camera::Draw3D()
+{
+	_game->View = GetViewMatrix();
+	_game->Projection = GetProjectionMatrix();
 	Update();
 }
 
@@ -112,7 +122,10 @@ Camera::~Camera()
 		cameraModel.reset();
 
 	//Remove the camera reference from the game object list.
-	if(_game) _game->Objects->_camera = nullptr;
+	if(_game->Objects->_camera == this)
+	{
+		_game->Objects->_camera = nullptr;
+	}
 }
 
 REFL_BEGIN(Camera,"Camera","Camera objects","Perspective camera")
