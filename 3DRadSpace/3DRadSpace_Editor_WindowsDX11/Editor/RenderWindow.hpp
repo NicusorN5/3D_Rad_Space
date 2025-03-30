@@ -70,6 +70,7 @@ public:
 
 	bool IsFocused() const;
 	void Reset3DCursor();
+	void SelectObject(IObject* obj);
 
 	~RenderWindow();
 };

@@ -237,6 +237,21 @@ void GraphicsDevice::UnbindRenderTargetAndDepth()
 #endif
 }
 
+void GraphicsDevice::UnbindDepthBuffer()
+{
+#ifdef USING_DX11
+	std::array<ID3D11RenderTargetView*, D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT> rts;
+	_context->OMGetRenderTargets(D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT, &rts[0], nullptr);
+
+	_context->OMSetRenderTargets(D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT, &rts[0], nullptr);
+
+	for(auto& rt : rts)
+	{
+		if(rt) rt->Release();
+	}
+#endif
+}
+
 void GraphicsDevice::SetRenderTargetAndDepth(RenderTarget *renderTarget, DepthStencilBuffer *depthBuffer)
 {
 #ifdef USING_DX11
@@ -397,10 +412,22 @@ void GraphicsDevice::SetRasterizerState(const RasterizerState *state)
 void GraphicsDevice::SetDepthStencilBuffer(DepthStencilBuffer *depthBuffer)
 {
 #ifdef USING_DX11
-	ID3D11RenderTargetView *renderTargets[8];
-	_context->OMGetRenderTargets(8, renderTargets, nullptr);
-	
-	_context->OMSetRenderTargets(8, renderTargets, depthBuffer->_depthView.Get());
+	ID3D11RenderTargetView *renderTargets[D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT];
+	_context->OMGetRenderTargets(
+		D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT, 
+		renderTargets,
+		nullptr
+	);
+
+	_context->OMSetRenderTargets(
+		D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT, 
+		renderTargets,depthBuffer != nullptr ? depthBuffer->_depthView.Get() : nullptr
+	);
+
+	for(auto& rt : renderTargets)
+	{
+		if(rt) rt->Release();
+	}
 #endif
 }
 

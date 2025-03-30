@@ -52,7 +52,7 @@ void RenderWindow::Initialize()
 
 	Camera.InternalInitialize(this);
 	Camera.LookMode = Camera::CameraMode::UseLookAtCoordinates;
-	Camera.FarPlaneDistance = 500.0f;
+	Camera.FarPlaneDistance = 1000.0f;
 
 	_picking = std::make_unique<PickingRenderTargetRender>(Device.get());
 }
@@ -84,6 +84,7 @@ void RenderWindow::Update()
 		Window->SetMousePosition(screenCenter);
 
 		mouseDelta = (Vector2)(screenCenter - mousePos) * float(Update_dt);
+		//mouseDelta.Y = 0;
 		cameraPos -= mouseDelta * Settings::CameraSensitivity.Value;
 
 		cameraPos.Y = std::clamp<float>(
@@ -128,9 +129,8 @@ void RenderWindow::Update()
 	else _keyboardTest = false;
 	
 
-	//Quaternion q = Quaternion::FromYawPitchRoll(0, -cameraPos.Y, 0) * Quaternion::FromYawPitchRoll(-cameraPos.X, 0, 0);
+	//Quaternion q = Quaternion::FromYawPitchRoll(-cameraPos.X, -cameraPos.Y, 0);
 	auto m = Matrix4x4::CreateRotationX(-cameraPos.Y) * Matrix4x4::CreateRotationY(-cameraPos.X);
-	//Camera.Position = cursor3D + Vector3::UnitZ().Transform(q) * (zoom + 5);
 	Camera.Position = cursor3D + Vector3::UnitZ().Transform(m) * (zoom + 5);
 	Camera.LookAt = cursor3D;
 }
@@ -186,6 +186,11 @@ void RenderWindow::Draw3D()
 		}
 	}
 	*/
+}
+
+void RenderWindow::SelectObject(IObject* obj)
+{
+	_selectedObject = obj;
 }
 
 void RenderWindow::Draw2D()

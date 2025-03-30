@@ -40,8 +40,10 @@ namespace Engine3DRadSpace::Content::Assets
 		void SetTransform(const Math::Matrix4x4 &m);
 
 		void Draw();
-		void Draw(const Math::Matrix4x4 &m);
-		void Draw(const Math::Matrix4x4 &model, const Math::Matrix4x4 &view, const Math::Matrix4x4 &proj);
+		void Draw(const Math::Matrix4x4 &mvp);
+		
+		void DrawEffect(Graphics::Shaders::Effect *effect);
+		void DrawEffect(Graphics::Shaders::Effect *effect, const Math::Matrix4x4 &mvp);
 
 		using iterator = std::vector<std::unique_ptr<Graphics::ModelMesh>>::iterator;
 		iterator begin();

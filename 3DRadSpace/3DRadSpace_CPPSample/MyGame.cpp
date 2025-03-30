@@ -51,14 +51,24 @@ void MyGame::Load()
 void MyGame::Update()
 {
 	Game::Update();
-	//rotate the model around the Y axis.
-	_fish->Rotation *= Quaternion::FromYawPitchRoll(0, this->Draw_dt, 0);
-	_fish->Rotation.Normalize();
-
-	if(Keyboard.IsKeyDown(Key::Space))
+	
+	if(Keyboard.IsKeyDown(Key::X))
 	{
-		//_soundInstance->Play();
+		_fish->Rotation *= Quaternion::FromYawPitchRoll(0, this->Draw_dt, 0);
 	}
+	if(Keyboard.IsKeyDown(Key::Y))
+	{
+		_fish->Rotation *= Quaternion::FromYawPitchRoll(this->Draw_dt, 0, 0);
+	}
+	if(Keyboard.IsKeyDown(Key::Z))
+	{
+		_fish->Rotation *= Quaternion::FromYawPitchRoll(0, 0, this->Draw_dt);
+	}
+	if(Keyboard.IsKeyDown(Key::R))
+	{
+		_fish->Rotation = Quaternion();
+	}
+	_fish->Rotation.Normalize();
 }
 
 void MyGame::Draw3D()

@@ -27,13 +27,19 @@ ModelMeshPart::ModelMeshPart(GraphicsDevice *Device, std::shared_ptr<Effect> sha
 
 void ModelMeshPart::Draw()
 {
-	if(_device == nullptr) return;
+	Draw(_shaders.get());
+}
 
-	_shaders->SetAll();
+void ModelMeshPart::Draw(Effect* effect)
+{
+	if(_device == nullptr) return;
+	if(effect == nullptr) return;
+
+	effect->SetAll();
 
 	for(int i = 0; i < Textures.size(); i++)
 	{
-		auto vertexShader = _shaders->GetVertexShader();
+		auto vertexShader = effect->GetVertexShader();
 		if(vertexShader != nullptr)
 		{
 			vertexShader->SetTexture(i, Textures[i].get());
@@ -41,7 +47,7 @@ void ModelMeshPart::Draw()
 			vertexShader->SetData(0, &Transform, sizeof(Matrix4x4));
 		}
 
-		auto hullShader = _shaders->GetHullShader();
+		auto hullShader = effect->GetHullShader();
 		if(hullShader != nullptr)
 		{
 			hullShader->SetTexture(i, Textures[i].get());
@@ -49,7 +55,7 @@ void ModelMeshPart::Draw()
 			hullShader->SetData(0, &Transform, sizeof(Matrix4x4));
 		}
 
-		auto domainShader = _shaders->GetDomainShader();
+		auto domainShader = effect->GetDomainShader();
 		if(domainShader != nullptr)
 		{
 			domainShader->SetTexture(i, Textures[i].get());
@@ -57,7 +63,7 @@ void ModelMeshPart::Draw()
 			domainShader->SetData(0, &Transform, sizeof(Matrix4x4));
 		}
 
-		auto geometryShader = _shaders->GetGeometryShader();
+		auto geometryShader = effect->GetGeometryShader();
 		if(geometryShader != nullptr)
 		{
 			geometryShader->SetTexture(i, Textures[i].get());
@@ -65,7 +71,7 @@ void ModelMeshPart::Draw()
 			geometryShader->SetData(0, &Transform, sizeof(Matrix4x4));
 		}
 
-		auto pixelShader = _shaders->GetPixelShader();
+		auto pixelShader = effect->GetPixelShader();
 		if(pixelShader != nullptr)
 		{
 			pixelShader->SetTexture(i, Textures[i].get());

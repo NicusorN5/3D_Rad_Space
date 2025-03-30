@@ -58,11 +58,11 @@ void Skybox::EditorLoad()
 	Load();
 }
 
-void Engine3DRadSpace::Objects::Skybox::EditorUpdate()
+void Skybox::EditorUpdate()
 {
 }
 
-Reflection::UUID Engine3DRadSpace::Objects::Skybox::GetUUID() const noexcept
+Reflection::UUID Skybox::GetUUID() const noexcept
 {
 	// {E29253F1-2053-4752-ADBF-236AA6A0039E}
 	return { 0xe29253f1, 0x2053, 0x4752, { 0xad, 0xbf, 0x23, 0x6a, 0xa6, 0xa0, 0x3, 0x9e } };
@@ -82,7 +82,7 @@ void Skybox::EditorDraw3D(bool selected)
 	Draw3D();
 }
 
-std::optional<float> Engine3DRadSpace::Objects::Skybox::Intersects(const Math::Ray& r)
+std::optional<float> Skybox::Intersects(const Math::Ray& r)
 {
 	return std::nullopt;
 }

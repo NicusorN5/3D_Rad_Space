@@ -7,13 +7,13 @@ using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Logging;
 
-D3D11_TEXTURE2D_DESC DepthStencilBuffer::_defaultDepthDesc()
+D3D11_TEXTURE2D_DESC DepthStencilBuffer::_defaultDepthDesc(unsigned x, unsigned y)
 {
 	D3D11_TEXTURE2D_DESC desc{};
 	desc.Format = DXGI_FORMAT_R24G8_TYPELESS;
 	desc.ArraySize = 1;
-	desc.Width = _device->_resolution.X;
-	desc.Height = _device->_resolution.Y;
+	desc.Width = x;
+	desc.Height = y;
 	desc.MipLevels = 1;
 	desc.SampleDesc.Count = 1;
 	desc.SampleDesc.Quality = 0;
@@ -41,10 +41,10 @@ D3D11_SHADER_RESOURCE_VIEW_DESC DepthStencilBuffer::_defaultShaderViewDesc()
 	return sr_desc;
 }
 
-void DepthStencilBuffer::_createDepthTexture()
+void DepthStencilBuffer::_createDepthTexture(unsigned x, unsigned y)
 {
 #ifdef  USING_DX11
-	D3D11_TEXTURE2D_DESC desc = _defaultDepthDesc();
+	D3D11_TEXTURE2D_DESC desc = _defaultDepthDesc(x, y);
 
 	Microsoft::WRL::ComPtr<ID3D11Texture2D> depthTexture;
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> depthView;
@@ -78,7 +78,14 @@ void DepthStencilBuffer::_createDepthTexture()
 DepthStencilBuffer::DepthStencilBuffer(GraphicsDevice *device):
 	_device(device)
 {
-	_createDepthTexture();
+	auto r = _device->Resolution();
+	_createDepthTexture(r.X, r.Y);
+}
+
+DepthStencilBuffer::DepthStencilBuffer(GraphicsDevice* device, unsigned x, unsigned y) :
+	_device(device)
+{
+	_createDepthTexture(x,y);
 }
 
 void* DepthStencilBuffer::GetViewHandle() const noexcept
@@ -102,8 +109,9 @@ Texture2D DepthStencilBuffer::CloneDepthTexture()
 	Texture2D texture(Internal::AssetUUIDReader{});
 
 	texture._device = this->_device;
-	
-	auto desc = _defaultDepthDesc();
+
+	auto res = _device->Resolution();
+	auto desc = _defaultDepthDesc(res.X, res.Y);
 	auto viewDesc = _defaultShaderViewDesc();
 	Microsoft::WRL::ComPtr<ID3D11Texture2D> newDepthTexture;
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> srv;

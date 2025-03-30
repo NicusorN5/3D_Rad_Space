@@ -50,20 +50,20 @@ std::optional<float> Ray::Intersects(const Triangle &tri) const
     a = edge1.Dot(h);
 
     if(a > -epsilon && a < epsilon)
-        return false;    // This ray is parallel to this triangle.
+        return std::nullopt;    // This ray is parallel to this triangle.
 
     f = 1.0f / a;
     s = Origin - vertex0;
     u = f * s.Dot(h);
 
     if(u < 0.0f || u > 1.0f)
-        return false;
+        return std::nullopt;
 
     q = Vector3::Cross(s, edge1);
     v = f * Direction.Dot(q);
 
     if(v < 0.0f || u + v > 1.0f)
-        return false;
+        return std::nullopt;
 
     // At this stage we can compute t to find out where the intersection point is on the line.
     float t = f * edge2.Dot(q);

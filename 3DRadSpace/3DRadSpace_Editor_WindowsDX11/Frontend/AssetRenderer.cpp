@@ -35,7 +35,7 @@ template<> bool AssetRenderer(GraphicsDevice *device, const std::string &imagePa
 			device->Clear(Colors::Gray);
 			model->SetShader(shader);
 			model->Draw(
-				Matrix4x4(),
+				Matrix4x4() *
 				Matrix4x4::CreateLookAtView(
 					boundingSphere.Center + ((boundingSphere.Radius + 2) *
 						Vector3(
@@ -45,7 +45,7 @@ template<> bool AssetRenderer(GraphicsDevice *device, const std::string &imagePa
 						)),
 					Vector3::Zero(),
 					Vector3::UnitY()
-				),
+				) *
 				Matrix4x4::CreatePerspectiveProjection(4.f / 3.f, 65, 0.01f, 500.0f)
 			);
 

@@ -95,6 +95,10 @@ namespace Engine3DRadSpace
 		/// </remarks>
 		void UnbindRenderTargetAndDepth();
 		/// <summary>
+		/// Unbinds the current depth buffer.
+		/// </summary>
+		void UnbindDepthBuffer();
+		/// <summary>
 		/// Sets both render target and depth stencil buffer.
 		/// </summary>
 		/// <param name="renderTarget">Render surface to be drawn into. If null, it is set to the backbuffer.</param>

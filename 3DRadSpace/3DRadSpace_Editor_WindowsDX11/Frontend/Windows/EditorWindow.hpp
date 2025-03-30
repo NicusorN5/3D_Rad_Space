@@ -82,6 +82,8 @@ public:
 	void AddObject(Engine3DRadSpace::IObject *obj);
 	bool WarnNotSaved();
 
+	void SelectObject(std::optional<unsigned> id);
+
 	friend LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	friend class Engine3DRadSpace::Game;
 };

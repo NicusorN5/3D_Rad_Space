@@ -564,6 +564,18 @@ bool EditorWindow::WarnNotSaved()
 	else return false;
 }
 
+void EditorWindow::SelectObject(std::optional<unsigned> id)
+{
+	if(id.has_value())
+	{
+		editor->SelectObject(editor->Objects->operator[](id.value()));
+	}
+	else
+	{
+		editor->SelectObject(nullptr);
+	}
+}
+
 void SetWorkingDirectory();
 
 LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -867,18 +879,23 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			auto notif = reinterpret_cast<NMHDR *>(lParam);
 			switch(notif->code)
 			{
+				auto listBox_check_selectedItem = []()
+				{
+					auto selectedItem = reinterpret_cast<HTREEITEM>(SendMessageA(
+						gEditorWindow->_listBox,
+						TVM_GETNEXTITEM,
+						TVGN_CARET,
+						reinterpret_cast<LPARAM>(nullptr)
+					));
+
+					return selectedItem;
+				};
+
 				case NM_RCLICK:
 				{
 					if(notif->hwndFrom == gEditorWindow->_listBox)
 					{
-						auto selectedItem = reinterpret_cast<HTREEITEM>(SendMessageA(
-							gEditorWindow->_listBox, 
-							TVM_GETNEXTITEM,
-							TVGN_CARET,
-							reinterpret_cast<LPARAM>(nullptr)
-						));
-
-						if(selectedItem == nullptr) return 0;
+						if(listBox_check_selectedItem() == nullptr) return 0;
 
 						HMENU objectMenu = CreatePopupMenu();
 						if(objectMenu == nullptr) throw std::exception("Failed to create a popup menu!");
@@ -892,6 +909,25 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 						BOOL r = TrackPopupMenu(objectMenu, TPM_LEFTALIGN, mousePos.x, mousePos.y, 0, gEditorWindow->_mainWindow, nullptr);
 						if(!r) throw std::exception("Failed to open a popup menu!");
 
+						return 1;
+					}
+					break;
+				}
+				case NM_DBLCLK:
+				{
+					if(notif->hwndFrom == gEditorWindow->_listBox)
+					{
+						if(listBox_check_selectedItem() == nullptr) return 0;
+
+						auto objID = gEditorWindow->_getSelectedObjectID();
+						if(objID.second.has_value())
+						{
+							gEditorWindow->SelectObject(objID.second.value());
+						}
+						else
+						{
+							gEditorWindow->SelectObject(std::nullopt);
+						}
 						return 1;
 					}
 					break;

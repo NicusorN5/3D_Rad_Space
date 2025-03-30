@@ -267,19 +267,6 @@ void Model3D::Draw(const Matrix4x4&m)
 	}
 }
 
-void Model3D::Draw(const Matrix4x4&model, const Matrix4x4&view, const Matrix4x4&proj)
-{
-	Matrix4x4 mvp = model * view * proj;
-	for(auto &mesh : _meshes)
-	{
-		for(auto &meshPart : *mesh.get())
-		{
-			meshPart->Transform = mvp;
-			meshPart->Draw();
-		}
-	}
-}
-
 Model3D::iterator Model3D::begin()
 {
 	return _meshes.begin();
@@ -328,6 +315,29 @@ void Model3D::SetShaders(std::span<std::shared_ptr<Shaders::Effect>> effects)
 			if (i < len)
 				meshPart->SetShaders(effects[i++]);
 			else return;
+		}
+	}
+}
+
+void Model3D::DrawEffect(Shaders::Effect *effect)
+{
+	for (auto& mesh : _meshes)
+	{
+		for (auto& meshPart : *mesh.get())
+		{
+			meshPart->Draw(effect);
+		}
+	}
+}
+
+void Model3D::DrawEffect(Shaders::Effect* effect, const Math::Matrix4x4& mvp)
+{
+	for(auto &mesh : _meshes)
+	{
+		for(auto &meshPart : *mesh.get())
+		{
+			meshPart->Transform = mvp;
+			meshPart->Draw(effect);
 		}
 	}
 }

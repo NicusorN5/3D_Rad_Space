@@ -64,6 +64,7 @@ namespace Engine3DRadSpace::Graphics
 		std::vector<std::unique_ptr<SamplerState>> TextureSamplers;
 
 		void Draw();
+		void Draw(Shaders::Effect* effect);
 
 		Math::BoundingBox GetBoundingBox() const noexcept;
 		Math::BoundingSphere GetBoundingSphere() const noexcept;

@@ -89,6 +89,6 @@ Reflection::UUID SkyboxAsset::GetUUID() const noexcept
 const char* SkyboxAsset::FileExtension() const noexcept
 {
 	return "Skybox file(*.skybox)\0*.skybox\0"
-			"Direct Draw Surface(*.dds)\0*.dds\0";
+			"Direct Draw Surface(*.dds)\0*.dds\0"
 			"All Files(*.*)\0*.*\0\0";
 }
