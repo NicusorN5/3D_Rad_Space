@@ -4,7 +4,7 @@ project("3DRadSpace-compiler")
 
 file(GLOB_RECURSE 3DRadSpace-compiler-src CONFIGURE_DEPENDS "*.cpp" "*.hpp" )
 add_executable(3DRadSpace-compiler ${3DRadSpace-compiler-src})
-#target_sources(3DRadSpace-compiler PRIVATE 3DRadSpace_Compiler.rc)
+target_sources(3DRadSpace-compiler PRIVATE 3DRadSpace_Compiler.rc)
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET 3DRadSpace-compiler PROPERTY CXX_STANDARD 23)
@@ -35,3 +35,7 @@ endif()
 #Link 3DRadSpace
 #target_link_libraries(3DRadSpace-compiler PRIVATE 3DRadSpace)
 #target_include_directories(3DRadSpace-compiler PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)
+
+#Nlohmann JSON
+find_package(nlohmann_json CONFIG REQUIRED)
+target_link_libraries(3DRadSpace-compiler PRIVATE nlohmann_json::nlohmann_json)

@@ -111,6 +111,7 @@ void Camera::EditorDraw3D(bool selected)
 		_game->Projection = GetProjectionMatrix();
 		_game->Objects->_camera = this;
 
+		_game->Device->SetRenderTargetAndDepth(cameraPreview.get(), cameraPreviewDepth.get());
 		_game->Device->ClearRenderTarget(cameraPreview.get());
 		_game->Device->ClearDepthBuffer(cameraPreviewDepth.get());
 		_game->Device->SetViewport(
@@ -120,8 +121,6 @@ void Camera::EditorDraw3D(bool selected)
 				1.0f
 			}
 		);
-		
-		_game->Device->SetRenderTargetAndDepth(cameraPreview.get(), cameraPreviewDepth.get());
 
 		for(auto& obj : (*_game->Objects))
 		{

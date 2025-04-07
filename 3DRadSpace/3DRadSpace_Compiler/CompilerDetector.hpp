@@ -1,15 +1,26 @@
 #pragma once
 
-#include <filesystem>
+#include "Headers.hpp"
 
-void FindCompiler()
+struct Compiler
 {
-#ifdef _WIN32
-	//Find Visual Studio
+	enum class Type
+	{
+		/// <summary>
+		/// MSVC is invoked by MSBuild that is invoked using devenv.exe.
+		/// </summary>
+		MSVC, 
+		Clang,
+		GCC
+	} CompilerType;
 
-#endif // _WIN32
-#ifdef _LINUX
-	//Find clang
+	std::string Path;
+};
 
-#endif
-}
+/// <summary>
+/// Returns compiler path.
+/// </summary>
+/// <returns></returns>
+std::optional<Compiler> FindCompiler();
+
+void SaveCompilerCache(const Compiler& compiler);
