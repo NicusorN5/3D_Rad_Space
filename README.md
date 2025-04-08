@@ -2,6 +2,7 @@
 
 3DRadSpace is a free, simple to use, rapid application development game engine. Still in very early development. 
 
+![CMake](https://img.shields.io/badge/CMake-%23008FBA.svg?logo=cmake&logoColor=white)
 [![Github all releases](https://img.shields.io/github/downloads/3DRadSpace/3D_Rad_Space/total.svg)](https://GitHub.com/3DRadSpace/3D_Rad_Space/releases/)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/fb1763ca6663456f934c96ad109aefd8)](https://www.codacy.com/gh/NicusorN5/3D_Rad_Space/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=NicusorN5/3D_Rad_Space&amp;utm_campaign=Badge_Grade)
 [![Discord](https://img.shields.io/discord/319515587263070209.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/9BcQQyu)
