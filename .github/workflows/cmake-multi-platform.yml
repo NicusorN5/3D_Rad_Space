@@ -78,7 +78,7 @@ jobs:
         fetch-depth: '1'
     
     - name: Create out dir
-      run: mkdir {{ steps.strings.outputs.build-output-dir }}
+      run: mkdir ${{ steps.strings.outputs.build-output-dir }}
 
     - name: Build
       # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
