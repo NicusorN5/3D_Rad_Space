@@ -16,6 +16,7 @@ Old releases can be found [here](https://github.com/3DRadSpace/3D_Rad_Space/rele
 # Building 3DRadSpace
 
 Status:
+
 ![Windows-x64](https://github.com/NicusorN5/3D_Rad_Space/actions/workflows/cmake-multi-platform.yml/badge.svg)
 
 1.) Download the source using Git
@@ -40,7 +41,7 @@ Status:
 - NVidia PhysX 5.30
 > `.\vcpkg install physx:x64-windows`
 - AngelScript (optional, for the AngelScript plugin)
-> '.\vcpkg install angelscript:x64-windows'
+> `.\vcpkg install angelscript:x64-windows`
 
 - Google test (Optional, for test units.)
 > `vcpkg install gtest:x64-windows`
