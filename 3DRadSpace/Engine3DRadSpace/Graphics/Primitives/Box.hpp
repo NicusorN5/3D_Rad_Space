@@ -29,7 +29,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		/// <param name="device">Graphics device used to create vertex and index buffers.</param>
 		/// <param name="b">Bounding box representing the boundaries of the mesh.</param>
 		/// <param name="color">Color of the mesh.</param>
-		Box(GraphicsDevice *device,const Math::BoundingBox &b, Color color);
+		Box(GraphicsDevice *device, const Math::BoundingBox &b, Color color);
 
 		/// <summary>
 		/// Creates the vertices of the box given by b.

@@ -61,9 +61,29 @@ namespace Engine3DRadSpace
 		constexpr Color Gray = {0.5f, 0.5f, 0.5f, 1.0f};
 		constexpr Color DarkGray = {0.25f, 0.25f, 0.25f, 1.0f};
 		constexpr Color Yellow = { 1.0f, 1.0f, 0.0f, 1.0f };
-		constexpr Color Pink = { 1.0f, 0.0f, 1.0f, 1.0f };
+		constexpr Color Mangenta = { 1.0f, 0.0f, 1.0f, 1.0f };
 		constexpr Color Cyan = { 0.0f, 1.0f, 1.0f, 1.0f };
 		constexpr Color CornflowerBlue = {0.392f, 0.584f, 0.929f, 1.0f};
+		constexpr Color Orange = { 1.0f, 0.25f, 0.0f, 1.0f };
+		constexpr Color Pink = { 1.0f, 0.75f, 0.8f, 1.0f };
+		
+		constexpr Color DarkRed = { 0.5f, 0.0f, 0.0f, 1.0f };
+		constexpr Color DarkGreen = { 0.0f, 0.5f, 0.0f, 1.0f };
+		constexpr Color DarkBlue = { 0.0f, 0.0f, 0.5f, 1.0f };
+		constexpr Color DarkYellow = { 0.5f, 0.5f, 0.0f, 1.0f };
+		constexpr Color DarkCyan = { 0.0f, 0.5f, 0.5f, 1.0f };
+		constexpr Color DarkMagenta = { 0.5f, 0.0f, 0.5f, 1.0f };
+		
+		constexpr Color LightRed = { 1.0f, 0.5f, 0.5f, 1.0f };
+		constexpr Color LightGreen = { 0.5f, 1.0f, 0.5f, 1.0f };
+		constexpr Color LightBlue = { 0.5f, 0.5f, 1.0f, 1.0f };
+		constexpr Color LightPink = { 1.0f, 0.5f, 1.0f, 1.0f };
+		constexpr Color LightCyan = { 0.5f, 1.0f, 1.0f, 1.0f };
+		constexpr Color LightMagenta = { 1.0f, 0.5f, 1.0f, 1.0f };
+		constexpr Color LightYellow = { 1.0f, 1.0f, 0.5f, 1.0f };
+		constexpr Color LightOrange = { 1.0f, 0.647f, 0.0f, 1.0f };
+		constexpr Color LightGray = { 0.75f, 0.75f, 0.75f, 1.0f };
+
 		//TODO: Add more colors.
 	};
 }

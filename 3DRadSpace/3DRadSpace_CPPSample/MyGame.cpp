@@ -3,7 +3,7 @@
 #include <Engine3DRadSpace\Objects\Camera.hpp>
 #include <Engine3DRadSpace\ObjectList.hpp>
 #include <Engine3DRadSpace\Math\Quaternion.hpp>
-#include <Engine3DRadSpace\Graphics\Primitives\Plane.hpp>
+#include <Engine3DRadSpace\Graphics\Primitives\Box.hpp>
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Objects;
@@ -12,6 +12,8 @@ using namespace Engine3DRadSpace::Math;
 
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Graphics::Primitives;
+
+std::unique_ptr<Box> box;
 
 MyGame::MyGame() : Game("3DRadSpace Empty", 800, 600)
 {
@@ -27,12 +29,14 @@ void MyGame::Initialize()
 	Camera cam;
 	cam.Position = { 0, 1, 1.5 };
 	cam.Rotation = Quaternion::FromYawPitchRoll(0, 0, 0);
-	cam.LookAt = { 0,0,0 };
+	cam.LookAt = { 0.5f,0.5f,0.5f };
 	cam.LookMode = Camera::CameraMode::UseLookAtCoordinates;
 	_cam = this->Objects->AddNew(std::move(cam)).first; //first is object pointer, second is ID.
 
 	//Directly create a fish model into the scene
-	_fish = this->Objects->AddNew<Skinmesh>("fish", true, "Data\\Models\\YellowFish.x").first;
+	//_fish = this->Objects->AddNew<Skinmesh>("fish", true, "Data\\Models\\YellowFish.x").first;
+
+	box = std::make_unique<Box>(Device.get(), BoundingBox(Vector3(0,0,0), Vector3(1,1,1)), Colors::Orange);
 }
 
 void MyGame::Load()
@@ -44,14 +48,15 @@ void MyGame::Load()
 	//_soundInstance->SetLooping(true);
 
 	// zoom the camera into the model.
-	float distance = _fish->GetModel()->GetBoundingSphere().Radius + 0.25f;
-	_cam->Position *= distance;
+	//float distance = _fish->GetModel()->GetBoundingSphere().Radius + 0.25f;
+	_cam->Position *= 2;
 }
 
 void MyGame::Update()
 {
 	Game::Update();
 	
+	/*
 	if(Keyboard.IsKeyDown(Key::X))
 	{
 		_fish->Rotation *= Quaternion::FromYawPitchRoll(0, this->Draw_dt, 0);
@@ -69,11 +74,15 @@ void MyGame::Update()
 		_fish->Rotation = Quaternion();
 	}
 	_fish->Rotation.Normalize();
+	*/
 }
 
 void MyGame::Draw3D()
 {
 	Game::Draw3D();
+
+	box->Transform = _cam->GetViewMatrix() * _cam->GetProjectionMatrix();
+	box->Draw3D();
 }
 
 void MyGame::Draw2D()
