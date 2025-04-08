@@ -1,0 +1,7 @@
+{
+  "name": "3d-rad-space-angelscript-plugin",
+  "version-string": "0.1.0a",
+  "dependencies": [
+	"angelscript"
+  ]
+}

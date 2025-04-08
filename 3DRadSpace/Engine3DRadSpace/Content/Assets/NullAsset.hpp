@@ -8,7 +8,7 @@ namespace Engine3DRadSpace::Internal
 
 namespace Engine3DRadSpace::Content::Assets
 {
-	class NullAsset final: public IAsset
+	class DLLEXPORT NullAsset final: public IAsset
 	{
 		NullAsset(Internal::AssetUUIDReader dummy);
 	public:

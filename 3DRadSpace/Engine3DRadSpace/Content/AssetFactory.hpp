@@ -8,7 +8,7 @@ namespace Engine3DRadSpace
 
 namespace Engine3DRadSpace::Content
 {
-	class AssetFactory
+	class DLLEXPORT AssetFactory
 	{
 	private:
 		GraphicsDevice* _device;
