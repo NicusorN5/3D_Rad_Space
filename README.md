@@ -15,6 +15,9 @@ Old releases can be found [here](https://github.com/3DRadSpace/3D_Rad_Space/rele
 
 # Building 3DRadSpace
 
+Status:
+![Windows-x64](https://github.com/NicusorN5/3D_Rad_Space/actions/workflows/cmake-multi-platform.yml/badge.svg)
+
 1.) Download the source using Git
 `git clone https://github.com/3DRadSpace/3D_Rad_Space`
 
