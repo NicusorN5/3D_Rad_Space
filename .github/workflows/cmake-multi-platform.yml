@@ -59,7 +59,7 @@ jobs:
       id: vcpkg
       with:
         # The vcpkg packages to build, separated by spaces. Cannot be used with manifest-dir
-        pkgs: 'assimp directxtk freetype nlohmann-json openal-soft physx angelscript'
+        pkgs: 'assimp directxtk freetype nlohmann-json openal-soft physx angelscript gtest'
         # The vcpkg target triplet to use. This must be set. For windows, 
         # x64-windows-release is recommended if you don't need debug libraries
         triplet: 'x64-windows-release'
