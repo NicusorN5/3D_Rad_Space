@@ -151,7 +151,6 @@ auto main(int argc, char** argv) -> int
 
 	std::println("[2/5] Checking envoirement...");
 
-	int r = 0;
 	std::optional<Compiler> compiler = std::nullopt;
 
 	std::ifstream cache("compiler_cache.json");
@@ -247,7 +246,7 @@ find_compiler:
 generate:
 	std::println("[3/5] Generating project files...");
 	GenerateProject(outputFolder, files, compiler->CompilerType);
-build:
+//Build
 	std::println("[4/5] Building project...");
 
 	switch(compiler->CompilerType)

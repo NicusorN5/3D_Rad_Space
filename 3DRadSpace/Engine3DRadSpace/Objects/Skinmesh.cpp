@@ -98,6 +98,8 @@ void Skinmesh::Draw3D()
 
 void Skinmesh::EditorDraw3D(bool selected)
 {
+	if(_model == nullptr) return;
+
 	if(selected)
 	{
 		auto highlight_effect = Content::ShaderManager::LoadShader<Shaders::MeshHighlight>(_game->Device.get());
@@ -119,10 +121,8 @@ void Skinmesh::EditorDraw3D(bool selected)
 
 		_game->Device->SetRenderTargetAndDepth(nullptr, nullptr);
 	}
-	if (_model)
-	{
-		_model->Draw(GetModelMartix() * _game->View * _game->Projection);
-	}
+
+	_model->Draw(GetModelMartix() * _game->View * _game->Projection);
 }
 
 void Skinmesh::EditorUpdate()

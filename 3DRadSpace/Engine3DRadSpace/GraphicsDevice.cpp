@@ -154,7 +154,7 @@ void GraphicsDevice::Clear(const Color& clearColor)
 
 	float color[4] = { clearColor.R,clearColor.G,clearColor.B,clearColor.A };
 	_context->ClearRenderTargetView(_backbufferRT->_renderTarget.Get(), color);
-	_context->ClearDepthStencilView(_stencilBuffer->_depthView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0xFF);
+	_context->ClearDepthStencilView(_stencilBuffer->_depthView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0x00);
 #endif
 }
 
@@ -169,7 +169,7 @@ void GraphicsDevice::ClearRenderTarget(RenderTarget* rt, const Color& clearColor
 void GraphicsDevice::ClearDepthBuffer(DepthStencilBuffer* depth)
 {
 #ifdef USING_DX11
-	_context->ClearDepthStencilView(_stencilBuffer->_depthView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0xFF);
+	_context->ClearDepthStencilView(_stencilBuffer->_depthView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0x00);
 #endif
 }
 

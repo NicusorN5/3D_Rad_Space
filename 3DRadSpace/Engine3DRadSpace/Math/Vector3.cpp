@@ -189,33 +189,32 @@ float Vector3::Dot(const Vector3& a, const Vector3& b)
 
 Vector3& Vector3::Transform(const Quaternion& q)
 {
+	Vector3 v(*this);
 	
-	//Vector3 v(*this);
+	//Extract the vector part of the quaternion
+	Vector3 u(q.Im());
+
+	// Extract the scalar part of the quaternion
+	float s = q.W;
+
+	// Do the math
+	auto vprime = 2.0f * Dot(u, v) * u
+		   + (s*s - Dot(u, u)) * v
+		   + 2.0f * s * Cross(u, v);
+
+	return *this = vprime;
 	
-	// // Extract the vector part of the quaternion
-	//Vector3 u(q.Im());
+	//Vector3 v;
 
-	//// Extract the scalar part of the quaternion
-	//float s = q.W;
+	//float x = 2 * (q.Y * Z - q.Z * Y);
+	//float y = 2 * (q.Z * X - q.X * Z);
+	//float z = 2 * (q.X * Y - q.Y * X);
 
-	//// Do the math
-	//auto vprime = 2.0f * Dot(u, v) * u
-	//	   + (s*s - Dot(u, u)) * v
-	//	   + 2.0f * s * Cross(u, v);
+	//v.X = X + x * q.W + (q.Y * z - q.Z * y);
+	//v.Y = Y + y * q.W + (q.Z * x - q.X * z);
+	//v.Z = Z + z * q.W + (q.X * y - q.Y * x);
 
-	//return *this = vprime;
-	
-	Vector3 v;
-
-	float x = 2 * (q.Y * Z - q.Z * Y);
-	float y = 2 * (q.Z * X - q.X * Z);
-	float z = 2 * (q.X * Y - q.Y * X);
-
-	v.X = X + x * q.W + (q.Y * z - q.Z * y);
-	v.Y = Y + y * q.W + (q.Z * x - q.X * z);
-	v.Z = Z + z * q.W + (q.X * y - q.Y * x);
-
-	return *this = v;
+	//return *this = v;
 }
 
 Vector3& Vector3::Transform(const Matrix4x4& m)

@@ -94,7 +94,7 @@ void IShader::_compileShaderFromFile(const char* path, const char* target)
 
 		if(FAILED(r))
 		{
-			MessageBoxA(nullptr, static_cast<char*>(_errorBlob->GetBufferPointer()), "Shader compilation error!", MB_ICONERROR);
+			//MessageBoxA(nullptr, static_cast<char*>(_errorBlob->GetBufferPointer()), "Shader compilation error!", MB_ICONERROR);
 			throw Exception(std::string("Shader compilation failure! \r\n") + static_cast<char*>(_errorBlob->GetBufferPointer()));
 		}
 	}

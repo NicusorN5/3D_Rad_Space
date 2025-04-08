@@ -112,6 +112,7 @@ void Camera::EditorDraw3D(bool selected)
 		_game->Objects->_camera = this;
 
 		_game->Device->SetRenderTargetAndDepth(cameraPreview.get(), cameraPreviewDepth.get());
+		//_game->Device->SetRenderTargetAndDisableDepth(cameraPreview.get());
 		_game->Device->ClearRenderTarget(cameraPreview.get());
 		_game->Device->ClearDepthBuffer(cameraPreviewDepth.get());
 		_game->Device->SetViewport(
@@ -124,6 +125,8 @@ void Camera::EditorDraw3D(bool selected)
 
 		for(auto& obj : (*_game->Objects))
 		{
+			if(obj.Object.get() == this) continue;
+
 			if(obj.InternalType == ObjectList::ObjectInstance::ObjectType::IObject3D)
 			{
 				static_cast<IObject3D*>(obj.Object.get())->EditorDraw3D(false);
