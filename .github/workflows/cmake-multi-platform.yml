@@ -59,7 +59,7 @@ jobs:
       id: vcpkg
       with:
         # The vcpkg packages to build, separated by spaces. Cannot be used with manifest-dir
-        pkgs: 'assimp directxtk freetype nlohmann-json openal-soft physx'
+        pkgs: 'assimp directxtk freetype nlohmann-json openal-soft physx angelscript'
         # The vcpkg target triplet to use. This must be set. For windows, 
         # x64-windows-release is recommended if you don't need debug libraries
         triplet: 'x64-windows-release'
@@ -79,4 +79,4 @@ jobs:
 
     - name: Build
       # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
-      run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }}  -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=<triplet> -DVCPKG_MANIFEST_MODE=OFF
+      run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }} 
