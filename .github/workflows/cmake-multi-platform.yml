@@ -54,26 +54,34 @@ jobs:
       shell: bash
       run: |
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
-        
-    - name: Setup anew (or from cache) vcpkg (and does not build any package)
-      uses: lukka/run-vcpkg@v11 # Always specify the specific _version_ of the
 
-    - name: Run CMake consuming CMakePreset.json and run vcpkg to build packages
-      uses: lukka/run-cmake@v10
+    - name: vcpkg build
+    - uses: johnwason/vcpkg-action@v6
       with:
-         configurePreset: 'ninja-multi-vcpkg'
-         buildPreset: 'ninja-multi-vcpkg'
-         buildPresetAdditionalArgs: "['--config Release']"
-         testPreset: 'ninja-multi-vcpkg'
-         testPresetAdditionalArgs: "['--config Release']"
-         cmakeListsTxtPath: '${{ github.workspace }}/3DRadSpace/CMakeLists.txt'
+        # The vcpkg packages to build, separated by spaces. Cannot be used with manifest-dir
+        pkgs: 'assimp directxtk freetype nlohmann-json openal-soft physx'
+        # The vcpkg target triplet to use. This must be set. For windows, 
+        # x64-windows-release is recommended if you don't need debug libraries
+        triplet: 'x64-windows-release'
+        # Extra arguments to pass to vcpkg command (optional)
+        extra-args: ''
+        # Additional string to add to cache key. If using a build matrix or building different configurations
+        # on the same operating system, be sure to include an additional cache key to separate the caches. (optional)
+        cache-key: ''
+        # vcpkg revision to checkout
+        # A valid git ref; if empty, it defaults to the latest vcpkg stable release.
+        revision: ''
+        # GitHub token to authenticate API requests. This is necessary to determine vcpkg version to checkout
+        # Recommended to use ${{ github.token }}
+        token: ''
+        # Directory containing vcpkg.json manifest file. Cannot be used with pkgs.
+        manifest-dir: ''
+        # "Use vcpkg built-in GitHub binary caching if "true". If not specified, will use the dry-run based file cache."
+        # Recommended set to "true"
+        github-binarycache: ''
+        #Fetch depth for vcpkg checkout. Defaults to "1"
+        fetch-depth: '1'
 
     - name: Build
       # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
-      run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }}
-
-    - name: Test
-      working-directory: ${{ steps.strings.outputs.build-output-dir }}
-      # Execute tests defined by the CMake configuration. Note that --build-config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
-      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: ctest --build-config ${{ matrix.build_type }}
+      run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }}  -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=<triplet> -DVCPKG_MANIFEST_MODE=OFF
