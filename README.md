@@ -13,11 +13,11 @@
 
 Old releases can be found [here](https://github.com/3DRadSpace/3D_Rad_Space/releases) (Lastest release: 0.0.6a, currently working on 0.1.0a)
 
-# Building 3DRadSpace
-
-Status:
+# Current build status
 
 ![Windows-x64](https://github.com/NicusorN5/3D_Rad_Space/actions/workflows/cmake-multi-platform.yml/badge.svg)
+
+# Building 3DRadSpace
 
 1.) Download the source using Git
 `git clone https://github.com/3DRadSpace/3D_Rad_Space`
