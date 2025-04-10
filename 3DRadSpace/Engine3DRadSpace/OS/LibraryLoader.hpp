@@ -5,7 +5,7 @@
 /// OS-related functions to handle libraries, symbols, etc...
 /// </summary>
 
-namespace Engine3DRadSpace::Plugins
+namespace Engine3DRadSpace::OS
 {
 	/// <summary>
 	/// OS-indepedent function that gets a function from a DLL using the function name.

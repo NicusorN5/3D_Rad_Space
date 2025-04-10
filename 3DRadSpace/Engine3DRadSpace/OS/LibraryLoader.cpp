@@ -1,6 +1,6 @@
 #include "OS.hpp"
 
-void* Engine3DRadSpace::Plugins::Load_Library(const std::filesystem::path& path)
+void* Engine3DRadSpace::OS::Load_Library(const std::filesystem::path& path)
 {
 	auto str = path.string();
 #ifdef _WIN32

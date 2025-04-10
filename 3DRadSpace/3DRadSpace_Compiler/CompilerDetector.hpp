@@ -15,6 +15,8 @@ struct Compiler
 	} CompilerType;
 
 	std::string Path;
+
+	void Print();
 };
 
 /// <summary>

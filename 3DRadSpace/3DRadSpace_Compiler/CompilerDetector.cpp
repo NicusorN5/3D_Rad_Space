@@ -179,3 +179,21 @@ void SaveCompilerCache(const Compiler& compiler)
 			return;
 	}
 }
+
+void Compiler::Print()
+{
+	switch(CompilerType)
+	{
+		case Compiler::Type::MSVC:
+			std::println("Found MSVC compiler: {}", Path);
+			break;
+		case Compiler::Type::Clang:
+			std::println("Found Clang compiler: {}", Path);
+			break;
+		case Compiler::Type::GCC:
+			std::println("Found GCC compiler: {}", Path);
+			break;
+		default:
+			std::println("[!]Unknown compiler type.");
+	}
+}

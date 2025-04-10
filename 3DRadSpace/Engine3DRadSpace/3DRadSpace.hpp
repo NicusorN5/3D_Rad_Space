@@ -152,6 +152,9 @@
 #include "Objects\Sprite.hpp"
 #include "Objects\TextPrint.hpp"
 
+//Engine3DRadSpace::OS
+#include "OS\LibraryLoader.hpp"
+
 //Engine3DRadSpace::Physics
 #include "Physics\IPhysicsObject.hpp"
 #include "Physics\PhysicsEngine.hpp"
@@ -160,8 +163,8 @@
 //Engine3DRadSpace::Plugins
 #include "Plugins\CustomObject.hpp"
 #include "Plugins\EditorPlugin.hpp"
-#include "Plugins\OS.hpp"
 #include "Plugins\PluginInfo.hpp"
 
 //Engine3DRadSpace::Projects
 #include "Projects\Serialization.hpp"
+

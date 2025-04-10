@@ -37,10 +37,10 @@ namespace Engine3DRadSpace
 		/// <returns>*this * c</returns>
 		constexpr Color operator *(const Color& c) const noexcept;
 		/// <summary>
-		/// Computes a
+		/// Computes a Hadamard product between two colors.
 		/// </summary>
-		/// <param name="c"></param>
-		/// <returns></returns>
+		/// <param name="c">A color.</param>
+		/// <returns>this multiplied by c</returns>
 		constexpr Color& operator *=(const Color& c) noexcept;
 
 		constexpr float operator[](int i) const;
