@@ -36,10 +36,16 @@ std::unordered_map<std::string, int> dict =
 
 std::unordered_map<std::string, int> file_type =
 {
-	//C++ Source files.
+	//C++ or C Source files.
 	{".cpp", 1},
 	{".hpp", 1},
+	{".cxx", 1},
+	{".hxx", 1},
+	{".c++", 1},
+	{".h++", 1},
+	
 	{".h", 1},
+	{".c", 1},
 	//C# source files.
 	{".cs", 2},
 	//Icon
@@ -174,12 +180,11 @@ auto main(int argc, char** argv) -> int
 
 	std::vector<std::filesystem::path> files;
 	std::filesystem::path outputFolder;
-	std::unique_ptr<std::ofstream> out_f;
 
 	bool wasOutputSpecified = false;
 	bool playProject = false;
 
-	std::string name;
+	ProjectInfo info;
 
 	for(int i = 1; i < argc; i++)
 	{
@@ -216,7 +221,7 @@ auto main(int argc, char** argv) -> int
 					i += 1;
 				}
 				else
-					std::println("[WARNING]{} must specify output", argv[i]);
+					std::println("[WARNING] {} must specify output", argv[i]);
 				break;
 			case 4:
 			{
@@ -254,7 +259,7 @@ auto main(int argc, char** argv) -> int
 				}
 				else
 				{
-					std::println("{} must specify project folder.", argv[i]);
+					std::println("[WARNING] {} must specify project folder.", argv[i]);
 				}
 				break;
 			}
@@ -262,13 +267,13 @@ auto main(int argc, char** argv) -> int
 			{
 				if(i + 1 < argc)
 				{
-					name = std::string(argv[i + 1]);
+					info.Name = std::string(argv[i + 1]);
 					i += 1;
 				}
 				else
 				{
-					name = "MyGame";
-					std::println("[WARNING] {} must specify project name. Using \"MyGame\" as default.", argv[i]);
+					info.Name = "MyGame";
+					std::println("[INFO] {} must specify project name. Using \"MyGame\" as default.", argv[i]);
 				}
 				break;
 			}
@@ -284,14 +289,14 @@ auto main(int argc, char** argv) -> int
 
 	if(files.empty())
 	{
-		std::println("[FATAL]No files provided.");
+		std::println("[FATAL] No files provided.");
 		return 0;
 	}
 
-	if(!out_f)
+	if(!info.Output.empty())
 	{
-		std::println("[INFO]Output folder not specified. Using current directory.");
-		outputFolder = std::filesystem::current_path() / name;
+		std::println("[INFO] Output folder not specified. Using current directory.");
+		outputFolder = std::filesystem::current_path() / info.Name;
 
 		if(std::filesystem::exists(outputFolder))
 		{
@@ -344,23 +349,23 @@ auto main(int argc, char** argv) -> int
 	}
 
 	SaveCompilerCache(compiler.value());
-	std::println("[INFO]Caching compiler path");
+	std::println("[INFO] Caching compiler path");
 generate:
 	std::println("[3/{}] Generating project files...", numSteps);
-	GenerateProject(outputFolder, files, compiler->CompilerType);
+	GenerateProject(info, files, compiler->CompilerType);
 //Build
 	std::println("[4/{}] Building project...", numSteps);
 
 	switch(compiler->CompilerType)
 	{
 		case Compiler::Type::MSVC:
-			MSVC_Build(outputFolder, compiler->Path);
+			MSVC_Build(info, compiler->Path);
 			break;
 		case Compiler::Type::GCC:
-			GCC_Build(outputFolder, compiler->Path);
+			GCC_Build(info, compiler->Path);
 			break;
 		case Compiler::Type::Clang:
-			Clang_Build(outputFolder, compiler->Path);
+			Clang_Build(info, compiler->Path);
 			break;
 		default:
 			std::println("[FATAL] Unknown compiler type.");
@@ -372,12 +377,12 @@ generate:
 		std::println("[5/{}] Starting project...", numSteps);
 		if(startProject(outputFolder) == false)
 		{
-			std::println("[ERROR]Failed to start the project...");
-			std::println("[ERROR]This could be because of compilation errors.");
+			std::println("[ERROR] Failed to start the project...");
+			std::println("[ERROR] This could be because of compilation errors.");
 		}
 	}
 
-	std::println("[SUCCESS]Done.");
+	std::println("[SUCCESS] Done.");
 
 	return 0;
 }

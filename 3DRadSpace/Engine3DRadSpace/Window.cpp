@@ -311,7 +311,7 @@ void Window::SetMousePosition(const Point& p)
 #endif
 }
 
-void Engine3DRadSpace::Window::SetTitle(const std::string& title)
+void Window::SetTitle(const std::string& title)
 {
 #ifdef _WIN32
     SetWindowTextA(static_cast<HWND>(_window), title.c_str());

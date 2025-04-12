@@ -2,8 +2,12 @@
 
 extern std::unordered_map<std::string, int> file_type;
 
-static bool generate_main_cpp(const std::filesystem::path& output)
+static bool generate_main_cpp(const ProjectInfo& info)
 {
+	std::filesystem::path main_cpp_path = info.Output / "main.cpp";
+
+	if(std::filesystem::exists(main_cpp_path)) return true;
+
 	std::string main =
 		"#include \"MyGame.hpp\"\r\n"
 		"#include <Windows.h>\r\n"
@@ -16,7 +20,7 @@ static bool generate_main_cpp(const std::filesystem::path& output)
 		"return 0;\r\n"
 		"}\r\n";
 
-	std::ofstream mainFile(output / "main.cpp");
+	std::ofstream mainFile(main_cpp_path);
 	if(!mainFile.is_open())
 	{
 		std::println("[FATAL] Failed to create main.cpp file.");
@@ -26,18 +30,35 @@ static bool generate_main_cpp(const std::filesystem::path& output)
 	return true;
 }
 
-static bool generate_game_header(const std::filesystem::path& output, std::string name)
+static bool generate_game_class(const ProjectInfo &info)
 {
-	std::string header;
-}
+	std::filesystem::path game_cpp_path = info.Output /  ("Game.cpp");
+	if(std::filesystem::exists(game_cpp_path)) return true;
 
-bool GenerateProject(const std::filesystem::path& output, std::vector<std::filesystem::path> files, Compiler::Type type)
-{
-	if(!std::filesystem::exists(output))
+	std::string src;
+
+	std::ofstream gameFile(game_cpp_path);
+	if(gameFile.bad() || gameFile.fail())
 	{
-		std::println("[FATAL] Output folder MUST exist!");
+		std::println("[ERROR] Failed to create Game.cpp file.");
 		return false;
 	}
+	gameFile << src;
+
+	return true;
+}
+
+bool GenerateProject(const ProjectInfo &info, std::vector<std::filesystem::path> files, Compiler::Type type)
+{
+	if(!std::filesystem::exists(info.Output))
+	{
+		std::filesystem::create_directories(info.Output);
+	}
+
+	std::filesystem::path vcproj_path = info.Output / (info.Name + ".vcxproj");
+
+	//Assume project was already generated.
+	if(std::filesystem::exists(vcproj_path)) return true;
 
 	std::vector<std::filesystem::path> srcFiles;
 	std::vector<std::filesystem::path> headers;
@@ -65,17 +86,18 @@ bool GenerateProject(const std::filesystem::path& output, std::vector<std::files
 		}
 	}
 
-	if(!generate_main_cpp(output)) return false;
+	if(!generate_main_cpp(info)) return false;
 
-	srcFiles.push_back(output / "main.cpp");
+	srcFiles.push_back("main.cpp");
 
 	if(type == Compiler::Type::MSVC)
 	{
 		std::println("[INFO] Generating MSVC project...");
 
 		std::string vcproj =
+			"<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n"
 			"<Project DefaultTargets=\"Build\" ToolsVersion=\"17.0\" xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\">\r\n"
-			"<ItemGroup>\r\n"
+			"<ItemGroup Label=\"ProjectConfigurations\">\r\n"
 			"	<ProjectConfiguration Include=\"Debug|Win32\">\r\n"
 			"		<Configuration>Debug</Configuration>\r\n"
 			"		<Platform>Win32</Platform>\r\n"
@@ -113,14 +135,13 @@ bool GenerateProject(const std::filesystem::path& output, std::vector<std::files
 					"  <Import Project=\"$(VCTargetsPath)\\Microsoft.Cpp.Targets\" />\r\n"
 					"</Project>\r\n";
 
-		std::ofstream slnFile(output / "MyGame.vcproj");
-		if(!slnFile.is_open())
+		std::ofstream vcprojFile(vcproj_path);
+		if(!vcprojFile.is_open())
 		{
 			std::println("[FATAL] Failed to create MSVC project file.");
 			return false;
 		}
-		slnFile << vcproj;
-		slnFile.close();
+		vcprojFile << vcproj;
 
 		return true;
 	}

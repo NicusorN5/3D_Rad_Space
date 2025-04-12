@@ -9,7 +9,7 @@ namespace Engine3DRadSpace::Scripting
 	/// <remarks>
 	/// This class is non-copyable, non-moveable, as one instance per application is expected, usually owned by a Game class.
 	/// </remarks>
-	class ScriptEngine
+	class DLLEXPORT ScriptEngine
 	{
 	public:
 		ScriptEngine() = default;

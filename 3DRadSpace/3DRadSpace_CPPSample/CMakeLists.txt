@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.21)
 project("3DRadSpace-empty")
 
 file(GLOB_RECURSE 3DRadSpace-empty-src CONFIGURE_DEPENDS "*.cpp" "*.hpp" )
-add_executable(3DRadSpace-empty ${3DRadSpace-empty-src})
+add_executable(3DRadSpace-empty WIN32 ${3DRadSpace-empty-src})
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET 3DRadSpace-empty PROPERTY CXX_STANDARD 23)

@@ -2,7 +2,7 @@
 #include <Windows.h>
 #include <Engine3DRadSpace\Content\ShaderManager.hpp>
 
-int main()
+int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR cmdArgs, int nShowCmd)
 {
 	MyGame game;
 	game.Run();

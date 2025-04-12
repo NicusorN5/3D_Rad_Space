@@ -1,10 +1,10 @@
 #include "ProjectBuilder.hpp"
 
-void MSVC_Build(const std::filesystem::path& outputFolder, const std::filesystem::path& compilerPath)
+void MSVC_Build(const ProjectInfo& project, const std::filesystem::path& compilerPath)
 {
-	auto projectPath = std::filesystem::current_path() / "MyGame.vcproj";
+	auto projectPath = project.Output / (project.Name + ".vcproj");
 
-	std::string command = "\"\"" + compilerPath.string() + "\" \"" + projectPath.string() + "\" / Build\"";
+	std::string command = "\"\"" + compilerPath.string() + "\" \"" + projectPath.string() + "\" /Build\"";
 
 	int r = std::system(command.c_str());
 	if(r != 0)
@@ -17,12 +17,12 @@ void MSVC_Build(const std::filesystem::path& outputFolder, const std::filesystem
 	}
 }
 
-void Clang_Build(const std::filesystem::path& outputFolder, const std::filesystem::path& compilerPath)
+void Clang_Build(const ProjectInfo& project, const std::filesystem::path& compilerPath)
 {
 
 }
 
-void GCC_Build(const std::filesystem::path& outputFolder, const std::filesystem::path& compilerPath)
+void GCC_Build(const ProjectInfo& project, const std::filesystem::path& compilerPath)
 {
 
 }

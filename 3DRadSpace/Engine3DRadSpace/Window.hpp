@@ -35,7 +35,7 @@ namespace Engine3DRadSpace
 		void* NativeHandle() const noexcept;
 
 		/// <summary>
-		/// Processes one update-draw cycle.
+		/// 
 		/// </summary>
 		void ProcessMessages();
 

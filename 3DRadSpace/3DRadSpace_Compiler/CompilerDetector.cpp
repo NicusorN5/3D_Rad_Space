@@ -14,13 +14,13 @@ static auto find_vs2() -> std::optional<std::filesystem::path>
 	std::ofstream dummy("dummy.vcxproj");
 	if(!dummy.good())
 	{
-		std::println(std::cerr, "Failed to create dummy project");
+		std::println("[ERROR] Failed to create dummy project");
 		return std::nullopt;
 	}
 	int r = std::system("dummy.vcxproj");
 	if(r != 0)
 	{
-		std::println(std::cerr, "Failed to open devenv.");
+		std::println("[ERROR] Failed to open devenv.");
 		return std::nullopt;
 	}
 
@@ -30,7 +30,7 @@ static auto find_vs2() -> std::optional<std::filesystem::path>
 	HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 	if(snapshot == INVALID_HANDLE_VALUE)
 	{
-		std::println(std::cerr, "Failed to create snapshot");
+		std::println("[ERROR] Failed to create snapshot");
 		return std::nullopt;
 	}
 
@@ -59,7 +59,7 @@ static auto find_vs2() -> std::optional<std::filesystem::path>
 				BOOL r = QueryFullProcessImageNameW(procVS, 0, vsPath, &lenPath);
 				if(!r)
 				{
-					std::println(std::cerr, "Failed to query full process image name");
+					std::println("[ERROR] Failed to query full process image name");
 					goto fail;
 				}
 

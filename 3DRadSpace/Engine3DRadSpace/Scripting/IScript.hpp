@@ -11,7 +11,7 @@ namespace Engine3DRadSpace::Scripting
 		/// <summary>
 		/// The object that manages this IScript instance.
 		/// </summary>
-		IObject* object;
+		IObject* object = nullptr;
 
 		IScript() = default;
 
@@ -40,4 +40,6 @@ namespace Engine3DRadSpace::Scripting
 
 		~IScript() = default;
 	};
+
+	using IScriptInstance = std::shared_ptr<IScript>;
 }
