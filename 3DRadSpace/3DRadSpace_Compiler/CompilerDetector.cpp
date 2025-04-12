@@ -17,7 +17,14 @@ static auto find_vs2() -> std::optional<std::filesystem::path>
 		std::println("[ERROR] Failed to create dummy project");
 		return std::nullopt;
 	}
-	int r = std::system("dummy.vcxproj");
+	INT_PTR r = reinterpret_cast<INT_PTR>(ShellExecuteA(
+		nullptr,
+		"open", 
+		"dummy.vcxproj",
+		nullptr,
+		nullptr, 
+		SW_FORCEMINIMIZE
+	));
 	if(r != 0)
 	{
 		std::println("[ERROR] Failed to open devenv.");

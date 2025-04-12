@@ -76,9 +76,14 @@ int __stdcall WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 	AllocConsole();
 
 	FILE* fDummy;
-	freopen_s(&fDummy, "CONIN$", "r", stdin);
-	freopen_s(&fDummy, "CONOUT$", "w", stderr);
-	freopen_s(&fDummy, "CONOUT$", "w", stdout);
+	auto r = freopen_s(&fDummy, "CONIN$", "r", stdin);
+	if(r != 0) throw Exception("Failed to open stdin");
+
+	r = freopen_s(&fDummy, "CONOUT$", "w", stderr);
+	if(r != 0) throw Exception("Failed to open stderr");
+	
+	r = freopen_s(&fDummy, "CONOUT$", "w", stdout);
+	if(r != 0) throw Exception("Failed to open stdout");
 #endif
 
 	InitializeGDI();
