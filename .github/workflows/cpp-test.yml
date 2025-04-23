@@ -9,7 +9,6 @@ on:
 jobs:
   test:
     runs-on: [windows-latest, x64, gpu]
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
     - name: Build 3DRadSpace (C++ CMake)
       uses: ./.github/workflows/cmake-multi-platform.yml
