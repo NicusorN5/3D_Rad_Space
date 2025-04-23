@@ -18,7 +18,7 @@ jobs:
     - name: Copy Asset folders
       shell: bash
       working-directory: ${{ github.workspace }}/3DRadSpace
-      run: cp -r ${{github.workspace}}/3DRadSpace/Data ${{github.workspace}}/3DRadSpace/build/build/x64-Release/Data
+      run: cp -r ${{github.workspace}}/3DRadSpace/Data ${{github.workspace}}/3DRadSpace/build/x64-Release/Data
     - name: Run tests
       shell: bash
       working-directory: ${{ github.workspace }}/3DRadSpace/build/x64-Release/
