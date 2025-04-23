@@ -1,11 +1,10 @@
 name: C++ Win-x64 Tests
 
 on:
-    workflow_run:
-        workflows: ["C++ CMake on Windows-x64"]
-        types: [completed]
-        branches:
-            - 'master'
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
 
 jobs:
   test:

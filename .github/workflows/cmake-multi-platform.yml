@@ -3,10 +3,6 @@
 name: C++ CMake on Windows-x64
 
 on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
   workflow_call:
 
 jobs:
