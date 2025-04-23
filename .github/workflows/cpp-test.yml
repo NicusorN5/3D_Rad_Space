@@ -8,12 +8,26 @@ on:
 
 jobs:
   build:
-    name: Build 3DRadSpace (C++ CMake)
-    uses: ./.github/workflows/cmake-multi-platform.yml
+    runs-on: [windows-latest, x64, gpu]
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build 3DRadSpace (C++ CMake)
+      uses: ./.github/workflows/cmake-multi-platform.yml
+      
   test:
     runs-on: [windows-latest, x64, gpu]
     steps:
     - uses: actions/checkout@v4
+    - name: Wait for Build
+      uses: kamilchodola/wait-for-workflow-action@1.1.0
+      with:
+        GITHUB_TOKEN: ${{ secrets.REPOSITORY_DISPATCH_TOKEN }}
+        workflow_id: 'cmake-multi-platform.yml'
+        max_wait_minutes: '3'
+        interval: '5'
+        timeout: '60'
+        org_name: 'NicusorN5'
+        repo_name: '3D_Rad_Space'
     - name: Copy Asset folders
       shell: bash
       working-directory: ${{ github.workspace }}/3DRadSpace
