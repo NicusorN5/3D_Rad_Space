@@ -10,7 +10,7 @@ jobs:
   test:
     runs-on: [windows-latest, x64, gpu]
     steps:
-      - uses: actions/checkout@v4
+    - uses: actions/checkout@v4
     - name: Build 3DRadSpace (C++ CMake)
       uses: ./.github/workflows/cmake-multi-platform.yml
     - name: Copy Asset folders
