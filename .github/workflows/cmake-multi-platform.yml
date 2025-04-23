@@ -56,6 +56,15 @@ jobs:
       run: |
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
+    - uses: actions/cache@v4
+      with:
+      path: |
+        vcpkg/buildtrees
+        vcpkg/downloads
+        vcpkg/installed
+        vcpkg/packages
+      key: ${{ runner.os }}-vcpkg-${{ hashFiles('**/lockfiles') }}
+
     - uses: johnwason/vcpkg-action@v6
       id: vcpkg
       with:
