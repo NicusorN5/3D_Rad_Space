@@ -81,13 +81,25 @@ TEST(LinearAlgebraTests, Vector3_TransformQuaternion1)
 
 TEST(LinearAlgebraTests, Vector3_TransformQuaternion2)
 {
-	Quaternion q = Quaternion::FromYawPitchRoll(std::numbers::pi_v<float> / 2, 0, 0);
+	//TODO: Why negative?
+	Quaternion q = Quaternion::FromYawPitchRoll(-std::numbers::pi_v<float> / 2, 0, 0);
 	Vector3 v(1, 0, 1);
 
-	Vector3 r1 = v.Transform(q);
-	expect_equal_vec3(r1, Vector3(1, 0, -1));
+	Vector3 r1 = Vector3(v).Transform(q);
+	expect_equal_vec3(r1, Vector3(-1, 0, 1));
 
 	Vector3 r2 = Vector3::Transform(v,q);
 	expect_equal_vec3(r2, r1);
 }
 
+TEST(LinearAlgebraTests, Vector3_TransformQuaternion3)
+{
+	Quaternion q = Quaternion::FromYawPitchRoll( -std::numbers::pi_v<float> / 2, 0, 0); //90 degrees ccw on Y axis
+	Vector3 v(1, 0, 0);
+
+	Vector3 r1 = Vector3(v).Transform(q);
+	expect_equal_vec3(r1, Vector3(0, 0, 1));
+
+	Vector3 r2 = Vector3::Transform(v, q);
+	expect_equal_vec3(r2, r1);
+}
