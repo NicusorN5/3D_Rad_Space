@@ -34,14 +34,15 @@ namespace Engine3DRadSpace::Reflection
 		Enum,
 		Color,
 		Skybox,
+		Function,
 		Custom,
 	};
 
-	using FieldRepresentation = std::vector<std::pair<FieldRepresentationType, const std::string>>;
+	using FieldRepresentation = std::vector<std::pair<FieldRepresentationType, std::string>>;
 
 	template<typename T> FieldRepresentation GetFieldRepresentation() = delete; //Only default and useer-written allow GetFieldRepresentation() specializations.
 
-	//GetFieldRepresentation() specializations, as defined in FieldRepresentationType
+	//GetFieldRepresentation() specializations
 	template<> DLLEXPORT FieldRepresentation GetFieldRepresentation<void>();
 	template<> DLLEXPORT FieldRepresentation GetFieldRepresentation<bool>();
 	template<signed_integer T> FieldRepresentation GetFieldRepresentation() { return {{FieldRepresentationType::Integer,""}}; }
@@ -66,11 +67,14 @@ namespace Engine3DRadSpace::Reflection
 	template<> FieldRepresentation DLLEXPORT GetFieldRepresentation<Math::Vector2>();
 	template<> FieldRepresentation DLLEXPORT GetFieldRepresentation<Math::Point>();
 	template<> FieldRepresentation DLLEXPORT GetFieldRepresentation<Math::Vector3>();
-	template<> FieldRepresentation DLLEXPORT GetFieldRepresentation<Math::Vector4>();
+	template<> FieldRepresentation DLLEXPORT GetFieldRepresentation<Math::Vector4>();	
 	template<> FieldRepresentation DLLEXPORT GetFieldRepresentation<Math::Quaternion>();
 	template<> FieldRepresentation DLLEXPORT GetFieldRepresentation<Color>();
 	template<> FieldRepresentation DLLEXPORT GetFieldRepresentation<Math::Rectangle>();
 	template<> FieldRepresentation DLLEXPORT GetFieldRepresentation<Math::RectangleF>();
+
+	//template<typename F> requires std::is_function_v<F> || std::is_member_function_pointer_v<F>
+	//FieldRepresentation GetFieldRepresentation() { return { {FieldRepresentationType::Function,""} };}
 
 	template<typename T>
 	concept ReflectableType = requires

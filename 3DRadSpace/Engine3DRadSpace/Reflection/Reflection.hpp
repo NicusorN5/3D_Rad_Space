@@ -1,5 +1,9 @@
 #pragma once
 
+/// ---------------------------------------------------------------------------
+///								Reflecting objects:
+/// ---------------------------------------------------------------------------
+
 ///Reflecting IObject types:
 #include "ReflectedObject.hpp"
 
@@ -15,12 +19,9 @@
 //Class reflection forward declaration.
 #define REFL_FWD(ObjectName) extern DLLEXPORT ::Engine3DRadSpace::Reflection::ReflectedObject ObjectName##ReflInstance;
 
-
-
-
-
-
-///Reflecting enums:
+/// ---------------------------------------------------------------------------
+///								Reflecting enums:
+/// ---------------------------------------------------------------------------
 #include "ReflectedEnum.hpp"
 
 //Reflects a enum, for use in editor
@@ -35,14 +36,24 @@
 //Forward reference to enumeration reflection instance
 #define REFL_ENUM_FWD(EnumType) extern ::Engine3DRadSpace::Reflection::ReflectedEnum EnumName##EnumReflInstance;
 
+//Reflect a enum field
 #define REFL_FIELD_ENUM(ObjectType, EnumType, FieldName, FieldVisibleName, DefaultValue, Description) static_cast<::Engine3DRadSpace::Reflection::IReflectedEnum*>()
 
-
-
-
-
-
-///Reflecting assets:
+/// ---------------------------------------------------------------------------
+///								Reflecting assets:
+/// ---------------------------------------------------------------------------
 #include "ReflectedAsset.hpp"
 
-#define REFL_ASSET_ID(ObjectType, AssetType, FieldName, FieldVisibleName, Description) static_cast<::Engine3DRadSpace::Reflection::IReflectedAsset*>( new ::Engine3DRadSpace::Reflection::ReflectedAsset<ObjectType, AssetType>(offsetof(ObjectType, FieldName), FieldVisibleName, Description)),
+#define REFL_ASSET_ID(ObjectType, AssetType, FieldName, FieldVisibleName, Description) static_cast<::Engine3DRadSpace::Reflection::IReflectedField*>( new ::Engine3DRadSpace::Reflection::ReflectedAsset<ObjectType, AssetType>(offsetof(ObjectType, FieldName), FieldVisibleName, Description)),
+
+
+/// ---------------------------------------------------------------------------
+///								Reflecting functions:
+/// ---------------------------------------------------------------------------
+#include "ReflectedMemberFunction.hpp"
+
+//Reflect a member function(method)
+#define REFL_METHOD(ObjectType, ReturnType, Function, Name, ...) static_cast<::Engine3DRadSpace::Reflection::IReflectedField*>( new ::Engine3DRadSpace::Reflection::ReflectedMemberFunction<ReturnType, ObjectType, __VA_ARGS__>(Name, Function)),
+
+#include "ReflectedFunction.hpp"
+#define REFL_FUNCTION(ReturnType, Function, Name, ...) static_cast<::Engine3DRadSpace::Reflection::IReflectedField*>( new ::Engine3DRadSpace::Reflection::ReflectedFunction<ReturnType, __VA_ARGS__>(Name, Function)),

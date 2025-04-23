@@ -50,7 +50,7 @@ public:
 	void EditorUpdate() override
 	{
 	}
-	
+
 	Reflection::UUID GetUUID() const noexcept override
 	{
 		// {017161C9-9EB7-4C10-AEEE-24347466586D}
@@ -59,9 +59,15 @@ public:
 	void EditorLoad() override
 	{
 	}
+
 	std::optional<float> Intersects(const Ray&r) override
 	{
 		return std::nullopt;
+	}
+
+	int MyMethod(int a, int b)
+	{
+		return a + b + Integer;
 	}
 
 	int Integer;
@@ -73,6 +79,11 @@ public:
 	Vector4 Vector;
 	Key TestKey;
 };
+
+int MyFunction(int a, int b)
+{
+	return a + b;
+}
 
 REFL_BEGIN(TestObject, "Test Object", "Tests", "Dummy test object")
 	REFL_FIELD(TestObject, std::string, Name, "Name", "Test object", "Name of the object")
@@ -89,6 +100,8 @@ REFL_BEGIN(TestObject, "Test Object", "Tests", "Dummy test object")
 	REFL_FIELD(TestObject, RectangleF, Rectangle2, "Test rectangle 2", RectangleF(5, 4, 3, 2), "float rectangle")
 	REFL_FIELD(TestObject, Vector4, Vector, "Vector4", Vector4(0, 0, 0, 1), "Test vector4")
 	REFL_FIELD(TestObject, Key, TestKey, "Test key", Key::ESC, "Dummy test key")
+	REFL_METHOD(TestObject, int, &TestObject::MyMethod, "Test method", int, int)
+	REFL_FUNCTION(int, MyFunction, "Test function", int, int)
 REFL_END
 
 TEST(ReflectionTests, VisibleStrings)
@@ -137,4 +150,54 @@ TEST(ReflectionTests, UUIDTest)
 {
 	TestObject o;
 	TestObjectReflInstance.ObjectUUID == o.GetUUID();
+}
+
+TEST(ReflectionTests, MethodTest_AnyOverload)
+{
+	TestObject o;
+
+	auto method = static_cast<const IReflectedFunction*>(TestObjectReflInstance["Test method"]);
+	std::array<std::any, 2> args = { std::any(1), std::any(3) };
+
+	std::any n = method->Invoke(static_cast<void*>(&o), args);
+
+	EXPECT_EQ(std::any_cast<int>(n), 9); //1 + 3 + 5 = 9
+}
+
+TEST(ReflectionTests, MethodTest_VoidOverload)
+{
+	TestObject o;
+
+	auto method = static_cast<const IReflectedFunction*>(TestObjectReflInstance["Test method"]);
+
+	int a = 20;
+	int b = 70;
+	int r = 0;
+
+	std::array<void*,2> args = { static_cast<void*>(&a), static_cast<void*>(&b) };
+
+	method->Invoke(&r,static_cast<void*>(&o), args);
+
+	EXPECT_EQ(r, 95); //20 + 70 + 5 = 95
+}
+
+TEST(ReflectionTests, FunctionTest_AnyOverload)
+{
+	auto method = static_cast<const IReflectedFunction*>(TestObjectReflInstance["Test function"]);
+	std::array<std::any, 2> args = { std::any(6), std::any(8) };
+	std::any n = method->Invoke(nullptr, args);
+	EXPECT_EQ(std::any_cast<int>(n), 14); //6 + 8 = 14
+}
+
+TEST(ReflectionTests, FunctionTest_VoidOverload)
+{
+	auto method = static_cast<const IReflectedFunction*>(TestObjectReflInstance["Test function"]);
+
+	int a = 56;
+	int b = 44;
+	int r = 0;
+
+	std::array<void*, 2> args = { static_cast<void*>(&a), static_cast<void*>(&b) };
+	method->Invoke(&r, nullptr, args);
+	EXPECT_EQ(r, 100); //56 + 44 = 100
 }

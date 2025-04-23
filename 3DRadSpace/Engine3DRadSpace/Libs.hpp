@@ -25,6 +25,7 @@
 #include <random>
 #include <fstream>
 #include <expected>
+#include <concepts>
 
 #ifdef _WIN32
 #define NOMINMAX

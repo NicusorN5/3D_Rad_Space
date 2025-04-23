@@ -1,90 +1,37 @@
 #pragma once
-#include "FieldRepresentation.hpp"
+#include "IReflectedField.hpp"
 
 namespace Engine3DRadSpace::Reflection
 {
-	class DLLEXPORT IReflectedField
-	{
-	protected:
-		IReflectedField() = default;
-		IReflectedField(const IReflectedField& f) = default;
-		IReflectedField(IReflectedField&&) = default;
-
-		IReflectedField& operator=(const IReflectedField& f) = default;
-		IReflectedField& operator=(IReflectedField&& f) = default;
-	public:
-		virtual const size_t TypeHash() const noexcept = 0;
-		virtual const std::string FieldName() const noexcept = 0;
-		virtual const std::string FieldDesc() const noexcept = 0;
-		virtual const size_t TypeSize() const noexcept = 0;
-		virtual const ptrdiff_t FieldOffset() const noexcept = 0;
-
-		virtual const void *Get(void *objPtr) const = 0;
-		virtual void Set(void *objPtr,const void *value) const = 0;
-
-		template<typename T>
-		T GetAtOffset(void* objPtr, intptr_t offset)
-		{
-			return *std::launder<T>(reinterpret_cast<T*>(static_cast<std::byte*>(objPtr) + FieldOffset() + offset));
-		}
-
-		virtual const void *DefaultValue() const = 0;
-
-		virtual FieldRepresentation Representation() const = 0;
-
-		virtual ~IReflectedField() = default;
-	};
-
 	template<ReflectableType T>
 	class ReflectedField : public IReflectedField
 	{
-		const size_t _offset;
-		const std::string _name;
-		const std::string _desc;
-		const T _defaultVal;
+		T _defaultVal;
 	public:
-		ReflectedField(const size_t offset_obj_field,const std::string &visibleName,const std::string &description, T defaultValue) :
-			_offset(offset_obj_field),
-			_name(visibleName),
-			_desc(description),
+		ReflectedField(
+			const size_t offset_obj_field,
+			const std::string &visibleName,
+			const std::string &description,
+			T defaultValue
+		) :
+			IReflectedField(offset_obj_field, sizeof(T), visibleName, description, typeid(T)),
 			_defaultVal(defaultValue)
 		{
 		}
 
-		const size_t TypeHash() const noexcept override
+		[[nodiscard]] const void* DefaultValue() const noexcept override
 		{
-			return typeid(T).hash_code();
-		}
-		const std::string FieldName() const noexcept override
-		{
-			return _name;
-		}
-		const std::string FieldDesc() const noexcept override
-		{
-			return _desc;
-		}
-		const size_t TypeSize() const noexcept override
-		{
-			return sizeof(T);
-		}
-		const ptrdiff_t FieldOffset() const noexcept override
-		{
-			return _offset;
+			return static_cast<const void *>(&_defaultVal);
 		}
 
-		[[nodiscard]] const void *DefaultValue() const noexcept override
-		{
-			return reinterpret_cast<const void *>(&_defaultVal);
-		}
-
-		[[nodiscard]] const void *Get(void *objPtr) const override
+		[[nodiscard]] const void* Get(void *objPtr) const override
 		{
 			assert(objPtr != nullptr);
 
 			return std::launder(reinterpret_cast<T*>(static_cast<std::byte*>(objPtr) + _offset));
 		}
 
-		void Set(void *objPtr,const void *value) const override
+		void Set(void *objPtr, const void *value) const override
 		{
 			assert(objPtr != nullptr);
 			assert(value != nullptr);
@@ -128,33 +75,15 @@ namespace Engine3DRadSpace::Reflection
 	class DLLEXPORT ReflectedField<void> final : public IReflectedField
 	{
 	public:
-		ReflectedField() = default;
+		ReflectedField() : IReflectedField(0, 0, "", "", typeid(void))
+		{
+		}
 
-		const size_t TypeHash() const noexcept override
-		{
-			return 0;
-		}
-		const std::string FieldName() const noexcept override
-		{
-			return std::string("");
-		}
-		const std::string FieldDesc() const noexcept override
-		{
-			return std::string("");
-		}
-		const size_t TypeSize() const noexcept override
-		{
-			return 0;
-		}
-		const ptrdiff_t FieldOffset() const noexcept override
-		{
-			return 0;
-		}
 		const void *Get(void *objPtr) const override
 		{
 			return nullptr;
 		}
-		void Set(void *objPtr,const void *value) const override
+		void Set(void *objPtr, const void *value) const override
 		{
 		}
 		const void *DefaultValue() const noexcept override
