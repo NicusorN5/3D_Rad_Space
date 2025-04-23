@@ -7,6 +7,8 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
+on:
+  workflow_call:
 
 jobs:
   build:
@@ -48,13 +50,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Set reusable strings
-      # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
-      id: strings
-      shell: bash
-      run: |
-        echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
-
     - uses: johnwason/vcpkg-action@v6
       id: vcpkg
       with:
@@ -76,9 +71,6 @@ jobs:
         github-binarycache: true
         #Fetch depth for vcpkg checkout. Defaults to "1"
         fetch-depth: '1'
-    
-    #- name: Create out dir
-    #  run: mkdir ${{ steps.strings.outputs.build-output-dir }}
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
@@ -97,7 +89,3 @@ jobs:
       # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
       run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }} 
       #run: cmake ${{ steps.vcpkg.outputs.vcpkg-cmake-config }} -S ${{ github.workspace }}/3DRadSpace -B ${{ steps.strings.outputs.build-output-dir }}
-    - name: Run Tests
-      uses: Bacondish2023/setup-googletest@v1
-      with:
-        tag: v1.14.0

@@ -1,0 +1,26 @@
+name: C++ CMake on Windows-x64
+
+on:
+    workflow_run:
+        workflows: ['C++ CMake on Windows-x64']
+        types: [completed]
+        branches:
+            - 'master'
+
+jobs:
+  test:
+    runs-on: [windows-latest, x64, gpu]
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+    - build-3dradspace-cmake-cpp:
+      name: Build 3DRadSpace (C++ CMake)
+      uses: ./.github/workflows/cmake-multi-platform.yml
+      secrets: inherit
+    - name: Copy Asset folders
+      shell: bash
+      working-directory: ${{ github.workspace }}/3DRadSpace
+      run: cp -r /Data/ /out/build/x64-Release/Data/
+    - name: Run tests
+      shell: bash
+      working-directory: ${{ github.workspace }}/3DRadSpace/out/build/x64-Release/
+      run: ./3DRadSpace-tests.exe
