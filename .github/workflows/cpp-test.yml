@@ -1,4 +1,4 @@
-name: C++ CMake on Windows-x64
+name: C++ Win-x64 Tests
 
 on:
     workflow_run:
