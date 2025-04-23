@@ -14,7 +14,6 @@ jobs:
     - build-3dradspace-cmake-cpp:
       name: Build 3DRadSpace (C++ CMake)
       uses: ./.github/workflows/cmake-multi-platform.yml
-      secrets: inherit
     - name: Copy Asset folders
       shell: bash
       working-directory: ${{ github.workspace }}/3DRadSpace
