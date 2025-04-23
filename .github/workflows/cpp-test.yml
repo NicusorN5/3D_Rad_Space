@@ -7,7 +7,7 @@ on:
     branches: [ "master" ]
 
 jobs:
-   build:
+  build:
     name: Build 3DRadSpace (C++ CMake)
     uses: ./.github/workflows/cmake-multi-platform.yml
   test:
