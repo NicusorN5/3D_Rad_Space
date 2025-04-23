@@ -2,6 +2,9 @@
 # See: https://github.com/actions/starter-workflows/blob/main/ci/cmake-single-platform.yml
 name: C++ CMake on Windows-x64
 
+env: 
+    VCPKG_BINARY_SOURCES: "clear;x-gha,readwrite"
+
 on:
   workflow_call:
 
@@ -52,14 +55,21 @@ jobs:
       run: |
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
-    - uses: actions/cache@v4
+    - name: Export GitHub Actions cache environment variables
+      uses: actions/github-script@v7
       with:
-        path: |
-          vcpkg/buildtrees
-          vcpkg/downloads
-          vcpkg/installed
-          vcpkg/packages
-        key: ${{ runner.os }}-vcpkg-${{ hashFiles('**/lockfiles') }}
+        script: |
+          core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
+          core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
+
+    #- uses: actions/cache@v4
+    #  with:
+    #    path: |
+    #      vcpkg/buildtrees
+    #      vcpkg/downloads
+    #      vcpkg/installed
+    #      vcpkg/packages
+    #    key: ${{ runner.os }}-vcpkg-${{ hashFiles('**/lockfiles') }}
 
     - uses: johnwason/vcpkg-action@v6
       id: vcpkg
@@ -99,4 +109,3 @@ jobs:
     - name: Build
       # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
       run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }} 
-      #run: cmake ${{ steps.vcpkg.outputs.vcpkg-cmake-config }} -S ${{ github.workspace }}/3DRadSpace -B ${{ steps.strings.outputs.build-output-dir }}
