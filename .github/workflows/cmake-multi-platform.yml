@@ -1,6 +1,6 @@
 # This starter workflow is for a CMake project running on multiple platforms. There is a different starter workflow if you just want a single platform.
 # See: https://github.com/actions/starter-workflows/blob/main/ci/cmake-single-platform.yml
-name: CMake on Windows-x64
+name: C++ CMake on Windows-x64
 
 on:
   push:
@@ -97,4 +97,7 @@ jobs:
       # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
       run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }} 
       #run: cmake ${{ steps.vcpkg.outputs.vcpkg-cmake-config }} -S ${{ github.workspace }}/3DRadSpace -B ${{ steps.strings.outputs.build-output-dir }}
-
+    - name: Run Tests
+      uses: Bacondish2023/setup-googletest@v1
+      with:
+        tag: v1.14.0
