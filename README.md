@@ -23,13 +23,21 @@ Old releases can be found [here](https://github.com/3DRadSpace/3D_Rad_Space/rele
         <td>Status</td>
     </tr>
     <tr>
-        <td rowspan="2">Windows-x64</td>
-        <td>C++ w/ CMake</td>
+        <td rowspan="4">Windows-x64</td>
+        <td>C++ Build (CMake)</td>
         <td align="center"><img src="https://github.com/NicusorN5/3D_Rad_Space/actions/workflows/cmake-multi-platform.yml/badge.svg" alt="Windows-x64"></td>
     </tr>
     <tr>
-     <td>C# w/ MSBuild</td>
+        <td>C++ Tests (GTest)</td>
+        <td align="center"><img src="https://github.com/NicusorN5/3D_Rad_Space/actions/workflows/cpp-test.yml/badge.svg" alt="C++-Tests"></td>
+    </tr>
+    <tr>
+     <td>C# (MSBuild)</td>
      <td align="center"><img src="https://github.com/NicusorN5/3D_Rad_Space/actions/workflows/msbuild.yml/badge.svg" alt="CSharp-Windows-x64"></td>
+    </tr>
+    <tr>
+     <td>Visual Studio plugin</td>
+     <td align="center"><img src="https://github.com/NicusorN5/3D_Rad_Space/actions/workflows/vsplugin.yml/badge.svg" alt="Visual-Studio-Plugin"></td>
     </tr>
 </table>
 
