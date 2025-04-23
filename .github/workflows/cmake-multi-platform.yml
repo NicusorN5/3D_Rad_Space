@@ -83,7 +83,7 @@ jobs:
         token: ${{ github.token }}
         # "Use vcpkg built-in GitHub binary caching if "true". If not specified, will use the dry-run based file cache."
         # Recommended set to "true"
-        github-binarycache: true
+        #github-binarycache: true
         #Fetch depth for vcpkg checkout. Defaults to "1"
         fetch-depth: '1'
 
