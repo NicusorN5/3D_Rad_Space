@@ -18,8 +18,8 @@ jobs:
     - name: Copy Asset folders
       shell: cmd
       working-directory: ${{ github.workspace }}\3DRadSpace
-      run: xcopy Data\ build\x64-Release\Data\ /s /e /h
+      run: xcopy Data\ build\x64-Release\Data\ /s /e /h /y
     - name: Run tests
-      shell: bash
-      working-directory: ${{ github.workspace }}/3DRadSpace/build/x64-Release/
-      run: ./3DRadSpace-tests.exe
+      shell: cmd
+      working-directory: ${{ github.workspace }}\3DRadSpace\build\x64-Release\
+      run: 3DRadSpace-tests.exe
