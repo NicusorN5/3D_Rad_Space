@@ -9,10 +9,10 @@ on:
 jobs:
   build:
     name: Build 3DRadSpace
-    uses: ./.github/workflows/cmake-multi-platform.yml
+    uses: ./.github/workflows/cmake-Windows-x64.yml
       
   test:
-    runs-on: [windows-latest, x64, gpu]
+    runs-on: [windows-latest, x64, gpu, self-hosted]
     needs: build
     steps:
     - name: Copy Asset folders
