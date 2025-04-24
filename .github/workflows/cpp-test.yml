@@ -8,6 +8,7 @@ on:
 
 jobs:
   build:
+    runs-on: [windows-latest, x64, gpu]
     name: Build 3DRadSpace
     uses: ./.github/workflows/cmake-multi-platform.yml
       
