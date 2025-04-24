@@ -1,4 +1,4 @@
-name: C++ Win-x64 Tests
+name: C++ Windows-x64 Google Test
 
 on:
   push:
