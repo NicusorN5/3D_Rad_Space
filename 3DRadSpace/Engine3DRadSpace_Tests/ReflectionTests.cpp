@@ -70,6 +70,11 @@ public:
 		return a + b + Integer;
 	}
 
+	void Method()
+	{
+		Integer = -1;
+	}
+
 	int Integer;
 	float Float;
 	Color Colour;
@@ -101,6 +106,7 @@ REFL_BEGIN(TestObject, "Test Object", "Tests", "Dummy test object")
 	REFL_FIELD(TestObject, Vector4, Vector, "Vector4", Vector4(0, 0, 0, 1), "Test vector4")
 	REFL_FIELD(TestObject, Key, TestKey, "Test key", Key::ESC, "Dummy test key")
 	REFL_METHOD(TestObject, int, &TestObject::MyMethod, "Test method", int, int)
+	REFL_METHOD(TestObject, void, &TestObject::Method, "Method")
 	REFL_FUNCTION(int, MyFunction, "Test function", int, int)
 REFL_END
 
@@ -200,4 +206,14 @@ TEST(ReflectionTests, FunctionTest_VoidOverload)
 	std::array<void*, 2> args = { static_cast<void*>(&a), static_cast<void*>(&b) };
 	method->Invoke(&r, nullptr, args);
 	EXPECT_EQ(r, 100); //56 + 44 = 100
+}
+
+TEST(ReflectionTests, FunctionTests_StateChange)
+{
+	TestObject o;
+
+	auto method = static_cast<const IReflectedFunction*>(TestObjectReflInstance["Method"]);
+	std::ignore = method->Invoke(&o, {});
+
+	EXPECT_EQ(o.Integer, -1); //Integer should be -1
 }
