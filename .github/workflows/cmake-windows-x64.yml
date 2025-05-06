@@ -5,10 +5,6 @@ name: C++ CMake on Windows-x64
 env: 
     VCPKG_BINARY_SOURCES: "clear;x-gha,readwrite"
 
-defaults:
-  run:
-    shell: powershell
-
 on:
   workflow_call:
 
