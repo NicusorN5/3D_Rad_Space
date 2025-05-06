@@ -15,7 +15,7 @@ on:
 jobs:
   restore:
     name: vcpkg restore
-    uses: ./.github/workflows/vcpkg-restore.yml
+    uses: ./.github/workflows/vcpkg_restore.yml
     
   build:
     runs-on: [windows-latest, x64, gpu, self-hosted]
