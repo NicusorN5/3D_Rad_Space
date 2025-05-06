@@ -35,7 +35,7 @@ jobs:
       run: vcpkg install freetype:x64-windows-release 
       
     - name: Install nlohmann-json
-      run: nlohmann-json:x64-windows-release
+      run: vcpkg install nlohmann-json:x64-windows-release
 
     - name: install OpenAL
       run: vcpkg install openal-soft:x64-windows-release
