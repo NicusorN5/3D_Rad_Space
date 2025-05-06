@@ -9,7 +9,7 @@ on:
   workflow_call:
 
 jobs:
-  build:
+  restore:
     runs-on: [windows-latest, x64, self-hosted]
 
     steps:
@@ -25,25 +25,25 @@ jobs:
     - name: vcpkg integrate
       run: vcpkg integrate install
     
-    - name: install assimp
+    - name: Install assimp
       run: vcpkg install assimp:x64-windows-release
 
-    - name: install DirectXTK
+    - name: Install DirectXTK
       run: vcpkg install directxtk:x64-windows-release 
       
-    - name: install freetype
+    - name: Install FreeType
       run: vcpkg install freetype:x64-windows-release 
       
     - name: Install nlohmann-json
       run: vcpkg install nlohmann-json:x64-windows-release
 
-    - name: install OpenAL
+    - name: Install OpenAL
       run: vcpkg install openal-soft:x64-windows-release
 
-    - name: install PhysX
+    - name: Install PhysX
       run: vcpkg install physx:x64-windows-release
 
-    - name: install AngelScript
+    - name: Install AngelScript
       run: vcpkg install angelscript:x64-windows-release
 
     - name: Install Google Test
