@@ -1,0 +1,41 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: vcpkg Restore
+
+on:
+  workflow_call:
+
+jobs:
+  build:
+    runs-on: [windows-latest, x64, self-hosted]
+
+    steps:
+    - name: vcpkg integrate
+      run: vcpkg integrate install
+    
+    - name: install assimp
+      run: vcpkg install assimp:x64-windows-release
+
+    - name: install DirectXTK
+      run: vcpkg install directxtk:x64-windows-release 
+      
+    - name: install freetype
+      run: vcpkg install freetype:x64-windows-release 
+      
+    - name: Install nlohmann-json
+      run: nlohmann-json:x64-windows-release
+
+    - name: install OpenAL
+      run: vcpkg install openal-soft:x64-windows-release
+
+    - name: install PhysX
+      run: vcpkg install physx:x64-windows-release
+
+    - name: install AngelScript
+      run: vcpkg install angelscript:x64-windows-release
+
+    - name: Install Google Test
+      run: vcpkg install gtest:x64-windows-release

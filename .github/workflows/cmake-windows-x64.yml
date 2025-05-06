@@ -5,12 +5,16 @@ name: C++ CMake on Windows-x64
 env: 
     VCPKG_BINARY_SOURCES: "clear;x-gha,readwrite"
 
+defaults:
+  run:
+    shell: powershell
+
 on:
   workflow_call:
 
 jobs:
   build:
-    runs-on: [windows, x64]
+    runs-on: [windows-latest, x64, gpu, self-hosted]
     steps:
     - uses: actions/checkout@v4
 
@@ -28,27 +32,7 @@ jobs:
           core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
 
     - name: vcpkg restore
-      uses: johnwason/vcpkg-action@v6
-      id: vcpkg
-      with:
-        # The vcpkg packages to build, separated by spaces. Cannot be used with manifest-dir
-        pkgs: 'assimp directxtk freetype nlohmann-json openal-soft physx angelscript gtest'
-        # The vcpkg target triplet to use. This must be set. For windows, 
-        # x64-windows-release is recommended if you don't need debug libraries
-        triplet: 'x64-windows-release'
-        # Extra arguments to pass to vcpkg command (optional)
-        extra-args: ''
-        # vcpkg revision to checkout
-        # A valid git ref; if empty, it defaults to the latest vcpkg stable release.
-        revision: ''
-        # GitHub token to authenticate API requests. This is necessary to determine vcpkg version to checkout
-        # Recommended to use ${{ github.token }}
-        token: ${{ github.token }}
-        # "Use vcpkg built-in GitHub binary caching if "true". If not specified, will use the dry-run based file cache."
-        # Recommended set to "true"
-        #github-binarycache: true
-        #Fetch depth for vcpkg checkout. Defaults to "1"
-        fetch-depth: '1'
+      uses: ./.github/workflows/vcpkg-restore.yml
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.

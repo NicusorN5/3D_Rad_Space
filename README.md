@@ -25,11 +25,11 @@ Old releases can be found [here](https://github.com/3DRadSpace/3D_Rad_Space/rele
     <tr>
         <td rowspan="4">Windows-x64</td>
         <td>C++ Build (CMake)</td>
-        <td align="center"><img src="https://github.com/NicusorN5/3D_Rad_Space/actions/workflows/cmake-multi-platform.yml/badge.svg" alt="Windows-x64"></td>
+        <td align="center"><img src="https://github.com/NicusorN5/3D_Rad_Space/actions/workflows/cmake-windows-x64.yml/badge.svg" alt="Windows-x64"></td>
     </tr>
     <tr>
         <td>C++ Tests (GTest)</td>
-        <td align="center"><img src="https://github.com/NicusorN5/3D_Rad_Space/actions/workflows/cpp-test.yml/badge.svg" alt="C++-Tests"></td>
+        <td align="center"><img src="https://github.com/NicusorN5/3D_Rad_Space/actions/workflows/cpp-test-windows-x64.yml/badge.svg" alt="C++-Tests"></td>
     </tr>
     <tr>
      <td>C# (MSBuild)</td>
