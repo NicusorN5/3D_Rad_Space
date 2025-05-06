@@ -24,14 +24,13 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Configure CMake
-      # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
-      # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
+      # I know hardcoded file paths is stupid, I need to find an other solution.
       run: >
         cmake -B ${{ github.workspace }}/build
         -DCMAKE_CXX_COMPILER=cl
         -DCMAKE_C_COMPILER=$cl
         -DCMAKE_BUILD_TYPE=Release
-        -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake
+        -DCMAKE_TOOLCHAIN_FILE=D:/Dev/vcpkg/scripts/buildsystems/vcpkg.cmake
         -DVCPKG_TARGET_TRIPLET=x64-windows-release
         -DVCPKG_MANIFEST_MODE=OFF
         -S ${{ github.workspace }}/3DRadSpace
