@@ -23,7 +23,7 @@ jobs:
           core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
     
     - name: Clone vcpkg
-    - run: git clone https://github.com/microsoft/vcpkg
+      run: git clone https://github.com/microsoft/vcpkg
 
     #- name: vcpkg bootstrap
     #- run .\vcpkg\bootstrap-vcpkg
