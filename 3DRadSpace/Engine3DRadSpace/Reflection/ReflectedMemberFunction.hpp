@@ -9,7 +9,7 @@ namespace Engine3DRadSpace::Reflection
 	/// <typeparam name="R">Return type.</typeparam>
 	/// <typeparam name="O">IObject class type this function is member of</typeparam>
 	/// <typeparam name="...Args">Method function arguments</typeparam>
-	template<ReflectableType R, ReflectableObject O, ReflectableType ...Args>
+	template<std::movable R, ReflectableObject O, ReflectableType ...Args>
 	class ReflectedMemberFunction final: public IReflectedFunction
 	{
 	public:
@@ -75,21 +75,18 @@ namespace Engine3DRadSpace::Reflection
 			}
 			else
 			{
-				auto r = InvokeImpl(static_cast<O*>(self), args);
-
-				if constexpr(std::is_pointer_v<R>)
+				if(ptrOut != nullptr)
 				{
-					return ptrOut = static_cast<void*>(r);
+					*(static_cast<R*>(ptrOut)) = std::move(InvokeImpl(static_cast<O*>(self), args));
 				}
-				else if constexpr(std::is_reference_v<R>)
-				{
-					return ptrOut = static_cast<void*>(&r);
-				}
-				else
-				{
-					*(static_cast<R*>(ptrOut)) = r;
-				}
+				else std::ignore = InvokeImpl(static_cast<O*>(self), args);
 			}
+		}
+
+		const void* Get(void* objPtr) const override
+		{
+			//Could be useless
+			return static_cast<void*>(_fn);
 		}
 	};
 }

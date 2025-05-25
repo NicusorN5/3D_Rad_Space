@@ -6,7 +6,7 @@ namespace Engine3DRadSpace::Reflection
 	/// <summary>
 	/// "Reflects" a non-member function.
 	/// </summary>
-	template<typename R, typename ...Args>
+	template<std::movable R, ReflectableType ...Args>
 	class ReflectedFunction final : public IReflectedFunction
 	{
 	public:
@@ -71,24 +71,15 @@ namespace Engine3DRadSpace::Reflection
 			}
 			else
 			{
-				auto r = InvokeImpl(args);
-
-				if constexpr(std::is_pointer_v<R>)
+				if(outReturn != nullptr)
 				{
-					return outReturn = static_cast<void*>(r);
+					*(static_cast<R*>(outReturn)) = std::move(InvokeImpl(args));
 				}
-				else if constexpr(std::is_reference_v<R>)
-				{
-					return outReturn = static_cast<void*>(&r);
-				}
-				else
-				{
-					*(static_cast<R*>(outReturn)) = r;
-				}
+				else std::ignore = InvokeImpl(args);
 			}
 		}
 
-		void* FunctionPointer() const noexcept
+		const void* Get(void* objPtr) const override
 		{
 			return static_cast<void*>(_fn);
 		}
