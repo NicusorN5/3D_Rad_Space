@@ -23,12 +23,12 @@ constexpr Color& Engine3DRadSpace::Color::operator*=(const Color& c) noexcept
 
 constexpr float Color::operator[](int i) const
 {
-	switch (i)
+	switch(i)
 	{
-	case 0: return R;
-	case 1: return G;
-	case 2: return B;
-	case 3: return A;
-	default: throw std::out_of_range(" 0 <= i <= 3");
+		case 0: return R;
+		case 1: return G;
+		case 2: return B;
+		case 3: return A;
+		default: throw std::out_of_range(" 0 <= i <= 3");
 	}
 }
