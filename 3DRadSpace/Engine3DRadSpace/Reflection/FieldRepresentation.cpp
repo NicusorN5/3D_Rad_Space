@@ -121,3 +121,29 @@ template<> FieldRepresentation Reflection::GetFieldRepresentation<RectangleF>()
 		{ FieldRepresentationType::Float, "Height"}
 	};
 }
+
+template<> FieldRepresentation Reflection::GetFieldRepresentation<Matrix4x4>()
+{
+	return
+	{
+		{ FieldRepresentationType::Float, "M11"},
+		{ FieldRepresentationType::Float, "M12"},
+		{ FieldRepresentationType::Float, "M13"},
+		{ FieldRepresentationType::Float, "M14"},
+
+		{ FieldRepresentationType::Float, "M21"},
+		{ FieldRepresentationType::Float, "M22"},
+		{ FieldRepresentationType::Float, "M23"},
+		{ FieldRepresentationType::Float, "M24"},
+
+		{ FieldRepresentationType::Float, "M31"},
+		{ FieldRepresentationType::Float, "M32"},
+		{ FieldRepresentationType::Float, "M33"},
+		{ FieldRepresentationType::Float, "M34"},
+
+		{ FieldRepresentationType::Float, "M41"},
+		{ FieldRepresentationType::Float, "M42"},
+		{ FieldRepresentationType::Float, "M43"},
+		{ FieldRepresentationType::Float, "M44"}
+	};
+}

@@ -10,25 +10,12 @@ namespace Engine3DRadSpace
 		std::vector<std::unique_ptr<Reflection::IReflectedFunction>> _fns;
 		std::type_index _returnType;
 		bool _empty;
+		void* _object;
 
 		void _reset();
-	public:
-		Event();
 
-		template<typename R, typename F, typename ...Args>
-		Event(F fn) : Event()
-		{
-			(*this) += fn;
-		}
-
-		Event(const Event&) = delete;
-		Event(Event&&) = default;
-
-		Event& operator=(const Event&) = delete;
-		Event& operator=(Event&&) = default;
-
-		template<typename R, typename F, typename ...Args>
-		Event& operator +=(F fn)
+		template<typename R>
+		void _setReturnType()
 		{
 			if(_empty)
 			{
@@ -42,7 +29,33 @@ namespace Engine3DRadSpace
 					throw std::invalid_argument(std::format("return type is required to be {}, as set by the first binding.", _returnType.name()));
 				}
 			}
+		}
+	public:
+		Event();
 
+		template<typename R, typename F, typename ...Args>
+		Event(F fn) : Event()
+		{
+			(*this) += fn;
+		}
+
+		template<typename R, typename O, typename F, typename ...Args>
+		Event(O* object, O::F fn)
+		{
+			_object = static_cast<void*>(object);
+			(*this) += fn;
+		}
+
+		Event(const Event&) = delete;
+		Event(Event&&) = default;
+
+		Event& operator=(const Event&) = delete;
+		Event& operator=(Event&&) = default;
+
+		template<typename R, typename F, typename ...Args>
+		Event& operator +=(F fn)
+		{
+			_setReturnType<R>();
 			_fns.emplace_back(
 				std::make_unique<Reflection::ReflectedFunction<R, Args...>>(
 					std::format("Function {} idx {}", typeid(F).name(), _fns.size()),
@@ -53,39 +66,53 @@ namespace Engine3DRadSpace
 			return *this;
 		}
 
+		template<typename R, typename O, typename F, typename ...Args>
+		Event& operator+=(O::F fn)
+		{
+			_setReturnType<R>();
+			_fns.emplace_back(
+				std::make_unique<Reflection::ReflectedMemberFunction<R, O, Args...>>(
+					std::format("Class {} Member function {} idx {}", typeid(O).name(), typeid(F).name(), _fns.size()),
+					fn
+				)
+			);
+
+			return *this;
+		}
+
+		template<typename O>
+		void SetObject(O* object)
+		{
+			_object = static_cast<void*>(object);
+		}
+
 		template<typename R, typename F, typename ...Args>
 		void Bind(F fn)
 		{
 			(*this).operator+=<R, F, Args...>(fn);
 		}
 
+		template<typename R, typename O, typename F, typename ...Args>
+		void Bind(O::F fn)
+		{
+			(*this).operator+=<R, O, F, Args...>(fn);
+		}
+
 		template<typename R, typename ...Args>
 		R operator()(int index, Args&& ...args)
 		{
-			auto fn = static_cast<Reflection::ReflectedFunction<R, Args...>>(_fns[index]);
+			auto fn = dynamic_cast<Reflection::ReflectedFunction<R, Args...>*>(_fns[index].get());
 			return fn(std::forward<Args>(args)...);
 		}
 
 		template<typename R>
 		std::vector<R> InvokeAll(std::span<std::any> args)
 		{
+			std::vector<R> ret;
 			for(auto&& fn : _fns)
 			{
-				R ret;
-				fn->Invoke(nullptr, args);
+				ret.emplace_back(std::any_cast<R>(fn->Invoke(_object, args)));
 			}
-		}
-
-		template<typename R>
-		std::vector<R> InvokeAll(std::span<std::span<void*>> allArgs)
-		{
-			std::vector<R> ret;
-			int i = 0;
-			for(auto&& args : allArgs)
-			{
-				ret.emplace_back(std::move(_fns[i++]->Invoke(args));
-			}
-
 			return ret;
 		}
 

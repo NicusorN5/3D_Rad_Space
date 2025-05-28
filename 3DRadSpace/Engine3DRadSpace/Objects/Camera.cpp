@@ -6,6 +6,7 @@
 
 #include "../Graphics/RenderTarget.hpp"
 
+using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content::Assets;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Objects;
@@ -81,14 +82,20 @@ Matrix4x4 Camera::GetProjectionMatrix() const
 
 void Camera::Draw3D()
 {
-	_game->View = GetViewMatrix();
-	_game->Projection = GetProjectionMatrix();
-	Update();
+	if(Visible)
+	{
+		_game->View = GetViewMatrix();
+		_game->Projection = GetProjectionMatrix();
+		Update();
+	}
 }
 
 void Camera::Update() 
 { 
-	_game->Objects->_camera = this;
+	if(Visible)
+	{
+		_game->Objects->_camera = this;
+	}
 }
 
 Matrix4x4 Camera::GetModelMartix()
@@ -98,7 +105,6 @@ Matrix4x4 Camera::GetModelMartix()
 
 void Camera::EditorDraw3D(bool selected)
 {
-	Update();
 	cameraModel->Draw(GetModelMartix() * _game->View * _game->Projection);
 
 	if(selected)
@@ -213,4 +219,6 @@ REFL_BEGIN(Camera,"Camera","Camera objects","Perspective camera")
 	REFL_FIELD(Camera, float, FieldOfView, "Field of view", 65.f, "Camera's field of view")
 	REFL_FIELD(Camera, float, NearPlaneDistance, "Near plane distance", 0.01f, "Minimum drawing distance")
 	REFL_FIELD(Camera, float, FarPlaneDistance, "Far plane distance", 500.f, "Maximum drawing distance")
+	REFL_METHOD(Camera, void, &Camera::Enable, "Enable")
+	REFL_METHOD(Camera, Matrix4x4, &Camera::GetViewMatrix, "GetViewMatrix")
 REFL_END

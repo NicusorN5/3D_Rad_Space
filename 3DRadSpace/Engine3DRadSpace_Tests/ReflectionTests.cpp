@@ -85,7 +85,7 @@ public:
 	Key TestKey;
 };
 
-int MyFunction(int a, int b)
+static int MyFunction(int a, int b)
 {
 	return a + b;
 }

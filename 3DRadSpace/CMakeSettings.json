@@ -8,7 +8,14 @@
       "buildRoot": "${projectDir}\\out\\build\\${name}",
       "installRoot": "${projectDir}\\out\\install\\${name}",
       "cmakeCommandArgs": "",
-      "ctestCommandArgs": ""
+      "ctestCommandArgs": "",
+      "variables": [
+        {
+          "name": "CMAKE_BUILD_TYPE",
+          "value": "Debug",
+          "type": "STRING"
+        }
+      ]
     },
     {
       "name": "x64-Release",
@@ -19,7 +26,14 @@
       "cmakeCommandArgs": "",
       "buildCommandArgs": "",
       "ctestCommandArgs": "",
-      "inheritEnvironments": [ "msvc_x64_x64" ]
+      "inheritEnvironments": [ "msvc_x64_x64" ],
+      "variables": [
+        {
+          "name": "CMAKE_BUILD_TYPE",
+          "value": "RelWithDebInfo",
+          "type": "STRING"
+        }
+      ]
     }
   ]
 }

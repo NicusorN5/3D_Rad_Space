@@ -41,6 +41,16 @@ namespace Engine3DRadSpace
 		GraphicsDevice *GetGraphicsDeviceHandle();
 		Game* GetGame();
 
+		///Getters and setters for events and visual scripting
+
+		virtual void Enable();
+		virtual void Disable();
+		virtual bool Switch();
+
+		virtual void Show();
+		virtual void Hide();
+		virtual bool SwitchVisibility();
+
 		virtual ~IObject() = default;
 
 		friend class Game;

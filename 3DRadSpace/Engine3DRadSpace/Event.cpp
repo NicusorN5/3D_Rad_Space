@@ -11,7 +11,8 @@ void Event::_reset()
 
 Event::Event() :
 	_returnType(typeid(void)),
-	_empty(true)
+	_empty(true),
+	_object(nullptr)
 {
 }
 
@@ -20,7 +21,7 @@ void Event::InvokeAllReturnless(std::span<std::span<void*>> args)
 	int i = 0;
 	for(auto argPack : args)
 	{
-		_fns[i++]->Invoke(nullptr, nullptr, argPack);
+		_fns[i++]->Invoke(nullptr, _object, argPack);
 	}
 }
 
@@ -29,14 +30,14 @@ void Event::InvokeAllReturnless(std::span<std::span<std::any>> args)
 	int i = 0;
 	for(auto argPack : args)
 	{
-		_fns[i++]->Invoke(nullptr, argPack);
+		std::ignore = _fns[i++]->Invoke(_object, argPack);
 	}
 }
 
 void Event::Unbind(void* fnPtr)
 {
-	std::remove_if(_fns.begin(), _fns.end(), 
-		[fnPtr](IReflectedFunction* fn) -> bool
+	std::erase_if(_fns, 
+		[fnPtr](std::unique_ptr<IReflectedFunction> &fn) -> bool
 		{
 			return fn->Get(nullptr) == fnPtr;
 		}
@@ -80,7 +81,7 @@ Event::ConstIterator::ConstIterator(internal_iterator it) : _iterator(it)
 
 Event::ConstIterator::reference Event::ConstIterator::operator*()
 {
-	return _iterator.operator*()->Get(nullptr));
+	return _iterator.operator*()->Get(nullptr);
 }
 
 Event::ConstIterator::pointer Event::ConstIterator::operator->()

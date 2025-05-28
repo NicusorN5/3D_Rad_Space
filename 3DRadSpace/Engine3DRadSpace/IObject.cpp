@@ -27,3 +27,35 @@ Game* IObject::GetGame()
 {
 	return _game;
 }
+
+void IObject::Enable()
+{
+	Enabled = true;
+}
+
+void IObject::Disable()
+{
+	Enabled = false;
+}
+
+bool IObject::Switch()
+{
+	Enabled = !Enabled;
+	return Enabled;
+}
+
+void IObject::Show()
+{
+	Visible = true;
+}
+
+void IObject::Hide()
+{
+	Visible = false;
+}
+
+bool IObject::SwitchVisibility()
+{
+	Visible = !Visible;
+	return Visible;
+}

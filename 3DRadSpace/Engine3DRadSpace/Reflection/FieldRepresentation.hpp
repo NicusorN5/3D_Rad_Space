@@ -73,6 +73,8 @@ namespace Engine3DRadSpace::Reflection
 	template<> FieldRepresentation DLLEXPORT GetFieldRepresentation<Math::Rectangle>();
 	template<> FieldRepresentation DLLEXPORT GetFieldRepresentation<Math::RectangleF>();
 
+	template<> FieldRepresentation DLLEXPORT GetFieldRepresentation<Math::Matrix4x4>();
+
 	//template<typename F> requires std::is_function_v<F> || std::is_member_function_pointer_v<F>
 	//FieldRepresentation GetFieldRepresentation() { return { {FieldRepresentationType::Function,""} };}
 
