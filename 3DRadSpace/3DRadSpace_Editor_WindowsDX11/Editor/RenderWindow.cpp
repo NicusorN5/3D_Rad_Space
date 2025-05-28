@@ -170,7 +170,7 @@ void RenderWindow::Draw3D()
 				auto gizmo = obj_3d->GetGizmo();
 				if(gizmo != nullptr)
 				{
-					gizmo->Enabled = obj.Object.get() == this->_selectedObject;
+					gizmo->Selected = obj.Object.get() == this->_selectedObject;
 					gizmo->Object = obj.Object.get();
 					gizmo->Draw3D();
 				}
@@ -228,7 +228,7 @@ void RenderWindow::Draw2D()
 		auto gizmo = obj2d->GetGizmo();
 		if(gizmo != nullptr)
 		{
-			gizmo->Enabled = obj.Object.get() == this->_selectedObject;
+			gizmo->Selected = obj.Object.get() == this->_selectedObject;
 			gizmo->Object = obj.Object.get();
 			gizmo->Draw2D();
 		}

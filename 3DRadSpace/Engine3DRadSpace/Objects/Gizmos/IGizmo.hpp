@@ -12,7 +12,11 @@ namespace Engine3DRadSpace::Objects::Gizmos
 		/// </summary>
 		IObject* Object;
 
-		bool Enabled;
+		bool Selected;
+
+		bool Allow3DRendering = true;
+		bool Allow2DRendering = true;
+		bool AllowUpdating = false;
 
 		virtual ~IGizmo() = default;
 	};

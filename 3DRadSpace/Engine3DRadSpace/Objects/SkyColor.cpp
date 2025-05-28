@@ -36,7 +36,10 @@ Reflection::UUID SkyColor::GetUUID() const noexcept
 
 Gizmos::IGizmo* SkyColor::GetGizmo() const noexcept
 {
-	return Internal::GizmoOf<SkyColor>(this);
+	auto gizmo = Internal::GizmoOf<SkyColor>(this);
+	gizmo->Allow2DRendering = gizmo->Allow3DRendering = false;
+	gizmo->AllowUpdating = true;
+	return gizmo;
 }
 
 REFL_BEGIN(SkyColor,"SkyColor", "Rendering", "Sets the backbuffer clear color")

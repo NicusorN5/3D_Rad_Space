@@ -40,7 +40,6 @@ namespace Engine3DRadSpace::Objects
 		Gizmos::IGizmo* GetGizmo() const noexcept override;
 
 		~Fog() = default;
-
 	};
 }
 

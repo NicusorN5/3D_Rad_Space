@@ -2,6 +2,7 @@
 #include "../Game.hpp"
 #include "../Content/ShaderManager.hpp"
 #include "../Graphics/Shaders/MeshHighlight.hpp"
+#include "Gizmos/SkinmeshGizmo.hpp"
 #include "../Internal/Gizmos.hpp"
 
 using namespace Engine3DRadSpace;

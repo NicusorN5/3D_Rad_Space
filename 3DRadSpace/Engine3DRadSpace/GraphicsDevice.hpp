@@ -131,6 +131,7 @@ namespace Engine3DRadSpace
 		void SetShader(Graphics::IShader* shader);
 
 		void SetRasterizerState(const Graphics::RasterizerState* state);
+		Graphics::RasterizerState GetRasterizerState();
 
 		void SetDepthStencilBuffer(Graphics::DepthStencilBuffer* depthBuffer);
 		void SetDepthStencilState(Graphics::DepthStencilState* depthState, unsigned ref);

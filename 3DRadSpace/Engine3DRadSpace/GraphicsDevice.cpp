@@ -409,6 +409,11 @@ void GraphicsDevice::SetRasterizerState(const RasterizerState *state)
 #endif
 }
 
+RasterizerState GraphicsDevice::GetRasterizerState()
+{
+	return RasterizerState::GetCurrentRasterizerState(this);
+}
+
 void GraphicsDevice::SetDepthStencilBuffer(DepthStencilBuffer *depthBuffer)
 {
 #ifdef USING_DX11

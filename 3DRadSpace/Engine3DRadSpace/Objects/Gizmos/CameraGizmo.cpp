@@ -85,7 +85,7 @@ void Gizmo<Camera>::Draw2D()
 	auto view = game->View;
 	auto proj = game->Projection;
 
-	if(Enabled)
+	if(Selected)
 	{
 		auto oldView = view;
 		auto oldProjection = proj;

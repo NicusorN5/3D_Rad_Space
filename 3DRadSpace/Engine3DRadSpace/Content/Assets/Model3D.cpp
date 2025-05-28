@@ -201,6 +201,13 @@ Model3D::Model3D(GraphicsDevice* Device, const std::filesystem::path& path) :
 		_meshes.push_back(std::make_unique<ModelMesh>(meshParts));
 	}
 
+	if(_meshes.size() == 0)
+	{
+		_box = BoundingBox(Vector3(0, 0, 0), Vector3(0, 0, 0));
+		_sphere = BoundingSphere(Vector3(0, 0, 0), 0);
+		return;
+	}
+
 	_box = _meshes[0]->GetBoundingBox();
 	_sphere = _meshes[0]->GetBoundingSphere();
 

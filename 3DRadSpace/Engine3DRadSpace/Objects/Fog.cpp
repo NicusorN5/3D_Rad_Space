@@ -20,7 +20,8 @@ Fog::Fog(const std::string& name, bool enabled, float begin, float end, Color co
 	IObject(name, enabled),
 	FogBegin(begin),
 	FogEnd(end),
-	FogColor(color)
+	FogColor(color),
+	_effect(nullptr)
 {
 }
 
@@ -58,7 +59,10 @@ Reflection::UUID Fog::GetUUID() const noexcept
 
 Gizmos::IGizmo* Fog::GetGizmo() const noexcept
 {
-	return Internal::GizmoOf<Fog>(this);
+	auto gizmo = Internal::GizmoOf<Fog>(this);
+	gizmo->AllowUpdating = true;
+
+	return gizmo;
 }
 
 REFL_BEGIN(Fog, "Fog", "Post effects", "Post process linear fog")

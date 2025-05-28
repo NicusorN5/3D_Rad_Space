@@ -20,6 +20,8 @@ namespace Engine3DRadSpace::Objects::Gizmos
 
 		void Draw3D() override
 		{
+			if(!Allow3DRendering) return;
+
 			if(Object != nullptr)
 			{
 				auto obj = dynamic_cast<IObject3D*>(Object);
@@ -32,6 +34,8 @@ namespace Engine3DRadSpace::Objects::Gizmos
 
 		void Draw2D() override
 		{
+			if(!Allow2DRendering) return;
+
 			if(Object != nullptr)
 			{
 				auto obj = dynamic_cast<IObject2D*>(Object);
@@ -46,6 +50,7 @@ namespace Engine3DRadSpace::Objects::Gizmos
 		{
 			if(Object != nullptr)
 			{
+				Object->Initialize();
 				Object->Load();
 			}
 		}
@@ -60,6 +65,12 @@ namespace Engine3DRadSpace::Objects::Gizmos
 
 		void Update() override
 		{
+			if(!AllowUpdating) return;
+
+			if(Object != nullptr)
+			{
+				Object->Update();
+			}
 		}
 
 		~Gizmo() = default;
