@@ -1,5 +1,6 @@
 #include "Sprite.hpp"
 #include "../Game.hpp"
+#include "../Internal/Gizmos.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
@@ -71,32 +72,15 @@ void Sprite::Draw2D()
 	_game->SpriteBatch->DrawNormalized(_texture, RectangleF(Position.X, Position.Y, Scale.X, Scale.Y), Engine3DRadSpace::Math::RectangleF(0,0,1,1), TintColor, Rotation, flip, Depth);
 }
 
-void Sprite::EditorInitialize()
-{
-}
-
-void Sprite::EditorLoad()
-{
-	auto asset = _game->Content->operator[](Image);
-	if(asset != nullptr) _texture = static_cast<Texture2D *>(asset);
-	else _texture = _game->Content->Load<Texture2D>("Data//NoAsset.png");
-}
-
-void Sprite::EditorUpdate()
-{
-}
-
-void Sprite::EditorDraw2D(bool selected)
-{
-	Color nTint = selected ? Colors::Red : TintColor;
-	FlipMode flip = (FlipU ? FlipMode::FlipHorizontally : FlipMode::None) | (FlipV ? FlipMode::FlipVertically : FlipMode::None);
-	_game->SpriteBatch->DrawNormalized(_texture, RectangleF(Position.X, Position.Y, Scale.X, Scale.Y), Engine3DRadSpace::Math::RectangleF(0, 0, 1, 1), TintColor, Rotation, flip, Depth);
-}
-
 Reflection::UUID Sprite::GetUUID() const noexcept
 {
 	// {90239EA1-D02D-424C-90BB-15ABC5E5D55D}
 	return Reflection::UUID{0x90239ea1, 0xd02d, 0x424c, { 0x90, 0xbb, 0x15, 0xab, 0xc5, 0xe5, 0xd5, 0x5d }};
+}
+
+Gizmos::IGizmo* Sprite::GetGizmo() const noexcept
+{
+	return Internal::GizmoOf<Sprite>(this);
 }
 
 REFL_BEGIN(Sprite, "Sprite", "2D Objects", "A single drawable image")

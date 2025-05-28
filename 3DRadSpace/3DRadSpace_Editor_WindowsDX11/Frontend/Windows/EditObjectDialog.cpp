@@ -100,6 +100,10 @@ void EditObjectDialog::createForms()
 
 	for (auto field : (*objRefl))
 	{
+		//Skip functions.
+		if(dynamic_cast<IReflectedFunction*>(field) != nullptr)
+			continue;
+
 		auto setMax = [](int& v, int newValue)
 		{
 			if (newValue > v) v = newValue;

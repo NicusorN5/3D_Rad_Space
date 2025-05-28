@@ -8,6 +8,12 @@
 namespace Engine3DRadSpace
 {
 	class Game;
+
+	namespace Objects::Gizmos
+	{
+		class IGizmo;
+	}
+
 	class DLLEXPORT IObject : public IInitiializable, public IUpdateable, public ILoadable
 	{
 	protected:
@@ -32,11 +38,8 @@ namespace Engine3DRadSpace
 		/// <param name="game">Application context</param>
 		void InternalInitialize(Game* game);
 
-		virtual void EditorInitialize() = 0;
-		virtual void EditorLoad() = 0;
-		virtual void EditorUpdate() = 0;
-
 		virtual Reflection::UUID GetUUID() const noexcept = 0;
+		virtual Objects::Gizmos::IGizmo* GetGizmo() const noexcept = 0;
 
 		GraphicsDevice *GetGraphicsDeviceHandle();
 		Game* GetGame();
@@ -51,7 +54,7 @@ namespace Engine3DRadSpace
 		virtual void Hide();
 		virtual bool SwitchVisibility();
 
-		virtual ~IObject() = default;
+		virtual ~IObject();
 
 		friend class Game;
 		friend class ObjectList;

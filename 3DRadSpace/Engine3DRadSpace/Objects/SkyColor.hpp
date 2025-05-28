@@ -15,10 +15,8 @@ namespace Engine3DRadSpace::Objects
 		void Update() override;
 		void Load() override;
 		void Load(const std::filesystem::path& path) override;
-		void EditorInitialize() override;
-		void EditorLoad() override;
-		void EditorUpdate() override;
 		Reflection::UUID GetUUID() const noexcept override;
+		Gizmos::IGizmo* GetGizmo() const noexcept override;
 
 	};
 }

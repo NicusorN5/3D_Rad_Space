@@ -47,28 +47,16 @@ void ExitFade::Load(const std::filesystem::path& path)
 	ProjectPath = path.string();
 }
 
-void ExitFade::EditorInitialize()
-{
-}
-
-void ExitFade::EditorLoad()
-{
-}
-
-void ExitFade::EditorUpdate()
-{
-}
-
-Reflection::UUID Objects::ExitFade::GetUUID() const noexcept
+Reflection::UUID ExitFade::GetUUID() const noexcept
 {
 	// {1243BB88-6FF5-43AD-97D6-8907FAE54528}
 	return { 0x1243bb88, 0x6ff5, 0x43ad, { 0x97, 0xd6, 0x89, 0x7, 0xfa, 0xe5, 0x45, 0x28 } };
 }
 
-void ExitFade::EditorDraw2D(bool selected)
+Gizmos::IGizmo* ExitFade::GetGizmo() const noexcept
 {
+	return nullptr;
 }
-
 
 REFL_BEGIN(ExitFade, "ExitFade", "Events", "Loads an other scene, or exits the game")
 	REFL_FIELD(ExitFade, std::string, Name, "Name", "ExitFade", "Object name")

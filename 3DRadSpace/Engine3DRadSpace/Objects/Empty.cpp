@@ -25,18 +25,6 @@ void Empty::Load(const std::filesystem::path& path)
 {
 }
 
-void Empty::EditorInitialize()
-{
-}
-
-void Empty::EditorLoad()
-{
-}
-
-void Empty::EditorUpdate()
-{
-}
-
 Reflection::UUID Empty::GetUUID() const noexcept
 {
 	// {00000000-0000-0000-0000-000000000000}
@@ -47,13 +35,14 @@ void Empty::Draw3D()
 {
 }
 
-void Empty::EditorDraw3D(bool selected)
-{
-}
-
 std::optional<float> Empty::Intersects(const Math::Ray& r)
 {
 	return std::nullopt;
+}
+
+Gizmos::IGizmo* Empty::GetGizmo() const noexcept
+{
+	return nullptr;
 }
 
 REFL_BEGIN(Empty, "Empty", "Physics", "Represents a point")

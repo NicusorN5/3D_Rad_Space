@@ -2,6 +2,7 @@
 #include "../Game.hpp"
 #include "../Content/ShaderManager.hpp"
 #include "../Graphics/Shaders/MeshHighlight.hpp"
+#include "../Internal/Gizmos.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content::Assets;
@@ -75,15 +76,6 @@ void Skinmesh::Update()
 {
 }
 
-void Skinmesh::EditorInitialize()
-{
-}
-
-void Skinmesh::EditorLoad()
-{
-	Load();
-}
-
 Reflection::UUID Skinmesh::GetUUID() const noexcept
 {
 	// {C3A243F6-23E2-437F-AE8A-B8E8C2A6E944}
@@ -94,39 +86,6 @@ void Skinmesh::Draw3D()
 {
 	if(Visible && _model)
 		_model->Draw(GetModelMartix() * _game->View * _game->Projection);
-}
-
-void Skinmesh::EditorDraw3D(bool selected)
-{
-	if(_model == nullptr) return;
-
-	if(selected)
-	{
-		auto highlight_effect = Content::ShaderManager::LoadShader<Shaders::MeshHighlight>(_game->Device.get());
-
-		auto world =
-			Matrix4x4::CreateScale(Scale * 1.02f) *
-			Matrix4x4::CreateTranslation(-RotationCenter) *
-			Matrix4x4::CreateFromQuaternion(Rotation) *
-			Matrix4x4::CreateTranslation(Position);
-
-		highlight_effect->SetColor(Color(1.0f, 0.5f, 0.0f, 0.5f));
-
-		_game->Device->UnbindDepthBuffer();
-
-		_model->DrawEffect(
-			static_cast<Shaders::Effect*>(highlight_effect.get()),
-			world * _game->View * _game->Projection
-		);
-
-		_game->Device->SetRenderTargetAndDepth(nullptr, nullptr);
-	}
-
-	_model->Draw(GetModelMartix() * _game->View * _game->Projection);
-}
-
-void Skinmesh::EditorUpdate()
-{
 }
 
 std::optional<float> Skinmesh::Intersects(const Ray&r)
@@ -172,6 +131,11 @@ std::optional<float> Skinmesh::Intersects(const Ray&r)
 		}
 	}
 	return std::nullopt;
+}
+
+Gizmos::IGizmo* Skinmesh::GetGizmo() const noexcept
+{
+	return Internal::GizmoOf<Skinmesh>(this);
 }
 
 REFL_BEGIN(Skinmesh, "Skinmesh", "3D Objects", "3D model")

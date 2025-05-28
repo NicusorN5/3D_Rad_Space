@@ -3,6 +3,7 @@
 #include "../Frontend/Settings.hpp"
 #include <Engine3DRadSpace/Graphics/Primitives/Box.hpp>
 #include <Engine3DRadSpace/ObjectList.hpp>
+#include <Engine3DRadSpace/Objects/Gizmos/IGizmo.hpp>
 
 RenderWindow::RenderWindow(HWND parent, HINSTANCE hInstance) :
 	Game(Engine3DRadSpace::Window(hInstance, parent)),
@@ -71,7 +72,12 @@ void RenderWindow::Update()
 {
 	for(auto &obj : *Objects)
 	{
-		obj.Object->EditorUpdate();
+		auto gizmo = obj.Object->GetGizmo();
+		if(gizmo != nullptr)
+		{
+			gizmo->Object = obj.Object.get();
+			gizmo->Update();
+		}
 	}
 
 	zoom = Mouse.ScrollWheel();
@@ -114,7 +120,6 @@ void RenderWindow::Update()
 				}
 			}
 		}
-		
 
 		_requestedPicking = true;
 		_pickingCoords = Mouse.Position();
@@ -128,7 +133,6 @@ void RenderWindow::Update()
 	}
 	else _keyboardTest = false;
 	
-
 	//Quaternion q = Quaternion::FromYawPitchRoll(-cameraPos.X, -cameraPos.Y, 0);
 	auto m = Matrix4x4::CreateRotationX(-cameraPos.Y) * Matrix4x4::CreateRotationY(-cameraPos.X);
 	Camera.Position = cursor3D + Vector3::UnitZ().Transform(m) * (zoom + 5);
@@ -161,7 +165,15 @@ void RenderWindow::Draw3D()
 		{
 			if(obj.InternalType == ObjectList::ObjectInstance::ObjectType::IObject3D)
 			{
-				static_cast<IObject3D*>(obj.Object.get())->EditorDraw3D(obj.Object.get() == this->_selectedObject);
+				auto obj_3d = static_cast<IObject3D*>(obj.Object.get());
+
+				auto gizmo = obj_3d->GetGizmo();
+				if(gizmo != nullptr)
+				{
+					gizmo->Enabled = obj.Object.get() == this->_selectedObject;
+					gizmo->Object = obj.Object.get();
+					gizmo->Draw3D();
+				}
 			}
 		}
 	};
@@ -209,11 +221,16 @@ void RenderWindow::Draw2D()
 	//	SpriteBatch->DrawNormalized(sob.get(), RectangleF(0, 0, 1, 1));
 	SpriteBatch->End();
 
-	for(auto &obj : *Objects)
+	for(auto& obj : *Objects)
 	{
-		if(obj.InternalType == ObjectList::ObjectInstance::ObjectType::IObject2D)
+		auto obj2d = static_cast<IObject2D*>(obj.Object.get());
+
+		auto gizmo = obj2d->GetGizmo();
+		if(gizmo != nullptr)
 		{
-			static_cast<IObject2D*>(obj.Object.get())->EditorDraw2D(false);
+			gizmo->Enabled = obj.Object.get() == this->_selectedObject;
+			gizmo->Object = obj.Object.get();
+			gizmo->Draw2D();
 		}
 	}
 }
@@ -226,6 +243,7 @@ bool RenderWindow::IsFocused() const
 void RenderWindow::Reset3DCursor()
 {
 	cursor3D = Vector3::Zero();
+	_selectedObject = nullptr;
 }
 
 RenderWindow::~RenderWindow()

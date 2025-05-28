@@ -54,11 +54,8 @@ namespace Engine3DRadSpace::Objects
 		void Update() override;
 		void Draw2D() override;
 
-		void EditorInitialize() override;
-		void EditorLoad() override;
-		void EditorUpdate() override;
-		void EditorDraw2D(bool selected) override;
 		Reflection::UUID GetUUID() const noexcept override;
+		Gizmos::IGizmo* GetGizmo() const noexcept override;
 
 		virtual ~Sprite() = default;
 	};

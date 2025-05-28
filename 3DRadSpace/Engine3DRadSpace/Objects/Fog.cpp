@@ -4,6 +4,7 @@
 #include "../Math/Vector3.hpp"
 #include "../Objects/Camera.hpp"
 #include "../ObjectList.hpp"
+#include "../Internal/Gizmos.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Objects;
@@ -37,20 +38,6 @@ void Fog::Load(const std::filesystem::path& path)
 {
 }
 
-void Fog::EditorInitialize()
-{
-	Initialize();
-}
-
-void Fog::EditorUpdate()
-{
-	Update();
-}
-
-void Fog::EditorLoad()
-{
-}
-
 void Fog::Update()
 {
 	_effect->Enabled = Enabled;
@@ -67,6 +54,11 @@ Reflection::UUID Fog::GetUUID() const noexcept
 {
 	// {57299A03-31EA-43D2-A58E-C1F865E1EF85}
 	return { 0x57299a03, 0x31ea, 0x43d2, { 0xa5, 0x8e, 0xc1, 0xf8, 0x65, 0xe1, 0xef, 0x85 } };
+}
+
+Gizmos::IGizmo* Fog::GetGizmo() const noexcept
+{
+	return Internal::GizmoOf<Fog>(this);
 }
 
 REFL_BEGIN(Fog, "Fog", "Post effects", "Post process linear fog")

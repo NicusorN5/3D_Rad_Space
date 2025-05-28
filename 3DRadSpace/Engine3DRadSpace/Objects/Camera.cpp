@@ -3,6 +3,8 @@
 #include "../Content/Assets/Model3D.hpp"
 #include "../Game.hpp"
 #include "../ObjectList.hpp"
+#include "Gizmos/CameraGizmo.hpp"
+#include "../Internal/Gizmos.hpp"
 
 #include "../Graphics/RenderTarget.hpp"
 
@@ -22,39 +24,6 @@ Camera::Camera(const std::string& name, bool visible, Vector3 pos, Vector3 look_
 	LookAt(0,0,0),
 	LookMode(CameraMode::UseRotation)
 {
-}
-
-void Camera::EditorInitialize()
-{
-	Update();
-}
-
-static std::unique_ptr<Model3D> cameraModel;
-static std::unique_ptr<RenderTarget> cameraPreview;
-static std::unique_ptr<DepthStencilBuffer> cameraPreviewDepth;
-
-static int cameraModelReferences = 0; //didn't use a shared_ptr to avoid using more fields inside the object.
-
-void Camera::EditorLoad()
-{
-	if(cameraModel == nullptr)
-	{
-		cameraModel = std::make_unique<Model3D>(_game->Content->GetDevice(), "Data\\Models\\Camera.x");
-	}
-	if(cameraPreview == nullptr)
-	{
-		auto res = _game->Device->Resolution() / 4.0f;
-		cameraPreview = std::make_unique<RenderTarget>(_game->Device.get(), res.X, res.Y);
-
-		cameraPreviewDepth = std::make_unique<DepthStencilBuffer>(_game->Device.get(), res.X, res.Y);
-	}
-
-	++cameraModelReferences;
-}
-
-void Camera::EditorUpdate()
-{
-	Update();
 }
 
 Matrix4x4 Camera::GetViewMatrix() const noexcept
@@ -98,62 +67,16 @@ void Camera::Update()
 	}
 }
 
+void Camera::ForceUpdate()
+{
+	_game->Objects->_camera = this;
+	_game->View = GetViewMatrix();
+	_game->Projection = GetProjectionMatrix();
+}
+
 Matrix4x4 Camera::GetModelMartix()
 {
 	return Matrix4x4::CreateFromQuaternion(Rotation) * Matrix4x4::CreateTranslation(Position);
-}
-
-void Camera::EditorDraw3D(bool selected)
-{
-	cameraModel->Draw(GetModelMartix() * _game->View * _game->Projection);
-
-	if(selected)
-	{
-		auto oldView = _game->View;
-		auto oldProjection = _game->Projection;
-		auto oldCamera = _game->Objects->_camera;
-
-		_game->View = GetViewMatrix();
-		_game->Projection = GetProjectionMatrix();
-		_game->Objects->_camera = this;
-
-		_game->Device->SetRenderTargetAndDepth(cameraPreview.get(), cameraPreviewDepth.get());
-		//_game->Device->SetRenderTargetAndDisableDepth(cameraPreview.get());
-		_game->Device->ClearRenderTarget(cameraPreview.get());
-		_game->Device->ClearDepthBuffer(cameraPreviewDepth.get());
-		_game->Device->SetViewport(
-			Viewport{
-				RectangleF(0,0, cameraPreview->Width(), cameraPreview->Height()),
-				0.0f,
-				1.0f
-			}
-		);
-
-		for(auto& obj : (*_game->Objects))
-		{
-			if(obj.Object.get() == this) continue;
-
-			if(obj.InternalType == ObjectList::ObjectInstance::ObjectType::IObject3D)
-			{
-				static_cast<IObject3D*>(obj.Object.get())->EditorDraw3D(false);
-			}
-		}
-
-		_game->Device->SetViewport();
-		_game->Device->SetRenderTargetAndDepth(nullptr, nullptr);
-
-		_game->SpriteBatch->End();
-		_game->SpriteBatch->Begin();
-		_game->SpriteBatch->DrawNormalized(
-			cameraPreview.get(),
-			RectangleF(0.6f, 0.6f, 0.4f, 0.4f)
-		);
-		_game->SpriteBatch->End();
-
-		_game->View = oldView;
-		_game->Projection = oldProjection;
-		_game->Objects->_camera = oldCamera;
-	}
 }
 
 std::optional<float> Camera::Intersects(const Ray&r)
@@ -172,6 +95,11 @@ Engine3DRadSpace::Reflection::UUID Camera::GetUUID() const noexcept
 	return {0x84376082, 0xa56e, 0x49e6, { 0xb0, 0x95, 0xba, 0xee, 0xf4, 0xbf, 0x29, 0xb5 }};
 }
 
+Gizmos::IGizmo* Camera::GetGizmo() const noexcept
+{
+	return Internal::GizmoOf<Camera>(this);
+}
+
 void Camera::Initialize()
 {
 	Update();
@@ -187,21 +115,6 @@ void Camera::Load(const std::filesystem::path& path)
 
 Camera::~Camera()
 {
-	--cameraModelReferences;
-
-	//Deallocate camera model early, to avoid DirectX debug layer STATE_CREATION warnings, despite the Camera editor model being a std::unique_ptr.
-	if(cameraModelReferences == 0)
-	{
-		if(cameraModel != nullptr)
-			cameraModel.reset();
-
-		if(cameraPreview != nullptr)
-			cameraPreview.reset();
-
-		if(cameraPreviewDepth != nullptr)
-			cameraPreview.reset();
-	}
-
 	//Remove the camera reference from the game object list.
 	if(_game && _game->Objects->_camera == this)
 	{
@@ -220,5 +133,6 @@ REFL_BEGIN(Camera,"Camera","Camera objects","Perspective camera")
 	REFL_FIELD(Camera, float, NearPlaneDistance, "Near plane distance", 0.01f, "Minimum drawing distance")
 	REFL_FIELD(Camera, float, FarPlaneDistance, "Far plane distance", 500.f, "Maximum drawing distance")
 	REFL_METHOD(Camera, void, &Camera::Enable, "Enable")
-	REFL_METHOD(Camera, Matrix4x4, &Camera::GetViewMatrix, "GetViewMatrix")
+	REFL_METHOD(Camera, Matrix4x4, &Camera::GetViewMatrix, "Get View Matrix")
+	REFL_METHOD(Camera, Matrix4x4, &Camera::GetProjectionMatrix, "Get Projection Matrix")
 REFL_END

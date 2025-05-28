@@ -38,10 +38,6 @@ namespace Engine3DRadSpace::Objects
 		void Initialize() override;
 		void Load() override;
 		void Load(const std::filesystem::path &path) override;
-	
-		void EditorInitialize() override;
-		void EditorLoad() override;
-		void EditorUpdate() override;
 
 		/// <summary>
 		/// Gets the View matrix of the camera.
@@ -60,12 +56,18 @@ namespace Engine3DRadSpace::Objects
 		/// </summary>
 		void Update() override;
 
+		/// <summary>
+		/// Same as both Draw3D() and Update() as if the camera is enabled.
+		/// </summary>
+		void ForceUpdate();
+
 		Math::Matrix4x4 GetModelMartix() override;
-		void EditorDraw3D(bool selected) override;
 
 		std::optional<float> Intersects(const Math::Ray &r) override;
 
 		Reflection::UUID GetUUID() const noexcept override;
+
+		Gizmos::IGizmo* GetGizmo() const noexcept override;
 
 		~Camera();
 	};

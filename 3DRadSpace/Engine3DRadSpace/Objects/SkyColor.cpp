@@ -1,5 +1,6 @@
 #include "SkyColor.hpp"
 #include "../Game.hpp"
+#include "../Internal/Gizmos.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Objects;
@@ -27,23 +28,15 @@ void SkyColor::Load(const std::filesystem::path& path)
 {
 }
 
-void SkyColor::EditorInitialize()
-{
-}
-
-void SkyColor::EditorLoad()
-{
-}
-
-void SkyColor::EditorUpdate()
-{
-	Update();
-}
-
 Reflection::UUID SkyColor::GetUUID() const noexcept
 {
 	// {EEA241C5-99C5-4A41-9E65-F673888CEBC4}
 	return { 0xeea241c5, 0x99c5, 0x4a41, { 0x9e, 0x65, 0xf6, 0x73, 0x88, 0x8c, 0xeb, 0xc4 } };
+}
+
+Gizmos::IGizmo* SkyColor::GetGizmo() const noexcept
+{
+	return Internal::GizmoOf<SkyColor>(this);
 }
 
 REFL_BEGIN(SkyColor,"SkyColor", "Rendering", "Sets the backbuffer clear color")

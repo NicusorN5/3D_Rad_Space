@@ -50,24 +50,14 @@ namespace Engine3DRadSpace::Objects
 		/// <param name="content">Not used.</param>
 		/// <param name="path">Not used.</param>
 		void Load(const std::filesystem::path& path);
-		/// <summary>
-		/// Not used. The editor doesn't use physics at runtime. From IObject.
-		/// </summary>
-		void EditorInitialize() override;
-		/// <summary>
-		/// Not used. From IObject.
-		/// </summary>
-		void EditorLoad() override;
-		 /// <summary>
-		/// Not used. From IObject.
-		/// </summary>
-		void EditorUpdate() override;
 
 		/// <summary>
 		/// Returns unique identifier used for serialization.
 		/// </summary>
 		/// <returns></returns>
 		Reflection::UUID GetUUID() const noexcept override;
+
+		Gizmos::IGizmo* GetGizmo() const noexcept override;
 	};
 }
 

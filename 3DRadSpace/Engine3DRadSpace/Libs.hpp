@@ -70,3 +70,5 @@
 #if _DEBUG
 #define _DISABLE_VECTOR_ANNOTATION
 #endif // 
+
+using STD_UPtrTypeless = std::unique_ptr<void, std::function<void(void*)>>;

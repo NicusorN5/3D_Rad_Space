@@ -25,8 +25,6 @@ namespace Engine3DRadSpace
 		float Depth;
 		float Rotation;
 
-		virtual void EditorDraw2D(bool selected) = 0;
-
 		virtual ~IObject2D() = default;
 	};
 }

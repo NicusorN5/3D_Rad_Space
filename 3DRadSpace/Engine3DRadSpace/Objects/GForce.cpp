@@ -1,5 +1,6 @@
 #include "GForce.hpp"
 #include "../Game.hpp"
+#include "../Internal/Gizmos.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Math;
@@ -30,22 +31,15 @@ void GForce::Load(const std::filesystem::path &path)
 {
 }
 
-void GForce::EditorInitialize()
-{
-}
-
-void GForce::EditorLoad()
-{
-}
-
-void GForce::EditorUpdate()
-{
-}
-
 Reflection::UUID GForce::GetUUID() const noexcept
 {
     // {F671F8DA-03D9-4273-B88E-A0C15A18ACEB}
     return { 0xf671f8da, 0x3d9, 0x4273, { 0xb8, 0x8e, 0xa0, 0xc1, 0x5a, 0x18, 0xac, 0xeb } };
+}
+
+Gizmos::IGizmo* GForce::GetGizmo() const noexcept
+{
+    return Internal::GizmoOf<GForce>(this);
 }
 
 REFL_BEGIN(GForce, "G-Force", "Physics", "Enables physics and sets gravity")

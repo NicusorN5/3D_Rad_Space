@@ -10,6 +10,7 @@
 #include "SettingsWindow.hpp"
 #include "Engine3DRadSpace/Logging/Exception.hpp"
 #include <Engine3DRadSpace/ObjectList.hpp>
+#include <Engine3DRadSpace/Objects/Gizmos/IGizmo.hpp>
 
 #include "../AutoupdaterState.hpp"
 #include "UpdateProgressWindow.hpp"
@@ -718,8 +719,14 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 					if (obj != nullptr && obj != reinterpret_cast<void*>(IDCANCEL))
 					{
 						obj->InternalInitialize(gEditorWindow->editor.get());
-						obj->EditorInitialize();
-						obj->EditorLoad();
+						
+						auto gizmo = obj->GetGizmo();
+						if(gizmo != nullptr)
+						{
+							gizmo->Object = obj;
+							gizmo->Load();
+						}
+
 						gEditorWindow->AddObject(obj);
 					}
 					break;
@@ -804,7 +811,11 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 							item.pszText = const_cast<char *>(new_obj->Name.c_str());
 							SendMessageA(gEditorWindow->_listBox, TVM_SETITEMA, 0, reinterpret_cast<LPARAM>(&item));
 
-							new_obj->EditorLoad();
+							auto gizmo = obj->GetGizmo();
+							if(gizmo != nullptr)
+							{
+								gizmo->Load();
+							}
 						}
 					}
 					break;

@@ -19,10 +19,6 @@ void Counter::Initialize()
 {
 }
 
-void Counter::EditorInitialize()
-{
-}
-
 void Counter::Load()
 {
 	if(this->LoadFromFile)
@@ -58,10 +54,6 @@ void Counter::Load(const std::filesystem::path& path)
 	FilePath = path.string();
 }
 
-void Counter::EditorLoad()
-{
-}
-
 void Counter::Update()
 {
 	if(Enabled)
@@ -71,8 +63,9 @@ void Counter::Update()
 	}
 }
 
-void Counter::EditorUpdate()
+Gizmos::IGizmo* Counter::GetGizmo() const noexcept
 {
+	return nullptr;
 }
 
 Counter::~Counter()

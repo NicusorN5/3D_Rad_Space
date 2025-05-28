@@ -1,6 +1,7 @@
 #include "Game.hpp"
 #include "ObjectList.hpp"
 #include "Projects\Serialization.hpp"
+#include "Internal\Gizmos.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Audio;
@@ -125,6 +126,8 @@ void Game::RequestAudioInitialization()
 Game::~Game()
 {
 	Exit();
+
+	_3drsp_gizmos.clear();
 }
 
 

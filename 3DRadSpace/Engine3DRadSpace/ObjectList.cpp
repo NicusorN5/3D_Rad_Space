@@ -163,3 +163,13 @@ Objects::Camera* ObjectList::GetRenderingCamera()
 {
 	return this->_camera;
 }
+
+void ObjectList::SetRenderingCamera(Objects::Camera* cam)
+{
+	_camera = cam;
+}
+
+Game* ObjectList::GetGame() const noexcept
+{
+	return _game;
+}

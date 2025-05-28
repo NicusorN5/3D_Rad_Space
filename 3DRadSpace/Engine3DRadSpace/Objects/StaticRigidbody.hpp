@@ -14,5 +14,6 @@ namespace Engine3DRadSpace::Objects
 		void Load(const std::filesystem::path& path) override;
 
 		Reflection::UUID GetUUID() const noexcept override;
+		Gizmos::IGizmo* GetGizmo() const noexcept override;
 	};
 }

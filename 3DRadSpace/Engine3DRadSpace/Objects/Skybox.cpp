@@ -2,6 +2,7 @@
 #include "../Game.hpp"
 #include "../ObjectList.hpp"
 #include "Camera.hpp"
+#include "../Internal/Gizmos.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content;
@@ -49,19 +50,6 @@ void Skybox::Load(const std::filesystem::path& path)
 	_skybox = _game->Content->Load<SkyboxAsset>(path.string());
 }
 
-void Skybox::EditorInitialize()
-{
-}
-
-void Skybox::EditorLoad()
-{
-	Load();
-}
-
-void Skybox::EditorUpdate()
-{
-}
-
 Reflection::UUID Skybox::GetUUID() const noexcept
 {
 	// {E29253F1-2053-4752-ADBF-236AA6A0039E}
@@ -77,14 +65,14 @@ void Skybox::Draw3D()
 	}
 }
 
-void Skybox::EditorDraw3D(bool selected)
-{
-	Draw3D();
-}
-
 std::optional<float> Skybox::Intersects(const Math::Ray& r)
 {
 	return std::nullopt;
+}
+
+Gizmos::IGizmo* Skybox::GetGizmo() const noexcept
+{
+	return Internal::GizmoOf<Skybox>(this);
 }
 
 REFL_BEGIN(Skybox, "Skybox", "3D Objects", "3D sky box")

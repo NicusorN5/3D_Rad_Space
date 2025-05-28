@@ -1,5 +1,6 @@
 #include "TextPrint.hpp"
 #include "../Game.hpp"
+#include "../Internal/Gizmos.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content;
@@ -73,19 +74,6 @@ void TextPrint::Load(const std::filesystem::path& path)
     _font = _game->Content->Load<Assets::Font>(path, &Font);
 }
 
-void TextPrint::EditorInitialize()
-{
-}
-
-void TextPrint::EditorLoad()
-{
-    Load();
-}
-
-void TextPrint::EditorUpdate()
-{
-}
-
 Reflection::UUID TextPrint::GetUUID() const noexcept
 {
     // {12B25ECE-A980-4A58-9388-872AEA9FD2B5}
@@ -100,9 +88,9 @@ void TextPrint::Draw2D()
     }
 }
 
-void TextPrint::EditorDraw2D(bool selected)
+Gizmos::IGizmo* TextPrint::GetGizmo() const noexcept
 {
-    Draw2D();
+    return Internal::GizmoOf<TextPrint>(this);
 }
 
 REFL_BEGIN(TextPrint, "TextPrint", "2D Objects", "Text element on the screen")

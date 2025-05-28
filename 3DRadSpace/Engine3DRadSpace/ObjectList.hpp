@@ -82,6 +82,9 @@ namespace Engine3DRadSpace
 		O* Find(unsigned i = 0) const;
 
 		Objects::Camera* GetRenderingCamera();
+		void SetRenderingCamera(Objects::Camera* cam);
+
+		Game* GetGame() const noexcept;
 
 		void Remove(unsigned id);
 		void Remove(const std::string& name);

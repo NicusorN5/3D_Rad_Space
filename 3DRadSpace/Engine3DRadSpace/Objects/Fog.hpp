@@ -30,16 +30,14 @@ namespace Engine3DRadSpace::Objects
 		Fog& operator=(Fog&&) = default;
 
 		void Initialize() override;
-		void EditorInitialize() override;
-		void EditorUpdate() override;
 
 		void Load() override;
 		void Load(const std::filesystem::path& path) override;
-		void EditorLoad() override;
 
 		void Update() override;
 
 		Reflection::UUID GetUUID() const noexcept override;
+		Gizmos::IGizmo* GetGizmo() const noexcept override;
 
 		~Fog() = default;
 
