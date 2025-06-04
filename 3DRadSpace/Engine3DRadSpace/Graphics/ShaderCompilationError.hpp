@@ -1,5 +1,5 @@
 #pragma once
-#include "../Logging/Exception.hpp"
+#include "../Core/Logging/Exception.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {

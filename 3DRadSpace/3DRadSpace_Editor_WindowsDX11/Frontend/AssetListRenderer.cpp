@@ -1,6 +1,7 @@
 #include "AssetListRenderer.hpp"
 
 using namespace Engine3DRadSpace;
+using namespace Engine3DRadSpace::Graphics;
 
 INT_PTR WINAPI AssetListRenderer_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {

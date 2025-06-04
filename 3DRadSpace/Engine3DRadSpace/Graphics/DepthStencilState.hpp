@@ -1,5 +1,5 @@
 #pragma once
-#include "../GraphicsDevice.hpp"
+#include "GraphicsDevice.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {
@@ -73,6 +73,6 @@ namespace Engine3DRadSpace::Graphics
 
 		~DepthStencilState() = default;
 
-		friend class Engine3DRadSpace::GraphicsDevice;
+		friend class GraphicsDevice;
 	};
 }

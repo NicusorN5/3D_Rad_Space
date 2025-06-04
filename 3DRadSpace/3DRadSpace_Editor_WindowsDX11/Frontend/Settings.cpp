@@ -3,7 +3,7 @@
 #include <fstream>
 #include <shlobj_core.h>
 #include <Windows.h>
-#include <Engine3DRadSpace/Logging/Exception.hpp>
+#include <Engine3DRadSpace/Core/Logging/Exception.hpp>
 
 Setting<float> Settings::CameraSensitivity =
 {

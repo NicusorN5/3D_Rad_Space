@@ -4,7 +4,10 @@
 
 namespace Engine3DRadSpace
 {
-	class Window;
+	namespace Native
+	{
+		class Window;
+	}
 
 	namespace Input
 	{
@@ -28,7 +31,7 @@ namespace Engine3DRadSpace
 
 			float ScrollWheel() const noexcept;
 
-			friend class Window;
+			friend class Native::Window;
 		};
 	}
 }

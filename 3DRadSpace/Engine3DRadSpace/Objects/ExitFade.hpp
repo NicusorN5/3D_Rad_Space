@@ -1,5 +1,5 @@
 #pragma once
-#include "..\IObject2D.hpp"
+#include "IObject2D.hpp"
 #include "..\Reflection\Reflection.hpp"
 
 namespace Engine3DRadSpace::Objects

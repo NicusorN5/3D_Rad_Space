@@ -1,5 +1,5 @@
 #pragma once
-#include "../GraphicsDevice.hpp"
+#include "GraphicsDevice.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {
@@ -141,6 +141,6 @@ namespace Engine3DRadSpace::Graphics
         /// <returns>BlendState</returns>
         static BlendState GetCurrentBlendState(GraphicsDevice* device);
 
-		friend class Engine3DRadSpace::GraphicsDevice;
+		friend class GraphicsDevice;
 	};
 }

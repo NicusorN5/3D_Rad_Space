@@ -1,6 +1,6 @@
 #pragma once
 #include "IControl.hpp"
-#include <Engine3DRadSpace/Color.hpp>
+#include <Engine3DRadSpace\Math\Color.hpp>
 #include <array>
 
 class ColorBox : public IControl

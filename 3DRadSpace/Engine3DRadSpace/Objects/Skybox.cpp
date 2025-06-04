@@ -1,8 +1,8 @@
 #include "Skybox.hpp"
-#include "../Game.hpp"
-#include "../ObjectList.hpp"
+#include "../Games/Game.hpp"
+#include "ObjectList.hpp"
 #include "Camera.hpp"
-#include "../Internal/Gizmos.hpp"
+#include "Gizmos.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content;

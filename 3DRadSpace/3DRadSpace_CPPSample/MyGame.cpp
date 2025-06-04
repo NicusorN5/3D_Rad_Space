@@ -1,7 +1,7 @@
 #include "MyGame.hpp"
 #include <Engine3DRadSpace\Objects\Skinmesh.hpp>
 #include <Engine3DRadSpace\Objects\Camera.hpp>
-#include <Engine3DRadSpace\ObjectList.hpp>
+#include <Engine3DRadSpace\Objects\ObjectList.hpp>
 #include <Engine3DRadSpace\Math\Quaternion.hpp>
 #include <Engine3DRadSpace\Graphics\Primitives\Box.hpp>
 

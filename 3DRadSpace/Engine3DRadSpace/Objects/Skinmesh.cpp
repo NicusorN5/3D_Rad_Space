@@ -1,9 +1,9 @@
 #include "Skinmesh.hpp"
-#include "../Game.hpp"
+#include "../Games/Game.hpp"
 #include "../Content/ShaderManager.hpp"
 #include "../Graphics/Shaders/MeshHighlight.hpp"
 #include "Gizmos/SkinmeshGizmo.hpp"
-#include "../Internal/Gizmos.hpp"
+#include "Gizmos.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content::Assets;

@@ -1,7 +1,7 @@
 #include "Serialization.hpp"
 #include "../Content/AssetID.hpp"
-#include "../Internal/Objects.hpp"
-#include "../ObjectList.hpp"
+#include "../Objects/Objects.hpp"
+#include "../Objects/ObjectList.hpp"
 #include <fstream>
 
 using namespace Engine3DRadSpace;

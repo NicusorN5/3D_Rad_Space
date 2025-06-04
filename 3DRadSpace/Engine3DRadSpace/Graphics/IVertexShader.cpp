@@ -1,6 +1,5 @@
 #include "IVertexShader.hpp"
-#include "../Logging/Exception.hpp"
-#include "../Logging/Warning.hpp"
+#include "../Core/Logging.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Logging;

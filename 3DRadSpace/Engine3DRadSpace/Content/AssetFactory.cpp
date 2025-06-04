@@ -1,6 +1,6 @@
 #include "AssetFactory.hpp"
-#include "../Game.hpp"
-#include "..\Internal\Assets.hpp"
+#include "../Games/Game.hpp"
+#include "Assets.hpp"
 using namespace Engine3DRadSpace::Internal;
 
 using namespace Engine3DRadSpace;

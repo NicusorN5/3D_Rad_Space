@@ -1,5 +1,5 @@
 #include "ReflectedObject.hpp"
-#include "../Algorithms/LevenshteinDistance.hpp"
+#include "../Core/Algorithms/LevenshteinDistance.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Reflection;

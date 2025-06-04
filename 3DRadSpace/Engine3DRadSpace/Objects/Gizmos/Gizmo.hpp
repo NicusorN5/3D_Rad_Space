@@ -1,8 +1,8 @@
 #pragma once
 #include "IGizmo.hpp"
 #include "../../Reflection/ReflectedObject.hpp" 
-#include "../../IObject2D.hpp"
-#include "../../IObject3D.hpp"
+#include "../IObject2D.hpp"
+#include "../IObject3D.hpp"
 
 namespace Engine3DRadSpace::Objects::Gizmos
 {

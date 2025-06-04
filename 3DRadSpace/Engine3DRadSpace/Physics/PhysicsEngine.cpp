@@ -1,7 +1,7 @@
 #include "PhysicsEngine.hpp"
-#include <physx/PxPhysicsAPI.h>
-#include <physx/extensions/PxDefaultAllocator.h>
-#include "../Logging/Exception.hpp"
+#include <PxPhysicsAPI.h>
+#include <extensions/PxDefaultAllocator.h>
+#include "../Core/Logging/Exception.hpp"
 
 using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Physics;

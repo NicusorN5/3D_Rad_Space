@@ -32,9 +32,14 @@ elseif(LINUX)
 endif()
 
 #Link 3DRadSpace
-target_link_libraries(3DRadSpace-angelscript PRIVATE 3DRadSpace)
+target_link_libraries(3DRadSpace-angelscript PRIVATE 3DRadSpace_Games)
+target_link_libraries(3DRadSpace-angelscript PRIVATE 3DRadSpace_Scripting)
 target_include_directories(3DRadSpace-angelscript PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)
 
 #Add Angelscript
 find_package(Angelscript CONFIG REQUIRED)
 target_link_libraries(3DRadSpace-angelscript PRIVATE Angelscript::angelscript)
+
+#Nlohmann JSON
+find_package(nlohmann_json CONFIG REQUIRED)
+target_link_libraries(3DRadSpace-angelscript PRIVATE nlohmann_json::nlohmann_json)

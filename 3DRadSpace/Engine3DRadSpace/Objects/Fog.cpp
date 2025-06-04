@@ -1,10 +1,10 @@
 #include "Fog.hpp"
-#include "../Game.hpp"
+#include "../Games/Game.hpp"
 #include "../Graphics/Rendering/LinearPixelFogEffect.hpp"
 #include "../Math/Vector3.hpp"
 #include "../Objects/Camera.hpp"
-#include "../ObjectList.hpp"
-#include "../Internal/Gizmos.hpp"
+#include "ObjectList.hpp"
+#include "Gizmos.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Objects;

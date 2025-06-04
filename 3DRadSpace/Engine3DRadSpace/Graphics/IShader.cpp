@@ -1,6 +1,5 @@
 #include "IShader.hpp"
-#include "../Logging/Exception.hpp"
-#include "../Logging/Warning.hpp"
+#include "../Core/Logging.hpp"
 
 #ifdef USING_DX11
 #pragma comment(lib,"d3dcompiler.lib")

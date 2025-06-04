@@ -54,6 +54,6 @@ namespace Engine3DRadSpace::Graphics
 
 		virtual ~IShader() = default;
 
-		friend class Engine3DRadSpace::GraphicsDevice;
+		friend class GraphicsDevice;
 	};
 }

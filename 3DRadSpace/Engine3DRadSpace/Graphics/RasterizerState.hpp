@@ -1,11 +1,12 @@
 #pragma once
-#include "../Libs.hpp"
+#include "../Core/Libs.hpp"
 
 namespace Engine3DRadSpace
 {
-	class GraphicsDevice;
 	namespace Graphics
 	{
+		class GraphicsDevice;
+
 		enum class RasterizerFillMode
 		{
 			/// <summary>
@@ -75,7 +76,7 @@ namespace Engine3DRadSpace
 
 			~RasterizerState() = default;
 
-			friend class Engine3DRadSpace::GraphicsDevice;
+			friend class GraphicsDevice;
 		};
 	}
 }

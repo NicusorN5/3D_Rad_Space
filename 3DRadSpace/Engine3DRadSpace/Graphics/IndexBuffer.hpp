@@ -1,11 +1,11 @@
 #pragma once
-#include "../Libs.hpp"
+#include "../Core/Libs.hpp"
 
 namespace Engine3DRadSpace
 {
-	class GraphicsDevice;
 	namespace Graphics
 	{
+		class GraphicsDevice;
 		/// <summary>
 		/// Represents a index buffer.
 		/// </summary>
@@ -85,7 +85,7 @@ namespace Engine3DRadSpace
 
 			~IndexBuffer() = default;
 
-			friend class Engine3DRadSpace::GraphicsDevice;
+			friend class GraphicsDevice;
 			friend class ModelMeshPart;
 		};
 	}

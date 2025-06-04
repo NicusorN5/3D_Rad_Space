@@ -1,9 +1,7 @@
 #include "AudioBuffer.hpp"
-#include "../Memory.hpp"
 #include <al.h>
 
 using namespace Engine3DRadSpace::Audio;
-using namespace Engine3DRadSpace::Memory;
 
 AudioBuffer::AudioBuffer(char* buffer, int channel, int sampleRate, int bps, int format, int size) :
 	 _buffer(buffer),

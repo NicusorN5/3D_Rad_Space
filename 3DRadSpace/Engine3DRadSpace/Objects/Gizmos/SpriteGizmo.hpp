@@ -1,7 +1,6 @@
 #pragma once
 #include "Gizmo.hpp"
 #include "../Sprite.hpp"
-#include "../../Game.hpp"
 
 namespace Engine3DRadSpace::Objects::Gizmos
 {

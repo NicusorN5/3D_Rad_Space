@@ -1,7 +1,7 @@
 #pragma once
-#include "../IUpdateable.hpp"
-#include "../Game.hpp"
-#include "../IObject.hpp"
+#include "../Core/IUpdateable.hpp"
+#include "../Games/Game.hpp"
+#include "../Objects/IObject.hpp"
 
 namespace Engine3DRadSpace::Scripting
 {

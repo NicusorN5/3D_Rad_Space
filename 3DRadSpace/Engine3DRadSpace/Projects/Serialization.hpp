@@ -1,6 +1,6 @@
 #pragma once
 #include "../Reflection/Reflection.hpp"
-#include "../Game.hpp"
+#include "../Games/Game.hpp"
 #include <nlohmann/json.hpp>
 
 using json = nlohmann::json;

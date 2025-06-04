@@ -1,6 +1,6 @@
 #include "Model3D.hpp"
-#include "../../Logging/Exception.hpp"
-#include "../../Logging/AssetLoadingError.hpp"
+#include "../../Core/Logging/Exception.hpp"
+#include "../../Core/Logging/AssetLoadingError.hpp"
 #include "../ShaderManager.hpp"
 #include "../../Internal/AssetUUIDReader.hpp"
 

@@ -1,6 +1,6 @@
 #include "StaticRigidbody.hpp"
-#include "../Game.hpp"
-#include "../Internal/Gizmos.hpp"
+#include "../Games/Game.hpp"
+#include "../Objects/Gizmos.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Objects;

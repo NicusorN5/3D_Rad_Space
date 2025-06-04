@@ -1,5 +1,5 @@
 #pragma once
-#include "../Libs.hpp"
+#include "../Core/Libs.hpp"
 
 namespace Engine3DRadSpace::Audio
 {

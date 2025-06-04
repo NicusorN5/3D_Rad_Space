@@ -1,6 +1,7 @@
-#include "../../IObject.hpp"
-#include "../../IDrawable2D.hpp"
-#include "../../IDrawable3D.hpp"
+#pragma once
+#include "../IObject.hpp"
+#include "../../Graphics/IDrawable2D.hpp"
+#include "../../Graphics/IDrawable3D.hpp"
 
 namespace Engine3DRadSpace::Objects::Gizmos
 {

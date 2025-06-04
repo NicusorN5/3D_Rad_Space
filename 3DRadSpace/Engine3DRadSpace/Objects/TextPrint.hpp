@@ -1,5 +1,5 @@
 #pragma once
-#include "../IObject2D.hpp"
+#include "IObject2D.hpp"
 #include "../Content/Assets/Font.hpp"
 #include "../Content/AssetID.hpp"
 #include "../Reflection/Reflection.hpp"

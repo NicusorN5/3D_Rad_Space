@@ -1,5 +1,5 @@
 #include "UpdateProgressWindow.hpp"
-#include "Engine3DRadSpace/Logging/Exception.hpp"
+#include "Engine3DRadSpace/Core/Logging/Exception.hpp"
 #include <CommCtrl.h>
 using namespace Engine3DRadSpace::Logging;
 

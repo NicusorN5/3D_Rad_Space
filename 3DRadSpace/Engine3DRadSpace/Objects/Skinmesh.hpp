@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../IObject3D.hpp"
+#include "IObject3D.hpp"
 #include "../Content/Assets/Model3D.hpp"
 #include "../Reflection/Reflection.hpp"
 

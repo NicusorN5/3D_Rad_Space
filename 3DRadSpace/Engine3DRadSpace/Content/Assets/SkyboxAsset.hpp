@@ -12,11 +12,11 @@ namespace Engine3DRadSpace::Content::Assets
 	class DLLEXPORT SkyboxAsset final : public IAsset
 	{
 		Graphics::Primitives::CubeMapSkybox _skybox;
-		Graphics::Primitives::CubeMapSkybox _loadCubeMap(GraphicsDevice *device, const std::filesystem::path& path);
+		Graphics::Primitives::CubeMapSkybox _loadCubeMap(Graphics::GraphicsDevice *device, const std::filesystem::path& path);
 
 		SkyboxAsset(Internal::AssetUUIDReader dummy);
 	public:
-		SkyboxAsset(GraphicsDevice *device, const std::filesystem::path& path);
+		SkyboxAsset(Graphics::GraphicsDevice *device, const std::filesystem::path& path);
 
 		Graphics::Primitives::CubeMapSkybox& GetSkybox() noexcept;
 		Graphics::Primitives::CubeMapSkybox* operator->() noexcept;

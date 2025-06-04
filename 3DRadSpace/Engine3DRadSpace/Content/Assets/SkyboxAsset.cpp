@@ -1,5 +1,5 @@
 #include "SkyboxAsset.hpp"
-#include "../../Logging/AssetLoadingError.hpp"
+#include "../../Core/Logging/AssetLoadingError.hpp"
 #include "../../Internal/AssetUUIDReader.hpp"
 
 using namespace Engine3DRadSpace;

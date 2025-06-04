@@ -1,9 +1,9 @@
 #pragma once
 #include <string>
-#include <Engine3DRadSpace/Tag.hpp>
+#include <Engine3DRadSpace/Core/Tag.hpp>
 #include <typeindex>
 #include <concepts>
-#include <Engine3DRadSpace/Concepts.hpp>
+#include <Engine3DRadSpace/Core/Concepts.hpp>
 
 template<typename T>
 struct Setting
