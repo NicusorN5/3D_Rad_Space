@@ -1,5 +1,5 @@
 #include "ExitFade.hpp"
-#include "../Game.hpp"
+#include "../Games/Game.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Objects;

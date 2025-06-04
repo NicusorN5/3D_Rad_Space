@@ -1,7 +1,7 @@
 #include "AddObjectDialog.hpp"
 #include "..\..\resource.h"
 #include <CommCtrl.h>
-#include <Engine3DRadSpace/Internal/Objects.hpp>
+#include <Engine3DRadSpace/Objects/Objects.hpp>
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Reflection;

@@ -2,7 +2,7 @@
 #include "PixelFormat.hpp"
 #include "../Math/Point.hpp"
 #include "../Content/IAsset.hpp"
-#include "../Color.hpp"
+#include "../Math/Color.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {
@@ -129,7 +129,7 @@ namespace Engine3DRadSpace::Graphics
 		Reflection::UUID GetUUID() const noexcept override;
 		const char* FileExtension() const noexcept override;
 
-		friend class Engine3DRadSpace::GraphicsDevice;
+		friend class GraphicsDevice;
 		friend class IVertexShader;
 		friend class IFragmentShader;
 		friend class IHullShader;

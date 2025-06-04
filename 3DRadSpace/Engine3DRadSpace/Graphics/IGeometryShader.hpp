@@ -26,7 +26,7 @@ namespace Engine3DRadSpace::Graphics
 
 		~IGeometryShader() = default;
 
-		friend class Engine3DRadSpace::GraphicsDevice;
+		friend class GraphicsDevice;
 	};
 }
 

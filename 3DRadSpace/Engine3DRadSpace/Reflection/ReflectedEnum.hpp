@@ -1,7 +1,7 @@
 #pragma once
 #include "ReflectedObject.hpp"
-#include "..\Algorithms\FixedArray.hpp"
-#include "../Tag.hpp"
+#include "..\Core\Algorithms\FixedArray.hpp"
+#include "../Core/Tag.hpp"
 #include "EnumEntry.hpp"
 
 namespace Engine3DRadSpace::Reflection

@@ -1,6 +1,6 @@
 #pragma once
 #include "../Math/Vector3.hpp"
-#include "../Color.hpp"
+#include "../Math/Color.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {

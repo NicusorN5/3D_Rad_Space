@@ -1,5 +1,5 @@
 #pragma once
-#include "../IObject3D.hpp"
+#include "IObject3D.hpp"
 #include "../Content/Assets/SkyboxAsset.hpp"
 #include "../Reflection/Reflection.hpp"
 

@@ -76,7 +76,7 @@ public:
 
 	~EditorWindow();
 
-	Engine3DRadSpace::GraphicsDevice *GetGraphicsDevice();
+	Engine3DRadSpace::Graphics::GraphicsDevice *GetGraphicsDevice();
 	Engine3DRadSpace::Content::ContentManager *GetContentManager();
 
 	void AddObject(Engine3DRadSpace::IObject *obj);

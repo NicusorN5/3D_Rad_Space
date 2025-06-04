@@ -1,5 +1,5 @@
 #pragma once
-#include <Engine3DRadSpace\Game.hpp>
+#include <Engine3DRadSpace\Games\Game.hpp>
 #include <Engine3DRadSpace\Objects\Skinmesh.hpp>
 #include <Engine3DRadSpace\Objects\Camera.hpp>
 #include <Engine3DRadSpace\Audio\SoundInstance.hpp>

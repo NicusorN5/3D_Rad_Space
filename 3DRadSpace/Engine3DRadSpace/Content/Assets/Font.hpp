@@ -1,7 +1,7 @@
 #pragma once
 #include "../../Graphics/Glyph.hpp"
 #include "../IAsset.hpp"
-#include "../../GraphicsDevice.hpp"
+#include "../../Graphics/GraphicsDevice.hpp"
 #include "../../Internal/AssetUUIDReader.hpp"
 
 namespace Engine3DRadSpace::Content::Assets
@@ -33,7 +33,7 @@ namespace Engine3DRadSpace::Content::Assets
 		void* _font;
 		std::string _supportedCharacters;
 
-		GraphicsDevice* _device;
+		Graphics::GraphicsDevice* _device;
 
 		static FontManager _manager;
 	
@@ -50,13 +50,13 @@ namespace Engine3DRadSpace::Content::Assets
 		/// <param name="path">TTF Font path.</param>
 		/// <param name="size">Font size</param>
 		/// <param name="supportedCharacters">A C-style string of supported characters.</param>
-		Font(GraphicsDevice* device, const std::filesystem::path &path, unsigned size, const char* supportedCharacters = nullptr);
+		Font(Graphics::GraphicsDevice* device, const std::filesystem::path &path, unsigned size, const char* supportedCharacters = nullptr);
 		/// <summary>
 		/// Loads a TTF font.
 		/// </summary>
 		/// <param name="device">Graphics Device</param>
 		/// <param name="path">TTF font file path</param>
-		Font(GraphicsDevice* device, const std::filesystem::path &path);
+		Font(Graphics::GraphicsDevice* device, const std::filesystem::path &path);
 
 		Font(const Font&) = delete;
 		Font(Font&& font) noexcept;

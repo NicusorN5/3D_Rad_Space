@@ -1,5 +1,5 @@
 #pragma once
-#include "Engine3DRadSpace/Game.hpp"
+#include "Engine3DRadSpace/Games/Game.hpp"
 #include "Engine3DRadSpace/Graphics/VertexBuffer.hpp"
 #include <Engine3DRadSpace/Graphics/Shaders/BlankShader.hpp>
 #include <Engine3DRadSpace\Math\Matrix4x4.hpp>
@@ -10,13 +10,11 @@
 #include <Engine3DRadSpace/Graphics/SpriteBatch.hpp>
 #include <Engine3DRadSpace/Graphics/Primitives/LineList.hpp>
 #include <Engine3DRadSpace/Content/Assets/Font.hpp>
-#include <Engine3DRadSpace/Algorithms/Picking/PickingRenderTargetRender.hpp>
 #include <Engine3DRadSpace/Graphics/Primitives/CubeMapSkybox.hpp>
 
 //Despite using namespaces are ill-advised to be used in headers, this header is not meant to be included in other files.
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Algorithms;
-using namespace Engine3DRadSpace::Algorithms::Picking;
 using namespace Engine3DRadSpace::Content;
 using namespace Engine3DRadSpace::Content::Assets;
 using namespace Engine3DRadSpace::Graphics;
@@ -46,7 +44,7 @@ class RenderWindow : public Engine3DRadSpace::Game
 	std::unique_ptr<BasicTextured> texturedShader;
 	std::unique_ptr<SamplerState> samplerState;
 
-	std::unique_ptr<PickingRenderTargetRender> _picking;
+	//std::unique_ptr<PickingRenderTargetRender> _picking;
 
 	bool _keyboardTest = false;
 

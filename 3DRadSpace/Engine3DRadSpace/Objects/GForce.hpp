@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../IObject.hpp"
+#include "IObject.hpp"
 #include "../Reflection/Reflection.hpp"
 
 namespace Engine3DRadSpace::Objects

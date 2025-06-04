@@ -8,13 +8,13 @@
 
 #include "AddObjectDialog.hpp"
 #include "SettingsWindow.hpp"
-#include "Engine3DRadSpace/Logging/Exception.hpp"
-#include <Engine3DRadSpace/ObjectList.hpp>
+#include "Engine3DRadSpace/Core/Logging/Exception.hpp"
+#include <Engine3DRadSpace/Objects/ObjectList.hpp>
 #include <Engine3DRadSpace/Objects/Gizmos/IGizmo.hpp>
 
 #include "../AutoupdaterState.hpp"
 #include "UpdateProgressWindow.hpp"
-#include <Engine3DRadSpace\Internal\Objects.hpp>
+#include <Engine3DRadSpace\Objects\Objects.hpp>
 #include <thread>
 #include <Engine3DRadSpace\Projects\Serialization.hpp>
 

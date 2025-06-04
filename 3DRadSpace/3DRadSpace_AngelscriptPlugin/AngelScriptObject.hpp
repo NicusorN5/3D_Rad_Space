@@ -1,5 +1,5 @@
 #pragma once
-#include <Engine3DRadSpace\IObject.hpp>
+#include <Engine3DRadSpace\Objects\IObject.hpp>
 #include <Engine3DRadSpace\Reflection\Reflection.hpp>
 
 namespace Engine3DRadSpace_Angelscript

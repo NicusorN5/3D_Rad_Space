@@ -1,6 +1,6 @@
 #pragma once
 #include "AudioError.hpp"
-#include "../IUpdateable.hpp"
+#include "../Core/Libs.hpp"
 #include "../Math/Vector3.hpp"
 
 namespace Engine3DRadSpace::Audio

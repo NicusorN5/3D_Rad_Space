@@ -1,4 +1,5 @@
 #pragma once
+/*
 #include "ReflectedField.hpp"
 #include "../Content/AssetID.hpp"
 
@@ -29,3 +30,4 @@ namespace Engine3DRadSpace::Reflection
 		}
 	};
 }
+*/

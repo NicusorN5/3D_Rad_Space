@@ -1,6 +1,6 @@
 #include "RasterizerState.hpp"
-#include "../Logging/Exception.hpp"
-#include "../GraphicsDevice.hpp"
+#include "../Core/Logging/Exception.hpp"
+#include "GraphicsDevice.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;

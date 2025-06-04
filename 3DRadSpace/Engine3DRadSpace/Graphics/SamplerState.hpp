@@ -1,5 +1,5 @@
 #pragma once
-#include "../GraphicsDevice.hpp"
+#include "GraphicsDevice.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {

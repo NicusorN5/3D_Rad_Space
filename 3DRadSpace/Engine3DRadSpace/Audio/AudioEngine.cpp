@@ -1,5 +1,5 @@
 #include "AudioEngine.hpp"
-#include "../Logging/Exception.hpp"
+#include "../Core/Logging/Exception.hpp"
 
 #include <AL/al.h>
 #include <AL/alc.h>

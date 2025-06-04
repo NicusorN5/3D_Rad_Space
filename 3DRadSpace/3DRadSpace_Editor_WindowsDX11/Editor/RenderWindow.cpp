@@ -2,11 +2,12 @@
 #include <Engine3DRadSpace/Content/Assets/Font.hpp>
 #include "../Frontend/Settings.hpp"
 #include <Engine3DRadSpace/Graphics/Primitives/Box.hpp>
-#include <Engine3DRadSpace/ObjectList.hpp>
+#include <Engine3DRadSpace/Objects/ObjectList.hpp>
 #include <Engine3DRadSpace/Objects/Gizmos/IGizmo.hpp>
+#include <Engine3DRadSpace\Objects\Gizmos.hpp>
 
 RenderWindow::RenderWindow(HWND parent, HINSTANCE hInstance) :
-	Game(Engine3DRadSpace::Window(hInstance, parent)),
+	Game(Engine3DRadSpace::Native::Window(hInstance, parent)),
 	editorWindow(parent)
 {
 }
@@ -55,7 +56,7 @@ void RenderWindow::Initialize()
 	Camera.LookMode = Camera::CameraMode::UseLookAtCoordinates;
 	Camera.FarPlaneDistance = 1000.0f;
 
-	_picking = std::make_unique<PickingRenderTargetRender>(Device.get());
+	//_picking = std::make_unique<PickingRenderTargetRender>(Device.get());
 }
 
 void RenderWindow::Load()
@@ -248,4 +249,5 @@ void RenderWindow::Reset3DCursor()
 
 RenderWindow::~RenderWindow()
 {
+	_3drsp_gizmos.clear();
 }

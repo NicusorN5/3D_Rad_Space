@@ -19,7 +19,7 @@ namespace Engine3DRadSpace::Content::Assets
 	/// </remarks>
 	class DLLEXPORT Model3D final : public Content::IAsset
 	{
-		GraphicsDevice* _device;
+		Graphics::GraphicsDevice* _device;
 		std::vector<std::unique_ptr<Graphics::ModelMesh>> _meshes;
 
 		void _processNode(std::vector<std::unique_ptr<Graphics::ModelMeshPart>> &parts, void* currentNode);
@@ -29,7 +29,7 @@ namespace Engine3DRadSpace::Content::Assets
 
 		Model3D(Internal::AssetUUIDReader);
 	public:
-		Model3D(GraphicsDevice* Device,const std::filesystem::path& path);
+		Model3D(Graphics::GraphicsDevice* Device, const std::filesystem::path& path);
 
 		Model3D(Model3D &) = delete;
 		Model3D(Model3D &&) noexcept = default;

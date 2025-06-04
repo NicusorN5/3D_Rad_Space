@@ -1,5 +1,5 @@
 #pragma once
-#include "../IObject3D.hpp"
+#include "../Objects/IObject3D.hpp"
 
 namespace Engine3DRadSpace::Physics
 {

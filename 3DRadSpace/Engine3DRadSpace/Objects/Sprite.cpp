@@ -1,6 +1,6 @@
 #include "Sprite.hpp"
-#include "../Game.hpp"
-#include "../Internal/Gizmos.hpp"
+#include "../Games/Game.hpp"
+#include "Gizmos.hpp"
 #include "Gizmos/SpriteGizmo.hpp"
 
 using namespace Engine3DRadSpace;

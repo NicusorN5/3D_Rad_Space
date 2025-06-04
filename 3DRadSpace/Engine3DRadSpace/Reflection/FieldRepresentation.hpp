@@ -1,6 +1,6 @@
 #pragma once
-#include "../Libs.hpp"
-#include "../Color.hpp"
+#include "../Core/Libs.hpp"
+#include "../Math/Color.hpp"
 #include "../Math/Vector4.hpp"
 #include "../Math/Quaternion.hpp"
 #include "../Math/Rectangle.hpp"
@@ -9,7 +9,7 @@
 #include "../Content/Assets/Font.hpp"
 #include "../Content/Assets/SkyboxAsset.hpp"
 #include "../Input/Keyboard.hpp"
-#include "../Concepts.hpp"
+#include "../Core/Concepts.hpp"
 #include "../Content/AssetID.hpp"
 
 namespace Engine3DRadSpace

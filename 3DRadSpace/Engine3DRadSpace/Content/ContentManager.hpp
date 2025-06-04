@@ -18,7 +18,7 @@ namespace Engine3DRadSpace::Content
 		struct AssetEntry
 		{
 			template<AssetType T>
-			AssetEntry(GraphicsDevice* device, const std::filesystem::path& path) :
+			AssetEntry(Graphics::GraphicsDevice* device, const std::filesystem::path& path) :
 				Path(path),
 				Entry(std::unique_ptr<T>(static_cast<IAsset*>(new T(device, path)))),
 				Type(Entry->GetUUID()),
@@ -101,7 +101,7 @@ namespace Engine3DRadSpace::Content
 		void RemoveAsset(unsigned id);
 		void Clear();
 
-		GraphicsDevice* GetDevice() const noexcept;
+		Graphics::GraphicsDevice* GetDevice() const noexcept;
 		size_t Count() const noexcept;
 	};
 

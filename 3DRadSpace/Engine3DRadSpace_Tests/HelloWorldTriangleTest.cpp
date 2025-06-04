@@ -1,5 +1,5 @@
 #include "pch.h"
-#include <Engine3DRadSpace/Game.hpp>
+#include <Engine3DRadSpace/Games/Game.hpp>
 #include <Engine3DRadSpace/Graphics/VertexBuffer.hpp>
 #include <Engine3DRadSpace/Graphics/Shaders/Blank_NoMatrix.hpp>
 

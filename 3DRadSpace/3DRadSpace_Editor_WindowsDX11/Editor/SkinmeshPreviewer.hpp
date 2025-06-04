@@ -1,5 +1,5 @@
 #pragma once
-#include <Engine3DRadSpace/Game.hpp>
+#include <Engine3DRadSpace/Games/Game.hpp>
 
 namespace Engine3DRadSpace::Objects
 {

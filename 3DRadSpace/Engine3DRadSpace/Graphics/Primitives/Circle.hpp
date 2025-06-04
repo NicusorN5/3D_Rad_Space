@@ -1,6 +1,6 @@
 #pragma once
 #include "LineStrip.hpp"
-#include "../../Algorithms/FixedArray.hpp"
+#include "../../Core/Algorithms/FixedArray.hpp"
 
 namespace Engine3DRadSpace::Graphics::Primitives
 {

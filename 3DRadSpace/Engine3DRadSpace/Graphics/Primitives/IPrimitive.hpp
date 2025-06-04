@@ -1,5 +1,5 @@
 #pragma once
-#include "../../IDrawable3D.hpp"
+#include "../IDrawable3D.hpp"
 #include "../../Math/Matrix4x4.hpp"
 #include "../ModelMeshPart.hpp"
 #include "../Shaders/BlankShader.hpp"

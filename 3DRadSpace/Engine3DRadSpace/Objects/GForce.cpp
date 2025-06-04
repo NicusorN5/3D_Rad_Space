@@ -1,6 +1,6 @@
 #include "GForce.hpp"
-#include "../Game.hpp"
-#include "../Internal/Gizmos.hpp"
+#include "../Games/Game.hpp"
+#include "Gizmos.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Math;

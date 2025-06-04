@@ -1,8 +1,9 @@
 #include "ContentManager.hpp"
-#include "../Logging.hpp"
+#include "../Core/Logging.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content;
+using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Reflection;
 
 ContentManager::ContentManager(Game* owner) :

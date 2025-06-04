@@ -1,5 +1,5 @@
 #pragma once
-#include "../GraphicsDevice.hpp"
+#include "GraphicsDevice.hpp"
 #include "Texture2D.hpp"
 
 namespace Engine3DRadSpace::Graphics
@@ -64,6 +64,6 @@ namespace Engine3DRadSpace::Graphics
 
 		~DepthStencilBuffer() = default;
 
-		friend class Engine3DRadSpace::GraphicsDevice;
+		friend class GraphicsDevice;
 	};
 }
