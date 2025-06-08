@@ -1,4 +1,4 @@
-//#pragma once
+#pragma once
 
 /// All headers[1] are included here. To be added preferably in a precompiled header for end-user projects.
 /// Not to be included inside the engine itself [2].
@@ -13,6 +13,7 @@
 
 
 //Engine3DRadSpace
+#include "Core/Libs.hpp"
 
 //Engine3DRadSpace::Algorithms
 #include "Core\Algorithms\FixedArray.hpp"

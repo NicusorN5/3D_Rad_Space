@@ -29,5 +29,5 @@ if(MSVC)
 	endif()
 endif()
 
-target_link_libraries(3DRadSpace_Native PRIVATE 3DRadSpace_Graphics)
+
 target_include_directories(3DRadSpace_Native PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)

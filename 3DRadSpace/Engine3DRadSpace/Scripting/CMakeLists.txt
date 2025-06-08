@@ -29,9 +29,7 @@ if(MSVC)
 	endif()
 endif()
 
-target_link_libraries(3DRadSpace_Scripting PRIVATE 3DRadSpace_Native)
 target_link_libraries(3DRadSpace_Scripting PRIVATE 3DRadSpace_Objects)
-target_link_libraries(3DRadSpace_Scripting PRIVATE 3DRadSpace_Reflection)
 target_include_directories(3DRadSpace_Scripting PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)
 
 #Nlohmann JSON
