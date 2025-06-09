@@ -19,6 +19,9 @@ if(MSVC)
 	target_compile_options(3DRadSpace-tests PRIVATE "/EHsc")
 	# Create separate pdb debug info files
 	target_compile_options(3DRadSpace-tests PRIVATE "/Zi")
+
+	# Multiprocessor build
+	add_compile_options(3DRadSpace-tests PRIVATE "/MP")
 endif()
 
 #Link 3DRadSpace

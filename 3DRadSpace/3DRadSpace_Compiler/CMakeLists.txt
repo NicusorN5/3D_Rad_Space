@@ -19,6 +19,8 @@ if(MSVC)
 	target_compile_options(3DRadSpace-compiler PRIVATE "/EHsc")
 	# Create separate pdb debug info compiler
 	target_compile_options(3DRadSpace-compiler PRIVATE "/Zi")
+	# Multiprocessor build
+	add_compile_options(3DRadSpace-compiler PRIVATE "/MP")
 endif()
 
 if(WIN32)
