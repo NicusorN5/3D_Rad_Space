@@ -1,10 +1,10 @@
 #pragma once
-#include "../Libs.hpp"
+#include "../Core/Libs.hpp"
 
 namespace Engine3DRadSpace::Audio
 {
 	class Sound;
-	class DLLEXPORT AudioBuffer
+	class E3DRSP_AUDIO_EXPORT AudioBuffer
 	{
 	protected:
 		std::unique_ptr<char[]> _buffer;

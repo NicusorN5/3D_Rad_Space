@@ -7,10 +7,10 @@
 #include <directxtk/ScreenGrab.h>
 #include <wincodec.h>
 #endif // USING_DX11
-#include "../Logging/Exception.hpp"
-#include "../Logging/AssetLoadingError.hpp"
+#include "../Core/Logging/Exception.hpp"
+#include "../Core/Logging/AssetLoadingError.hpp"
 #include "../Internal/AssetUUIDReader.hpp"
-#include "../GraphicsDevice.hpp"
+#include "GraphicsDevice.hpp"
 #include "RenderTarget.hpp"
 #include "../Content/ShaderManager.hpp"
 #include "Shaders\SpriteShader.hpp"

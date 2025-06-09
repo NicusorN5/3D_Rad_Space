@@ -6,7 +6,7 @@ namespace Engine3DRadSpace::Math
 	struct BoundingBox;
 	struct BoundingPlane;
 	struct Ray;
-	struct DLLEXPORT BoundingSphere
+	struct E3DRSP_MATH_EXPORT BoundingSphere
 	{
 		Vector3 Center;
 		float Radius;

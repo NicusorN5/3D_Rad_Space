@@ -1,5 +1,5 @@
 #pragma once
-#include "../GraphicsDevice.hpp"
+#include "GraphicsDevice.hpp"
 #include "Texture2D.hpp"
 
 namespace Engine3DRadSpace::Graphics
@@ -10,7 +10,7 @@ namespace Engine3DRadSpace::Graphics
 	/// <remarks>
 	/// Since this is a large resource, usually the same size as the backbuffer, copy constructors are removed.
 	/// </remarks>
-	class DLLEXPORT DepthStencilBuffer
+	class E3DRSP_GRAPHICS_EXPORT DepthStencilBuffer
 	{
 #ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilView> _depthView;
@@ -64,6 +64,6 @@ namespace Engine3DRadSpace::Graphics
 
 		~DepthStencilBuffer() = default;
 
-		friend class Engine3DRadSpace::GraphicsDevice;
+		friend class GraphicsDevice;
 	};
 }

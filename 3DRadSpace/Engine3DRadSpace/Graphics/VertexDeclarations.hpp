@@ -1,6 +1,7 @@
 #pragma once
+#include "../Math/Vector2.hpp"
 #include "../Math/Vector3.hpp"
-#include "../Color.hpp"
+#include "../Math/Color.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {
@@ -12,7 +13,7 @@ namespace Engine3DRadSpace::Graphics
 	struct VertexPositionColor
 	{
 		Math::Vector3 Position;
-		Color Color;
+		Math::Color Color;
 	};
 
 	struct VertexPositionUV
@@ -31,7 +32,7 @@ namespace Engine3DRadSpace::Graphics
 	{
 		Math::Vector3 Position;
 		Math::Vector3 Normal;
-		Color Color;
+		Math::Color Color;
 	};
 
 	struct VertexPositionNormalUV
@@ -46,7 +47,7 @@ namespace Engine3DRadSpace::Graphics
 		Math::Vector3 Position;
 		Math::Vector3 Normal;
 		Math::Vector2 UV;
-		Color Color;
+		Math::Color Color;
 	};
 
 	struct VertexPositionNormalBitangent
@@ -63,7 +64,7 @@ namespace Engine3DRadSpace::Graphics
 		Math::Vector3 Normal;
 		Math::Vector3 Tangent;
 		Math::Vector3 Bitangent;
-		Color Color;
+		Math::Color Color;
 	};
 
 	struct VertexPositionNormalBitangentUVColor
@@ -73,7 +74,7 @@ namespace Engine3DRadSpace::Graphics
 		Math::Vector3 Tangent;
 		Math::Vector3 Bitangent;
 		Math::Vector2 UV;
-		Color Color;
+		Math::Color Color;
 	};
 
 	struct VertexPositionNormalBitangentUV
@@ -89,7 +90,7 @@ namespace Engine3DRadSpace::Graphics
 	{
 		Math::Vector2 Position;
 		Math::Vector2 UV;
-		Color Color;
+		Math::Color Color;
 	};
 
 	template <typename V>

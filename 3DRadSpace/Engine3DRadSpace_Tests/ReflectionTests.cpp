@@ -1,6 +1,6 @@
 #include "pch.h"
 #include <Engine3DRadSpace/Reflection/Reflection.hpp>
-#include <Engine3DRadSpace/IObject3D.hpp>
+#include <Engine3DRadSpace/Objects/IObject3D.hpp>
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Reflection;

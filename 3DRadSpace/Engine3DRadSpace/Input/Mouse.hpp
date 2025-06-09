@@ -4,11 +4,14 @@
 
 namespace Engine3DRadSpace
 {
-	class Window;
+	namespace Native
+	{
+		class Window;
+	}
 
 	namespace Input
 	{
-		class DLLEXPORT Mouse
+		class E3DRSP_INPUT_EXPORT Mouse
 		{
 			ButtonState _leftButton;
 			ButtonState _middleButton;
@@ -28,7 +31,7 @@ namespace Engine3DRadSpace
 
 			float ScrollWheel() const noexcept;
 
-			friend class Window;
+			friend class Native::Window;
 		};
 	}
 }

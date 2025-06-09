@@ -1,11 +1,11 @@
 #pragma once
-#include "../IUpdateable.hpp"
-#include "../Game.hpp"
-#include "../IObject.hpp"
+#include "../Objects/IUpdateable.hpp"
+#include "../Games/Game.hpp"
+#include "../Objects/IObject.hpp"
 
 namespace Engine3DRadSpace::Scripting
 {
-	class DLLEXPORT IScript: public IUpdateable
+	class E3DRSP_SCRIPTING_EXPORT IScript: public IUpdateable
 	{
 	protected:
 		/// <summary>

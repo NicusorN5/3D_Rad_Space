@@ -6,7 +6,7 @@ namespace Engine3DRadSpace::Graphics::Rendering
 	/// <summary>
 	/// Implements a screen space fog effect.
 	/// </summary>
-	class DLLEXPORT LinearPixelFogEffect : public PostProcessEffect
+	class E3DRSP_GRAPHICS_EXPORT LinearPixelFogEffect : public PostProcessEffect
 	{
 	protected:
 		LinearPixelFogEffect(const LinearPixelFogEffect&) = delete;
@@ -24,7 +24,7 @@ namespace Engine3DRadSpace::Graphics::Rendering
 		/// <summary>
 		/// Color of the fog.
 		/// </summary>
-		Color FogColor;
+		Math::Color FogColor;
 		/// <summary>
 		/// Fog begin range, between 0.0 and 1.0 in normalized device coordinates.
 		/// </summary>

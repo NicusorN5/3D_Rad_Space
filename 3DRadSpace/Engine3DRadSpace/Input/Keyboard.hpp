@@ -1,15 +1,18 @@
 #pragma once
-#include "../Libs.hpp"
+#include "../Core/Libs.hpp"
 #include "Key.hpp"
 #include "KeyState.hpp"
 
 namespace Engine3DRadSpace
 {
-	class Window;
+	namespace Native
+	{
+		class Window;
+	}
 
 	namespace Input
 	{
-		class DLLEXPORT Keyboard
+		class E3DRSP_INPUT_EXPORT Keyboard
 		{
 			uint8_t _keys[10];
 
@@ -26,7 +29,7 @@ namespace Engine3DRadSpace
 
 			KeyState operator[](const Key k);
 
-			friend class Window;
+			friend class Native::Window;
 		};
 	}
 }

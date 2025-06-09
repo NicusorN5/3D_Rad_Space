@@ -12,7 +12,7 @@ std::optional<float> Ray::Intersects(const BoundingSphere &sph) const
 
     // If the distance between the ray start and the sphere's centre is less than
     // the radius of the sphere, it means we've intersected. N.B. checking the LengthSquared is faster.
-    if(differenceLengthSquared < sphereRadiusSquared) return 0;
+    if(differenceLengthSquared < sphereRadiusSquared) return 0.0f;
 
     float distanceAlongRay = Vector3::Dot(Direction, difference);
     // If the ray is pointing away from the sphere then we don't ever intersect

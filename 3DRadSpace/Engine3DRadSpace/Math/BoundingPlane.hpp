@@ -7,7 +7,7 @@ namespace Engine3DRadSpace::Math
 	struct BoundingSphere;
 	struct Ray;
 	/// Represents a plane with the equation p(x,y,z) = Normal.X * x + Normal.Y * y + Normal.Z * z + D
-	struct BoundingPlane
+	struct E3DRSP_MATH_EXPORT BoundingPlane
 	{
 		Vector3 Normal;
 		float D;

@@ -25,11 +25,6 @@ if(MSVC)
 	if(3DRadSpace-editor STREQUAL "Debug")
 		target_compile_options(3DRadSpace-editor PRIVATE "/fsanitize=address")
 	endif()
-
-	#MSVC doesn't define NDEBUG itself, dirty hack.
-	if (CMAKE_BUILD_TYPE STREQUAL "Release" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
-		target_compile_definitions(3DRadSpace-editor PUBLIC NDEBUG 1)
-	endif()
 endif()
 
 if(WIN32)
@@ -39,7 +34,7 @@ elseif(LINUX)
 endif()
 
 #Link 3DRadSpace
-target_link_libraries(3DRadSpace-editor PRIVATE 3DRadSpace)
+target_link_libraries(3DRadSpace-editor PRIVATE 3DRadSpace_Games)
 target_include_directories(3DRadSpace-editor PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)
 
 #Nlohmann JSON

@@ -2,8 +2,8 @@
 #include "../../Content/Assets/Model3D.hpp"
 #include "../../Graphics/RenderTarget.hpp"
 #include "../../Graphics/DepthStencilBuffer.hpp"
-#include "../../Game.hpp"
-#include "../../ObjectList.hpp"
+#include "../../Games/Game.hpp"
+#include "../ObjectList.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content;

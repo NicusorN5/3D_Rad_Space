@@ -1,11 +1,12 @@
 #pragma once
-#include "../Libs.hpp"
+#include "../Core/Libs.hpp"
 
 namespace Engine3DRadSpace
 {
-	class GraphicsDevice;
 	namespace Graphics
 	{
+		class GraphicsDevice;
+
 		enum class RasterizerFillMode
 		{
 			/// <summary>
@@ -35,7 +36,7 @@ namespace Engine3DRadSpace
 		};
 
 
-		class DLLEXPORT RasterizerState
+		class E3DRSP_GRAPHICS_EXPORT RasterizerState
 		{
 #ifdef USING_DX11
 			Microsoft::WRL::ComPtr<ID3D11RasterizerState> _rasterizerState;
@@ -75,7 +76,7 @@ namespace Engine3DRadSpace
 
 			~RasterizerState() = default;
 
-			friend class Engine3DRadSpace::GraphicsDevice;
+			friend class GraphicsDevice;
 		};
 	}
 }

@@ -10,7 +10,7 @@ namespace Engine3DRadSpace::Graphics::Shaders
 	/// <summary>
 	/// Represents a vertex, hull, domain, geometry and fragment shader.
 	/// </summary>
-	class DLLEXPORT Effect
+	class E3DRSP_GRAPHICS_EXPORT Effect
 	{
 	protected:
 		GraphicsDevice* _device;

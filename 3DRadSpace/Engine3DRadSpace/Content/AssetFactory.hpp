@@ -8,10 +8,10 @@ namespace Engine3DRadSpace
 
 namespace Engine3DRadSpace::Content
 {
-	class DLLEXPORT AssetFactory
+	class E3DRSP_CONTENT_EXPORT AssetFactory
 	{
 	private:
-		GraphicsDevice* _device;
+		Graphics::GraphicsDevice* _device;
 		Audio::AudioEngine* _audio;
 		Physics::PhysicsEngine* _physics;
 	public:
@@ -51,7 +51,7 @@ namespace Engine3DRadSpace::Content
 			//We don't consider assets that need to be constructed from multiple abstraction layers (either GraphicsDevice, AudioEngine, PhysicsEngine, et cetera...)
 		}
 
-		GraphicsDevice* Device() const noexcept;
+		Graphics::GraphicsDevice* Device() const noexcept;
 		Audio::AudioEngine* Audio() const noexcept;
 		Physics::PhysicsEngine* Physics() const noexcept;
 

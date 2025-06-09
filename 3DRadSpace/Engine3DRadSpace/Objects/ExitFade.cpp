@@ -1,7 +1,8 @@
 #include "ExitFade.hpp"
-#include "../Game.hpp"
+#include "../Games/Game.hpp"
 
 using namespace Engine3DRadSpace;
+using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Objects;
 
 ExitFade::ExitFade(const std::string& name, const std::filesystem::path& projectPath, Color fadeColor, float fadeTime) :

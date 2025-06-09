@@ -3,7 +3,7 @@
 
 namespace Engine3DRadSpace::Graphics::Shaders
 {
-	class DLLEXPORT MeshHighlight : public Effect
+	class E3DRSP_GRAPHICS_EXPORT MeshHighlight : public Effect
 	{
 		class VertexShader : public IVertexShader
 		{
@@ -33,6 +33,6 @@ namespace Engine3DRadSpace::Graphics::Shaders
 		/// <param name="matrix">A MVP (model-view-projection) linear transformation is required.</param>
 		void SetTransformation(const Math::Matrix4x4 &matrix);
 
-		void SetColor(Color c);
+		void SetColor(Math::Color c);
 	};
 }

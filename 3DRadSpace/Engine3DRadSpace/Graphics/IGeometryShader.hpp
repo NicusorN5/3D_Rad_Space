@@ -3,7 +3,7 @@
 
 namespace Engine3DRadSpace::Graphics
 {
-	class DLLEXPORT IGeometryShader : public IShader
+	class E3DRSP_GRAPHICS_EXPORT IGeometryShader : public IShader
 	{
 #ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11GeometryShader> _shader;
@@ -26,7 +26,7 @@ namespace Engine3DRadSpace::Graphics
 
 		~IGeometryShader() = default;
 
-		friend class Engine3DRadSpace::GraphicsDevice;
+		friend class GraphicsDevice;
 	};
 }
 

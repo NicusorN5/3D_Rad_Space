@@ -1,12 +1,12 @@
 #pragma once
 #include "ReflectedObject.hpp"
-#include "..\Algorithms\FixedArray.hpp"
-#include "../Tag.hpp"
+#include "..\Core\Algorithms\FixedArray.hpp"
+#include "../Core/Tag.hpp"
 #include "EnumEntry.hpp"
 
 namespace Engine3DRadSpace::Reflection
 {
-	class DLLEXPORT ReflectedEnum
+	class E3DRSP_REFLECTION_EXPORT ReflectedEnum
 	{
 		std::string _enumName;
 		Algorithms::FixedArray<EnumEntry> _entries;

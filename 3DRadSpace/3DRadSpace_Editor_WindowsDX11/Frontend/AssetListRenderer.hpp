@@ -1,12 +1,12 @@
 #pragma once
 #include "AssetRenderer.hpp"
 #include <Engine3DRadSpace/Content/ContentManager.hpp>
-#include <Engine3DRadSpace/Game.hpp>
+#include <Engine3DRadSpace/Games/Game.hpp>
 #include "Controls\Dialog.hpp"
 
 class AssetListRenderer
 {
-	std::unique_ptr<Engine3DRadSpace::GraphicsDevice> _device;
+	std::unique_ptr<Engine3DRadSpace::Graphics::GraphicsDevice> _device;
 	HWND _renderWindow;
 	HINSTANCE _hInstance;
 public:
@@ -21,7 +21,7 @@ public:
 	bool RenderAsset(const std::string& imagePath, const std::filesystem::path &assetPath)
 	{
 		_device->SetViewport();
-		_device->Clear(Engine3DRadSpace::Colors::Gray);
+		_device->Clear(Engine3DRadSpace::Math::Colors::Gray);
 
 		std::unique_ptr<T> asset = std::make_unique<T>(_device.get(), assetPath);
 

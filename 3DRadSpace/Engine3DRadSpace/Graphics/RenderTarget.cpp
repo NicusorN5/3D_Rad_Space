@@ -1,7 +1,7 @@
 #include "RenderTarget.hpp"
-#include "../Logging/Exception.hpp"
+#include "../Core/Logging/Exception.hpp"
 #include "../Internal/AssetUUIDReader.hpp"
-#include "../GraphicsDevice.hpp"
+#include "GraphicsDevice.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;

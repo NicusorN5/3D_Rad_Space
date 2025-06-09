@@ -15,7 +15,7 @@ namespace Engine3DRadSpace::Graphics
 	/// <remarks>
 	/// 
 	/// </remarks>
-	class DLLEXPORT IShader
+	class E3DRSP_GRAPHICS_EXPORT IShader
 	{
 	protected:
 		GraphicsDevice*_device;
@@ -54,6 +54,6 @@ namespace Engine3DRadSpace::Graphics
 
 		virtual ~IShader() = default;
 
-		friend class Engine3DRadSpace::GraphicsDevice;
+		friend class GraphicsDevice;
 	};
 }

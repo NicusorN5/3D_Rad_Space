@@ -11,31 +11,13 @@
 
 //Header files ordered alphabetically and by namespaces.
 
+
 //Engine3DRadSpace
-#include "Color.hpp"
-#include "Game.hpp"
-#include "GraphicsDevice.hpp"
-#include "IDrawable2D.hpp"
-#include "IDrawable3D.hpp"
-#include "IInitializable.hpp"
-#include "ILoadable.hpp"
-#include "IObject.hpp"
-#include "IObject2D.hpp"
-#include "IObject3D.hpp"
-#include "IUpdateable.hpp"
-#include "Logging.hpp"
-#include "Memory.hpp"
-#include "ObjectList.hpp"
-#include "Viewport.hpp"
-#include "Window.hpp"
+#include "Core/Libs.hpp"
 
 //Engine3DRadSpace::Algorithms
-#include "Algorithms\FixedArray.hpp"
-#include "Algorithms\LevenshteinDistance.hpp"
-
-//Engine3DRadSpace::Algorithms::Picking
-#include "Algorithms\Picking\PickingRenderTargetRender.hpp"
-#include "Algorithms\Picking\PickingShader.hpp"
+#include "Core\Algorithms\FixedArray.hpp"
+#include "Core\Algorithms\LevenshteinDistance.hpp"
 
 //Engine3DRadSpace::Audio
 #include "Audio\AudioBuffer.hpp"
@@ -52,6 +34,7 @@
 #include "Content\ContentManager.hpp"
 #include "Content\IAsset.hpp"
 #include "Content\ShaderManager.hpp"
+
 //Engine3DRadSpace::Content::Assets
 #include "Content\Assets\Font.hpp"
 #include "Content\Assets\Model3D.hpp"
@@ -119,10 +102,10 @@
 #include "Input\Mouse.hpp"
 
 //Engine3DRadSpace::Logging
-#include "Logging\Exception.hpp"
-#include "Logging\Message.hpp"
-#include "Logging\AssetLoadingError.hpp"
-#include "Logging\Warning.hpp"
+#include "Core\Logging\Exception.hpp"
+#include "Core\Logging\Message.hpp"
+#include "Core\Logging\AssetLoadingError.hpp"
+#include "Core\Logging\Warning.hpp"
 
 //Engine3DRadSpace::Math
 #include "Math\BoundingBox.hpp"
@@ -146,16 +129,18 @@
 #include "Objects\Empty.hpp"
 #include "Objects\ExitFade.hpp"
 #include "Objects\Fog.hpp"
-#include "Objects\GForce.hpp"
+#include "Objects\ObjectList.hpp"
 #include "Objects\Skinmesh.hpp"
 #include "Objects\SkyColor.hpp"
 #include "Objects\Sprite.hpp"
 #include "Objects\TextPrint.hpp"
 
-//Engine3DRadSpace::OS
-#include "OS\LibraryLoader.hpp"
+//Engine3DRadSpace::Native
+#include "Native\LibraryLoader.hpp"
+#include "Native\Window.hpp"
 
 //Engine3DRadSpace::Physics
+#include "Physics\GForce.hpp"
 #include "Physics\IPhysicsObject.hpp"
 #include "Physics\PhysicsEngine.hpp"
 #include "Physics\PhysicsSettings.hpp"
@@ -167,4 +152,3 @@
 
 //Engine3DRadSpace::Projects
 #include "Projects\Serialization.hpp"
-

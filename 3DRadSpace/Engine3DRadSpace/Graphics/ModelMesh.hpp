@@ -6,7 +6,7 @@ namespace Engine3DRadSpace::Graphics
 	/// <summary>
 	/// Represents a collection of multiple ModelMeshPart instances.
 	/// </summary>
-	class DLLEXPORT ModelMesh
+	class E3DRSP_GRAPHICS_EXPORT ModelMesh
 	{
 		std::vector<std::unique_ptr<ModelMeshPart>> _meshParts;
 

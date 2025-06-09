@@ -1,6 +1,6 @@
 #pragma once
 #include "../Graphics/Effect.hpp"
-#include "../Tag.hpp"
+#include "../Core/Tag.hpp"
 
 namespace Engine3DRadSpace::Content
 {
@@ -9,7 +9,7 @@ namespace Engine3DRadSpace::Content
 	/// </summary>
 	template<typename S>
 	concept ShaderCollection = std::is_base_of<Graphics::Shaders::Effect,S>::value
-		&& requires(GraphicsDevice* device)
+		&& requires(Graphics::GraphicsDevice* device)
 	{
 		S(device); //Shaders must be constructible from the graphics device.
 	};
@@ -20,7 +20,7 @@ namespace Engine3DRadSpace::Content
 	/// <remarks>
 	/// Constructors are deleted since this is almost a namespace.
 	/// </remarks>
-	class DLLEXPORT ShaderManager
+	class E3DRSP_CONTENT_EXPORT ShaderManager
 	{
 		static std::unordered_map<size_t, std::shared_ptr<Graphics::Shaders::Effect>> _shaders;
 	public:
@@ -38,7 +38,7 @@ namespace Engine3DRadSpace::Content
 		/// <param name="device">Graphics device handle used to instantiate the shader.</param>
 		/// <returns></returns>
 		template<ShaderCollection S>
-		static std::shared_ptr<S> LoadShader(GraphicsDevice *device);
+		static std::shared_ptr<S> LoadShader(Graphics::GraphicsDevice *device);
 
 		/// <summary>
 		/// Retrieves a shader instance of type S.
@@ -68,7 +68,7 @@ namespace Engine3DRadSpace::Content
 
 
 	template<ShaderCollection S>
-	inline std::shared_ptr<S> ShaderManager::LoadShader(GraphicsDevice *device)
+	inline std::shared_ptr<S> ShaderManager::LoadShader(Graphics::GraphicsDevice *device)
 	{
 		auto f = _shaders.find(typeid(S).hash_code());
 

@@ -1,5 +1,7 @@
 #include "Matrix4x4.hpp"
 #include "Matrix3x3.hpp"
+#include "Quaternion.hpp"
+#include "Point.hpp"
 
 using namespace Engine3DRadSpace::Math;
 

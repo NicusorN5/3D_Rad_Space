@@ -12,7 +12,7 @@ namespace Engine3DRadSpace::Graphics::Rendering
 	/// This is almost the same as IFragmentShader, but render target swaps are being done.
 	/// A vertex shader doesn't need to be set to the pipeline, it is set by the PostProcessVertex class.
 	/// </remarks>
-	class DLLEXPORT PostProcessEffect : public IFragmentShader
+	class E3DRSP_GRAPHICS_EXPORT PostProcessEffect : public IFragmentShader
 	{
 	private:
 		class PostProcessVertex : public IVertexShader

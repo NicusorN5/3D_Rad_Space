@@ -8,7 +8,7 @@
 #include <format>
 
 #include <Engine3DRadSpace\3DRadSpace.hpp>
-#include <Engine3DRadSpace\Legacy.hpp>
+#include <Engine3DRadSpace\Scripting\Legacy.hpp>
 
 using namespace Engine3DRadSpace_Angelscript;
 using namespace Engine3DRadSpace::Logging;

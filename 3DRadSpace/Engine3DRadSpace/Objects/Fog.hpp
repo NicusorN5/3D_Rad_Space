@@ -1,5 +1,5 @@
 #pragma once
-#include "../IObject.hpp"
+#include "IObject.hpp"
 #include "..\Reflection\Reflection.hpp"
 
 namespace Engine3DRadSpace::Graphics::Rendering
@@ -12,17 +12,17 @@ namespace Engine3DRadSpace::Objects
 	/// <summary>
 	/// This object controls the Fog effect.
 	/// </summary>
-	class DLLEXPORT Fog: public IObject
+	class E3DRSP_OBJECTS_EXPORT Fog: public IObject
 	{
 	protected:
 		::Engine3DRadSpace::Graphics::Rendering::LinearPixelFogEffect* _effect;
 	public:
 		Fog();
-		explicit Fog(const std::string& name, bool enabled, float begin, float end, Color color);
+		explicit Fog(const std::string& name, bool enabled, float begin, float end, Math::Color color);
 
 		float FogBegin;
 		float FogEnd;
-		Color FogColor;
+		Math::Color FogColor;
 
 		Fog(const Fog&) = default;
 		Fog(Fog&&) = default;

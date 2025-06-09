@@ -17,7 +17,7 @@
 #define REFL_END static_cast<::Engine3DRadSpace::Reflection::IReflectedField*>( new ::Engine3DRadSpace::Reflection::ReflectedField<void>())});
 
 //Class reflection forward declaration.
-#define REFL_FWD(ObjectName) extern DLLEXPORT ::Engine3DRadSpace::Reflection::ReflectedObject ObjectName##ReflInstance;
+#define REFL_FWD(ObjectName) extern __declspec(dllexport) ::Engine3DRadSpace::Reflection::ReflectedObject ObjectName##ReflInstance;
 
 /// ---------------------------------------------------------------------------
 ///								Reflecting enums:

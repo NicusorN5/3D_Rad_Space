@@ -1,9 +1,9 @@
 #include "EditorPlugin.hpp"
-#include "../OS/LibraryLoader.hpp"
+#include "../Native/LibraryLoader.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Plugins;
-using namespace Engine3DRadSpace::OS;
+using namespace Engine3DRadSpace::Native;
 
 std::expected<PluginInfo, PluginLoadingError> Engine3DRadSpace::Plugins::LoadPlugin(const std::filesystem::path& pluginPath)
 {

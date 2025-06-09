@@ -1,16 +1,17 @@
 #pragma once
-#include "../GraphicsDevice.hpp"
+#include "GraphicsDevice.hpp"
 #include "VertexDeclarations.hpp"
-#include "../Logging/Exception.hpp"
+#include "../Core/Logging/Exception.hpp"
 #include "IShader.hpp"
 #include "BufferUsage.hpp"
 
 namespace Engine3DRadSpace
 {
-	class GraphicsDevice;
 	namespace Graphics
 	{
-		class DLLEXPORT VertexBuffer
+		class GraphicsDevice;
+		
+		class E3DRSP_GRAPHICS_EXPORT VertexBuffer
 		{
 			void _debugInfo();
 		protected:
@@ -59,7 +60,7 @@ namespace Engine3DRadSpace
 
 			virtual ~VertexBuffer() = default;
 
-			friend class Engine3DRadSpace::GraphicsDevice;
+			friend class GraphicsDevice;
 			friend class ModelMeshPart;
 		};
 
@@ -72,7 +73,7 @@ namespace Engine3DRadSpace
 
 			void SetData(std::span<V> data);
 
-			friend class Engine3DRadSpace::GraphicsDevice;
+			friend class GraphicsDevice;
 		};
 
 		template<VertexDecl V>

@@ -1,12 +1,12 @@
 #pragma once
-#include "../IObject2D.hpp"
+#include "IObject2D.hpp"
 #include "../Reflection/Reflection.hpp"
 
 namespace Engine3DRadSpace::Objects
 {
 	using RefTexture2D = Content::AssetID<Graphics::Texture2D>;
 
-	class DLLEXPORT Sprite : public IObject2D
+	class E3DRSP_OBJECTS_EXPORT Sprite : public IObject2D
 	{
 		Graphics::Texture2D *_texture;
 		std::unique_ptr<std::string> _tempResourceString;
@@ -23,7 +23,7 @@ namespace Engine3DRadSpace::Objects
 			float rotation = 0.0f,
 			bool flipU = false,
 			bool flipV = false,
-			const Color& tintColor = Colors::White
+			const Math::Color& tintColor = Math::Colors::White
 		);
 
 		Sprite(
@@ -37,7 +37,7 @@ namespace Engine3DRadSpace::Objects
 			float rotation = 0.0f,
 			bool flipU = false,
 			bool flipV = false,
-			const Color &tintColor = Colors::White
+			const Math::Color &tintColor = Math::Colors::White
 		);
 
 		bool FlipU;
@@ -46,7 +46,7 @@ namespace Engine3DRadSpace::Objects
 		RefTexture2D Image;
 		Graphics::Texture2D *GetSpriteImage();
 
-		Color TintColor;
+		Math::Color TintColor;
 
 		void Initialize() override;
 		void Load() override;

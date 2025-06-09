@@ -5,7 +5,7 @@
 namespace Engine3DRadSpace::Objects::Gizmos
 {
 	template<>
-	class DLLEXPORT Gizmo<Skinmesh> final: public IGizmo
+	class E3DRSP_OBJECTS_EXPORT Gizmo<Skinmesh> final: public IGizmo
 	{
 		bool _wasLoaded = false;
 		STD_UPtrTypeless _wireframe_RasterizerState;

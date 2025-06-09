@@ -6,7 +6,7 @@ namespace Engine3DRadSpace::Graphics::Shaders
 	/// <summary>
 	/// Represents the main shader used by SpriteBatch to render 2D sprites. Textured and vertex colouring are supported.
 	/// </summary>
-	class DLLEXPORT SpriteShader : public Effect
+	class E3DRSP_GRAPHICS_EXPORT SpriteShader : public Effect
 	{
 		class VertexShader : public IVertexShader
 		{

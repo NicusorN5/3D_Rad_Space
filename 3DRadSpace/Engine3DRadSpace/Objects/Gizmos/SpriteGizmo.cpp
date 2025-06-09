@@ -1,6 +1,7 @@
 #include "SpriteGizmo.hpp"
 
 using namespace Engine3DRadSpace;
+using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Objects;
 using namespace Engine3DRadSpace::Objects::Gizmos;
 

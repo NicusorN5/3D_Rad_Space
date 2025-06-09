@@ -8,7 +8,7 @@ namespace Engine3DRadSpace::Graphics::Shaders
 	/// <summary>
 	/// Represents a trivial 3D effect supporting one albedo texture.
 	/// </summary>
-	class DLLEXPORT BasicTextured : public Effect
+	class E3DRSP_GRAPHICS_EXPORT BasicTextured : public Effect
 	{
 		class VertexShader : public IVertexShader
 		{

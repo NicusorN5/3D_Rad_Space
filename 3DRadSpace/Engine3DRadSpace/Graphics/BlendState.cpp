@@ -1,9 +1,10 @@
 #include "BlendState.hpp"
-#include "../Logging/Exception.hpp"
+#include "../Core/Logging/Exception.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Logging;
+using namespace Engine3DRadSpace::Math;
 
 BlendState::BlendState(GraphicsDevice *device):
 	_device(device)

@@ -1,10 +1,11 @@
-#include "../../IObject.hpp"
-#include "../../IDrawable2D.hpp"
-#include "../../IDrawable3D.hpp"
+#pragma once
+#include "../IObject.hpp"
+#include "../IDrawable2D.hpp"
+#include "../IDrawable3D.hpp"
 
 namespace Engine3DRadSpace::Objects::Gizmos
 {
-	class DLLEXPORT IGizmo: public IUpdateable, public IDrawable3D, public IDrawable2D, public ILoadable
+	class E3DRSP_OBJECTS_EXPORT IGizmo: public IUpdateable, public IDrawable3D, public IDrawable2D, public ILoadable
 	{
 	public:
 		/// <summary>

@@ -1,6 +1,6 @@
 #include "CustomObject.hpp"
-#include "../Logging.hpp"
-#include "../OS/LibraryLoader.hpp"
+#include "../Core/Logging.hpp"
+#include "../Native/LibraryLoader.hpp"
 
 using namespace Engine3DRadSpace::Plugins;
 
@@ -8,7 +8,7 @@ extern std::vector<Engine3DRadSpace::Reflection::ReflectedObject*> _3drsp_intern
 
 void Engine3DRadSpace::Plugins::LoadCustomObjectsFromLibHandle(void* libraryHandle)
 {
-	LoadCustomObjects loadCustomObjects = OS::GetFunctionFromLibrary<LoadCustomObjects>(libraryHandle, "LoadCustomObjects");
+	LoadCustomObjects loadCustomObjects = Native::GetFunctionFromLibrary<LoadCustomObjects>(libraryHandle, "LoadCustomObjects");
 	if(loadCustomObjects)
 	{
 		auto objects = loadCustomObjects();

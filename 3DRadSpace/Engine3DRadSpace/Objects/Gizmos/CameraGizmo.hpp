@@ -5,7 +5,7 @@
 namespace Engine3DRadSpace::Objects::Gizmos
 {
 	template<>
-	class DLLEXPORT Gizmo<Camera> final : public IGizmo
+	class E3DRSP_OBJECTS_EXPORT Gizmo<Camera> final : public IGizmo
 	{
 		STD_UPtrTypeless _cameraModel;
 		STD_UPtrTypeless _cameraPreview;

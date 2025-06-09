@@ -7,7 +7,7 @@ namespace Engine3DRadSpace::Reflection
 	template<typename E>
 	concept ReflectableEnum = std::is_enum_v<E>;
 
-	class DLLEXPORT IReflectedEnumField: public IReflectedField
+	class E3DRSP_REFLECTION_EXPORT IReflectedEnumField: public IReflectedField
 	{
 	protected:
 		IReflectedEnumField() = default;

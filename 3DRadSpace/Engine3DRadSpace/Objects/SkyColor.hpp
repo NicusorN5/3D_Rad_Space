@@ -1,15 +1,15 @@
 #pragma once
-#include "../IObject2D.hpp"
+#include "IObject2D.hpp"
 #include "../Reflection/Reflection.hpp"
 
 namespace Engine3DRadSpace::Objects
 {
-	class DLLEXPORT SkyColor : public IObject
+	class E3DRSP_OBJECTS_EXPORT SkyColor : public IObject
 	{
 	public:
-		SkyColor(const std::string& name ="SkyColor", bool enabled = true, Color color = Colors::Black);
+		SkyColor(const std::string& name ="SkyColor", bool enabled = true, Math::Color color = Math::Colors::Black);
 
-		Color Colour;
+		Math::Color Colour;
 
 		void Initialize() override;
 		void Update() override;

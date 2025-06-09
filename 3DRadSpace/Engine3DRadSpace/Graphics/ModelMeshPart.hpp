@@ -15,7 +15,7 @@ namespace Engine3DRadSpace::Graphics
 	/// <summary>
 	/// Represents a mesh formed by a index and vertex buffer, plus an effect.
 	/// </summary>
-	class DLLEXPORT ModelMeshPart
+	class E3DRSP_GRAPHICS_EXPORT ModelMeshPart
 	{
 		GraphicsDevice* _device;
 

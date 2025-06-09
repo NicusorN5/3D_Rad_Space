@@ -8,7 +8,7 @@ namespace Engine3DRadSpace::Graphics::Shaders
 	/// <summary>
 	/// Same as BasicTextured, but without normal and tangents.
 	/// </summary>
-	class DLLEXPORT SkyboxShader : public Effect
+	class E3DRSP_GRAPHICS_EXPORT SkyboxShader : public Effect
 	{
 		class VertexShader : public IVertexShader
 		{

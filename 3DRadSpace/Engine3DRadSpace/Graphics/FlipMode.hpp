@@ -1,5 +1,5 @@
 #pragma once
-#include "../Libs.hpp"
+#include "../Core/Libs.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {
@@ -20,12 +20,12 @@ namespace Engine3DRadSpace::Graphics
 	/// <param name="a">FlipMode</param>
 	/// <param name="b">FlipMode</param>
 	/// <returns>a * b</returns>
-	FlipMode DLLEXPORT operator&(FlipMode a, FlipMode b);
+	FlipMode E3DRSP_GRAPHICS_EXPORT operator&(FlipMode a, FlipMode b);
 	/// <summary>
 	/// Bitwise OR operator between two FlipModes.
 	/// </summary>
 	/// <param name="a">FlipMode</param>
 	/// <param name="b">FlipMode</param>
 	/// <returns>a + b</returns>
-	FlipMode DLLEXPORT operator|(FlipMode a, FlipMode b);
+	FlipMode E3DRSP_GRAPHICS_EXPORT operator|(FlipMode a, FlipMode b);
 }

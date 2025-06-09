@@ -9,7 +9,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 	/// <remarks>
 	/// Just like LineList, this swaps the rasterizer state when drawing.
 	/// </remarks>
-	class DLLEXPORT LineStrip : public IPrimitive
+	class E3DRSP_GRAPHICS_EXPORT LineStrip : public IPrimitive
 	{
 		std::unique_ptr<RasterizerState> _lineRasterizer;
 #ifdef USING_DX11

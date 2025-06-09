@@ -9,7 +9,7 @@ namespace Engine3DRadSpace::Audio
 	/// <summary>
 	/// Represents a audio clip.
 	/// </summary>
-	class DLLEXPORT Sound : public Content::IAsset
+	class E3DRSP_AUDIO_EXPORT Sound : public Content::IAsset
 	{
 	protected:
 		AudioEngine* _audio;

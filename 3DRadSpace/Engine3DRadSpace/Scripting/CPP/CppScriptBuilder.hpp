@@ -3,7 +3,7 @@
 
 namespace Engine3DRadSpace::Scripting::CPP
 {
-	class DLLEXPORT CppScriptBuilder : public IScriptBuilder
+	class E3DRSP_SCRIPTING_EXPORT CppScriptBuilder : public IScriptBuilder
 	{
 	public:
 		CppScriptBuilder();

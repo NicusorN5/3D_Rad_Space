@@ -1,5 +1,5 @@
 #pragma once
-#include "../GraphicsDevice.hpp"
+#include "GraphicsDevice.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {
@@ -41,7 +41,7 @@ namespace Engine3DRadSpace::Graphics
 		ComparisonFunction Function;
 	};
 
-	class DLLEXPORT DepthStencilState
+	class E3DRSP_GRAPHICS_EXPORT DepthStencilState
 	{
 #ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilState> _state;
@@ -73,6 +73,6 @@ namespace Engine3DRadSpace::Graphics
 
 		~DepthStencilState() = default;
 
-		friend class Engine3DRadSpace::GraphicsDevice;
+		friend class GraphicsDevice;
 	};
 }

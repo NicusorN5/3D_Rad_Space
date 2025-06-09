@@ -1,12 +1,12 @@
 #pragma once
-#include "../IObject3D.hpp"
+#include "IObject3D.hpp"
 #include "../Content/Assets/SkyboxAsset.hpp"
 #include "../Reflection/Reflection.hpp"
 
 namespace Engine3DRadSpace::Objects 
 {
 	using RefSkybox = Content::AssetID<Content::Assets::SkyboxAsset>;
-	class DLLEXPORT Skybox : public IObject3D
+	class E3DRSP_OBJECTS_EXPORT Skybox : public IObject3D
 	{
 		Content::Assets::SkyboxAsset *_skybox;
 		std::unique_ptr<std::string> _path;

@@ -6,7 +6,7 @@ namespace Engine3DRadSpace::Math
 	struct BoundingSphere;
 	struct BoundingPlane;
 	struct Ray;
-	struct DLLEXPORT BoundingBox
+	struct E3DRSP_MATH_EXPORT BoundingBox
 	{
 		Vector3 Position;
 		Vector3 Scale;

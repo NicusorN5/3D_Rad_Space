@@ -1,5 +1,5 @@
 #pragma once
-#include "../IObject2D.hpp"
+#include "IObject2D.hpp"
 #include "../Content/Assets/Font.hpp"
 #include "../Content/AssetID.hpp"
 #include "../Reflection/Reflection.hpp"
@@ -8,7 +8,7 @@ namespace Engine3DRadSpace::Objects
 { 
 	using RefFont = Content::AssetID<Content::Assets::Font>;
 
-	class DLLEXPORT TextPrint : public IObject2D
+	class E3DRSP_OBJECTS_EXPORT TextPrint : public IObject2D
 	{
 	private:
 		Content::Assets::Font* _font = nullptr;
@@ -23,7 +23,7 @@ namespace Engine3DRadSpace::Objects
 			const Math::Vector2& pos,
 			float rotation,
 			float scale, 
-			Color color, 
+			Math::Color color, 
 			float depth
 		);
 		TextPrint(
@@ -34,12 +34,12 @@ namespace Engine3DRadSpace::Objects
 			const Math::Vector2& pos,
 			float rotation,
 			float scale,
-			Color color,
+			Math::Color color,
 			float depth
 		);
 
 		RefFont Font = 0;
-		Color Colour;
+		Math::Color Colour;
 		std::string Text;
 
 		void Initialize() override;

@@ -6,7 +6,7 @@ namespace Engine3DRadSpace::Graphics
 	/// <summary>
 	/// Represents a domain shader.
 	/// </summary>
-	class DLLEXPORT IDomainShader : public IShader
+	class E3DRSP_GRAPHICS_EXPORT IDomainShader : public IShader
 	{
 #ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11DomainShader> _shader;
@@ -29,7 +29,7 @@ namespace Engine3DRadSpace::Graphics
 
 		~IDomainShader() = default;
 
-		friend class Engine3DRadSpace::GraphicsDevice;
+		friend class GraphicsDevice;
 	};
 }
 

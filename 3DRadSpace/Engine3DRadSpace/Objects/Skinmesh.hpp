@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../IObject3D.hpp"
+#include "IObject3D.hpp"
 #include "../Content/Assets/Model3D.hpp"
 #include "../Reflection/Reflection.hpp"
 
@@ -8,7 +8,7 @@ namespace Engine3DRadSpace::Objects
 {
 	using RefModel3D = Content::AssetID<Content::Assets::Model3D>;
 
-	class DLLEXPORT Skinmesh : public IObject3D
+	class E3DRSP_OBJECTS_EXPORT Skinmesh : public IObject3D
 	{
 		Content::Assets::Model3D *_model;
 		std::unique_ptr<std::string> _path;
