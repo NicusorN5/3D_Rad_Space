@@ -55,6 +55,7 @@ Old releases can be found [here](https://github.com/3DRadSpace/3D_Rad_Space/rele
 - **Freetype** `.\vcpkg install freetype:x64-windows`
 - **OpenAL-Soft** `.\vcpkg install openal-soft:x64-windows`
 - **NVidia PhysX 5.30** `.\vcpkg install physx:x64-windows` 
+- **Vorbis** `.\vcpkg install libvorbis:x64-windows`
 - *AngelScript* (Optional, for the AngelScript plugin) `.\vcpkg install angelscript:x64-windows`
 - *Google test* (Optional, for test units.) `vcpkg install gtest:x64-windows`
 
