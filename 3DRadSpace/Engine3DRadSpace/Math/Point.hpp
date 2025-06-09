@@ -6,7 +6,7 @@ namespace Engine3DRadSpace
 {
 	namespace Math
 	{
-		struct DLLEXPORT Point
+		struct E3DRSP_MATH_EXPORT Point
 		{
 			constexpr Point(int x = 0, int y = 0) : X(x), Y(y) {};
 
@@ -33,5 +33,5 @@ namespace Engine3DRadSpace
 	}
 }
 
-Engine3DRadSpace::Math::Point DLLEXPORT operator * (float s, const Engine3DRadSpace::Math::Point& p);
+Engine3DRadSpace::Math::Point E3DRSP_MATH_EXPORT operator * (float s, const Engine3DRadSpace::Math::Point& p);
 

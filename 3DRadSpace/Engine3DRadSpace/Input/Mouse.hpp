@@ -11,7 +11,7 @@ namespace Engine3DRadSpace
 
 	namespace Input
 	{
-		class DLLEXPORT Mouse
+		class E3DRSP_INPUT_EXPORT Mouse
 		{
 			ButtonState _leftButton;
 			ButtonState _middleButton;

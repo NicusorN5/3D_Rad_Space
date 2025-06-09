@@ -19,20 +19,11 @@ if(MSVC)
 	# Create separate pdb debug info
 	target_compile_options(3DRadSpace-angelscript PRIVATE "/Zi")
 
-	#MSVC doesn't define NDEBUG itself, dirty hack.
-	if (CMAKE_BUILD_TYPE STREQUAL "Release" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
-		target_compile_definitions(3DRadSpace-angelscript PUBLIC NDEBUG 1)
-	endif()
-endif()
-
-if(WIN32)
-	target_compile_definitions(3DRadSpace-angelscript PRIVATE USING_DX11=1)
-elseif(LINUX)
-	target_compile_definitions(3DRadSpace-angelscript PRIVATE USING_VULKAN=1)
+	target_compile_definitions(3DRadSpace-angelscript PRIVATE [[E3DRSP_ANGELSCRIPT_EXPORT=__declspec(dllexport)]])
 endif()
 
 #Link 3DRadSpace
-target_link_libraries(3DRadSpace-angelscript PRIVATE 3DRadSpace_Games)
+target_link_libraries(3DRadSpace-angelscript PRIVATE 3DRadSpace_Math) #FIXME: Using 3DRadSpace_Games here doesn't work anymore.
 target_link_libraries(3DRadSpace-angelscript PRIVATE 3DRadSpace_Scripting)
 target_include_directories(3DRadSpace-angelscript PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)
 

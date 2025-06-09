@@ -1,9 +1,9 @@
 #pragma once
-#include "ContentManager.hpp"
+#include "../Core/Libs.hpp"
 
 namespace Engine3DRadSpace
 {
-	class DLLEXPORT ILoadable
+	class E3DRSP_OBJECTS_EXPORT ILoadable
 	{
 	public:
 		/// <summary>

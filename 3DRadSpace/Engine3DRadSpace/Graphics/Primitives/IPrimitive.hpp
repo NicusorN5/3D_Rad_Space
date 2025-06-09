@@ -1,5 +1,5 @@
 #pragma once
-#include "../IDrawable3D.hpp"
+#include "../../Objects/IDrawable3D.hpp"
 #include "../../Math/Matrix4x4.hpp"
 #include "../ModelMeshPart.hpp"
 #include "../Shaders/BlankShader.hpp"
@@ -14,7 +14,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 	/// IPrimitive is the base for vertex coloured, trivial meshes without normals, UV coordinates, bitangents, etc...
 	/// Primitives are meant to wrap a vertex Position Color declared buffer and a index buffer.
 	/// </remarks>
-	class DLLEXPORT IPrimitive : public IDrawable3D
+	class E3DRSP_GRAPHICS_EXPORT IPrimitive : public IDrawable3D
 	{
 	protected:
 		IPrimitive(GraphicsDevice* device);

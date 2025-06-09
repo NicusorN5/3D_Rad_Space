@@ -1,9 +1,9 @@
 #pragma once
-#include "SpriteBatch.hpp"
+#include "../Core/Libs.hpp"
 
 namespace Engine3DRadSpace
 {
-	class DLLEXPORT IDrawable2D
+	class E3DRSP_OBJECTS_EXPORT IDrawable2D
 	{
 	public:
 		virtual void Draw2D() = 0;

@@ -1,12 +1,12 @@
 #pragma once
 #include "../Core/Libs.hpp"
 
-namespace Engine3DRadSpace
+namespace Engine3DRadSpace::Math
 {
 	/// <summary>
 	/// Represents a Unit RGBA color.
 	/// </summary>
-	struct DLLEXPORT Color
+	struct E3DRSP_MATH_EXPORT Color
 	{
 		float R;
 		float G;

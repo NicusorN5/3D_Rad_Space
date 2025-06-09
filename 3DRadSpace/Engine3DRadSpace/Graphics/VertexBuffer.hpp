@@ -11,7 +11,7 @@ namespace Engine3DRadSpace
 	{
 		class GraphicsDevice;
 		
-		class DLLEXPORT VertexBuffer
+		class E3DRSP_GRAPHICS_EXPORT VertexBuffer
 		{
 			void _debugInfo();
 		protected:

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IObject.hpp"
+#include "../Objects/IObject.hpp"
 #include "../Reflection/Reflection.hpp"
 
 namespace Engine3DRadSpace::Objects
@@ -11,7 +11,7 @@ namespace Engine3DRadSpace::Objects
 	/// <remarks>
 	/// You can avoid using this object, by manually initializing the physics. See the Game class.
 	/// </remarks>
-	class DLLEXPORT GForce : public IObject
+	class E3DRSP_PHYSICS_EXPORT GForce : public IObject
 	{
 	public:
 		/// <summary>

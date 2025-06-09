@@ -4,20 +4,20 @@
 
 namespace Engine3DRadSpace::Objects
 {
-	class DLLEXPORT ExitFade : public IObject2D
+	class E3DRSP_OBJECTS_EXPORT ExitFade : public IObject2D
 	{
 		float _timer = 0.0f;
 	public:
 		ExitFade(
 			const std::string& name = "ExitFade",
 			const std::filesystem::path& projectPath = "",
-			Color fadeColor = Colors::Black, 
+			Math::Color fadeColor = Math::Colors::Black, 
 			float fadeTime = 5.0f
 		);
 
 		std::string ProjectPath;
 
-		Color FadeColor;
+		Math::Color FadeColor;
 		float FadeTime;
 
 		void Update() override;

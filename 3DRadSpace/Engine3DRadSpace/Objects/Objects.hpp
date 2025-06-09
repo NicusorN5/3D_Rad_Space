@@ -12,8 +12,8 @@
 
 namespace Engine3DRadSpace::Internal
 {
-	void DLLEXPORT LoadDefaultObjects();
-	Reflection::ReflectedObject DLLEXPORT *GetReflDataFromUUID(const Reflection::UUID &uuid);
+	void E3DRSP_OBJECTS_EXPORT LoadDefaultObjects();
+	Reflection::ReflectedObject E3DRSP_OBJECTS_EXPORT *GetReflDataFromUUID(const Reflection::UUID &uuid);
 }
 
-extern DLLEXPORT std::vector<Engine3DRadSpace::Reflection::ReflectedObject*> _3drsp_internal_objects_list;
+extern E3DRSP_OBJECTS_EXPORT std::vector<Engine3DRadSpace::Reflection::ReflectedObject*> _3drsp_internal_objects_list;

@@ -3,7 +3,7 @@
 
 namespace Engine3DRadSpace::Graphics
 {
-	class DLLEXPORT RenderTarget : public Texture2D
+	class E3DRSP_GRAPHICS_EXPORT RenderTarget : public Texture2D
 	{
 #ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11RenderTargetView> _renderTarget;

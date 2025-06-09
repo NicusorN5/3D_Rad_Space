@@ -9,7 +9,7 @@ namespace Engine3DRadSpace::Logging
 	/// <summary>
 	/// Replaces std::exception.
 	/// </summary>
-	class DLLEXPORT Exception : std::exception
+	class E3DRSP_CORE_EXPORT Exception : std::exception
 	{
 	protected:
 		std::string _str;

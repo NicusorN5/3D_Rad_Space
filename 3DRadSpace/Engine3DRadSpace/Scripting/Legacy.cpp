@@ -112,7 +112,7 @@ void iObjectLocationSet(unsigned obj_x, const Vector3& v)
 	if(auto obj = dynamic_cast<IObject2D*>(refobj); obj != nullptr) obj->Position = Vector2(v.X, v.Y);
 }
 
-void DLLEXPORT iObjectLocationReset(unsigned obj_x, Engine3DRadSpace::Math::Vector3& v)
+void iObjectLocationReset(unsigned obj_x, Engine3DRadSpace::Math::Vector3& v)
 {
 	std::unique_ptr<IObject> temp;
 	temp.reset(Serializer::LoadObjectFromProject(projectPath, obj_x));
@@ -123,7 +123,7 @@ void DLLEXPORT iObjectLocationReset(unsigned obj_x, Engine3DRadSpace::Math::Vect
 	}
 }
 
-void DLLEXPORT iObjectPositionReset(unsigned obj_x, Engine3DRadSpace::Math::Quaternion& outRotation, Engine3DRadSpace::Math::Vector3& outLocation)
+void iObjectPositionReset(unsigned obj_x, Engine3DRadSpace::Math::Quaternion& outRotation, Engine3DRadSpace::Math::Vector3& outLocation)
 {
 	std::unique_ptr<IObject> temp;
 	temp.reset(Serializer::LoadObjectFromProject(projectPath, obj_x));

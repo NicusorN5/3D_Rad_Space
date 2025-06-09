@@ -3,7 +3,7 @@
 
 namespace Engine3DRadSpace::Logging
 {
-	struct DLLEXPORT Message
+	struct E3DRSP_CORE_EXPORT Message
 	{
 		const std::string Details;
 		int32_t Code;
@@ -15,7 +15,7 @@ namespace Engine3DRadSpace::Logging
 	typedef void (*FuncMessageHandler)(const Message& warning);
 	extern FuncMessageHandler MessageHandler;
 
-	void DLLEXPORT SetLastMessage(const Message &warning);
-	void DLLEXPORT SetLastMessage(const std::string& msg);
-	void DLLEXPORT DefaultMessageHandler(const Message &warning);
+	void E3DRSP_CORE_EXPORT SetLastMessage(const Message &warning);
+	void E3DRSP_CORE_EXPORT SetLastMessage(const std::string& msg);
+	void E3DRSP_CORE_EXPORT DefaultMessageHandler(const Message &warning);
 }

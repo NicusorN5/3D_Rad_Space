@@ -41,7 +41,7 @@ namespace Engine3DRadSpace::Graphics
 	/// <summary>
 	/// DirectX11 RHI (Rendering Hardware Interface)
 	/// </summary>
-	class DLLEXPORT GraphicsDevice
+	class E3DRSP_GRAPHICS_EXPORT GraphicsDevice
 	{
 #ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11Device> _device;
@@ -53,12 +53,12 @@ namespace Engine3DRadSpace::Graphics
 		Math::Point _resolution;
 		bool _fullscreen = false;
 
-		std::unique_ptr<Graphics::DepthStencilBuffer> _stencilBuffer;
-		std::unique_ptr<Graphics::DepthStencilState> _stencilState;
-		std::unique_ptr<Graphics::BlendState> _blendState;
+		std::unique_ptr<DepthStencilBuffer> _stencilBuffer;
+		std::unique_ptr<DepthStencilState> _stencilState;
+		std::unique_ptr<BlendState> _blendState;
 
 		///Used for rendering post effects
-		std::unique_ptr<Graphics::VertexBufferV<Graphics::VertexPointUV>> _screenQuad;
+		std::unique_ptr<Graphics::VertexBufferV<VertexPointUV>> _screenQuad;
 	public:
 		GraphicsDevice() = delete;
 		explicit GraphicsDevice(void* nativeWindowHandle, unsigned width = 800, unsigned height = 600);
@@ -69,9 +69,9 @@ namespace Engine3DRadSpace::Graphics
 		GraphicsDevice& operator=(const GraphicsDevice&) = delete;
 		GraphicsDevice& operator=(GraphicsDevice&&) = delete;
 
-		void Clear(const Color& clearColor = { 0.0f, 0.0f, 0.0f, 1.0f });
-		void ClearRenderTarget(Graphics::RenderTarget* rt, const Color& clearColor = { 0.0f, 0.0f, 0.0f, 1.0f });
-		void ClearDepthBuffer(Graphics::DepthStencilBuffer* depth);
+		void Clear(const Math::Color& clearColor = { 0.0f, 0.0f, 0.0f, 1.0f });
+		void ClearRenderTarget(RenderTarget* rt, const Math::Color& clearColor = { 0.0f, 0.0f, 0.0f, 1.0f });
+		void ClearDepthBuffer(DepthStencilBuffer* depth);
 
 		void SetViewport();
 		void SetViewport(const Viewport& viewport);
@@ -83,7 +83,7 @@ namespace Engine3DRadSpace::Graphics
 		/// Sets the current render target. Depth buffer is set to the default depth buffer.
 		/// </summary>
 		/// <param name="remderTarget">Render target pointer reference. Using null will use the backbuffer.</param>
-		void SetRenderTarget(Graphics::RenderTarget* renderTarget);
+		void SetRenderTarget(RenderTarget* renderTarget);
 		/// <summary>
 		/// Unbinds the current render target and depth buffer. 
 		/// </summary>
@@ -100,46 +100,46 @@ namespace Engine3DRadSpace::Graphics
 		/// </summary>
 		/// <param name="renderTarget">Render surface to be drawn into. If null, it is set to the backbuffer.</param>
 		/// <param name="depthBuffer">Depth stencil buffer. If null, will be set to the default non-null buffer.</param>
-		void SetRenderTargetAndDepth(Graphics::RenderTarget* renderTarget, Graphics::DepthStencilBuffer* depthBuffer);
+		void SetRenderTargetAndDepth(RenderTarget* renderTarget, DepthStencilBuffer* depthBuffer);
 		/// <summary>
 		/// Sets the render target, but unbinds the depth buffer.
 		/// </summary>
 		/// <param name="renderTarget">Render surface to be drawn into. If null, it is set to the backbuffer.</param>
-		void SetRenderTargetAndDisableDepth(Graphics::RenderTarget* renderTarget);
+		void SetRenderTargetAndDisableDepth(RenderTarget* renderTarget);
 
 		/// <summary>
 		/// Draws a vertex buffer into the selected render target.
 		/// </summary>
 		/// <param name="vertexBuffer">Vertex buffer.</param>
 		/// <param name="startSlot">Index of the first buffer.</param>
-		void DrawVertexBuffer(Graphics::VertexBuffer* vertexBuffer, unsigned startSlot = 0);
+		void DrawVertexBuffer(VertexBuffer* vertexBuffer, unsigned startSlot = 0);
 		/// <summary>
 		/// Draws a vertex buffer ordered by a index buffer into the selected render target.
 		/// </summary>
 		/// <param name="vertexBuffer">Vertex buffer.</param>
 		/// <param name="indexBuffer">Index buffer.</param>
-		void DrawVertexBufferWithindices(Graphics::VertexBuffer* vertexBuffer, Graphics::IndexBuffer* indexBuffer);
-		void DrawVertexBufferWithindices(Graphics::VertexBuffer* vertexBuffer, Graphics::IndexBuffer* indexBuffer, unsigned numIndices);
+		void DrawVertexBufferWithindices(VertexBuffer* vertexBuffer, IndexBuffer* indexBuffer);
+		void DrawVertexBufferWithindices(VertexBuffer* vertexBuffer, IndexBuffer* indexBuffer, unsigned numIndices);
 
 		/// <summary>
 		/// Sets a shader for the graphics pipeline.
 		/// </summary>
 		/// <param name="shader">Either a vertex shader, fragment shader, geometry shader, etc...</param>
-		void SetShader(Graphics::IShader* shader);
+		void SetShader(IShader* shader);
 
-		void SetRasterizerState(const Graphics::RasterizerState* state);
-		Graphics::RasterizerState GetRasterizerState();
+		void SetRasterizerState(const RasterizerState* state);
+		RasterizerState GetRasterizerState();
 
-		void SetDepthStencilBuffer(Graphics::DepthStencilBuffer* depthBuffer);
-		void SetDepthStencilState(Graphics::DepthStencilState* depthState, unsigned ref);
+		void SetDepthStencilBuffer(DepthStencilBuffer* depthBuffer);
+		void SetDepthStencilState(DepthStencilState* depthState, unsigned ref);
 
-		void SetBlendState(Graphics::BlendState* blendState, const Color& blendFactor = Colors::Black, unsigned sampleMask = 0xFFFFFFFF);
+		void SetBlendState(BlendState* blendState, const Math::Color& blendFactor = Math::Colors::Black, unsigned sampleMask = 0xFFFFFFFF);
 
 		/// <summary>
 		/// Sets the topology used by the vertex buffer.
 		/// </summary>
 		/// <param name="topology"></param>
-		void SetTopology(Graphics::VertexTopology topology);
+		void SetTopology(VertexTopology topology);
 		void DrawAuto();
 		/// <summary>
 		/// Swaps the front and backbuffer, thus outputting the backbuffer to the screen.
@@ -177,34 +177,34 @@ namespace Engine3DRadSpace::Graphics
 		void SetScreenQuad();
 		void DrawScreenQuad();
 
-		Graphics::RenderTarget* GetBackBuffer();
-		Graphics::Texture2D *GetBackBufferTexture();
-		Graphics::DepthStencilBuffer& GetDepthBuffer();
+		RenderTarget* GetBackBuffer();
+		Texture2D *GetBackBufferTexture();
+		DepthStencilBuffer& GetDepthBuffer();
 
 		//Graphics::PixelFormat BackBufferFormat() const noexcept;
 
 		~GraphicsDevice();
 
-		template<Graphics::VertexDecl V> friend class Graphics::VertexBufferV;
+		template<VertexDecl V> friend class VertexBufferV;
 
-		friend class Graphics::VertexBuffer;
-		friend class Graphics::IndexBuffer;
-		friend class Graphics::IShader;
-		friend class Graphics::Texture2D;
-		friend class Graphics::RenderTarget;
-		friend class Graphics::RasterizerState;
-		friend class Graphics::DepthStencilState;
-		friend class Graphics::SamplerState;
-		friend class Graphics::SpriteBatch;
-		friend class Graphics::DepthStencilBuffer;
-		friend class Graphics::BlendState;
+		friend class VertexBuffer;
+		friend class IndexBuffer;
+		friend class IShader;
+		friend class Texture2D;
+		friend class RenderTarget;
+		friend class RasterizerState;
+		friend class DepthStencilState;
+		friend class SamplerState;
+		friend class SpriteBatch;
+		friend class DepthStencilBuffer;
+		friend class BlendState;
 
-		friend class Graphics::IShader;
-		friend class Graphics::IVertexShader;
-		friend class Graphics::IHullShader;
-		friend class Graphics::IDomainShader;
-		friend class Graphics::IGeometryShader;
-		friend class Graphics::IFragmentShader;
+		friend class IShader;
+		friend class IVertexShader;
+		friend class IHullShader;
+		friend class IDomainShader;
+		friend class IGeometryShader;
+		friend class IFragmentShader;
 
 		//TODO : Remove
 		friend class Graphics::Primitives::LineList;

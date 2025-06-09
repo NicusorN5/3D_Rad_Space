@@ -11,7 +11,7 @@ namespace Engine3DRadSpace::Objects
 	/// <remarks>
 	/// This object updates the view, and projection matrices in the Draw3D() method. You may manually set these matrices without this.
 	/// </remarks>
-	class DLLEXPORT Camera : public IObject3D
+	class E3DRSP_OBJECTS_EXPORT Camera : public IObject3D
 	{
 	public:
 		Camera(const std::string& name = "Camera", bool visible = true,

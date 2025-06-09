@@ -11,7 +11,7 @@ constexpr double Engine3DRadSpace::Math::CatmullRom(double value1, double value2
         (3.0 * value2 - value1 - 3.0 * value3 + value4) * cb));
 }
 
-constexpr double DLLEXPORT Engine3DRadSpace::Math::Hermite(double value1, double tangent1, double value2, double tangent2, double amount)
+constexpr double Engine3DRadSpace::Math::Hermite(double value1, double tangent1, double value2, double tangent2, double amount)
 {
     double v1 = value1, v2 = value2, t1 = tangent1, t2 = tangent2, s = amount, result;
     double sCubed = s * s * s;
@@ -29,17 +29,17 @@ constexpr double DLLEXPORT Engine3DRadSpace::Math::Hermite(double value1, double
     return result;
 }
 
-constexpr bool DLLEXPORT Engine3DRadSpace::Math::AABB(float p1, float w1, float p2, float w2)
+constexpr bool Engine3DRadSpace::Math::AABB(float p1, float w1, float p2, float w2)
 {
     return p1 <= p2 + w2 && p1 + w1 >= p2;
 }
 
-constexpr bool DLLEXPORT Engine3DRadSpace::Math::AABB(double p1, double w1, double p2, double w2)
+constexpr bool Engine3DRadSpace::Math::AABB(double p1, double w1, double p2, double w2)
 {
     return p1 <= p2 + w2 && p1 + w1 >= p2;
 }
 
-constexpr double DLLEXPORT Engine3DRadSpace::Math::SmoothStep(double value1, double value2, double amount)
+constexpr double Engine3DRadSpace::Math::SmoothStep(double value1, double value2, double amount)
 {
     double result = std::clamp(amount, 0.0, 1.0);
     result = Hermite(value1, 0, value2, 0, result);
@@ -47,12 +47,12 @@ constexpr double DLLEXPORT Engine3DRadSpace::Math::SmoothStep(double value1, dou
     return result;
 }
 
-constexpr double DLLEXPORT Engine3DRadSpace::Math::ReLU(double x)
+constexpr double Engine3DRadSpace::Math::ReLU(double x)
 {
     return std::max(0.0, x);
 }
 
-constexpr bool DLLEXPORT Engine3DRadSpace::Math::WithinEpsilon(float a, float b)
+constexpr bool Engine3DRadSpace::Math::WithinEpsilon(float a, float b)
 {
     float num = a - b;
     return ((-1.401298E-45f <= num) && (num <= std::numeric_limits<float>::epsilon()));

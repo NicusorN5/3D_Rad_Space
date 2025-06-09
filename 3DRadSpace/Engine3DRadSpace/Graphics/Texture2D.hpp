@@ -11,7 +11,7 @@ namespace Engine3DRadSpace::Graphics
 	/// Represents a 2D texture.
 	/// <remarks>
 	/// </remarks>
-	class DLLEXPORT Texture2D : public Content::IAsset
+	class E3DRSP_GRAPHICS_EXPORT Texture2D : public Content::IAsset
 	{
 		unsigned _width;
 		unsigned _height;
@@ -57,14 +57,14 @@ namespace Engine3DRadSpace::Graphics
 		/// <param name="colors">Color array. Size must be x * y.</param>
 		/// <param name="x">Width of the texture</param>
 		/// <param name="y">Height</param>
-		explicit Texture2D(GraphicsDevice *device, std::span<Color> colors, unsigned x, unsigned y);
+		explicit Texture2D(GraphicsDevice *device, std::span<Math::Color> colors, unsigned x, unsigned y);
 		/// <summary>
 		/// Creates a texture from a Color array.
 		/// <param name="device">Device context.</param>
 		/// <param name="colors">Color array. Size must be x * y.</param>
 		/// <pram name="x">Width of the texture.</param>
 		/// <param name="y">Height of the texture.</param>
-		explicit Texture2D(GraphicsDevice *device, Color* colors, unsigned x, unsigned y);
+		explicit Texture2D(GraphicsDevice *device, Math::Color* colors, unsigned x, unsigned y);
 		/// <summary>
 		/// Creates a texture from a buffer with a specified pixel format.
 		/// </summary>
@@ -99,7 +99,7 @@ namespace Engine3DRadSpace::Graphics
 		Texture2D& operator=(const Texture2D&) = delete;
 		Texture2D& operator=(Texture2D&&) noexcept = default;
 
-		void SetColors(Color** colors, unsigned x, unsigned y);
+		void SetColors(Math::Color** colors, unsigned x, unsigned y);
 		/// <summary>
 		/// Resizes the texture using nearest neighbor interpolation.
 		/// </summary>

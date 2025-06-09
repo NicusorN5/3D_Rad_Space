@@ -72,7 +72,7 @@ namespace Engine3DRadSpace::Reflection
 
 	/// Null specialization. Sentinel value.
 	template<>
-	class DLLEXPORT ReflectedField<void> final : public IReflectedField
+	class E3DRSP_REFLECTION_EXPORT ReflectedField<void> final : public IReflectedField
 	{
 	public:
 		ReflectedField() : IReflectedField(0, 0, "", "", typeid(void))

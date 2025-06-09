@@ -7,7 +7,7 @@ namespace Engine3DRadSpace::Math
 	/// <summary>
 	/// A 2D vector.
 	/// </summary>
-	struct DLLEXPORT Vector2
+	struct E3DRSP_MATH_EXPORT Vector2
 	{
 		float X, Y;
 		explicit Vector2(float x = 0.0f, float y = 0.0f) :X(x), Y(y) {};
@@ -56,6 +56,6 @@ namespace Engine3DRadSpace::Math
 		static Vector2 Transform(const Vector2& v, const Matrix3x3& m);
 	};
 
-	Vector2 DLLEXPORT operator*(float s, const Vector2& v);
-	Vector2 DLLEXPORT operator/(float s, const Vector2& v);
+	Vector2 E3DRSP_MATH_EXPORT operator*(float s, const Vector2& v);
+	Vector2 E3DRSP_MATH_EXPORT operator/(float s, const Vector2& v);
 }

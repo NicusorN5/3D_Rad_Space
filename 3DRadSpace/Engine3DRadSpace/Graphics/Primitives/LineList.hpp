@@ -13,7 +13,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 	/// The topology used for drawing lines is a list of lines, thus duplicate coordinates could be needed.
 	/// One could prefer drawing a wireframe mesh, but changing the rasterizer state.
 	/// </remarks>
-	class DLLEXPORT LineList : public IPrimitive
+	class E3DRSP_GRAPHICS_EXPORT LineList : public IPrimitive
 	{
 		std::unique_ptr<RasterizerState> _lineRasterizer;
 #ifdef USING_DX11

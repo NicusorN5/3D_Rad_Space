@@ -4,7 +4,7 @@
 
 namespace Engine3DRadSpace::Scripting
 {
-	class DLLEXPORT IScriptBuilder
+	class E3DRSP_SCRIPTING_EXPORT IScriptBuilder
 	{
 	protected:
 		IScriptBuilder() = default;

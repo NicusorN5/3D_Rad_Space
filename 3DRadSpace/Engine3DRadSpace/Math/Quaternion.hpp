@@ -9,7 +9,7 @@ namespace Engine3DRadSpace::Math
 	/// <summary>
 	/// A quaternion is a hyper-complex number that represents 3D rotations the same way 2D rotations can be represented by a complex number.
 	/// </summary>
-	struct DLLEXPORT Quaternion
+	struct E3DRSP_MATH_EXPORT Quaternion
 	{
 		float X, Y, Z, W;
 
@@ -57,7 +57,7 @@ namespace Engine3DRadSpace::Math
 		auto operator <=>(const Quaternion& q) const noexcept = default;
 	};
 
-	Quaternion DLLEXPORT operator /(float f, const Quaternion& q);
-	Quaternion DLLEXPORT operator *(float s, const Quaternion& q) noexcept;
+	Quaternion E3DRSP_MATH_EXPORT operator /(float f, const Quaternion& q);
+	Quaternion E3DRSP_MATH_EXPORT operator *(float s, const Quaternion& q) noexcept;
 }
 

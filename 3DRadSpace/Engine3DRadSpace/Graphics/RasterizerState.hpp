@@ -36,7 +36,7 @@ namespace Engine3DRadSpace
 		};
 
 
-		class DLLEXPORT RasterizerState
+		class E3DRSP_GRAPHICS_EXPORT RasterizerState
 		{
 #ifdef USING_DX11
 			Microsoft::WRL::ComPtr<ID3D11RasterizerState> _rasterizerState;

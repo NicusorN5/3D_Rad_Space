@@ -61,5 +61,5 @@ namespace Engine3DRadSpace::Plugins
 	/// Plugin information if succeded, or a PluginLoadingError enum value.
 	/// </returns>
 	/// <param name="pluginPath"></param>
-	std::expected<PluginInfo, PluginLoadingError> LoadPlugin(const std::filesystem::path& pluginPath);
+	std::expected<PluginInfo, PluginLoadingError> E3DRSP_PLUGINS_EXPORT LoadPlugin(const std::filesystem::path& pluginPath);
 }

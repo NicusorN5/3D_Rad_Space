@@ -4,7 +4,7 @@
 namespace Engine3DRadSpace::Math
 {
 	struct Vector2;
-	struct DLLEXPORT Matrix3x3
+	struct E3DRSP_MATH_EXPORT Matrix3x3
 	{
 		float M11, M12, M13;
 		float M21, M22, M23;

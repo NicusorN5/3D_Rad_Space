@@ -20,7 +20,7 @@ namespace Engine3DRadSpace::Content
 	/// <remarks>
 	/// Constructors are deleted since this is almost a namespace.
 	/// </remarks>
-	class DLLEXPORT ShaderManager
+	class E3DRSP_CONTENT_EXPORT ShaderManager
 	{
 		static std::unordered_map<size_t, std::shared_ptr<Graphics::Shaders::Effect>> _shaders;
 	public:

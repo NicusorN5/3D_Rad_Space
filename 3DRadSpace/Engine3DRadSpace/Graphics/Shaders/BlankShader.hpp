@@ -7,7 +7,7 @@ namespace Engine3DRadSpace::Graphics::Shaders
 	/// <summary>
 	/// Represents a trivial 3D effect, with vertex colouring.
 	/// </summary>
-	class DLLEXPORT BlankShader : public Effect
+	class E3DRSP_GRAPHICS_EXPORT BlankShader : public Effect
 	{
 		class VertexShader : public IVertexShader
 		{

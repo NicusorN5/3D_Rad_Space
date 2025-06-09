@@ -2,7 +2,7 @@
 #include "../Objects/Gizmos/Gizmo.hpp"
 #include "../Reflection/UUID.hpp"
 
-extern DLLEXPORT std::vector<std::pair<Engine3DRadSpace::Reflection::UUID, std::unique_ptr<Engine3DRadSpace::Objects::Gizmos::IGizmo>>> _3drsp_gizmos;
+extern E3DRSP_OBJECTS_EXPORT std::vector<std::pair<Engine3DRadSpace::Reflection::UUID, std::unique_ptr<Engine3DRadSpace::Objects::Gizmos::IGizmo>>> _3drsp_gizmos;
 
 namespace Engine3DRadSpace::Internal
 {

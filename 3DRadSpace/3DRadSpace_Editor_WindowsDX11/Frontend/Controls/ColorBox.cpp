@@ -4,6 +4,9 @@
 
 WNDPROC ColorBox::staticProc = nullptr;
 
+using namespace Engine3DRadSpace;
+using namespace Engine3DRadSpace::Math;
+
 LRESULT WINAPI ColorBoxProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	ColorBox *cb = reinterpret_cast<ColorBox *>(GetWindowLongPtrA(hwnd, GWLP_USERDATA));
@@ -22,7 +25,7 @@ LRESULT WINAPI ColorBoxProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	}
 }
 
-ColorBox::ColorBox(HWND owner, HINSTANCE hInstance, int x, int y, int cx, int cy, Engine3DRadSpace::Color color) :
+ColorBox::ColorBox(HWND owner, HINSTANCE hInstance, int x, int y, int cx, int cy, Color color) :
 	IControl(owner, hInstance),
 	customColors{ 0xFFFFFF }
 {
@@ -59,7 +62,7 @@ void ColorBox::SetColor()
 	BOOL r = ChooseColorA(&cc);
 	if (r)
 	{
-		SetColor(Engine3DRadSpace::Color::FromRGB(
+		SetColor(Color::FromRGB(
 			GetRValue(cc.rgbResult),
 			GetGValue(cc.rgbResult),
 			GetBValue(cc.rgbResult)
@@ -67,7 +70,7 @@ void ColorBox::SetColor()
 	}
 }
 
-void ColorBox::SetColor(Engine3DRadSpace::Color color)
+void ColorBox::SetColor(Color color)
 {
 	this->color = color; //store a copy of the color, to avoid using GetObject().
 
@@ -86,7 +89,7 @@ void ColorBox::SetColor(Engine3DRadSpace::Color color)
 	RedrawWindow(window, nullptr, nullptr, RDW_INTERNALPAINT | RDW_INVALIDATE);
 }
 
-Engine3DRadSpace::Color ColorBox::GetColor()
+Color ColorBox::GetColor()
 {
 	return color;
 }

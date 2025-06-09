@@ -17,10 +17,10 @@ namespace Engine3DRadSpace::Graphics::Primitives
 	/// Do not use negative scales - unless back face culling is disabled.
 	/// Avoid using GetVertexBuffer() and GetIndexBuffer(). Prefer the CreateVertices and CreateIndices static methods.
 	/// </remarks>
-	class DLLEXPORT Box : public IPrimitive
+	class E3DRSP_GRAPHICS_EXPORT Box : public IPrimitive
 	{
 		Math::BoundingBox _box;
-		Color _color;
+		Math::Color _color;
 
 	public:
 		/// <summary>
@@ -29,7 +29,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		/// <param name="device">Graphics device used to create vertex and index buffers.</param>
 		/// <param name="b">Bounding box representing the boundaries of the mesh.</param>
 		/// <param name="color">Color of the mesh.</param>
-		Box(GraphicsDevice *device, const Math::BoundingBox &b, Color color);
+		Box(GraphicsDevice *device, const Math::BoundingBox &b, Math::Color color);
 
 		/// <summary>
 		/// Creates the vertices of the box given by b.
@@ -37,7 +37,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		/// <param name="b">Bounding box.</param>
 		/// <param name="color">Color.</param>
 		/// <returns>8 position-color vertices.</returns>
-		static std::array<VertexPositionColor, 8> CreateVertices(const Math::BoundingBox &b, const Color &color);
+		static std::array<VertexPositionColor, 8> CreateVertices(const Math::BoundingBox &b, const Math::Color &color);
 		/// <summary>
 		/// Creates the indices of the box mesh.
 		/// </summary>
@@ -61,12 +61,12 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		/// Gets the color this instance was created with.
 		/// </summary>
 		/// <returns>Color</returns>
-		Color GetColor() const noexcept;
+		Math::Color GetColor() const noexcept;
 		/// <summary>
 		/// Sets an other color to this instance.
 		/// </summary>
 		/// <param name="color">New color</param>
-		void SetColor(const Color&color);
+		void SetColor(const Math::Color& color);
 
 		/// <summary>
 		/// Gets the internal vertex buffer.

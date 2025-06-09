@@ -16,7 +16,7 @@ namespace Engine3DRadSpace::Projects
 	/// <summary>
 	/// Handles object and project loading/unloading.
 	/// </summary>
-	class DLLEXPORT Serializer
+	class E3DRSP_PROJECTS_EXPORT Serializer
 	{
 	public:
 		Serializer() = delete;

@@ -9,7 +9,7 @@ namespace Engine3DRadSpace::Internal
 
 namespace Engine3DRadSpace::Content::Assets
 {
-	class DLLEXPORT SkyboxAsset final : public IAsset
+	class E3DRSP_CONTENT_EXPORT SkyboxAsset final : public IAsset
 	{
 		Graphics::Primitives::CubeMapSkybox _skybox;
 		Graphics::Primitives::CubeMapSkybox _loadCubeMap(Graphics::GraphicsDevice *device, const std::filesystem::path& path);

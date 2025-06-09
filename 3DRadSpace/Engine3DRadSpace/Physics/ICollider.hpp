@@ -1,10 +1,11 @@
 #pragma once
+#include "../Core/Libs.hpp"
 
 namespace Engine3DRadSpace::Physics
 {
 	class PhysicsEngine;
 
-	class ICollider
+	class E3DRSP_PHYSICS_EXPORT ICollider
 	{
 	protected:
 		PhysicsEngine* _physics;

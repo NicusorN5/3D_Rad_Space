@@ -17,7 +17,7 @@ namespace Engine3DRadSpace::Content::Assets
 	/// <remarks>
 	/// Assimp is used to load the model.
 	/// </remarks>
-	class DLLEXPORT Model3D final : public Content::IAsset
+	class E3DRSP_CONTENT_EXPORT Model3D final : public Content::IAsset
 	{
 		Graphics::GraphicsDevice* _device;
 		std::vector<std::unique_ptr<Graphics::ModelMesh>> _meshes;

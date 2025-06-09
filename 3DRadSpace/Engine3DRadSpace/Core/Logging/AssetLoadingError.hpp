@@ -7,7 +7,7 @@ namespace Engine3DRadSpace
 {
 	namespace Logging
 	{
-		class AssetLoadingError : public Exception
+		class E3DRSP_CORE_EXPORT AssetLoadingError : public Exception
 		{
 		public:
 			template<typename T>

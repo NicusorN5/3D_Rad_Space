@@ -5,7 +5,7 @@
 
 namespace Engine3DRadSpace
 {
-	class DLLEXPORT Event
+	class E3DRSP_REFLECTION_EXPORT Event
 	{
 		std::vector<std::unique_ptr<Reflection::IReflectedFunction>> _fns;
 		std::type_index _returnType;

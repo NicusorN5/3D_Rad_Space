@@ -6,7 +6,7 @@
 
 namespace Engine3DRadSpace::Reflection
 {
-	class DLLEXPORT ReflectedEnum
+	class E3DRSP_REFLECTION_EXPORT ReflectedEnum
 	{
 		std::string _enumName;
 		Algorithms::FixedArray<EnumEntry> _entries;

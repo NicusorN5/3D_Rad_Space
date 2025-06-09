@@ -5,7 +5,7 @@
 
 namespace Engine3DRadSpace::Native
 {
-	class DLLEXPORT Window
+	class E3DRSP_NATIVE_EXPORT Window
 	{
 		void* _window;
 
@@ -58,7 +58,7 @@ namespace Engine3DRadSpace::Native
 		~Window();
 
 #ifdef _WIN32
-		friend LRESULT DLLEXPORT CALLBACK GameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+		friend LRESULT E3DRSP_NATIVE_EXPORT CALLBACK GameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 #endif
 	};
 }

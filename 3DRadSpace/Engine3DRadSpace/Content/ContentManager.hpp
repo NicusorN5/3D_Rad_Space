@@ -13,7 +13,7 @@ namespace Engine3DRadSpace::Content
 	/// <summary>
 	/// 
 	/// </summary>
-	class DLLEXPORT ContentManager
+	class E3DRSP_CONTENT_EXPORT ContentManager
 	{
 		struct AssetEntry
 		{

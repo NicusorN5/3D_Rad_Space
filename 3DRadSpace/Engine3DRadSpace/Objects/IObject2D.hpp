@@ -1,10 +1,11 @@
 #pragma once
 #include "IObject.hpp"
-#include "../Graphics/IDrawable2D.hpp"
+#include "IDrawable2D.hpp"
+#include "../Math/Vector2.hpp"
 
 namespace Engine3DRadSpace
 {
-	class DLLEXPORT IObject2D : public IObject, public IDrawable2D
+	class E3DRSP_OBJECTS_EXPORT IObject2D : public IObject, public IDrawable2D
 	{
 	protected:
 		explicit IObject2D(

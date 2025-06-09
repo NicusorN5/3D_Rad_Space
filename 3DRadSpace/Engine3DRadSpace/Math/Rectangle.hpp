@@ -5,7 +5,7 @@ namespace Engine3DRadSpace
 {
 	namespace Math
 	{
-		struct DLLEXPORT Rectangle
+		struct E3DRSP_MATH_EXPORT Rectangle
 		{
 			explicit constexpr Rectangle(int x = 0, int y = 0, int w = 0, int h = 0) :
 				X(x),
@@ -39,7 +39,7 @@ namespace Engine3DRadSpace
 			bool operator !=(const Rectangle& r) const = default;
 		};
 
-		struct DLLEXPORT RectangleF
+		struct E3DRSP_MATH_EXPORT RectangleF
 		{
 			explicit constexpr RectangleF(float x = 0, float y = 0, float w = 0, float h = 0) :
 				X(x),

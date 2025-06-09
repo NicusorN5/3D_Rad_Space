@@ -4,7 +4,7 @@
 
 namespace Engine3DRadSpace::Physics
 {
-	class TriangleMeshCollider : ICollider
+	class E3DRSP_PHYSICS_EXPORT TriangleMeshCollider : ICollider
 	{
 	public:
 		TriangleMeshCollider(

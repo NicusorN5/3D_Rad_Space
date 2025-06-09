@@ -5,7 +5,7 @@
 
 namespace Engine3DRadSpace
 {
-	struct Viewport
+	struct E3DRSP_GRAPHICS_EXPORT Viewport
 	{
 		Viewport(Math::RectangleF r, float mind, float maxd) : ScreenRectangle(r), MinDepth(mind), MaxDepth(maxd) {};
 

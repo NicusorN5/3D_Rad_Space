@@ -13,7 +13,7 @@ namespace Engine3DRadSpace::Content::Assets
 	/// Fonts are being loaded using FreeType.
 	/// When loading fonts, a single texture is created containing all supported characters. The texture is trivially packed (in a left-right, up-down order).
 	/// </remarks>
-	class DLLEXPORT Font : public Content::IAsset
+	class E3DRSP_CONTENT_EXPORT Font : public Content::IAsset
 	{
 		class FontManager
 		{

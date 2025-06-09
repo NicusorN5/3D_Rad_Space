@@ -6,7 +6,7 @@ namespace Engine3DRadSpace::Graphics::Shaders
 	/// <summary>
 	/// Represents a trivial 2D effect, only with vertex colouring.
 	/// </summary>
-	class DLLEXPORT Blank_NoMatrix : public Effect
+	class E3DRSP_GRAPHICS_EXPORT Blank_NoMatrix : public Effect
 	{
 		class TrivialVertexShader : public IVertexShader
 		{

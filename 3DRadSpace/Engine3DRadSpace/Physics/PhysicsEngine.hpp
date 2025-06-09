@@ -6,7 +6,7 @@ namespace Engine3DRadSpace::Physics
 	/// <summary>
 	/// Manages physics scene, and physics object factory.
 	/// </summary>
-	class DLLEXPORT PhysicsEngine
+	class E3DRSP_PHYSICS_EXPORT PhysicsEngine
 	{
 		std::unique_ptr<void, std::function<void(void*)>> _allocator;
 		std::unique_ptr<void, std::function<void(void*)>> _errCallback;

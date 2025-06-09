@@ -14,7 +14,7 @@ namespace Engine3DRadSpace
 	template<typename O>
 	concept GameObject = Reflection::ReflectableObject<O> || std::is_same_v<IObject, O> || std::is_same_v<IObject2D, O> || std::is_same_v<IObject3D, O>;
 
-	class DLLEXPORT ObjectList
+	class E3DRSP_OBJECTS_EXPORT ObjectList
 	{
 	public:
 		struct ObjectInstance

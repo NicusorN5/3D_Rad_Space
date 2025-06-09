@@ -3,7 +3,7 @@
 
 namespace Engine3DRadSpace::Physics
 {
-	class DLLEXPORT IPhysicsObject
+	class E3DRSP_PHYSICS_EXPORT IPhysicsObject
 	{
 	protected:
 		IPhysicsObject() = default;

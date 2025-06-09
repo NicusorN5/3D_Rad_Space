@@ -57,13 +57,13 @@ namespace Engine3DRadSpace::Graphics
 	/// <summary>
 	/// Represents blend state GPU handles.
 	/// </summary>
-	class DLLEXPORT BlendState
+	class E3DRSP_GRAPHICS_EXPORT BlendState
 	{
 #ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11BlendState> _blendState;
         GraphicsDevice *_device;
 
-        Color _blendFactor = {};
+        Math::Color _blendFactor = {};
         unsigned int _sampleMask = 0;
 
         D3D11_BLEND convert3DRSPBlend_toDX11(Blend b);
@@ -109,7 +109,7 @@ namespace Engine3DRadSpace::Graphics
         /// Gets the blend factor.
         /// </summary>
         /// <returns>Blend factor.</returns>
-        Color BlendFactor() const noexcept;
+        Math::Color BlendFactor() const noexcept;
         unsigned int SampleMask() const noexcept;
         /// <summary>
         /// Gets the GPU handle of the blend state, in DX11 it is ID3D11BlendState.

@@ -16,7 +16,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 	/// Only a size parameter is used when creating the mesh, BoundingPlane represents a infinite plane.
 	/// The mesh transformation is not set by a BoundingPlane since translation and scale information would need to be set again - it isn't guaranteed to recover translation and scale from a 
 	/// </remarks>
-	class DLLEXPORT Plane: public IPrimitive
+	class E3DRSP_GRAPHICS_EXPORT Plane: public IPrimitive
 	{
 	public:
 		/// <summary>
@@ -29,7 +29,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		/// <param name="device">GPU Device context.</param>
 		/// <param name="color">Vertex color of the plane.</param>
 		/// <param name="size">Size of the plane.</param>
-		Plane(GraphicsDevice* device, const Color& color, const Math::Vector2& size);
+		Plane(GraphicsDevice* device, const Math::Color& color, const Math::Vector2& size);
 
 		/// <summary>
 		/// Returns array of vertices assembling a XZ plane, centered at 0,0,0.
@@ -37,7 +37,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		/// <param name="color">Vertex color</param>
 		/// <param name="size"></param>
 		/// <returns></returns>
-		static std::array<VertexPositionColor, 4> CreateVertices(const Color &color, const Math::Vector2& size);
+		static std::array<VertexPositionColor, 4> CreateVertices(const Math::Color &color, const Math::Vector2& size);
 		/// <summary>
 		/// Returns the indices of the plane mesh created by the CreateVertices() static method.
 		/// </summary>

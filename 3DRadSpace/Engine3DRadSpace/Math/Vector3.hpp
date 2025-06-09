@@ -1,14 +1,12 @@
 #pragma once
 #include "../Core/Libs.hpp"
-#include "Quaternion.hpp"
-#include "Matrix4x4.hpp"
 
 namespace Engine3DRadSpace::Math
 {
 	struct Quaternion;
 	struct Matrix4x4;
 
-	struct DLLEXPORT Vector3
+	struct E3DRSP_MATH_EXPORT Vector3
 	{
 		float X;
 		float Y;
@@ -69,6 +67,6 @@ namespace Engine3DRadSpace::Math
 		auto operator <=>(const Vector3& v) const = default;
 	};
 
-	DLLEXPORT Vector3 operator *(float s, const Vector3& v);
-	DLLEXPORT Vector3 operator /(float s, const Vector3& v);
+	Vector3 E3DRSP_MATH_EXPORT operator *(float s, const Vector3& v);
+	Vector3 E3DRSP_MATH_EXPORT operator /(float s, const Vector3& v);
 }

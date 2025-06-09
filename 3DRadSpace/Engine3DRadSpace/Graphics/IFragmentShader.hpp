@@ -3,7 +3,7 @@
 
 namespace Engine3DRadSpace::Graphics
 {
-	class DLLEXPORT IFragmentShader : public IShader
+	class E3DRSP_GRAPHICS_EXPORT IFragmentShader : public IShader
 	{
 #ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11PixelShader> _shader;

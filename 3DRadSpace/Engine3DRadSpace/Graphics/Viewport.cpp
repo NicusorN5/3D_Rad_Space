@@ -1,5 +1,6 @@
 #include "Viewport.hpp"
 #include "Math/Math.hpp"
+#include "Math/Vector3.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Math;

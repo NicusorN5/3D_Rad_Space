@@ -19,11 +19,6 @@ if(MSVC)
 	target_compile_options(3DRadSpace-compiler PRIVATE "/EHsc")
 	# Create separate pdb debug info compiler
 	target_compile_options(3DRadSpace-compiler PRIVATE "/Zi")
-
-	#MSVC doesn't define NDEBUG itself, dirty hack.
-	if (CMAKE_BUILD_TYPE STREQUAL "Release" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
-		target_compile_definitions(3DRadSpace-compiler PUBLIC NDEBUG 1)
-	endif()
 endif()
 
 if(WIN32)

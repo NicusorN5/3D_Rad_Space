@@ -7,7 +7,7 @@ namespace Engine3DRadSpace::Objects
 	/// <summary>
 	/// Represents a blank object, with no behiavour. Can be used as a dummy, or plain 3D transform.
 	/// </summary>
-	class DLLEXPORT Empty : public IObject3D
+	class E3DRSP_OBJECTS_EXPORT Empty : public IObject3D
 	{
 	public:
 		Empty(const std::string& name = "", const Math::Vector3& pos = {0,0,0}, const Math::Vector3& pivot = {0,0,0},

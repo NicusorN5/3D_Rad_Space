@@ -38,7 +38,7 @@ namespace Engine3DRadSpace::Graphics
 	/// <summary>
 	/// Represents a vertex shader.
 	/// </summary>
-	class DLLEXPORT IVertexShader : public IShader
+	class E3DRSP_GRAPHICS_EXPORT IVertexShader : public IShader
 	{
 #ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11VertexShader> _shader;

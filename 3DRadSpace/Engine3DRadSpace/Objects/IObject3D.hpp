@@ -1,11 +1,12 @@
 #pragma once
 #include "IObject.hpp"
-#include "../Graphics/IDrawable3D.hpp"
+#include "IDrawable3D.hpp"
 #include "../Math/Ray.hpp"
+#include "../Math/Quaternion.hpp"
 
 namespace Engine3DRadSpace
 {
-	class DLLEXPORT IObject3D : public IObject, public IDrawable3D
+	class E3DRSP_OBJECTS_EXPORT IObject3D : public IObject, public IDrawable3D
 	{
 	protected:
 		explicit IObject3D(const std::string& name = "", bool enabled = false, bool visible = false, const Math::Vector3& pos = Math::Vector3::Zero(),

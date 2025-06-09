@@ -1,12 +1,12 @@
 #pragma once
 #include "../Native/Window.hpp"
-#include "../Core/IUpdateable.hpp"
-#include "../Graphics/IDrawable3D.hpp"
-#include "../Graphics/IDrawable2D.hpp"
-#include "../Core/IInitializable.hpp"
+#include "../Objects/IUpdateable.hpp"
+#include "../Objects/IDrawable3D.hpp"
+#include "../Objects/IDrawable2D.hpp"
+#include "../Objects/IInitializable.hpp"
 #include "../Objects/IObject2D.hpp"
 #include "../Objects/IObject3D.hpp"
-#include "../Content/ILoadable.hpp"
+#include "../Objects/ILoadable.hpp"
 #include "../Math\Matrix4x4.hpp"
 #include "../Content/ContentManager.hpp"
 #include "../Graphics/SpriteBatch.hpp"
@@ -18,7 +18,7 @@
 namespace Engine3DRadSpace
 {
 	class ObjectList;
-	class DLLEXPORT Game : public IUpdateable, public IDrawable3D, public IDrawable2D, public IInitiializable, public ILoadable
+	class E3DRSP_GAMES_EXPORT Game : public IUpdateable, public IDrawable3D, public IDrawable2D, public IInitiializable, public ILoadable
 	{
 	private:
 		bool _valid = false;
@@ -49,7 +49,7 @@ namespace Engine3DRadSpace
 
 		std::unique_ptr<Graphics::SpriteBatch> SpriteBatch;
 
-		Color ClearColor = Colors::Black;
+		Math::Color ClearColor = Math::Colors::Black;
 
 		Input::Keyboard& Keyboard;
 		Input::Mouse& Mouse;

@@ -21,7 +21,7 @@ public:
 	bool RenderAsset(const std::string& imagePath, const std::filesystem::path &assetPath)
 	{
 		_device->SetViewport();
-		_device->Clear(Engine3DRadSpace::Colors::Gray);
+		_device->Clear(Engine3DRadSpace::Math::Colors::Gray);
 
 		std::unique_ptr<T> asset = std::make_unique<T>(_device.get(), assetPath);
 

@@ -3,7 +3,7 @@
 
 namespace Engine3DRadSpace::Math
 {
-	struct DLLEXPORT Vector4
+	struct E3DRSP_MATH_EXPORT Vector4
 	{
 		float X, Y, Z, W;
 
@@ -48,6 +48,6 @@ namespace Engine3DRadSpace::Math
 		auto operator <=>(const Vector4& v) const = default;
 	};
 
-	Vector4 DLLEXPORT operator *(float scalar, const Vector4& v);
-	Vector4 DLLEXPORT operator /(float scalar, const Vector4& v);
+	Vector4 E3DRSP_MATH_EXPORT operator *(float scalar, const Vector4& v);
+	Vector4 E3DRSP_MATH_EXPORT operator /(float scalar, const Vector4& v);
 }

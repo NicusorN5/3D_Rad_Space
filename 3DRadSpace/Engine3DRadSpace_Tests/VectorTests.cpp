@@ -1,5 +1,7 @@
 ﻿#include "pch.h"
 #include <Engine3DRadSpace/Math/Vector3.hpp>
+#include <Engine3DRadSpace/Math/Vector4.hpp>
+#include <Engine3DRadSpace/Math/Quaternion.hpp>
 
 using namespace Engine3DRadSpace::Math;
 

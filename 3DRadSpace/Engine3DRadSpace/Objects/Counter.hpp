@@ -14,7 +14,7 @@ namespace Engine3DRadSpace::Objects
 	///  -When toggling Enabled to true, the counter will increment by the Increment value, then Enabled will become false. 
 	/// This behiavor is defined in ::Update().\
 	/// </remarks>
-	class DLLEXPORT Counter: public IObject
+	class E3DRSP_OBJECTS_EXPORT Counter: public IObject
 	{
 	public:
 		Counter();

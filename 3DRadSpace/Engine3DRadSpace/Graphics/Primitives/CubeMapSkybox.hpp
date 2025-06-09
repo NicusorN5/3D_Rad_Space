@@ -1,6 +1,6 @@
 #pragma once
 #include "../ModelMeshPart.hpp"
-#include "../IDrawable3D.hpp"
+#include "../../Objects/IDrawable3D.hpp"
 
 namespace Engine3DRadSpace::Objects
 {
@@ -20,7 +20,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 	/// <remarks>
 	/// This doesn't inherit IPrimitive - since this renders a textured mesh.
 	/// </remarks>
-	class DLLEXPORT CubeMapSkybox final : public IDrawable3D
+	class E3DRSP_GRAPHICS_EXPORT CubeMapSkybox final : public IDrawable3D
 	{
 		std::array<std::unique_ptr<ModelMeshPart>, 6> _faces;
 

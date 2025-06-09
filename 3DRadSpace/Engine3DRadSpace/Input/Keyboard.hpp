@@ -12,7 +12,7 @@ namespace Engine3DRadSpace
 
 	namespace Input
 	{
-		class DLLEXPORT Keyboard
+		class E3DRSP_INPUT_EXPORT Keyboard
 		{
 			uint8_t _keys[10];
 

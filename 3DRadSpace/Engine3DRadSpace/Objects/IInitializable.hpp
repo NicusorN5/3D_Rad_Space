@@ -1,9 +1,9 @@
 #pragma once
-#include "Libs.hpp"
+#include "../Core/Libs.hpp"
 
 namespace Engine3DRadSpace
 {
-	class DLLEXPORT IInitiializable
+	class E3DRSP_OBJECTS_EXPORT IInitiializable
 	{
 	public:
 		virtual void Initialize() = 0;

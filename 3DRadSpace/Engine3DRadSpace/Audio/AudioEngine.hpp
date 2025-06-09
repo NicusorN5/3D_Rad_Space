@@ -9,7 +9,7 @@ namespace Engine3DRadSpace::Audio
 	/// <summary>
 	/// Instances and handles audio device handles.
 	/// </summary>
-	class DLLEXPORT AudioEngine 
+	class E3DRSP_AUDIO_EXPORT AudioEngine 
 	{
 		void* _audioDevice;
 		void* _audioContext;

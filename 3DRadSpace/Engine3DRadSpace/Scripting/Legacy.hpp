@@ -15,9 +15,9 @@ namespace Engine3DRadSpace::Legacy
 	//
 
 	//Sets the global state, since a list of objects is required.
-	void DLLEXPORT SetObjectList(Engine3DRadSpace::ObjectList* list);
+	void E3DRSP_SCRIPTING_EXPORT SetObjectList(Engine3DRadSpace::ObjectList* list);
 	//Sets project file path used when resetting objects.
-	void DLLEXPORT SetProjectPath(const std::filesystem::path &path);
+	void E3DRSP_SCRIPTING_EXPORT SetProjectPath(const std::filesystem::path &path);
 }
 
 extern "C"
@@ -26,38 +26,38 @@ extern "C"
 	//	Object functions.
 	//
 
-	void DLLEXPORT iObjectStart(unsigned obj_x);
-	void DLLEXPORT iObjectStop(unsigned obj_x);
-	void DLLEXPORT iObjectSwitch(unsigned obj_x);
-	void DLLEXPORT iObjectShow(unsigned obj_x);
-	void DLLEXPORT iObjectHide(unsigned obj_x);
-	void DLLEXPORT iObjectShowHideSwitch(unsigned obj_x);
-	void DLLEXPORT iObjectReset(unsigned obj_x);
-	void DLLEXPORT iObjectOrientation(unsigned obj_x, Engine3DRadSpace::Math::Quaternion& q);
-	void DLLEXPORT iObjectOrientationSet(unsigned obj_x, const Engine3DRadSpace::Math::Quaternion& q);
-	void DLLEXPORT iObjectOrientationReset(unsigned obj_x, const Engine3DRadSpace::Math::Quaternion& q);
-	void DLLEXPORT iObjectLocation(unsigned obj_x, Engine3DRadSpace::Math::Vector3& v);
-	void DLLEXPORT iObjectLocationSet(unsigned obj_x,const Engine3DRadSpace::Math::Vector3 &v);
-	void DLLEXPORT iObjectLocationReset(unsigned obj_x, Engine3DRadSpace::Math::Vector3& v);
-	void DLLEXPORT iObjectPositionReset(
+	void E3DRSP_SCRIPTING_EXPORT iObjectStart(unsigned obj_x);
+	void E3DRSP_SCRIPTING_EXPORT iObjectStop(unsigned obj_x);
+	void E3DRSP_SCRIPTING_EXPORT iObjectSwitch(unsigned obj_x);
+	void E3DRSP_SCRIPTING_EXPORT iObjectShow(unsigned obj_x);
+	void E3DRSP_SCRIPTING_EXPORT iObjectHide(unsigned obj_x);
+	void E3DRSP_SCRIPTING_EXPORT iObjectShowHideSwitch(unsigned obj_x);
+	void E3DRSP_SCRIPTING_EXPORT iObjectReset(unsigned obj_x);
+	void E3DRSP_SCRIPTING_EXPORT iObjectOrientation(unsigned obj_x, Engine3DRadSpace::Math::Quaternion& q);
+	void E3DRSP_SCRIPTING_EXPORT iObjectOrientationSet(unsigned obj_x, const Engine3DRadSpace::Math::Quaternion& q);
+	void E3DRSP_SCRIPTING_EXPORT iObjectOrientationReset(unsigned obj_x, const Engine3DRadSpace::Math::Quaternion& q);
+	void E3DRSP_SCRIPTING_EXPORT iObjectLocation(unsigned obj_x, Engine3DRadSpace::Math::Vector3& v);
+	void E3DRSP_SCRIPTING_EXPORT iObjectLocationSet(unsigned obj_x,const Engine3DRadSpace::Math::Vector3 &v);
+	void E3DRSP_SCRIPTING_EXPORT iObjectLocationReset(unsigned obj_x, Engine3DRadSpace::Math::Vector3& v);
+	void E3DRSP_SCRIPTING_EXPORT iObjectPositionReset(
 		unsigned OBJ_X,
 		Engine3DRadSpace::Math::Quaternion& outRotation,
 		Engine3DRadSpace::Math::Vector3& outLocation
 	);
-	void DLLEXPORT iObjectScaleSet(unsigned obj_x, const Engine3DRadSpace::Math::Vector3& v);
-	void DLLEXPORT iObjectScale(unsigned obj_x, Engine3DRadSpace::Math::Vector3& v);
-	float DLLEXPORT iObjectKmh(unsigned obj_x);
-	void DLLEXPORT iObjectVelocity(unsigned obj_x, Engine3DRadSpace::Math::Vector3& v);
-	void DLLEXPORT iObjectVelocitySet(unsigned obj_x, Engine3DRadSpace::Math::Vector3& v);
-	void DLLEXPORT iObjectSpin(unsigned obj_x, Engine3DRadSpace::Math::Vector3& v);
-	void DLLEXPORT iObjectSpinSet(unsigned obj_x, Engine3DRadSpace::Math::Vector3& v);
-	void DLLEXPORT iObjectTorqueApply(unsigned obj_x, Engine3DRadSpace::Math::Vector3& v);
-	void DLLEXPORT iObjectAngularAccelerationApply(unsigned obj_x, Engine3DRadSpace::Math::Vector3& v);
-	void DLLEXPORT iObjectForceApply(unsigned ojb_x, Engine3DRadSpace::Math::Vector3 f, Engine3DRadSpace::Math::Vector3 *p);
-	void DLLEXPORT iObjectAccelerationApply(unsigned obj_x, const Engine3DRadSpace::Math::Vector3& acc);
-	void DLLEXPORT iObjectDampingApply(unsigned obj_x, Engine3DRadSpace::Math::Vector3& v, bool is_rotation, bool local_axis);
+	void E3DRSP_SCRIPTING_EXPORT iObjectScaleSet(unsigned obj_x, const Engine3DRadSpace::Math::Vector3& v);
+	void E3DRSP_SCRIPTING_EXPORT iObjectScale(unsigned obj_x, Engine3DRadSpace::Math::Vector3& v);
+	float E3DRSP_SCRIPTING_EXPORT iObjectKmh(unsigned obj_x);
+	void E3DRSP_SCRIPTING_EXPORT iObjectVelocity(unsigned obj_x, Engine3DRadSpace::Math::Vector3& v);
+	void E3DRSP_SCRIPTING_EXPORT iObjectVelocitySet(unsigned obj_x, Engine3DRadSpace::Math::Vector3& v);
+	void E3DRSP_SCRIPTING_EXPORT iObjectSpin(unsigned obj_x, Engine3DRadSpace::Math::Vector3& v);
+	void E3DRSP_SCRIPTING_EXPORT iObjectSpinSet(unsigned obj_x, Engine3DRadSpace::Math::Vector3& v);
+	void E3DRSP_SCRIPTING_EXPORT iObjectTorqueApply(unsigned obj_x, Engine3DRadSpace::Math::Vector3& v);
+	void E3DRSP_SCRIPTING_EXPORT iObjectAngularAccelerationApply(unsigned obj_x, Engine3DRadSpace::Math::Vector3& v);
+	void E3DRSP_SCRIPTING_EXPORT iObjectForceApply(unsigned ojb_x, Engine3DRadSpace::Math::Vector3 f, Engine3DRadSpace::Math::Vector3 *p);
+	void E3DRSP_SCRIPTING_EXPORT iObjectAccelerationApply(unsigned obj_x, const Engine3DRadSpace::Math::Vector3& acc);
+	void E3DRSP_SCRIPTING_EXPORT iObjectDampingApply(unsigned obj_x, Engine3DRadSpace::Math::Vector3& v, bool is_rotation, bool local_axis);
 	//float iObjectPicked(OBJ_X, Vector3)
-	int DLLEXPORT iObjectScan(
+	int E3DRSP_SCRIPTING_EXPORT iObjectScan(
 		unsigned obj_x,
 		const Engine3DRadSpace::Math::Vector3 &origin,
 		const Engine3DRadSpace::Math::Vector3 &direction,
@@ -65,12 +65,12 @@ extern "C"
 		Engine3DRadSpace::Math::Vector3& contactPoint,
 		Engine3DRadSpace::Math::Vector3& contactNormal
 	);
-	void DLLEXPORT iObjectTextSet(
+	void E3DRSP_SCRIPTING_EXPORT iObjectTextSet(
 		unsigned obj_x,
 		const std::string& str
 	);
 	//iObjectParamSet(OBJ_X,int,float)
-	void DLLEXPORT iObjectRefresh(unsigned obj_x, const std::string& path);
+	void E3DRSP_SCRIPTING_EXPORT iObjectRefresh(unsigned obj_x, const std::string& path);
 	//int iObjectBonesCount(OBJ_X)
 	//void iObjectBoneOrientation(OBJ_X,int,Quaternion,int)
 	//iObjectBoneLocation(OBJ_X,int,Vector3,int)
@@ -107,7 +107,7 @@ extern "C"
 	//iShaderTextureDestroy(int)
 	//iShaderTextureSet(OBJ_X,string,int)
 
-	int DLLEXPORT iStringLen(const std::string &str);
-	void DLLEXPORT iStringUCase(const std::string &in, std::string &out);
-	void DLLEXPORT iStringLCase(const std::string &in, std::string &out);
+	int E3DRSP_SCRIPTING_EXPORT iStringLen(const std::string &str);
+	void E3DRSP_SCRIPTING_EXPORT iStringUCase(const std::string &in, std::string &out);
+	void E3DRSP_SCRIPTING_EXPORT iStringLCase(const std::string &in, std::string &out);
 }

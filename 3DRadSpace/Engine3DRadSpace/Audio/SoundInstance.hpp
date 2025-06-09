@@ -5,7 +5,7 @@
 
 namespace Engine3DRadSpace::Audio
 {
-	class DLLEXPORT SoundInstance
+	class E3DRSP_AUDIO_EXPORT SoundInstance
 	{
 		AudioEngine* _audio;
 		unsigned int _sourceID;

@@ -21,7 +21,7 @@ namespace Engine3DRadSpace::Content
 	/// <summary>
 	/// Asset base type.
 	/// </summary>
-	class DLLEXPORT IAsset
+	class E3DRSP_CONTENT_EXPORT IAsset
 	{
 	protected:
 		IAsset() = default;

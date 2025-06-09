@@ -13,5 +13,5 @@ namespace Engine3DRadSpace::Algorithms
 	/// Time complexity is O(N*M).
 	/// A temporary N*M matrix is dynamically allocated while calculating the distance.
 	/// </remarks>
-	int DLLEXPORT DamerauLevenshteinDistance(const std::string& a, const std::string& b);
+	int E3DRSP_CORE_EXPORT DamerauLevenshteinDistance(const std::string& a, const std::string& b);
 }

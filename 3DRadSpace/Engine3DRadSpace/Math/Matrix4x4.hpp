@@ -1,13 +1,13 @@
 #pragma once
-#include "Quaternion.hpp"
-#include "Point.hpp"
+#include "../Core/Libs.hpp"
 
 namespace Engine3DRadSpace::Math
 {
 	struct Vector3;
 	struct Quaternion;
+	struct Point;
 
-	struct DLLEXPORT Matrix4x4
+	struct E3DRSP_MATH_EXPORT Matrix4x4
 	{
 		float M11, M12, M13, M14;
 		float M21, M22, M23, M24;
@@ -77,6 +77,6 @@ namespace Engine3DRadSpace::Math
 		Vector3 Translation() const noexcept;
 	};
 
-	Matrix4x4 operator *(float scalar, const Matrix4x4& m) noexcept;
-	Matrix4x4 operator /(float f, const Matrix4x4& m);
+	Matrix4x4 E3DRSP_MATH_EXPORT operator *(float scalar, const Matrix4x4& m) noexcept;
+	Matrix4x4 E3DRSP_MATH_EXPORT operator /(float f, const Matrix4x4& m);
 }

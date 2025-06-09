@@ -25,7 +25,7 @@ namespace Engine3DRadSpace::Graphics
 		MirrorOnce = 5
 	};
 
-	class DLLEXPORT SamplerState
+	class E3DRSP_GRAPHICS_EXPORT SamplerState
 	{
 #ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11SamplerState> _samplerState;
@@ -34,7 +34,7 @@ namespace Engine3DRadSpace::Graphics
 	public:
 		SamplerState(GraphicsDevice *device);
 		SamplerState(GraphicsDevice* device, TextureFilter Filter, TextureAddressMode AddressU, TextureAddressMode AddressV, TextureAddressMode AddressW,
-			float MipLODBias, unsigned MaxAnisotropy, ComparisonFunction ComparisionFunction, Color BorderColor, float MinLOD, float MaxLOD);
+			float MipLODBias, unsigned MaxAnisotropy, ComparisonFunction ComparisionFunction, Math::Color BorderColor, float MinLOD, float MaxLOD);
 
 		SamplerState(SamplerState &) = delete;
 		SamplerState(SamplerState &&) noexcept = default;

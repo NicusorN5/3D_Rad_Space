@@ -34,6 +34,7 @@
 #include "Content\ContentManager.hpp"
 #include "Content\IAsset.hpp"
 #include "Content\ShaderManager.hpp"
+
 //Engine3DRadSpace::Content::Assets
 #include "Content\Assets\Font.hpp"
 #include "Content\Assets\Model3D.hpp"
@@ -128,7 +129,6 @@
 #include "Objects\Empty.hpp"
 #include "Objects\ExitFade.hpp"
 #include "Objects\Fog.hpp"
-#include "Objects\GForce.hpp"
 #include "Objects\ObjectList.hpp"
 #include "Objects\Skinmesh.hpp"
 #include "Objects\SkyColor.hpp"
@@ -140,6 +140,7 @@
 #include "Native\Window.hpp"
 
 //Engine3DRadSpace::Physics
+#include "Physics\GForce.hpp"
 #include "Physics\IPhysicsObject.hpp"
 #include "Physics\PhysicsEngine.hpp"
 #include "Physics\PhysicsSettings.hpp"

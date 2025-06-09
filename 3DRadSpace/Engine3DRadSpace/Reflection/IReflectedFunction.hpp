@@ -3,7 +3,7 @@
 
 namespace Engine3DRadSpace::Reflection
 {
-	class DLLEXPORT IReflectedFunction : public IReflectedField
+	class E3DRSP_REFLECTION_EXPORT IReflectedFunction : public IReflectedField
 	{
 	protected:
 		IReflectedFunction(

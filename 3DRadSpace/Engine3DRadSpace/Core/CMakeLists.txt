@@ -23,8 +23,6 @@ if(MSVC)
 		target_compile_options(3DRadSpace_Core PRIVATE "/fsanitize=address")
 	endif()
 
-	#MSVC doesn't define NDEBUG itself, dirty hack.
-	if (CMAKE_BUILD_TYPE STREQUAL "Release" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
-		target_compile_definitions(3DRadSpace_Core PUBLIC NDEBUG 1)
-	endif()
+	#Define library specific library export macro
+	target_compile_definitions(3DRadSpace_Core PRIVATE [[E3DRSP_CORE_EXPORT=__declspec(dllexport)]])
 endif()

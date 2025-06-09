@@ -25,11 +25,6 @@ if(MSVC)
 	if(3DRadSpace-editor STREQUAL "Debug")
 		target_compile_options(3DRadSpace-editor PRIVATE "/fsanitize=address")
 	endif()
-
-	#MSVC doesn't define NDEBUG itself, dirty hack.
-	if (CMAKE_BUILD_TYPE STREQUAL "Release" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
-		target_compile_definitions(3DRadSpace-editor PUBLIC NDEBUG 1)
-	endif()
 endif()
 
 if(WIN32)

@@ -1,10 +1,10 @@
 #pragma once
-#include "Skinmesh.hpp"
-#include "../Physics/IPhysicsObject.hpp"
+#include "../Objects/Skinmesh.hpp"
+#include "IPhysicsObject.hpp"
 
 namespace Engine3DRadSpace::Objects
 {
-	class StaticRigidbody: public Skinmesh, public Physics::IPhysicsObject
+	class E3DRSP_PHYSICS_EXPORT StaticRigidbody: public Skinmesh, public Physics::IPhysicsObject
 	{
 		void _generateRigidbody();
 	public:

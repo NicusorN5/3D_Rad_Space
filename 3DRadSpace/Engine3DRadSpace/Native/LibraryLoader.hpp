@@ -30,5 +30,5 @@ namespace Engine3DRadSpace::Native
 	/// </summary>
 	/// <param name="path">Path to DLL/library.</param>
 	/// <returns>Module handle of the loaded library.</returns>
-	DLLEXPORT void* Load_Library(const std::filesystem::path& path);
+	E3DRSP_NATIVE_EXPORT void* Load_Library(const std::filesystem::path& path);
 }

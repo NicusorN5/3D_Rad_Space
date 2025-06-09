@@ -41,7 +41,7 @@ namespace Engine3DRadSpace::Graphics
 		ComparisonFunction Function;
 	};
 
-	class DLLEXPORT DepthStencilState
+	class E3DRSP_GRAPHICS_EXPORT DepthStencilState
 	{
 #ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilState> _state;
