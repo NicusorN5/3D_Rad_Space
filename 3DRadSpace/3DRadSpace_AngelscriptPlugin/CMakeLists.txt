@@ -23,7 +23,8 @@ if(MSVC)
 endif()
 
 #Link 3DRadSpace
-target_link_libraries(3DRadSpace-angelscript PRIVATE 3DRadSpace_Math) #FIXME: Using 3DRadSpace_Games here doesn't work anymore.
+target_link_libraries(3DRadSpace-angelscript PRIVATE 3DRadSpace_Math)
+target_link_libraries(3DRadSpace-angelscript PRIVATE 3DRadSpace_Games)
 target_link_libraries(3DRadSpace-angelscript PRIVATE 3DRadSpace_Scripting)
 target_include_directories(3DRadSpace-angelscript PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)
 
