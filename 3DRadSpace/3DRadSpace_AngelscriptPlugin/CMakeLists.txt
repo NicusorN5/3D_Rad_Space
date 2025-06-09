@@ -18,6 +18,8 @@ if(MSVC)
 	target_compile_options(3DRadSpace-angelscript PRIVATE "/EHsc")
 	# Create separate pdb debug info
 	target_compile_options(3DRadSpace-angelscript PRIVATE "/Zi")
+	# Multiprocessor build
+	add_compile_options(3DRadSpace-angelscript PRIVATE "/MP")
 
 	target_compile_definitions(3DRadSpace-angelscript PRIVATE [[E3DRSP_ANGELSCRIPT_EXPORT=__declspec(dllexport)]])
 endif()

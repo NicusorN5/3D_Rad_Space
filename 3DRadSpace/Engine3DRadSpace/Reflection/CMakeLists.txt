@@ -17,6 +17,8 @@ if(MSVC)
 	target_compile_options(3DRadSpace_Reflection PRIVATE "/EHsc")
 	# Create separate pdb debug info files
 	add_compile_options(3DRadSpace_Reflection PRIVATE "/Zi")
+	# Multiprocessor build
+	add_compile_options(3DRadSpace_Reflection PRIVATE "/MP")
 
 	#enable address sanitizer if using a debug configuration
 	if(3DRadSpace STREQUAL "Debug")
