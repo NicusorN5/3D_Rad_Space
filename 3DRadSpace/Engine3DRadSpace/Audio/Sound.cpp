@@ -13,6 +13,9 @@ AudioBuffer Sound::_attemptLoading(const std::filesystem::path& path)
 	auto wav = AudioBuffer::FromWAV(path);
 	if(wav.has_value()) return std::move(wav.value());
 
+	auto ogg = AudioBuffer::FromOGG(path);
+	if(ogg.has_value()) return std::move(ogg.value());
+
 	throw Exception("Failed to load a sound file! Invalid format or corrupted file!");
 }
 
@@ -40,7 +43,9 @@ Reflection::UUID Sound::GetUUID() const noexcept
 
 const char* Sound::FileExtension() const noexcept
 {
-	return "Waveform Audio File Format(*.wav)\0 *.x\0"
+	return "All supported audio formats(*.wav;*.ogg)\0*.wav;*.ogg\0"
+			"Waveform Audio File Format(*.wav)\0 *.wav\0"
+			"Ogg Vorbis Compressed Audio Format(*.ogg)\0*.ogg\0"
 			"All Files(*.*)\0*.*\0\0";
 }
 

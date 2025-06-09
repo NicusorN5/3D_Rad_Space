@@ -152,6 +152,7 @@ void SoundInstance::Play()
 	//alGetError();
 
 	alSourcePlay(_sourceID);
+
 	if(_audio->CheckErrors().has_value()) throw int(5);
 }
 
@@ -299,7 +300,7 @@ float SoundInstance::GetMinGain()
 Vector3 SoundInstance::GetPosition()
 {
 	Vector3 pos;
-	alGetBuffer3f(
+	alGetSource3f(
 		_sourceID,
 		AL_POSITION,
 		&pos.X,
@@ -325,7 +326,7 @@ Vector3 SoundInstance::GetVelocity()
 Vector3 SoundInstance::GetDirection()
 {
 	Vector3 dir;
-	alGetBuffer3f(
+	alGetSource3f(
 		_sourceID,
 		AL_VELOCITY,
 		&dir.X,
@@ -338,54 +339,54 @@ Vector3 SoundInstance::GetDirection()
 float SoundInstance::GetMaxDistance()
 {
 	float maxDistance;
-	alGetBufferf(_sourceID, AL_MAX_DISTANCE, &maxDistance);
+	alGetSourcef(_sourceID, AL_MAX_DISTANCE, &maxDistance);
 	return maxDistance;
 }
 
 float SoundInstance::GetReferenceDistance()
 {
 	float ref_dst;
-	alGetBufferf(_sourceID, AL_REFERENCE_DISTANCE, &ref_dst);
+	alGetSourcef(_sourceID, AL_REFERENCE_DISTANCE, &ref_dst);
 	return ref_dst;
 }
 
 float SoundInstance::GetRolloffFactor()
 {
 	float rolloff;
-	alGetBufferf(_sourceID, AL_ROLLOFF_FACTOR, &rolloff);
+	alGetSourcef(_sourceID, AL_ROLLOFF_FACTOR, &rolloff);
 	return rolloff;
 }
 
 float SoundInstance::GetConeOuterGain()
 {
 	float coneOuter;
-	alGetBufferf(_sourceID, AL_CONE_OUTER_GAIN, &coneOuter);
+	alGetSourcef(_sourceID, AL_CONE_OUTER_GAIN, &coneOuter);
 	return coneOuter;
 }
 
 float SoundInstance::GetConeInnerAngle()
 {
 	float angle;
-	alGetBufferf(_sourceID, AL_CONE_INNER_ANGLE, &angle);
+	alGetSourcef(_sourceID, AL_CONE_INNER_ANGLE, &angle);
 	return angle;
 }
 
 float SoundInstance::GetConeOuterAngle()
 {
 	float angle;
-	alGetBufferf(_sourceID, AL_CONE_OUTER_ANGLE, &angle);
+	alGetSourcef(_sourceID, AL_CONE_OUTER_ANGLE, &angle);
 	return angle;
 }
 
 void SoundInstance::SetLooping(bool looping)
 {
 	ALint a = looping ? AL_TRUE : AL_FALSE;
-	alBufferi(_sourceID, AL_LOOPING, a);
+	alSourcei(_sourceID, AL_LOOPING, a);
 }
 
 bool SoundInstance::IsLooping()
 {
 	ALint looping;
-	alGetBufferi(_sourceID, AL_LOOPING, &looping);
+	alGetSourcei(_sourceID, AL_LOOPING, &looping);
 	return looping == AL_TRUE;
 }

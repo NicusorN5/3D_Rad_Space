@@ -1,5 +1,9 @@
 #include "AudioBuffer.hpp"
+#include "AudioBuffer.hpp"
 #include <al.h>
+#include <vorbis\codec.h>
+#include <vorbis\vorbisenc.h>
+#include <vorbis\vorbisfile.h>
 
 using namespace Engine3DRadSpace::Audio;
 
@@ -134,4 +138,57 @@ std::optional<AudioBuffer> AudioBuffer::FromWAV(const std::filesystem::path& pat
     }
 
     return AudioBuffer(data, channels, sampleRate, bps, format, size);
+}
+
+std::optional<AudioBuffer> AudioBuffer::FromOGG(const std::filesystem::path& path)
+{
+    OggVorbis_File vf;
+	if(ov_fopen(path.string().c_str(), &vf) != 0)
+    {
+        //Failed to open OGG file
+        return std::nullopt;
+	}
+
+    vorbis_info* info = ov_info(&vf, -1);
+    if(info == nullptr)
+    {
+        //Failed to get OGG info
+        ov_clear(&vf);
+        return std::nullopt;
+    }
+    int channels = info->channels;
+    int sampleRate = info->rate;
+    int bps = 16; // Vorbis always uses 16 bits per sample
+    int format = (channels == 1) ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16;
+    long size = ov_pcm_total(&vf, -1) * channels * (bps / 8);
+    
+    char* buffer = new char[size];
+    if(buffer == nullptr)
+    {
+        //Failed to allocate memory for OGG buffer
+        ov_clear(&vf);
+        return std::nullopt;
+	}
+
+	memset(buffer, 0, size); // Initialize buffer to zero
+
+    long bytesRead = ov_read(
+        &vf, 
+        buffer, 
+        size,
+        std::endian::native == std::endian::big,
+        2,
+        1,
+        nullptr
+    );
+
+    if(bytesRead < 0)
+    {
+        //Error reading OGG file
+        delete[] buffer;
+        ov_clear(&vf);
+        return std::nullopt;
+    }
+    ov_clear(&vf);
+	return AudioBuffer(buffer, channels, sampleRate, bps, format, static_cast<int>(bytesRead));
 }

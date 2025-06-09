@@ -87,8 +87,9 @@ AudioEngine::~AudioEngine()
 	alcCloseDevice(device);
 }
 
-void AudioEngine::Update(double dt)
+void AudioEngine::Update()
 {
+	alcProcessContext(static_cast<ALCcontext*>(_audioContext));
 }
 
 std::optional<AudioError> AudioEngine::CheckErrors()
