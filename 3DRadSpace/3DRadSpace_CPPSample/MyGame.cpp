@@ -43,7 +43,7 @@ void MyGame::Load()
 {
 	Game::Load();
 
-	_sound = this->Content->Load<Sound>("Data\\Sounds\\M1F1-Alaw-AFsp.wav");
+	_sound = this->Content->Load<Sound>("Data\\Sounds\\explosion.ogg");
 	_soundInstance = std::make_unique<SoundInstance>(_sound);
 	_soundInstance->SetLooping(false);
 

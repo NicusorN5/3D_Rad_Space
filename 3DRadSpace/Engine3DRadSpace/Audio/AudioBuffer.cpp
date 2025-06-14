@@ -1,5 +1,9 @@
 #include "AudioBuffer.hpp"
+#include "AudioBuffer.hpp"
 #include <al.h>
+#include <vorbis\codec.h>
+#include <vorbis\vorbisenc.h>
+#include <vorbis\vorbisfile.h>
 
 using namespace Engine3DRadSpace::Audio;
 
@@ -134,4 +138,70 @@ std::optional<AudioBuffer> AudioBuffer::FromWAV(const std::filesystem::path& pat
     }
 
     return AudioBuffer(data, channels, sampleRate, bps, format, size);
+}
+
+std::optional<AudioBuffer> AudioBuffer::FromOGG(const std::filesystem::path& path)
+{
+    //https://gist.github.com/tilkinsc/f91d2a74cff62cc3760a7c9291290b29
+
+    OggVorbis_File vf;
+	
+	FILE* file = fopen(path.string().c_str(), "rb");
+    if(file == nullptr)
+    {
+        //Failed to open OGG file.
+        return std::nullopt;
+	}
+
+    if(ov_open_callbacks(file, &vf, nullptr, 0, OV_CALLBACKS_NOCLOSE) < 0)
+    {
+        //Not a valid OGG file.
+        return std::nullopt;
+    }
+
+    vorbis_info* info = ov_info(&vf, -1);
+    if(info == nullptr)
+    {
+        //Failed to get OGG info
+        ov_clear(&vf);
+        return std::nullopt;
+    }
+    int channels = info->channels;
+    int sampleRate = info->rate;
+    int bps = 16; // Vorbis always uses 16 bits per sample
+    int format = (channels == 1) ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16;
+    long size = ov_pcm_total(&vf, -1) * channels * 2;
+    
+    char* buffer = new char[size];
+    if(buffer == nullptr)
+    {
+        //Failed to allocate memory for OGG buffer
+        ov_clear(&vf);
+        return std::nullopt;
+	}
+
+    for(size_t bytesRead = 0, offset = 0, sel=0; ; offset += bytesRead)
+    {
+        long read = ov_read(
+            &vf,
+            buffer + offset, 
+            4096,
+			std::endian::native == std::endian::big, // 1 if big-endian, 0 if little-endian
+            sizeof(short),
+            1, 
+            reinterpret_cast<int*>(&sel)
+        );
+        if(!read) break;
+
+        if(bytesRead < 0)
+        {
+            //Faulty OGG file.
+            delete[] buffer;
+            ov_clear(&vf);
+            return std::nullopt;
+        }
+	}
+    ov_clear(&vf);
+    fclose(file);
+	return AudioBuffer(buffer, channels, sampleRate, bps, format, static_cast<int>(size));
 }

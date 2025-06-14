@@ -38,7 +38,7 @@ namespace Engine3DRadSpace::Audio
 		~AudioEngine();
 
 		// Inherited via IUpdateable
-		void Update(double dt);
+		void Update();
 
 		std::optional<AudioError> CheckErrors();
 	};

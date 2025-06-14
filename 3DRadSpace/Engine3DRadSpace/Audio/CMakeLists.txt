@@ -37,3 +37,15 @@ target_include_directories(3DRadSpace_Audio PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/
 #OpenAL-Soft
 find_package(OpenAL CONFIG REQUIRED)
 target_link_libraries(3DRadSpace_Audio PRIVATE OpenAL::OpenAL)
+
+# Vorbis reference encoder and decoder, low-level API
+find_package(Vorbis CONFIG REQUIRED)
+target_link_libraries(3DRadSpace_Audio PRIVATE Vorbis::vorbis)
+
+# Audio stream decoding and basic manipulation, high-level API
+find_package(Vorbis CONFIG REQUIRED)
+target_link_libraries(3DRadSpace_Audio PRIVATE Vorbis::vorbisfile)
+
+# Convenience API for setting up an encoding environment
+find_package(Vorbis CONFIG REQUIRED)
+target_link_libraries(3DRadSpace_Audio PRIVATE Vorbis::vorbisenc)

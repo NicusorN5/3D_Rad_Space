@@ -24,6 +24,7 @@ namespace Engine3DRadSpace::Audio
 		AudioBuffer& operator=(AudioBuffer&&) = default;
 
 		static std::optional<AudioBuffer> FromWAV(const std::filesystem::path& path);
+		static std::optional<AudioBuffer> FromOGG(const std::filesystem::path& path);
 
 		~AudioBuffer() = default;
 
