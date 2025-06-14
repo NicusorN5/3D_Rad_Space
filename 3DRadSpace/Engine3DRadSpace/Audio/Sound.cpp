@@ -33,6 +33,7 @@ Sound::Sound(AudioEngine *audio, const std::filesystem::path& path) :
 	//Generate OpenAL sound buffer
     alGenBuffers(1, &_bufferID); //Create one buffer
 	alBufferData(_bufferID, _sound._format, _sound._buffer.get(), _sound._size, _sound._sampleRate); //Set buffer.
+	if(audio->CheckErrors().has_value()) throw Exception("Failed to copy OpenAL buffer!");
 }
 
 Reflection::UUID Sound::GetUUID() const noexcept

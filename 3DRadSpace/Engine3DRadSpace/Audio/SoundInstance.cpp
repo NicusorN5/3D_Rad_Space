@@ -140,7 +140,7 @@ SoundState SoundInstance::GetState()
 		case AL_PAUSED:
 			return SoundState::Paused;
 		case AL_INITIAL:
-			return SoundState::Playing;
+			return SoundState::Stopped;
 		default:
 			return SoundState::Undefined;
 	}

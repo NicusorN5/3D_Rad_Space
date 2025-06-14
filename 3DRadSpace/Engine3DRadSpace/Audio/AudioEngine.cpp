@@ -89,7 +89,7 @@ AudioEngine::~AudioEngine()
 
 void AudioEngine::Update()
 {
-	alcProcessContext(static_cast<ALCcontext*>(_audioContext));
+	//alcProcessContext(static_cast<ALCcontext*>(_audioContext));
 }
 
 std::optional<AudioError> AudioEngine::CheckErrors()
