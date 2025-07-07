@@ -15,10 +15,10 @@ SoundInstance::SoundInstance(Sound* sound, const AudioSource& source) :
 	alGenSources(1, &_sourceID);
 
 	//Assign buffer to source.
-	alSourcei(_sourceID, AL_BUFFER, sound->_bufferID);
-	if(_audio->CheckErrors().has_value()) throw Logging::Exception("Failed to assign buffer to source!");
-
 	SetSource(source);
+	alSourcei(_sourceID, AL_BUFFER, sound->_bufferID);
+	
+	if(_audio->CheckErrors().has_value()) throw Logging::Exception("Failed to assign buffer to source!");
 }
 
 SoundInstance::SoundInstance(Sound* sound):
@@ -27,10 +27,10 @@ SoundInstance::SoundInstance(Sound* sound):
 {
 	alGenSources(1, &_sourceID);
 
-	alSourcei(_sourceID, AL_BUFFER, _sound->_bufferID);
-	if(_audio->CheckErrors().has_value()) throw Logging::Exception("Failed to assign buffer to source!");
-
 	_source = GetSource();
+	alSourcei(_sourceID, AL_BUFFER, _sound->_bufferID);
+	
+	if(_audio->CheckErrors().has_value()) throw Logging::Exception("Failed to assign buffer to source!");
 }
 
 const AudioSource& SoundInstance::GetSource()
@@ -148,7 +148,7 @@ SoundState SoundInstance::GetState()
 
 void SoundInstance::Play()
 {
-	if(GetState() == SoundState::Playing) return; //do not overlap the same sound instance
+	//if(GetState() == SoundState::Playing) return; //do not overlap the same sound instance
 	//alGetError();
 
 	alSourcePlay(_sourceID);

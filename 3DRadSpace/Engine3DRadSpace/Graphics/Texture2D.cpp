@@ -6,6 +6,8 @@
 #include <Windows.h>
 #include <directxtk/ScreenGrab.h>
 #include <wincodec.h>
+
+#pragma comment( lib, "dxguid.lib") 
 #endif // USING_DX11
 #include "../Core/Logging/Exception.hpp"
 #include "../Core/Logging/AssetLoadingError.hpp"

@@ -1,5 +1,4 @@
 #include "AudioBuffer.hpp"
-#include "AudioBuffer.hpp"
 #include <al.h>
 #include <vorbis\codec.h>
 #include <vorbis\vorbisenc.h>
@@ -17,7 +16,7 @@ AudioBuffer::AudioBuffer(char* buffer, int channel, int sampleRate, int bps, int
 {
 }
 
-std::optional<AudioBuffer> AudioBuffer::FromWAV(const std::filesystem::path& path)
+std::expected<AudioBuffer, AudioBuffer::WAVLoadError> AudioBuffer::FromWAV(const std::filesystem::path& path)
 {
 	//https://stackoverflow.com/questions/36949957/loading-a-wav-file-for-openal
     auto convertToInt = [](char* buffer, int len) -> int
@@ -38,13 +37,19 @@ std::optional<AudioBuffer> AudioBuffer::FromWAV(const std::filesystem::path& pat
     int size;
     char buffer[4];
 
-    std::ifstream in(path);
+    std::ifstream in(path, std::ios::binary);
+
+    if (in.bad() || in.fail())
+    {
+        return std::unexpected(AudioBuffer::WAVLoadError::CannotOpen);
+    }
+
     in.read(buffer, 4);
 
     if(strncmp(buffer, "RIFF", 4) != 0)
     {
-        //"Error here, not a valid WAV file, RIFF not found in header\n This was found instead: "
-        return std::nullopt;
+        //RIFF not found in header
+        return std::unexpected(AudioBuffer::WAVLoadError::RIFFNotFound);
     }
 
     in.read(buffer, 4);//size of file. Not used. Read it to skip over it.  
@@ -52,7 +57,7 @@ std::optional<AudioBuffer> AudioBuffer::FromWAV(const std::filesystem::path& pat
     if(strncmp(buffer, "WAVE", 4) != 0)
     {
         //not a valid WAV file, RIFF not found in header
-        return std::nullopt;
+        return std::unexpected(AudioBuffer::WAVLoadError::RIFFNotFound);
     }
 
     in.read(buffer, 4);//Format Space Marker. should equal fmt (space)
@@ -60,7 +65,7 @@ std::optional<AudioBuffer> AudioBuffer::FromWAV(const std::filesystem::path& pat
     if(strncmp(buffer, "fmt ", 4) != 0)
     {
         //not a valid WAV file, Format Marker not found in header
-        return std::nullopt;
+        return std::unexpected(AudioBuffer::WAVLoadError::NoFormatMarker);
     }
 
     in.read(buffer, 4);//Length of format data. Should be 16 for PCM, meaning uncompressed.
@@ -68,7 +73,7 @@ std::optional<AudioBuffer> AudioBuffer::FromWAV(const std::filesystem::path& pat
     if(convertToInt(buffer, 4) != 16)
     {
         // not a valid WAV file, format length wrong in header
-        return std::nullopt;
+        return std::unexpected(AudioBuffer::WAVLoadError::WrongFormatLength);
     }
 
     in.read(buffer, 2);//Type of format, 1 = PCM
@@ -76,7 +81,7 @@ std::optional<AudioBuffer> AudioBuffer::FromWAV(const std::filesystem::path& pat
     if(convertToInt(buffer, 2) != 1)
     {
         // not a valid WAV file, file not in PCM format
-        return std::nullopt;
+        return std::unexpected(AudioBuffer::WAVLoadError::NotPCM);
     }
 
     in.read(buffer, 2);//Get number of channels. 
@@ -97,7 +102,7 @@ std::optional<AudioBuffer> AudioBuffer::FromWAV(const std::filesystem::path& pat
     bps = convertToInt(buffer, 2);
 
     //Skip character data, which marks the start of the data that we care about. 
-    in.read(buffer, 4);//"data" chunk. 
+    in.read(buffer, 4); //"data" chunk. 
 
     in.read(buffer, 4); //Get size of the data
 
@@ -106,10 +111,14 @@ std::optional<AudioBuffer> AudioBuffer::FromWAV(const std::filesystem::path& pat
     if(size < 0)
     {
         //not a valid WAV file, size of file reports 0
-        return std::nullopt;
+        return std::unexpected(AudioBuffer::WAVLoadError::NullSize);
     }
 
     char* data = new char[size];
+    if (data == nullptr)
+    {
+        return std::unexpected(AudioBuffer::WAVLoadError::OutOfMemory);
+    }
 
     in.read(data, size);//Read audio data into buffer, return.
 
@@ -118,29 +127,17 @@ std::optional<AudioBuffer> AudioBuffer::FromWAV(const std::filesystem::path& pat
     int format;
     if (channels == 1)
     {
-        if (bps == 8)
-        {
-            format = AL_FORMAT_MONO8;
-        }
-        else {
-            format = AL_FORMAT_MONO16;
-        }
+        format = bps == 8 ? AL_FORMAT_MONO8 : AL_FORMAT_MONO16;
     }
     else 
     {
-        if (bps == 8)
-        {
-            format = AL_FORMAT_STEREO8;
-        }
-        else {
-            format = AL_FORMAT_STEREO16;
-        }
+        format = bps == 8 ? AL_FORMAT_STEREO8 : AL_FORMAT_STEREO16;
     }
 
     return AudioBuffer(data, channels, sampleRate, bps, format, size);
 }
 
-std::optional<AudioBuffer> AudioBuffer::FromOGG(const std::filesystem::path& path)
+std::expected<AudioBuffer, AudioBuffer::OGGLoadError> AudioBuffer::FromOGG(const std::filesystem::path& path)
 {
     //https://gist.github.com/tilkinsc/f91d2a74cff62cc3760a7c9291290b29
 
@@ -150,13 +147,13 @@ std::optional<AudioBuffer> AudioBuffer::FromOGG(const std::filesystem::path& pat
     if(file == nullptr)
     {
         //Failed to open OGG file.
-        return std::nullopt;
+        return std::unexpected(AudioBuffer::OGGLoadError::CannotOpen);
 	}
 
     if(ov_open_callbacks(file, &vf, nullptr, 0, OV_CALLBACKS_NOCLOSE) < 0)
     {
         //Not a valid OGG file.
-        return std::nullopt;
+        return std::unexpected(AudioBuffer::OGGLoadError::Invalid);
     }
 
     vorbis_info* info = ov_info(&vf, -1);
@@ -164,7 +161,7 @@ std::optional<AudioBuffer> AudioBuffer::FromOGG(const std::filesystem::path& pat
     {
         //Failed to get OGG info
         ov_clear(&vf);
-        return std::nullopt;
+        return std::unexpected(AudioBuffer::OGGLoadError::InfoFail);
     }
     int channels = info->channels;
     int sampleRate = info->rate;
@@ -177,7 +174,7 @@ std::optional<AudioBuffer> AudioBuffer::FromOGG(const std::filesystem::path& pat
     {
         //Failed to allocate memory for OGG buffer
         ov_clear(&vf);
-        return std::nullopt;
+        return std::unexpected(AudioBuffer::OGGLoadError::OutOfMemory);
 	}
 
     for(size_t bytesRead = 0, offset = 0, sel=0; ; offset += bytesRead)
@@ -198,7 +195,7 @@ std::optional<AudioBuffer> AudioBuffer::FromOGG(const std::filesystem::path& pat
             //Faulty OGG file.
             delete[] buffer;
             ov_clear(&vf);
-            return std::nullopt;
+            return std::unexpected(AudioBuffer::OGGLoadError::Invalid);
         }
 	}
     ov_clear(&vf);
