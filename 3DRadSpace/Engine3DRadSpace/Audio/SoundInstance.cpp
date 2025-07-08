@@ -33,7 +33,7 @@ SoundInstance::SoundInstance(Sound* sound):
 	if(_audio->CheckErrors().has_value()) throw Logging::Exception("Failed to assign buffer to source!");
 }
 
-const AudioSource& SoundInstance::GetSource()
+const AudioSource& SoundInstance::GetSource() noexcept
 {
 	alGetSourcef(_sourceID, AL_PITCH, &_source.Pitch);
 	alGetSourcef(_sourceID, AL_GAIN, &_source.Gain);
@@ -121,10 +121,10 @@ void SoundInstance::SetSource(const AudioSource& source)
 	auto looping = _source.Looping ? AL_TRUE : AL_FALSE;
 	alSourcei(_sourceID, AL_LOOPING, looping);
 
-	if(_audio->CheckErrors().has_value()) throw int(5);
+	if(_audio->CheckErrors().has_value()) throw Logging::Exception("Error setting source properties");
 }
 
-SoundState SoundInstance::GetState()
+SoundState SoundInstance::GetState() const noexcept
 {
 	int sourceState;
 	alGetSourcei(_sourceID, AL_SOURCE_STATE, &sourceState);
@@ -146,26 +146,21 @@ SoundState SoundInstance::GetState()
 	}
 }
 
-void SoundInstance::Play()
+void SoundInstance::Play(bool dontOverlap) const noexcept
 {
-	//if(GetState() == SoundState::Playing) return; //do not overlap the same sound instance
-	//alGetError();
+	if(GetState() == SoundState::Playing && dontOverlap) return;
 
 	alSourcePlay(_sourceID);
-
-	if(_audio->CheckErrors().has_value()) throw int(5);
 }
 
-void Engine3DRadSpace::Audio::SoundInstance::Stop()
+void Engine3DRadSpace::Audio::SoundInstance::Stop() const noexcept
 {
 	alSourceStop(_sourceID);
-	if(_audio->CheckErrors().has_value()) throw float(5);
 }
 
-void Engine3DRadSpace::Audio::SoundInstance::Pause()
+void Engine3DRadSpace::Audio::SoundInstance::Pause() const noexcept
 {
 	alSourcePause(_sourceID);
-	if(_audio->CheckErrors().has_value()) throw float(6);
 }
 
 SoundInstance::~SoundInstance()

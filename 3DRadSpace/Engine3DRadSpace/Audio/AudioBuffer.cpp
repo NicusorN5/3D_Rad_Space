@@ -222,7 +222,7 @@ std::expected<AudioBuffer, AudioBuffer::OGGLoadError> AudioBuffer::FromOGG(const
 	{
 		long read = ov_read(
 			&vf,
-			buffer + offset, 
+			buffer, 
 			4096,
 			std::endian::native == std::endian::big, // 1 if big-endian, 0 if little-endian
 			sizeof(short),
@@ -231,7 +231,7 @@ std::expected<AudioBuffer, AudioBuffer::OGGLoadError> AudioBuffer::FromOGG(const
 		);
 		if(!read) break;
 
-		if(bytesRead < 0)
+		if(read < 0)
 		{
 			//Faulty OGG file.
 			delete[] buffer;

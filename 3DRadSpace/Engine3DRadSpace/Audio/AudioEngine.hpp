@@ -16,8 +16,6 @@ namespace Engine3DRadSpace::Audio
 
 		bool _hasEAX2support = false;
 
-		std::vector<SoundInstance*> _instances;
-
 		void _initializeContext();
 	public:
 		AudioEngine();
@@ -34,8 +32,6 @@ namespace Engine3DRadSpace::Audio
 		static std::vector<std::string> ListAudioDevices();
 
 		void SwitchAudioDevice(const std::string& deviceName);
-
-		bool HasEAX2Support() const noexcept;
 
 		~AudioEngine();
 
