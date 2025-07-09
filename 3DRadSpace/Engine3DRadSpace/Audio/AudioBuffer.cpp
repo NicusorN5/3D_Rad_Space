@@ -193,6 +193,7 @@ std::expected<AudioBuffer, AudioBuffer::OGGLoadError> AudioBuffer::FromOGG(const
 
 	if(ov_open_callbacks(file, &vf, nullptr, 0, OV_CALLBACKS_NOCLOSE) < 0)
 	{
+		fclose(file);
 		//Not a valid OGG file.
 		return std::unexpected(AudioBuffer::OGGLoadError::Invalid);
 	}
@@ -201,6 +202,7 @@ std::expected<AudioBuffer, AudioBuffer::OGGLoadError> AudioBuffer::FromOGG(const
 	if(info == nullptr)
 	{
 		//Failed to get OGG info
+		fclose(file);
 		ov_clear(&vf);
 		return std::unexpected(AudioBuffer::OGGLoadError::InfoFail);
 	}
@@ -214,28 +216,30 @@ std::expected<AudioBuffer, AudioBuffer::OGGLoadError> AudioBuffer::FromOGG(const
 	if(buffer == nullptr)
 	{
 		//Failed to allocate memory for OGG buffer
+		fclose(file);
 		ov_clear(&vf);
 		return std::unexpected(AudioBuffer::OGGLoadError::OutOfMemory);
 	}
 
 	for(int64_t bytesRead = 0, offset = 0, sel=0; ; offset += bytesRead)
 	{
-		long read = ov_read(
+		bytesRead = ov_read(
 			&vf,
-			buffer, 
+			buffer + offset, 
 			4096,
 			std::endian::native == std::endian::big, // 1 if big-endian, 0 if little-endian
 			sizeof(short),
 			1, 
 			reinterpret_cast<int*>(&sel)
 		);
-		if(!read) break;
+		if(!bytesRead) break;
 
-		if(read < 0)
+		if(bytesRead < 0)
 		{
 			//Faulty OGG file.
 			delete[] buffer;
 			ov_clear(&vf);
+			fclose(file);
 			return std::unexpected(AudioBuffer::OGGLoadError::Invalid);
 		}
 	}
