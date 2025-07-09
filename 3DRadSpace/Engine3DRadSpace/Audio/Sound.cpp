@@ -13,23 +13,27 @@ AudioBuffer Sound::_attemptLoading(const std::filesystem::path& path)
 	auto wav = AudioBuffer::FromWAV(path);
 	if(wav.has_value()) return std::move(wav.value());
 
+	auto ogg = AudioBuffer::FromOGG(path);
+	if(ogg.has_value()) return std::move(ogg.value());
+
 	throw Exception("Failed to load a sound file! Invalid format or corrupted file!");
 }
 
 Sound::Sound(Internal::AssetUUIDReader dummy) :
 	_audio(nullptr),
-	_sound(nullptr,0,0,0,0,0),
 	_bufferID(0)
 {
 }
 
 Sound::Sound(AudioEngine *audio, const std::filesystem::path& path) :
-	_audio(audio),
-	_sound(std::move(_attemptLoading(path)))
+	_audio(audio)
 {
+	AudioBuffer sound(std::move(_attemptLoading(path)));
+
 	//Generate OpenAL sound buffer
-    alGenBuffers(1, &_bufferID); //Create one buffer
-	alBufferData(_bufferID, _sound._format, _sound._buffer.get(), _sound._size, _sound._sampleRate); //Set buffer.
+	alGenBuffers(1, &_bufferID); //Create one buffer
+	alBufferData(_bufferID, sound._format, sound._buffer.get(), sound._size, sound._sampleRate); //Set buffer.
+	if(audio->CheckErrors().has_value()) throw Exception("Failed to copy OpenAL buffer!");
 }
 
 Reflection::UUID Sound::GetUUID() const noexcept
@@ -40,7 +44,9 @@ Reflection::UUID Sound::GetUUID() const noexcept
 
 const char* Sound::FileExtension() const noexcept
 {
-	return "Waveform Audio File Format(*.wav)\0 *.x\0"
+	return "All supported audio formats(*.wav;*.wave;*.ogg)\0*.wav;*.wave;*.ogg\0"
+			"Waveform Audio File Format(*.wav;*.wave)\0*.wav;*.wave\0"
+			"Ogg Vorbis Compressed Audio Format(*.ogg)\0*.ogg\0"
 			"All Files(*.*)\0*.*\0\0";
 }
 

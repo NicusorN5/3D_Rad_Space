@@ -54,3 +54,6 @@ jobs:
 
     - name: Install Google Test
       run: vcpkg install gtest:x64-windows-release
+      
+    - name: Install LibVorbis 
+      run: vcpkg install libvorbis:x64-windows-release

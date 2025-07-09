@@ -1,7 +1,7 @@
 #pragma once
 #include "AudioError.hpp"
 #include "../Core/Libs.hpp"
-#include "../Math/Vector3.hpp"
+#include "Listener.hpp"
 
 namespace Engine3DRadSpace::Audio
 {
@@ -16,8 +16,6 @@ namespace Engine3DRadSpace::Audio
 
 		bool _hasEAX2support = false;
 
-		std::vector<SoundInstance*> _instances;
-
 		void _initializeContext();
 	public:
 		AudioEngine();
@@ -29,16 +27,15 @@ namespace Engine3DRadSpace::Audio
 		AudioEngine& operator=(const AudioEngine&) = delete;
 		AudioEngine& operator=(AudioEngine&&) = delete;
 
+		class Listener Listener;
+
 		static std::vector<std::string> ListAudioDevices();
 
-		void SetListener(const Math::Vector3& vector);
-
-		bool HasEAX2Support() const noexcept;
+		void SwitchAudioDevice(const std::string& deviceName);
 
 		~AudioEngine();
 
-		// Inherited via IUpdateable
-		void Update(double dt);
+		void Update() const noexcept;
 
 		std::optional<AudioError> CheckErrors();
 	};

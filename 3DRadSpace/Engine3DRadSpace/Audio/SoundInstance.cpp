@@ -15,10 +15,10 @@ SoundInstance::SoundInstance(Sound* sound, const AudioSource& source) :
 	alGenSources(1, &_sourceID);
 
 	//Assign buffer to source.
-	alSourcei(_sourceID, AL_BUFFER, sound->_bufferID);
-	if(_audio->CheckErrors().has_value()) throw Logging::Exception("Failed to assign buffer to source!");
-
 	SetSource(source);
+	alSourcei(_sourceID, AL_BUFFER, sound->_bufferID);
+	
+	if(_audio->CheckErrors().has_value()) throw Logging::Exception("Failed to assign buffer to source!");
 }
 
 SoundInstance::SoundInstance(Sound* sound):
@@ -27,13 +27,13 @@ SoundInstance::SoundInstance(Sound* sound):
 {
 	alGenSources(1, &_sourceID);
 
-	alSourcei(_sourceID, AL_BUFFER, _sound->_bufferID);
-	if(_audio->CheckErrors().has_value()) throw Logging::Exception("Failed to assign buffer to source!");
-
 	_source = GetSource();
+	alSourcei(_sourceID, AL_BUFFER, _sound->_bufferID);
+	
+	if(_audio->CheckErrors().has_value()) throw Logging::Exception("Failed to assign buffer to source!");
 }
 
-const AudioSource& SoundInstance::GetSource()
+const AudioSource& SoundInstance::GetSource() noexcept
 {
 	alGetSourcef(_sourceID, AL_PITCH, &_source.Pitch);
 	alGetSourcef(_sourceID, AL_GAIN, &_source.Gain);
@@ -121,10 +121,10 @@ void SoundInstance::SetSource(const AudioSource& source)
 	auto looping = _source.Looping ? AL_TRUE : AL_FALSE;
 	alSourcei(_sourceID, AL_LOOPING, looping);
 
-	if(_audio->CheckErrors().has_value()) throw int(5);
+	if(_audio->CheckErrors().has_value()) throw Logging::Exception("Error setting source properties");
 }
 
-SoundState SoundInstance::GetState()
+SoundState SoundInstance::GetState() const noexcept
 {
 	int sourceState;
 	alGetSourcei(_sourceID, AL_SOURCE_STATE, &sourceState);
@@ -140,31 +140,27 @@ SoundState SoundInstance::GetState()
 		case AL_PAUSED:
 			return SoundState::Paused;
 		case AL_INITIAL:
-			return SoundState::Playing;
+			return SoundState::Stopped;
 		default:
 			return SoundState::Undefined;
 	}
 }
 
-void SoundInstance::Play()
+void SoundInstance::Play(bool dontOverlap) const noexcept
 {
-	if(GetState() == SoundState::Playing) return; //do not overlap the same sound instance
-	//alGetError();
+	if(GetState() == SoundState::Playing && dontOverlap) return;
 
 	alSourcePlay(_sourceID);
-	if(_audio->CheckErrors().has_value()) throw int(5);
 }
 
-void Engine3DRadSpace::Audio::SoundInstance::Stop()
+void Engine3DRadSpace::Audio::SoundInstance::Stop() const noexcept
 {
 	alSourceStop(_sourceID);
-	if(_audio->CheckErrors().has_value()) throw float(5);
 }
 
-void Engine3DRadSpace::Audio::SoundInstance::Pause()
+void Engine3DRadSpace::Audio::SoundInstance::Pause() const noexcept
 {
 	alSourcePause(_sourceID);
-	if(_audio->CheckErrors().has_value()) throw float(6);
 }
 
 SoundInstance::~SoundInstance()
@@ -299,7 +295,7 @@ float SoundInstance::GetMinGain()
 Vector3 SoundInstance::GetPosition()
 {
 	Vector3 pos;
-	alGetBuffer3f(
+	alGetSource3f(
 		_sourceID,
 		AL_POSITION,
 		&pos.X,
@@ -325,7 +321,7 @@ Vector3 SoundInstance::GetVelocity()
 Vector3 SoundInstance::GetDirection()
 {
 	Vector3 dir;
-	alGetBuffer3f(
+	alGetSource3f(
 		_sourceID,
 		AL_VELOCITY,
 		&dir.X,
@@ -338,54 +334,54 @@ Vector3 SoundInstance::GetDirection()
 float SoundInstance::GetMaxDistance()
 {
 	float maxDistance;
-	alGetBufferf(_sourceID, AL_MAX_DISTANCE, &maxDistance);
+	alGetSourcef(_sourceID, AL_MAX_DISTANCE, &maxDistance);
 	return maxDistance;
 }
 
 float SoundInstance::GetReferenceDistance()
 {
 	float ref_dst;
-	alGetBufferf(_sourceID, AL_REFERENCE_DISTANCE, &ref_dst);
+	alGetSourcef(_sourceID, AL_REFERENCE_DISTANCE, &ref_dst);
 	return ref_dst;
 }
 
 float SoundInstance::GetRolloffFactor()
 {
 	float rolloff;
-	alGetBufferf(_sourceID, AL_ROLLOFF_FACTOR, &rolloff);
+	alGetSourcef(_sourceID, AL_ROLLOFF_FACTOR, &rolloff);
 	return rolloff;
 }
 
 float SoundInstance::GetConeOuterGain()
 {
 	float coneOuter;
-	alGetBufferf(_sourceID, AL_CONE_OUTER_GAIN, &coneOuter);
+	alGetSourcef(_sourceID, AL_CONE_OUTER_GAIN, &coneOuter);
 	return coneOuter;
 }
 
 float SoundInstance::GetConeInnerAngle()
 {
 	float angle;
-	alGetBufferf(_sourceID, AL_CONE_INNER_ANGLE, &angle);
+	alGetSourcef(_sourceID, AL_CONE_INNER_ANGLE, &angle);
 	return angle;
 }
 
 float SoundInstance::GetConeOuterAngle()
 {
 	float angle;
-	alGetBufferf(_sourceID, AL_CONE_OUTER_ANGLE, &angle);
+	alGetSourcef(_sourceID, AL_CONE_OUTER_ANGLE, &angle);
 	return angle;
 }
 
 void SoundInstance::SetLooping(bool looping)
 {
 	ALint a = looping ? AL_TRUE : AL_FALSE;
-	alBufferi(_sourceID, AL_LOOPING, a);
+	alSourcei(_sourceID, AL_LOOPING, a);
 }
 
 bool SoundInstance::IsLooping()
 {
 	ALint looping;
-	alGetBufferi(_sourceID, AL_LOOPING, &looping);
+	alGetSourcei(_sourceID, AL_LOOPING, &looping);
 	return looping == AL_TRUE;
 }

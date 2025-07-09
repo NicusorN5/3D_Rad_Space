@@ -15,9 +15,9 @@ namespace Engine3DRadSpace::Audio
 		SoundInstance(Sound* sound, const AudioSource& source);
 		SoundInstance(Sound* sound);
 
-		const AudioSource &GetSource();
+		const AudioSource& GetSource() noexcept;
 		void SetSource(const AudioSource& source);
-		SoundState GetState();
+		SoundState GetState() const noexcept;
 		
 		void SetPitch(float pitch);
 		void SetGain(float gain);
@@ -50,9 +50,9 @@ namespace Engine3DRadSpace::Audio
 		bool IsLooping();
 		void SetLooping(bool looping);
 
-		void Play();
-		void Stop();
-		void Pause();
+		void Play(bool dontOverlap = true) const noexcept;
+		void Stop() const noexcept;
+		void Pause() const noexcept;
 
 		~SoundInstance();
 	};

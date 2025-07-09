@@ -13,7 +13,6 @@ namespace Engine3DRadSpace::Audio
 	{
 	protected:
 		AudioEngine* _audio;
-		AudioBuffer _sound;
 		unsigned int _bufferID;
 	
 		AudioBuffer _attemptLoading(const std::filesystem::path& path);

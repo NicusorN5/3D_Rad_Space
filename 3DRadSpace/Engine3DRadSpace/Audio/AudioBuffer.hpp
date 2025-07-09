@@ -23,7 +23,30 @@ namespace Engine3DRadSpace::Audio
 		AudioBuffer& operator=(const AudioBuffer&) = delete;
 		AudioBuffer& operator=(AudioBuffer&&) = default;
 
-		static std::optional<AudioBuffer> FromWAV(const std::filesystem::path& path);
+		enum class WAVLoadError
+		{
+			None,
+			CannotOpen,
+			RIFFNotFound,
+			NoFormatMarker,
+			WrongFormatLength,
+			NotPCM,
+			NullSize,
+			OutOfMemory
+		};
+
+		static std::expected<AudioBuffer, WAVLoadError> FromWAV(const std::filesystem::path& path);
+		
+		enum class OGGLoadError
+		{
+			None,
+			CannotOpen,
+			Invalid,
+			InfoFail,
+			OutOfMemory,
+		};
+		
+		static std::expected<AudioBuffer, OGGLoadError> FromOGG(const std::filesystem::path& path);
 
 		~AudioBuffer() = default;
 
