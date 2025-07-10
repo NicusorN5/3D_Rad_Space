@@ -62,5 +62,4 @@ bool IObject::SwitchVisibility()
 
 IObject::~IObject()
 {
-	//auto gizmo = GetGizmo();
 }

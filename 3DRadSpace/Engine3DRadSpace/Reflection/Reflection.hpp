@@ -13,6 +13,9 @@
 /// Reflects a field, with given information. 
 #define REFL_FIELD(ObjectType,FieldType, FieldName, FieldVisibleName, DefaultValue, Description) static_cast<::Engine3DRadSpace::Reflection::IReflectedField*>( new ::Engine3DRadSpace::Reflection::ReflectedField<FieldType>(offsetof(ObjectType, FieldName), FieldVisibleName, Description, DefaultValue)),
 
+/// Reflects a GetSet<...> Field
+#define REFL_FIELD_GS(ObjectType, GetSetVar, FieldVisibleName, DefaultValue, Description) static_cast<::Engine3DRadSpace::Reflection::IReflectedField*>(new ::Engine3DRadSpace::Reflection::ReflectedFieldGS<decltype(((ObjectType*)0)->GetSetVar)>(offsetof(ObjectType, GetSetVar), FieldVisibleName, Description, DefaultValue)),
+
 //Reflection "declaration" ending.
 #define REFL_END static_cast<::Engine3DRadSpace::Reflection::IReflectedField*>( new ::Engine3DRadSpace::Reflection::ReflectedField<void>())});
 

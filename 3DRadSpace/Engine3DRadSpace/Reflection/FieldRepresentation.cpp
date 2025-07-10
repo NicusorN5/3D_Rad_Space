@@ -1,6 +1,7 @@
 #include "FieldRepresentation.hpp"
 
 using namespace Engine3DRadSpace;
+using namespace Engine3DRadSpace::Audio;
 using namespace Engine3DRadSpace::Content;
 using namespace Engine3DRadSpace::Content::Assets;
 using namespace Engine3DRadSpace::Graphics;
@@ -41,6 +42,11 @@ template<> FieldRepresentation Reflection::GetFieldRepresentation<AssetID<Font>>
 template<> FieldRepresentation Reflection::GetFieldRepresentation<AssetID<SkyboxAsset>>()
 {
 	return {{FieldRepresentationType::Skybox, ""}};
+}
+
+template<> FieldRepresentation Reflection::GetFieldRepresentation<AssetID<Sound>>()
+{
+	return {{FieldRepresentationType::Sound, ""}};
 }
 
 template<> FieldRepresentation Reflection::GetFieldRepresentation<Key>()

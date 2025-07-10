@@ -11,6 +11,8 @@
 #include "../Input/Keyboard.hpp"
 #include "../Core/Concepts.hpp"
 #include "../Content/AssetID.hpp"
+#include "../Core/GetSet.hpp"
+#include "../Audio/Sound.hpp"
 
 namespace Engine3DRadSpace
 {
@@ -34,6 +36,7 @@ namespace Engine3DRadSpace::Reflection
 		Enum,
 		Color,
 		Skybox,
+		Sound,
 		Function,
 		Custom,
 	};
@@ -60,6 +63,7 @@ namespace Engine3DRadSpace::Reflection
 	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Content::AssetID<Content::Assets::Model3D>>();
 	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Content::AssetID<Content::Assets::Font>>();
 	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Content::AssetID<Content::Assets::SkyboxAsset>>();
+	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Content::AssetID<Audio::Sound>>();
 
 	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Input::Key>();
 
@@ -77,6 +81,13 @@ namespace Engine3DRadSpace::Reflection
 
 	//template<typename F> requires std::is_function_v<F> || std::is_member_function_pointer_v<F>
 	//FieldRepresentation GetFieldRepresentation() { return { {FieldRepresentationType::Function,""} };}
+
+	//template<template<typename, typename, auto, auto> typename GetSetType, typename T, typename C, auto G, auto S> 
+	//FieldRepresentation GetFieldRepresentation()
+	//requires std::is_same_v<GetSet<T, C, G, S>, GetSetType<T, C, G, S>>
+	//{
+	//	return GetFieldRepresentation<T>();
+	//}
 
 	template<typename T>
 	concept ReflectableType = requires

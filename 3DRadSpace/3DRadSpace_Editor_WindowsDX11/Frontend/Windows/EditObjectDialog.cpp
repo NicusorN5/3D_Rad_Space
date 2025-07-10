@@ -8,8 +8,11 @@
 #include "..\Controls\ModelControl.hpp"
 #include "..\Controls\FontControl.hpp"
 #include "..\Controls\SkyboxControl.hpp"
+#include <Engine3DRadSpace/Objects/SoundEffect.hpp>
+#include "..\Controls\SoundControl.hpp"
 
 using namespace Engine3DRadSpace;
+using namespace Engine3DRadSpace::Audio;
 using namespace Engine3DRadSpace::Content;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Reflection;
@@ -481,6 +484,17 @@ void EditObjectDialog::createForms()
 				px = ctrl->AccX() > 205 ? ctrl->AccX() : 205;
 				break;
 			}
+			case FieldRepresentationType::Sound:
+			{
+				auto value = *static_cast<const AssetID<Sound>*>(valuePtr);
+
+				SoundControl *ctrl = new SoundControl(window, hInstance, _content, value, fieldName, x, y);
+				windows.push_back(ctrl);
+
+				setMax(inc_y, ctrl->AccY() + 5 + textboxHeight);
+				px = ctrl->AccX() > 205 ? ctrl->AccX() : 205;
+				break;
+			}
 			case FieldRepresentationType::Custom:
 			{
 				break;
@@ -802,6 +816,14 @@ void EditObjectDialog::setObject()
 					
 					memcpy_s(newStruct.get() + j, sizeof(AssetID<SkyboxAsset>), &skyboxCtrl->AssetReference, sizeof(AssetID<Texture2D>));
 					j += sizeof(AssetID<SkyboxAsset>);
+					break;
+				}
+				case FieldRepresentationType::Sound:
+				{
+					auto soundCtrl = static_cast<SoundControl*>(std::get<IControl *>(windows[i++]));
+
+					memcpy_s(newStruct.get() + j, sizeof(AssetID<Sound>), &soundCtrl->AssetReference, sizeof(AssetID<Sound>));
+					j += sizeof(AssetID<Sound>);
 					break;
 				}
 				case FieldRepresentationType::Custom:

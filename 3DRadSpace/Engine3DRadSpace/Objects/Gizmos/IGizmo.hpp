@@ -11,9 +11,9 @@ namespace Engine3DRadSpace::Objects::Gizmos
 		/// <summary>
 		/// The object that's currently selected.
 		/// </summary>
-		IObject* Object;
+		IObject* Object = nullptr;
 
-		bool Selected;
+		bool Selected = false;
 
 		bool Allow3DRendering = true;
 		bool Allow2DRendering = true;
