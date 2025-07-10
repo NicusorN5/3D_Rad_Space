@@ -32,6 +32,7 @@ namespace Engine3DRadSpace
 		GetSet& operator=(const T& value)
 		{
 			_class != nullptr ? Set(value) : throw std::exception("null ptr");
+			return *this;
 		}
 
 		void Set(const T& value) noexcept(noexcept(FnSet))

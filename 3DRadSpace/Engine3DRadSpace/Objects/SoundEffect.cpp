@@ -46,7 +46,10 @@ SoundEffect::SoundEffect() : IObject("SoundEffect", true),
 	_sound(nullptr),
 	Volume(this),
 	Pitch(this),
-	Looping(this)
+	Looping(this),
+	_volume(1.0f),
+	_pitch(0.5f),
+	_looping(false)
 {
 }
 
@@ -59,7 +62,10 @@ SoundEffect::SoundEffect(
 	_sound(nullptr),
 	Volume(this),
 	Pitch(this),
-	Looping(this)
+	Looping(this),
+	_volume(1.0f),
+	_pitch(0.5f),
+	_looping(false)
 {
 }
 

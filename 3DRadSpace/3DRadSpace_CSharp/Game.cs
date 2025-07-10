@@ -14,12 +14,14 @@ namespace Engine3DRadSpace
 		[DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "?Run@Game@Engine3DRadSpace@@QEAAXXZ")]
 		static extern private void _runGame(IntPtr gameHandle);
 
-		public Game(string title, uint width = 800, uint height = 600, bool fullscreen = false)
+		public Game(string title, uint width, uint height, bool fullscreen)
 		{
 			objects = new List<Tuple<int, object>>();
 			Window = new Window(title, width, height);
 			Device = new GraphicsDevice(Window.NativeHandle, width, height);
 		}
+		public Game(string title) : this(title, 800, 600, false) {  }
+		public Game(string title, uint width, uint height) : this(title, width, height, false) { }
 
 		public Window Window { get; private set; }
 		public GraphicsDevice Device { get; private set; }
