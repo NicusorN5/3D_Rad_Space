@@ -14,6 +14,7 @@ REFL_FWD(Counter)
 REFL_FWD(ExitFade)
 REFL_FWD(Skybox)
 REFL_FWD(SoundEffect)
+REFL_FWD(SoundSource)
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Reflection;
@@ -50,8 +51,8 @@ void Engine3DRadSpace::Internal::LoadDefaultObjects()
 		&SkyboxReflInstance, //Skybox
 		&SkyColorReflInstance,
 		&SoundEffectReflInstance,
+		&SoundSourceReflInstance,
 		/*
-		CameraReflInstance, //SoundSource
 		CameraReflInstance, //C++ source
 		*/
 		&SpriteReflInstance, //Sprite
