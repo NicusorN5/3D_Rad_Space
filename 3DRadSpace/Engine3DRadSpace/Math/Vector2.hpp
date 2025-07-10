@@ -10,7 +10,8 @@ namespace Engine3DRadSpace::Math
 	struct E3DRSP_MATH_EXPORT Vector2
 	{
 		float X, Y;
-		explicit Vector2(float x = 0.0f, float y = 0.0f) :X(x), Y(y) {};
+
+		Vector2(float x = 0.0f, float y = 0.0f) :X(x), Y(y) {};
 
 		static Vector2 Zero();
 		static Vector2 UnitX();

@@ -17,7 +17,6 @@
 
 //Engine3DRadSpace::Algorithms
 #include "Core\Algorithms\FixedArray.hpp"
-#include "Core\Algorithms\LevenshteinDistance.hpp"
 
 //Engine3DRadSpace::Audio
 #include "Audio\AudioBuffer.hpp"

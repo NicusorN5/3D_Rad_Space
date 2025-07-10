@@ -1,5 +1,4 @@
 #include "ReflectedObject.hpp"
-#include "../Core/Algorithms/LevenshteinDistance.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Reflection;
@@ -25,23 +24,7 @@ const IReflectedField* ReflectedObject::operator[](const std::string& name)
 		if (field->FieldName() == name) return field;
 	}
 
-	//Second find attempt : use edit distance. O(n*m*fields)
-	std::vector<std::pair<int, int>> v;
-	for (int i = 0; i < NumFields(); i++)
-	{
-		v.push_back(std::make_pair(
-			Algorithms::DamerauLevenshteinDistance(_fields[i]->FieldName(), name),
-			i
-		));
-	}
-	std::sort(v.begin(), v.end(), 
-		[](std::pair<int, int> a, std::pair<int, int> b) -> bool
-		{
-			return a.first < b.first;
-		}
-	);
-
-	return _fields[v[0].second];
+	return nullptr;
 }
 
 std::vector<IReflectedField *>::iterator ReflectedObject::begin()
