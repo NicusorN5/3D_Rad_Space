@@ -10,7 +10,7 @@
 #include <Engine3DRadSpace/Graphics/SpriteBatch.hpp>
 #include <Engine3DRadSpace/Graphics/Primitives/LineList.hpp>
 #include <Engine3DRadSpace/Content/Assets/Font.hpp>
-#include <Engine3DRadSpace/Graphics/Primitives/CubeMapSkybox.hpp>
+#include <Engine3DRadSpace/Graphics/Primitives/SphericalBillboard.hpp>
 
 //Despite using namespaces are ill-advised to be used in headers, this header is not meant to be included in other files.
 using namespace Engine3DRadSpace;
@@ -55,6 +55,7 @@ class RenderWindow : public Engine3DRadSpace::Game
 	IObject* _selectedObject = nullptr;
 
 	std::unique_ptr<Texture2D> sob;
+	std::unique_ptr<CilindricalBillboard> billboard;
 
 public:
 	RenderWindow(HWND parent, HINSTANCE hInstance);

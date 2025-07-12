@@ -63,8 +63,11 @@ void RenderWindow::Load()
 {
 	_font = std::make_unique<Font>(Device.get(), "Data//Fonts//Arial.ttf");
 
-	//sob = std::make_unique<Texture2D>(Device.get(), "sob.png");
+	sob = std::make_unique<Texture2D>(Device.get(), "sob.png");
 	//sob->Resize(256, 256);
+
+	billboard = std::make_unique<CilindricalBillboard>(Device.get());
+	billboard->Texture = sob.get();
 }
 
 Vector2 mouseDelta;
@@ -199,6 +202,10 @@ void RenderWindow::Draw3D()
 		}
 	}
 	*/
+
+	billboard->View = this->View;
+	billboard->Projection = this->Projection;
+	billboard->Draw3D();
 }
 
 void RenderWindow::SelectObject(IObject* obj)

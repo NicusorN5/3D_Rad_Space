@@ -9,7 +9,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		GraphicsDevice *_device;
 		std::unique_ptr<ModelMeshPart> _plane;
 
-		Math::Matrix4x4 _mvp() const noexcept;
+		virtual Math::Matrix4x4 _mvp() const noexcept;
 	public:
 		CilindricalBillboard(GraphicsDevice* device);
 
@@ -21,11 +21,11 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		/// Camera projection matrix.
 		/// </summary>
 		Math::Matrix4x4 Projection;
-		/// <summary>
-		/// World transform, composed usually of Scale, Rotation, Translation.
-		/// </summary>
-		Math::Matrix4x4 Transform;
-
+	
+		Math::Vector3 Position;
+		Math::Vector2 Scale = Math::Vector2::One();
+		Math::Vector3 Axis = Math::Vector3::UnitY();
+	
 		Texture2D* Texture;
 
 		static std::array<VertexPositionUV, 4> CreateVertices();

@@ -296,6 +296,7 @@ SoundInstance* SoundSource::GetInstance() const noexcept
 }
 
 #undef SS_INITIALIZE
+#undef SS_SETPARAM
 
 REFL_BEGIN(SoundSource, "SoundSource", "Sound", "3D Localized sound source")
 REFL_FIELD(SoundSource, std::string, Name, "Name", "SoundSource", "Name of the object")

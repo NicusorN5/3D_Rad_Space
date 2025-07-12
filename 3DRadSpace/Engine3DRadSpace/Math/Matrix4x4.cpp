@@ -121,7 +121,7 @@ Matrix4x4 Matrix4x4::CreateFromQuaternion(const Quaternion& q)
 	return r;
 }
 
-Matrix4x4 Engine3DRadSpace::Math::Matrix4x4::CreateRotationYawPitchRoll(float yaw, float pitch, float roll)
+Matrix4x4 Matrix4x4::CreateRotationYawPitchRoll(float yaw, float pitch, float roll)
 {
 	return Matrix4x4::CreateFromQuaternion(Quaternion::FromYawPitchRoll(yaw, pitch, roll));
 }

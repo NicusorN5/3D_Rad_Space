@@ -30,6 +30,13 @@ namespace Engine3DRadSpace::Math
 		static Matrix4x4 CreateFromQuaternion(const Quaternion& q);
 		static Matrix4x4 CreateRotationYawPitchRoll(float yaw, float pitch, float roll);
 
+		/// <summary>
+		/// Creates a right-hand look at view matrix.
+		/// </summary>
+		/// <param name="pos">Camera position</param>
+		/// <param name="look_at">Camera look direction</param>
+		/// <param name="up_dir">Camera normal</param>
+		/// <returns>RH View matrix</returns>
 		static Matrix4x4 CreateLookAtView(const Vector3 &pos,const Vector3 &look_at,const Vector3 &up_dir);
 
 		static Matrix4x4 CreatePerspectiveProjection(float aspectRatio, float FOV, float npd, float fpd);

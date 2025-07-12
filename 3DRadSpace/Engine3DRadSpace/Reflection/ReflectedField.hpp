@@ -91,7 +91,8 @@ namespace Engine3DRadSpace::Reflection
 			T defaultValue
 		) :
 			IReflectedField(offset_obj_field, sizeof(T), visibleName, description, typeid(T)),
-			_defaultVal(defaultValue)
+			_defaultVal(defaultValue),
+			_copy(defaultValue)
 		{
 		}
 
