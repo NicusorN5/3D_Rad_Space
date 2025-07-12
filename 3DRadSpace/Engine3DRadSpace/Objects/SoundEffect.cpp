@@ -1,10 +1,24 @@
 #include "SoundEffect.hpp"
 #include "../Games/Game.hpp"
 #include "../Content/ContentManager.hpp"
+#include "SoundSource.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Audio;
 using namespace Engine3DRadSpace::Objects;
+
+#define SE_INITIALIZE \
+Volume(this), \
+Pitch(this), \
+Looping(this), \
+_volume(1.0f), \
+_pitch(1.0f), \
+_looping(false)
+
+#define SE_SETPARAM \
+_setVolume(_volume); \
+_setPitch(_pitch); \
+_setLooping(_looping);
 
 float SoundEffect::_getVolume() const noexcept
 {
@@ -44,12 +58,7 @@ void SoundEffect::_setLooping(bool looping) noexcept
 
 SoundEffect::SoundEffect() : IObject("SoundEffect", true),
 	_sound(nullptr),
-	Volume(this),
-	Pitch(this),
-	Looping(this),
-	_volume(1.0f),
-	_pitch(0.5f),
-	_looping(false)
+	SE_INITIALIZE
 {
 }
 
@@ -59,13 +68,7 @@ SoundEffect::SoundEffect(
 	RefSound sound
 ) : IObject(name, enabled),
 	Sound(sound),
-	_sound(nullptr),
-	Volume(this),
-	Pitch(this),
-	Looping(this),
-	_volume(1.0f),
-	_pitch(0.5f),
-	_looping(false)
+	SE_INITIALIZE
 {
 }
 
@@ -106,12 +109,16 @@ void SoundEffect::Load()
 	}
 
 	if(_sound) _instance = std::make_unique<SoundInstance>(_sound);
+
+	SE_SETPARAM;
 }
 
 void SoundEffect::Load(const std::filesystem::path& path)
 {
 	_sound = _game->Content->Load<class Sound>(*_path);
 	if(_sound) _instance = std::make_unique<SoundInstance>(_sound);
+
+	SE_SETPARAM;
 }
 
 void SoundEffect::Update()
@@ -147,6 +154,9 @@ Gizmos::IGizmo* SoundEffect::GetGizmo() const noexcept
 {
 	return nullptr;
 }
+
+#undef SE_INITIALIZE
+#undef SE_SETPARAM
 
 REFL_BEGIN(SoundEffect, "SoundEffect", "Sound", "Background sound")
 REFL_FIELD(SoundEffect, std::string, Name, "Name", "SoundEffect", "ObjectName")

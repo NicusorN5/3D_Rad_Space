@@ -17,6 +17,7 @@ namespace Engine3DRadSpace
 		GetSet(C* instance) :
 			_class(instance)
 		{
+			assert(instance != nullptr);
 		}
 
 		GetSet(C* instance, const T& defaultValue) : GetSet(instance)
@@ -24,14 +25,19 @@ namespace Engine3DRadSpace
 			Set(defaultValue);
 		}
 
-		T Get() //noexcept(noexcept(FnGet))
+		T Get() noexcept(noexcept(FnGet))
+		{
+			return (_class->*FnGet)();
+		}
+
+		T Get() const noexcept(noexcept(FnGet))
 		{
 			return (_class->*FnGet)();
 		}
 
 		GetSet& operator=(const T& value)
 		{
-			_class != nullptr ? Set(value) : throw std::exception("null ptr");
+			Set(value);
 			return *this;
 		}
 
@@ -40,9 +46,14 @@ namespace Engine3DRadSpace
 			(_class->*FnSet)(value);
 		}
 
-		operator bool() const noexcept
+		operator T() noexcept
 		{
-			return _class != nullptr;
+			return Get();
+		}
+
+		operator T() const noexcept
+		{
+			return Get();
 		}
 	};
 }
