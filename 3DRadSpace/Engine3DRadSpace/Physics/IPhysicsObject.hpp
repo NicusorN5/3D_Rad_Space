@@ -1,54 +1,59 @@
 #pragma once
 #include "../Objects/IObject3D.hpp"
+#include "../Core/GetSet.hpp"
 
 namespace Engine3DRadSpace::Physics
 {
-	class E3DRSP_PHYSICS_EXPORT IPhysicsObject
+	class E3DRSP_PHYSICS_EXPORT IPhysicsObject : public IObject3D
 	{
 	protected:
-		IPhysicsObject() = default;
+		float _mass = 0;
+		virtual float _getMass() = 0;
+		virtual void _setMass(float mass) = 0;
+
+		float _linearDamping = 0;
+		virtual float _getLinearDamping() = 0;
+		virtual void _setLinearDamping(float linearDamping) = 0;
+
+		float _angularDamping = 0;
+		virtual float _getAngularDamping() = 0;
+		virtual void _setAngularDamping(float angularDamping) = 0;
+
+		float _staticFriction = 0;
+		virtual float _getStaticFriction() = 0;
+		virtual void _setStaticFriction(float friction) = 0;
+
+		float _dynamicFriction = 0;
+		virtual float _getDynamicFriction() = 0;
+		virtual void _setDynamicFriction(float friction) = 0;
+		
+		float _restitution = 0;
+		virtual float _getRestitution() = 0;
+		virtual void _setRestitution(float restitution) = 0;
+
+		Math::Vector3 _linearVelocity;
+		virtual Math::Vector3 _getLinearVelocity() = 0;
+		virtual void _setLinearVelocity(const Math::Vector3& linearVelocity) = 0;
+
+		Math::Vector3 _angularVelocity;
+		virtual Math::Vector3 _getAngularVelocity() = 0;
+		virtual void _setAngularVelocity(const Math::Vector3& linearVelocity) = 0;
+
+		Math::Vector3 _maxAngularVelocity;
+		virtual Math::Vector3 _getMaxAngularVelocity() = 0;
+		virtual void _setMaxAngularVelocity(const Math::Vector3& linearVelocity) = 0;
+
+		IPhysicsObject();
 	public:
-		float Mass = 0;
-
-		float LinearDamping = 0;
-		float AngularDamping = 0;
-
-		float StaticFriction = 0;
-		float DynamicFriction = 0;
-		float Restitution = 0;
-
-		Math::Vector3 LinearVelocity = Math::Vector3::Zero();
-		Math::Vector3 AngularVelocity = Math::Vector3::Zero();
-
-		Math::Vector3 MaxAngularVelocity = Math::Vector3::Zero();
-
-		/// <summary>
-		/// If true, the fields Position, Rotation, Scale, Mass, Damping, Velocity, etc will be set after a ::Update() call ends.
-		/// </summary>
-		bool UpdatePropertiesAfterFrame = false;
-
-		enum class PhysicsProperty
-		{
-			Mass,
-			Position,
-			Rotation,
-			Scale,
-			LinearVelocity,
-			AngularVelocity,
-			MaxAngularVelocity,
-			StaticFriction,
-			DynamicFriction,
-			Restitution,
-		};
-
-		/// <summary>
-		/// Will apply the chooosen property from the argument. Argument will be read from the class itself. <br/>
-		/// For example <c>Apply(PhysicsProperty::Mass)</c> will set the mass to this->Mass.
-		/// </summary>
-		/// <param name="newSettigs">Selected property</param>
-		/// <returns>true if successful.</returns>
-		virtual bool Apply(PhysicsProperty newSettigs) = 0;
-		virtual bool Read(PhysicsProperty property) const = 0;
+		GetSet<float, IPhysicsObject, &_getMass, &_setMass> Mass;
+		GetSet<float, IPhysicsObject, &_getLinearDamping, &_setLinearDamping> LinearDamping;
+		GetSet<float, IPhysicsObject, &_getAngularDamping, &_setAngularDamping> AngularDamping;
+		GetSet<float, IPhysicsObject, &_getStaticFriction, &_setStaticFriction> StaticFriction;
+		GetSet<float, IPhysicsObject, &_getDynamicFriction, &_setDynamicFriction> DynamicFriction;
+		GetSet<float, IPhysicsObject, &_getRestitution, &_setRestitution> Restitution;
+		GetSet<Math::Vector3, IPhysicsObject, &_getLinearVelocity, &_setLinearVelocity> LinearVelocity;
+		GetSet<Math::Vector3, IPhysicsObject, &_getAngularVelocity, &_setAngularVelocity> AngularVelocity;
+		GetSet<Math::Vector3, IPhysicsObject, &_getMaxAngularVelocity, &_setMaxAngularVelocity> MaxAngularVelocity;
 
 		virtual bool ApplyForce(const Math::Vector3& force) = 0;
 		virtual bool ApplyForce(const Math::Vector3& force, const Math::Vector3& center) = 0;

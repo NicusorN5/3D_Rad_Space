@@ -152,8 +152,8 @@ float iObjectKmh(unsigned obj_x)
 	auto obj = dynamic_cast<IPhysicsObject*>((*objList)[obj_x]);
 	if (obj != nullptr)
 	{
-		obj->Read(IPhysicsObject::PhysicsProperty::LinearVelocity);
-		return obj->LinearVelocity.Length();
+		auto vel = obj->LinearVelocity.Get();
+		return vel.Length();
 	}
 	else return 0.0f;
 }
@@ -163,7 +163,6 @@ void iObjectVelocity(unsigned obj_x, Math::Vector3& v)
 	auto obj = dynamic_cast<IPhysicsObject*>((*objList)[obj_x]);
 	if (obj != nullptr)
 	{
-		obj->Read(IPhysicsObject::PhysicsProperty::LinearVelocity);
 		v = obj->LinearVelocity;
 	}
 	else v = Vector3::Zero();
@@ -175,7 +174,6 @@ void iObjectVelocitySet(unsigned obj_x, Math::Vector3& v)
 	if (obj != nullptr)
 	{
 		obj->LinearVelocity = v;
-		obj->Apply(IPhysicsObject::PhysicsProperty::LinearVelocity);
 	}
 }
 
@@ -184,7 +182,6 @@ void iObjectSpin(unsigned obj_x, Math::Vector3& v)
 	auto obj = dynamic_cast<IPhysicsObject*>((*objList)[obj_x]);
 	if (obj != nullptr)
 	{
-		obj->Read(IPhysicsObject::PhysicsProperty::AngularVelocity);
 		v = obj->AngularVelocity;
 	}
 	else v = Vector3::Zero();
@@ -196,7 +193,6 @@ void iObjectSpinSet(unsigned obj_x, Math::Vector3& v)
 	if (obj != nullptr)
 	{
 		obj->AngularVelocity = v;
-		obj->Apply(IPhysicsObject::PhysicsProperty::LinearVelocity);
 	}
 }
 

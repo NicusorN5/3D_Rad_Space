@@ -14,14 +14,24 @@ using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Objects;
 using namespace Engine3DRadSpace::Math;
 
-Camera::Camera(const std::string& name, bool visible, Vector3 pos, Vector3 look_at, Vector3 up,float aspectRatio, float fov, float npd, float fpd):
-	IObject3D(name, visible, true, pos, Vector3::Zero(), Quaternion(), Vector3::One()),
-	UpwardsDir(up),
+Camera::Camera(
+	const std::string& name,
+	bool visible,
+	const Vector3 &pos, 
+	const Vector3 &look_at, 
+	const Vector3 &up,
+	float aspectRatio,
+	float fov, 
+	float npd, 
+	float fpd
+):
+	IObject3D(name, visible, true, pos, Vector3::Zero(), Quaternion::FromVectorToVector(look_at, up), Vector3::One()),
+	Normal(up),
 	AspectRatio(aspectRatio),
 	FieldOfView(fov),
 	FarPlaneDistance(fpd),
 	NearPlaneDistance(npd),
-	LookAt(0,0,0),
+	LookAt( pos + Vector3::Transform(Vector3::Forward(), Quaternion::FromVectorToVector(look_at, up))),
 	LookMode(CameraMode::UseRotation)
 {
 }
@@ -32,16 +42,16 @@ Matrix4x4 Camera::GetViewMatrix() const noexcept
 	switch (this->LookMode)
 	{
 	case CameraMode::UseRotation:
-		focus = Position + Vector3::UnitZ().Transform(Rotation);
+		focus = Position + Vector3::Forward().Transform(Rotation);
 		break;
 	case CameraMode::UseLookAtCoordinates:
 		focus = this->LookAt;
 		break;
-	default: 
+	default:
 		std::unreachable();
 	}
 
-	return Matrix4x4::CreateLookAtView(Position, focus, UpwardsDir);
+	return Matrix4x4::CreateLookAtView(Position, focus, Normal);
 }
 
 Matrix4x4 Camera::GetProjectionMatrix() const
@@ -127,12 +137,13 @@ REFL_BEGIN(Camera,"Camera","Camera objects","Perspective camera")
 	REFL_FIELD(Camera, bool, Enabled, "Enabled", true, "Does the camera render the scene?")
 	REFL_FIELD(Camera, Vector3, Position, "Position", Vector3::Zero(), "Camera position")
 	REFL_FIELD(Camera, Quaternion, Rotation, "Rotation", Quaternion(), "Camera rotation")
-	REFL_FIELD(Camera, Vector3, UpwardsDir, "Upwards direction", Vector3::One(), "Camera surface normal vector")
+	REFL_FIELD(Camera, Vector3, Normal, "Normal", Vector3::One(), "Camera surface normal vector")
 	REFL_FIELD(Camera, float, AspectRatio, "Aspect ratio", 4.f / 3.f, "Camera aspect ratio")
 	REFL_FIELD(Camera, float, FieldOfView, "Field of view", 65.f, "Camera's field of view")
 	REFL_FIELD(Camera, float, NearPlaneDistance, "Near plane distance", 0.01f, "Minimum drawing distance")
 	REFL_FIELD(Camera, float, FarPlaneDistance, "Far plane distance", 500.f, "Maximum drawing distance")
 	REFL_METHOD(Camera, void, &Camera::Enable, "Enable")
+	REFL_METHOD(Camera, Matrix4x4, &Camera::GetModelMartix, "Get World Matrix")
 	REFL_METHOD(Camera, Matrix4x4, &Camera::GetViewMatrix, "Get View Matrix")
 	REFL_METHOD(Camera, Matrix4x4, &Camera::GetProjectionMatrix, "Get Projection Matrix")
 REFL_END

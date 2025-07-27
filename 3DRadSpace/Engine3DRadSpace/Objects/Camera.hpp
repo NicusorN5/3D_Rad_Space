@@ -2,6 +2,7 @@
 #include "IObject3D.hpp"
 #include "../Math/Math.hpp"
 #include "../Reflection/Reflection.hpp"
+#include "../Core/GetSet.hpp"
 
 namespace Engine3DRadSpace::Objects
 {
@@ -14,13 +15,19 @@ namespace Engine3DRadSpace::Objects
 	class E3DRSP_OBJECTS_EXPORT Camera : public IObject3D
 	{
 	public:
-		Camera(const std::string& name = "Camera", bool visible = true,
-		       Math::Vector3 pos = Math::Vector3::Zero(),
-		       Math::Vector3 look_at = Math::Vector3::UnitZ(),
-		       Math::Vector3 up = Math::Vector3::UnitY(),
-			float aspectRatio = 4.0f / 3.0f, float fov = Math::ToRadians(65.0f), float npd = 0.01f, float fpd = 500.0f);
+		Camera(
+			const std::string& name = "Camera",
+			bool visible = true,
+			const Math::Vector3 &pos = Math::Vector3::Zero(),
+			const Math::Vector3 &look_at = Math::Vector3::UnitZ(),
+			const Math::Vector3 &up = Math::Vector3::UnitY(),
+			float aspectRatio = 4.0f / 3.0f, 
+			float fov = Math::ToRadians(65.0f), 
+			float npd = 0.01f,
+			float fpd = 500.0f
+		);
 
-		Math::Vector3 UpwardsDir;
+		Math::Vector3 Normal;
 
 		float AspectRatio;
 		float FieldOfView;
@@ -39,6 +46,8 @@ namespace Engine3DRadSpace::Objects
 		void Load() override;
 		void Load(const std::filesystem::path &path) override;
 
+
+		Math::Matrix4x4 GetModelMartix() override;
 		/// <summary>
 		/// Gets the View matrix of the camera.
 		/// </summary>
@@ -61,12 +70,8 @@ namespace Engine3DRadSpace::Objects
 		/// </summary>
 		void ForceUpdate();
 
-		Math::Matrix4x4 GetModelMartix() override;
-
 		std::optional<float> Intersects(const Math::Ray &r) override;
-
 		Reflection::UUID GetUUID() const noexcept override;
-
 		Gizmos::IGizmo* GetGizmo() const noexcept override;
 
 		~Camera();
