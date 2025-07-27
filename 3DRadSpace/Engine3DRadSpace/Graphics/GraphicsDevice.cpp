@@ -169,7 +169,7 @@ void GraphicsDevice::ClearRenderTarget(RenderTarget* rt, const Color& clearColor
 void GraphicsDevice::ClearDepthBuffer(DepthStencilBuffer* depth)
 {
 #ifdef USING_DX11
-	_context->ClearDepthStencilView(_stencilBuffer->_depthView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0x00);
+	_context->ClearDepthStencilView(depth->_depthView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0x00);
 #endif
 }
 

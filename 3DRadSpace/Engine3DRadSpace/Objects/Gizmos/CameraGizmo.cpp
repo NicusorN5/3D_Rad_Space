@@ -99,7 +99,6 @@ void Gizmo<Camera>::Draw2D()
 		auto cameraPreviewDepth = static_cast<DepthStencilBuffer*>(_cameraPreviewDepth.get());
 
 		game->Device->SetRenderTargetAndDepth(cameraPreview, cameraPreviewDepth);
-		game->Device->SetRenderTargetAndDisableDepth(cameraPreview);
 		game->Device->ClearRenderTarget(cameraPreview);
 		game->Device->ClearDepthBuffer(cameraPreviewDepth);
 		game->Device->SetViewport(

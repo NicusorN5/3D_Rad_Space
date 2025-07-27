@@ -37,7 +37,7 @@ D3D11_SHADER_RESOURCE_VIEW_DESC DepthStencilBuffer::_defaultShaderViewDesc()
 	sr_desc.Format = DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
 	sr_desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 	sr_desc.Texture2D.MostDetailedMip = 0;
-	sr_desc.Texture2D.MipLevels = -1;
+	sr_desc.Texture2D.MipLevels = 1;
 	return sr_desc;
 }
 

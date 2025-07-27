@@ -28,7 +28,6 @@ CilindricalBillboard::CilindricalBillboard(GraphicsDevice *device) :
 
 Matrix4x4 CilindricalBillboard::_mvp() const noexcept
 {
-	//auto v = Matrix4x4::Invert(View);
 	auto v = View;
 
 	Vector3 cam_pos(v.M41, v.M42, v.M43);

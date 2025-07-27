@@ -137,8 +137,9 @@ void RenderWindow::Update()
 	}
 	else _keyboardTest = false;
 	
-	//Quaternion q = Quaternion::FromYawPitchRoll(-cameraPos.X, -cameraPos.Y, 0);
-	auto m = Matrix4x4::CreateRotationX(-cameraPos.Y) * Matrix4x4::CreateRotationY(-cameraPos.X);
+	Quaternion m = Quaternion::FromYawPitchRoll(cameraPos.X, cameraPos.Y, 0);
+	//auto m = Matrix4x4::CreateRotationX(-cameraPos.Y) * Matrix4x4::CreateRotationY(-cameraPos.X);
+	//auto m = Matrix4x4::CreateRotationYawPitchRoll(-cameraPos.Y, -cameraPos.X, 0);
 	Camera.Position = cursor3D + Vector3::UnitZ().Transform(m) * (zoom + 5);
 	Camera.LookAt = cursor3D;
 }
