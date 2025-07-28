@@ -1,0 +1,57 @@
+#pragma once
+#include "Sound.h"
+#include "AudioSource.h"
+#include "SoundState.h"
+
+typedef void* E3DRSP_SoundInstance;
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+	E3DRSP_AUDIO_EXPORT E3DRSP_SoundInstance E3DRSP_SoundInstance_Create(E3DRSP_Sound sound, E3DRSP_AudioSource source);
+	E3DRSP_AUDIO_EXPORT E3DRSP_SoundInstance E3DRSP_SoundInstance_Create1(E3DRSP_Sound sound);
+
+	E3DRSP_AUDIO_EXPORT E3DRSP_AudioSource E3DRSP_SoundInstance_GetSource(E3DRSP_SoundInstance sndInstance);
+	E3DRSP_AUDIO_EXPORT void E3DRSP_SoundInstance_SetSource(E3DRSP_SoundInstance sndInstance, const E3DRSP_AudioSource* source);
+	E3DRSP_AUDIO_EXPORT enum E3DRSP_SoundState E3DRSP_SoundInstance_GetState(E3DRSP_SoundInstance sndInstance);
+
+	E3DRSP_AUDIO_EXPORT void E3DRSP_SoundInstance_SetPitch(E3DRSP_SoundInstance sndInstance, float pitch);
+	E3DRSP_AUDIO_EXPORT void E3DRSP_SoundInstance_SetGain(E3DRSP_SoundInstance sndInstance, float gain);
+	E3DRSP_AUDIO_EXPORT void E3DRSP_SoundInstance_SetMaxGain(E3DRSP_SoundInstance sndInstance, float maxGain);
+	E3DRSP_AUDIO_EXPORT void E3DRSP_SoundInstance_SetMinGain(E3DRSP_SoundInstance sndInstance, float minGain);
+	E3DRSP_AUDIO_EXPORT void E3DRSP_SoundInstance_SetPosition(E3DRSP_SoundInstance sndInstance, const E3DRSP_Vector3 *pos);
+	E3DRSP_AUDIO_EXPORT void E3DRSP_SoundInstance_SetVelocity(E3DRSP_SoundInstance sndInstance, const E3DRSP_Vector3 *vel);
+	E3DRSP_AUDIO_EXPORT void E3DRSP_SoundInstance_SetDirection(E3DRSP_SoundInstance sndInstance, const E3DRSP_Vector3 *dir);
+	E3DRSP_AUDIO_EXPORT void E3DRSP_SoundInstance_SetMaxDistance(E3DRSP_SoundInstance sndInstance, float distance);
+	E3DRSP_AUDIO_EXPORT void E3DRSP_SoundInstance_SetReferenceDistance(E3DRSP_SoundInstance sndInstance, float refDistance);
+	E3DRSP_AUDIO_EXPORT void E3DRSP_SoundInstance_SetRolloffFactor(E3DRSP_SoundInstance sndInstance, float rolloff);
+	E3DRSP_AUDIO_EXPORT void E3DRSP_SoundInstance_SetConeOuterGain(E3DRSP_SoundInstance sndInstance, float outerGain);
+	E3DRSP_AUDIO_EXPORT void E3DRSP_SoundInstance_SetConeInnerAngle(E3DRSP_SoundInstance sndInstance, float angle);
+	E3DRSP_AUDIO_EXPORT void E3DRSP_SoundInstance_(E3DRSP_SoundInstance sndInstance, float angle);
+
+	E3DRSP_AUDIO_EXPORT float E3DRSP_SoundInstance_GetPitch(E3DRSP_SoundInstance sndInstance);
+	E3DRSP_AUDIO_EXPORT float E3DRSP_SoundInstance_GetGain(E3DRSP_SoundInstance sndInstance);
+	E3DRSP_AUDIO_EXPORT float E3DRSP_SoundInstance_GetMaxGain(E3DRSP_SoundInstance sndInstance);
+	E3DRSP_AUDIO_EXPORT float E3DRSP_SoundInstance_GetMinGain(E3DRSP_SoundInstance sndInstance);
+	E3DRSP_AUDIO_EXPORT E3DRSP_Vector3 E3DRSP_SoundInstance_GetPosition(E3DRSP_SoundInstance sndInstance);
+	E3DRSP_AUDIO_EXPORT E3DRSP_Vector3 E3DRSP_SoundInstance_GetVelocity(E3DRSP_SoundInstance sndInstance);
+	E3DRSP_AUDIO_EXPORT E3DRSP_Vector3 E3DRSP_SoundInstance_GetDirection(E3DRSP_SoundInstance sndInstance);
+	E3DRSP_AUDIO_EXPORT float E3DRSP_SoundInstance_GetMaxDistance(E3DRSP_SoundInstance sndInstance);
+	E3DRSP_AUDIO_EXPORT float E3DRSP_SoundInstance_GetReferenceDistance(E3DRSP_SoundInstance sndInstance);
+	E3DRSP_AUDIO_EXPORT float E3DRSP_SoundInstance_GetRolloffFactor(E3DRSP_SoundInstance sndInstance);
+	E3DRSP_AUDIO_EXPORT float E3DRSP_SoundInstance_GetConeOuterGain(E3DRSP_SoundInstance sndInstance);
+	E3DRSP_AUDIO_EXPORT float E3DRSP_SoundInstance_GetConeInnerAngle(E3DRSP_SoundInstance sndInstance);
+	E3DRSP_AUDIO_EXPORT float E3DRSP_SoundInstance_GetConeOuterAngle(E3DRSP_SoundInstance sndInstance);
+
+	E3DRSP_AUDIO_EXPORT _Bool E3DRSP_SoundInstance_IsLooping(E3DRSP_SoundInstance sndInstance);
+	E3DRSP_AUDIO_EXPORT void E3DRSP_SoundInstance_SetLooping(E3DRSP_SoundInstance sndInstance, _Bool looping);
+
+	E3DRSP_AUDIO_EXPORT void E3DRSP_SoundInstance_Play(E3DRSP_SoundInstance sndInstance, bool dontOverlap);
+	E3DRSP_AUDIO_EXPORT void E3DRSP_SoundInstance_Stop(E3DRSP_SoundInstance sndInstance);
+	E3DRSP_AUDIO_EXPORT void E3DRSP_SoundInstance_Pause(E3DRSP_SoundInstance sndInstance);
+
+	E3DRSP_AUDIO_EXPORT void E3DRSP_SoundInstance_Destroy(E3DRSP_SoundInstance sndInstance);
+#ifdef __cplusplus
+}
+#endif

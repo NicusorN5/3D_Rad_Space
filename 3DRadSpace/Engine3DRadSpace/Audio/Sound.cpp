@@ -1,4 +1,5 @@
 #include "Sound.hpp"
+#include "Sound.h"
 #include "../Internal/AssetUUIDReader.hpp"
 #include "../Core/Logging/Exception.hpp"
 #include <al.h>
@@ -54,6 +55,8 @@ Sound& Sound::operator=(Sound&& snd) noexcept
 
 	this->_audio = snd._audio;
 	snd._audio = nullptr;
+
+	return *this;
 }
 
 Reflection::UUID Sound::GetUUID() const noexcept
@@ -73,4 +76,14 @@ const char* Sound::FileExtension() const noexcept
 Sound::~Sound()
 {
 	alDeleteBuffers( 1, &_bufferID);
+}
+
+E3DRSP_Sound E3DRSP_Sound_Create(E3DRSP_AudioEngine audio, const char* path)
+{
+	return new Sound(static_cast<AudioEngine*>(audio), path);
+}
+
+void E3DRSP_Sound_Destroy(E3DRSP_Sound audio)
+{
+	delete static_cast<Sound*>(audio);
 }

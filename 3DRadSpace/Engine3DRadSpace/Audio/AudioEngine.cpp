@@ -1,4 +1,5 @@
 #include "AudioEngine.hpp"
+#include "AudioEngine.h"
 #include "../Core/Logging/Exception.hpp"
 
 #include <AL/al.h>
@@ -92,7 +93,6 @@ void AudioEngine::Update() const noexcept
 {
 	if(this->Listener.Enabled)
 	{
-
 		alListenerf(AL_GAIN, this->Listener.Volume);
 
 		alListener3f(
@@ -143,4 +143,59 @@ std::optional<AudioError> AudioEngine::CheckErrors()
 		default:
 			return AudioError::Unspecified;
 	}
+}
+
+E3DRSP_AudioEngine E3DRSP_AudioEngine_Create()
+{
+	return new AudioEngine();
+}
+
+E3DRSP_AudioEngine E3DRSP_AudioEngine_Create1(const char* deviceName)
+{
+	return new AudioEngine(deviceName);
+}
+
+char** E3DRSP_AudioEngine_ListAudioDevices()
+{
+	auto devices = AudioEngine::ListAudioDevices();
+
+	size_t length = devices.size();
+	char** result = new char*[length];
+	if(result == nullptr) return nullptr;
+
+	for(size_t i = 0; i < length; ++i)
+	{
+		size_t deviceNameLength = devices[i].length() + 1;
+
+		char* deviceName = new char[deviceNameLength];
+		//I had cases where strings inside std::string wasn't null terminated, but somehow valid. (that happened when using ASan few months ago)
+		memset(deviceName, 0, deviceNameLength);
+		memcpy(deviceName, devices[i].c_str(), deviceNameLength - 1); 
+
+		result[i] = deviceName;
+	}
+
+	return result;
+}
+
+void E3DRSP_AudioEngine_Update(E3DRSP_AudioEngine audio)
+{
+	static_cast<AudioEngine*>(audio)->Update();
+}
+
+E3DRSP_AudioError E3DRSP_AudioEngine_CheckErrors(E3DRSP_AudioEngine audio)
+{
+	auto err = static_cast<AudioEngine*>(audio)->CheckErrors();
+	if(!err.has_value()) return E3DRSP_AudioError_None;
+	else return static_cast<E3DRSP_AudioError>(err.value());
+}
+
+void E3DRSP_AudioEngine_SwitchAudioDevice(E3DRSP_AudioEngine audio, const char* deviceName)
+{
+	static_cast<AudioEngine*>(audio)->SwitchAudioDevice(deviceName);
+}
+
+void E3DRSP_AudioEngine_Destroy(E3DRSP_AudioEngine audio)
+{
+	delete static_cast<AudioEngine*>(audio);
 }

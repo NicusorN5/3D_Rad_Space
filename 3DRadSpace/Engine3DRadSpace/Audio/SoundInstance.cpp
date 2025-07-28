@@ -1,4 +1,5 @@
 #include "SoundInstance.hpp"
+#include "SoundInstance.h"
 #include "Sound.hpp"
 #include <al.h>
 #include "../Core/Logging/Exception.hpp"
@@ -412,3 +413,65 @@ bool SoundInstance::IsLooping()
 	alGetSourcei(_sourceID, AL_LOOPING, &looping);
 	return looping == AL_TRUE;
 }
+
+#define SI_SETSOURCE \
+src.ConeInnerAngle = source.ConeInnerAngle; \
+src.ConeOuterAngle = source.ConeOuterAngle; \
+src.ConeOuterGain = source.ConeOuterGain; \
+src.Direction = \
+{ \
+	source.Direction.X, \
+	source.Direction.Y, \
+	source.Direction.Z \
+}; \
+src.Gain = source.Gain; \
+src.Looping = source.Looping; \
+src.MaxDistance = source.MaxDistance; \
+src.MaxGain = source.MaxGain; \
+src.MinGain = source.MinGain;
+
+E3DRSP_SoundInstance E3DRSP_SoundInstance_Create(E3DRSP_Sound sound, E3DRSP_AudioSource source)
+{
+	//Assumed that E3DRSP_AudioSource may or may not have the same alignment. Avoided reinterpret_casts.
+	AudioSource src;
+	SI_SETSOURCE;
+	return new SoundInstance(static_cast<Sound*>(sound), src);
+}
+
+E3DRSP_SoundInstance E3DRSP_SoundInstance_Create1(E3DRSP_Sound sound)
+{
+	return new SoundInstance(static_cast<Sound*>(sound));
+}
+
+E3DRSP_AUDIO_EXPORT E3DRSP_AudioSource E3DRSP_SoundInstance_GetSource(E3DRSP_SoundInstance sndInstance)
+{
+	E3DRSP_AudioSource src;
+	auto source = static_cast<SoundInstance*>(sndInstance)->GetSource();
+	SI_SETSOURCE;
+	return src;
+}
+
+void E3DRSP_SoundInstance_SetSource(E3DRSP_SoundInstance sndInstance, const E3DRSP_AudioSource * pSource)
+{
+	auto source = *pSource;
+	AudioSource src;
+	SI_SETSOURCE;
+	static_cast<SoundInstance*>(sndInstance)->SetSource(src);
+}
+
+E3DRSP_SoundState E3DRSP_SoundInstance_GetState(E3DRSP_SoundInstance sndInstance)
+{
+	return static_cast<E3DRSP_SoundState>(static_cast<SoundInstance*>(sndInstance)->GetState());
+}
+
+void E3DRSP_SoundInstance_SetPitch(E3DRSP_SoundInstance sndInstance, float pitch)
+{
+	static_cast<SoundInstance*>(sndInstance)->SetPitch(pitch);
+}
+
+void E3DRSP_SoundInstance_SetGain(E3DRSP_SoundInstance sndInstance, float gain)
+{
+	static_cast<SoundInstance*>(sndInstance)->SetGain(gain);
+}
+
+#undef SI_SETSOURCE
