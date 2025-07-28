@@ -82,6 +82,31 @@ void PhysicsEngine::Simulate(float dt)
 	}
 }
 
+void* PhysicsEngine::GetFoundation() const noexcept
+{
+	return _foundation;
+}
+
+void* PhysicsEngine::GetPvd() const noexcept
+{
+	return _pvd;
+}
+
+void* PhysicsEngine::GetPhysics() const noexcept
+{
+	return _physics;
+}
+
+void* PhysicsEngine::GetCPUDispatcher() const noexcept
+{
+	return  _cpuDispatcher;
+}
+
+void* PhysicsEngine::GetScene() const noexcept
+{
+	return _scene;
+}
+
 PhysicsEngine::~PhysicsEngine()
 {
 	auto scene = static_cast<physx::PxScene*>(_scene);

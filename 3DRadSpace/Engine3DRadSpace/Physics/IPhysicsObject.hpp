@@ -1,12 +1,15 @@
 #pragma once
 #include "../Objects/IObject3D.hpp"
 #include "../Core/GetSet.hpp"
+#include "PhysicsEngine.hpp"
 
 namespace Engine3DRadSpace::Physics
 {
 	class E3DRSP_PHYSICS_EXPORT IPhysicsObject : public IObject3D
 	{
 	protected:
+		PhysicsEngine* _physics;
+
 		float _mass = 0;
 		virtual float _getMass() = 0;
 		virtual void _setMass(float mass) = 0;
@@ -55,12 +58,16 @@ namespace Engine3DRadSpace::Physics
 		GetSet<Math::Vector3, IPhysicsObject, &_getAngularVelocity, &_setAngularVelocity> AngularVelocity;
 		GetSet<Math::Vector3, IPhysicsObject, &_getMaxAngularVelocity, &_setMaxAngularVelocity> MaxAngularVelocity;
 
+		PhysicsEngine* GetPhysics() const noexcept;
+
 		virtual bool ApplyForce(const Math::Vector3& force) = 0;
 		virtual bool ApplyForce(const Math::Vector3& force, const Math::Vector3& center) = 0;
 		virtual bool ApplyTorque(const Math::Vector3& force) = 0;
 
 		virtual bool ApplyAcceleration(const Math::Vector3& acc) = 0;
 		virtual bool ApplyAngularAcceleration(const Math::Vector3& acc) = 0;
+
+		void Initialize() override;
 
 		virtual ~IPhysicsObject() = default;
 	};

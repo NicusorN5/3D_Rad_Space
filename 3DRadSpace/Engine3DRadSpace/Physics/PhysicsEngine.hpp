@@ -42,6 +42,12 @@ namespace Engine3DRadSpace::Physics
 
 		void Simulate(float dt);
 
+		void* GetFoundation() const noexcept;
+		void* GetPvd() const noexcept;
+		void* GetPhysics() const noexcept;
+		void* GetCPUDispatcher() const noexcept;
+		void* GetScene() const noexcept;
+
 		~PhysicsEngine();
 	};
 }
