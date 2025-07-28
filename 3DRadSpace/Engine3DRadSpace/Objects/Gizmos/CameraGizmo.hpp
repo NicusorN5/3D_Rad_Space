@@ -10,6 +10,7 @@ namespace Engine3DRadSpace::Objects::Gizmos
 		STD_UPtrTypeless _cameraModel;
 		STD_UPtrTypeless _cameraPreview;
 		STD_UPtrTypeless _cameraPreviewDepth;
+		STD_UPtrTypeless _font;
 
 		bool _wasLoaded = false;
 	public:

@@ -53,6 +53,16 @@ void Gizmo<Camera>::Load()
 		);
 	}
 
+	if(_font == nullptr)
+	{
+		_font = std::unique_ptr<void, std::function<void(void*)>>(new Font(device, "Data\\Fonts\\Arial.ttf"),
+			[](void* font)
+			{
+				delete static_cast<Font*>(font);
+			}
+		);
+	}
+
 	_wasLoaded = true;
 }
 
@@ -127,6 +137,13 @@ void Gizmo<Camera>::Draw2D()
 		game->SpriteBatch->DrawNormalized(
 			cameraPreview,
 			RectangleF(0.6f, 0.6f, 0.4f, 0.4f)
+		);
+
+		game->SpriteBatch->DrawString(
+			static_cast<Font*>(_font.get()),
+			camera->Name,
+			Vector2(0.6f, 0.58f),
+			1.0f
 		);
 		game->SpriteBatch->End();
 
