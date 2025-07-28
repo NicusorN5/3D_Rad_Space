@@ -36,6 +36,26 @@ Sound::Sound(AudioEngine *audio, const std::filesystem::path& path) :
 	if(audio->CheckErrors().has_value()) throw Exception("Failed to copy OpenAL buffer!");
 }
 
+Sound::Sound(Sound&& snd) noexcept
+{
+	*this = std::move(snd);
+}
+
+Sound& Sound::operator=(Sound&& snd) noexcept
+{
+	if(this == &snd) return *this;
+
+	if(this->_bufferID != snd._bufferID)
+	{
+		alDeleteBuffers(1, &_bufferID);
+		_bufferID = snd._bufferID;
+		snd._bufferID = 0;
+	}
+
+	this->_audio = snd._audio;
+	snd._audio = nullptr;
+}
+
 Reflection::UUID Sound::GetUUID() const noexcept
 {
 	// {D975E8DE-7373-4560-90FB-9C19B846FCD6}

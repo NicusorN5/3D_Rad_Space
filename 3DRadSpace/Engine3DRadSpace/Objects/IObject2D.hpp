@@ -19,7 +19,6 @@ namespace Engine3DRadSpace
 			float depth = 0.0f
 		);
 	public:
-
 		Math::Vector2 Position;
 		Math::Vector2 RotationCenter;
 		Math::Vector2 Scale;

@@ -13,12 +13,12 @@ namespace Engine3DRadSpace::Graphics
 	protected:
 		IGeometryShader(GraphicsDevice* device, const char* source, const char* fnEntry, ShaderFeatureLevel fs = ShaderFeatureLevel::DX_V4);
 		IGeometryShader(GraphicsDevice* device, const std::filesystem::path& path, const char* fnEntry, ShaderFeatureLevel fs = ShaderFeatureLevel::DX_V4);
-	public:
+
 		IGeometryShader(IGeometryShader &) = delete;
 		IGeometryShader(IGeometryShader &&) noexcept = delete;
 		IGeometryShader &operator = (IGeometryShader &) = delete;
 		IGeometryShader &operator = (IGeometryShader &&) noexcept = delete;
-
+	public:
 		void SetTexture(unsigned index, Texture2D *texture) override;
 		void SetSampler(unsigned index, SamplerState *samplerState) override;
 		void SetShader() override;

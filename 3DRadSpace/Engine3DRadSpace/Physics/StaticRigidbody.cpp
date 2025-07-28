@@ -6,9 +6,9 @@
 #include <geometry/PxTriangleMesh.h>
 #include <geometry/PxTriangleMeshGeometry.h>
 #include <PxPhysicsAPI.h>
-using namespace Engine3DRadSpace::Content::Assets;
 
 using namespace Engine3DRadSpace;
+using namespace Engine3DRadSpace::Content::Assets;
 using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Objects;
 using namespace Engine3DRadSpace::Physics;
@@ -329,8 +329,4 @@ Gizmos::IGizmo* StaticRigidbody::GetGizmo() const noexcept
 {
 	return nullptr;
 	//return Internal::GizmoOf<StaticRigidbody>(this);
-}
-
-StaticRigidbody::~StaticRigidbody()
-{
 }

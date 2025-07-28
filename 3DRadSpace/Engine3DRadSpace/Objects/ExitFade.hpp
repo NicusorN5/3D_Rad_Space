@@ -15,6 +15,9 @@ namespace Engine3DRadSpace::Objects
 			float fadeTime = 5.0f
 		);
 
+		ExitFade(ExitFade&&) noexcept = default;
+		ExitFade& operator=(ExitFade&&) noexcept = default;
+
 		std::string ProjectPath;
 
 		Math::Color FadeColor;

@@ -14,12 +14,13 @@ namespace Engine3DRadSpace::Graphics
 	protected:
 		IHullShader(GraphicsDevice* device, const char* shaderSource, const char* hsEntry, ShaderFeatureLevel fl = ShaderFeatureLevel::DX_V4);
 		IHullShader(GraphicsDevice* device, const std::filesystem::path& path, const char* hsEntry, ShaderFeatureLevel fl = ShaderFeatureLevel::DX_V4);
-	public:
+
 		IHullShader(IHullShader &) = delete;
 		IHullShader(IHullShader &&) noexcept = delete;
+
 		IHullShader &operator=(IHullShader &) = delete;
 		IHullShader &operator=(IHullShader &&) noexcept = delete;
-
+	public:
 		void SetTexture(unsigned index, Texture2D *texture) override;
 		void SetSampler(unsigned index, SamplerState *samplerState) override;
 		void SetShader() override;

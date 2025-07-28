@@ -7,7 +7,6 @@ namespace Engine3DRadSpace
 	{
 	public:
 		virtual void Draw2D() = 0;
-
 		~IDrawable2D() = default;
 	};
 }

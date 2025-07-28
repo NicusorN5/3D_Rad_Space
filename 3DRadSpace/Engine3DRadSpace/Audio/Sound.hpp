@@ -22,10 +22,10 @@ namespace Engine3DRadSpace::Audio
 		Sound(AudioEngine* audio, const std::filesystem::path& path);
 
 		Sound(const Sound&) = delete;
-		Sound(Sound&&) = default;
+		Sound(Sound&& snd) noexcept;
 
 		Sound& operator=(const Sound&) = delete;
-		Sound& operator=(Sound&&) = default;
+		Sound& operator=(Sound&& snd) noexcept;
 
 		// Inherited via IAsset
 		Reflection::UUID GetUUID() const noexcept override;

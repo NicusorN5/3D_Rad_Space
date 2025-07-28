@@ -33,6 +33,33 @@ SoundInstance::SoundInstance(Sound* sound):
 	if(_audio->CheckErrors().has_value()) throw Logging::Exception("Failed to assign buffer to source!");
 }
 
+SoundInstance::SoundInstance(SoundInstance&& instance) noexcept
+{
+	*this = std::move(instance);
+}
+
+SoundInstance& SoundInstance::operator=(SoundInstance&& instance) noexcept
+{
+	if(this == &instance) return *this;
+
+	if(instance._sourceID != this->_sourceID)
+	{
+		alDeleteSources(1, &_sourceID);
+		this->_sourceID = instance._sourceID;
+		instance._sourceID = 0;
+	}
+
+	this->_audio = instance._audio;
+	this->_sound = instance._sound;
+	this->_source = instance._source;
+
+	instance._audio = nullptr;
+	instance._sound = nullptr;
+	instance._source = {};
+
+	return *this;
+}
+
 const AudioSource& SoundInstance::GetSource() noexcept
 {
 	alGetSourcef(_sourceID, AL_PITCH, &_source.Pitch);

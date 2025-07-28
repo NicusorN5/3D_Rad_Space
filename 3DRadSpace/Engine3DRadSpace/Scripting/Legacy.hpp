@@ -6,8 +6,6 @@
 	Set of legacy functions from the old engine. Source: https://3drad.boards.net/page/script-reference
 */
 
-
-
 namespace Engine3DRadSpace::Legacy
 {
 	//

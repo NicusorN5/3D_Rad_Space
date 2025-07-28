@@ -48,7 +48,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		/// </summary>
 		/// <param name="device">Graphics device</param>
 		/// <param name="dds">Cubemap DDS image</param>
-		CubeMapSkybox(GraphicsDevice* device, std::filesystem::path&& dds);
+		CubeMapSkybox(GraphicsDevice* device,const std::filesystem::path& dds);
 
 		/// <summary>
 		/// Model/world transform for this primitive. Usually only made of scale and translation(camera position). 

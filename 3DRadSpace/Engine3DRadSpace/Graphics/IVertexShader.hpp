@@ -52,15 +52,36 @@ namespace Engine3DRadSpace::Graphics
 #endif
 		void _generateInputLayout(std::span<InputLayoutElement> inputLayout);
 	protected:
-		IVertexShader(GraphicsDevice* device, std::span<InputLayoutElement> inputLayout, const char* shaderSourceCode, const char* vsEntry, ShaderFeatureLevel featureLevel = ShaderFeatureLevel::DX_V4);
-		IVertexShader(GraphicsDevice* device, std::span<InputLayoutElement> inputLayout, const std::filesystem::path& path, const char* vsEntry, ShaderFeatureLevel featureLevel = ShaderFeatureLevel::DX_V4);
-	public:
+		/// <summary>
+		/// Constructs a vertex shader from a string containing the source code.
+		/// </summary>
+		/// <param name="device">Graphics device</param>
+		/// <param name="inputLayout">Vertex input layout</param>
+		/// <param name="shaderSourceCode">HLSL source</param>
+		/// <param name="vsEntry">HLSL entry function</param>
+		/// <param name="featureLevel">HLSL feature level.</param>
+		IVertexShader(
+			GraphicsDevice* device, 
+			std::span<InputLayoutElement> inputLayout,
+			const char* shaderSourceCode,
+			const char* vsEntry,
+			ShaderFeatureLevel featureLevel = ShaderFeatureLevel::DX_V4
+		);
+		
+		IVertexShader(
+			GraphicsDevice* device,
+			std::span<InputLayoutElement> inputLayout, 
+			const std::filesystem::path& path, 
+			const char* vsEntry,
+			ShaderFeatureLevel featureLevel = ShaderFeatureLevel::DX_V4
+		);
+	
 		IVertexShader(IVertexShader &) = delete;
 		IVertexShader(IVertexShader &&) noexcept = delete;
 
 		IVertexShader &operator=(IVertexShader &) = delete;
 		IVertexShader &operator=(IVertexShader &&) noexcept = delete;
-
+	public:
 		virtual std::span<InputLayoutElement> InputLayout() = 0;
 
 		void SetTexture(unsigned index, Texture2D *texture) override;

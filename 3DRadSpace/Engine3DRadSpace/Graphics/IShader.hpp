@@ -34,13 +34,13 @@ namespace Engine3DRadSpace::Graphics
 
 		IShader(GraphicsDevice* device, const char* shaderSourceCode, const char* entry, ShaderFeatureLevel featureLevel = ShaderFeatureLevel::DX_V4);
 		IShader(GraphicsDevice* device, const std::filesystem::path& path, const char* entry, ShaderFeatureLevel featureLevel = ShaderFeatureLevel::DX_V4);
-	public:
+
 		IShader(IShader&) = delete;
 		IShader(IShader&&) noexcept = default;
 
 		IShader& operator=(IShader&) = delete;
 		IShader &operator=(IShader &&) noexcept = default;
-
+	public:
 		void SetData(unsigned index,const void *data, unsigned dataSize);
 		virtual void SetTexture(unsigned index, Texture2D *texture) = 0;
 		virtual void SetSampler(unsigned index, SamplerState *samplerState) = 0;

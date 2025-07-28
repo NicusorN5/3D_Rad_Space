@@ -25,6 +25,9 @@ namespace Engine3DRadSpace::Content
 	{
 	protected:
 		IAsset() = default;
+	
+		IAsset(IAsset&&) noexcept = default;
+		IAsset& operator=(IAsset&&) noexcept = default;
 	public:
 		/// <summary>
 		/// Represents a unique identifier for the asset type.

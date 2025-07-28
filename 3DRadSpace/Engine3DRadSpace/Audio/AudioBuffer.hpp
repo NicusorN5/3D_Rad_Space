@@ -4,6 +4,10 @@
 namespace Engine3DRadSpace::Audio
 {
 	class Sound;
+
+	/// <summary>
+	/// Represents a PCM audio buffer.
+	/// </summary>
 	class E3DRSP_AUDIO_EXPORT AudioBuffer
 	{
 	protected:
@@ -14,14 +18,22 @@ namespace Engine3DRadSpace::Audio
 		int _format = 0;
 		int _size = 0;
 	public:
-		//AudioBuffer() = default;
+		/// <summary>
+		/// Constructs a AudioBuffer from specified arguments.
+		/// </summary>
+		/// <param name="buffer">PCM buffer</param>
+		/// <param name="numChannels">Number of channels</param>
+		/// <param name="sampleRate">Audio sample rate</param>
+		/// <param name="bps">Beats per second</param>
+		/// <param name="format">OpenAL format</param>
+		/// <param name="size">Buffer size</param>
 		AudioBuffer(char* buffer, int numChannels, int sampleRate, int bps, int format, int size);
 
 		AudioBuffer(const AudioBuffer&) = delete;
-		AudioBuffer(AudioBuffer&&) = default;
+		AudioBuffer(AudioBuffer&&) noexcept = default;
 
 		AudioBuffer& operator=(const AudioBuffer&) = delete;
-		AudioBuffer& operator=(AudioBuffer&&) = default;
+		AudioBuffer& operator=(AudioBuffer&&) noexcept = default;
 
 		enum class WAVLoadError
 		{

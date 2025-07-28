@@ -16,12 +16,13 @@ namespace Engine3DRadSpace::Graphics
 	protected:
 		IDomainShader(GraphicsDevice* device, const char* source, const char* fnEntry, ShaderFeatureLevel fs = ShaderFeatureLevel::DX_V4);
 		IDomainShader(GraphicsDevice* device, const std::filesystem::path& path, const char* fnEntry, ShaderFeatureLevel fs = ShaderFeatureLevel::DX_V4);
-	public:
+
 		IDomainShader(IDomainShader &) = delete;
 		IDomainShader(IDomainShader &&) noexcept = delete;
+
 		IDomainShader &operator = (IDomainShader &) = delete;
 		IDomainShader &operator = (IDomainShader &&) noexcept = delete;
-
+	public:
 		void SetTexture(unsigned index, Texture2D *texture) override;
 		void SetSampler(unsigned index, SamplerState *samplerState) override;
 		void SetShader() override;

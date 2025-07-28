@@ -103,7 +103,7 @@ CubeMapSkybox::CubeMapSkybox(GraphicsDevice* device, std::array<Texture2D, 6> &&
 	create_face(5, nz_vert, face_indices_backface);
 }
 
-CubeMapSkybox::CubeMapSkybox(GraphicsDevice* device, std::filesystem::path&& dds)
+CubeMapSkybox::CubeMapSkybox(GraphicsDevice* device,const std::filesystem::path& dds)
 {
 	//TODO: Implement DDS loading
 }

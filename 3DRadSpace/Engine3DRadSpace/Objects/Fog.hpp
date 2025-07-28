@@ -17,17 +17,17 @@ namespace Engine3DRadSpace::Objects
 	protected:
 		::Engine3DRadSpace::Graphics::Rendering::LinearPixelFogEffect* _effect;
 	public:
-		Fog();
-		explicit Fog(const std::string& name, bool enabled, float begin, float end, Math::Color color);
+		Fog(const std::string& name = "Fog", bool enabled = true, float begin = 200.0f, float end = 500.0f, Math::Color color = Math::Colors::White);
+
+		Fog(const Fog&) = default;
+		Fog(Fog&&) = default;
+
+		Fog& operator=(const Fog&) = default;
+		Fog& operator=(Fog&&) = default;
 
 		float FogBegin;
 		float FogEnd;
 		Math::Color FogColor;
-
-		Fog(const Fog&) = default;
-		Fog(Fog&&) = default;
-		Fog& operator=(const Fog&) = default;
-		Fog& operator=(Fog&&) = default;
 
 		void Initialize() override;
 

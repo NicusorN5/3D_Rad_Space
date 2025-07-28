@@ -18,6 +18,9 @@ namespace Engine3DRadSpace::Content::Assets
 	public:
 		SkyboxAsset(Graphics::GraphicsDevice *device, const std::filesystem::path& path);
 
+		SkyboxAsset(SkyboxAsset&&) noexcept = default;
+		SkyboxAsset& operator=(SkyboxAsset&&) noexcept = default;
+
 		Graphics::Primitives::CubeMapSkybox& GetSkybox() noexcept;
 		Graphics::Primitives::CubeMapSkybox* operator->() noexcept;
 

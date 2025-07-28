@@ -2,12 +2,12 @@
 #include "../Objects/Skinmesh.hpp"
 #include "IPhysicsObject.hpp"
 
-namespace Engine3DRadSpace::Objects
+namespace Engine3DRadSpace::Physics
 {
 	/// <summary>
 	/// Triangle mesh based static rigidbody collider.
 	/// </summary>
-	class E3DRSP_PHYSICS_EXPORT StaticRigidbody: public Physics::IPhysicsObject
+	class E3DRSP_PHYSICS_EXPORT StaticRigidbody: public IPhysicsObject
 	{
 		void _generateRigidbody();
 
@@ -49,7 +49,10 @@ namespace Engine3DRadSpace::Objects
 	public:
 		StaticRigidbody();
 	
-		RefModel3D Model;
+		StaticRigidbody(StaticRigidbody&& rb) noexcept = default;
+		StaticRigidbody& operator=(StaticRigidbody&& rb) noexcept = default;
+
+		Objects::RefModel3D Model;
 
 		void SetPosition(const Math::Vector3& newPos, bool wake = false);
 		void SetRotation(const Math::Quaternion& newQuat, bool wake = false);
@@ -71,8 +74,8 @@ namespace Engine3DRadSpace::Objects
 		std::optional<float> Intersects(const Math::Ray &r) override;
 
 		Reflection::UUID GetUUID() const noexcept override;
-		Gizmos::IGizmo* GetGizmo() const noexcept override;
+		Objects::Gizmos::IGizmo* GetGizmo() const noexcept override;
 
-		~StaticRigidbody();
+		~StaticRigidbody() override = default;
 	};
 }

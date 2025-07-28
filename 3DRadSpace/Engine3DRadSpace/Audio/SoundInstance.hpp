@@ -15,6 +15,9 @@ namespace Engine3DRadSpace::Audio
 		SoundInstance(Sound* sound, const AudioSource& source);
 		SoundInstance(Sound* sound);
 
+		SoundInstance(SoundInstance&&) noexcept;
+		SoundInstance& operator=(SoundInstance&&) noexcept;
+
 		const AudioSource& GetSource() noexcept;
 		void SetSource(const AudioSource& source);
 		SoundState GetState() const noexcept;

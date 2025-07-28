@@ -11,11 +11,6 @@ using namespace Engine3DRadSpace::Objects;
 using namespace Engine3DRadSpace::Graphics::Rendering;
 using namespace Engine3DRadSpace::Math;
 
-Engine3DRadSpace::Objects::Fog::Fog() : 
-	Fog("Fog", true, 0.5f, 0.9f, Colors::White)
-{
-}
-
 Fog::Fog(const std::string& name, bool enabled, float begin, float end, Color color) :
 	IObject(name, enabled),
 	FogBegin(begin),

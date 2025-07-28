@@ -15,6 +15,9 @@ namespace Engine3DRadSpace::Content::Assets
 		NullAsset() = default;
 		NullAsset(const std::filesystem::path& dummy);
 
+		NullAsset(NullAsset&&) noexcept= default;
+		NullAsset& operator=(NullAsset&&) noexcept = default;
+
 		Reflection::UUID GetUUID() const noexcept override;
 		const char* FileExtension() const noexcept override;
 
