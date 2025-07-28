@@ -474,4 +474,159 @@ void E3DRSP_SoundInstance_SetGain(E3DRSP_SoundInstance sndInstance, float gain)
 	static_cast<SoundInstance*>(sndInstance)->SetGain(gain);
 }
 
+void E3DRSP_SoundInstance_SetMaxGain(E3DRSP_SoundInstance sndInstance, float maxGain)
+{
+	static_cast<SoundInstance*>(sndInstance)->SetMaxGain(maxGain);
+}
+
+void E3DRSP_SoundInstance_SetMinGain(E3DRSP_SoundInstance sndInstance, float minGain)
+{
+	static_cast<SoundInstance*>(sndInstance)->SetMinGain(minGain);
+}
+
+void E3DRSP_SoundInstance_SetPosition(E3DRSP_SoundInstance sndInstance, const E3DRSP_Vector3 *pos)
+{
+	Vector3 p(pos->X, pos->Y, pos->Z);
+	static_cast<SoundInstance*>(sndInstance)->SetPosition(p);
+}
+
+E3DRSP_AUDIO_EXPORT void E3DRSP_SoundInstance_SetVelocity(E3DRSP_SoundInstance sndInstance, const E3DRSP_Vector3 *vel)
+{
+	Vector3 v(vel->X, vel->Y, vel->Z);
+	static_cast<SoundInstance*>(sndInstance)->SetVelocity(v);
+}
+
+void E3DRSP_SoundInstance_SetDirection(E3DRSP_SoundInstance sndInstance, const E3DRSP_Vector3 *dir)
+{
+	Vector3 d(dir->X, dir->Y, dir->Z);
+	static_cast<SoundInstance*>(sndInstance)->SetDirection(d);
+}
+
+void E3DRSP_SoundInstance_SetMaxDistance(E3DRSP_SoundInstance sndInstance, float distance)
+{
+	static_cast<SoundInstance*>(sndInstance)->SetMaxDistance(distance);
+}
+
+void E3DRSP_SoundInstance_SetReferenceDistance(E3DRSP_SoundInstance sndInstance, float refDistance)
+{
+	static_cast<SoundInstance*>(sndInstance)->SetReferenceDistance(refDistance);
+}
+
+void E3DRSP_SoundInstance_SetRolloffFactor(E3DRSP_SoundInstance sndInstance, float rolloff)
+{
+	static_cast<SoundInstance*>(sndInstance)->SetRolloffFactor(rolloff);
+}
+
+void E3DRSP_SoundInstance_SetConeOuterGain(E3DRSP_SoundInstance sndInstance, float outerGain)
+{
+	static_cast<SoundInstance*>(sndInstance)->SetConeOuterGain(outerGain);
+}
+
+void E3DRSP_SoundInstance_SetConeInnerAngle(E3DRSP_SoundInstance sndInstance, float angle)
+{
+	static_cast<SoundInstance*>(sndInstance)->SetConeInnerAngle(angle);
+}
+void E3DRSP_SoundInstance_SetConeOuterAngle(E3DRSP_SoundInstance sndInstance, float angle)
+{
+	static_cast<SoundInstance*>(sndInstance)->SetConeOuterAngle(angle);
+}
+
+float E3DRSP_SoundInstance_GetPitch(E3DRSP_SoundInstance sndInstance)
+{
+	return static_cast<SoundInstance*>(sndInstance)->GetPitch();
+}
+
+float E3DRSP_SoundInstance_GetGain(E3DRSP_SoundInstance sndInstance)
+{
+	return static_cast<SoundInstance*>(sndInstance)->GetGain();
+}
+
+float E3DRSP_SoundInstance_GetMaxGain(E3DRSP_SoundInstance sndInstance)
+{
+	return static_cast<SoundInstance*>(sndInstance)->GetMaxGain();
+}
+
+float E3DRSP_SoundInstance_GetMinGain(E3DRSP_SoundInstance sndInstance)
+{
+	return static_cast<SoundInstance*>(sndInstance)->GetMinGain();
+}
+
+E3DRSP_Vector3 E3DRSP_SoundInstance_GetPosition(E3DRSP_SoundInstance sndInstance)
+{
+	auto p = static_cast<SoundInstance*>(sndInstance)->GetPosition();
+	return {p.X, p.Y, p.Z};
+}
+
+E3DRSP_Vector3 E3DRSP_SoundInstance_GetVelocity(E3DRSP_SoundInstance sndInstance)
+{
+	auto v = static_cast<SoundInstance*>(sndInstance)->GetVelocity();
+	return {v.X, v.Y, v.Z};
+}
+
+E3DRSP_Vector3 E3DRSP_SoundInstance_GetDirection(E3DRSP_SoundInstance sndInstance)
+{
+	auto d = static_cast<SoundInstance*>(sndInstance)->GetDirection();
+	return {d.X, d.Y, d.Z};
+}
+
+float E3DRSP_SoundInstance_GetMaxDistance(E3DRSP_SoundInstance sndInstance)
+{
+	return static_cast<SoundInstance*>(sndInstance)->GetMaxDistance();
+}
+
+float E3DRSP_SoundInstance_GetReferenceDistance(E3DRSP_SoundInstance sndInstance)
+{
+	return static_cast<SoundInstance*>(sndInstance)->GetReferenceDistance();
+}
+
+float E3DRSP_SoundInstance_GetRolloffFactor(E3DRSP_SoundInstance sndInstance)
+{
+	return static_cast<SoundInstance*>(sndInstance)->GetRolloffFactor();
+}
+
+float E3DRSP_SoundInstance_GetConeOuterGain(E3DRSP_SoundInstance sndInstance)
+{
+	return static_cast<SoundInstance*>(sndInstance)->GetConeOuterGain();
+}
+
+float E3DRSP_SoundInstance_GetConeInnerAngle(E3DRSP_SoundInstance sndInstance)
+{
+	return static_cast<SoundInstance*>(sndInstance)->GetConeInnerAngle();
+}
+
+float E3DRSP_SoundInstance_GetConeOuterAngle(E3DRSP_SoundInstance sndInstance)
+{
+	return static_cast<SoundInstance*>(sndInstance)->GetConeOuterAngle();
+}
+
+_Bool E3DRSP_SoundInstance_IsLooping(E3DRSP_SoundInstance sndInstance)
+{
+	return static_cast<SoundInstance*>(sndInstance)->IsLooping();
+}
+
+void E3DRSP_SoundInstance_SetLooping(E3DRSP_SoundInstance sndInstance, _Bool looping)
+{
+	static_cast<SoundInstance*>(sndInstance)->SetLooping(looping);
+}
+
+void E3DRSP_SoundInstance_Play(E3DRSP_SoundInstance sndInstance, bool dontOverlap)
+{
+	static_cast<SoundInstance*>(sndInstance)->Play(dontOverlap);
+}
+
+void E3DRSP_SoundInstance_Stop(E3DRSP_SoundInstance sndInstance)
+{
+	static_cast<SoundInstance*>(sndInstance)->Stop();
+}
+
+void E3DRSP_SoundInstance_Pause(E3DRSP_SoundInstance sndInstance)
+{
+	static_cast<SoundInstance*>(sndInstance)->Pause();
+}
+
+void E3DRSP_SoundInstance_Destroy(E3DRSP_SoundInstance sndInstance)
+{
+	delete static_cast<SoundInstance*>(sndInstance);
+}
+
 #undef SI_SETSOURCE

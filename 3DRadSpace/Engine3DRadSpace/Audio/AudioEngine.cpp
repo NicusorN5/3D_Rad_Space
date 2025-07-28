@@ -160,7 +160,7 @@ char** E3DRSP_AudioEngine_ListAudioDevices()
 	auto devices = AudioEngine::ListAudioDevices();
 
 	size_t length = devices.size();
-	char** result = new char*[length];
+	char** result = new char*[length + 1];
 	if(result == nullptr) return nullptr;
 
 	for(size_t i = 0; i < length; ++i)
@@ -174,6 +174,7 @@ char** E3DRSP_AudioEngine_ListAudioDevices()
 
 		result[i] = deviceName;
 	}
+	result[devices.size()] = 0; //null terminate the list of strings.
 
 	return result;
 }

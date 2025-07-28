@@ -28,7 +28,7 @@ extern "C"
 	E3DRSP_AUDIO_EXPORT void E3DRSP_SoundInstance_SetRolloffFactor(E3DRSP_SoundInstance sndInstance, float rolloff);
 	E3DRSP_AUDIO_EXPORT void E3DRSP_SoundInstance_SetConeOuterGain(E3DRSP_SoundInstance sndInstance, float outerGain);
 	E3DRSP_AUDIO_EXPORT void E3DRSP_SoundInstance_SetConeInnerAngle(E3DRSP_SoundInstance sndInstance, float angle);
-	E3DRSP_AUDIO_EXPORT void E3DRSP_SoundInstance_(E3DRSP_SoundInstance sndInstance, float angle);
+	E3DRSP_AUDIO_EXPORT void E3DRSP_SoundInstance_SetConeOuterAngle(E3DRSP_SoundInstance sndInstance, float angle);
 
 	E3DRSP_AUDIO_EXPORT float E3DRSP_SoundInstance_GetPitch(E3DRSP_SoundInstance sndInstance);
 	E3DRSP_AUDIO_EXPORT float E3DRSP_SoundInstance_GetGain(E3DRSP_SoundInstance sndInstance);
