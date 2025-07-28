@@ -49,7 +49,10 @@ namespace Engine3DRadSpace.Audio
 
         private void Dispose(bool disposing)
         {
-            if (_disposed) return;
+            if (_disposed)
+            {
+                return;
+            }
 
             if(_audioBuffer != 0)
             {

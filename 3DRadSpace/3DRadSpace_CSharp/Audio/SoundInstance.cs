@@ -10,101 +10,101 @@ namespace Engine3DRadSpace.Audio
 
 
         [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_SoundInstance_Create")]
-        private static unsafe extern IntPtr create(IntPtr sound, IntPtr source);
+        private static extern IntPtr create(IntPtr sound, IntPtr source);
 
         [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_SoundInstance_Destroy")]
-        private static unsafe extern void destroy(IntPtr sound);
+        private static extern void destroy(IntPtr sound);
 
         [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_SoundInstance_GetPitch")]
-        private static unsafe extern float getPitch(IntPtr sound);
+        private static extern float getPitch(IntPtr sound);
 
         [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_SoundInstance_SetPitch")]
-        private static unsafe extern void setPitch(IntPtr sound, float pitch);
+        private static extern void setPitch(IntPtr sound, float pitch);
 
         [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_SoundInstance_GetGain")]
-        private static unsafe extern float getGain(IntPtr sound);
+        private static extern float getGain(IntPtr sound);
 
         [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_SoundInstance_SetGain")]
-        private static unsafe extern void setGain(IntPtr sound, float gain);
+        private static extern void setGain(IntPtr sound, float gain);
 
         [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_SoundInstance_GetMaxGain")]
-        private static unsafe extern float getMaxGain(IntPtr sound);
+        private static extern float getMaxGain(IntPtr sound);
 
         [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_SoundInstance_SetMaxGain")]
-        private static unsafe extern void setMaxGain(IntPtr sound, float gain);
+        private static extern void setMaxGain(IntPtr sound, float gain);
 
         [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_SoundInstance_GetMinGain")]
-        private static unsafe extern float getMinGain(IntPtr sound);
+        private static extern float getMinGain(IntPtr sound);
 
         [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_SoundInstance_SetMinGain")]
-        private static unsafe extern void setMinGain(IntPtr sound, float gain);
+        private static extern void setMinGain(IntPtr sound, float gain);
 
         [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_SoundInstance_GetPosition")]
-        private static unsafe extern IntPtr getPosition(IntPtr sound);
+        private static extern IntPtr getPosition(IntPtr sound);
 
         [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_SoundInstance_SetPosition")]
-        private static unsafe extern void setPostion(IntPtr sound, IntPtr pos);
+        private static extern void setPostion(IntPtr sound, IntPtr pos);
 
         [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_SoundInstance_GetVelocity")]
-        private static unsafe extern IntPtr getVelocity(IntPtr sound);
+        private static extern IntPtr getVelocity(IntPtr sound);
 
         [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_SoundInstance_SetVelocity")]
-        private static unsafe extern void setVelocity(IntPtr sound, IntPtr vel);
+        private static extern void setVelocity(IntPtr sound, IntPtr vel);
 
         [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_SoundInstance_GetDirection")]
-        private static unsafe extern IntPtr getDirection(IntPtr sound);
+        private static extern IntPtr getDirection(IntPtr sound);
 
         [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_SoundInstance_SetDirection")]
-        private static unsafe extern void setDirection(IntPtr sound, IntPtr dir);
+        private static extern void setDirection(IntPtr sound, IntPtr dir);
 
         [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_SoundInstance_GetMaxDistance")]
-        private static unsafe extern float getMaxDistance(IntPtr sound);
+        private static extern float getMaxDistance(IntPtr sound);
 
         [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_SoundInstance_SetMaxDistance")]
-        private static unsafe extern void setMaxDistance(IntPtr sound, float dst);
+        private static extern void setMaxDistance(IntPtr sound, float dst);
 
 
         [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_SoundInstance_GetReferenceDistance")]
-        private static unsafe extern float getReferenceDistance(IntPtr sound);
+        private static extern float getReferenceDistance(IntPtr sound);
 
         [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_SoundInstance_SetReferenceDistance")]
-        private static unsafe extern void setReferenceDistance(IntPtr sound, float refDst);
+        private static extern void setReferenceDistance(IntPtr sound, float refDst);
 
         [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_SoundInstance_GetRolloffFactor")]
-        private static unsafe extern float getRolloffFactor(IntPtr sound);
+        private static extern float getRolloffFactor(IntPtr sound);
 
         [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_SoundInstance_SetRolloffFactor")]
-        private static unsafe extern void setRolloffFactor(IntPtr sound, float rolloff);
+        private static extern void setRolloffFactor(IntPtr sound, float rolloff);
 
         [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_SoundInstance_GetConeOuterGain")]
-        private static unsafe extern float getConeOuterGain(IntPtr sound);
+        private static extern float getConeOuterGain(IntPtr sound);
 
         [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_SoundInstance_SetConeOuterGain")]
-        private static unsafe extern void setConeOuterGain(IntPtr sound, float gain);
+        private static extern void setConeOuterGain(IntPtr sound, float gain);
 
         [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_SoundInstance_GetConeInnerAngle")]
-        private static unsafe extern float getConeInnerAngle(IntPtr sound);
+        private static extern float getConeInnerAngle(IntPtr sound);
 
         [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_SoundInstance_SetConeInnerAngle")]
-        private static unsafe extern void setConeInnerAngle(IntPtr sound, float angle);
+        private static extern void setConeInnerAngle(IntPtr sound, float angle);
 
         [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_SoundInstance_GetConeOuterAngle")]
-        private static unsafe extern float getConeOuterAngle(IntPtr sound);
+        private static extern float getConeOuterAngle(IntPtr sound);
 
         [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_SoundInstance_SetConeOuterAngle")]
-        private static unsafe extern void setConeOuterAngle(IntPtr sound, float rolloff);
+        private static extern void setConeOuterAngle(IntPtr sound, float rolloff);
 
         [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_SoundInstance_IsLooping")]
-        private static unsafe extern bool isLooping(IntPtr sound);
+        private static extern bool isLooping(IntPtr sound);
 
         [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_SoundInstance_Play")]
-        private static unsafe extern bool play(IntPtr sound);
+        private static extern bool play(IntPtr sound);
 
         [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_SoundInstance_Stop")]
-        private static unsafe extern bool stop(IntPtr sound);
+        private static extern bool stop(IntPtr sound);
 
         [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_SoundInstance_Pause")]
-        private static unsafe extern bool pause(IntPtr sound);
+        private static extern bool pause(IntPtr sound);
 
         public unsafe SoundInstance(Sound sound, AudioSource source)
         {
@@ -216,7 +216,10 @@ namespace Engine3DRadSpace.Audio
 
         virtual protected void Dispose(bool disposing)
         {
-            if (_disposed) return;
+            if (_disposed)
+            {
+                return;
+            }
 
             if (_soundInstance != 0)
             {

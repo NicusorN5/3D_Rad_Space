@@ -46,7 +46,10 @@ namespace Engine3DRadSpace.Audio
             List<string> result = new();
 
             IntPtr ptr = listAudioDevices();
-            if (ptr == IntPtr.Zero) return null;
+            if (ptr == IntPtr.Zero)
+            {
+                return null;
+            }
 
             char* currentString = null;
             do
@@ -57,7 +60,10 @@ namespace Engine3DRadSpace.Audio
                 {
                     result.Add(Marshal.PtrToStringAnsi((IntPtr)currentString));
                 }
-                else break;
+                else
+                {
+                    break;
+                }
             }
             while (true);
 
@@ -92,7 +98,10 @@ namespace Engine3DRadSpace.Audio
 
         protected virtual void Dispose(bool disposing)
         {
-            if (_disposed) return;
+            if (_disposed)
+            {
+                return;
+            }
 
             if (_audio != 0)
             {

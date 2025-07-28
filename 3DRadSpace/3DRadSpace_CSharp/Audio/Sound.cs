@@ -2,7 +2,7 @@
 
 namespace Engine3DRadSpace.Audio
 {
-    public class Sound
+    public class Sound : IDisposable
     {
         [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_Sound_Create")]
         private static extern IntPtr create(AudioEngine audio, string path);
@@ -32,7 +32,10 @@ namespace Engine3DRadSpace.Audio
 
         protected virtual void Dispose(bool disposing)
         {
-            if (_disposed) return;
+            if (_disposed)
+            {
+                return;
+            }
 
             if (_sound != 0)
             {

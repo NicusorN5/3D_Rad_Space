@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using System.Numerics;
 
 namespace Engine3DRadSpace.Audio
 {
@@ -11,9 +12,9 @@ namespace Engine3DRadSpace.Audio
         float MaxGain;
         float MinGain;
 
-        System.Numerics.Vector3 Position;
-        System.Numerics.Vector3 Velocity;
-        System.Numerics.Vector3 Direction;
+        Vector3 Position;
+        Vector3 Velocity;
+        Vector3 Direction;
 
         float MaxDistance;
         float ReferenceDistance;
