@@ -47,12 +47,12 @@ namespace Engine3DRadSpace
 		{
 			if (!_disposed)
 			{
-				_destroyGraphicsDevice(_graphicsDeviceHandle);
-				if (disposing)
+				if (_graphicsDeviceHandle != 0)
 				{
-
+					_destroyGraphicsDevice(_graphicsDeviceHandle);
+					_graphicsDeviceHandle = 0;
 				}
-				_disposed = true;
+                _disposed = true;
 				_graphicsDeviceHandle = IntPtr.Zero;
 			}
 		}

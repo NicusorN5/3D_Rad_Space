@@ -21,10 +21,19 @@ namespace Engine3DRadSpace
 			Device = new GraphicsDevice(Window.NativeHandle, width, height);
 		}
 		public Game(string title) : this(title, 800, 600, false) {  }
-		public Game(string title, uint width, uint height) : this(title, width, height, false) { }
+		public Game(string title, uint width, uint height) : this(title, width, height, false)
+		{
+			//TODO: Actually use Game(string, uint, uint), not Game(Window&&) !
+			_gameHandle = _createGameFromWindow();
+        }
 
 		public Window Window { get; private set; }
 		public GraphicsDevice Device { get; private set; }
+
+		public IntPtr InstanceHandle
+		{
+			get => _gameHandle;
+		}
 
 		public void Run()
 		{

@@ -415,7 +415,6 @@ bool SoundInstance::IsLooping()
 }
 
 #define SI_SETSOURCE \
-src.Gain = source.Gain; \
 src.Pitch = source.Pitch; \
 src.ConeInnerAngle = source.ConeInnerAngle; \
 src.ConeOuterAngle = source.ConeOuterAngle; \
