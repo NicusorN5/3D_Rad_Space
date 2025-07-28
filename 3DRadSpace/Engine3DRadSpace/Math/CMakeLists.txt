@@ -4,7 +4,7 @@ project("Engine3DRadSpace.Math")
 
 file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS "*.cpp" "*.hpp" )
 
-add_library(3DRadSpace_Math STATIC ${SOURCE_FILES})
+add_library(3DRadSpace_Math SHARED ${SOURCE_FILES})
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET 3DRadSpace_Math PROPERTY CXX_STANDARD 23)

@@ -7,26 +7,26 @@ namespace Engine3DRadSpace.Audio
         private IntPtr _audio;
         private bool _disposed;
 
-        [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_AudioEngine_Create")]
+        [DllImport("3DRadSpace_Audio.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_AudioEngine_Create")]
         private static extern IntPtr create();
 
-        [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_AudioEngine_Create1")]
+        [DllImport("3DRadSpace_Audio.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_AudioEngine_Create1")]
         private static extern IntPtr create1(string deviceName);
 
         //E3DRSP_AudioEngine_ListAudioDevices
-        [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_AudioEngine_ListAudioDevices")]
+        [DllImport("3DRadSpace_Audio.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_AudioEngine_ListAudioDevices")]
         private static extern IntPtr listAudioDevices();
 
-        [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_AudioEngine_SwitchAudioDevice")]
+        [DllImport("3DRadSpace_Audio.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_AudioEngine_SwitchAudioDevice")]
         private static extern void switchDevice(IntPtr audio, string name);
 
-        [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_AudioEngine_Update")]
+        [DllImport("3DRadSpace_Audio.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_AudioEngine_Update")]
         private static extern void update(IntPtr audio);
 
-        [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_AudioEngine_CheckErrors")]
+        [DllImport("3DRadSpace_Audio.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_AudioEngine_CheckErrors")]
         private static extern int checkErrors(IntPtr audio);
 
-        [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_AudioEngine_Destroy")]
+        [DllImport("3DRadSpace_Audio.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_AudioEngine_Destroy")]
         private static extern void destroy(IntPtr audio);
 
         public AudioEngine()
@@ -59,6 +59,7 @@ namespace Engine3DRadSpace.Audio
                 if (currentString != null)
                 {
                     result.Add(Marshal.PtrToStringAnsi((IntPtr)currentString));
+                    ptr += 1;
                 }
                 else
                 {

@@ -4,7 +4,7 @@ project("Engine3DRadSpace.Audio")
 
 file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS "*.cpp" "*.hpp" )
 
-add_library(3DRadSpace_Audio STATIC ${SOURCE_FILES})
+add_library(3DRadSpace_Audio SHARED ${SOURCE_FILES})
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET 3DRadSpace_Audio PROPERTY CXX_STANDARD 23)
@@ -31,6 +31,7 @@ endif()
 #
 #Dependencies 
 #
+target_link_libraries(3DRadSpace_Audio PRIVATE 3DRadSpace_Core)
 target_link_libraries(3DRadSpace_Audio PRIVATE 3DRadSpace_Math)
 target_include_directories(3DRadSpace_Audio PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)
 

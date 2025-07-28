@@ -4,16 +4,16 @@ namespace Engine3DRadSpace.Audio
 {
     public class AudioBuffer : IDisposable
     {
-        [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_AudioBuffer_Create")]
+        [DllImport("3DRadSpace_Audio.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_AudioBuffer_Create")]
         private static extern IntPtr create(IntPtr buffer, int numChannels, int sampleRate, int bps, int format, int size);
 
-        [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_AudioBuffer_FromWAV")]
+        [DllImport("3DRadSpace_Audio.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_AudioBuffer_FromWAV")]
         private static extern IntPtr fromWAV(string path);
 
-        [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_AudioBuffer_FromOGG")]
+        [DllImport("3DRadSpace_Audio.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_AudioBuffer_FromOGG")]
         private static extern IntPtr fromOGG(string path);
 
-        [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_AudioBuffer_Destroy")]
+        [DllImport("3DRadSpace_Audio.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_AudioBuffer_Destroy")]
         private static extern void destroy(IntPtr audioBuffer);
 
         IntPtr _audioBuffer;
