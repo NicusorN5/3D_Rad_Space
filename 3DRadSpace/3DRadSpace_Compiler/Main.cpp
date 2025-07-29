@@ -36,22 +36,28 @@ std::unordered_map<std::string, int> dict =
 
 std::unordered_map<std::string, int> file_type =
 {
-	//C++ or C Source files.
+	//C++ Source files.
 	{".cpp", 1},
-	{".hpp", 1},
 	{".cxx", 1},
-	{".hxx", 1},
 	{".c++", 1},
-	{".h++", 1},
-	
-	{".h", 1},
-	{".c", 1},
+
+	//C++ header files
+	{".hpp", 2},
+	{".hxx", 2},
+	{".h++", 2},
+	//C source file
+	{".c", 3}, 
+	//C header file
+	{".h", 4 },
+
 	//C# source files.
-	{".cs", 2},
+	{".cs", 5},
 	//Icon
-	{".ico", 3},
+	{".ico", 6},
 	//3DRadSpace scene project
-	{".3drsp",4}
+	{".3drsp", 7},
+	//Resource file
+	{".rc", 8}
 };
 
 auto LoadCompilerCache() -> std::optional<Compiler>
@@ -68,6 +74,13 @@ auto LoadCompilerCache() -> std::optional<Compiler>
 	std::println("Found cached envoirement settings...");
 
 	nlohmann::json j;
+
+	if(j.empty())
+	{
+		std::println("Cached compiler settings were erased.");
+		return std::nullopt;
+	}
+
 	cache >> j;
 
 	std::filesystem::path devenv = j["devenv"].get<std::string>();
@@ -185,6 +198,8 @@ auto main(int argc, char** argv) -> int
 	bool playProject = false;
 
 	ProjectInfo info;
+	info.Name = "MyGame";
+	info.Output = "MyGame/";
 
 	for(int i = 1; i < argc; i++)
 	{
@@ -321,13 +336,25 @@ auto main(int argc, char** argv) -> int
 				type = "C++ source file";
 				break;
 			case 2:
-				type = "C# source file";
+				type = "C++ header file";
 				break;
-			case 3:
-				type = "Icon resource";
+			case 3: 
+				type = "C source file";
 				break;
 			case 4:
+				type = "C header file";
+				break;
+			case 5:
+				type = "C# source file";
+				break;
+			case 6:
+				type = "Icon resource";
+				break;
+			case 7:
 				type = "3DRadSpace Scene";
+				break;
+			case 8:
+				type = "Resource file";
 				break;
 			default:
 				type = "Unknown type";

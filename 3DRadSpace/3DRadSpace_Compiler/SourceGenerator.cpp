@@ -9,16 +9,16 @@ static bool generate_main_cpp(const ProjectInfo& info)
 	if(std::filesystem::exists(main_cpp_path)) return true;
 
 	std::string main =
-		"#include \"MyGame.hpp\"\r\n"
-		"#include <Windows.h>\r\n"
-		"#include <Engine3DRadSpace\\Content\\ShaderManager.hpp>\r\n\r\n"
-		"int main()\r\n"
-		"{\r\n"
-		"MyGame game;\r\n"
-		"game.Run();\r\n\r\n"
-		"Engine3DRadSpace::Content::ShaderManager::ReleaseAll();\r\n"
-		"return 0;\r\n"
-		"}\r\n";
+		"#include \"MyGame.hpp\"\n"
+		"#include <Windows.h>\n"
+		"#include <Engine3DRadSpace\\Content\\ShaderManager.hpp>\n\n"
+		"int main()\n"
+		"{\n"
+		"MyGame game;\n"
+		"game.Run();\n\n"
+		"Engine3DRadSpace::Content::ShaderManager::ReleaseAll();\n"
+		"return 0;\n"
+		"}\n";
 
 	std::ofstream mainFile(main_cpp_path);
 	if(!mainFile.is_open())
@@ -48,6 +48,33 @@ static bool generate_game_class(const ProjectInfo &info)
 	return true;
 }
 
+std::filesystem::path CopySourceFile(
+	const std::filesystem::path& completeSourceFilePath,
+	const std::filesystem::path& outputDir
+)
+{
+	std::filesystem::path filename = completeSourceFilePath.filename();
+
+	auto existingFile = outputDir / filename;
+
+	if(std::filesystem::exists(existingFile) && !std::filesystem::exists(completeSourceFilePath))
+		return filename;
+
+	if(completeSourceFilePath == existingFile)
+		return filename;
+
+	bool b = std::filesystem::copy_file(completeSourceFilePath, existingFile);
+	if(!b)
+	{
+		auto strFilename = filename.string();
+
+		std::println("[FATAL] Failed to copy file {}", strFilename);
+		throw std::exception(strFilename.c_str());
+	}
+
+	return filename;
+}
+
 bool GenerateProject(const ProjectInfo &info, std::vector<std::filesystem::path> files, Compiler::Type type)
 {
 	if(!std::filesystem::exists(info.Output))
@@ -56,9 +83,6 @@ bool GenerateProject(const ProjectInfo &info, std::vector<std::filesystem::path>
 	}
 
 	std::filesystem::path vcproj_path = info.Output / (info.Name + ".vcxproj");
-
-	//Assume project was already generated.
-	if(std::filesystem::exists(vcproj_path)) return true;
 
 	std::vector<std::filesystem::path> srcFiles;
 	std::vector<std::filesystem::path> headers;
@@ -70,15 +94,18 @@ bool GenerateProject(const ProjectInfo &info, std::vector<std::filesystem::path>
 		switch(file_type[file.extension().string()])
 		{
 			case 1:
+			case 3:
 				srcFiles.push_back(file);
 				break;
 			case 2:
+			case 4:
 				headers.push_back(file);
 				break;
-			case 3:
+			case 6:
+			case 8:
 				resFiles.push_back(file);
 				break;
-			case 4:
+			case 7:
 				sceneFiles.push_back(file);
 				break;
 			default:
@@ -95,45 +122,47 @@ bool GenerateProject(const ProjectInfo &info, std::vector<std::filesystem::path>
 		std::println("[INFO] Generating MSVC project...");
 
 		std::string vcproj =
-			"<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n"
-			"<Project DefaultTargets=\"Build\" ToolsVersion=\"17.0\" xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\">\r\n"
-			"<ItemGroup Label=\"ProjectConfigurations\">\r\n"
-			"	<ProjectConfiguration Include=\"Debug|Win32\">\r\n"
-			"		<Configuration>Debug</Configuration>\r\n"
-			"		<Platform>Win32</Platform>\r\n"
-			"	</ProjectConfiguration>\r\n"
-			"		<ProjectConfiguration Include=\"Release | Win32\">\r\n"
-			"			<Configuration>Release</Configuration>\r\n"
-			"			<Platform>Win32</Platform>\r\n"
-			"		</ProjectConfiguration>\r\n"
-			"	</ItemGroup>\r\n"
-			"	<Import Project=\"$(VCTargetsPath)\\Microsoft.Cpp.default.props\" />\r\n"
-			"	<PropertyGroup>\r\n"
-			"		<ConfigurationType>Application</ConfigurationType>\r\n"
-			"		<PlatformToolset>v142</PlatformToolset>\r\n"
-			"	</PropertyGroup>\r\n"
-			"	<PropertyGroup>\r\n"
-			"		<PreferredToolArchitecture>x64</PreferredToolArchitecture>\r\n"
-			"	</PropertyGroup>\r\n"
-			"  <Import Project=\"$(VCTargetsPath)\\Microsoft.Cpp.props\" />\r\n"
-			"  <ItemGroup>\r\n";
+			"<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
+			"<Project DefaultTargets=\"Build\" ToolsVersion=\"17.0\" xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\">\n"
+			"<ItemGroup Label=\"ProjectConfigurations\">\n"
+			"	<ProjectConfiguration Include=\"Debug|Win64\">\n"
+			"		<Configuration>Debug</Configuration>\n"
+			"		<Platform>Win32</Platform>\n"
+			"	</ProjectConfiguration>\n"
+			"		<ProjectConfiguration Include=\"Release | Win64\">\n"
+			"			<Configuration>Release</Configuration>\n"
+			"			<Platform>Win32</Platform>\n"
+			"		</ProjectConfiguration>\n"
+			"	</ItemGroup>\n"
+			"	<Import Project=\"$(VCTargetsPath)\\Microsoft.Cpp.default.props\" />\n"
+			"	<PropertyGroup>\n"
+			"		<ConfigurationType>Application</ConfigurationType>\n"
+			"		<PlatformToolset>v143</PlatformToolset>\n"
+			"	</PropertyGroup>\n"
+			"	<PropertyGroup>\n"
+			"		<PreferredToolArchitecture>x64</PreferredToolArchitecture>\n"
+			"	</PropertyGroup>\n"
+			"  <Import Project=\"$(VCTargetsPath)\\Microsoft.Cpp.props\" />\n"
+			"  <ItemGroup>\n";
 
 		for(auto& file : srcFiles)
 		{
-			vcproj += "    <ClCompile Include=\"" + file.string() + "\" />\r\n";
+			auto filename = CopySourceFile(file, info.Output);
+			vcproj += "    <ClCompile Include=\"" + filename.string() + "\" />\n";
 		}
 
-		vcproj +=	"  </ItemGroup>\r\n"
-					"  <ItemGroup>\r\n";
+		vcproj +=	"  </ItemGroup>\n"
+					"  <ItemGroup>\n";
 
 		for(auto& file : headers)
 		{
-			vcproj += "    <ClInclude Include=\"" + file.string() + "\" />\r\n";
+			auto filename = CopySourceFile(file, info.Output);
+			vcproj += "    <ClInclude Include=\"" + filename.string() + "\" />\n";
 		}
 
-		vcproj +=	"  </ItemGroup>\r\n"
-					"  <Import Project=\"$(VCTargetsPath)\\Microsoft.Cpp.Targets\" />\r\n"
-					"</Project>\r\n";
+		vcproj +=	"  </ItemGroup>\n"
+					"  <Import Project=\"$(VCTargetsPath)\\Microsoft.Cpp.Targets\" />\n"
+					"</Project>\n";
 
 		std::ofstream vcprojFile(vcproj_path);
 		if(!vcprojFile.is_open())

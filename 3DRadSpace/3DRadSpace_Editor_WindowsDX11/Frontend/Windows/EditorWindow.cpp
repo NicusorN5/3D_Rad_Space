@@ -69,7 +69,7 @@ void EditorWindow::_findUpdate()
 
 	HRESULT r = URLDownloadToFileA(
 		nullptr, //IUnknown pCaller
-		"https://3dradspace.org/UpdateInfo/LastestVersion.txt", //const* char url
+		"https://3dradspace.github.io/UpdateInfo/LastestVersion.txt", //const* char url
 		updateFilePath.c_str(), //const char* filename
 		BINDF_GETNEWESTVERSION | BINDF_NOWRITECACHE, //flags (MSDN says it's reserved, lol)
 		nullptr //IBindStatusCallback
