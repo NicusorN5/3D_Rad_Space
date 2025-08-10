@@ -1,13 +1,12 @@
 #include "Font.hpp"
-#include "../../Graphics/PixelFormat.hpp"
-#include "../../Core/Logging/Exception.hpp"
-#include "../../Core/Logging/AssetLoadingError.hpp"
-#include "../../Graphics/Texture2D.hpp"
+#include "Graphics/PixelFormat.hpp"
+#include "../Core/Logging/Exception.hpp"
+#include "../Core/Logging/AssetLoadingError.hpp"
+#include "Graphics/Texture2D.hpp"
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
-using namespace Engine3DRadSpace::Content::Assets;
 using namespace Engine3DRadSpace::Logging;
 using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Graphics;

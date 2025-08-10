@@ -1,10 +1,10 @@
 #pragma once
-#include "../../Graphics/Glyph.hpp"
-#include "../IAsset.hpp"
-#include "../../Graphics/GraphicsDevice.hpp"
-#include "../../Internal/AssetUUIDReader.hpp"
+#include "Glyph.hpp"
+#include "GraphicsDevice.hpp"
+#include "../Content/IAsset.hpp"
+#include "../Internal/AssetUUIDReader.hpp"
 
-namespace Engine3DRadSpace::Content::Assets
+namespace Engine3DRadSpace::Graphics
 {
 	/// <summary>
 	/// Represents a Font.
@@ -13,7 +13,7 @@ namespace Engine3DRadSpace::Content::Assets
 	/// Fonts are being loaded using FreeType.
 	/// When loading fonts, a single texture is created containing all supported characters. The texture is trivially packed (in a left-right, up-down order).
 	/// </remarks>
-	class E3DRSP_CONTENT_EXPORT Font : public Content::IAsset
+	class E3DRSP_GRAPHICS_EXPORT Font : public Content::IAsset
 	{
 		class FontManager
 		{
@@ -33,12 +33,12 @@ namespace Engine3DRadSpace::Content::Assets
 		void* _font;
 		std::string _supportedCharacters;
 
-		Graphics::GraphicsDevice* _device;
+		GraphicsDevice* _device;
 
 		static FontManager _manager;
 	
-		std::vector<std::pair<Graphics::Glyph, Math::Rectangle>> _glyphs;
-		std::unique_ptr<Graphics::Texture2D> _texture;
+		std::vector<std::pair<Glyph, Math::Rectangle>> _glyphs;
+		std::unique_ptr<Texture2D> _texture;
 		unsigned _size;
 
 		Font(Internal::AssetUUIDReader dummy);
@@ -50,13 +50,13 @@ namespace Engine3DRadSpace::Content::Assets
 		/// <param name="path">TTF Font path.</param>
 		/// <param name="size">Font size</param>
 		/// <param name="supportedCharacters">A C-style string of supported characters.</param>
-		Font(Graphics::GraphicsDevice* device, const std::filesystem::path &path, unsigned size, const char* supportedCharacters = nullptr);
+		Font(GraphicsDevice* device, const std::filesystem::path &path, unsigned size, const char* supportedCharacters = nullptr);
 		/// <summary>
 		/// Loads a TTF font.
 		/// </summary>
 		/// <param name="device">Graphics Device</param>
 		/// <param name="path">TTF font file path</param>
-		Font(Graphics::GraphicsDevice* device, const std::filesystem::path &path);
+		Font(GraphicsDevice* device, const std::filesystem::path &path);
 
 		Font(const Font&) = delete;
 		Font(Font&& font) noexcept;
@@ -79,14 +79,14 @@ namespace Engine3DRadSpace::Content::Assets
 		/// Returns the texture containing all glyphs.
 		/// </summary>
 		/// <returns></returns>
-		Graphics::Texture2D* GetTexture() const noexcept;
+		Texture2D* GetTexture() const noexcept;
 
 		/// <summary>
 		/// Gets the glyph of a specific character.
 		/// </summary>
 		/// <param name="chr">Character.</param>
 		/// <returns>Nullopt if that character is not supported.</returns>
-		std::optional<Graphics::Glyph> GetCharGlyph(char chr) const noexcept;
+		std::optional<Glyph> GetCharGlyph(char chr) const noexcept;
 		/// <summary>
 		/// Gets the source rectangle of a specified character.
 		/// </summary>

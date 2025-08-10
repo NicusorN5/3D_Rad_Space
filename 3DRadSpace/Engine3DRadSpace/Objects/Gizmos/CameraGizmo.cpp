@@ -1,5 +1,5 @@
 #include "CameraGizmo.hpp"
-#include "../../Content/Assets/Model3D.hpp"
+#include "../../Graphics/Model3D.hpp"
 #include "../../Graphics/RenderTarget.hpp"
 #include "../../Graphics/DepthStencilBuffer.hpp"
 #include "../../Games/Game.hpp"

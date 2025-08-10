@@ -11,12 +11,12 @@ static bool generate_main_cpp(const ProjectInfo& info)
 	std::string main =
 		"#include \"MyGame.hpp\"\n"
 		"#include <Windows.h>\n"
-		"#include <Engine3DRadSpace\\Content\\ShaderManager.hpp>\n\n"
+		"#include <Engine3DRadSpace\\Graphics\\Shaders\\ShaderManager.hpp>\n\n"
 		"int main()\n"
 		"{\n"
 		"MyGame game;\n"
 		"game.Run();\n\n"
-		"Engine3DRadSpace::Content::ShaderManager::ReleaseAll();\n"
+		"Engine3DRadSpace::Graphics::Shaders::ShaderManager::ReleaseAll();\n"
 		"return 0;\n"
 		"}\n";
 

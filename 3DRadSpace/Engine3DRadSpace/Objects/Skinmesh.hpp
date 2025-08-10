@@ -1,16 +1,16 @@
 #pragma once
 
 #include "IObject3D.hpp"
-#include "../Content/Assets/Model3D.hpp"
+#include "../Graphics/Model3D.hpp"
 #include "../Reflection/Reflection.hpp"
 
 namespace Engine3DRadSpace::Objects
 {
-	using RefModel3D = Content::AssetID<Content::Assets::Model3D>;
+	using RefModel3D = Content::AssetID<Graphics::Model3D>;
 
 	class E3DRSP_OBJECTS_EXPORT Skinmesh : public IObject3D
 	{
-		Content::Assets::Model3D *_model;
+		Graphics::Model3D *_model;
 		std::unique_ptr<std::string> _path;
 	public:
 		Skinmesh();
@@ -37,7 +37,7 @@ namespace Engine3DRadSpace::Objects
 
 		RefModel3D Model;
 
-		Content::Assets::Model3D *GetModel();
+		Graphics::Model3D *GetModel();
 
 		void Initialize() override;
 		void Update() override;

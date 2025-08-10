@@ -1,5 +1,6 @@
 #include "StaticRigidbody.hpp"
 #include "../Games/Game.hpp"
+#include "../Graphics/Model3D.hpp"
 #include "../Objects/Gizmos.hpp"
 #include <PxRigidStatic.h>
 #include <PxPhysics.h>
@@ -8,7 +9,7 @@
 #include <PxPhysicsAPI.h>
 
 using namespace Engine3DRadSpace;
-using namespace Engine3DRadSpace::Content::Assets;
+using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Objects;
 using namespace Engine3DRadSpace::Physics;

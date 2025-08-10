@@ -1,5 +1,5 @@
 #include "RenderWindow.hpp"
-#include <Engine3DRadSpace/Content/Assets/Font.hpp>
+#include <Engine3DRadSpace/Graphics/Font.hpp>
 #include "../Frontend/Settings.hpp"
 #include <Engine3DRadSpace/Graphics/Primitives/Box.hpp>
 #include <Engine3DRadSpace/Objects/ObjectList.hpp>

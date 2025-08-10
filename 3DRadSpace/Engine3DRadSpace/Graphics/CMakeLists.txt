@@ -45,3 +45,11 @@ target_include_directories(3DRadSpace_Graphics PRIVATE ${CMAKE_CURRENT_SOURCE_DI
 #DirectXTK
 find_package(directxtk CONFIG REQUIRED)
 target_link_libraries(3DRadSpace_Graphics PRIVATE Microsoft::DirectXTK)
+
+#assimp
+find_package(assimp CONFIG REQUIRED)
+target_link_libraries(3DRadSpace_Graphics PRIVATE assimp::assimp)
+
+#FreeType
+find_package(freetype CONFIG REQUIRED)
+target_link_libraries(3DRadSpace_Graphics PRIVATE Freetype::Freetype)

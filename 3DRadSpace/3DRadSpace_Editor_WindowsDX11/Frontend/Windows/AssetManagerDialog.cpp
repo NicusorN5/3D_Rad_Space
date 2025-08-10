@@ -235,21 +235,21 @@ void AssetManagerDialog::_loadAssetIcons()
 				//TODO: Find a way to use UUIDs instead of RTTI.
 				std::unordered_map<size_t, int> type_map =
 				{
-					{typeid(Content::Assets::Model3D).hash_code(), 1},
+					{typeid(Graphics::Model3D).hash_code(), 1},
 					{typeid(Graphics::Texture2D).hash_code(), 2},
-					{typeid(Content::Assets::Font).hash_code(), 3}
+					{typeid(Graphics::Font).hash_code(), 3}
 				};
 
 				switch (type_map[asset.RTTI.hash_code()])
 				{
 				case 1:
-					if (_renderer) _renderer->RenderAsset<Content::Assets::Model3D>(imagePath, asset.Path);
+					if (_renderer) _renderer->RenderAsset<Graphics::Model3D>(imagePath, asset.Path);
 					break;
 				case 2:
 					if (_renderer) _renderer->RenderAsset<Graphics::Texture2D>(imagePath, asset.Path);
 					break;
 				case 3:
-					if (_renderer) _renderer->RenderAsset<Content::Assets::Font>(imagePath, asset.Path);
+					if (_renderer) _renderer->RenderAsset<Graphics::Font>(imagePath, asset.Path);
 					break;
 				default:
 					break;

@@ -16,18 +16,18 @@ AssetFactory::AssetFactory(Game* game) :
 {
 	if(!game->Audio)
 	{
-		game->RequestAudioInitialization();
+		//game->RequestAudioInitialization();
 		_audio = game->Audio.get();
 	}
 
 	if(!game->Physics)
 	{
-		game->RequestPhysicsInitialization({0, -9.8f, 0});
+		//game->RequestPhysicsInitialization({0, -9.8f, 0});
 		_physics = game->Physics.get();
 	}
 }
 
-AssetFactory::AssetFactory(AssetFactory&& moved) :
+AssetFactory::AssetFactory(AssetFactory&& moved) noexcept :
 	_device(moved._device),
 	_physics(moved._physics),
 	_audio(moved._audio)
@@ -37,7 +37,7 @@ AssetFactory::AssetFactory(AssetFactory&& moved) :
 	moved._audio = nullptr;
 }
 
-AssetFactory& AssetFactory::operator=(AssetFactory&& moved)
+AssetFactory& AssetFactory::operator=(AssetFactory&& moved) noexcept
 {
 	if(&moved != this)
 	{

@@ -14,12 +14,13 @@
 #include "../Internal/AssetUUIDReader.hpp"
 #include "GraphicsDevice.hpp"
 #include "RenderTarget.hpp"
-#include "../Content/ShaderManager.hpp"
+#include "Shaders/ShaderManager.hpp"
 #include "Shaders\SpriteShader.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content;
 using namespace Engine3DRadSpace::Graphics;
+using namespace Engine3DRadSpace::Graphics::Shaders;
 using namespace Engine3DRadSpace::Logging;
 using namespace Engine3DRadSpace::Math;
 

@@ -63,7 +63,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		/// </summary>
 		Math::Matrix4x4 Projection = Math::Matrix4x4();
 
-		void SetTransformFromCamera(const Objects::Camera& camera);
+		//void SetTransformFromCamera(const Objects::Camera& camera);
 
 		void Draw3D() override;
 

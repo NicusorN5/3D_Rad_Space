@@ -1,5 +1,5 @@
 #include "IPrimitive.hpp"
-#include "../../Content/ShaderManager.hpp"
+#include "../Shaders/ShaderManager.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content;

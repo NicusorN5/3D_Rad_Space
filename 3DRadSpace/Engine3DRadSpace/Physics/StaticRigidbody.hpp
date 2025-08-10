@@ -15,7 +15,7 @@ namespace Engine3DRadSpace::Physics
 		STD_UPtrTypeless _rigidbody;
 
 		std::unique_ptr<std::string> _path;
-		Content::Assets::Model3D* _model = nullptr;
+		Graphics::Model3D* _model = nullptr;
 
 		Math::Vector3 _oldPos;
 		Math::Quaternion _oldRotation;

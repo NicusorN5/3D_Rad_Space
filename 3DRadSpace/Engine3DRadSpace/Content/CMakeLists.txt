@@ -38,18 +38,9 @@ endif()
 #Dependencies 
 #
 
+target_link_libraries(3DRadSpace_Content PRIVATE 3DRadSpace_Core)
 target_link_libraries(3DRadSpace_Content PRIVATE 3DRadSpace_Math)
+target_link_libraries(3DRadSpace_Content PRIVATE 3DRadSpace_Audio)
 target_link_libraries(3DRadSpace_Content PRIVATE 3DRadSpace_Games)
+target_link_libraries(3DRadSpace_Content PRIVATE 3DRadSpace_Graphics)
 target_include_directories(3DRadSpace_Content PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)
-
-#assimp
-find_package(assimp CONFIG REQUIRED)
-target_link_libraries(3DRadSpace_Content PRIVATE assimp::assimp)
-
-#DirectXTK
-find_package(directxtk CONFIG REQUIRED)
-target_link_libraries(3DRadSpace_Content PRIVATE Microsoft::DirectXTK)
-
-#FreeType
-find_package(freetype CONFIG REQUIRED)
-target_link_libraries(3DRadSpace_Content PRIVATE Freetype::Freetype)

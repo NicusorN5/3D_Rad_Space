@@ -18,10 +18,10 @@ namespace Engine3DRadSpace::Content
 		AssetFactory(Game* game);
 
 		AssetFactory(const AssetFactory&) = delete;
-		AssetFactory(AssetFactory&&);
+		AssetFactory(AssetFactory&&) noexcept;
 
 		AssetFactory& operator=(const AssetFactory&) = delete;
-		AssetFactory& operator=(AssetFactory&&);
+		AssetFactory& operator=(AssetFactory&&) noexcept;
 
 		template<AssetType T, typename ...Args>
 		std::unique_ptr<T> Create(const std::filesystem::path& path, Args&& ...args)

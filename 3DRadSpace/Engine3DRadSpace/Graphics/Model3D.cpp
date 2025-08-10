@@ -1,8 +1,8 @@
 #include "Model3D.hpp"
-#include "../../Core/Logging/Exception.hpp"
-#include "../../Core/Logging/AssetLoadingError.hpp"
-#include "../ShaderManager.hpp"
-#include "../../Internal/AssetUUIDReader.hpp"
+#include "../Core/Logging/Exception.hpp"
+#include "../Core/Logging/AssetLoadingError.hpp"
+#include "../Graphics/Shaders/ShaderManager.hpp"
+#include "../Internal/AssetUUIDReader.hpp"
 
 #include <assimp/scene.h>
 #include <assimp/mesh.h>
@@ -12,9 +12,9 @@
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content;
-using namespace Engine3DRadSpace::Content::Assets;
 using namespace Engine3DRadSpace::Logging;
 using namespace Engine3DRadSpace::Graphics;
+using namespace Engine3DRadSpace::Graphics::Shaders;
 using namespace Engine3DRadSpace::Math;
 
 Assimp::Importer importer;

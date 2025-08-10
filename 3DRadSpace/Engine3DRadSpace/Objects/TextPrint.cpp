@@ -60,18 +60,18 @@ void TextPrint::Load()
     auto content = _game->Content.get();
     if (_path != nullptr)
     {
-        _font = content->Load<Assets::Font>(*_path, &Font);
+        _font = content->Load<class Font>(*_path, &Font);
         _path.reset();
     }
     if (Font)
     {
-        _font = static_cast<Assets::Font*>((*content)[Font]);
+        _font = static_cast<class Font*>((*content)[Font]);
     }
 }
 
 void TextPrint::Load(const std::filesystem::path& path)
 {
-    _font = _game->Content->Load<Assets::Font>(path, &Font);
+    _font = _game->Content->Load<class Font>(path, &Font);
 }
 
 Reflection::UUID TextPrint::GetUUID() const noexcept

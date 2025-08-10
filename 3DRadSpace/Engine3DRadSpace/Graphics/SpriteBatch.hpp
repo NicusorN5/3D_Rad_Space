@@ -5,7 +5,7 @@
 #include "Shaders/SpriteShader.hpp"
 #include "DepthStencilState.hpp"
 #include "FlipMode.hpp"
-#include "../Content/Assets/Font.hpp"
+#include "Font.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {
@@ -170,7 +170,7 @@ namespace Engine3DRadSpace::Graphics
 		);
 
 		void DrawString(
-			Content::Assets::Font* font,
+			Font* font,
 			const std::string& text, 
 			const Math::Vector2& pos,
 			float size,
@@ -181,7 +181,7 @@ namespace Engine3DRadSpace::Graphics
 		);
 
 		void DrawString(
-			Content::Assets::Font* font, 
+			Font* font, 
 			const std::string& text,
 			const Math::Point& pos, 
 			float size, 

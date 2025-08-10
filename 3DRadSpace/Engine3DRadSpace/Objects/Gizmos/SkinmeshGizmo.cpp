@@ -1,11 +1,12 @@
 #include "SkinmeshGizmo.hpp"
 #include "../../Graphics/RasterizerState.hpp"
-#include "../../Content/ShaderManager.hpp"
+#include "../../Graphics/Shaders/ShaderManager.hpp"
 #include "../../Graphics/Shaders/MeshHighlight.hpp"
 #include "../../Games/Game.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
+using namespace Engine3DRadSpace::Graphics::Shaders;
 using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Objects;
 using namespace Engine3DRadSpace::Objects::Gizmos;
@@ -62,7 +63,7 @@ void Gizmo<Skinmesh>::Draw3D()
 			skinmesh->Draw3D();
 
 			auto game = skinmesh->GetGame();
-			auto highlight_effect = Content::ShaderManager::LoadShader<Shaders::MeshHighlight>(game->Device.get());
+			auto highlight_effect = ShaderManager::LoadShader<Shaders::MeshHighlight>(game->Device.get());
 
 			highlight_effect->SetColor(Color(1.0f, 0.5f, 0.0f, 0.5f));
 

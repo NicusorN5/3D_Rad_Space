@@ -29,5 +29,7 @@ elseif(LINUX)
 endif()
 
 #Link 3DRadSpace
+target_link_libraries(3DRadSpace-empty PRIVATE 3DRadSpace_Objects)
+target_link_libraries(3DRadSpace-empty PRIVATE 3DRadSpace_Graphics)
 target_link_libraries(3DRadSpace-empty PRIVATE 3DRadSpace_Games)
 target_include_directories(3DRadSpace-empty PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)

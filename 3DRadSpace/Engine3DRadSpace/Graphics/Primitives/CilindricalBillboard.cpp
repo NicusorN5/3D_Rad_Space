@@ -1,5 +1,5 @@
 #include "CilindricalBillboard.hpp"
-#include "../../Content/ShaderManager.hpp"
+#include "../Shaders/ShaderManager.hpp"
 #include "../Shaders/BasicTextured.hpp"
 #include "Plane.hpp"
 
@@ -13,7 +13,7 @@ CilindricalBillboard::CilindricalBillboard(GraphicsDevice *device) :
 	_device(device),
 	Texture(nullptr)
 {
-	auto shader = Content::ShaderManager::LoadShader<BasicTextured>(device);
+	auto shader = ShaderManager::LoadShader<BasicTextured>(device);
 	auto vertices = CreateVertices();
 	auto indices = Plane::CreateIndices();
 

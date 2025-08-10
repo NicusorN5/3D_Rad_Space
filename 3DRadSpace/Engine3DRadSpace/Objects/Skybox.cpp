@@ -60,7 +60,10 @@ void Skybox::Draw3D()
 {
 	if(_skybox && Visible)
 	{
-		(*_skybox)->SetTransformFromCamera(*_game->Objects->GetRenderingCamera());
+		//(*_skybox)->SetTransformFromCamera(*_game->Objects->GetRenderingCamera());
+		(*_skybox)->Model = _game->Objects->GetRenderingCamera()->GetModelMartix();
+		(*_skybox)->View = _game->Objects->GetRenderingCamera()->GetViewMatrix();
+		(*_skybox)->Projection = _game->Objects->GetRenderingCamera()->GetProjectionMatrix();
 		(*_skybox)->Draw3D();
 	}
 }

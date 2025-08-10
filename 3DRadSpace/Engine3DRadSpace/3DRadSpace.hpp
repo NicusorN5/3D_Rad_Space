@@ -33,11 +33,8 @@
 #include "Content\AssetID.hpp"
 #include "Content\ContentManager.hpp"
 #include "Content\IAsset.hpp"
-#include "Content\ShaderManager.hpp"
 
 //Engine3DRadSpace::Content::Assets
-#include "Content\Assets\Font.hpp"
-#include "Content\Assets\Model3D.hpp"
 #include "Content\Assets\SkyboxAsset.hpp"
 
 //Engine3DRadSpace::Graphics
@@ -46,6 +43,7 @@
 #include "Graphics\DepthStencilBuffer.hpp"
 #include "Graphics\DepthStencilState.hpp"
 #include "Graphics\FlipMode.hpp"
+#include "Graphics\Font.hpp"
 #include "Graphics\Glyph.hpp"
 #include "Graphics\IDomainShader.hpp"
 #include "Graphics\IFragmentShader.hpp"
@@ -54,6 +52,7 @@
 #include "Graphics\IndexBuffer.hpp"
 #include "Graphics\IShader.hpp"
 #include "Graphics\IVertexShader.hpp"
+#include "Graphics\Model3D.hpp"
 #include "Graphics\ModelMesh.hpp"
 #include "Graphics\ModelMeshPart.hpp"
 #include "Graphics\PixelFormat.hpp"
@@ -95,6 +94,7 @@
 #include "Graphics\Shaders\BlankShader.hpp"
 #include "Graphics\Shaders\Blank_NoMatrix.hpp"
 #include "Graphics\Shaders\MeshHighlight.hpp"
+#include "Graphics\Shaders\ShaderManager.hpp"
 #include "Graphics\Shaders\SkyboxShader.hpp"
 #include "Graphics\Shaders\SpriteShader.hpp"
 

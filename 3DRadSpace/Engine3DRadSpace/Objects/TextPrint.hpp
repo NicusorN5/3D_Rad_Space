@@ -1,17 +1,17 @@
 #pragma once
 #include "IObject2D.hpp"
-#include "../Content/Assets/Font.hpp"
+#include "../Graphics/Font.hpp"
 #include "../Content/AssetID.hpp"
 #include "../Reflection/Reflection.hpp"
 
 namespace Engine3DRadSpace::Objects
 { 
-	using RefFont = Content::AssetID<Content::Assets::Font>;
+	using RefFont = Content::AssetID<Graphics::Font>;
 
 	class E3DRSP_OBJECTS_EXPORT TextPrint : public IObject2D
 	{
 	private:
-		Content::Assets::Font* _font = nullptr;
+		Graphics::Font* _font = nullptr;
 		std::unique_ptr<std::string> _path;
 	public:
 		TextPrint();

@@ -1,6 +1,5 @@
 #include "Camera.hpp"
 #include "../Reflection/Reflection.hpp"
-#include "../Content/Assets/Model3D.hpp"
 #include "../Games/Game.hpp"
 #include "ObjectList.hpp"
 #include "Gizmos/CameraGizmo.hpp"

@@ -1,14 +1,14 @@
 #pragma once
-#include "../Graphics/Effect.hpp"
-#include "../Core/Tag.hpp"
+#include "../Effect.hpp"
+#include "../../Core/Tag.hpp"
 
-namespace Engine3DRadSpace::Content
+namespace Engine3DRadSpace::Graphics::Shaders
 {
 	/// <summary>
 	/// A type S is a ShaderCollection if it inherits Effect and is constructable from a GraphicsDevice pointer.
 	/// </summary>
 	template<typename S>
-	concept ShaderCollection = std::is_base_of<Graphics::Shaders::Effect,S>::value
+	concept ShaderCollection = std::is_base_of<Effect, S>::value
 		&& requires(Graphics::GraphicsDevice* device)
 	{
 		S(device); //Shaders must be constructible from the graphics device.
@@ -20,9 +20,9 @@ namespace Engine3DRadSpace::Content
 	/// <remarks>
 	/// Constructors are deleted since this is almost a namespace.
 	/// </remarks>
-	class E3DRSP_CONTENT_EXPORT ShaderManager
+	class E3DRSP_GRAPHICS_EXPORT ShaderManager
 	{
-		static std::unordered_map<size_t, std::shared_ptr<Graphics::Shaders::Effect>> _shaders;
+		static std::unordered_map<size_t, std::shared_ptr<Effect>> _shaders;
 	public:
 		ShaderManager() = delete;
 		ShaderManager(const ShaderManager &) = delete;
@@ -38,7 +38,7 @@ namespace Engine3DRadSpace::Content
 		/// <param name="device">Graphics device handle used to instantiate the shader.</param>
 		/// <returns></returns>
 		template<ShaderCollection S>
-		static std::shared_ptr<S> LoadShader(Graphics::GraphicsDevice *device);
+		static std::shared_ptr<S> LoadShader(GraphicsDevice *device);
 
 		/// <summary>
 		/// Retrieves a shader instance of type S.

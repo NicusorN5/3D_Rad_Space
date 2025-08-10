@@ -5,11 +5,11 @@
 #include <Engine3DRadSpace\Math\Matrix4x4.hpp>
 #include <Engine3DRadSpace/Math/Vector2.hpp>
 #include <Engine3DRadSpace/Objects/Camera.hpp>
-#include <Engine3DRadSpace/Content/Assets/Model3D.hpp>
+#include <Engine3DRadSpace/Graphics/Model3D.hpp>
 #include <Engine3DRadSpace/Graphics/Shaders/BasicTextured.hpp>
 #include <Engine3DRadSpace/Graphics/SpriteBatch.hpp>
 #include <Engine3DRadSpace/Graphics/Primitives/LineList.hpp>
-#include <Engine3DRadSpace/Content/Assets/Font.hpp>
+#include <Engine3DRadSpace/Graphics/Font.hpp>
 #include <Engine3DRadSpace/Graphics/Primitives/SphericalBillboard.hpp>
 
 //Despite using namespaces are ill-advised to be used in headers, this header is not meant to be included in other files.

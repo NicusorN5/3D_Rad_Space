@@ -5,13 +5,10 @@
 #include "../Math/BoundingSphere.hpp"
 #include "../Math/BoundingBox.hpp"
 
-namespace Engine3DRadSpace::Content::Assets
-{
-	class Model3D;
-}
-
 namespace Engine3DRadSpace::Graphics
 {
+	class Model3D;
+
 	/// <summary>
 	/// Represents a mesh formed by a index and vertex buffer, plus an effect.
 	/// </summary>
@@ -83,7 +80,7 @@ namespace Engine3DRadSpace::Graphics
 
 		~ModelMeshPart() = default;
 
-		friend class Engine3DRadSpace::Content::Assets::Model3D;
+		friend class Model3D;
 	};
 
 	template<VertexDecl V>
