@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdint.h>
+
 #ifndef __cplusplus
 #include <stdbool.h>
 #else

@@ -1,4 +1,5 @@
 #include "Keyboard.hpp"
+#include "Keyboard.h"
 
 using namespace Engine3DRadSpace::Input;
 
@@ -73,4 +74,24 @@ KeyState Keyboard::operator[](const Key k)
             return KeyState::Up;
     }
     return KeyState::Down;
+}
+
+bool E3DRSP_Keyboard_IsKeyDown(E3DRSP_Keyboard* kb, E3DRSP_Key key)
+{
+    return (reinterpret_cast<Keyboard*>(kb))->IsKeyDown(static_cast<Key>(key));
+}
+
+bool E3DRSP_Keyboard_IsKeyUp(E3DRSP_Keyboard* kb, E3DRSP_Key key)
+{
+    return (reinterpret_cast<Keyboard*>(kb))->IsKeyUp(static_cast<Key>(key));
+}
+
+bool E3DRSP_Keyboard_IsAnyKeyDown(E3DRSP_Keyboard* kb)
+{
+    return (reinterpret_cast<Keyboard*>(kb)->IsAnyKeyDown());
+}
+
+E3DRSP_KeyState E3DRSP_Keyboard_At(E3DRSP_Keyboard* kb, E3DRSP_Key key)
+{
+    return static_cast<E3DRSP_KeyState>((reinterpret_cast<Keyboard*>(kb))->operator[](static_cast<Key>(key)));
 }
