@@ -22,6 +22,7 @@ Game::Game(const std::string &title, unsigned width, unsigned height, bool fulls
 	Content = std::make_unique<Content::ContentManager>(this);
 	SpriteBatch = std::make_unique<Graphics::SpriteBatch>(Device.get());
 	PostProcesses = std::make_unique<Graphics::Rendering::PostProcessCollection>(Device.get());
+	Audio = std::make_unique<AudioEngine>();
 	_valid = true;
 }
 
@@ -37,6 +38,7 @@ Game::Game(Native::Window &&window) :
 	Content = std::make_unique<Content::ContentManager>(this);
 	SpriteBatch = std::make_unique<Graphics::SpriteBatch>(Device.get());
 	PostProcesses = std::make_unique<Graphics::Rendering::PostProcessCollection>(Device.get());
+	Audio = std::make_unique<AudioEngine>();
 	_valid = true;
 }
 
