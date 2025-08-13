@@ -36,8 +36,16 @@ void Settings::Load()
 		return;
 	}
 
-	jsonFile >> settings;
-	jsonFile.close();
+	try
+	{
+		jsonFile >> settings;
+		jsonFile.close();
+	}
+	catch(...)
+	{
+		Save();
+		return;
+	}
 
 	CameraSensitivity.Value = settings["Editor"]["CameraSensitivity"].get<float>();
 	StartupUpdate.Value = settings["Updates"]["StartupUpdate"].get<bool>();
