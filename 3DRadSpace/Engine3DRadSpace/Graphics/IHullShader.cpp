@@ -57,6 +57,8 @@ IHullShader::IHullShader(GraphicsDevice *device, const std::filesystem::path &pa
 
 void IHullShader::SetTexture(unsigned index, Texture2D *texture)
 {
+	if(texture == nullptr)
+		return;
 #ifdef USING_DX11
 	_device->_context->HSSetShaderResources(index, 1, texture->_resourceView.GetAddressOf());
 #endif

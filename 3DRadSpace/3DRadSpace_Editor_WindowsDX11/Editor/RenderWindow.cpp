@@ -63,7 +63,7 @@ void RenderWindow::Load()
 {
 	_font = std::make_unique<Font>(Device.get(), "Data//Fonts//Arial.ttf");
 
-	sob = std::make_unique<Texture2D>(Device.get(), "sob.png");
+	//sob = std::make_unique<Texture2D>(Device.get(), "sob.png");
 	//sob->Resize(256, 256);
 
 	billboard = std::make_unique<CilindricalBillboard>(Device.get());

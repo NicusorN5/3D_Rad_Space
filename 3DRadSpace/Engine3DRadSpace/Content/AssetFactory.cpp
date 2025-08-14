@@ -16,13 +16,11 @@ AssetFactory::AssetFactory(Game* game) :
 {
 	if(!game->Audio)
 	{
-		//game->RequestAudioInitialization();
 		_audio = game->Audio.get();
 	}
 
 	if(!game->Physics)
 	{
-		//game->RequestPhysicsInitialization({0, -9.8f, 0});
 		_physics = game->Physics.get();
 	}
 }

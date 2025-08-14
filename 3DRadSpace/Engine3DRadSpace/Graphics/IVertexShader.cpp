@@ -386,6 +386,8 @@ IVertexShader::IVertexShader(GraphicsDevice*Device, std::span<InputLayoutElement
 
 void IVertexShader::SetTexture(unsigned index, Texture2D *texture)
 {
+	if(texture == nullptr)
+		return;
 #ifdef USING_DX11
 	_device->_context->VSSetShaderResources(index, 1, texture->_resourceView.GetAddressOf());
 #endif

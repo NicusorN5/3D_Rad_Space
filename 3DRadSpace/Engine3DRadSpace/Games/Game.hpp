@@ -28,6 +28,7 @@ namespace Engine3DRadSpace
 
 		std::optional<std::filesystem::path> _newScene;
 
+		void _initialize();
 		void _loadScene();
 	public:
 		Game(const std::string &title, unsigned width = 800, unsigned height = 600, bool fullscreen = false);
@@ -67,9 +68,6 @@ namespace Engine3DRadSpace
 
 		bool WasInitialized() const noexcept;
 		bool WasLoaded() const noexcept;
-
-		void RequestPhysicsInitialization(const Math::Vector3& gravity, double timeStep = 1.0 / 60.0);
-		void RequestAudioInitialization();
 
 		Math::Ray GetMouseRay(const Math::Vector2& mousePosition, const Math::Matrix4x4& view, const Math::Matrix4x4& projection);
 

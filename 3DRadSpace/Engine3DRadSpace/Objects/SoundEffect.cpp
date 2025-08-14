@@ -93,7 +93,6 @@ SoundInstance* SoundEffect::GetInstance() const noexcept
 
 void SoundEffect::Initialize()
 {
-	this->_game->RequestAudioInitialization();
 }
 
 void SoundEffect::Load()

@@ -56,6 +56,8 @@ IFragmentShader::IFragmentShader(GraphicsDevice *device, const std::filesystem::
 
 void IFragmentShader::SetTexture(unsigned index, Texture2D *texture)
 {
+	if(texture == nullptr)
+		return;
 #ifdef USING_DX11
 	_device->_context->PSSetShaderResources(index, 1, texture->_resourceView.GetAddressOf());
 #endif // USING_DX11

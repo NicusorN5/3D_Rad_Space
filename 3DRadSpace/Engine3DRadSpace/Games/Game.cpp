@@ -12,18 +12,23 @@ using namespace Engine3DRadSpace::Physics;
 using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Native;
 
+void Game::_initialize()
+{
+	Content = std::make_unique<Content::ContentManager>(this);
+	SpriteBatch = std::make_unique<Graphics::SpriteBatch>(Device.get());
+	PostProcesses = std::make_unique<Graphics::Rendering::PostProcessCollection>(Device.get());
+	Audio = std::make_unique<AudioEngine>();
+	_valid = true;
+}
+
 Game::Game(const std::string &title, unsigned width, unsigned height, bool fullscreen) :
 	Window(std::make_unique<Native::Window>(title, width, height)),
 	Objects(std::make_unique<Engine3DRadSpace::ObjectList>(this)),
 	Keyboard(Window->GetKeyboardState()),
 	Mouse(Window->GetMouseState())
 {
-	Device = std::make_unique<GraphicsDevice>(Window->NativeHandle(),width,height);
-	Content = std::make_unique<Content::ContentManager>(this);
-	SpriteBatch = std::make_unique<Graphics::SpriteBatch>(Device.get());
-	PostProcesses = std::make_unique<Graphics::Rendering::PostProcessCollection>(Device.get());
-	Audio = std::make_unique<AudioEngine>();
-	_valid = true;
+	Device = std::make_unique<GraphicsDevice>(Window->NativeHandle(), width, height);
+	_initialize();
 }
 
 Game::Game(Native::Window &&window) :
@@ -35,11 +40,8 @@ Game::Game(Native::Window &&window) :
 	Math::Point size = Window->Size();
 
 	Device = std::make_unique<GraphicsDevice>(Window->NativeHandle(), size.X, size.Y);
-	Content = std::make_unique<Content::ContentManager>(this);
-	SpriteBatch = std::make_unique<Graphics::SpriteBatch>(Device.get());
-	PostProcesses = std::make_unique<Graphics::Rendering::PostProcessCollection>(Device.get());
-	Audio = std::make_unique<AudioEngine>();
-	_valid = true;
+
+	_initialize();
 }
 
 void Game::Run()
@@ -101,29 +103,6 @@ bool Game::WasInitialized() const noexcept
 bool Game::WasLoaded() const noexcept
 {
 	return _wasLoaded;
-}
-
-void Game::RequestPhysicsInitialization(const Vector3 &gravity, double timeStep)
-{
-	if (!Physics)
-	{
-		Physics = std::make_unique<PhysicsEngine>(
-			Physics::PhysicsSettings
-			{
-				.PhysicsEnabled = true,
-				.Gravity = gravity,
-				.TimeStep = timeStep
-			}
-		);
-	}
-}
-
-void Game::RequestAudioInitialization()
-{
-	if (!Audio)
-	{
-		Audio = std::make_unique<AudioEngine>();
-	}
 }
 
 Game::~Game()

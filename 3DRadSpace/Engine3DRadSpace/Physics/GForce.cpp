@@ -15,8 +15,6 @@ GForce::GForce(const std::string& name, bool enabled, const Math::Vector3& gravi
 
 void GForce::Initialize()
 {
-    if(Enabled)
-        _game->RequestPhysicsInitialization(Gravity);
 }
 
 void GForce::Update()

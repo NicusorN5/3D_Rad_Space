@@ -57,6 +57,8 @@ IDomainShader::IDomainShader(GraphicsDevice *device, const std::filesystem::path
 
 void IDomainShader::SetTexture(unsigned index, Texture2D *texture)
 {
+	if(texture == nullptr)
+		return;
 #ifdef USING_DX11
 	_device->_context->DSSetShaderResources(index, 1, texture->_resourceView.GetAddressOf());
 #endif
