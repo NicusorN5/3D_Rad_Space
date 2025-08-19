@@ -7,6 +7,7 @@
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content;
 using namespace Engine3DRadSpace::Content::Assets;
+using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Objects;
 
 Skybox::Skybox(const std::string& name, bool visible, RefSkybox skybox) :
@@ -60,10 +61,12 @@ void Skybox::Draw3D()
 {
 	if(_skybox && Visible)
 	{
-		//(*_skybox)->SetTransformFromCamera(*_game->Objects->GetRenderingCamera());
-		(*_skybox)->Model = _game->Objects->GetRenderingCamera()->GetModelMartix();
-		(*_skybox)->View = _game->Objects->GetRenderingCamera()->GetViewMatrix();
-		(*_skybox)->Projection = _game->Objects->GetRenderingCamera()->GetProjectionMatrix();
+		auto camera = _game->Objects->GetRenderingCamera();
+
+		float s = camera->FarPlaneDistance * 0.5f;
+		(*_skybox)->Model = Matrix4x4::CreateScale(Vector3(s, s, s)) * Matrix4x4::CreateTranslation(camera->Position);
+		(*_skybox)->View = camera->GetViewMatrix();
+		(*_skybox)->Projection = camera->GetProjectionMatrix();
 		(*_skybox)->Draw3D();
 	}
 }

@@ -63,11 +63,16 @@ void RenderWindow::Load()
 {
 	_font = std::make_unique<Font>(Device.get(), "Data//Fonts//Arial.ttf");
 
-	//sob = std::make_unique<Texture2D>(Device.get(), "sob.png");
-	//sob->Resize(256, 256);
+	try{
+		sob = std::make_unique<Texture2D>(Device.get(), "sob.png");
+		sob->Resize(256, 256);
 
-	billboard = std::make_unique<CilindricalBillboard>(Device.get());
-	billboard->Texture = sob.get();
+		billboard = std::make_unique<CilindricalBillboard>(Device.get());
+		billboard->Texture = sob.get();
+	}
+	catch(...)
+	{
+	}
 }
 
 Vector2 mouseDelta;
@@ -236,7 +241,7 @@ void RenderWindow::Draw2D()
 
 		auto gizmo = obj2d->GetGizmo();
 		if(gizmo != nullptr)
-		{
+		{ 
 			gizmo->Selected = obj.Object.get() == this->_selectedObject;
 			gizmo->Object = obj.Object.get();
 			gizmo->Draw2D();
