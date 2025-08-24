@@ -51,3 +51,33 @@ TEST(IntersectionTests, Ray_Triangle3)
 
 	EXPECT_FALSE(r.Intersects(tri).has_value());
 }
+
+TEST(IntersectionTests, Ray_Sphere1)
+{
+	Ray r(
+		Vector3::Zero(),
+		Vector3::UnitZ()
+	);
+
+	BoundingSphere sph(
+		Vector3(0.1, 0, 5),
+		0.125f
+	);
+
+	EXPECT_TRUE(r.Intersects(sph));
+}
+
+TEST(IntersectionTests, Ray_Sphere2)
+{
+	Ray r(
+		Vector3::Zero(),
+		Vector3::UnitZ()
+	);
+
+	BoundingSphere sph(
+		Vector3::One(),
+		0.5f
+	);
+
+	EXPECT_FALSE(r.Intersects(sph));
+}

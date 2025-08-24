@@ -34,7 +34,11 @@ IAsset* ContentManager::Load(const Reflection::UUID &uuid, const std::filesystem
 
 void ContentManager::Reload(unsigned id)
 {
-	auto asset = _factory.CreateAssetInstance(_assets[id].Entry->GetUUID(), _assets[id].Path);
+	auto uuid = _assets[id].Entry->GetUUID();
+	auto path = _assets[id].Path;
+
+	Logging::SetLastMessage(std::format("Loaded asset ID {} path {} UUID {}", id, path.string(), uuid));
+	auto asset = _factory.CreateAssetInstance(uuid, path);
 	_assets[id].Entry.reset(asset);
 }
 

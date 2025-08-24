@@ -1,5 +1,6 @@
 #pragma once
 #include "IAsset.hpp"
+#include "../Core/Logging/Message.hpp"
 
 namespace Engine3DRadSpace
 {
@@ -29,6 +30,8 @@ namespace Engine3DRadSpace::Content
 			using namespace Engine3DRadSpace::Audio;
 			using namespace Engine3DRadSpace::Graphics;
 			using namespace Engine3DRadSpace::Physics;
+
+			Logging::SetLastMessage(std::format("Loading asset from {} type {}", path.string(), typeid(T).name()));
 
 			//can be constructed from a GraphicsDevice
 			if constexpr (ConstructibleFromGraphicsDevice<T>)

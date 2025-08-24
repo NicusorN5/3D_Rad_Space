@@ -5,6 +5,8 @@ using namespace Engine3DRadSpace::Math;
 
 std::optional<float> Ray::Intersects(const BoundingSphere &sph) const
 {
+    //https://github.com/MonoGame/MonoGame/blob/develop/MonoGame.Framework/Ray.cs
+
     Vector3 difference = sph.Center - Origin;
 
     float differenceLengthSquared = difference.LengthSquared();
@@ -23,8 +25,9 @@ std::optional<float> Ray::Intersects(const BoundingSphere &sph) const
     // if y = distance between ray position and sphere centre
     // if z = the distance we've travelled along the ray
     // if x^2 + z^2 - y^2 < 0, we do not intersect
-    return sphereRadiusSquared + distanceAlongRay * distanceAlongRay - differenceLengthSquared;
-
+    float dst = sphereRadiusSquared + distanceAlongRay * distanceAlongRay - differenceLengthSquared;
+    if(dst > 0) return dst;
+    else return std::nullopt;
 
  //   //https://en.wikipedia.org/wiki/Line%E2%80%93sphere_intersection
  //   float a = Direction.Dot(Origin - sph.Center);

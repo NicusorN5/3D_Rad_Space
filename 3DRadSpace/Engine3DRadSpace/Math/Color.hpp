@@ -87,3 +87,19 @@ namespace Engine3DRadSpace::Math
 		//TODO: Add more colors.
 	};
 }
+
+namespace std
+{
+	template<>
+	struct formatter<Engine3DRadSpace::Math::Color>
+	{
+		constexpr auto parse(std::format_parse_context& ctx) {
+			return ctx.begin();
+		}
+
+		auto format(const Engine3DRadSpace::Math::Color& c, std::format_context& ctx) const {
+			return std::format_to(ctx.out(), "({}, {}, {}, {})", c.R, c.G, c.B, c.A);
+		}
+
+	};
+}

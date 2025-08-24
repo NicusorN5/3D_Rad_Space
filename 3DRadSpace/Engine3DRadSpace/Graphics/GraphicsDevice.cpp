@@ -17,8 +17,6 @@
 #include <dxgi1_3.h>
 #endif //  USING_DX11
 
-#include "../Core/Logging.hpp"
-
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Logging;

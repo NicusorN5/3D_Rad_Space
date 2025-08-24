@@ -2,6 +2,7 @@
 #include "../Reflection/UUID.hpp"
 #include "AssetID.hpp"
 #include "AssetFactory.hpp"
+#include "../Core/Logging/Message.hpp"
 
 namespace Engine3DRadSpace
 {

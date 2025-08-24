@@ -35,4 +35,28 @@ namespace std
 			return h;
 		}
 	};
+
+	template<>
+	struct formatter<Engine3DRadSpace::Reflection::UUID>
+	{
+		constexpr auto parse(std::format_parse_context& ctx) {
+			return ctx.begin();
+		}
+
+		auto format(const Engine3DRadSpace::Reflection::UUID& uuid, std::format_context& ctx) const {
+			return std::format_to(ctx.out(), "{{{:x}-{:x}-{:x}-{:x}{:x}-{:x}{:x}{:x}{:x}{:x}{:x}}}", 
+				uuid.Data1,
+				uuid.Data2,
+				uuid.Data3,
+				uuid.Data4[0],
+				uuid.Data4[1],
+				uuid.Data4[2],
+				uuid.Data4[3],
+				uuid.Data4[4],
+				uuid.Data4[5],
+				uuid.Data4[6],
+				uuid.Data4[7]
+			);
+		}
+	};
 }

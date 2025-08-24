@@ -1,12 +1,15 @@
 #include "AssetFactory.hpp"
+#include "../Core/Logging.hpp"
 #include "../Games/Game.hpp"
 #include "Assets.hpp"
+
 using namespace Engine3DRadSpace::Internal;
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Audio;
 using namespace Engine3DRadSpace::Content;
 using namespace Engine3DRadSpace::Graphics;
+using namespace Engine3DRadSpace::Logging;
 using namespace Engine3DRadSpace::Physics;
 
 AssetFactory::AssetFactory(Game* game) :
@@ -74,6 +77,7 @@ IAsset* AssetFactory::CreateAssetInstance(const Reflection::UUID &nuuid ,const s
 	{
 		if(uuid == nuuid)
 		{
+			Logging::SetLastMessage(std::format("Loaded asset from {} UUID {}", path.string(), uuid));
 			switch(ctor.index())
 			{
 				case 0:
