@@ -17,7 +17,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 	/// Do not use negative scales - unless back face culling is disabled.
 	/// Avoid using GetVertexBuffer() and GetIndexBuffer(). Prefer the CreateVertices and CreateIndices static methods.
 	/// </remarks>
-	class E3DRSP_GRAPHICS_EXPORT Box : public IPrimitive
+	class E3DRSP_GRAPHICS_PRIMITIVES_EXPORT Box : public IPrimitive
 	{
 		Math::BoundingBox _box;
 		Math::Color _color;

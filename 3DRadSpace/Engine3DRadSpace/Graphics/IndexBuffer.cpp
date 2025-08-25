@@ -66,20 +66,31 @@ IndexBuffer::IndexBuffer(GraphicsDevice* device, unsigned* indices, size_t numin
 	_debugInfo();
 }
 
-void IndexBuffer::SetData(std::span<unsigned> newindices)
+void IndexBuffer::SetData(std::span<unsigned> newindices) override
 {
 #ifdef USING_DX11
 	D3D11_MAPPED_SUBRESOURCE mappedBuff{};
 	HRESULT r = _device->_context->Map(_indexBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedBuff);
 	if (FAILED(r)) throw Exception("Failed to map a index buffer!");
 
-	memset(mappedBuff.pData, 0, _numIndices * sizeof(unsigned));
 	memcpy(mappedBuff.pData, &newindices[0], newindices.size_bytes());
 	_device->_context->Unmap(_indexBuffer.Get(), 0);
 #endif
 }
 
-size_t Engine3DRadSpace::Graphics::IndexBuffer::ReadData(void** data)
+void IndexBuffer::SetData(void *data, size_t buffSize) override
+{
+#ifdef USING_DX11
+	D3D11_MAPPED_SUBRESOURCE mappedBuff{};
+	HRESULT r = _device->_context->Map(_indexBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedBuff);
+	if(FAILED(r)) throw Exception("Failed to map a index buffer!");
+
+	memcpy(mappedBuff.pData, data, buffSize);
+	_device->_context->Unmap(_indexBuffer.Get(), 0);
+#endif
+}
+
+size_t Engine3DRadSpace::Graphics::IndexBuffer::ReadData(void** data) override
 {
 #ifdef USING_DX11
 	D3D11_MAPPED_SUBRESOURCE res{};
@@ -90,19 +101,19 @@ size_t Engine3DRadSpace::Graphics::IndexBuffer::ReadData(void** data)
 #endif
 }
 
-void Engine3DRadSpace::Graphics::IndexBuffer::EndRead()
+void Engine3DRadSpace::Graphics::IndexBuffer::EndRead() override
 {
 #ifdef USING_DX11
 	_device->_context->Unmap(_indexBuffer.Get(), 0);
 #endif
 }
 
-unsigned IndexBuffer::NumIndices() const noexcept
+unsigned IndexBuffer::NumIndices() const noexcept override
 {
 	return _numIndices;
 }
 
-void* IndexBuffer::GetHandle() const noexcept
+void* IndexBuffer::GetHandle() const noexcept override
 {
 #ifdef USING_DX11
 	return static_cast<void*>(_indexBuffer.Get());
@@ -128,7 +139,7 @@ IndexBuffer IndexBuffer::CreateStaging()
 #endif
 }
 
-void IndexBuffer::Set(unsigned offset)
+void IndexBuffer::Set(unsigned offset) override
 {
 #ifdef USING_DX11
 	_device->_context->IASetIndexBuffer(_indexBuffer.Get(), DXGI_FORMAT_R32_UINT, offset);

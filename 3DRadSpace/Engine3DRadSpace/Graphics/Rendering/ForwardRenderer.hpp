@@ -6,7 +6,7 @@ namespace Engine3DRadSpace::Graphics::Rendering
 	/// <summary>
 	/// A trivial forward renderer.
 	/// </summary>
-	class E3DRSP_GRAPHICS_EXPORT ForwardRenderer : public IRenderer
+	class E3DRSP_GRAPHICS_RENDERING_EXPORT ForwardRenderer : public IRenderer
 	{
 		bool _beginCalled = false;
 	public:

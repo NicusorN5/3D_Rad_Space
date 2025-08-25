@@ -16,7 +16,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 	/// Only a size parameter is used when creating the mesh, BoundingPlane represents a infinite plane.
 	/// The mesh transformation is not set by a BoundingPlane since translation and scale information would need to be set again - it isn't guaranteed to recover translation and scale from a 
 	/// </remarks>
-	class E3DRSP_GRAPHICS_EXPORT Plane: public IPrimitive
+	class E3DRSP_GRAPHICS_PRIMITIVES_EXPORT Plane: public IPrimitive
 	{
 	public:
 		/// <summary>

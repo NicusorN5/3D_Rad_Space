@@ -8,6 +8,7 @@
 #include "DepthStencilState.hpp"
 #include "DepthStencilBuffer.hpp"
 #include "BlendState.hpp"
+#include "IGraphicsDevice.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {
@@ -41,7 +42,7 @@ namespace Engine3DRadSpace::Graphics
 	/// <summary>
 	/// DirectX11 RHI (Rendering Hardware Interface)
 	/// </summary>
-	class E3DRSP_GRAPHICS_EXPORT GraphicsDevice
+	class E3DRSP_GRAPHICS_EXPORT GraphicsDevice : public IGraphicsDevice
 	{
 #ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11Device> _device;

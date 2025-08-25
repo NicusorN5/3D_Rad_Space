@@ -4,7 +4,7 @@
 
 namespace Engine3DRadSpace::Graphics::Primitives
 {
-	class E3DRSP_GRAPHICS_EXPORT Cylinder: public IPrimitive
+	class E3DRSP_GRAPHICS_PRIMITIVES_EXPORT Cylinder: public IPrimitive
 	{
 	public:
 		Cylinder(GraphicsDevice* device, float radius = 1.0f, float height = 1.0f, float tessellation = 64);
