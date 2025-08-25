@@ -7,35 +7,6 @@ namespace Engine3DRadSpace
 	{
 		class GraphicsDevice;
 
-		enum class RasterizerFillMode
-		{
-			/// <summary>
-			/// Triangles will be drawn in wireframe.
-			/// </summary>
-			Wireframe = 2,
-			/// <summary>
-			/// Triangles will be fully drawn.
-			/// </summary>
-			Solid = 3
-		};
-
-		enum class RasterizerCullMode
-		{
-			/// <summary>
-			/// Always draw all triangles.
-			/// </summary>
-			None = 1,
-			/// <summary>
-			/// Do not draw font-facing trangles.
-			/// </summary>
-			CullFront = 2,
-			/// <summary>
-			/// Do not draw backfaces.
-			/// </summary>
-			CullBack = 3,
-		};
-
-
 		class E3DRSP_GRAPHICS_EXPORT RasterizerState
 		{
 #ifdef USING_DX11

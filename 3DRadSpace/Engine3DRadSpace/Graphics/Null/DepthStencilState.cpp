@@ -35,22 +35,22 @@ static DepthStencilState DepthStencilState::DepthDefault(GraphicsDevice* device)
 {
 	return DepthStencilState(device);
 }
-static DepthStencilState DepthNone(GraphicsDevice *device)
+static DepthStencilState DepthStencilState::DepthNone(GraphicsDevice *device)
 {
 	return DepthStencilState(device);
 }
 
-static DepthStencilState DepthRead(GraphicsDevice *device)
+static DepthStencilState DepthStencilState::DepthRead(GraphicsDevice *device)
 {
 	return DepthStencilState(device);
 }
 
-static DepthStencilState DepthReverseZ(GraphicsDevice *device)
+static DepthStencilState DepthStencilState::DepthReverseZ(GraphicsDevice *device)
 {
 	return DepthStencilState(device);
 }
 
-static DepthStencilState DepthReadReverseZ(GraphicsDevice *device)
+static DepthStencilState DepthStencilState::DepthReadReverseZ(GraphicsDevice *device)
 {
 	return DepthStencilState(device);
 }

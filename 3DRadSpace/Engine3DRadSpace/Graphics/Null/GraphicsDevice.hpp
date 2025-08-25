@@ -1,8 +1,25 @@
 #pragma once
 #include "../IGraphicsDevice.hpp"
+#include "../../Math/Color.hpp"
+#include "../Viewport.hpp"
 
 namespace Engine3DRadSpace::Graphics::Null
 {
+	class RenderTarget;
+	class Texture2D;
+	class DepthStencilBuffer;
+	class DepthStencilState;
+	class VertexBuffer;
+	class IndexBuffer;
+	class IShader;
+
+
+	/// <summary>
+	/// Null GraphicsDevice implementation that doesn't make any GAPI calls.
+	/// </summary>
+	/// <remarks>
+	/// A null graphics device can be used for a headless application, for servers, physics-only simulation, testing, et cetera...
+	/// </remarks>
 	class E3DRSP_GRAPHICS_NULL_EXPORT GraphicsDevice final: public IGraphicsDevice
 	{
 	public:
