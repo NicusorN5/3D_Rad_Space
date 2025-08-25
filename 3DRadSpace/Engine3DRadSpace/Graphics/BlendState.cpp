@@ -229,6 +229,11 @@ void* BlendState::GetHandle() const noexcept
 	return static_cast<void*>(this->_blendState.Get());
 }
 
+IGraphicsDevice * BlendState::GetGraphicsDevice() const noexcept
+{
+	return this->_device;
+}
+
 BlendState BlendState::Opaque(GraphicsDevice *device)
 {
 	// https://github.com/microsoft/DirectXTK/wiki/CommonStates

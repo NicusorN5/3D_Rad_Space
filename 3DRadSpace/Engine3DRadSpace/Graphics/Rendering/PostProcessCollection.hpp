@@ -7,7 +7,7 @@ namespace Engine3DRadSpace::Graphics::Rendering
 	/// <summary>
 	/// Represents multiple post processes, one applied after the other.
 	/// </summary>
-	class E3DRSP_GRAPHICS_EXPORT PostProcessCollection
+	class E3DRSP_GRAPHICS_RENDERING_EXPORT PostProcessCollection
 	{
 	private:
 		GraphicsDevice* _device;

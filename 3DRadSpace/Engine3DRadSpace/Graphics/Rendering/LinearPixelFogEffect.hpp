@@ -6,7 +6,7 @@ namespace Engine3DRadSpace::Graphics::Rendering
 	/// <summary>
 	/// Implements a screen space fog effect.
 	/// </summary>
-	class E3DRSP_GRAPHICS_EXPORT LinearPixelFogEffect : public PostProcessEffect
+	class E3DRSP_GRAPHICS_RENDERING_EXPORT LinearPixelFogEffect : public PostProcessEffect
 	{
 	protected:
 		LinearPixelFogEffect(const LinearPixelFogEffect&) = delete;

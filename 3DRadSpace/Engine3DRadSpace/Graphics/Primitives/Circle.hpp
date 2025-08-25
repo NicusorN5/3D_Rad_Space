@@ -4,7 +4,7 @@
 
 namespace Engine3DRadSpace::Graphics::Primitives
 {
-	class E3DRSP_GRAPHICS_EXPORT Circle : public LineStrip
+	class E3DRSP_GRAPHICS_PRIMITIVES_EXPORT Circle : public LineStrip
 	{
 		float _radius;
 	public:

@@ -4,7 +4,7 @@
 
 namespace Engine3DRadSpace::Graphics::Primitives
 {
-	class E3DRSP_GRAPHICS_EXPORT CilindricalBillboard : public IDrawable3D
+	class E3DRSP_GRAPHICS_PRIMITIVES_EXPORT CilindricalBillboard : public IDrawable3D
 	{
 		GraphicsDevice *_device;
 		std::unique_ptr<ModelMeshPart> _plane;

@@ -1,63 +1,13 @@
 #pragma once
 #include "GraphicsDevice.hpp"
+#include "IBlendState.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {
-	enum class Blend
-	{
-        Zero = 0,
-        One,
-        SourceColor,
-        InverseSourceColor,
-        SourceAlpha,
-        InverseSourceAlpha,
-        DestinationAlpha,
-        InverseDestinationAlpha,
-        DestinationColor,
-        InverseDestinationColor,
-        SourceAlphaSat,
-        BlendFactor,
-        InverseBlendFactor,
-        Source1Color,
-        Source1InverseColor,
-        Source1Alpha,
-        InverseSource1Alpha
-	};
-
-    enum class BlendOperation
-    {
-        Add,
-        Substract,
-        ReverseSubstract,
-        Minimum,
-        Maximum,
-    };
-
-    enum class ColorWriteEnable
-    {
-        Red,
-        Greed,
-        Blue,
-        Alpha,
-        All
-    };
-
-    struct RenderTargetBlendState
-    {
-        bool EnableBlending;
-        Blend SourceBlend;
-        Blend DestinationBlend;
-        BlendOperation BlendOp;
-        Blend SourceBlendAlpha;
-        Blend DestinationBlendAlpha;
-        BlendOperation BlendOpAlpha;
-        ColorWriteEnable WriteMask;
-    };
-
 	/// <summary>
 	/// Represents blend state GPU handles.
 	/// </summary>
-	class E3DRSP_GRAPHICS_EXPORT BlendState
+	class E3DRSP_GRAPHICS_EXPORT BlendState : IBlendState
 	{
 #ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11BlendState> _blendState;
@@ -109,13 +59,15 @@ namespace Engine3DRadSpace::Graphics
         /// Gets the blend factor.
         /// </summary>
         /// <returns>Blend factor.</returns>
-        Math::Color BlendFactor() const noexcept;
-        unsigned int SampleMask() const noexcept;
+        Math::Color BlendFactor() const noexcept override;
+        unsigned int SampleMask() const noexcept override;
         /// <summary>
         /// Gets the GPU handle of the blend state, in DX11 it is ID3D11BlendState.
         /// </summary>
         /// <returns>ID3D11BlendState in DX11.</returns>
-        void* GetHandle() const noexcept;
+        void* GetHandle() const noexcept override;
+
+        virtual IGraphicsDevice* GetGraphicsDevice() const noexcept override;
 
         ~BlendState() = default;
 

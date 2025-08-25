@@ -60,12 +60,12 @@ DepthStencilState::DepthStencilState(GraphicsDevice *device, bool EnableDepth, D
 #endif
 }
 
-unsigned int DepthStencilState::StencilRef() const noexcept
+unsigned int DepthStencilState::StencilRef() const noexcept override
 {
     return _stencilRef;
 }
 
-void* DepthStencilState::GetHandle() const noexcept
+void* DepthStencilState::GetHandle() const noexcept override
 {
     return static_cast<void*>(this->_state.Get());
 }
