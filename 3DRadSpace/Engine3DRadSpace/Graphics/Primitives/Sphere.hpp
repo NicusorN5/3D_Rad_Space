@@ -12,7 +12,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 	/// <remarks>
 	/// Same remarks as the Box type.
 	/// </remarks>
-	class E3DRSP_GRAPHICS_EXPORT Sphere : public IPrimitive
+	class E3DRSP_GRAPHICS_PRIMITIVES_EXPORT Sphere : public IPrimitive
 	{
 		float _radius;
 	public:

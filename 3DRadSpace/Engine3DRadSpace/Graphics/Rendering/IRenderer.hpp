@@ -7,7 +7,7 @@ namespace Engine3DRadSpace::Graphics::Rendering
 	/// <summary>
 	/// Represents a rendering pipeline that allows multiple rendering effects.
 	/// </summary>
-	class E3DRSP_GRAPHICS_EXPORT IRenderer
+	class E3DRSP_GRAPHICS_RENDERING_EXPORT IRenderer
 	{
 	protected:
 		GraphicsDevice* _device;

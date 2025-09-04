@@ -1,47 +1,10 @@
 #pragma once
 #include "GraphicsDevice.hpp"
+#include "IDepthStencilState.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {
-	enum class DepthWriteMask
-	{
-		Zero = 0,
-		All = 1
-	};
-
-	enum class ComparisonFunction
-	{
-		Never = 1,
-		Less,
-		Equal,
-		LessEqual,
-		Greater,
-		NotEqual,
-		GreaterEqual,
-		Always,
-	};
-
-	enum class StencilOperation
-	{
-		Keep = 1,
-		Zero = 2,
-		Replace = 3,
-		IncrementClamp = 4,
-		DecrementClamp = 5,
-		Invert = 6,
-		IncrementWrap = 7,
-		DecrementWrap = 8
-	};
-
-	struct FaceOperation
-	{
-		StencilOperation StencilFail;
-		StencilOperation DepthFail;
-		StencilOperation PassOp;
-		ComparisonFunction Function;
-	};
-
-	class E3DRSP_GRAPHICS_EXPORT DepthStencilState
+	class E3DRSP_GRAPHICS_EXPORT DepthStencilState : IDepthStencilState
 	{
 #ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilState> _state;
@@ -61,8 +24,8 @@ namespace Engine3DRadSpace::Graphics
 		DepthStencilState& operator=(DepthStencilState &) = delete;
 		DepthStencilState &operator=(DepthStencilState &&state) noexcept = default;
 
-		unsigned int StencilRef() const noexcept;
-		void* GetHandle() const noexcept;
+		unsigned int StencilRef() const noexcept override;
+		void* GetHandle() const noexcept override;
 
 		static DepthStencilState DepthDefault(GraphicsDevice* device);
 		static DepthStencilState DepthNone(GraphicsDevice *device);

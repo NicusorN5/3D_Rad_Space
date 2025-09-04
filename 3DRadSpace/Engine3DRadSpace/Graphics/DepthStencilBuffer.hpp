@@ -10,7 +10,7 @@ namespace Engine3DRadSpace::Graphics
 	/// <remarks>
 	/// Since this is a large resource, usually the same size as the backbuffer, copy constructors are removed.
 	/// </remarks>
-	class E3DRSP_GRAPHICS_EXPORT DepthStencilBuffer
+	class E3DRSP_GRAPHICS_NULL_EXPORT DepthStencilBuffer
 	{
 #ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilView> _depthView;

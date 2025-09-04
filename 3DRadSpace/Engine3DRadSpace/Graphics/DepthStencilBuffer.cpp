@@ -130,3 +130,8 @@ Texture2D DepthStencilBuffer::CloneDepthTexture()
 	return texture;
 #endif
 }
+
+void* DepthStencilBuffer::GetHandle() const noexcept
+{
+	return this->_depthTexture.get();
+}
