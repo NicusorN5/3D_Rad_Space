@@ -1,5 +1,5 @@
 #pragma once
-#include "../Core/Libs.hpp"
+#include "IIndexBuffer.hpp"
 
 namespace Engine3DRadSpace
 {
@@ -13,7 +13,7 @@ namespace Engine3DRadSpace
 		/// Since this is a GPU resource, copy constructors are removed.
 		/// Creating IndexBuffers with 0 length will result in errors - debug layer errors or segmentation faults from the GPU driver, possibly terminating the application.
 		/// </remarks>
-		class E3DRSP_GRAPHICS_EXPORT IndexBuffer
+		class E3DRSP_GRAPHICS_EXPORT IndexBuffer : IIndexBuffer
 		{
 #ifdef USING_DX11
 			Microsoft::WRL::ComPtr<ID3D11Buffer> _indexBuffer;

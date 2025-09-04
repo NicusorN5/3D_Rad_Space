@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.21)
 project("3DRadSpace.Graphics.DirectX11")
 
 add_library(3DRadSpace.Graphics.DirectX11 STATIC 
-	"Test.cpp"
+	"IShader.cpp"
 )
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)

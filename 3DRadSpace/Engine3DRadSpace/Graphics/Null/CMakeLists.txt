@@ -8,7 +8,6 @@ add_library(3DRadSpace.Graphics.Null STATIC
 	"DepthStencilState.cpp"
 	"GraphicsDevice.cpp"
 	"IndexBuffer.cpp"
-	"IShader.cpp"
 	"RasterizerState.cpp"
 	"RenderTarget.cpp"
 	"SamplerState.cpp"

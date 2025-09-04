@@ -5,7 +5,7 @@ namespace Engine3DRadSpace::Graphics::Null
 {
 	class GraphicsDevice;
 
-	class E3DRSP_GRAPHICS_NULL_EXPORT IndexBuffer : public IIndexBuffer
+	class E3DRSP_GRAPHICS_NULL_EXPORT IndexBuffer final : public IIndexBuffer
 	{
 	public:
 		IndexBuffer(GraphicsDevice* device, std::span<unsigned> indices);

@@ -66,6 +66,11 @@ void* RasterizerState::GetHandle() const noexcept
 	return static_cast<void*>(_rasterizerState.Get());
 }
 
+IGraphicsDevice* RasterizerState::GetGraphicsDevice() const noexcept
+{
+	return _device;
+}
+
 RasterizerState RasterizerState::CullNone(GraphicsDevice *device)
 {
 	// https://github.com/microsoft/DirectXTK/wiki/CommonStates
