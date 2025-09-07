@@ -1,6 +1,7 @@
 #pragma once
 #include "IGPUResource.hpp"
 #include "RenderTargetBlendState.hpp"
+#include "../Math/Color.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {

@@ -1,13 +1,11 @@
 #pragma once
-
-#pragma once
 #include "../PixelFormat.hpp"
 #include "../../Math/Point.hpp"
 #include "../../Content/IAsset.hpp"
 #include "../../Math/Color.hpp"
 #include "../ITexture2D.hpp"
 
-namespace Engine3DRadSpace::Graphics::DirectX11
+namespace Engine3DRadSpace::Graphics::Null
 {
 	class DepthStencilBuffer;
 	/// <summary>
@@ -45,11 +43,20 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		unsigned Height() const noexcept override;
 		Math::Point Size() const noexcept override;
 
+		[[nodiscard]] std::unique_ptr<ITexture2D> CreateStaging() override;
+
 		static Texture2D CreateStaging(Texture2D* texture);
 		Texture2D Clone();
 
 		std::pair<void*, size_t> BeginRead(unsigned resourceID = 0);
 		void EndRead(unsigned resourceID = 0);
+
+		virtual void* GetHandle() const noexcept override;
+		virtual IGraphicsDevice* GetGraphicsDevice() const noexcept override;
+
+		size_t ReadData(void **data) override;
+		void SetData(void *data, size_t buffSize) override;
+		void EndRead() override;
 
 		static void Copy(Texture2D* destination, Texture2D* source);
 

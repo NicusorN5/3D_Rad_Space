@@ -693,6 +693,12 @@ Texture2D Texture2D::CreateStaging(Texture2D* texture)
 	return Texture2D(texture->_device, std::monostate(), std::move(stagingTexture));
 }
 
+std::unique_ptr<ITexture2D> Texture2D::CreateStaging() override
+{
+	return std::unique_ptr<Texture2D>(new Texture2D::CreateStaging(this));
+}
+
+
 void Texture2D::Resize(unsigned newX, unsigned newY)
 {
 	RenderTarget rt(_device, newX, newY, _format);
@@ -782,6 +788,39 @@ void Texture2D::EndRead(unsigned resourceID)
 #ifdef USING_DX11
 	_device->_context->Unmap(_texture.Get(), 0);
 #endif
+}
+
+void* Texture2D::GetHandle() const noexcept override
+{
+	return 
+}
+virtual IGraphicsDevice* Texture2D::GetGraphicsDevice() const noexcept override
+{
+	return _device;
+}
+
+size_t Texture2D::ReadData(void **data) override
+{
+	auto [ptr, s] = BeginRead(0);
+
+	*data = ptr;
+	return s;
+}
+void Texture2D::SetData(void *data, size_t buffSize) override
+{
+#ifdef USING_DX11
+	D3D11_MAPPED_SUBRESOURCE resource;
+
+	HRESULT r = _device->_context->Map(_texture.Get(), 0, D3D11_MAP_WRITE, 0, &resource);
+	if(FAILED(r)) throw Exception("Failed to map a texture!" + std::system_category().message(r));
+
+	memcpy(resource.pData, data, buffsize);
+	_device->_context->Unmap(_texture.Get(), 0);
+#endif
+}
+void Texture2D::EndRead() override
+{
+	EndRead(0);
 }
 
 void Texture2D::Copy(Texture2D* destination, Texture2D* source)

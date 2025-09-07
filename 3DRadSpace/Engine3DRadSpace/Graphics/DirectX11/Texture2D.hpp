@@ -114,6 +114,14 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		unsigned Height() const noexcept override;
 		Math::Point Size() const noexcept override;
 
+		virtual void* GetHandle() const noexcept override;
+		virtual IGraphicsDevice* GetGraphicsDevice() const noexcept override;
+
+		size_t ReadData(void **data) override;
+		void SetData(void *data, size_t buffSize) override;
+		void EndRead() override;
+
+		virtual [[nodiscard]] std::unique_ptr<ITexture2D> CreateStaging();
         static Texture2D CreateStaging(Texture2D* texture);
         Texture2D Clone();
 
