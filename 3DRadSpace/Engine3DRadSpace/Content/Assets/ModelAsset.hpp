@@ -15,7 +15,7 @@ namespace Engine3DRadSpace
 		{
 			std::unique_ptr<Graphics::Model3D> _font;
 		public:
-			ModelAsset(IGraphicsDevice* device, const std::filesystem::path &path);
+			ModelAsset(Graphics::IGraphicsDevice* device, const std::filesystem::path &path);
 
 			Reflection::UUID GetUUID() const noexcept override;
 			/// <summary>

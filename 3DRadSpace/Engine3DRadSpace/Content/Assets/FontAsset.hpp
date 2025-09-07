@@ -15,7 +15,7 @@ namespace Engine3DRadSpace
 		{
 			std::unique_ptr<Graphics::Font> _font;
 		public:
-			FontAsset(IGraphicsDevice* device, const std::filesystem::path &path);
+			FontAsset(Graphics::IGraphicsDevice* device, const std::filesystem::path &path);
 
 			/// <summary>
 			/// UUID of the Font type. Used internally.

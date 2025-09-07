@@ -1,6 +1,7 @@
 #pragma once
-#include "VertexBuffer.hpp"
-#include "IndexBuffer.hpp"
+#include "IVertexBuffer.hpp"
+#include "IIndexBuffer.hpp"
+#include "VertexDeclarations.hpp"
 #include "Effect.hpp"
 #include "../Math/BoundingSphere.hpp"
 #include "../Math/BoundingBox.hpp"
@@ -21,16 +22,16 @@ namespace Engine3DRadSpace::Graphics
 		Math::BoundingBox _box;
 		Math::BoundingSphere _sphere;
 
-		std::unique_ptr<VertexBuffer> _stagingVertex;
-		std::unique_ptr<IndexBuffer> _stagingIndex;
+		std::unique_ptr<IVertexBuffer> _stagingVertex;
+		std::unique_ptr<IIndexBuffer> _stagingIndex;
 	public:
-		std::unique_ptr<IndexBuffer> IndexBuffer;
-		std::unique_ptr<VertexBuffer> VertexBuffer;
+		std::unique_ptr<IIndexBuffer> IndexBuffer;
+		std::unique_ptr<IVertexBuffer> VertexBuffer;
 
 		ModelMeshPart(
 			std::shared_ptr<Shaders::Effect> shaders,
-			Graphics::VertexBuffer* vert, 
-			Graphics::IndexBuffer* buffer
+			Graphics::IVertexBuffer* vert, 
+			Graphics::IIndexBuffer* buffer
 		);
 
 		ModelMeshPart(
@@ -57,8 +58,8 @@ namespace Engine3DRadSpace::Graphics
 		);
 
 		Math::Matrix4x4 Transform = Math::Matrix4x4();
-		std::vector<std::unique_ptr<Texture2D>> Textures;
-		std::vector<std::unique_ptr<SamplerState>> TextureSamplers;
+		std::vector<std::unique_ptr<ITexture2D>> Textures;
+		std::vector<std::unique_ptr<ISamplerState>> TextureSamplers;
 
 		void Draw();
 		void Draw(Shaders::Effect* effect);
@@ -66,8 +67,8 @@ namespace Engine3DRadSpace::Graphics
 		Math::BoundingBox GetBoundingBox() const noexcept;
 		Math::BoundingSphere GetBoundingSphere() const noexcept;
 
-		Graphics::VertexBuffer* GetVertexBuffer() const noexcept;
-		Graphics::IndexBuffer* GetIndexBuffer() const noexcept;
+		Graphics::IVertexBuffer* GetVertexBuffer() const noexcept;
+		Graphics::IIndexBuffer* GetIndexBuffer() const noexcept;
 
 		Shaders::Effect* GetShaders() const noexcept;
 		void SetShaders(std::shared_ptr<Shaders::Effect> shaders);
@@ -76,7 +77,7 @@ namespace Engine3DRadSpace::Graphics
 		/// Creates staging vertex and index buffers available for CPU reading if they don't exist. If they already exist, returns the already created buffers.
 		/// </summary>
 		/// <returns>Pair of vertex and index buffers pointer references</returns>
-		std::pair<Graphics::VertexBuffer*, Graphics::IndexBuffer*> CreateStagingBuffers();
+		std::pair<Graphics::IVertexBuffer*, Graphics::IIndexBuffer*> CreateStagingBuffers();
 
 		~ModelMeshPart() = default;
 

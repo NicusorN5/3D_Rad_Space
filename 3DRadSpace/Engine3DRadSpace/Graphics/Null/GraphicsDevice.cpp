@@ -5,7 +5,8 @@ using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Graphics::Null;
 using namespace Engine3DRadSpace::Math;
 
-GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, unsigned width, unsigned height)
+GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, unsigned width, unsigned height) :
+	EnableVSync(false)
 {
 	(void)nativeWindowHandle;
 	(void)width;

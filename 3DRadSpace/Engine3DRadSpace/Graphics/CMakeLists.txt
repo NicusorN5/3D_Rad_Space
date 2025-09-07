@@ -13,6 +13,7 @@ add_library(3DRadSpace_Graphics SHARED
 	"Model3D.cpp"
 	"SpriteBatch.cpp"
 	"Viewport.cpp"
+	"NullShader.cpp"
 )
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)

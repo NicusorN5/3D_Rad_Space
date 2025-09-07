@@ -10,6 +10,7 @@ namespace Engine3DRadSpace::Graphics
 	class E3DRSP_GRAPHICS_EXPORT IShader : IGPUResource
 	{
 	protected:
+		IShader() = default;
 	public:
 		IShader(const IShader&) = delete;
 		IShader(IShader&&) noexcept = default;
@@ -17,7 +18,7 @@ namespace Engine3DRadSpace::Graphics
 		IShader& operator=(const IShader&) = delete;
 		IShader& operator=(IShader&&) noexcept = default;
 
-		void SetData(unsigned index, const void *data, unsigned dataSize);
+		virtual void SetData(unsigned index, const void *data, unsigned dataSize) = 0;
 		virtual void SetTexture(unsigned index, ITexture2D *texture) = 0;
 		virtual void SetSampler(unsigned index, ISamplerState *samplerState) = 0;
 

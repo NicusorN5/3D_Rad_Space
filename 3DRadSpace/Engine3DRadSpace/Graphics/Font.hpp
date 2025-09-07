@@ -33,7 +33,7 @@ namespace Engine3DRadSpace::Graphics
 		void* _font;
 		std::string _supportedCharacters;
 
-		GraphicsDevice* _device;
+		IGraphicsDevice* _device;
 
 		static FontManager _manager;
 	

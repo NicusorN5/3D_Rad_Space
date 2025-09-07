@@ -1,5 +1,6 @@
 #pragma once
 #include "../Math/Point.hpp"
+#include "../Math/Color.hpp"
 #include "Viewport.hpp"
 #include "VertexTopology.hpp"
 

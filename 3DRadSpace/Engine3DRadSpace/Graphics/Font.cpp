@@ -142,7 +142,7 @@ fontSizeComputation:
 	_valid = true;
 }
 
-Font::Font(GraphicsDevice* device, const std::filesystem::path& path) : Font(device, path, 14, nullptr)
+Font::Font(IGraphicsDevice* device, const std::filesystem::path& path) : Font(device, path, 14, nullptr)
 {
 }
 
@@ -157,15 +157,6 @@ Font::Font(Font&& font) noexcept :
 {
 	font._valid = false;
 	font._font = nullptr;
-}
-
-Font::Font(Internal::AssetUUIDReader dummy) :
-	_valid(false),
-	_font{},
-	_device(nullptr),
-	_size(0)
-{
-	(void)dummy;
 }
 
 Font& Font::operator=(Font&& font) noexcept
@@ -195,7 +186,7 @@ const std::string Font::SupportedCharacters() const noexcept
 	return _supportedCharacters;
 }
 
-Texture2D* Font::GetTexture() const noexcept
+ITexture2D* Font::GetTexture() const noexcept
 {
 	return _texture.get();
 }
