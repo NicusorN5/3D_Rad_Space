@@ -4,7 +4,7 @@
 namespace Engine3DRadSpace::Graphics
 {
 	class GraphicsDevice;
-	class E3DRSP_GRAPHICS_NULL_EXPORT DepthStencilState : IDepthStencilState
+	class E3DRSP_GRAPHICS_NULL_EXPORT DepthStencilState final : public IDepthStencilState
 	{
 	public:
 		explicit DepthStencilState(GraphicsDevice *device);

@@ -20,7 +20,7 @@ namespace Engine3DRadSpace::Graphics::Null
 	/// <remarks>
 	/// A null graphics device can be used for a headless application, for servers, physics-only simulation, testing, et cetera...
 	/// </remarks>
-	class E3DRSP_GRAPHICS_NULL_EXPORT GraphicsDevice final: public IGraphicsDevice
+	class E3DRSP_GRAPHICS_NULL_EXPORT GraphicsDevice final : public IGraphicsDevice
 	{
 	public:
 		GraphicsDevice() = delete;

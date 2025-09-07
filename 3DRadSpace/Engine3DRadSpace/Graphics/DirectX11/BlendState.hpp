@@ -1,8 +1,8 @@
 #pragma once
 #include "GraphicsDevice.hpp"
-#include "IBlendState.hpp"
+#include "../IBlendState.hpp"
 
-namespace Engine3DRadSpace::Graphics
+namespace Engine3DRadSpace::Graphics::DirectX11
 {
 	/// <summary>
 	/// Represents blend state GPU handles.

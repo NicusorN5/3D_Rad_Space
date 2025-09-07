@@ -3,29 +3,15 @@ cmake_minimum_required(VERSION 3.21)
 project("3DRadSpace.Graphics")
 
 add_library(3DRadSpace_Graphics STATIC 
-	"BlendState.cpp"
-	"DepthStencilBuffer.cpp"
-	"DepthStencilState.cpp"
 	"Effect.cpp"
 	"FlipMode.cpp"
 	"Font.cpp"
-	"GraphicsDevice.cpp"
-	"IDomainShader.cpp"
-	"IFragmentShader.cpp"
-	"IGeometryShader.cpp"
-	"IHullShader.cpp"
-	"IndexBuffer.cpp"
-	"IShader.cpp"
-	"IVertexShader.cpp"
+	"IBlendState.cpp"
+	"ITexture2D.cpp"
 	"ModelMesh.cpp"
 	"ModelMeshPart.cpp"
 	"Model3D.cpp"
-	"RasterizerState.cpp"
-	"RenderTarget.cpp"
-	"SamplerState.cpp"
 	"SpriteBatch.cpp"
-	"Texture2D.cpp"
-	"VertexBuffer.cpp"
 	"Viewport.cpp"
 )
 

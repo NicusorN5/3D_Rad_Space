@@ -3,7 +3,19 @@ cmake_minimum_required(VERSION 3.21)
 project("3DRadSpace.Graphics.DirectX11")
 
 add_library(3DRadSpace.Graphics.DirectX11 STATIC 
+	"BlendState.cpp"
+	"DepthStencilBuffer.cpp"
+	"DepthStencilState.cpp"
+	"GraphicsDevice.cpp"
+	"IDomainShader.cpp"
+	"IFragmentShader.cpp"
+	"IGeometryShader.cpp"
+	"IHullShader.cpp"
+	"IndexBuffer.cpp"
 	"IShader.cpp"
+	"IVertexShader.cpp"
+	"Texture2D.cpp"
+	"VertexBuffer.cpp"
 )
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)

@@ -1,17 +1,18 @@
 #pragma once
-#include "PixelFormat.hpp"
-#include "../Math/Point.hpp"
-#include "../Content/IAsset.hpp"
-#include "../Math/Color.hpp"
+#include "../PixelFormat.hpp"
+#include "../../Math/Point.hpp"
+#include "../../Content/IAsset.hpp"
+#include "../../Math/Color.hpp"
+#include "../IGPUBuffer.hpp"
 
-namespace Engine3DRadSpace::Graphics
+namespace Engine3DRadSpace::Graphics::DirectX11
 {
 	class DepthStencilBuffer;
 	/// <summary>
 	/// Represents a 2D texture.
 	/// <remarks>
 	/// </remarks>
-	class E3DRSP_GRAPHICS_EXPORT Texture2D : public Content::IAsset
+	class E3DRSP_GRAPHICS_EXPORT Texture2D : public IGPUBuffer
 	{
 		unsigned _width;
 		unsigned _height;
@@ -125,9 +126,6 @@ namespace Engine3DRadSpace::Graphics
 		void* ResourceViewHandle() const noexcept;
 
 		virtual ~Texture2D() = default;
-
-		Reflection::UUID GetUUID() const noexcept override;
-		const char* FileExtension() const noexcept override;
 
 		friend class GraphicsDevice;
 		friend class IVertexShader;

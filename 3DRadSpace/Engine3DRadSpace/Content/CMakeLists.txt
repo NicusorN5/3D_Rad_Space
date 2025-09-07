@@ -2,9 +2,11 @@ cmake_minimum_required(VERSION 3.21)
 
 project("3DRadSpace.Content")
 
-file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS "*.cpp" "*.hpp" )
-
-add_library(3DRadSpace_Content STATIC ${SOURCE_FILES})
+add_library(3DRadSpace_Content STATIC 
+	"AssetFactory.cpp"
+	"Assets.cpp"
+	"ContentManager.cpp"
+)
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET 3DRadSpace_Content PROPERTY CXX_STANDARD 23)

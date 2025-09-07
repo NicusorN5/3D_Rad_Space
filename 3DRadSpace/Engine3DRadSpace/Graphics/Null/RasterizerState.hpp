@@ -3,7 +3,7 @@
 
 namespace Engine3DRadSpace::Graphics::Null
 {
-	class E3DRSP_GRAPHICS_NULL_EXPORT RasterizerState : public IRasterizerState
+	class E3DRSP_GRAPHICS_NULL_EXPORT RasterizerState final : public IRasterizerState
 	{
 	public:
 		explicit RasterizerState(

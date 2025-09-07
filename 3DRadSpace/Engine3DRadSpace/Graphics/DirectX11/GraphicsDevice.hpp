@@ -1,16 +1,16 @@
 #pragma once
 
-#include "../Core/Libs.hpp"
-#include "Viewport.hpp"
-#include "VertexDeclarations.hpp"
-#include "VertexTopology.hpp"
+#include "../../Core/Libs.hpp"
+#include "../Viewport.hpp"
+#include "../VertexDeclarations.hpp"
+#include "../VertexTopology.hpp"
 #include "RasterizerState.hpp"
 #include "DepthStencilState.hpp"
 #include "DepthStencilBuffer.hpp"
 #include "BlendState.hpp"
-#include "IGraphicsDevice.hpp"
+#include "../IGraphicsDevice.hpp"
 
-namespace Engine3DRadSpace::Graphics
+namespace Engine3DRadSpace::Graphics::DirectX11
 {
 	template<VertexDecl V> class VertexBufferV;
 	class VertexBuffer;
@@ -42,14 +42,14 @@ namespace Engine3DRadSpace::Graphics
 	/// <summary>
 	/// DirectX11 RHI (Rendering Hardware Interface)
 	/// </summary>
-	class E3DRSP_GRAPHICS_EXPORT GraphicsDevice : public IGraphicsDevice
+	class E3DRSP_GRAPHICS_EXPORT GraphicsDevice final : public IGraphicsDevice
 	{
 #ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11Device> _device;
 		Microsoft::WRL::ComPtr<ID3D11DeviceContext> _context;
 		Microsoft::WRL::ComPtr<IDXGISwapChain> _swapChain;
 #endif
-		std::unique_ptr<Graphics::RenderTarget> _backbufferRT;
+		std::unique_ptr<DirectX11::RenderTarget> _backbufferRT;
 
 		Math::Point _resolution;
 		bool _fullscreen = false;
@@ -59,7 +59,7 @@ namespace Engine3DRadSpace::Graphics
 		std::unique_ptr<BlendState> _blendState;
 
 		///Used for rendering post effects
-		std::unique_ptr<Graphics::VertexBufferV<VertexPointUV>> _screenQuad;
+		std::unique_ptr<DirectX11::VertexBufferV<VertexPointUV>> _screenQuad;
 	public:
 		GraphicsDevice() = delete;
 		explicit GraphicsDevice(void* nativeWindowHandle, unsigned width = 800, unsigned height = 600);
