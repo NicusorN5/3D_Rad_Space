@@ -6,7 +6,9 @@ add_library(3DRadSpace.Content.Assets STATIC
 	"NullAsset.cpp"
 	"SkyboxAsset.cpp"
 	"TextureAsset.cpp"
- "FontAsset.cpp")
+	"FontAsset.cpp"
+	"ModelAsset.cpp"
+)
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET 3DRadSpace.Content.Assets PROPERTY CXX_STANDARD 23)

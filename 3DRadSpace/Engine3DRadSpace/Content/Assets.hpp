@@ -1,5 +1,5 @@
 #pragma once
-#include "../Content/IAsset.hpp"
+#include "IAsset.hpp"
 
 namespace Engine3DRadSpace::Internal
 {

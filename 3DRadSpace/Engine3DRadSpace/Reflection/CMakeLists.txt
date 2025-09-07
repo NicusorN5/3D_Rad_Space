@@ -4,7 +4,15 @@ project("Engine3DRadSpace.Reflection")
 
 file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS "*.cpp" "*.hpp" )
 
-add_library(3DRadSpace_Reflection STATIC ${SOURCE_FILES})
+add_library(3DRadSpace_Reflection STATIC
+	"Event.cpp"
+	"FieldRepresentation.cpp"
+	"IReflectedField.cpp"
+	"IReflectedFunction.cpp"
+	"ReflectedEnum.cpp"
+	"ReflectedObject.cpp"
+	"UUID.cpp"
+)
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET 3DRadSpace_Reflection PROPERTY CXX_STANDARD 23)

@@ -3,7 +3,7 @@
 #include "../../Math/Point.hpp"
 #include "../../Content/IAsset.hpp"
 #include "../../Math/Color.hpp"
-#include "../IGPUBuffer.hpp"
+#include "../ITexture2D.hpp"
 
 namespace Engine3DRadSpace::Graphics::DirectX11
 {
@@ -12,7 +12,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 	/// Represents a 2D texture.
 	/// <remarks>
 	/// </remarks>
-	class E3DRSP_GRAPHICS_EXPORT Texture2D : public IGPUBuffer
+	class E3DRSP_GRAPHICS_EXPORT Texture2D : public ITexture2D
 	{
 		unsigned _width;
 		unsigned _height;
@@ -110,9 +110,9 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 
 		void SaveToFile(const std::string &path);
 
-		unsigned Width() const noexcept;
-		unsigned Height() const noexcept;
-		Math::Point Size() const noexcept;
+		unsigned Width() const noexcept override;
+		unsigned Height() const noexcept override;
+		Math::Point Size() const noexcept override;
 
         static Texture2D CreateStaging(Texture2D* texture);
         Texture2D Clone();
