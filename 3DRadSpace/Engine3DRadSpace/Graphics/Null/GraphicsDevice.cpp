@@ -17,13 +17,13 @@ void GraphicsDevice::Clear(const Math::Color& clearColor) override
 	(void)clearColor;
 }
 
-void GraphicsDevice::ClearRenderTarget(RenderTarget* rt, const Math::Color& clearColor) override
+void GraphicsDevice::ClearRenderTarget(IRenderTarget* rt, const Math::Color& clearColor) override
 {
 	(void)rt;
 	(void)clearColor;
 }
 
-void GraphicsDevice::ClearDepthBuffer(DepthStencilBuffer* depth) override
+void GraphicsDevice::ClearDepthBuffer(IDepthStencilBuffer* depth) override
 {
 	(void)depth;
 }
@@ -47,7 +47,7 @@ Viewport GraphicsDevice::GetViewport() override
 
 }
 
-void GraphicsDevice::SetRenderTarget(RenderTarget* renderTarget) override
+void GraphicsDevice::SetRenderTarget(IRenderTarget* renderTarget) override
 {
 	(void)renderTarget;
 }
@@ -60,23 +60,23 @@ void GraphicsDevice::UnbindDepthBuffer() override
 {
 }
 
-void GraphicsDevice::SetRenderTargetAndDepth(RenderTarget* renderTarget, DepthStencilBuffer* depthBuffer) override
+void GraphicsDevice::SetRenderTargetAndDepth(IRenderTarget* renderTarget, IDepthStencilBuffer* depthBuffer) override
 {
 	(void)renderTarget;
 	(void)depthBuffer;
 }
 
-void GraphicsDevice::SetRenderTargetAndDisableDepth(RenderTarget* renderTarget) override
+void GraphicsDevice::SetRenderTargetAndDisableDepth(IRenderTarget* renderTarget) override
 {
 	(void)renderTarget;
 }
 
-void GraphicsDevice::DrawVertexBufferWithindices(VertexBuffer *vertexBuffer, IndexBuffer *indexBuffer) override
+void GraphicsDevice::DrawVertexBufferWithindices(IVertexBuffer *vertexBuffer, IIndexBuffer *indexBuffer) override
 {
 	(void)vertexBuffer;
 	(void)indexBuffer;
 }
-void GraphicsDevice::DrawVertexBufferWithindices(VertexBuffer* vertexBuffer, IndexBuffer* indexBuffer, unsigned numIndices) override
+void GraphicsDevice::DrawVertexBufferWithindices(IVertexBuffer* vertexBuffer, IIndexBuffer* indexBuffer, unsigned numIndices) override
 {
 	(void)vertexBuffer;
 	(void)indexBuffer;
@@ -88,28 +88,28 @@ void GraphicsDevice::SetShader(IShader* shader) override
 	(void)shader;
 }
 
-void GraphicsDevice::SetRasterizerState(const RasterizerState* state) override
+void GraphicsDevice::SetRasterizerState(const IRasterizerState* state) override
 {
 	(void)state;
 }
 
-RasterizerState GraphicsDevice::GetRasterizerState() override
+IRasterizerState* GraphicsDevice::GetRasterizerState() override
 {
 
 }
 
-void GraphicsDevice::SetDepthStencilBuffer(DepthStencilBuffer* depthBuffer) override
+void GraphicsDevice::SetDepthStencilBuffer(IDepthStencilBuffer* depthBuffer) override
 {
 	(void)depthBuffer;
 }
 
-void GraphicsDevice::SetDepthStencilState(DepthStencilState* depthState, unsigned ref) override
+void GraphicsDevice::SetDepthStencilState(IDepthStencilState* depthState, unsigned ref) override
 {
 	(void)depthState;
 	(void)ref;
 }
 
-void GraphicsDevice::SetBlendState(BlendState* blendState, const Math::Color& blendFactor, unsigned sampleMask) override
+void GraphicsDevice::SetBlendState(IBlendState* blendState, const Math::Color& blendFactor, unsigned sampleMask) override
 {
 	(void)blendState;
 	(void)blendFactor;
@@ -155,15 +155,15 @@ void GraphicsDevice::DrawScreenQuad() override
 {
 }
 
-RenderTarget* GraphicsDevice::GetBackBuffer() override
+IRenderTarget* GraphicsDevice::GetBackBuffer() override
 {
 }
 
-Texture2D* GraphicsDevice::GetBackBufferTexture() override
+ITexture2D* GraphicsDevice::GetBackBufferTexture() override
 {
 }
 
-DepthStencilBuffer& GraphicsDevice::GetDepthBuffer() override
+IDepthStencilBuffer& GraphicsDevice::GetDepthBuffer() override
 {
 }
 

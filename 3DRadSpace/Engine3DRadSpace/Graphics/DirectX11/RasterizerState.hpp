@@ -1,5 +1,7 @@
 #pragma once
 #include "IGPUResource.hpp"
+#include "../RasterizerCullMode.hpp"
+#include "../RasterizerFillMode.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {
