@@ -5,15 +5,15 @@ using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Graphics::Null;
 using namespace Engine3DRadSpace::Math;
 
-BlendState::BlendState(GraphicsDevice* device)
+BlendState::BlendState(IGraphicsDevice* device)
 {
 }
 
-BlendState::BlendState(GraphicsDevice *device, bool alphaCoverage, bool indepedentBlend, const RenderTargetBlendState &renderTargetBlendState)
+BlendState::BlendState(IGraphicsDevice *device, bool alphaCoverage, bool indepedentBlend, const RenderTargetBlendState &renderTargetBlendState)
 {
 }
 
-BlendState::BlendState(GraphicsDevice *device, bool alphaCoverage, bool indepedentBlend, std::array<RenderTargetBlendState, 8> renderTargetBlendStates)
+BlendState::BlendState(IGraphicsDevice *device, bool alphaCoverage, bool indepedentBlend, std::array<RenderTargetBlendState, 8> renderTargetBlendStates)
 {
 }
 
@@ -36,27 +36,27 @@ virtual IGraphicsDevice* BlendState::GetGraphicsDevice() const noexcept override
 	return nullptr;
 }
 
-BlendState BlendState::Opaque(GraphicsDevice *device)
+BlendState BlendState::Opaque(IGraphicsDevice *device)
 {
 	return BlendState(device);
 }
 
-BlendState BlendState::AlphaBlend(GraphicsDevice *device)
+BlendState BlendState::AlphaBlend(IGraphicsDevice *device)
 {
 	return BlendState(device);
 }
 
-BlendState BlendState::Additive(GraphicsDevice *device)
+BlendState BlendState::Additive(IGraphicsDevice *device)
 {
 	return BlendState(device);
 }
 
-BlendState BlendState::NonPremultiplied(GraphicsDevice *device)
+BlendState BlendState::NonPremultiplied(IGraphicsDevice *device)
 {
 	return BlendState(device);
 }
 
-BlendState BlendState::GetCurrentBlendState(GraphicsDevice* device)
+BlendState BlendState::GetCurrentBlendState(IGraphicsDevice* device)
 {
 	return BlendState(device);
 }

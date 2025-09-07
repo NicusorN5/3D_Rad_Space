@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.21)
 
 project("3DRadSpace.Graphics")
 
-add_library(3DRadSpace_Graphics STATIC 
+add_library(3DRadSpace_Graphics SHARED 
 	"Effect.cpp"
 	"FlipMode.cpp"
 	"Font.cpp"

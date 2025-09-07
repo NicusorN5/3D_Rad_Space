@@ -1,16 +1,17 @@
 #pragma once
 #include "../IBlendState.hpp"
+#include "../../Math/Color.hpp"
 
 namespace Engine3DRadSpace::Graphics::Null
 {
 	class E3DRSP_GRAPHICS_NULL_EXPORT BlendState final : public IBlendState
 	{
     public:
-        explicit BlendState(GraphicsDevice *device);
+        explicit BlendState(IGraphicsDevice *device);
 
-        BlendState(GraphicsDevice *device, bool alphaCoverage, bool indepedentBlend, const RenderTargetBlendState &renderTargetBlendState);
+        BlendState(IGraphicsDevice *device, bool alphaCoverage, bool indepedentBlend, const RenderTargetBlendState &renderTargetBlendState);
   
-        BlendState(GraphicsDevice *device, bool alphaCoverage, bool indepedentBlend, std::array<RenderTargetBlendState, 8> renderTargetBlendStates);
+        BlendState(IGraphicsDevice *device, bool alphaCoverage, bool indepedentBlend, std::array<RenderTargetBlendState, 8> renderTargetBlendStates);
 
         BlendState(BlendState &) = delete;
         BlendState(BlendState &&blend) noexcept = default;
@@ -27,11 +28,11 @@ namespace Engine3DRadSpace::Graphics::Null
 
         ~BlendState() = default;
 
-        static BlendState Opaque(GraphicsDevice *device);
-        static BlendState AlphaBlend(GraphicsDevice *device);
-        static BlendState Additive(GraphicsDevice *device);
-        static BlendState NonPremultiplied(GraphicsDevice *device);
+        static BlendState Opaque(IGraphicsDevice *device);
+        static BlendState AlphaBlend(IGraphicsDevice *device);
+        static BlendState Additive(IGraphicsDevice *device);
+        static BlendState NonPremultiplied(IGraphicsDevice *device);
 
-        static BlendState GetCurrentBlendState(GraphicsDevice* device);
+        static BlendState GetCurrentBlendState(IGraphicsDevice* device);
     };
 }
