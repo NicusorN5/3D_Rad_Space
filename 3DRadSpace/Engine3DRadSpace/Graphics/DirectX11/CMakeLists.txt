@@ -14,6 +14,8 @@ add_library(3DRadSpace.Graphics.DirectX11 STATIC
 	"IndexBuffer.cpp"
 	"IShader.cpp"
 	"IVertexShader.cpp"
+	"RenderTarget.cpp"
+	"SamplerState.cpp"
 	"Texture2D.cpp"
 	"VertexBuffer.cpp"
 )

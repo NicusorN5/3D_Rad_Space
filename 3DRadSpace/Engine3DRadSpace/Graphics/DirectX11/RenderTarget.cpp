@@ -56,6 +56,7 @@ RenderTarget RenderTarget::GetCurrentRenderTarget(GraphicsDevice* device)
 
 std::array<RenderTarget*, D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT> Engine3DRadSpace::Graphics::RenderTarget::GetCurrentRenderTargets(GraphicsDevice* device)
 {
+	//TODO: Return references to current render targets.
 	return std::array<RenderTarget*, D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT>();
 }
 

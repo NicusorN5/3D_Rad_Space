@@ -1,30 +1,10 @@
 #pragma once
 #include "GraphicsDevice.hpp"
+#include "../TextureFilter.hpp"
+#include "../TextureAddressMode.hpp"
 
-namespace Engine3DRadSpace::Graphics
+namespace Engine3DRadSpace::Graphics::DirectX11
 {
-	enum class TextureFilter
-	{
-		Anisotropic,
-		Linear,
-		LinearMipPoint,
-		MinLinearMagPointMipLinear,
-		MinLinearMagPointMipPoint,
-		MinPointMagLinearMipLinear,
-		MinPointMagLinearMipPoint,
-		Point,
-		PointMipLinear
-	};
-
-	enum class TextureAddressMode
-	{
-		Wrap = 1,
-		Mirror = 2,
-		Clamp = 3,
-		Border = 4,
-		MirrorOnce = 5
-	};
-
 	class E3DRSP_GRAPHICS_EXPORT SamplerState
 	{
 #ifdef USING_DX11

@@ -1,9 +1,10 @@
 #pragma once
 #include "Texture2D.hpp"
+#include "../IRenderTarget.hpp"
 
-namespace Engine3DRadSpace::Graphics
+namespace Engine3DRadSpace::Graphics::DirectX11
 {
-	class E3DRSP_GRAPHICS_EXPORT RenderTarget : public Texture2D
+	class E3DRSP_GRAPHICS_EXPORT RenderTarget : public Texture2D, public IRenderTarget
 	{
 #ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11RenderTargetView> _renderTarget;
@@ -33,7 +34,7 @@ namespace Engine3DRadSpace::Graphics
 		RenderTarget(RenderTarget&&) noexcept = default;
 		RenderTarget& operator=(RenderTarget&&) noexcept = default;
 
-		void* RenderTargetHandle() const noexcept;
+		void* RenderTargetHandle() const noexcept override;
 
 		static RenderTarget GetCurrentRenderTarget(GraphicsDevice* device);
 		static std::array<RenderTarget*, D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT> GetCurrentRenderTargets(GraphicsDevice* device);
