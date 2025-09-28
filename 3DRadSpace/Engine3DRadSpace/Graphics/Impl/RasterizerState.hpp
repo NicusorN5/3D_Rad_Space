@@ -1,21 +1,11 @@
 #pragma once
-#include "../IGPUResource.hpp"
-#include "../RasterizerCullMode.hpp"
-#include "../RasterizerFillMode.hpp"
+#include "../IRasterizerState.hpp"
 
-namespace Engine3DRadSpace::Graphics
+namespace Engine3DRadSpace::Graphics::Null
 {
-	class GraphicsDevice;
-
-	class E3DRSP_GRAPHICS_EXPORT RasterizerState : IGPUResource
+	class E3DRSP_GRAPHICS_NULL_EXPORT RasterizerState final : public IRasterizerState
 	{
-#ifdef USING_DX11
-		Microsoft::WRL::ComPtr<ID3D11RasterizerState> _rasterizerState;
-		void _debugInfo();
-#endif
-		RasterizerState(GraphicsDevice* device, std::monostate cpy);
 	public:
-
 		explicit RasterizerState(
 			GraphicsDevice *device,
 			RasterizerFillMode filling = RasterizerFillMode::Solid,
@@ -36,8 +26,7 @@ namespace Engine3DRadSpace::Graphics
 		RasterizerState &operator =(RasterizerState &) = delete;
 		RasterizerState &operator =(RasterizerState &&state) noexcept = default;
 
-		void* GetHandle() const noexcept override;
-		virtual IGraphicsDevice* GetGraphicsDevice() const noexcept override;
+		void* GetHandle() const noexcept;
 
 		static RasterizerState CullNone(GraphicsDevice *device);
 		static RasterizerState CullClockwise(GraphicsDevice *device);
