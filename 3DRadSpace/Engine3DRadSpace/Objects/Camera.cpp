@@ -5,7 +5,7 @@
 #include "Gizmos/CameraGizmo.hpp"
 #include "Gizmos.hpp"
 
-#include "../Graphics/RenderTarget.hpp"
+#include "../Graphics/IRenderTarget.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content::Assets;

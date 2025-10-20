@@ -44,7 +44,7 @@ namespace Engine3DRadSpace::Content
 	};
 
 	template<typename T>
-	concept ConstructibleFromGraphicsDevice = std::is_constructible_v<T, Graphics::GraphicsDevice*, const std::filesystem::path&>;
+	concept ConstructibleFromGraphicsDevice = std::is_constructible_v<T, Graphics::IGraphicsDevice*, const std::filesystem::path&>;
 
 	template<typename T>
 	concept ConstructibleFromAudioEngine = std::is_constructible_v<T, Audio::AudioEngine*, const std::filesystem::path&>;

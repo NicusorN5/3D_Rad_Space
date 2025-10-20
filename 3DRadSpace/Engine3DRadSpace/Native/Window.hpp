@@ -1,5 +1,5 @@
 #pragma once
-#include "../Graphics/GraphicsDevice.hpp"
+#include "../Graphics/IGraphicsDevice.hpp"
 #include "../Input/Mouse.hpp"
 #include "../Input/Keyboard.hpp"
 

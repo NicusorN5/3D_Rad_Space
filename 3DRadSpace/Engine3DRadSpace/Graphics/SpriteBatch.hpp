@@ -1,9 +1,9 @@
 #pragma once
-#include "Texture2D.hpp"
-#include "VertexBuffer.hpp"
-#include "IndexBuffer.hpp"
+#include "ITexture2D.hpp"
+#include "IVertexBuffer.hpp"
+#include "IIndexBuffer.hpp"
 #include "Shaders/SpriteShader.hpp"
-#include "DepthStencilState.hpp"
+#include "IDepthStencilState.hpp"
 #include "FlipMode.hpp"
 #include "Font.hpp"
 

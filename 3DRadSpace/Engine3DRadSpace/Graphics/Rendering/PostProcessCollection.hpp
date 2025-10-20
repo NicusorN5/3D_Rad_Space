@@ -1,6 +1,6 @@
 #pragma once
 #include "PostProcessEffect.hpp"
-#include "../RenderTarget.hpp"
+#include "../IRenderTarget.hpp"
 
 namespace Engine3DRadSpace::Graphics::Rendering
 {
@@ -13,8 +13,8 @@ namespace Engine3DRadSpace::Graphics::Rendering
 		GraphicsDevice* _device;
 		std::vector<std::unique_ptr<PostProcessEffect>> _effects;
 
-		std::unique_ptr<Texture2D> _backbuffer_cpy;
-		std::unique_ptr<Texture2D> _depthbuffer_cpy;
+		std::unique_ptr<ITexture2D> _backbuffer_cpy;
+		std::unique_ptr<ITexture2D> _depthbuffer_cpy;
 	public:
 		/// <summary>
 		/// Instantiates the list of effects.

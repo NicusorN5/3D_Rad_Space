@@ -1,7 +1,8 @@
 #pragma once
 #include "../IFragmentShader.hpp"
-#include "..\IVertexShader.hpp"
-#include "../RenderTarget.hpp"
+#include "../IVertexShader.hpp"
+#include "../IRenderTarget.hpp"
+#include "../InputLayoutElement.hpp"
 
 namespace Engine3DRadSpace::Graphics::Rendering
 {
