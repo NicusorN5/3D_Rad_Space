@@ -2,7 +2,7 @@
 #include "IShader.hpp"
 #include "InputLayoutElement.hpp"
 
-namespace Engine3DRadSpace::Graphics
+namespace Engine3DRadSpace::Graphics::DirectX11
 {
 	/// <summary>
 	/// Represents a vertex shader.

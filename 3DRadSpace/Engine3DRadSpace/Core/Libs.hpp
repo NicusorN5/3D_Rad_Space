@@ -6,7 +6,6 @@
 #include <exception>
 #include <stdexcept>
 #include <span>
-#include <sal.h>
 #include <array>
 #include <format>
 #include <chrono>
@@ -33,6 +32,7 @@
 #ifdef _WIN32
 #define NOMINMAX
 #include <wrl/client.h>
+#include <sal.h>
 #pragma endregion
 
 #pragma region Other defines

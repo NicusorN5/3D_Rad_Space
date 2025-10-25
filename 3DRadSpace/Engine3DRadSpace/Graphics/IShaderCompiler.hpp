@@ -1,5 +1,6 @@
 #pragma once
 #include "ShaderCompilationResult.hpp"
+#include "ShaderType.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {
@@ -8,9 +9,17 @@ namespace Engine3DRadSpace::Graphics
 	protected:
 		IShaderCompiler() = default;
 	public:
-		virtual ShaderCompilationResult CompileFile(const std::filesystem::path& path, const std::string& entryPoint) = 0;
-		virtual ShaderCompilationResult Compile(const std::string& src, const std::string& entryPoint) = 0;
+		virtual ShaderCompilationResult CompileFile(
+			const std::filesystem::path& path, 
+			const std::string& entryPoint,
+			ShaderType type
+		) = 0;
+		virtual ShaderCompilationResult Compile(
+			const std::string& src,
+			const std::string& entryPoint,
+			ShaderType type
+		) = 0;
 
 		virtual ~IShaderCompiler() = default;
-	}
+	};
 }

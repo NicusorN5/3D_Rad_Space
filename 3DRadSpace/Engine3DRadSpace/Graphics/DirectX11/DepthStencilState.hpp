@@ -4,7 +4,7 @@
 
 namespace Engine3DRadSpace::Graphics
 {
-	class E3DRSP_GRAPHICS_EXPORT DepthStencilState : IDepthStencilState
+	class E3DRSP_GRAPHICS_EXPORT DepthStencilState : public IDepthStencilState
 	{
 #ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilState> _state;
@@ -15,8 +15,17 @@ namespace Engine3DRadSpace::Graphics
 	public:
 		explicit DepthStencilState(GraphicsDevice *device);
 
-		DepthStencilState( GraphicsDevice *device, bool EnableDepth, DepthWriteMask Mask, ComparisonFunction Function, bool EnableStencil,
-			uint8_t ReadMask, uint8_t WriteMask, FaceOperation FrontFace, FaceOperation BackFace);
+		DepthStencilState(
+			GraphicsDevice *device,
+			bool EnableDepth, 
+			DepthWriteMask Mask, 
+			ComparisonFunction Function,
+			bool EnableStencil,
+			uint8_t ReadMask,
+			uint8_t WriteMask,
+			FaceOperation FrontFace,
+			FaceOperation BackFace
+		);
 
 		DepthStencilState(DepthStencilState &) = delete;
 		DepthStencilState(DepthStencilState &&state) noexcept = default;

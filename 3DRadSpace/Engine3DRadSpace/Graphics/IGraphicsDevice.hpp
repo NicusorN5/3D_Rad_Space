@@ -3,6 +3,13 @@
 #include "../Math/Color.hpp"
 #include "Viewport.hpp"
 #include "VertexTopology.hpp"
+#include "PixelFormat.hpp"
+#include "BufferUsage.hpp"
+#include "RenderTargetBlendState.hpp"
+#include "DepthWriteMask.hpp"
+#include "ComparisonFunction.hpp"
+#include "FaceOperation.hpp"
+#include "VertexDeclarations.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {
@@ -15,6 +22,8 @@ namespace Engine3DRadSpace::Graphics
 	class IRasterizerState;
 	class IDepthStencilState;
 	class IBlendState;
+
+	class IShaderCompiler;
 
 	class E3DRSP_GRAPHICS_EXPORT IGraphicsDevice
 	{
@@ -73,6 +82,66 @@ namespace Engine3DRadSpace::Graphics
 		virtual IRenderTarget* GetBackBuffer() = 0;
 		virtual ITexture2D *GetBackBufferTexture() = 0;
 		virtual IDepthStencilBuffer& GetDepthBuffer() = 0;
+
+		virtual std::unique_ptr<IBlendState> CreateBlendState(
+			bool alphaCoverage, 
+			bool indepedentBlend,
+			std::array<RenderTargetBlendState, 8> renderTargetBlendStates
+		) = 0;
+
+		virtual std::unique_ptr<IDepthStencilBuffer> CreateDepthStencilBuffer(
+			size_t x,
+			size_t y,
+			PixelFormat format,
+			BufferUsage usage
+		) = 0;
+
+		virtual std::unique_ptr<IDepthStencilState> CreateDepthStencilState(
+			bool EnableDepth, 
+			DepthWriteMask Mask, 
+			ComparisonFunction Function,
+			bool EnableStencil,
+			uint8_t ReadMask,
+			uint8_t WriteMask,
+			FaceOperation FrontFace,
+			FaceOperation BackFace
+		) = 0;
+
+		virtual IShaderCompiler* ShaderCompiler() = 0;
+		///<summmary>
+		///Returns a 2x2 blank white texture.
+		///</summary>
+		virtual ITexture2D* WhiteBlank() = 0;
+
+		virtual std::unique_ptr<IIndexBuffer> CreateIndexBuffer(std::span<unsigned> indices) = 0;
+		virtual std::unique_ptr<IIndexBuffer> CreateIndexBuffer(size_t numIndices, BufferUsage usage) = 0;
+
+		virtual std::unique_ptr<IRenderTarget> CreateRenderTarget(
+			size_t x,
+			size_t y,
+			PixelFormat format
+		) = 0;
+
+		virtual std::unique_ptr<ITexture2D> CreateTexture2D(
+			size_t x,
+			size_t y,
+			void* data,
+			PixelFormat format,
+			BufferUsage usage
+		) = 0;
+
+		virtual std::unique_ptr<IVertexBuffer> CreateVertexBuffer(
+			const void* data,
+			size_t structSize,
+			size_t numVertices,
+			BufferUsage usage
+		) = 0;
+
+		template<VertexDecl V>
+		std::unique_ptr<IVertexBuffer> CreateVertexBuffer(std::span<V> vertices, BufferUsage usage)
+		{
+			return CreateVertexBuffer(&vertices[0], sizeof(V), vertices.size(), usage);
+		}
 
 		virtual ~IGraphicsDevice() = default;
 	};

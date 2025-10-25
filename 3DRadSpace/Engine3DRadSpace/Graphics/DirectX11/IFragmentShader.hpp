@@ -1,7 +1,7 @@
 #pragma once
 #include "IShader.hpp"
 
-namespace Engine3DRadSpace::Graphics
+namespace Engine3DRadSpace::Graphics::DirectX11
 {
 	class E3DRSP_GRAPHICS_EXPORT IFragmentShader : public IShader
 	{
