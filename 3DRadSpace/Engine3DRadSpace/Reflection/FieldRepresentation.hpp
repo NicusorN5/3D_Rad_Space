@@ -17,6 +17,19 @@
 namespace Engine3DRadSpace
 {
 	class IObject;
+
+	namespace Audio
+	{
+		class Sound;
+	}
+	namespace Content::Assets
+	{
+		class TextureAsset;
+		class ModelAsset;
+		class FontAsset;
+		class SkyboxAsset;
+		class ShaderAsset;
+	}
 }
 namespace Engine3DRadSpace::Reflection
 {

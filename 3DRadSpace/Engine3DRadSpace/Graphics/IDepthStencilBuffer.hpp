@@ -3,16 +3,16 @@
 
 namespace Engine3DRadSpace::Graphics
 {
+	class ITexture2D;
+
 	class IDepthStencilBuffer : public IGPUResource
 	{
-		IDepthStencilBuffer() = default;
 	public:
-		void* GetViewHandle() const noexcept override = 0;
-		void* GetDepthTextureHandle() const noexcept override = 0;
-		Texture2D* GetDepthTexture() const noexcept override = 0;
+		virtual void* GetDepthTextureHandle() const noexcept = 0;
+		virtual ITexture2D* GetDepthTexture() const noexcept = 0;
 
-		void* GetHandle() const noexcept override = 0;
+		virtual std::unique_ptr<ITexture2D> CloneDepthTexture() = 0;
 
-		Texture2D CloneDepthTexture() override = 0;
+		~IDepthStencilBuffer() override = default;
 	};
 }

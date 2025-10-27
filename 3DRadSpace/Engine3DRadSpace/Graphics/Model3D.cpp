@@ -24,11 +24,11 @@ Model3D::Model3D(Internal::AssetUUIDReader) :
 {
 }
 
-Model3D::Model3D(GraphicsDevice* Device, const std::filesystem::path& path) :
+Model3D::Model3D(IGraphicsDevice* Device, const std::filesystem::path& path) :
 	_device(Device)
 {
 	//basicTexturedNBT = std::make_unique<Shaders::BasicTextured>(Device);
-	auto basicTexturedNBT = ShaderManager::LoadShader<Shaders::BasicTextured>(Device);
+	//auto basicTexturedNBT = ShaderManager::LoadShader<Shaders::BasicTextured>(Device);
 
 	if (!std::filesystem::exists(path)) throw AssetLoadingError(Tag<Model3D>{}, path, "This file doesn't exist!");
 
@@ -130,7 +130,7 @@ Model3D::Model3D(GraphicsDevice* Device, const std::filesystem::path& path) :
 			continue;
 		}
 
-		auto mesh = std::make_unique<ModelMeshPart>(Device, basicTexturedNBT, &vertices[0], numVerts, structSize, indices);
+		auto mesh = std::make_unique<ModelMeshPart>(Device, nullptr, &vertices[0], numVerts, structSize, indices);
 		
 		//determine bounding box and sphere
 		auto aabbMin = scene->mMeshes[i]->mAABB.mMin;
@@ -140,7 +140,7 @@ Model3D::Model3D(GraphicsDevice* Device, const std::filesystem::path& path) :
 			Vector3(aabbMax.x - aabbMin.x, aabbMax.y - aabbMin.y, aabbMax.z - aabbMin.z)
 		);
 		mesh->_sphere = BoundingSphere(mesh->_box);
-		std::unique_ptr<Texture2D> diffuseTexture;
+		std::unique_ptr<ITexture2D> diffuseTexture;
 
 		if(numUVMaps == 1)
 		{
@@ -153,7 +153,7 @@ Model3D::Model3D(GraphicsDevice* Device, const std::filesystem::path& path) :
 				p.remove_filename(); //remove the model filename 
 				p += texturePath.C_Str(); //concatenate the texture path.
 
-				diffuseTexture = std::make_unique<Texture2D>(Device, p.string());
+				diffuseTexture = Device->CreateTexture(p.string());
 			}
 			else
 			{
@@ -167,20 +167,18 @@ Model3D::Model3D(GraphicsDevice* Device, const std::filesystem::path& path) :
 					std::array<Color, 4> tColors;
 					tColors.fill(Color(color.r, color.g, color.b, opacity));
 
-					diffuseTexture = std::make_unique<Texture2D>(Device, tColors, 2, 2);
+					//TODO: Create a shader specifically for flat colors to avoid sampling a texture.
+					diffuseTexture = Device->CreateTexture2D(2,2, tColors.data(), PixelFormat::R32G32B32A32_Float, BufferUsage::ReadOnlyGPU_WriteOnlyCPU);
 				}
 				else
 				{
-					std::array<Color, 4> tColors;
-					tColors.fill(Colors::White);
-
-					diffuseTexture = std::make_unique<Texture2D>(Device, tColors, 2, 2);
+					diffuseTexture = _device->WhiteBlank();
 				}
 			}
 		}
 
 		mesh->Textures.push_back(std::move(diffuseTexture));
-		mesh->TextureSamplers.push_back(std::make_unique<SamplerState>(Device));
+		mesh->TextureSamplers.push_back(Device->CreateSamplerState());
 		meshParts.push_back(std::move(mesh));
 	}
 
@@ -299,7 +297,7 @@ BoundingSphere Model3D::GetBoundingSphere() const noexcept
 	return _sphere;
 }
 
-void Model3D::SetShader(std::shared_ptr<Shaders::Effect> effect)
+void Model3D::SetShader(std::shared_ptr<Effect> effect)
 {
 	for (auto& mesh : _meshes)
 	{
@@ -310,7 +308,7 @@ void Model3D::SetShader(std::shared_ptr<Shaders::Effect> effect)
 	}
 }
 
-void Model3D::SetShaders(std::span<std::shared_ptr<Shaders::Effect>> effects)
+void Model3D::SetShaders(std::span<std::shared_ptr<Effect>> effects)
 {
 	size_t i = 0;
 	size_t len = effects.size();
@@ -326,7 +324,7 @@ void Model3D::SetShaders(std::span<std::shared_ptr<Shaders::Effect>> effects)
 	}
 }
 
-void Model3D::DrawEffect(Shaders::Effect *effect)
+void Model3D::DrawEffect(Effect *effect)
 {
 	for (auto& mesh : _meshes)
 	{
@@ -337,7 +335,7 @@ void Model3D::DrawEffect(Shaders::Effect *effect)
 	}
 }
 
-void Model3D::DrawEffect(Shaders::Effect* effect, const Math::Matrix4x4& mvp)
+void Model3D::DrawEffect(Effect* effect, const Math::Matrix4x4& mvp)
 {
 	for(auto &mesh : _meshes)
 	{

@@ -7,22 +7,22 @@ namespace Engine3DRadSpace
 {
 	namespace Logging
 	{
-		class E3DRSP_CORE_EXPORT ServiceBadCast : public Exception
+		class E3DRSP_CORE_EXPORT ServiceBadCastException : public Exception
 		{
 		public:
 			template<typename T>
-			AssetLoadingError(Tag<T> to) :
+			ServiceBadCastException(Tag<T> to) :
 				Exception(std::format("Cast to " + typeid(T).name() + " failed: ")
 			{
 			}
 
 			template<typename T>
-			AssetLoadingError(Tag<T> to, const std::string& details) :
+			ServiceBadCastException(Tag<T> to, const std::string& details) :
 				Exception(std::format("Cast to " + typeid(T).name()+ " failed: " + details)
 			{
 			}
 		
-			~ServiceBadCast() override = default;
+			~ServiceBadCastException() override = default;
 		};
 	}
 }

@@ -1,8 +1,8 @@
 #include "ModelMeshPart.hpp"
+#include "Effect.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
-using namespace Engine3DRadSpace::Graphics::Shaders;
 using namespace Engine3DRadSpace::Math;
 
 ModelMeshPart::ModelMeshPart(

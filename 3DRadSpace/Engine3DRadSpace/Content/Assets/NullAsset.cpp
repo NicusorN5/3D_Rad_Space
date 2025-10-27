@@ -4,13 +4,15 @@
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content::Assets;
 
-NullAsset::NullAsset(const std::filesystem::path& dummy)
+NullAsset::NullAsset(IService* service, const std::filesystem::path& dummy)
 {
+	(void)service;
 	(void)dummy;
 }
 
 NullAsset::NullAsset(Internal::AssetUUIDReader dummy)
 {
+	(void)dummy;
 }
 
 Reflection::UUID NullAsset::GetUUID() const noexcept

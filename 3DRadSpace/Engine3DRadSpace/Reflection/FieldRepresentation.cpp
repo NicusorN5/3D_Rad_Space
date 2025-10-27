@@ -29,12 +29,12 @@ template<> FieldRepresentation Reflection::GetFieldRepresentation<AssetID<Textur
 	return {{FieldRepresentationType::Image, ""}};
 }
 
-template<> FieldRepresentation Reflection::GetFieldRepresentation<AssetID<Model3D>>()
+template<> FieldRepresentation Reflection::GetFieldRepresentation<AssetID<ModelAsset>>()
 {
 	return {{FieldRepresentationType::Model, ""}};
 }
 
-template<> FieldRepresentation Reflection::GetFieldRepresentation<AssetID<Font>>()
+template<> FieldRepresentation Reflection::GetFieldRepresentation<AssetID<FontAsset>>()
 {
 	return { {FieldRepresentationType::Font, ""} };
 }

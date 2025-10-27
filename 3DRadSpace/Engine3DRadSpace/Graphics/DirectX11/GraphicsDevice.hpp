@@ -69,88 +69,88 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		GraphicsDevice& operator=(const GraphicsDevice&) = delete;
 		GraphicsDevice& operator=(GraphicsDevice&&) = delete;
 
-		void Clear(const Math::Color& clearColor = { 0.0f, 0.0f, 0.0f, 1.0f });
-		void ClearRenderTarget(RenderTarget* rt, const Math::Color& clearColor = { 0.0f, 0.0f, 0.0f, 1.0f });
-		void ClearDepthBuffer(DepthStencilBuffer* depth);
+		void Clear(const Math::Color& clearColor = { 0.0f, 0.0f, 0.0f, 1.0f }) override;
+		void ClearRenderTarget(IRenderTarget* rt, const Math::Color& clearColor = { 0.0f, 0.0f, 0.0f, 1.0f }) override;
+		void ClearDepthBuffer(IDepthStencilBuffer* depth) override;
 
-		void SetViewport();
-		void SetViewport(const Viewport& viewport);
+		void SetViewport() override;
+		void SetViewport(const Viewport& viewport) override;
 
-		void SetViewports(std::span<Viewport> viewports);
-		Viewport GetViewport();
+		void SetViewports(std::span<Viewport> viewports) override;
+		Viewport GetViewport() override;
 		
 		/// <summary>
 		/// Sets the current render target. Depth buffer is set to the default depth buffer.
 		/// </summary>
 		/// <param name="remderTarget">Render target pointer reference. Using null will use the backbuffer.</param>
-		void SetRenderTarget(RenderTarget* renderTarget);
+		void SetRenderTarget(IRenderTarget* renderTarget) override;
 		/// <summary>
 		/// Unbinds the current render target and depth buffer. 
 		/// </summary>
 		/// <remarks>
 		/// When called, there's no valid render surface that's assigned to the GPU. 
 		/// </remarks>
-		void UnbindRenderTargetAndDepth();
+		void UnbindRenderTargetAndDepth() override;
 		/// <summary>
 		/// Unbinds the current depth buffer.
 		/// </summary>
-		void UnbindDepthBuffer();
+		void UnbindDepthBuffer() override;
 		/// <summary>
 		/// Sets both render target and depth stencil buffer.
 		/// </summary>
 		/// <param name="renderTarget">Render surface to be drawn into. If null, it is set to the backbuffer.</param>
 		/// <param name="depthBuffer">Depth stencil buffer. If null, will be set to the default non-null buffer.</param>
-		void SetRenderTargetAndDepth(RenderTarget* renderTarget, DepthStencilBuffer* depthBuffer);
+		void SetRenderTargetAndDepth(IRenderTarget* renderTarget, IDepthStencilBuffer* depthBuffer) override;
 		/// <summary>
 		/// Sets the render target, but unbinds the depth buffer.
 		/// </summary>
 		/// <param name="renderTarget">Render surface to be drawn into. If null, it is set to the backbuffer.</param>
-		void SetRenderTargetAndDisableDepth(RenderTarget* renderTarget);
+		void SetRenderTargetAndDisableDepth(IRenderTarget* renderTarget) override;
 
 		/// <summary>
 		/// Draws a vertex buffer into the selected render target.
 		/// </summary>
 		/// <param name="vertexBuffer">Vertex buffer.</param>
 		/// <param name="startSlot">Index of the first buffer.</param>
-		void DrawVertexBuffer(VertexBuffer* vertexBuffer, unsigned startSlot = 0);
+		void DrawVertexBuffer(IVertexBuffer* vertexBuffer, unsigned startSlot = 0) override;
 		/// <summary>
 		/// Draws a vertex buffer ordered by a index buffer into the selected render target.
 		/// </summary>
 		/// <param name="vertexBuffer">Vertex buffer.</param>
 		/// <param name="indexBuffer">Index buffer.</param>
-		void DrawVertexBufferWithindices(VertexBuffer* vertexBuffer, IndexBuffer* indexBuffer);
-		void DrawVertexBufferWithindices(VertexBuffer* vertexBuffer, IndexBuffer* indexBuffer, unsigned numIndices);
+		void DrawVertexBufferWithindices(IVertexBuffer* vertexBuffer, IIndexBuffer* indexBuffer) override;
+		void DrawVertexBufferWithindices(IVertexBuffer* vertexBuffer, IIndexBuffer* indexBuffer, unsigned numIndices) override;
 
 		/// <summary>
 		/// Sets a shader for the graphics pipeline.
 		/// </summary>
 		/// <param name="shader">Either a vertex shader, fragment shader, geometry shader, etc...</param>
-		void SetShader(IShader* shader);
+		void SetShader(IShader* shader) override;
 
-		void SetRasterizerState(const RasterizerState* state);
-		IRasterizerState GetRasterizerState() override;
+		void SetRasterizerState(const IRasterizerState* state) override;
+		IRasterizerState* GetRasterizerState() override;
 
-		void SetDepthStencilBuffer(DepthStencilBuffer* depthBuffer);
-		void SetDepthStencilState(DepthStencilState* depthState, unsigned ref);
+		void SetDepthStencilBuffer(IDepthStencilBuffer* depthBuffer) override;
+		void SetDepthStencilState(IDepthStencilState* depthState, unsigned ref) override;
 
-		void SetBlendState(BlendState* blendState, const Math::Color& blendFactor = Math::Colors::Black, unsigned sampleMask = 0xFFFFFFFF);
+		void SetBlendState(IBlendState* blendState, const Math::Color& blendFactor = Math::Colors::Black, unsigned sampleMask = 0xFFFFFFFF) override;
 
 		/// <summary>
 		/// Sets the topology used by the vertex buffer.
 		/// </summary>
 		/// <param name="topology"></param>
-		void SetTopology(VertexTopology topology);
-		void DrawAuto();
+		void SetTopology(VertexTopology topology) override;
+		void DrawAuto() override;
 		/// <summary>
 		/// Swaps the front and backbuffer, thus outputting the backbuffer to the screen.
 		/// </summary>
-		void Present();
+		void Present() override;
 
 		/// <summary>
 		/// Writes the backbuffer to a file. 
 		/// </summary>
 		/// <param name="path">PNG format image path.</param>
-		void SaveBackBufferToFile(const std::filesystem::path& path);
+		void SaveBackBufferToFile(const std::filesystem::path& path) override;
 
 		bool EnableVSync;
 
@@ -158,7 +158,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		/// Returns the backbuffer width and height.
 		/// </summary>
 		/// <returns></returns>
-		Math::Point Resolution() const noexcept;
+		Math::Point Resolution() const noexcept override;
 
 		/// <summary>
 		/// Resizes the back buffer, stencil buffer.
@@ -168,35 +168,35 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		/// Number of swap chain textures is preserved.
 		/// Texture format will be same as the previous pixel format.
 		/// </remarks>
-		void ResizeBackBuffer(const Math::Point& newResolution);
+		void ResizeBackBuffer(const Math::Point& newResolution) override;
 		/// <summary>
 		/// Switches the fullscreen state.
 		/// </summary>
-		void ToggleFullScreen();
+		void ToggleFullScreen() override;
 
-		void SetScreenQuad();
-		void DrawScreenQuad();
+		void SetScreenQuad() override;
+		void DrawScreenQuad() override;
 
-		RenderTarget* GetBackBuffer();
-		Texture2D *GetBackBufferTexture();
-		DepthStencilBuffer& GetDepthBuffer();
+		IRenderTarget* GetBackBuffer() override;
+		ITexture2D *GetBackBufferTexture() override;
+		IDepthStencilBuffer& GetDepthBuffer() override;
 
 		//Graphics::PixelFormat BackBufferFormat() const noexcept;
 
-	virtual std::unique_ptr<IBlendState> CreateBlendState(
+		std::unique_ptr<IBlendState> CreateBlendState(
 			bool alphaCoverage, 
 			bool indepedentBlend,
 			std::array<RenderTargetBlendState, 8> renderTargetBlendStates
 		) = 0;
 
-		virtual std::unique_ptr<IDepthStencilBuffer> CreateDepthStencilBuffer(
+		std::unique_ptr<IDepthStencilBuffer> CreateDepthStencilBuffer(
 			size_t x,
 			size_t y,
 			PixelFormat format,
 			BufferUsage usage
 		) = 0;
 
-		virtual std::unique_ptr<IDepthStencilState> CreateDepthStencilState(
+		std::unique_ptr<IDepthStencilState> CreateDepthStencilState(
 			bool EnableDepth, 
 			DepthWriteMask Mask, 
 			ComparisonFunction Function,

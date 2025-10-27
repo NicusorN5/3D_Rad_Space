@@ -13,7 +13,7 @@ namespace Engine3DRadSpace::Content::Assets
 		NullAsset(Internal::AssetUUIDReader dummy);
 	public:
 		NullAsset() = default;
-		NullAsset(const std::filesystem::path& dummy);
+		NullAsset(IService* service, const std::filesystem::path& dummy);
 
 		NullAsset(NullAsset&&) noexcept= default;
 		NullAsset& operator=(NullAsset&&) noexcept = default;

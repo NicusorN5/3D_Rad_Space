@@ -2,11 +2,12 @@
 
 #include "IObject3D.hpp"
 #include "../Graphics/Model3D.hpp"
+#include "../Content/Assets/ModelAsset.hpp"
 #include "../Reflection/Reflection.hpp"
 
 namespace Engine3DRadSpace::Objects
 {
-	using RefModel3D = Content::AssetID<Graphics::Model3D>;
+	using RefModel3D = Content::AssetID<Content::Assets::ModelAsset>;
 
 	class E3DRSP_OBJECTS_EXPORT Skinmesh : public IObject3D
 	{

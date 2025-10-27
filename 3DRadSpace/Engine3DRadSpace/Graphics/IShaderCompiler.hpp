@@ -1,24 +1,20 @@
 #pragma once
 #include "ShaderCompilationResult.hpp"
-#include "ShaderType.hpp"
+#include "ShaderDesc.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {
+	class Effect;
+
 	class E3DRSP_GRAPHICS_EXPORT IShaderCompiler
 	{
 	protected:
 		IShaderCompiler() = default;
 	public:
-		virtual ShaderCompilationResult CompileFile(
-			const std::filesystem::path& path, 
-			const std::string& entryPoint,
-			ShaderType type
-		) = 0;
-		virtual ShaderCompilationResult Compile(
-			const std::string& src,
-			const std::string& entryPoint,
-			ShaderType type
-		) = 0;
+		using CompileOutput = std::pair<std::unique_ptr<Effect>, ShaderCompilationResult>;
+
+		virtual CompileOutput Compile(const ShaderDesc* desc) = 0;
+		virtual std::vector<CompileOutput> CompileEffect(const ShaderDesc* const* descs) = 0;
 
 		virtual ~IShaderCompiler() = default;
 	};

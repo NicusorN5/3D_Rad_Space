@@ -16,8 +16,9 @@ namespace Engine3DRadSpace::Content::Assets
 		SkyboxAsset(SkyboxAsset&&) noexcept = default;
 		SkyboxAsset& operator=(SkyboxAsset&&) noexcept = default;
 
-		Graphics::Primitives::CubeMapSkybox& GetSkybox() noexcept;
-		Graphics::Primitives::CubeMapSkybox* operator->() noexcept;
+		Graphics::Primitives::CubeMapSkybox& GetSkybox() const;
+		Graphics::Primitives::CubeMapSkybox* operator->() const noexcept;
+		Graphics::Primitives::CubeMapSkybox& operator();
 
 		Reflection::UUID GetUUID() const noexcept override;
 		const char* FileExtension() const noexcept override;

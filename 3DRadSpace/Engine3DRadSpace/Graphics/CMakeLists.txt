@@ -14,7 +14,8 @@ add_library(3DRadSpace_Graphics SHARED
 	"SpriteBatch.cpp"
 	"Viewport.cpp"
 	"NullShader.cpp"
- )
+	"ShaderDesc.cpp"
+)
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET 3DRadSpace_Graphics PROPERTY CXX_STANDARD 23)

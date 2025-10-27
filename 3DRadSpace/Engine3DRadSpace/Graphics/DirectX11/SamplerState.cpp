@@ -3,6 +3,7 @@
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
+using namespace Engine3DRadSpace::Graphics::DirectX11;
 using namespace Engine3DRadSpace::Logging;
 using namespace Engine3DRadSpace::Math;
 
@@ -16,7 +17,8 @@ void SamplerState::_debugInfo()
 #endif
 }
 
-SamplerState::SamplerState(GraphicsDevice* device)
+SamplerState::SamplerState(GraphicsDevice* device) :
+	_device(device)
 {
 #ifdef USING_DX11
 	//Default values, as described here: https://learn.microsoft.com/en-us/windows/win32/api/d3d11/nf-d3d11-id3d11devicecontext-pssetsamplers
@@ -42,7 +44,20 @@ SamplerState::SamplerState(GraphicsDevice* device)
 #endif
 }
 
-SamplerState::SamplerState(GraphicsDevice *device, TextureFilter Filter, TextureAddressMode AddressU, TextureAddressMode AddressV, TextureAddressMode AddressW, float MipLODBias, unsigned MaxAnisotropy, ComparisonFunction ComparisionFunction, Color BorderColor, float MinLOD, float MaxLOD)
+SamplerState::SamplerState(
+	GraphicsDevice *device,
+	TextureFilter Filter,
+	TextureAddressMode AddressU,
+	TextureAddressMode AddressV,
+	TextureAddressMode AddressW,
+	float MipLODBias,
+	unsigned MaxAnisotropy,
+	ComparisonFunction ComparisionFunction,
+	Color BorderColor,
+	float MinLOD,
+	float MaxLOD
+) :
+	_device(device)
 {
 #ifdef USING_DX11
 	D3D11_SAMPLER_DESC desc{};
@@ -248,9 +263,12 @@ SamplerState SamplerState::AnisotropicWrap(GraphicsDevice *device)
 	);
 }
 
-const void* Engine3DRadSpace::Graphics::SamplerState::GetHandle() const noexcept
+void* SamplerState::GetHandle() const noexcept
 {
-#ifdef USING_DX11
-	return static_cast<const void*>(_samplerState.Get());
-#endif
+	return static_cast<void*>(_samplerState.Get());
+}
+
+IGraphicsDevice* SamplerState::GetGraphicsDevice() const noexcept
+{
+	return static_cast<IGraphicsDevice*>(_device);
 }

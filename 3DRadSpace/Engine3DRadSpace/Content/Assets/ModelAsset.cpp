@@ -8,7 +8,7 @@ using namespace Engine3DRadSpace::Content::Assets;
 using namespace Engine3DRadSpace::Graphics;
 
 ModelAsset::ModelAsset(IService* device, const std::filesystem::path &path) :
-	_font(new Model3D(static_cast<IGraphicsDevice*>(device), path))
+	_model(new Model3D(static_cast<IGraphicsDevice*>(device), path))
 {
 }
 
@@ -20,12 +20,12 @@ Reflection::UUID ModelAsset::GetUUID() const noexcept
 
 const char* ModelAsset::FileExtension() const noexcept
 {
-	return  "All supported mesh files (*.3ds;*.3mf;*.dae;*.fbx;*.gltf;*.glb;*.obj;*.x)\0*.3ds;*.3mf;*.dae;*.fbx;*.gltf;*.glb;*.obj;*.x\0"
+	return  "All supported mesh files (*.3ds;*.3mf;*.dae;*.fbx;*.gltf;*.glb;*.obj;*.x)\0*.3ds;*.3mf;*.dae;*.fbx;*.gltf;*.glb;*.obj;*.x;\0"
 		"Autodesk 3ds Max Model (*.3ds)\0*.3ds\0"
 		"3D Manufacturing Format(*.3mf)\0*.3mf\0"
 		"COLLADA Model (*.dae)\0*.dae\0"
 		"Filmbox (FBX) Mesh (*.fbx)\0*.fbx\0"
-		"GL Transmission Format(glTF) (*.gltf;*.glb)\0*.gltf;*.glb\0"
+		"GL Transmission Format(glTF) (*.gltf;*.glb)\0*.gltf;*.glb;\0"
 		"Wavefront OBJ (*.obj)\0*.obj\0"
 		"DirectX Mesh (*.x)\0*.x\0"
 		"All Files(*.*)\0*.*\0\0";
@@ -34,4 +34,14 @@ const char* ModelAsset::FileExtension() const noexcept
 std::type_index ModelAsset::InitializationService() const noexcept
 {
 	return typeid(IGraphicsDevice);
+}
+
+Model3D ModelAsset::operator() const
+{
+	return *_model;
+}
+
+Model3D* ModelAsset::operator->() const noexcept
+{
+	return _model.get();
 }

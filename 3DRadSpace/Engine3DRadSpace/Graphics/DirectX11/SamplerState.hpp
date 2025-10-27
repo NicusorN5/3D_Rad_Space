@@ -1,15 +1,15 @@
 #pragma once
+#include "../ISamplerState.hpp"
 #include "GraphicsDevice.hpp"
 #include "../TextureFilter.hpp"
 #include "../TextureAddressMode.hpp"
 
 namespace Engine3DRadSpace::Graphics::DirectX11
 {
-	class E3DRSP_GRAPHICS_EXPORT SamplerState
+	class E3DRSP_GRAPHICS_EXPORT SamplerState : public ISamplerState
 	{
-#ifdef USING_DX11
+		GraphicsDevice* _device;
 		Microsoft::WRL::ComPtr<ID3D11SamplerState> _samplerState;
-#endif
 		void _debugInfo();
 	public:
 		SamplerState(GraphicsDevice *device);
@@ -31,7 +31,8 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		static SamplerState AnisotropicClamp(GraphicsDevice *device);
 		static SamplerState AnisotropicWrap(GraphicsDevice *device);
 
-		const void* GetHandle() const noexcept;
+		void* GetHandle() const noexcept override;
+		IGraphicsDevice* GetGraphicsDevice() const noexcept override;
 
 		~SamplerState() = default;
 

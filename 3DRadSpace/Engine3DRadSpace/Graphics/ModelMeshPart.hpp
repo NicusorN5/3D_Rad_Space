@@ -4,13 +4,13 @@
 #include "IIndexBuffer.hpp"
 #include "ISamplerState.hpp"
 #include "VertexDeclarations.hpp"
-#include "Effect.hpp"
 #include "../Math/BoundingSphere.hpp"
 #include "../Math/BoundingBox.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {
 	class Model3D;
+	class Effect;
 
 	/// <summary>
 	/// Represents a mesh formed by a index and vertex buffer, plus an effect.
@@ -19,7 +19,7 @@ namespace Engine3DRadSpace::Graphics
 	{
 		IGraphicsDevice* _device;
 
-		std::shared_ptr<Shaders::Effect> _shaders;
+		std::shared_ptr<Effect> _shaders;
 
 		Math::BoundingBox _box;
 		Math::BoundingSphere _sphere;
@@ -33,16 +33,16 @@ namespace Engine3DRadSpace::Graphics
 		ModelMeshPart(
 			Graphics::IVertexBuffer* vert, 
 			Graphics::IIndexBuffer* index,
-			std::shared_ptr<Shaders::Effect> shaders
+			std::shared_ptr<Effect> shaders
 		);
 
 		ModelMeshPart(
 			IGraphicsDevice *Device,
-			std::shared_ptr<Shaders::Effect> shaders, 
 			void* vertices, 
 			size_t numVerts,
 			size_t structSize, 
-			std::span<unsigned> indices
+			std::span<unsigned> indices,
+			std::shared_ptr<Effect> shaders
 		);
 
 		ModelMeshPart(ModelMeshPart&& meshPart) noexcept = default;
@@ -56,7 +56,7 @@ namespace Engine3DRadSpace::Graphics
 			IGraphicsDevice* Device,
 			std::span<V> vertices,
 			std::span<unsigned> indices,
-			std::shared_ptr<Shaders::Effect> shaders
+			std::shared_ptr<Effect> shaders
 		);
 
 		Math::Matrix4x4 Transform = Math::Matrix4x4();
@@ -64,7 +64,7 @@ namespace Engine3DRadSpace::Graphics
 		std::vector<std::unique_ptr<ISamplerState>> TextureSamplers;
 
 		void Draw();
-		void Draw(Shaders::Effect* effect);
+		void Draw(Effect* effect);
 
 		Math::BoundingBox GetBoundingBox() const noexcept;
 		Math::BoundingSphere GetBoundingSphere() const noexcept;
@@ -72,8 +72,8 @@ namespace Engine3DRadSpace::Graphics
 		Graphics::IVertexBuffer* GetVertexBuffer() const noexcept;
 		Graphics::IIndexBuffer* GetIndexBuffer() const noexcept;
 
-		Shaders::Effect* GetShaders() const noexcept;
-		void SetShaders(std::shared_ptr<Shaders::Effect> shaders);
+		Effect* GetShaders() const noexcept;
+		void SetShaders(std::shared_ptr<Effect> shaders);
 
 		/// <summary>
 		/// Creates staging vertex and index buffers available for CPU reading if they don't exist. If they already exist, returns the already created buffers.
@@ -91,7 +91,7 @@ namespace Engine3DRadSpace::Graphics
 		IGraphicsDevice* Device,
 		std::span<V> vertices, 
 		std::span<unsigned> indices,
-		std::shared_ptr<Shaders::Effect> shaders
+		std::shared_ptr<Effect> shaders
 	):
 		_device(Device),
 		_shaders(shaders)
@@ -99,6 +99,4 @@ namespace Engine3DRadSpace::Graphics
 		VertexBuffer = _device->CreateVertexBuffer<V>(vertices);
 		IndexBuffer = _device->CreateIndexBuffer(indices);
 	}
-
 }
-

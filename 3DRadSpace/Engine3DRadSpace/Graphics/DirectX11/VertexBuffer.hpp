@@ -56,6 +56,9 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 
 		[[nodiscard]] std::unique_ptr<IVertexBuffer> CreateStaging() override;
 		
+		void* GetHandle() const noexcept override;
+		IGraphicsDevice* GetGraphicsDevice() const noexcept override;
+
 		virtual ~VertexBuffer() = default;
 
 		friend class GraphicsDevice;

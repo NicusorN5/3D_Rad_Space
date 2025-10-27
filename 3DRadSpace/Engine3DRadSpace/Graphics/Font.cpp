@@ -137,7 +137,13 @@ fontSizeComputation:
 		}
 	}
 
-	_texture = std::make_unique<Texture2D>(_device, static_cast<void*>(fontAtlas.get()), atlasX, atlasY, PixelFormat::R32G32B32A32_Float);
+	_texture = _device->CreateTexture2D(
+		atlasX,
+		atlasY,
+		static_cast<void*>(fontAtlas.get()),
+		PixelFormat::R32G32B32A32_Float,
+		BufferUsage::Immutable
+	);
 
 	_valid = true;
 }

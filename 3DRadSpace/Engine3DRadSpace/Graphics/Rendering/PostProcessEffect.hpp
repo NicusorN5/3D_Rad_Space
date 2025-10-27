@@ -24,12 +24,12 @@ namespace Engine3DRadSpace::Graphics::Rendering
 			};
 
 		public:
-			PostProcessVertex(GraphicsDevice* device, ShaderFeatureLevel fl);
+			PostProcessVertex(IGraphicsDevice* device, ShaderFeatureLevel fl);
 			std::span<InputLayoutElement> InputLayout() override;
 		} _vertex;
 	protected:
 		PostProcessEffect(
-			 GraphicsDevice* device, 
+			 IGraphicsDevice* device, 
 			 const char* shaderSource, 
 			 const char* entryFunction, 
 			 ShaderFeatureLevel fl = ShaderFeatureLevel::DX_V4
@@ -42,8 +42,8 @@ namespace Engine3DRadSpace::Graphics::Rendering
 			 ShaderFeatureLevel fl = ShaderFeatureLevel::DX_V4
 		 );
 
-		Texture2D* _backbuffer_copy;
-		Texture2D* _depthBuffer_copy;
+		ITexture2D* _backbuffer_copy;
+		ITexture2D* _depthBuffer_copy;
 	public:
 		/// <summary>
 		/// Is this effect enabled?

@@ -13,7 +13,7 @@ namespace Engine3DRadSpace
 	{
 		class E3DRSP_CONTENT_ASSETS_EXPORT ModelAsset final : public IAsset
 		{
-			std::unique_ptr<Graphics::Model3D> _font;
+			std::unique_ptr<Graphics::Model3D> _model;
 		public:
 			ModelAsset(IService* device, const std::filesystem::path &path);
 
@@ -24,7 +24,13 @@ namespace Engine3DRadSpace
 			/// <returns></returns>
 			const char* FileExtension() const noexcept override;
 
+			operator Graphics::Model3D() const;
+			Graphics::Model3D& GetModel() const;
+			Graphics::Model3D* operator->() const noexcept;
+
 			std::type_index InitializationService() const noexcept override;
+
+			~ModelAsset() override = default;
 		};
 	}
 }

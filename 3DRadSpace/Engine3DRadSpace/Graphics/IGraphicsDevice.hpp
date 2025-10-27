@@ -31,8 +31,6 @@ namespace Engine3DRadSpace::Graphics
 	protected:
 		IGraphicsDevice() = default;
 	public:
-		virtual ITexture2D* CreateTexture(const std::filesystem::path& path);
-
 		virtual void Clear(const Math::Color& clearColor) = 0;
 		virtual void ClearRenderTarget(IRenderTarget* rt, const Math::Color& clearColor) = 0;
 		virtual void ClearDepthBuffer(IDepthStencilBuffer* depth) = 0;
@@ -131,6 +129,8 @@ namespace Engine3DRadSpace::Graphics
 			PixelFormat format,
 			BufferUsage usage
 		) = 0;
+
+		virtual std::unique_ptr<ITexture2D> CreateTexture2D(const std::filesystem::path& path) = 0;
 
 		virtual std::unique_ptr<IVertexBuffer> CreateVertexBuffer(
 			const void* data,

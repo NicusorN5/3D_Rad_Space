@@ -5,8 +5,9 @@
 #include "IDomainShader.hpp"
 #include "IGeometryShader.hpp"
 #include "IFragmentShader.hpp"
+#include "ShaderType.hpp"
 
-namespace Engine3DRadSpace::Graphics::Shaders
+namespace Engine3DRadSpace::Graphics
 {
 	/// <summary>
 	/// Represents a vertex, hull, domain, geometry and fragment shader.

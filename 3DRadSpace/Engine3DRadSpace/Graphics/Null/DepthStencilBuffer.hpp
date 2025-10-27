@@ -19,12 +19,11 @@ namespace Engine3DRadSpace::Graphics::Null
 		DepthStencilBuffer &operator=(DepthStencilBuffer &) = delete;
 		DepthStencilBuffer &operator=(DepthStencilBuffer &&buff) noexcept = default;
 
-		void* GetViewHandle() const noexcept override;
 		void* GetDepthTextureHandle() const noexcept override;
-		Texture2D* GetDepthTexture() const noexcept override;
+		ITexture2D* GetDepthTexture() const noexcept override;
 
 		void* GetHandle() const noexcept override;
 
-		Texture2D CloneDepthTexture() override;
+		std::unique_ptr<ITexture2D> CloneDepthTexture() override;
 	};
 }

@@ -1,7 +1,6 @@
 #include "Effect.hpp"
 
 using namespace Engine3DRadSpace::Graphics;
-using namespace Engine3DRadSpace::Graphics::Shaders;
 
 Effect::Effect(IGraphicsDevice *device, IVertexShader *vertexShader, IFragmentShader *fragmentShader, IHullShader *hullShader,
 	IDomainShader *domainShader, IGeometryShader *geometryShader ):

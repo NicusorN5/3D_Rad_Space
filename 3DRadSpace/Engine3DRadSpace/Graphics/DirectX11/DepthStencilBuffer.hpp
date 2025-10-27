@@ -1,8 +1,9 @@
 #pragma once
+#include "../IDepthStencilBuffer.hpp"
 #include "GraphicsDevice.hpp"
 #include "Texture2D.hpp"
 
-namespace Engine3DRadSpace::Graphics
+namespace Engine3DRadSpace::Graphics::DirectX11
 {
 	/// <summary>
 	/// Represents the depth stencil buffer.
@@ -10,7 +11,7 @@ namespace Engine3DRadSpace::Graphics
 	/// <remarks>
 	/// Since this is a large resource, usually the same size as the backbuffer, copy constructors are removed.
 	/// </remarks>
-	class E3DRSP_GRAPHICS_NULL_EXPORT DepthStencilBuffer
+	class E3DRSP_GRAPHICS_NULL_EXPORT DepthStencilBuffer : public IDepthStencilBuffer
 	{
 #ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilView> _depthView;
@@ -58,11 +59,11 @@ namespace Engine3DRadSpace::Graphics
 		/// Gets the depth stencil texture.
 		/// </summary>
 		/// <returns>Depth Stencil texture pointer.</returns>
-		Texture2D* GetDepthTexture() const noexcept;
+		ITexture2D* GetDepthTexture() const noexcept override;
 
-		Texture2D CloneDepthTexture();
+		std::unique_ptr<ITexture2D> CloneDepthTexture() override;
 
-		~DepthStencilBuffer() = default;
+		~DepthStencilBuffer() override = default;
 
 		friend class GraphicsDevice;
 	};

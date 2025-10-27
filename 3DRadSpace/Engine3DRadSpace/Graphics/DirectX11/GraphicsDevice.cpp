@@ -1,16 +1,16 @@
 #include "GraphicsDevice.hpp"
 #include "../Core/Logging.hpp"
-#include "Graphics/VertexBuffer.hpp"
-#include "Graphics/IndexBuffer.hpp"
-#include "Graphics/RenderTarget.hpp"
-#include "Graphics/DepthStencilBuffer.hpp"
-#include "Internal\AssetUUIDReader.hpp"
+#include "VertexBuffer.hpp"
+#include "IndexBuffer.hpp"
+#include "RenderTarget.hpp"
+#include "DepthStencilBuffer.hpp"
+#include "..\Internal\AssetUUIDReader.hpp"
 
 #ifdef  USING_DX11
 #pragma comment(lib,"d3d11.lib")
 #pragma comment(lib,"dxgi.lib")
 
-#include <directxtk\ScreenGrab.h>
+//#include <directxtk\ScreenGrab.h>
 #include <wincodec.h>
 #include <dxgidebug.h>
 #include <dxgi.h>
@@ -19,6 +19,7 @@
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
+using namespace Engine3DRadSpace::Graphics::DirectX11;
 using namespace Engine3DRadSpace::Logging;
 using namespace Engine3DRadSpace::Math;
 

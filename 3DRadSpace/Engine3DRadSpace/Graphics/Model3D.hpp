@@ -1,6 +1,5 @@
 #pragma once
 #include "ModelMesh.hpp"
-#include "Shaders/BasicTextured.hpp"
 #include "../Math/BoundingSphere.hpp"
 #include "../Math/BoundingBox.hpp"
 
@@ -14,7 +13,7 @@ namespace Engine3DRadSpace::Graphics
 	/// </remarks>
 	class E3DRSP_GRAPHICS_EXPORT Model3D
 	{
-		GraphicsDevice* _device;
+		IGraphicsDevice* _device;
 		std::vector<std::unique_ptr<ModelMesh>> _meshes;
 
 		void _processNode(std::vector<std::unique_ptr<ModelMeshPart>> &parts, void* currentNode);
@@ -24,7 +23,7 @@ namespace Engine3DRadSpace::Graphics
 
 		Model3D(Internal::AssetUUIDReader);
 	public:
-		Model3D(GraphicsDevice* Device, const std::filesystem::path& path);
+		Model3D(IGraphicsDevice* Device, const std::filesystem::path& path);
 
 		Model3D(Model3D &) = delete;
 		Model3D(Model3D &&) noexcept = default;
@@ -37,8 +36,8 @@ namespace Engine3DRadSpace::Graphics
 		void Draw();
 		void Draw(const Math::Matrix4x4 &mvp);
 		
-		void DrawEffect(Shaders::Effect *effect);
-		void DrawEffect(Shaders::Effect *effect, const Math::Matrix4x4 &mvp);
+		void DrawEffect(Effect *effect);
+		void DrawEffect(Effect *effect, const Math::Matrix4x4 &mvp);
 
 		using iterator = std::vector<std::unique_ptr<ModelMesh>>::iterator;
 		iterator begin();
@@ -48,8 +47,8 @@ namespace Engine3DRadSpace::Graphics
 		Math::BoundingBox GetBoundingBox() const noexcept;
 		Math::BoundingSphere GetBoundingSphere() const noexcept;
 
-		void SetShader(std::shared_ptr<Shaders::Effect> effect);
-		void SetShaders(std::span<std::shared_ptr<Shaders::Effect>> effects);
+		void SetShader(std::shared_ptr<Effect> effect);
+		void SetShaders(std::span<std::shared_ptr<Effect>> effects);
 
 		~Model3D() = default;
 

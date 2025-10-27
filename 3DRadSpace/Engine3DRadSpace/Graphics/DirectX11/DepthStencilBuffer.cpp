@@ -5,6 +5,7 @@
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
+using namespace Engine3DRadSpace::Graphics::DirectX11;
 using namespace Engine3DRadSpace::Logging;
 
 D3D11_TEXTURE2D_DESC DepthStencilBuffer::_defaultDepthDesc(unsigned x, unsigned y)

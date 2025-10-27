@@ -10,5 +10,7 @@ namespace Engine3DRadSpace::Graphics
 		IDepthStencilState() = default;
 	public:
 		virtual unsigned int StencilRef() const noexcept = 0;
+
+		~IDepthStencilState() override = default;
 	};
 }

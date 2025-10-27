@@ -18,65 +18,62 @@ ShaderCompiler::ShaderCompiler(GraphicsDevice *device) :
 {
 }
 
-template<typename FnShaderCtor, typename ...Args> 
-ShaderCompilationResult _dx11_compile_shader(FnShaderCtor ctor, Args&& args...)
+ShaderCompilationResult ShaderCompiler::Compile(const ShaderDesc* desc)
 {
-
-}
-
-ShaderCompilationResult ShaderCompiler::CompileFile(
-    const std::filesystem::path& path, 
-    const std::string& entryPoint,
-    ShaderType type
-)
-{
-
-}
-		
-ShaderCompilationResult ShaderCompiler::Compile(
-    const std::string& src,
-    const std::string& entryPoint,
-    ShaderType type
-)
-{
-    ShaderCompilationResult result;
-    result.Shader = nullptr;
-    result.Succeded = true;
-    IShader* ptr;
-
-    auto compile = [=]<typename ShaderType>(ShaderCompilationResult &result) -> void
+    if (desc == nullptr) return std::make_pair< ShaderCompilationResult
     {
-        IShader* ptr;
-        try
-        {
-            ptr = new ShaderType(_device, src, entryPoint.c_str());
-            result.Log = ptr->GetCompilationErrorsAndWarnings();
-        }
-        catch(const Exception& e)
-        {
-            result.Succeded = false;
-            result.Log = e.What();
-        }
+        "No shader description provided.",
+        false
     };
 
-    switch(type)
-    {
-        case ShaderType::Fragment:
-            compile<IFragmentShader>(result);
-            break;
-        case ShaderType::Domain:
-            compile<IDomainShader>(result);
-            break;
-        case ShaderType::Geometry:
-            compile<IGeometryShader>(result);
-            break;
-        case ShaderType::Hull:
-            compile<IHullShader>(result);
-            break;
-        default:
-            result.Log = "Unsupported shader type.";
-            break;
-    }
+	ShaderCompilationResult result;
 
-    return result;
+    if (dynamic_cast<ShaderDescFile*>(desc) != nullptr)
+    {
+		auto fileDesc = static_cast<const ShaderDescFile*>(desc);
+
+        switch (fileDesc->Type)
+        {
+            case ShaderType::VertexShader:
+            {
+                // Compile vertex shader from file
+                break;
+            }
+            case ShaderType::FragmentShader:
+            {
+                result.Shader = 
+                break;
+            }
+            case ShaderType::GeometryShader:
+            {
+                // Compile geometry shader from file
+                break;
+            }
+            case ShaderType::HullShader:
+            {
+                // Compile hull shader from file
+                break;
+            }
+            case ShaderType::DomainShader:
+            {
+                // Compile domain shader from file
+                break;
+            }
+            default:
+                return ShaderCompilationResult
+                {
+                    nullptr,
+                    "Unsupported shader type.",
+                    false
+                };
+        }
+    }
+    else if (dynamic_cast<ShaderDescSource*>(desc) != nullptr)
+	{
+    }
+}
+
+std::pair<Effect*, std::vector<ShaderCompilationResult>> ShaderCompiler::CompileEffect(const ShaderDesc* const* descs)
+{
+
 }

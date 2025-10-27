@@ -1,6 +1,6 @@
 #include "SkyboxAsset.hpp"
 #include "../../Core/Logging/AssetLoadingError.hpp"
-#include "../../Core/Logging/ServiceBadCast.hpp"
+#include "../../Core/Logging/ServiceBadCastException.hpp"
 #include "../../Internal/AssetUUIDReader.hpp"
 
 using namespace Engine3DRadSpace;
@@ -15,7 +15,7 @@ CubeMapSkybox SkyboxAsset::_loadCubeMap(Graphics::IGraphicsDevice* device, const
 {
 	if (device == nullptr)
 	{
-		throw ServiceBadCast<IGraphicsDevice>();
+		throw ServiceBadCastException<IGraphicsDevice>();
 	}
 
 	if(!std::filesystem::exists(path))
@@ -84,6 +84,11 @@ CubeMapSkybox& SkyboxAsset::GetSkybox() noexcept
 CubeMapSkybox* SkyboxAsset::operator->() noexcept
 {
 	return &_skybox;
+}
+
+CubeMapSkybox& SkyboxAsset::operator() noexcept
+{
+	return *_skybox;
 }
 
 Reflection::UUID SkyboxAsset::GetUUID() const noexcept

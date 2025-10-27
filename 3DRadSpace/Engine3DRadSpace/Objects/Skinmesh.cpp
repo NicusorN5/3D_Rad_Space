@@ -1,7 +1,5 @@
 #include "Skinmesh.hpp"
 #include "../Games/Game.hpp"
-#include "../Graphics/Shaders/MeshHighlight.hpp"
-#include "../Graphics/Shaders/ShaderManager.hpp"
 #include "Gizmos/SkinmeshGizmo.hpp"
 #include "Gizmos.hpp"
 
