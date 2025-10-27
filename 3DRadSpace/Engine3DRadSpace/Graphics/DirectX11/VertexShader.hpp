@@ -1,5 +1,5 @@
 #pragma once
-#include "IShader.hpp"
+#include "DX11ShaderBase.hpp"
 #include "InputLayoutElement.hpp"
 
 namespace Engine3DRadSpace::Graphics::DirectX11
@@ -7,7 +7,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 	/// <summary>
 	/// Represents a vertex shader.
 	/// </summary>
-	class E3DRSP_GRAPHICS_EXPORT IVertexShader : public IShader
+	class E3DRSP_GRAPHICS_EXPORT VertexShader : public DX11ShaderBase
 	{
 #ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11VertexShader> _shader;
@@ -29,7 +29,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		/// <param name="shaderSourceCode">HLSL source</param>
 		/// <param name="vsEntry">HLSL entry function</param>
 		/// <param name="featureLevel">HLSL feature level.</param>
-		IVertexShader(
+		VertexShader(
 			GraphicsDevice* device, 
 			std::span<InputLayoutElement> inputLayout,
 			const char* shaderSourceCode,
@@ -37,7 +37,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 			ShaderFeatureLevel featureLevel = ShaderFeatureLevel::DX_V4
 		);
 		
-		IVertexShader(
+		VertexShader(
 			GraphicsDevice* device,
 			std::span<InputLayoutElement> inputLayout, 
 			const std::filesystem::path& path, 
@@ -45,11 +45,11 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 			ShaderFeatureLevel featureLevel = ShaderFeatureLevel::DX_V4
 		);
 	
-		IVertexShader(IVertexShader &) = delete;
-		IVertexShader(IVertexShader &&) noexcept = delete;
+		VertexShader(VertexShader&) = delete;
+		VertexShader(VertexShader&&) noexcept = delete;
 
-		IVertexShader &operator=(IVertexShader &) = delete;
-		IVertexShader &operator=(IVertexShader &&) noexcept = delete;
+		VertexShader &operator=(VertexShader&) = delete;
+		VertexShader &operator=(VertexShader&&) noexcept = delete;
 	public:
 		virtual std::span<InputLayoutElement> InputLayout() = 0;
 

@@ -1,16 +1,15 @@
-#include "DX11ShaderBase.hpp"
+#include "ShaderBase.hpp"
 #include "../Core/Logging.hpp"
 #include "GraphicsDevice.hpp"
 
-#ifdef USING_DX11
 #pragma comment(lib,"d3dcompiler.lib")
-#endif
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
+using namespace Engine3DRadSpace::Graphics::DirectX11;
 using namespace Engine3DRadSpace::Logging;
 
-DX11ShaderBase::Array_ValidConstantBuffers DX11ShaderBase::_validConstantBuffers(unsigned &numConstantBuffers)
+ShaderBase::Array_ValidConstantBuffers ShaderBase::_validConstantBuffers(unsigned &numConstantBuffers)
 {
 #ifdef USING_DX11
 	const unsigned maxConstBuffers = D3D11_COMMONSHADER_CONSTANT_BUFFER_API_SLOT_COUNT;
@@ -29,7 +28,7 @@ DX11ShaderBase::Array_ValidConstantBuffers DX11ShaderBase::_validConstantBuffers
 #endif
 }
 
-void DX11ShaderBase::_compileShader(const char *source, const char* target)
+void ShaderBase::_compileShader(const char *source, const char* target)
 {
 #ifdef _WIN32
 #ifdef _DEBUG
@@ -63,7 +62,7 @@ void DX11ShaderBase::_compileShader(const char *source, const char* target)
 #endif
 }
 
-void DX11ShaderBase::_compileShaderFromFile(const char* path, const char* target)
+void ShaderBase::_compileShaderFromFile(const char* path, const char* target)
 {
 #ifdef _WIN32
 	wchar_t wpath[_MAX_PATH]{ 0 };
@@ -101,7 +100,7 @@ void DX11ShaderBase::_compileShaderFromFile(const char* path, const char* target
 #endif
 }
 
-DX11ShaderBase::DX11ShaderBase(GraphicsDevice *Device, const char *shaderSourceCode, const char *entry_function, ShaderFeatureLevel fl):
+ShaderBase::ShaderBase(GraphicsDevice *Device, const char *shaderSourceCode, const char *entry_function, ShaderFeatureLevel fl):
 	_device(Device),
 	_entry(entry_function),
 	_featureLevel(fl),
@@ -109,9 +108,11 @@ DX11ShaderBase::DX11ShaderBase(GraphicsDevice *Device, const char *shaderSourceC
 	_shaderBlob(nullptr),
 	_errorBlob(nullptr)
 {
+	_compileShader(shaderSourceCode, entry_function);
+	_reflectShader();
 }
 
-DX11ShaderBase::DX11ShaderBase(GraphicsDevice *Device, const std::filesystem::path &path, const char *entry_function, ShaderFeatureLevel fl) :
+ShaderBase::ShaderBase(GraphicsDevice *Device, const std::filesystem::path &path, const char *entry_function, ShaderFeatureLevel fl) :
 	_device(Device),
 	_entry(entry_function),
 	_featureLevel(fl),
@@ -119,9 +120,11 @@ DX11ShaderBase::DX11ShaderBase(GraphicsDevice *Device, const std::filesystem::pa
 	_shaderBlob(nullptr),
 	_errorBlob(nullptr)
 {
+	_compileShaderFromFile(path.string().c_str(), entry_function);
+	_reflectShader();
 }
 
-void DX11ShaderBase::SetData(unsigned index, const void *data, unsigned dataSize)
+void ShaderBase::SetData(unsigned index, const void *data, unsigned dataSize)
 {
 #ifdef USING_DX11
 	if (_constantBuffers[index].Get() == nullptr)
@@ -156,18 +159,40 @@ void DX11ShaderBase::SetData(unsigned index, const void *data, unsigned dataSize
 }
 
 
-ShaderFeatureLevel DX11ShaderBase::GetFeatureLevel()
+ShaderFeatureLevel ShaderBase::GetFeatureLevel()
 {
 	return _featureLevel;
 }
 
-std::string DX11ShaderBase::GetEntryName()
+std::string ShaderBase::GetEntryName()
 {
 	return std::string(_entry);
 }
 
-const char* DX11ShaderBase::GetCompilationErrorsAndWarnings()
+const char* ShaderBase::GetCompilationErrorsAndWarnings()
 {
 	if(this->_errorBlob == nullptr) return nullptr;
 	return static_cast<const char*>(this->_errorBlob->GetBufferPointer());
+}
+
+void ShaderBase::_reflectShader()
+{
+	HRESULT r = D3DReflect(
+		this->_shaderBlob->GetBufferPointer(),
+		this->_shaderBlob->GetBufferSize(),
+		IID_PPV_ARGS(&_reflection)
+	);
+	if (FAILED(r)) throw Exception("Failed to reflect the shader!");
+
+	//TODO...
+}
+
+std::vector<Reflection::IReflectedField*> ShaderBase::GetVariables() const
+{
+
+}
+
+void ShaderBase::Set(const std::string& name, const void* data, unsigned dataSize)
+{
+
 }

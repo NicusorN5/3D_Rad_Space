@@ -2,7 +2,6 @@
 #include "ITexture2D.hpp"
 #include "IVertexBuffer.hpp"
 #include "IIndexBuffer.hpp"
-#include "Shaders/SpriteShader.hpp"
 #include "IDepthStencilState.hpp"
 #include "FlipMode.hpp"
 #include "Font.hpp"

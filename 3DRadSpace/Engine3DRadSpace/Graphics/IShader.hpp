@@ -35,6 +35,10 @@ namespace Engine3DRadSpace::Graphics
 			Set(name, &data, sizeof(T));
 		}
 
-		virtual ~IShader() = default;
+		virtual ShaderFeatureLevel GetFeatureLevel() = 0;
+		virtual std::string GetEntryName() = 0;
+		virtual const char* GetCompilationErrorsAndWarnings() = 0;
+
+		~IShader() override = default;
 	};
 }

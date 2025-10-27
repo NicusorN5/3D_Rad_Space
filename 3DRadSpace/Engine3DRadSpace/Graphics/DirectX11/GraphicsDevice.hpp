@@ -16,7 +16,6 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 	class VertexBuffer;
 	class IndexBuffer;
 
-	class IShader;
 	class Texture2D;
 	class RenderTarget;
 	class DepthStencilBuffer;
@@ -26,12 +25,12 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 	class RenderTarget;
 	class BlendState;
 
-	class IShader;
-	class IVertexShader;
-	class IHullShader;
-	class IDomainShader;
-	class IGeometryShader;
-	class IFragmentShader;
+	class ShaderBase;
+	class VertexShader;
+	class HullShader;
+	class DomainShader;
+	class GeometryShader;
+	class FragmentShader;
 
 	namespace Primitives
 	{
@@ -129,7 +128,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		void SetShader(IShader* shader);
 
 		void SetRasterizerState(const RasterizerState* state);
-		RasterizerState GetRasterizerState();
+		IRasterizerState GetRasterizerState() override;
 
 		void SetDepthStencilBuffer(DepthStencilBuffer* depthBuffer);
 		void SetDepthStencilState(DepthStencilState* depthState, unsigned ref);
@@ -244,7 +243,6 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 
 		friend class VertexBuffer;
 		friend class IndexBuffer;
-		friend class IShader;
 		friend class Texture2D;
 		friend class RenderTarget;
 		friend class RasterizerState;
@@ -254,15 +252,11 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		friend class DepthStencilBuffer;
 		friend class BlendState;
 
-		friend class IShader;
-		friend class IVertexShader;
-		friend class IHullShader;
-		friend class IDomainShader;
-		friend class IGeometryShader;
-		friend class IFragmentShader;
-
-		//TODO : Remove
-		friend class Graphics::Primitives::LineList;
-		friend class Graphics::Primitives::LineStrip;
+		friend class ShaderBase;
+		friend class VertexShader;
+		friend class HullShader;
+		friend class DomainShader;
+		friend class GeometryShader;
+		friend class FragmentShader;
 	};
 }

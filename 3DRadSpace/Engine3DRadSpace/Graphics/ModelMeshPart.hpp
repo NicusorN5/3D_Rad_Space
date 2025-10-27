@@ -2,6 +2,7 @@
 #include "IGraphicsDevice.hpp"
 #include "IVertexBuffer.hpp"
 #include "IIndexBuffer.hpp"
+#include "ISamplerState.hpp"
 #include "VertexDeclarations.hpp"
 #include "Effect.hpp"
 #include "../Math/BoundingSphere.hpp"
