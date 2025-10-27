@@ -41,7 +41,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		///     5 - Positive Z - PZ
 		///		6 - Negative Z - NZ
 		/// </remarks>
-		CubeMapSkybox(IGraphicsDevice* device, std::array<Texture2D, 6> &&faces);
+		CubeMapSkybox(IGraphicsDevice* device, std::array<ITexture2D*, 6> &&faces);
 
 		/// <summary>
 		/// Creates a new instance of the CubeMapSkybox class.

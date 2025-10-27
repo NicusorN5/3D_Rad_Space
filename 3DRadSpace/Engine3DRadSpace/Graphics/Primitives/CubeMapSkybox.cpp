@@ -13,7 +13,7 @@ using namespace Engine3DRadSpace::Graphics::Primitives;
 using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Objects;
 
-CubeMapSkybox::CubeMapSkybox(GraphicsDevice* device, std::array<Texture2D, 6> &&faces)
+CubeMapSkybox::CubeMapSkybox(GraphicsDevice* device, std::array<ITexture2D*, 6> &&faces)
 {
 	std::array<VertexPositionUV, 4> px_vert =
 	{

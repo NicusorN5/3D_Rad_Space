@@ -1,6 +1,7 @@
 #pragma once
 #include "ShaderFeatureLevel.hpp"
 #include "IGPUResource.hpp"
+#include "../Reflection/IReflectedField.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {
@@ -18,9 +19,21 @@ namespace Engine3DRadSpace::Graphics
 		IShader& operator=(const IShader&) = delete;
 		IShader& operator=(IShader&&) noexcept = default;
 
+		///<summary>
+		/// Sets an entire uniform buffer to the shader.
+		/// </summary>
 		virtual void SetData(unsigned index, const void *data, unsigned dataSize) = 0;
 		virtual void SetTexture(unsigned index, ITexture2D *texture) = 0;
 		virtual void SetSampler(unsigned index, ISamplerState *samplerState) = 0;
+
+		virtual std::vector<Reflection::IReflectedField*> GetVariables() const = 0;
+		virtual void Set(const std::string& name, const void* data, unsigned dataSize) = 0;
+
+		template<typename T>
+		void Set(const std::string& name, const T& data)
+		{
+			Set(name, &data, sizeof(T));
+		}
 
 		virtual ~IShader() = default;
 	};

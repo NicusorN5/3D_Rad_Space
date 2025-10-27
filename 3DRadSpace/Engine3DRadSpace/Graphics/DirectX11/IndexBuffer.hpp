@@ -81,7 +81,7 @@ namespace Engine3DRadSpace
 			/// <returns>ID3D11Buffer on DirectX11.</returns>
 			void* GetHandle() const noexcept;
 
-			IndexBuffer CreateStaging();
+			[[nodiscard]] std::unique_ptr<IIndexBuffer> CreateStaging() override;
 
 			~IndexBuffer() = default;
 

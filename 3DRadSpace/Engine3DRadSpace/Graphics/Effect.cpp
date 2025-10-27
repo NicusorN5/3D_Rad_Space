@@ -3,7 +3,7 @@
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Graphics::Shaders;
 
-Effect::Effect(GraphicsDevice *device, IVertexShader *vertexShader, IFragmentShader *fragmentShader, IHullShader *hullShader,
+Effect::Effect(IGraphicsDevice *device, IVertexShader *vertexShader, IFragmentShader *fragmentShader, IHullShader *hullShader,
 	IDomainShader *domainShader, IGeometryShader *geometryShader ):
 	_device(device),
 	_vertex(vertexShader),

@@ -1,4 +1,5 @@
 #pragma once
+#include "IGraphicsDevice.hpp"
 #include "IVertexShader.hpp"
 #include "IHullShader.hpp"
 #include "IDomainShader.hpp"
@@ -20,7 +21,7 @@ namespace Engine3DRadSpace::Graphics::Shaders
 		std::unique_ptr<IGeometryShader> _geometry;
 		std::unique_ptr<IFragmentShader> _pixel;
 	public:
-		Effect(IGraphicsDevice*device, IVertexShader* vertexShader, IFragmentShader* fragmentShader, IHullShader* hullShader = nullptr,
+		Effect(IGraphicsDevice* device, IVertexShader* vertexShader, IFragmentShader* fragmentShader, IHullShader* hullShader = nullptr,
 			IDomainShader* domainShader = nullptr, IGeometryShader* geometryShader = nullptr);
 
 		Effect(const Effect &p) = delete;
@@ -91,6 +92,41 @@ namespace Engine3DRadSpace::Graphics::Shaders
 		/// <returns>FragmentShader instance, nullptr if not assigned.</returns>
 		IShader* GetPixelShader() const noexcept;
 
-		virtual ~Effect() = default;
+		template<typename T>
+		void Set(const std::string& name, const T& value)
+		{
+			if (_vertex) _vertex->Set<T>(name, value);
+			if (_hull) _hull->Set<T>(name, value);
+			if (_domain) _domain->Set<T>(name, value);
+			if (_geometry) _geometry->Set<T>(name, value);
+			if (_pixel) _pixel->Set<T>(name, value);
+		}
+
+		template<typename T>
+		void Set(const std::string& name, const T& value, ShaderType shaderType)
+		{
+			switch (shaderType)
+			{
+			case ShaderType::Vertex:
+				if (_vertex) _vertex->Set<T>(name, value);
+				break;
+			case ShaderType::Hull:
+				if (_hull) _hull->Set<T>(name, value);
+				break;
+			case ShaderType::Domain:
+				if (_domain) _domain->Set<T>(name, value);
+				break;
+			case ShaderType::Geometry:
+				if (_geometry) _geometry->Set<T>(name, value);
+				break;
+			case ShaderType::Fragment:
+				if (_pixel) _pixel->Set<T>(name, value);
+				break;
+			default:
+				break;
+			}
+		}
+
+		~Effect() = default;
 	};
 }

@@ -108,7 +108,7 @@ void* IndexBuffer::GetHandle() const noexcept override
 #endif
 }
 
-IndexBuffer IndexBuffer::CreateStaging()
+[[nodiscard]] std::unique_ptr<IIndexBuffer> IndexBuffer::CreateStaging()
 {
 #ifdef USING_DX11
 	D3D11_BUFFER_DESC stagingIndexBufferDesc;
@@ -123,7 +123,16 @@ IndexBuffer IndexBuffer::CreateStaging()
 
 	_device->_context->CopyResource(stagingIndexBuffer.Get(), _indexBuffer.Get());
 
-	return IndexBuffer(_device, std::move(stagingIndexBuffer), stagingIndexBufferDesc.ByteWidth / sizeof(unsigned));
+	std::unique_ptr<IIndexBuffer> ptr = std::make_unique<IIndexBuffer>(
+		static_cast<IIndexBuffer*>(
+			new IndexBuffer(
+				_device,
+				std::move(stagingIndexBuffer),
+				stagingIndexBufferDesc.ByteWidth / sizeof(unsigned)
+			)
+		)
+	);
+	return ptr;
 #endif
 }
 

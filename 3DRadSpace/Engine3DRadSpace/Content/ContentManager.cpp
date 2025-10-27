@@ -107,8 +107,3 @@ IGraphicsDevice* ContentManager::GetDevice() const noexcept
 {
 	return _owner->GetService<IGraphicsDevice>();
 }
-
-void ContentManager::Update()
-{
-
-}

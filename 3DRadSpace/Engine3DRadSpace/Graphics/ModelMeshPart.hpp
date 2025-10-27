@@ -1,4 +1,5 @@
 #pragma once
+#include "IGraphicsDevice.hpp"
 #include "IVertexBuffer.hpp"
 #include "IIndexBuffer.hpp"
 #include "VertexDeclarations.hpp"
@@ -29,13 +30,13 @@ namespace Engine3DRadSpace::Graphics
 		std::unique_ptr<IVertexBuffer> VertexBuffer;
 
 		ModelMeshPart(
-			std::shared_ptr<Shaders::Effect> shaders,
 			Graphics::IVertexBuffer* vert, 
-			Graphics::IIndexBuffer* buffer
+			Graphics::IIndexBuffer* index,
+			std::shared_ptr<Shaders::Effect> shaders
 		);
 
 		ModelMeshPart(
-			GraphicsDevice *Device,
+			IGraphicsDevice *Device,
 			std::shared_ptr<Shaders::Effect> shaders, 
 			void* vertices, 
 			size_t numVerts,
@@ -51,10 +52,10 @@ namespace Engine3DRadSpace::Graphics
 
 		template<VertexDecl V>
 		ModelMeshPart(
-			std::shared_ptr<Shaders::Effect> shaders,
-			GraphicsDevice* Device,
+			IGraphicsDevice* Device,
 			std::span<V> vertices,
-			std::span<unsigned> indices
+			std::span<unsigned> indices,
+			std::shared_ptr<Shaders::Effect> shaders
 		);
 
 		Math::Matrix4x4 Transform = Math::Matrix4x4();
@@ -86,8 +87,11 @@ namespace Engine3DRadSpace::Graphics
 
 	template<VertexDecl V>
 	inline ModelMeshPart::ModelMeshPart(
-		std::shared_ptr<Shaders::Effect> shaders,
-		GraphicsDevice* Device, std::span<V> vertices, std::span<unsigned> indices ):
+		IGraphicsDevice* Device,
+		std::span<V> vertices, 
+		std::span<unsigned> indices,
+		std::shared_ptr<Shaders::Effect> shaders
+	):
 		_device(Device),
 		_shaders(shaders)
 	{

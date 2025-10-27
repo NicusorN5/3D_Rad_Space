@@ -24,7 +24,7 @@ template<> FieldRepresentation Reflection::GetFieldRepresentation<std::string>()
 	return {{ FieldRepresentationType::String, ""}};
 }
 
-template<> FieldRepresentation Reflection::GetFieldRepresentation<AssetID<Texture2D>>()
+template<> FieldRepresentation Reflection::GetFieldRepresentation<AssetID<TextureAsset>>()
 {
 	return {{FieldRepresentationType::Image, ""}};
 }

@@ -2,17 +2,12 @@
 #include "../../Graphics/Primitives/CubeMapSkybox.hpp"
 #include "../IAsset.hpp"
 
-namespace Engine3DRadSpace::Internal
-{
-	struct AssetUUIDReader;
-}
-
 namespace Engine3DRadSpace::Content::Assets
 {
-	class E3DRSP_CONTENT_ASSETS_EXPORT SkyboxAsset final : public IAsset
+	class E3DRSP_CONTENT_ASSETS_EXPORT SkyboxAsset : public IAsset
 	{
 		Graphics::Primitives::CubeMapSkybox _skybox;
-		Graphics::Primitives::CubeMapSkybox _loadCubeMap(Graphics::GraphicsDevice *device, const std::filesystem::path& path);
+		Graphics::Primitives::CubeMapSkybox _loadCubeMap(Graphics::IGraphicsDevice *device, const std::filesystem::path& path);
 
 		SkyboxAsset(Internal::AssetUUIDReader dummy);
 	public:

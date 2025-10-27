@@ -168,8 +168,6 @@ namespace Engine3DRadSpace::Content
 		Graphics::IGraphicsDevice* GetDevice() const noexcept;
 		size_t Count() const noexcept;
 
-		void Update() override;
-
 		~ContentManager() override = default;
 	};
 

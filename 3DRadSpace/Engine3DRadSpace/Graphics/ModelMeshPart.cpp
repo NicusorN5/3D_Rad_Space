@@ -6,23 +6,30 @@ using namespace Engine3DRadSpace::Graphics::Shaders;
 using namespace Engine3DRadSpace::Math;
 
 ModelMeshPart::ModelMeshPart(
-	std::shared_ptr<Effect> shaders,
-	Graphics::VertexBuffer *vert, 
-	Graphics::IndexBuffer *buffer):
-	_device(vert->_device),
+	Graphics::IVertexBuffer *vert, 
+	Graphics::IIndexBuffer *index,
+	std::shared_ptr<Effect> shaders
+):
+	_device(vert->GetGraphicsDevice()),
 	VertexBuffer(vert),
-	IndexBuffer(buffer),
+	IndexBuffer(index),
 	_shaders(shaders)
 {
 }
 
-ModelMeshPart::ModelMeshPart(GraphicsDevice *Device, std::shared_ptr<Effect> shaders,
-	void *vertices, size_t numVerts, size_t structSize, std::span<unsigned> indices):
+ModelMeshPart::ModelMeshPart(
+	IGraphicsDevice *Device, 
+	void *vertices,
+	size_t numVerts,
+	size_t structSize, 
+	std::span<unsigned> indices,
+	std::shared_ptr<Effect> shaders
+):
 	_device(Device),
 	_shaders(shaders)
 {
-	VertexBuffer = std::make_unique<Graphics::VertexBuffer>(Device, vertices, structSize, numVerts);
-	IndexBuffer = std::make_unique<Graphics::IndexBuffer>(Device, indices);
+	VertexBuffer = Device->CreateVertexBuffer(vertices, structSize, numVerts);
+	IndexBuffer = Device->CreateIndexBuffer(indices);
 }
 
 void ModelMeshPart::Draw()
@@ -89,12 +96,12 @@ BoundingSphere ModelMeshPart::GetBoundingSphere() const noexcept
 	return _sphere;
 }
 
-VertexBuffer* ModelMeshPart::GetVertexBuffer() const noexcept
+IVertexBuffer* ModelMeshPart::GetVertexBuffer() const noexcept
 {
 	return VertexBuffer.get();
 }
 
-IndexBuffer* ModelMeshPart::GetIndexBuffer() const noexcept
+IIndexBuffer* ModelMeshPart::GetIndexBuffer() const noexcept
 {
 	return IndexBuffer.get();
 }
@@ -114,7 +121,7 @@ void ModelMeshPart::SetShaders(std::shared_ptr<Effect> shaders)
 	_shaders = shaders;
 }
 
-std::pair<Graphics::VertexBuffer*, Graphics::IndexBuffer*> ModelMeshPart::CreateStagingBuffers()
+std::pair<Graphics::IVertexBuffer*, Graphics::IIndexBuffer*> ModelMeshPart::CreateStagingBuffers()
 {
 	if(!_stagingVertex)
 	{

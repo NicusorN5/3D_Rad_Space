@@ -12,6 +12,6 @@ namespace Engine3DRadSpace::Graphics
 		virtual void* GetHandle() const noexcept = 0;
 		virtual IGraphicsDevice* GetGraphicsDevice() const noexcept = 0;
 
-		~IGPUResource() = default;
+		virtual ~IGPUResource() = default;
 	};
 }
