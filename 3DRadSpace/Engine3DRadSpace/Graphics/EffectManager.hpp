@@ -1,5 +1,6 @@
 #pragma once
 #include "../Core/IService.hpp"
+#include "Effect.hpp"
 
 namespace Engine3DRadSpace
 {

@@ -103,7 +103,7 @@ std::array<unsigned, 6> SpriteBatch::_createIndexQuad(unsigned offset)
 void SpriteBatch::_prepareGraphicsDevice()
 {
 	_spriteShader->SetBasic();
-	_spriteShader->SetSampler(_samplerState.get());
+	_spriteShader->SetSampler(_samplerState.get(), 0);
 
 //#ifdef USING_DX11
 //	_device->_context->RSGetState(&_oldRasterizerState);
@@ -147,7 +147,7 @@ void SpriteBatch::_drawEntry(const spriteBatchEntry &entry)
 
 	_prepareGraphicsDevice();
 
-	_spriteShader->SetTexture(_textures[entry.textureID]);
+	_spriteShader->SetTexture(_textures[entry.textureID], 0);
 
 	_device->DrawVertexBufferWithindices(_vertexBuffer.get(), _indexBuffer.get());
 	_restoreGraphicsDevice();
@@ -200,14 +200,14 @@ void SpriteBatch::_drawAllEntries_SortByTexture()
 			}
 
 			lastID = entry.textureID;
-			_spriteShader->SetTexture(_textures[entry.textureID]);
+			_spriteShader->SetTexture(_textures[entry.textureID], 0);
 			draw();
 
 			currentVertices.clear();
 		}
 	}
 
-	_spriteShader->SetTexture(_textures[lastID]);
+	_spriteShader->SetTexture(_textures[lastID], 0);
 	draw();
 
 	_restoreGraphicsDevice();

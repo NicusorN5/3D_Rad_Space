@@ -1,6 +1,7 @@
 #pragma once
 #include "../../Graphics/Primitives/CubeMapSkybox.hpp"
 #include "../IAsset.hpp"
+#include "../../Core/AssetUUIDReader.hpp"
 
 namespace Engine3DRadSpace::Content::Assets
 {
@@ -23,6 +24,8 @@ namespace Engine3DRadSpace::Content::Assets
 		Reflection::UUID GetUUID() const noexcept override;
 		const char* FileExtension() const noexcept override;
 		std::type_index InitializationService() const noexcept override;
+
+		~SkyboxAsset() override = default;
 
 		friend class Internal::AssetUUIDReader;
 	};

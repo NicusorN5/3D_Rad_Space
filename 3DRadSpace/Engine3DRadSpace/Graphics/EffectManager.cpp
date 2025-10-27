@@ -13,7 +13,7 @@ void EffectManager::Add(const std::string& name, std::unique_ptr<Effect>&& effec
 	_effects[name] = std::move(effect);
 }
 
-Effect* EffectManager::operator[](const std::string& name) const
+Effect* EffectManager::operator[](const std::string& name)
 {
 	auto effect = _effects.find(name);
 	if(effect != _effects.end())

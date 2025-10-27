@@ -1,5 +1,14 @@
 #pragma once
-#include "IShader.hpp"
+#include "../IFragmentShader.hpp"
+#include "ShaderBase.hpp"
+
+namespace Engine3DRadSpace
+{
+	namespace Graphics
+	{
+		class ITexture2D;
+	}
+}
 
 namespace Engine3DRadSpace::Graphics::DirectX11
 {
@@ -7,7 +16,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 	class Texture2D;
 	class SamplerState;
 
-	class E3DRSP_GRAPHICS_EXPORT FragmentShader : public IShader
+	class E3DRSP_GRAPHICS_EXPORT FragmentShader : public ShaderBase, public IFragmentShader
 	{
 		Microsoft::WRL::ComPtr<ID3D11PixelShader> _shader;
 		void _createShader();
@@ -22,10 +31,9 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		FragmentShader &operator = (FragmentShader&) = delete;
 		FragmentShader &operator = (FragmentShader&&) noexcept = default;
 	public:
-		void SetTexture(unsigned index, Texture2D *texture) override;
-		void SetTextures(std::span<Texture2D*> textures);
-		//void SetTextures(unsigned index, std::span<Texture2D*> textures);
-		void SetSampler(unsigned index, SamplerState *samplerState) override;
+		void SetTexture(unsigned index, ITexture2D *texture) override;
+		void SetTextures(std::span<ITexture2D*> textures) override;
+		void SetSampler(unsigned index, ISamplerState *samplerState) override;
 		void SetShader() override;
 		void* GetHandle() const noexcept override;
 

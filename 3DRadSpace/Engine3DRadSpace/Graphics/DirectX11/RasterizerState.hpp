@@ -1,13 +1,13 @@
 #pragma once
-#include "../IGPUResource.hpp"
+#include "../IRasterizerState.hpp"
 #include "../RasterizerCullMode.hpp"
 #include "../RasterizerFillMode.hpp"
 
-namespace Engine3DRadSpace::Graphics
+namespace Engine3DRadSpace::Graphics::DirectX11
 {
 	class GraphicsDevice;
 
-	class E3DRSP_GRAPHICS_EXPORT RasterizerState : IGPUResource
+	class E3DRSP_GRAPHICS_EXPORT RasterizerState : public IRasterizerState
 	{
 #ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11RasterizerState> _rasterizerState;
@@ -44,7 +44,7 @@ namespace Engine3DRadSpace::Graphics
 		static RasterizerState CullCounterClockwise(GraphicsDevice *device);
 		static RasterizerState Wireframe(GraphicsDevice *device);
 
-		static RasterizerState GetCurrentRasterizerState(GraphicsDevice* device);
+		std::unique_ptr<IRasterizerState> GetCurrentRasterizerState(IGraphicsDevice* device) override;
 
 		~RasterizerState() = default;
 

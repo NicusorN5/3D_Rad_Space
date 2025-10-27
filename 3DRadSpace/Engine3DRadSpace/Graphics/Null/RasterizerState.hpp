@@ -1,5 +1,7 @@
 #pragma once
 #include "../IRasterizerState.hpp"
+#include "../RasterizerFillMode.hpp"
+#include "../RasterizerCullMode.hpp"
 
 namespace Engine3DRadSpace::Graphics::Null
 {
@@ -33,7 +35,7 @@ namespace Engine3DRadSpace::Graphics::Null
 		static RasterizerState CullCounterClockwise(GraphicsDevice *device);
 		static RasterizerState Wireframe(GraphicsDevice *device);
 
-		static RasterizerState GetCurrentRasterizerState(GraphicsDevice* device);
+		std::unique_ptr<IRasterizerState> GetCurrentRasterizerState(IGraphicsDevice* device) override;
 
 		~RasterizerState() = default;
 

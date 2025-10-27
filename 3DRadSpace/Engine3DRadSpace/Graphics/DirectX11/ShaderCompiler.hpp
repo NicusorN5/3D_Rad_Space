@@ -18,7 +18,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
         ShaderCompiler& operator=(ShaderCompiler&&) = delete;
 
         [[nodiscard]] std::pair<std::unique_ptr<Effect>, ShaderCompilationResult> Compile(const ShaderDesc* desc) override;
-        [[nodiscard]] std::vector<std::pair<std::unique_ptr<Effect>, ShaderCompilationResult>> CompileEffect(const ShaderDesc* const* descs) override;
+        [[nodiscard]] std::vector<std::pair<std::unique_ptr<Effect>, EffectCompileOutput>> CompileEffect(const ShaderDesc* const* descs) override;
 
         ~ShaderCompiler() override = default;
     };

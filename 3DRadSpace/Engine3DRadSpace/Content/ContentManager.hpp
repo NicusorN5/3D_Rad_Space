@@ -84,7 +84,7 @@ namespace Engine3DRadSpace::Content
 			{
 				Internal::AssetUUIDReader r;
 
-				if (std::find_if(_types.begin(), _types.end(), [](const TypeEntry& t) -> bool
+				if (std::find_if(_types.begin(), _types.end(), [r](const TypeEntry& t) -> bool
 					{
 						auto uuid = r.GetUUID<T>({});
 						return uuid == t.UUID;

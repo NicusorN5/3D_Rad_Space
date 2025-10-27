@@ -7,8 +7,10 @@
 #include <geometry/PxTriangleMesh.h>
 #include <geometry/PxTriangleMeshGeometry.h>
 #include <PxPhysicsAPI.h>
+#include "Content/Assets/ModelAsset.hpp"
 
 using namespace Engine3DRadSpace;
+using namespace Engine3DRadSpace::Content::Assets;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Objects;
@@ -207,12 +209,12 @@ void StaticRigidbody::Load()
 {
 	if(_path != nullptr)
 	{
-		_model = _game->Content->Load<ModelAsset>(*_path)->;
+		_model = &_game->Content->Load<ModelAsset>(*_path)->GetModel();
 		_path.reset();
 	}
 	if(Model)
 	{
-		_model = static_cast<ModelAsset*>((*_game->Content)[Model]);
+		_model = &static_cast<ModelAsset*>((*_game->Content)[Model])->GetModel();
 	}
 
 	_generateRigidbody();
@@ -220,7 +222,7 @@ void StaticRigidbody::Load()
 
 void StaticRigidbody::Load(const std::filesystem::path &path)
 {
-	_model = _game->Content->Load<ModelAsset>(path);
+	_model = &_game->Content->Load<ModelAsset>(path)->GetModel();
 	_generateRigidbody();
 }
 

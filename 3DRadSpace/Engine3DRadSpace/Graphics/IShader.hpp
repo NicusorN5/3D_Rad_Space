@@ -24,7 +24,9 @@ namespace Engine3DRadSpace::Graphics
 		/// </summary>
 		virtual void SetData(unsigned index, const void *data, unsigned dataSize) = 0;
 		virtual void SetTexture(unsigned index, ITexture2D *texture) = 0;
+		virtual void SetTextures(std::span<ITexture2D*> textures) = 0;
 		virtual void SetSampler(unsigned index, ISamplerState *samplerState) = 0;
+		virtual void SetShader() = 0;
 
 		virtual std::vector<Reflection::IReflectedField*> GetVariables() const = 0;
 		virtual void Set(const std::string& name, const void* data, unsigned dataSize) = 0;

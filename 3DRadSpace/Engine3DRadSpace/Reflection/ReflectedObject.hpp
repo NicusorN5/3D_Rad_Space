@@ -18,8 +18,8 @@ namespace Engine3DRadSpace::Reflection
 		template<ReflectableObject O>
 		UUID determineUUID(ObjectTag<O> tag)
 		{
-			Internal::AssetUUIDReader r;
-			return r.GetUUID<O>();
+			auto obj = std::make_unique<O>();
+			return obj->GetUUID();
 		}
 	public:
 		template<ReflectableObject O>

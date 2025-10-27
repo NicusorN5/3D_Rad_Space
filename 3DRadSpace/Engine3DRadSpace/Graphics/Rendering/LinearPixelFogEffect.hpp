@@ -8,18 +8,18 @@ namespace Engine3DRadSpace::Graphics::Rendering
 	/// </summary>
 	class E3DRSP_GRAPHICS_RENDERING_EXPORT LinearPixelFogEffect : public PostProcessEffect
 	{
-	protected:
-		LinearPixelFogEffect(const LinearPixelFogEffect&) = delete;
-		LinearPixelFogEffect& operator=(const LinearPixelFogEffect&) = delete;
-
-		LinearPixelFogEffect(LinearPixelFogEffect&&) noexcept = default;
-		LinearPixelFogEffect& operator=(LinearPixelFogEffect&&) noexcept = default;
 	public:
 		/// <summary>
 		/// Loads the screen space linear interpolated fog shader.
 		/// </summary>
 		/// <param name="device"></param>
-		LinearPixelFogEffect(GraphicsDevice* device);
+		LinearPixelFogEffect(IGraphicsDevice* device);
+
+		LinearPixelFogEffect(const LinearPixelFogEffect&) = delete;
+		LinearPixelFogEffect& operator=(const LinearPixelFogEffect&) = delete;
+
+		LinearPixelFogEffect(LinearPixelFogEffect&&) noexcept = default;
+		LinearPixelFogEffect& operator=(LinearPixelFogEffect&&) noexcept = default;
 
 		/// <summary>
 		/// Color of the fog.

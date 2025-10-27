@@ -3,6 +3,8 @@
 #include "IVertexBuffer.hpp"
 #include "IIndexBuffer.hpp"
 #include "IDepthStencilState.hpp"
+#include "IRasterizerState.hpp"
+#include "IBlendState.hpp"
 #include "FlipMode.hpp"
 #include "Font.hpp"
 #include "Effect.hpp"

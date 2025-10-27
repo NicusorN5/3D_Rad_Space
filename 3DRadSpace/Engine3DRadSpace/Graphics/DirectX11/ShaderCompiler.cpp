@@ -41,7 +41,6 @@ ShaderCompilationResult ShaderCompiler::Compile(const ShaderDesc* desc)
             }
             case ShaderType::FragmentShader:
             {
-                result.Shader = 
                 break;
             }
             case ShaderType::GeometryShader:

@@ -136,7 +136,10 @@ RasterizerState RasterizerState::Wireframe(GraphicsDevice *device)
 	);
 }
 
-RasterizerState RasterizerState::GetCurrentRasterizerState(GraphicsDevice* device)
+std::unique_ptr<IRasterizerState> RasterizerState::GetCurrentRasterizerState(IGraphicsDevice* device)
 {
-	return RasterizerState(device, std::monostate{});
+	std::unique_ptr<IRasterizerState> ptr;
+	ptr.reset(new RasterizerState(static_cast<GraphicsDevice*>(device), std::monostate{}));
+
+	return ptr;
 }
