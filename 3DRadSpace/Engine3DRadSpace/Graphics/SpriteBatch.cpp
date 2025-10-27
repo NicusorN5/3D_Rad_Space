@@ -4,7 +4,6 @@
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
-using namespace Engine3DRadSpace::Graphics::Shaders;
 using namespace Engine3DRadSpace::Math;
 
 constexpr Math::RectangleF _fullDefaultUV(0.0f, 0.0f, 1.0f, 1.0f);
@@ -35,7 +34,16 @@ std::array<VertexPointUVColor,4> SpriteBatch::_createQuad(
 	return _createQuad(a, b, c, d, flipU, flipV, tintColor, uvRect);
 }
 
-std::array<VertexPointUVColor, 4> SpriteBatch::_createQuad(const Math::Vector2& a, const Math::Vector2& b, const Math::Vector2& c, const Math::Vector2& d, bool flipU, bool flipV,const Color &tintColor, const Math::RectangleF &uvRect)
+std::array<VertexPointUVColor, 4> SpriteBatch::_createQuad(
+	const Math::Vector2& a,
+	const Math::Vector2& b,
+	const Math::Vector2& c,
+	const Math::Vector2& d,
+	bool flipU,
+	bool flipV,
+	const Color &tintColor,
+	const Math::RectangleF &uvRect
+)
 {
 	Vector2 uv_a = uvRect.BottomLeft();
 	Vector2 uv_b = uvRect.TopLeft();
@@ -95,7 +103,7 @@ std::array<unsigned, 6> SpriteBatch::_createIndexQuad(unsigned offset)
 void SpriteBatch::_prepareGraphicsDevice()
 {
 	_spriteShader->SetBasic();
-	_spriteShader->SetSamplerState(_samplerState.get());
+	_spriteShader->SetSampler(_samplerState.get());
 
 //#ifdef USING_DX11
 //	_device->_context->RSGetState(&_oldRasterizerState);
@@ -135,7 +143,7 @@ void SpriteBatch::_drawEntry(const spriteBatchEntry &entry)
 	_vertexBuffer->SetData<VertexPointUVColor>(quad);
 
 	auto indices = _createIndexQuad(0);
-	_indexBuffer->SetData(indices);
+	_indexBuffer->SetData<unsigned>(indices);
 
 	_prepareGraphicsDevice();
 
@@ -155,8 +163,8 @@ void SpriteBatch::_drawAllEntries_SortByTexture()
 
 	auto draw = [&]()
 	{
-		_vertexBuffer->SetData(currentVertices);
-		_indexBuffer->SetData(currentIndices);
+		_vertexBuffer->SetData<VertexPointUVColor>(currentVertices);
+		_indexBuffer->SetData<unsigned>(currentIndices);
 		_device->DrawVertexBufferWithindices(_vertexBuffer.get(), _indexBuffer.get());
 		_device->DrawVertexBuffer(_vertexBuffer.get());
 	};
@@ -189,7 +197,6 @@ void SpriteBatch::_drawAllEntries_SortByTexture()
 
 				_vertexBuffer = _device->CreateVertexBuffer<VertexPointUVColor>(_capacity * 4, BufferUsage::ReadOnlyGPU_WriteOnlyCPU);	
 				_indexBuffer = _device->CreateIndexBuffer(_capacity * 6, BufferUsage::ReadOnlyGPU_WriteOnlyCPU);
-				_indexBuffer = std::make_unique<IndexBuffer>(_device, nullptr, );
 			}
 
 			lastID = entry.textureID;
@@ -234,15 +241,15 @@ SpriteBatch::SpriteBatch(IGraphicsDevice *device) :
 	_oldSampleMask(0),
 	_oldStencilRef(0)
 {
-	_spriteShader = std::make_unique<SpriteShader>(device);
+	//_spriteShader = _device->ShaderManager()->
 	// 256 quads: 1024 vertices and 1536 indices
-	_vertexBuffer = std::make_unique<VertexBufferV<VertexPointUVColor>>(device, nullptr, _capacity * 4);
-	_indexBuffer = std::make_unique<IndexBuffer>(device, nullptr, _capacity * 6);
+	_vertexBuffer = device->CreateVertexBuffer<VertexPointUVColor>(1024, BufferUsage::ReadOnlyGPU_WriteOnlyCPU);
+	_indexBuffer = device->CreateIndexBuffer(1536, BufferUsage::ReadOnlyGPU_WriteOnlyCPU);
 
-	_rasterizerState = std::make_unique<RasterizerState>(device, RasterizerFillMode::Solid, RasterizerCullMode::CullBack);
-	_samplerState = std::make_unique<SamplerState>(SamplerState::PointWrap(device));
-	_depthBufferState = std::make_unique<DepthStencilState>(DepthStencilState::DepthNone(device));
-	_blendState = std::make_unique<BlendState>(BlendState::AlphaBlend(device));
+	_rasterizerState = device->CreateRasterizerState(RasterizerFillMode::Solid, RasterizerCullMode::CullBack);
+	_samplerState = device->CreateSamplerState_PointWrap();
+	_depthBufferState = device->CreateDepthStencilState_DepthNone();
+	_blendState = device->CreateBlendState_AlphaBlend();
 
 	_textures.push_back(nullptr);
 }
@@ -271,7 +278,7 @@ void SpriteBatch::Begin(SpriteBatchSortMode sortingMode, std::unique_ptr<ISample
 	Begin(sortingMode);
 }
 
-void SpriteBatch::DrawNormalized(Texture2D* texture, const Math::RectangleF& coords, const Math::RectangleF& source, Color tintColor, float rotation, FlipMode flipMode, float depth)
+void SpriteBatch::DrawNormalized(ITexture2D* texture, const Math::RectangleF& coords, const Math::RectangleF& source, Color tintColor, float rotation, FlipMode flipMode, float depth)
 {
 	if (texture == nullptr) return;
 
@@ -338,12 +345,12 @@ void SpriteBatch::DrawNormalized(Texture2D* texture, const Math::RectangleF& coo
 	if (_state == EndCalled) throw std::logic_error("Cannot draw textures when End() was called.");
 }
 
-void SpriteBatch::DrawNormalized(Texture2D* texture, const Math::RectangleF& coords, const Math::Rectangle source, Color tintColor, float rotation, FlipMode flipMode, float depth)
+void SpriteBatch::DrawNormalized(ITexture2D* texture, const Math::RectangleF& coords, const Math::Rectangle source, Color tintColor, float rotation, FlipMode flipMode, float depth)
 {
 	DrawNormalized(texture, coords, _fullDefaultUV, tintColor, rotation, flipMode, depth);
 }
 
-void SpriteBatch::Draw(Texture2D* texture, const Math::Rectangle& coords, const Math::Rectangle& source, Color tintColor, float rotation, FlipMode flipMode, float depth)
+void SpriteBatch::Draw(ITexture2D* texture, const Math::Rectangle& coords, const Math::Rectangle& source, Color tintColor, float rotation, FlipMode flipMode, float depth)
 {
 	if (texture == nullptr) return;
 
@@ -366,7 +373,7 @@ void SpriteBatch::Draw(Texture2D* texture, const Math::Rectangle& coords, const 
 	DrawNormalized(texture, nCoords, nSource, tintColor, rotation, flipMode, depth);
 }
 
-void SpriteBatch::Draw(Texture2D* texture, const Math::Rectangle& coords, Color tintColor, float rotation, FlipMode flipMode, float depth)
+void SpriteBatch::Draw(ITexture2D* texture, const Math::Rectangle& coords, Color tintColor, float rotation, FlipMode flipMode, float depth)
 {
 	auto screenSize = _device->Resolution();
 	RectangleF nCoords(

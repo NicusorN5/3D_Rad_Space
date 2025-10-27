@@ -1,7 +1,7 @@
 #pragma once
 #include "ReflectedField.hpp"
 #include "UUID.hpp"
-#include "../Internal/AssetUUIDReader.hpp"
+#include "../Core/AssetUUIDReader.hpp"
 
 namespace Engine3DRadSpace::Reflection
 {

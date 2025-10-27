@@ -4,7 +4,7 @@
 #include "IndexBuffer.hpp"
 #include "RenderTarget.hpp"
 #include "DepthStencilBuffer.hpp"
-#include "..\Internal\AssetUUIDReader.hpp"
+#include "..\Core\AssetUUIDReader.hpp"
 
 #ifdef  USING_DX11
 #pragma comment(lib,"d3d11.lib")

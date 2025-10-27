@@ -1,8 +1,8 @@
 #pragma once
-#include "../Reflection/UUID.hpp"
 #include "AssetID.hpp"
 #include "../Core/Logging/Message.hpp"
 #include "../Core/IGame.hpp"
+#include "../Core/AssetUUIDReader.hpp"
 
 namespace Engine3DRadSpace::Content
 {
@@ -82,11 +82,11 @@ namespace Engine3DRadSpace::Content
 			template<AssetType T>
 			bool RegisterType(Tag<T> dummy)
 			{
-				AssetUUIDReader r;
+				Internal::AssetUUIDReader r;
 
 				if (std::find_if(_types.begin(), _types.end(), [](const TypeEntry& t) -> bool
 					{
-						auto uuid = r.GetUUID<T>();
+						auto uuid = r.GetUUID<T>({});
 						return uuid == t.UUID;
 					}
 				) != _types.end())
@@ -95,15 +95,15 @@ namespace Engine3DRadSpace::Content
 				}
 				else
 				{
-					auto serviceType = r.GetInitializationService();
+					auto serviceType = r.GetInitializationService<T>({});
 
 					_types.emplace_back(
-						r.GetUUID<T>(),
+						r.GetUUID<T>({}),
 						[](IService* service, const std::filesystem::path& path) -> IAsset*
 						{
 							return static_cast<IAsset*>(new T(service, path));
 						},
-						_services[serviceType] = _owner->GetService<T>();
+						_services[serviceType] = _owner->GetService<T>({})
 					);
 
 					return true;

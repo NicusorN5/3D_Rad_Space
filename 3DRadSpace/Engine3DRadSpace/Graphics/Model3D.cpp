@@ -1,8 +1,7 @@
 #include "Model3D.hpp"
 #include "../Core/Logging/Exception.hpp"
 #include "../Core/Logging/AssetLoadingError.hpp"
-#include "../Graphics/Shaders/ShaderManager.hpp"
-#include "../Internal/AssetUUIDReader.hpp"
+#include "../Graphics/EffectManager.hpp"
 
 #include <assimp/scene.h>
 #include <assimp/mesh.h>
@@ -11,18 +10,11 @@
 #include <assimp/postprocess.h>
 
 using namespace Engine3DRadSpace;
-using namespace Engine3DRadSpace::Content;
 using namespace Engine3DRadSpace::Logging;
 using namespace Engine3DRadSpace::Graphics;
-using namespace Engine3DRadSpace::Graphics::Shaders;
 using namespace Engine3DRadSpace::Math;
 
 Assimp::Importer importer;
-
-Model3D::Model3D(Internal::AssetUUIDReader) : 
-	_device(nullptr)
-{
-}
 
 Model3D::Model3D(IGraphicsDevice* Device, const std::filesystem::path& path) :
 	_device(Device)
@@ -130,7 +122,7 @@ Model3D::Model3D(IGraphicsDevice* Device, const std::filesystem::path& path) :
 			continue;
 		}
 
-		auto mesh = std::make_unique<ModelMeshPart>(Device, nullptr, &vertices[0], numVerts, structSize, indices);
+		auto mesh = std::make_unique<ModelMeshPart>(Device, &vertices[0], numVerts, structSize, indices, nullptr);
 		
 		//determine bounding box and sphere
 		auto aabbMin = scene->mMeshes[i]->mAABB.mMin;
@@ -153,26 +145,30 @@ Model3D::Model3D(IGraphicsDevice* Device, const std::filesystem::path& path) :
 				p.remove_filename(); //remove the model filename 
 				p += texturePath.C_Str(); //concatenate the texture path.
 
-				diffuseTexture = Device->CreateTexture(p.string());
+				diffuseTexture = Device->CreateTexture2D(p.string());
 			}
 			else
 			{
 				aiColor3D color;
 				r = scene->mMaterials[materialindex]->Get(AI_MATKEY_COLOR_DIFFUSE, color);
+
+				auto createBlankTexture = [&](const Color& c)
+				{
+					std::array<Color, 4> tColors;
+					tColors.fill(c);
+					return Device->CreateTexture2D(2, 2, tColors.data(), PixelFormat::R32G32B32A32_Float, BufferUsage::ReadOnlyGPU_WriteOnlyCPU);
+				};
+
 				if(r == aiReturn_SUCCESS)
 				{
 					float opacity = 1.0f;
 					scene->mMaterials[materialindex]->Get(AI_MATKEY_OPACITY, opacity);
 
-					std::array<Color, 4> tColors;
-					tColors.fill(Color(color.r, color.g, color.b, opacity));
-
-					//TODO: Create a shader specifically for flat colors to avoid sampling a texture.
-					diffuseTexture = Device->CreateTexture2D(2,2, tColors.data(), PixelFormat::R32G32B32A32_Float, BufferUsage::ReadOnlyGPU_WriteOnlyCPU);
+					diffuseTexture = createBlankTexture(Color(color.r, color.g, color.b, opacity));
 				}
 				else
 				{
-					diffuseTexture = _device->WhiteBlank();
+					diffuseTexture = createBlankTexture(Colors::White);
 				}
 			}
 		}

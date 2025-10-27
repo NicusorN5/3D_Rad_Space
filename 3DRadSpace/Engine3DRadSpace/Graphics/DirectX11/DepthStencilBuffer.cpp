@@ -1,7 +1,7 @@
 #include "DepthStencilBuffer.hpp"
 #include "../Core/Logging/Exception.hpp"
 #include "Texture2D.hpp"
-#include "../Internal/AssetUUIDReader.hpp"
+#include "../Core/AssetUUIDReader.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;

@@ -15,6 +15,7 @@ add_library(3DRadSpace_Graphics SHARED
 	"Viewport.cpp"
 	"NullShader.cpp"
 	"ShaderDesc.cpp"
+	"EffectManager.cpp"
 )
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)

@@ -1,6 +1,6 @@
 #include "Sound.hpp"
 #include "Sound.h"
-#include "../Internal/AssetUUIDReader.hpp"
+#include "../Core/AssetUUIDReader.hpp"
 #include "../Core/Logging/Exception.hpp"
 #include <al.h>
 

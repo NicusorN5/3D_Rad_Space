@@ -16,7 +16,7 @@ namespace Engine3DRadSpace::Graphics::Rendering
 	class E3DRSP_GRAPHICS_RENDERING_EXPORT PostProcessEffect : public IFragmentShader
 	{
 	private:
-		class PostProcessVertex : public IVertexShader
+	/*	class PostProcessVertex : public IVertexShader
 		{
 			static inline InputLayoutElement _elements[] = {
 				InputLayoutElement::Position_Vec2,
@@ -26,9 +26,9 @@ namespace Engine3DRadSpace::Graphics::Rendering
 		public:
 			PostProcessVertex(IGraphicsDevice* device, ShaderFeatureLevel fl);
 			std::span<InputLayoutElement> InputLayout() override;
-		} _vertex;
+		} _vertex;*/
 	protected:
-		PostProcessEffect(
+	/*	PostProcessEffect(
 			 IGraphicsDevice* device, 
 			 const char* shaderSource, 
 			 const char* entryFunction, 
@@ -40,7 +40,7 @@ namespace Engine3DRadSpace::Graphics::Rendering
 			 const std::filesystem::path &shaderPath, 
 			 const char* entryFunction, 
 			 ShaderFeatureLevel fl = ShaderFeatureLevel::DX_V4
-		 );
+		 );*/
 
 		ITexture2D* _backbuffer_copy;
 		ITexture2D* _depthBuffer_copy;

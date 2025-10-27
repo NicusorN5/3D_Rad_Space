@@ -6,7 +6,7 @@ using namespace Engine3DRadSpace::Graphics;
 ShaderDesc::ShaderDesc(
 	const std::string& EntryPoint,
 	ShaderType type,
-	ShaderFeatureLevel FeatureLevel = ShaderFeatureLevel::DX_V4
+	ShaderFeatureLevel FeatureLevel
 ) :
 	EntryPoint(EntryPoint),
 	Type(type),
@@ -14,22 +14,22 @@ ShaderDesc::ShaderDesc(
 {
 }
 
-ShaderDescFromFile::ShaderDescFromFile(
+ShaderDescFile::ShaderDescFile(
 	std::filesystem::path FilePath,
 	const std::string& EntryPoint,
 	ShaderType type,
-	ShaderFeatureLevel FeatureLevel = ShaderFeatureLevel::DX_V4
+	ShaderFeatureLevel FeatureLevel
 ) : 
 	ShaderDesc(EntryPoint, type, FeatureLevel),
 	FilePath(std::move(FilePath))
 {
 }
 
-ShaderDescFromSource::ShaderDescFromSource(
+ShaderDescSource::ShaderDescSource(
 	const std::string& SourceCode,
 	const std::string& EntryPoint,
 	ShaderType type,
-	ShaderFeatureLevel FeatureLevel = ShaderFeatureLevel::DX_V4
+	ShaderFeatureLevel FeatureLevel
 ) : 
 	ShaderDesc(EntryPoint, type, FeatureLevel),
 	SourceCode(SourceCode)

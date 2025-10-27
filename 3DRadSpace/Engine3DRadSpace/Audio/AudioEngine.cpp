@@ -89,7 +89,7 @@ AudioEngine::~AudioEngine()
 	alcCloseDevice(device);
 }
 
-void AudioEngine::Update() const noexcept
+void AudioEngine::Update() noexcept
 {
 	if(this->Listener.Enabled)
 	{

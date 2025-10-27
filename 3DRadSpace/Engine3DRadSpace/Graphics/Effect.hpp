@@ -94,7 +94,7 @@ namespace Engine3DRadSpace::Graphics
 		IShader* GetPixelShader() const noexcept;
 
 		template<typename T>
-		void Set(const std::string& name, const T& value)
+		void Set(const std::string& name, const T& value) noexcept
 		{
 			if (_vertex) _vertex->Set<T>(name, value);
 			if (_hull) _hull->Set<T>(name, value);
@@ -104,7 +104,7 @@ namespace Engine3DRadSpace::Graphics
 		}
 
 		template<typename T>
-		void Set(const std::string& name, const T& value, ShaderType shaderType)
+		void Set(const std::string& name, const T& value, ShaderType shaderType) noexcept
 		{
 			switch (shaderType)
 			{
@@ -127,6 +127,9 @@ namespace Engine3DRadSpace::Graphics
 				break;
 			}
 		}
+
+		void SetTexture(ITexture2D* texture, int idx) noexcept;
+		void SetSampler(ISamplerState* sampler, int idx) noexcept;
 
 		~Effect() = default;
 	};

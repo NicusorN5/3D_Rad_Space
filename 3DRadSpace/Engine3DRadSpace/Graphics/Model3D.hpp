@@ -20,8 +20,6 @@ namespace Engine3DRadSpace::Graphics
 
 		Math::BoundingSphere _sphere;
 		Math::BoundingBox _box;
-
-		Model3D(Internal::AssetUUIDReader);
 	public:
 		Model3D(IGraphicsDevice* Device, const std::filesystem::path& path);
 

@@ -5,6 +5,7 @@
 #include "IDepthStencilState.hpp"
 #include "FlipMode.hpp"
 #include "Font.hpp"
+#include "Effect.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {
@@ -45,7 +46,7 @@ namespace Engine3DRadSpace::Graphics
 			EndCalled
 		} _state;
 
-		std::unique_ptr<Shaders::SpriteShader> _spriteShader;
+		std::unique_ptr<Effect> _spriteShader;
 
 		std::unique_ptr<IVertexBuffer> _vertexBuffer;
 		std::unique_ptr<IIndexBuffer> _indexBuffer;
@@ -141,7 +142,7 @@ namespace Engine3DRadSpace::Graphics
 		);
 
 		void DrawNormalized(
-			Texture2D* texture,
+			ITexture2D* texture,
 			const Math::RectangleF& coords,
 			const Math::Rectangle source,
 			Math::Color tintColor = Math::Colors::White,
@@ -151,7 +152,7 @@ namespace Engine3DRadSpace::Graphics
 		);
 
 		void Draw(
-			Texture2D* texture,
+			ITexture2D* texture,
 			const Math::Rectangle& coords,
 			const Math::Rectangle& source,
 			Math::Color tintColor = Math::Colors::White,
@@ -160,7 +161,7 @@ namespace Engine3DRadSpace::Graphics
 			float depth = 0
 		);
 		void Draw(
-			Texture2D* texture, 
+			ITexture2D* texture, 
 			const Math::Rectangle& coords,
 			Math::Color tintColor = Math::Colors::White,
 			float rotation = 0.0f,

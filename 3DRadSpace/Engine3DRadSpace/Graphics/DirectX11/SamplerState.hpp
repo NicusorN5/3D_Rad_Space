@@ -13,8 +13,19 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		void _debugInfo();
 	public:
 		SamplerState(GraphicsDevice *device);
-		SamplerState(GraphicsDevice* device, TextureFilter Filter, TextureAddressMode AddressU, TextureAddressMode AddressV, TextureAddressMode AddressW,
-			float MipLODBias, unsigned MaxAnisotropy, ComparisonFunction ComparisionFunction, Math::Color BorderColor, float MinLOD, float MaxLOD);
+		SamplerState(
+			GraphicsDevice* device, 
+			TextureFilter Filter,
+			TextureAddressMode AddressU,
+			TextureAddressMode AddressV,
+			TextureAddressMode AddressW,
+			float MipLODBias,
+			unsigned MaxAnisotropy,
+			ComparisonFunction ComparisionFunction,
+			Math::Color BorderColor,
+			float MinLOD,
+			float MaxLOD
+		);
 
 		SamplerState(SamplerState &) = delete;
 		SamplerState(SamplerState &&) noexcept = default;

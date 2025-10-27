@@ -1,6 +1,7 @@
 #pragma once
 #include "Libs.hpp"
 #include "IService.hpp"
+#include "Tag.hpp"
 
 namespace Engine3DRadSpace
 {
@@ -20,8 +21,9 @@ namespace Engine3DRadSpace
 		IService* GetService(const std::type_index &type);
 
 		template<typename T>
-		T* GetService()
+		T* GetService(Tag<T> dummy)
 		{
+			(void)dummy;
 			return static_cast<T*>(GetService(typeid(T)));
 		}
 

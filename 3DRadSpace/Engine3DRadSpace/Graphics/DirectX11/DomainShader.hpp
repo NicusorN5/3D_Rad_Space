@@ -1,12 +1,12 @@
 #pragma once
-#include "IShader.hpp"
+#include "ShaderBase.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {
 	/// <summary>
 	/// Represents a domain shader.
 	/// </summary>
-	class E3DRSP_GRAPHICS_EXPORT DomainShader : public IShader
+	class E3DRSP_GRAPHICS_EXPORT DomainShader : public ShaderBase
 	{
 #ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11DomainShader> _shader;

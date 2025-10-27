@@ -105,5 +105,5 @@ size_t Engine3DRadSpace::Content::ContentManager::Count() const noexcept
 
 IGraphicsDevice* ContentManager::GetDevice() const noexcept
 {
-	return _owner->GetService<IGraphicsDevice>();
+	return _owner->GetService<IGraphicsDevice>({});
 }

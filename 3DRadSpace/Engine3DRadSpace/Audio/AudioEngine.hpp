@@ -33,7 +33,7 @@ namespace Engine3DRadSpace::Audio
 
 		void SwitchAudioDevice(const std::string& deviceName);
 
-		void Update();
+		void Update() noexcept;
 
 		std::optional<AudioError> CheckErrors();
 

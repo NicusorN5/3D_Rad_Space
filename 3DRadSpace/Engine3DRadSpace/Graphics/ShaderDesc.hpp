@@ -14,7 +14,7 @@ namespace Engine3DRadSpace::Graphics
 		);
 
 		std::string EntryPoint;
-		ShaderType type;
+		ShaderType Type;
 		ShaderFeatureLevel FeatureLevel;
 	
 		virtual ~ShaderDesc() = default;
@@ -22,7 +22,7 @@ namespace Engine3DRadSpace::Graphics
 
 	struct E3DRSP_GRAPHICS_EXPORT ShaderDescFile : public ShaderDesc
 	{
-		ShaderDescFromFile(
+		ShaderDescFile(
 			std::filesystem::path FilePath,
 			const std::string& EntryPoint,
 			ShaderType type,
@@ -31,12 +31,12 @@ namespace Engine3DRadSpace::Graphics
 
 		std::filesystem::path FilePath;
 
-		~ShaderDescFromFile() override = default;
+		~ShaderDescFile() override = default;
 	};
 
 	struct E3DRSP_GRAPHICS_EXPORT ShaderDescSource : public ShaderDesc
 	{
-		ShaderDescFromSource(
+		ShaderDescSource(
 			const std::string& SourceCode,
 			const std::string& EntryPoint,
 			ShaderType type,
@@ -45,6 +45,6 @@ namespace Engine3DRadSpace::Graphics
 
 		std::string SourceCode;
 
-		~ShaderDescFromSource() override = default;
+		~ShaderDescSource() override = default;
 	};
 }

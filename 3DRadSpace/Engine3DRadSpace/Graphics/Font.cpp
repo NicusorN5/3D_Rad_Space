@@ -142,7 +142,7 @@ fontSizeComputation:
 		atlasY,
 		static_cast<void*>(fontAtlas.get()),
 		PixelFormat::R32G32B32A32_Float,
-		BufferUsage::Immutable
+		BufferUsage::ReadOnlyGPU
 	);
 
 	_valid = true;

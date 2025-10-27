@@ -1,10 +1,10 @@
-#include "IGeometryShader.hpp"
+#include "GeometryShader.hpp"
 #include "ShaderCompilationError.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
 
-const char *IGeometryShader::_determineTarget()
+const char *GeometryShader::_determineTarget()
 {
 	switch(_featureLevel)
 	{
@@ -22,7 +22,7 @@ const char *IGeometryShader::_determineTarget()
 	}
 }
 
-void IGeometryShader::_createShader()
+void GeometryShader::_createShader()
 {
 #ifdef USING_DX11
 	HRESULT r = _device->_device->CreateGeometryShader(
@@ -41,21 +41,21 @@ void IGeometryShader::_createShader()
 #endif
 }
 
-IGeometryShader::IGeometryShader(GraphicsDevice *device, const char *source, const char *fnEntry, ShaderFeatureLevel fs) :
+GeometryShader::GeometryShader(GraphicsDevice *device, const char *source, const char *fnEntry, ShaderFeatureLevel fs) :
 	IShader(device, source, fnEntry, fs)
 {
 	_compileShader(source, _determineTarget());
 	_createShader();
 }
 
-IGeometryShader::IGeometryShader(GraphicsDevice *device, const std::filesystem::path &path, const char *fnEntry, ShaderFeatureLevel fs) :
+GeometryShader::GeometryShader(GraphicsDevice *device, const std::filesystem::path &path, const char *fnEntry, ShaderFeatureLevel fs) :
 	IShader(device, path, fnEntry, fs)
 {
 	_compileShaderFromFile(path.string().c_str(), _determineTarget());
 	_createShader();
 }
 
-void IGeometryShader::SetTexture(unsigned index, Texture2D *texture)
+void GeometryShader::SetTexture(unsigned index, Texture2D *texture)
 {
 	if(texture == nullptr)
 		return;
@@ -64,14 +64,14 @@ void IGeometryShader::SetTexture(unsigned index, Texture2D *texture)
 #endif
 }
 
-void IGeometryShader::SetSampler(unsigned index, SamplerState *samplerState)
+void GeometryShader::SetSampler(unsigned index, SamplerState *samplerState)
 {
 #ifdef USING_DX11
 	_device->_context->GSSetSamplers(index, 1, samplerState->_samplerState.GetAddressOf());
 #endif
 }
 
-void IGeometryShader::SetShader()
+void GeometryShader::SetShader()
 {
 #ifdef USING_DX11
 	unsigned i;
@@ -82,7 +82,7 @@ void IGeometryShader::SetShader()
 #endif // USING_DX11
 }
 
-void* IGeometryShader::GetHandle() const noexcept
+void* GeometryShader::GetHandle() const noexcept
 {
 #ifdef USING_DX11
 	return static_cast<void*>(_shader.Get());

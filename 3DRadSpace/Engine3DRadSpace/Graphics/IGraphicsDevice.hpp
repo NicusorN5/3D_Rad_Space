@@ -11,6 +11,10 @@
 #include "FaceOperation.hpp"
 #include "VertexDeclarations.hpp"
 #include "../Core/IService.hpp"
+#include "TextureFilter.hpp"
+#include "TextureAddressMode.hpp"
+#include "RasterizerFillMode.hpp"
+#include "RasterizerCullMode.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {
@@ -23,7 +27,7 @@ namespace Engine3DRadSpace::Graphics
 	class IRasterizerState;
 	class IDepthStencilState;
 	class IBlendState;
-
+	class ISamplerState;
 	class IShaderCompiler;
 
 	class E3DRSP_GRAPHICS_EXPORT IGraphicsDevice : public IService
@@ -31,8 +35,8 @@ namespace Engine3DRadSpace::Graphics
 	protected:
 		IGraphicsDevice() = default;
 	public:
-		virtual void Clear(const Math::Color& clearColor) = 0;
-		virtual void ClearRenderTarget(IRenderTarget* rt, const Math::Color& clearColor) = 0;
+		virtual void Clear(const Math::Color& clearColor = { 0.0f, 0.0f, 0.0f, 1.0f }) = 0;
+		virtual void ClearRenderTarget(IRenderTarget* rt, const Math::Color& clearColor = { 0.0f, 0.0f, 0.0f, 1.0f }) = 0;
 		virtual void ClearDepthBuffer(IDepthStencilBuffer* depth) = 0;
 
 		virtual void SetViewport() = 0;
@@ -63,7 +67,7 @@ namespace Engine3DRadSpace::Graphics
 		virtual void SetDepthStencilBuffer(IDepthStencilBuffer* depthBuffer) = 0;
 		virtual void SetDepthStencilState(IDepthStencilState* depthState, unsigned ref) = 0;
 
-		virtual void SetBlendState(IBlendState* blendState, const Math::Color& blendFactor, unsigned sampleMask) = 0;
+		virtual void SetBlendState(IBlendState* blendState, const Math::Color& blendFactor = Math::Colors::Black, unsigned sampleMask = 0xFFFFFFFF) = 0;
 
 		virtual void SetTopology(VertexTopology topology) = 0;
 		virtual void DrawAuto() = 0;
@@ -89,6 +93,11 @@ namespace Engine3DRadSpace::Graphics
 			std::array<RenderTargetBlendState, 8> renderTargetBlendStates
 		) = 0;
 
+		virtual std::unique_ptr<IBlendState> CreateBlendState_Opaque() = 0;
+		virtual std::unique_ptr<IBlendState> CreateBlendState_AlphaBlend() = 0;
+		virtual std::unique_ptr<IBlendState> CreateBlendState_Additive() = 0;
+		virtual std::unique_ptr<IBlendState> CreateBlendState_NonPremultiplied() = 0;
+
 		virtual std::unique_ptr<IDepthStencilBuffer> CreateDepthStencilBuffer(
 			size_t x,
 			size_t y,
@@ -107,6 +116,12 @@ namespace Engine3DRadSpace::Graphics
 			FaceOperation BackFace
 		) = 0;
 
+		virtual std::unique_ptr<IDepthStencilState> CreateDepthStencilState_DepthDefault() = 0;
+		virtual std::unique_ptr<IDepthStencilState> CreateDepthStencilState_DepthNone() = 0;
+		virtual std::unique_ptr<IDepthStencilState> CreateDepthStencilState_DepthRead() = 0;
+		virtual std::unique_ptr<IDepthStencilState> CreateDepthStencilState_DepthReverseZ() = 0;
+		virtual std::unique_ptr<IDepthStencilState> CreateDepthStencilState_DepthReadReverseZ() = 0;
+
 		virtual IShaderCompiler* ShaderCompiler() = 0;
 		///<summmary>
 		///Returns a 2x2 blank white texture.
@@ -116,11 +131,53 @@ namespace Engine3DRadSpace::Graphics
 		virtual std::unique_ptr<IIndexBuffer> CreateIndexBuffer(std::span<unsigned> indices) = 0;
 		virtual std::unique_ptr<IIndexBuffer> CreateIndexBuffer(size_t numIndices, BufferUsage usage) = 0;
 
+		virtual std::unique_ptr<IRasterizerState> CreateRasterizerState(
+			RasterizerFillMode filling = RasterizerFillMode::Solid,
+			RasterizerCullMode culling = RasterizerCullMode::CullBack,
+			bool switchFrontBack = false,
+			int depthBias = 0,
+			float depthBiasClamp = 0,
+			float slopeScaleDepthBias = 0,
+			bool depthClip = false,
+			bool scissor = false,
+			bool multisample = false,
+			bool aaLine = false
+		) = 0;
+
+		virtual std::unique_ptr<IRasterizerState> CreateRasterizerState_CullNone() = 0;
+		virtual std::unique_ptr<IRasterizerState> CreateRasterizerState_CullClockwise() = 0;
+		virtual std::unique_ptr<IRasterizerState> CreateRasterizerState_CullCounterClockwise() = 0;
+		virtual std::unique_ptr<IRasterizerState> CreateRasterizerState_Wireframe() = 0;
+
 		virtual std::unique_ptr<IRenderTarget> CreateRenderTarget(
 			size_t x,
 			size_t y,
 			PixelFormat format
 		) = 0;
+
+		virtual std::unique_ptr<ISamplerState> CreateSamplerState() = 0;
+
+		virtual std::unique_ptr<ISamplerState> CreateSamplerState(
+			TextureFilter filter,
+			TextureAddressMode addressU,
+			TextureAddressMode addressV,
+			TextureAddressMode addressW,
+			float mipLODBias,
+			unsigned maxAnisotropy,
+			ComparisonFunction comparisonFunc,
+			Math::Color borderColor,
+			float minLOD,
+			float maxLOD
+		) = 0;
+
+		virtual std::unique_ptr<ISamplerState> CreateSamplerState_LinearClamp() = 0;
+		virtual std::unique_ptr<ISamplerState> CreateSamplerState_LinearWrap() = 0;
+
+		virtual std::unique_ptr<ISamplerState> CreateSamplerState_PointClamp() = 0;
+		virtual std::unique_ptr<ISamplerState> CreateSamplerState_PointWrap() = 0;
+
+		virtual std::unique_ptr<ISamplerState> CreateSamplerState_AnisotropicClamp() = 0;
+		virtual std::unique_ptr<ISamplerState> CreateSamplerState_AnisotropicWrap() = 0;
 
 		virtual std::unique_ptr<ITexture2D> CreateTexture2D(
 			size_t x,

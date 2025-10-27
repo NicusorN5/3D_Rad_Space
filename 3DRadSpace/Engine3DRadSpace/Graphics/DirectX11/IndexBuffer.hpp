@@ -52,7 +52,7 @@ namespace Engine3DRadSpace
 			/// Sets this index buffer to the GPU.
 			/// </summary>
 			/// <param name="index"></param>
-			void Set(unsigned index = 0);
+			void Set(unsigned index = 0) override;
 			/// <summary>
 			/// Sets new indices to this index buffer instance.
 			/// </summary>
@@ -74,12 +74,12 @@ namespace Engine3DRadSpace
 			/// Returns the number of indices this IndexBuffer instance has.
 			/// </summary>
 			/// <returns>Number of indices</returns>
-			unsigned NumIndices() const noexcept;
+			unsigned NumIndices() const noexcept override;
 			/// <summary>
 			/// Returns the native handle of this IndexBuffer.
 			/// </summary>
 			/// <returns>ID3D11Buffer on DirectX11.</returns>
-			void* GetHandle() const noexcept;
+			void* GetHandle() const noexcept override;
 
 			[[nodiscard]] std::unique_ptr<IIndexBuffer> CreateStaging() override;
 

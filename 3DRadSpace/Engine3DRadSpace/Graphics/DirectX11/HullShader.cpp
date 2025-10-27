@@ -1,10 +1,10 @@
-#include "IHullShader.hpp"
+#include "HullShader.hpp"
 #include "ShaderCompilationError.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
 
-void IHullShader::_createShader()
+void HullShader::_createShader()
 {
 #ifdef USING_DX11
 	HRESULT r = _device->_device->CreateHullShader(
@@ -17,13 +17,13 @@ void IHullShader::_createShader()
 	if(FAILED(r)) throw ShaderCompilationError("Failed to create a hull shader!");
 
 #ifdef _DEBUG
-	const char shaderName[] = "IHullShader::_shader";
+	const char shaderName[] = "HullShader::_shader";
 	_shader->SetPrivateData(WKPDID_D3DDebugObjectName, sizeof(shaderName) - 1, shaderName);
 #endif
 #endif
 }
 
-const char *IHullShader::_determineTarget()
+const char * HullShader::_determineTarget()
 {
 	switch(_featureLevel)
 	{
@@ -41,21 +41,21 @@ const char *IHullShader::_determineTarget()
 	}
 }
 
-IHullShader::IHullShader(GraphicsDevice *device, const char *shaderSource, const char *hsEntry, ShaderFeatureLevel fl):
+HullShader::HullShader(GraphicsDevice *device, const char *shaderSource, const char *hsEntry, ShaderFeatureLevel fl):
 	IShader(device, shaderSource, hsEntry, fl)
 {
 	_compileShader(shaderSource, _determineTarget());
 	_createShader();
 }
 
-IHullShader::IHullShader(GraphicsDevice *device, const std::filesystem::path &path, const char *hsEntry, ShaderFeatureLevel fl):
+HullShader::HullShader(GraphicsDevice *device, const std::filesystem::path &path, const char *hsEntry, ShaderFeatureLevel fl):
 	IShader(device, path, hsEntry, fl)
 {
 	_compileShaderFromFile(path.string().c_str(), _determineTarget());
 	_createShader();
 }
 
-void IHullShader::SetTexture(unsigned index, Texture2D *texture)
+void HullShader::HullShader(unsigned index, Texture2D *texture)
 {
 	if(texture == nullptr)
 		return;
@@ -64,14 +64,14 @@ void IHullShader::SetTexture(unsigned index, Texture2D *texture)
 #endif
 }
 
-void IHullShader::SetSampler(unsigned index, SamplerState *samplerState)
+void HullShader::SetSampler(unsigned index, SamplerState *samplerState)
 {
 #ifdef USING_DX11
 	_device->_context->HSSetSamplers(index, 1, samplerState->_samplerState.GetAddressOf());
 #endif // USING_DX11
 }
 
-void IHullShader::SetShader()
+void HullShader::SetShader()
 {
 #ifdef USING_DX11
 	unsigned i;
@@ -82,7 +82,7 @@ void IHullShader::SetShader()
 #endif // USING_DX11
 }
 
-void* IHullShader::GetHandle() const noexcept
+void* HullShader::GetHandle() const noexcept
 {
 #ifdef USING_DX11
 	return static_cast<void*>(_shader.Get());

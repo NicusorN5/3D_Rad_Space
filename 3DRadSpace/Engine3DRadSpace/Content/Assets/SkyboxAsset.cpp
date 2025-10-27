@@ -1,7 +1,7 @@
 #include "SkyboxAsset.hpp"
 #include "../../Core/Logging/AssetLoadingError.hpp"
 #include "../../Core/Logging/ServiceBadCastException.hpp"
-#include "../../Internal/AssetUUIDReader.hpp"
+#include "../../Core/AssetUUIDReader.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content;

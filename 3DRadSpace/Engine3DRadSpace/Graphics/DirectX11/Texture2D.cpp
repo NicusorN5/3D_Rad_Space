@@ -11,7 +11,6 @@
 #endif // USING_DX11
 #include "../Core/Logging/Exception.hpp"
 #include "../Core/Logging/AssetLoadingError.hpp"
-#include "../Internal/AssetUUIDReader.hpp"
 #include "GraphicsDevice.hpp"
 #include "RenderTarget.hpp"
 #include "Shaders/ShaderManager.hpp"

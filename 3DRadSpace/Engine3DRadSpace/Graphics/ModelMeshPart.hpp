@@ -3,6 +3,7 @@
 #include "IVertexBuffer.hpp"
 #include "IIndexBuffer.hpp"
 #include "ISamplerState.hpp"
+#include "ITexture2D.hpp"
 #include "VertexDeclarations.hpp"
 #include "../Math/BoundingSphere.hpp"
 #include "../Math/BoundingBox.hpp"

@@ -96,3 +96,21 @@ IShader* Effect::GetPixelShader() const noexcept
 {
 	return _pixel.get();
 }
+
+void Effect::SetTexture(ITexture2D* texture, int idx) noexcept
+{
+	if (_vertex) _vertex->SetTexture(idx, texture);
+	if (_hull) _hull->SetTexture(idx, texture);
+	if (_domain) _domain->SetTexture(idx, texture);
+	if (_geometry) _geometry->SetTexture(idx, texture);
+	if (_pixel) _pixel->SetTexture(idx, texture);
+}
+
+void Effect::SetSampler(ISamplerState* sampler, int idx) noexcept
+{
+	if (_vertex) _vertex->SetSampler(idx, sampler);
+	if (_hull) _hull->SetSampler(idx, sampler);
+	if (_domain) _domain->SetSampler(idx, sampler);
+	if (_geometry) _geometry->SetSampler(idx, sampler);
+	if (_pixel) _pixel->SetSampler(idx, sampler);
+}

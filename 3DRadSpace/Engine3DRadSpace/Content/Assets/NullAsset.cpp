@@ -1,5 +1,5 @@
 #include "NullAsset.hpp"
-#include "../../Internal/AssetUUIDReader.hpp"
+#include "../../Core/AssetUUIDReader.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content::Assets;

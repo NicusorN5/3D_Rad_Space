@@ -28,7 +28,7 @@ ModelMeshPart::ModelMeshPart(
 	_device(Device),
 	_shaders(shaders)
 {
-	VertexBuffer = Device->CreateVertexBuffer(vertices, structSize, numVerts);
+	VertexBuffer = Device->CreateVertexBuffer(vertices, structSize, numVerts, BufferUsage::ReadOnlyGPU_WriteOnlyCPU);
 	IndexBuffer = Device->CreateIndexBuffer(indices);
 }
 
@@ -121,21 +121,19 @@ void ModelMeshPart::SetShaders(std::shared_ptr<Effect> shaders)
 	_shaders = shaders;
 }
 
-std::pair<Graphics::IVertexBuffer*, Graphics::IIndexBuffer*> ModelMeshPart::CreateStagingBuffers()
+std::pair<IVertexBuffer*, IIndexBuffer*> ModelMeshPart::CreateStagingBuffers()
 {
 	if(!_stagingVertex)
 	{
-		auto vert = VertexBuffer->CreateStaging();
-		_stagingVertex = std::make_unique<Graphics::VertexBuffer>(std::move(vert));
+		_stagingVertex = VertexBuffer->CreateStaging();
 	}
 	
 	if(!_stagingIndex)
 	{
-		auto ind = IndexBuffer->CreateStaging();
-		_stagingIndex = std::make_unique<Graphics::IndexBuffer>(std::move(ind));
+		_stagingIndex = IndexBuffer->CreateStaging();
 	}
 
-	return std::make_pair<Graphics::VertexBuffer*, Graphics::IndexBuffer*>(
+	return std::make_pair<IVertexBuffer*, IIndexBuffer*>(
 		_stagingVertex.get(),
 		_stagingIndex.get()
 	);

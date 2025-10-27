@@ -42,14 +42,14 @@ void DomainShader::_createShader()
 }
 
 DomainShader::DomainShader(GraphicsDevice *device, const char *source, const char *fnEntry, ShaderFeatureLevel fs) :
-	IShader(device, source, fnEntry, fs)
+	ShaderBase(device, source, fnEntry, fs)
 {
 	_compileShader(source, _determineTarget());
 	_createShader();
 }
 
 DomainShader::DomainShader(GraphicsDevice *device, const std::filesystem::path &path, const char *fnEntry, ShaderFeatureLevel fs):
-	IShader(device, path, fnEntry, fs)
+	ShaderBase(device, path, fnEntry, fs)
 {
 	_compileShaderFromFile(path.string().c_str(), _determineTarget());
 	_createShader();
