@@ -14,7 +14,7 @@ add_library(3DRadSpace_Graphics SHARED
 	"SpriteBatch.cpp"
 	"Viewport.cpp"
 	"NullShader.cpp"
- "Impl/BlendState.cpp" "Impl/DepthStencilBuffer.cpp" "Impl/DepthStencilState.cpp" "Impl/GraphicsDevice.cpp" "Impl/IndexBuffer.cpp" "Impl/RasterizerState.cpp" "Impl/RenderTarget.cpp" "Impl/SamplerState.cpp" "Impl/Texture2D.cpp" "Impl/VertexBuffer.cpp")
+ )
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET 3DRadSpace_Graphics PROPERTY CXX_STANDARD 23)

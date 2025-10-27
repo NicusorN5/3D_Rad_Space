@@ -29,7 +29,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		/// <param name="device">GPU Device context.</param>
 		/// <param name="color">Vertex color of the plane.</param>
 		/// <param name="size">Size of the plane.</param>
-		Plane(GraphicsDevice* device, const Math::Color& color, const Math::Vector2& size);
+		Plane(IGraphicsDevice* device, const Math::Color& color, const Math::Vector2& size);
 
 		/// <summary>
 		/// Returns array of vertices assembling a XZ plane, centered at 0,0,0.

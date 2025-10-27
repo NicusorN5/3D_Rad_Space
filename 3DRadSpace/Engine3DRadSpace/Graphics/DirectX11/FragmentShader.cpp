@@ -1,11 +1,11 @@
-#include "IFragmentShader.hpp"
+#include "FragmentShader.hpp"
 #include "ShaderCompilationError.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Logging;
 
-void IFragmentShader::_createShader()
+void FragmentShader::_createShader()
 {
 #ifdef USING_DX11
 	HRESULT r = _device->_device->CreatePixelShader(
@@ -17,13 +17,13 @@ void IFragmentShader::_createShader()
 	if(FAILED(r)) throw ShaderCompilationError("Failed to create a pixel shader!");
 
 #ifdef _DEBUG
-	const char shaderName[] = "IFragmentShader::_shader";
+	const char shaderName[] = "FragmentShader::_shader";
 	_shader->SetPrivateData(WKPDID_D3DDebugObjectName, sizeof(shaderName), shaderName);
 #endif
 #endif
 }
 
-const char * IFragmentShader::_determineTarget()
+const char * FragmentShader::_determineTarget()
 {
 	switch(_featureLevel)
 	{
@@ -40,21 +40,21 @@ const char * IFragmentShader::_determineTarget()
 	}
 }
 
-IFragmentShader::IFragmentShader(GraphicsDevice *device, const char *shaderSource, const char *entryFunction, ShaderFeatureLevel fl):
+FragmentShader::FragmentShader(GraphicsDevice *device, const char *shaderSource, const char *entryFunction, ShaderFeatureLevel fl):
 	IShader(device, shaderSource, entryFunction, fl)
 {
 	_compileShader(shaderSource, _determineTarget());
 	_createShader();
 }
 
-IFragmentShader::IFragmentShader(GraphicsDevice *device, const std::filesystem::path &path, const char *entryFunction, ShaderFeatureLevel fl):
+FragmentShader::FragmentShader(GraphicsDevice *device, const std::filesystem::path &path, const char *entryFunction, ShaderFeatureLevel fl):
 	IShader(device, path, entryFunction, fl)
 {
 	_compileShaderFromFile(path.string().c_str(), _determineTarget());
 	_createShader();
 }
 
-void IFragmentShader::SetTexture(unsigned index, Texture2D *texture)
+void FragmentShader::SetTexture(unsigned index, Texture2D *texture)
 {
 	if(texture == nullptr)
 		return;
@@ -63,7 +63,7 @@ void IFragmentShader::SetTexture(unsigned index, Texture2D *texture)
 #endif // USING_DX11
 }
 
-void IFragmentShader::SetTextures(std::span<Texture2D*> textures)
+void FragmentShader::SetTextures(std::span<Texture2D*> textures)
 {
 #ifdef USING_DX11
 	std::unique_ptr<ID3D11ShaderResourceView* []> srvs = std::make_unique<ID3D11ShaderResourceView* []>(textures.size());
@@ -78,14 +78,14 @@ void IFragmentShader::SetTextures(std::span<Texture2D*> textures)
 #endif // USING_DX11
 }
 
-void IFragmentShader::SetSampler(unsigned index, SamplerState *samplerState)
+void FragmentShader::SetSampler(unsigned index, SamplerState *samplerState)
 {
 #ifdef USING_DX11
 	_device->_context->PSSetSamplers(0, 1, samplerState->_samplerState.GetAddressOf());
 #endif
 }
 
-void IFragmentShader::SetShader()
+void FragmentShader::SetShader()
 {
 #ifdef USING_DX11
 	unsigned i;
@@ -96,7 +96,7 @@ void IFragmentShader::SetShader()
 #endif
 }
 
-void* IFragmentShader::GetHandle() const noexcept
+void* FragmentShader::GetHandle() const noexcept
 {
 #ifdef USING_DX11
 	return static_cast<void*>(_shader.Get());

@@ -15,7 +15,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 	/// </remarks>
 	class E3DRSP_GRAPHICS_PRIMITIVES_EXPORT LineList : public IPrimitive
 	{
-		std::unique_ptr<RasterizerState> _lineRasterizer;
+		std::unique_ptr<IRasterizerState> _lineRasterizer;
 #ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11RasterizerState> _oldRasterizerState;
 #endif
@@ -28,7 +28,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		/// </summary>
 		/// <param name="device">Graphics device.</param>
 		/// <param name="points">List of points.</param>
-		LineList(GraphicsDevice *device, std::span<VertexPositionColor> points);
+		LineList(IGraphicsDevice *device, std::span<VertexPositionColor> points);
 
 		LineList(const LineList &) = delete;
 		LineList(LineList &&) noexcept = default;
@@ -40,12 +40,12 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		/// Gets the vertex buffer this instance was build with.
 		/// </summary>
 		/// <returns>Lines list</returns>
-		VertexBufferV<VertexPositionColor>* GetVertexBuffer() const noexcept;
+		IVertexBuffer* GetVertexBuffer() const noexcept;
 		/// <summary>
 		/// Rasterizer state used to render lines.
 		/// </summary>
 		/// <returns>rasterizer state handle</returns>
-		RasterizerState* GetLineRasterizer() const noexcept;
+		IRasterizerState* GetLineRasterizer() const noexcept;
 
 		/// <summary>
 		/// Draws this primitive shape.

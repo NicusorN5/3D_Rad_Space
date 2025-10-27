@@ -3,9 +3,9 @@
 
 namespace Engine3DRadSpace
 {
+	class IService;
 	namespace Graphics
 	{
-		class IGraphicsDevice;
 		class Model3D;
 	}
 
@@ -15,7 +15,7 @@ namespace Engine3DRadSpace
 		{
 			std::unique_ptr<Graphics::Model3D> _font;
 		public:
-			ModelAsset(Graphics::IGraphicsDevice* device, const std::filesystem::path &path);
+			ModelAsset(IService* device, const std::filesystem::path &path);
 
 			Reflection::UUID GetUUID() const noexcept override;
 			/// <summary>
@@ -23,6 +23,8 @@ namespace Engine3DRadSpace
 			/// </summary>
 			/// <returns></returns>
 			const char* FileExtension() const noexcept override;
+
+			std::type_index InitializationService() const noexcept override;
 		};
 	}
 }

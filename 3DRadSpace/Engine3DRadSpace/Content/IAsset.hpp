@@ -1,14 +1,12 @@
 #pragma once
 #include "../Reflection/UUID.hpp"
-
-#include "../Audio/AudioEngine.hpp"
-#include "../Physics/PhysicsEngine.hpp"
+#include "../Core/IService.hpp"
 
 namespace Engine3DRadSpace
 {
 	namespace Graphics
 	{
-		class GraphicsDevice;
+		class IGraphicsDevice;
 	}
 	namespace Internal
 	{
@@ -40,25 +38,14 @@ namespace Engine3DRadSpace::Content
 		/// <returns></returns>
 		virtual const char* FileExtension() const noexcept = 0;
 
+		/// <summary>
+		/// Returns the type of the servive used to initialize this asset.
+		/// </summary>
+		virtual std::type_index InitializationService() const noexcept = 0;
+
 		virtual ~IAsset() = default;
 	};
 
 	template<typename T>
-	concept ConstructibleFromGraphicsDevice = std::is_constructible_v<T, Graphics::IGraphicsDevice*, const std::filesystem::path&>;
-
-	template<typename T>
-	concept ConstructibleFromAudioEngine = std::is_constructible_v<T, Audio::AudioEngine*, const std::filesystem::path&>;
-
-	template<typename T>
-	concept ConstructibleFromPhysicsEngine = std::is_constructible_v<T, Physics::PhysicsEngine*, const std::filesystem::path&>;
-
-	template<typename T>
-	concept ConstructibleFromPath = std::is_constructible_v<T, const std::filesystem::path&>;
-
-	template<typename T>
-	concept AssetType = std::is_base_of_v<IAsset, T> &&
-		( ConstructibleFromGraphicsDevice<T> ||
-		ConstructibleFromAudioEngine<T> ||
-		ConstructibleFromPhysicsEngine<T> ||
-		ConstructibleFromPath<T>);
+	concept AssetType = std::is_base_of_v<IAsset, T> && std::is_constructible_v<T, IService*, const std::filesystem::path&>;
 }

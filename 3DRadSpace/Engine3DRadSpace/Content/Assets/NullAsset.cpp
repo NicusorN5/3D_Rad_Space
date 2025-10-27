@@ -22,3 +22,8 @@ const char* Engine3DRadSpace::Content::Assets::NullAsset::FileExtension() const 
 {
 	return "All Files(*.*)\0*.*\0\0";
 }
+
+std::type_index NullAsset::InitializationService() const noexcept
+{
+	return typeid(void);
+}

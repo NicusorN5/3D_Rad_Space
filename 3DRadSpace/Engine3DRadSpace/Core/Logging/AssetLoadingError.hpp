@@ -15,6 +15,8 @@ namespace Engine3DRadSpace
 				Exception( "Failed to load " + std::string(typeid(T).name()) + " from file " + file.string() + "\r\n" + details)
 			{
 			}
+
+			~AssetLoadingError() override = default;
 		};
 	}
 }

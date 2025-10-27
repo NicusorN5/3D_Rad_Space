@@ -3,6 +3,7 @@
 
 namespace Engine3DRadSpace
 {
+	class IService;
 	namespace Graphics
 	{
 		class IGraphicsDevice;
@@ -15,7 +16,7 @@ namespace Engine3DRadSpace
 		{
 			std::unique_ptr<Graphics::Font> _font;
 		public:
-			FontAsset(Graphics::IGraphicsDevice* device, const std::filesystem::path &path);
+			FontAsset(IService* device, const std::filesystem::path &path);
 
 			/// <summary>
 			/// UUID of the Font type. Used internally.
@@ -27,6 +28,8 @@ namespace Engine3DRadSpace
 			/// </summary>
 			/// <returns></returns>
 			const char* FileExtension() const noexcept override;
+
+			std::type_index InitializationService() const noexcept override;
 		};
 	}
 }

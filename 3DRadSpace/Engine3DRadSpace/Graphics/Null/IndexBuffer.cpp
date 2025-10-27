@@ -10,45 +10,40 @@ IndexBuffer::IndexBuffer(GraphicsDevice* device, std::span<unsigned> indices)
 	(void)indices;
 }
 
-IndexBuffer::IndexBuffer(GraphicsDevice* device, unsigned* indices, size_t numindices)
+IndexBuffer::IndexBuffer(GraphicsDevice* device, unsigned* indices, size_t numIndices)
 {
 	(void)device;
 	(void)indices;
 	(void)numIndices;
 }
 
-void IndexBuffer::Set(unsigned index) override;
+void IndexBuffer::Set(unsigned index)
 {
 	(void)index;
 }
 
-void IndexBuffer::SetData(void* buffer, size_t bufferSize) override
+void IndexBuffer::SetData(void* buffer, size_t bufferSize)
 {
 	(void)buffer;
 	(void)bufferSize;
 }
 
-void IndexBuffer::SetData(std::span<unsigned> newindices) override
-{
-	(void)newindices;
-}
-
-size_t IndexBuffer::ReadData(void** data) override
+size_t IndexBuffer::ReadData(void** data)
 {
 	(void)data;
 	return 0;
 }
 
-void IndexBuffer::EndRead() override
+void IndexBuffer::EndRead()
 {
 }
 
-unsigned IndexBuffer::NumIndices() const noexcept override
+unsigned IndexBuffer::NumIndices() const noexcept
 {
 	return 0;
 }
 
-void* IndexBuffer::GetHandle() const noexcept override
+void* IndexBuffer::GetHandle() const noexcept
 {
 	return nullptr;
 }

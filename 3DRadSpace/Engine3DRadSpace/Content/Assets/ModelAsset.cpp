@@ -1,13 +1,14 @@
 #include "ModelAsset.hpp"
 #include "../../Graphics/Model3D.hpp"
+#include "../../Core/IService.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content;
 using namespace Engine3DRadSpace::Content::Assets;
 using namespace Engine3DRadSpace::Graphics;
 
-ModelAsset::ModelAsset(IGraphicsDevice* device, const std::filesystem::path & path) :
-	_font(new Model3D(device, path))
+ModelAsset::ModelAsset(IService* device, const std::filesystem::path &path) :
+	_font(new Model3D(static_cast<IGraphicsDevice*>(device), path))
 {
 }
 
@@ -28,4 +29,9 @@ const char* ModelAsset::FileExtension() const noexcept
 		"Wavefront OBJ (*.obj)\0*.obj\0"
 		"DirectX Mesh (*.x)\0*.x\0"
 		"All Files(*.*)\0*.*\0\0";
+}
+
+std::type_index ModelAsset::InitializationService() const noexcept
+{
+	return typeid(IGraphicsDevice);
 }

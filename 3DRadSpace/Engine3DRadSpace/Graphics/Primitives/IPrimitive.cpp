@@ -7,7 +7,7 @@ using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Graphics::Primitives;
 using namespace Engine3DRadSpace::Graphics::Shaders;
 
-IPrimitive::IPrimitive(GraphicsDevice* device) :
+IPrimitive::IPrimitive(IGraphicsDevice* device) :
 	_device(device)
 {
 	_shader = ShaderManager::LoadShader<BlankShader>(device);

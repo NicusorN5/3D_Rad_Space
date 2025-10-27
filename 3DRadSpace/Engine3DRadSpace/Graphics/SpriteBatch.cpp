@@ -97,11 +97,11 @@ void SpriteBatch::_prepareGraphicsDevice()
 	_spriteShader->SetBasic();
 	_spriteShader->SetSamplerState(_samplerState.get());
 
-#ifdef USING_DX11
-	_device->_context->RSGetState(&_oldRasterizerState);
-	_device->_context->OMGetBlendState(&_oldBlendState, _oldBlendFactor, &_oldSampleMask);
-	_device->_context->OMGetDepthStencilState(&_oldStencilState, &_oldStencilRef);
-#endif
+//#ifdef USING_DX11
+//	_device->_context->RSGetState(&_oldRasterizerState);
+//	_device->_context->OMGetBlendState(&_oldBlendState, _oldBlendFactor, &_oldSampleMask);
+//	_device->_context->OMGetDepthStencilState(&_oldStencilState, &_oldStencilRef);
+//#endif
 	_device->SetRasterizerState(_rasterizerState.get());
 	_device->SetTopology(VertexTopology::TriangleList);
 	_device->SetBlendState(_blendState.get());
@@ -132,7 +132,7 @@ void SpriteBatch::_drawEntry(const spriteBatchEntry &entry)
 	d.Transform(rotation).Transform(tr);
 
 	auto quad = _createQuad( a, b, c, d, entry.flipU, entry.flipV, entry.tintColor, entry.uvSource);
-	_vertexBuffer->SetData(quad);
+	_vertexBuffer->SetData<VertexPointUVColor>(quad);
 
 	auto indices = _createIndexQuad(0);
 	_indexBuffer->SetData(indices);
@@ -187,8 +187,9 @@ void SpriteBatch::_drawAllEntries_SortByTexture()
 			{
 				_capacity *= 2; //growth factor
 
-				_vertexBuffer = std::make_unique<VertexBufferV<VertexPointUVColor>>(_device, nullptr, _capacity * 4);
-				_indexBuffer = std::make_unique<IndexBuffer>(_device, nullptr, _capacity * 6);
+				_vertexBuffer = _device->CreateVertexBuffer<VertexPointUVColor>(_capacity * 4, BufferUsage::ReadOnlyGPU_WriteOnlyCPU);	
+				_indexBuffer = _device->CreateIndexBuffer(_capacity * 6, BufferUsage::ReadOnlyGPU_WriteOnlyCPU);
+				_indexBuffer = std::make_unique<IndexBuffer>(_device, nullptr, );
 			}
 
 			lastID = entry.textureID;
@@ -218,14 +219,14 @@ void SpriteBatch::_drawAllEntries()
 
 void SpriteBatch::_restoreGraphicsDevice()
 {
-#ifdef USING_DX11
-	_device->_context->RSSetState(_oldRasterizerState.Get());
-	_device->_context->OMSetBlendState(_oldBlendState.Get(), _oldBlendFactor, _oldSampleMask);
-	_device->_context->OMSetDepthStencilState(_oldStencilState.Get(), _oldStencilRef);
-#endif
+//#ifdef USING_DX11
+//	_device->_context->RSSetState(_oldRasterizerState.Get());
+//	_device->_context->OMSetBlendState(_oldBlendState.Get(), _oldBlendFactor, _oldSampleMask);
+//	_device->_context->OMSetDepthStencilState(_oldStencilState.Get(), _oldStencilRef);
+//#endif
 }
 
-SpriteBatch::SpriteBatch(GraphicsDevice *device) :
+SpriteBatch::SpriteBatch(IGraphicsDevice *device) :
 	_device(device),
 	_sortingMode(SpriteBatchSortMode::Immediate),
 	_state(Immediate),
@@ -264,9 +265,9 @@ void SpriteBatch::Begin(SpriteBatchSortMode sortingMode)
 	_sortingMode = sortingMode;
 }
 
-void SpriteBatch::Begin(SpriteBatchSortMode sortingMode, SamplerState &&samplerState)
+void SpriteBatch::Begin(SpriteBatchSortMode sortingMode, std::unique_ptr<ISamplerState> &&samplerState)
 {
-	_samplerState = std::make_unique<SamplerState>(std::move(samplerState));
+	_samplerState = std::move(samplerState);
 	Begin(sortingMode);
 }
 

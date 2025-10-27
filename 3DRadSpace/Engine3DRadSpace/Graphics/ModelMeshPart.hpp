@@ -15,7 +15,7 @@ namespace Engine3DRadSpace::Graphics
 	/// </summary>
 	class E3DRSP_GRAPHICS_EXPORT ModelMeshPart
 	{
-		GraphicsDevice* _device;
+		IGraphicsDevice* _device;
 
 		std::shared_ptr<Shaders::Effect> _shaders;
 
@@ -91,8 +91,8 @@ namespace Engine3DRadSpace::Graphics
 		_device(Device),
 		_shaders(shaders)
 	{
-		VertexBuffer = std::make_unique<VertexBufferV<V>>(Device, vertices);
-		IndexBuffer = std::make_unique<Graphics::IndexBuffer>(Device, indices);
+		VertexBuffer = _device->CreateVertexBuffer<V>(vertices);
+		IndexBuffer = _device->CreateIndexBuffer(indices);
 	}
 
 }

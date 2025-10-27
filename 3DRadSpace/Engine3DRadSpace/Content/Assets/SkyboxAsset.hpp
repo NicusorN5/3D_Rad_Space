@@ -16,7 +16,7 @@ namespace Engine3DRadSpace::Content::Assets
 
 		SkyboxAsset(Internal::AssetUUIDReader dummy);
 	public:
-		SkyboxAsset(Graphics::GraphicsDevice *device, const std::filesystem::path& path);
+		SkyboxAsset(IService *device, const std::filesystem::path& path);
 
 		SkyboxAsset(SkyboxAsset&&) noexcept = default;
 		SkyboxAsset& operator=(SkyboxAsset&&) noexcept = default;
@@ -26,6 +26,7 @@ namespace Engine3DRadSpace::Content::Assets
 
 		Reflection::UUID GetUUID() const noexcept override;
 		const char* FileExtension() const noexcept override;
+		std::type_index InitializationService() const noexcept override;
 
 		friend class Internal::AssetUUIDReader;
 	};

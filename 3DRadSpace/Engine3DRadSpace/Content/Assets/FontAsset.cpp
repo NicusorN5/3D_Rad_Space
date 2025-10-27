@@ -6,8 +6,8 @@ using namespace Engine3DRadSpace::Content;
 using namespace Engine3DRadSpace::Content::Assets;
 using namespace Engine3DRadSpace::Graphics;
 
-FontAsset::FontAsset(IGraphicsDevice* device, const std::filesystem::path & path) :
-	_font(new Font(device, path))
+FontAsset::FontAsset(IService* device, const std::filesystem::path & path) :
+	_font(new Font(static_cast<IGraphicsDevice*>(device), path))
 {
 }
 
@@ -20,4 +20,9 @@ Reflection::UUID FontAsset::GetUUID() const noexcept
 const char* FontAsset::FileExtension() const noexcept
 {
 	return "TrueType Font (*.ttf)\0*.ttf\0All Files(*.*)\0*.*\0\0";
+}
+
+std::type_index FontAsset::InitializationService() const noexcept
+{
+	return typeid(IGraphicsDevice);
 }

@@ -26,15 +26,15 @@ Sound::Sound(Internal::AssetUUIDReader dummy) :
 {
 }
 
-Sound::Sound(AudioEngine *audio, const std::filesystem::path& path) :
-	_audio(audio)
+Sound::Sound(IService *audio, const std::filesystem::path& path) :
+	_audio(static_cast<AudioEngine*>(audio))
 {
 	AudioBuffer sound(std::move(_attemptLoading(path)));
 
 	//Generate OpenAL sound buffer
 	alGenBuffers(1, &_bufferID); //Create one buffer
 	alBufferData(_bufferID, sound._format, sound._buffer.get(), sound._size, sound._sampleRate); //Set buffer.
-	if(audio->CheckErrors().has_value()) throw Exception("Failed to copy OpenAL buffer!");
+	if(_audio->CheckErrors().has_value()) throw Exception("Failed to copy OpenAL buffer!");
 }
 
 Sound::Sound(Sound&& snd) noexcept
@@ -71,6 +71,11 @@ const char* Sound::FileExtension() const noexcept
 			"Waveform Audio File Format(*.wav;*.wave)\0*.wav;*.wave\0"
 			"Ogg Vorbis Compressed Audio Format(*.ogg)\0*.ogg\0"
 			"All Files(*.*)\0*.*\0\0";
+}
+
+std::type_index Sound::InitializationService() const noexcept
+{
+	return typeid(AudioEngine);
 }
 
 Sound::~Sound()

@@ -13,14 +13,14 @@ namespace Engine3DRadSpace::Graphics::Shaders
 	class E3DRSP_GRAPHICS_EXPORT Effect
 	{
 	protected:
-		GraphicsDevice* _device;
+		IGraphicsDevice* _device;
 		std::unique_ptr<IVertexShader> _vertex;
 		std::unique_ptr<IHullShader> _hull;
 		std::unique_ptr<IDomainShader> _domain;
 		std::unique_ptr<IGeometryShader> _geometry;
 		std::unique_ptr<IFragmentShader> _pixel;
 	public:
-		Effect(GraphicsDevice *device, IVertexShader* vertexShader, IFragmentShader* fragmentShader, IHullShader* hullShader = nullptr,
+		Effect(IGraphicsDevice*device, IVertexShader* vertexShader, IFragmentShader* fragmentShader, IHullShader* hullShader = nullptr,
 			IDomainShader* domainShader = nullptr, IGeometryShader* geometryShader = nullptr);
 
 		Effect(const Effect &p) = delete;

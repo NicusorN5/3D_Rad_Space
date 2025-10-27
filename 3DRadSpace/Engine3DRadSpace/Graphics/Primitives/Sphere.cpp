@@ -8,7 +8,7 @@ using namespace Engine3DRadSpace::Graphics::Primitives;
 using namespace Engine3DRadSpace::Graphics::Shaders;
 using namespace Engine3DRadSpace::Math;
 
-Sphere::Sphere(GraphicsDevice *device, float radius, Color color, unsigned resolution):
+Sphere::Sphere(IGraphicsDevice *device, float radius, Color color, unsigned resolution):
 	IPrimitive(device),
 	_radius(radius)
 {

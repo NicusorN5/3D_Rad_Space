@@ -37,7 +37,7 @@ namespace Engine3DRadSpace::Graphics
 	/// </summary>
 	class E3DRSP_GRAPHICS_EXPORT SpriteBatch
 	{
-		GraphicsDevice *_device;
+		IGraphicsDevice *_device;
 		SpriteBatchSortMode _sortingMode;
 		enum SpriteBatchState
 		{
@@ -48,8 +48,8 @@ namespace Engine3DRadSpace::Graphics
 
 		std::unique_ptr<Shaders::SpriteShader> _spriteShader;
 
-		std::unique_ptr<VertexBufferV<VertexPointUVColor>> _vertexBuffer;
-		std::unique_ptr<IndexBuffer> _indexBuffer;
+		std::unique_ptr<IVertexBuffer> _vertexBuffer;
+		std::unique_ptr<IIndexBuffer> _indexBuffer;
 		size_t _capacity = 256;
 
 		struct spriteBatchEntry
@@ -71,7 +71,7 @@ namespace Engine3DRadSpace::Graphics
 
 		std::multiset<spriteBatchEntry> _entries;
 
-		std::vector<Texture2D*> _textures;
+		std::vector<ITexture2D*> _textures;
 
 		static std::array<VertexPointUVColor, 4> _createQuad(
 			const Math::RectangleF &r,
@@ -111,16 +111,16 @@ namespace Engine3DRadSpace::Graphics
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilState> _oldStencilState;
 		unsigned _oldStencilRef;
 #endif
-		std::unique_ptr<RasterizerState> _rasterizerState;
-		std::unique_ptr<SamplerState> _samplerState;
-		std::unique_ptr<DepthStencilState> _depthBufferState;
-		std::unique_ptr<BlendState> _blendState;
+		std::unique_ptr<IRasterizerState> _rasterizerState;
+		std::unique_ptr<ISamplerState> _samplerState;
+		std::unique_ptr<IDepthStencilState> _depthBufferState;
+		std::unique_ptr<IBlendState> _blendState;
 	public:
 		/// <summary>
 		/// Constructs a sprite batch.
 		/// </summary>
 		/// <param name="device">Graphics device</param>
-		SpriteBatch(GraphicsDevice *device);
+		SpriteBatch(IGraphicsDevice *device);
 
 		SpriteBatch(SpriteBatch &) = delete;
 		SpriteBatch(SpriteBatch &&) noexcept = default;
@@ -129,10 +129,10 @@ namespace Engine3DRadSpace::Graphics
 		SpriteBatch& operator=(SpriteBatch &&) noexcept = default;
 
 		void Begin(SpriteBatchSortMode sortingMode = SpriteBatchSortMode::Immediate);
-		void Begin(SpriteBatchSortMode sortingMode, SamplerState &&samplerState);
+		void Begin(SpriteBatchSortMode sortingMode, std::unique_ptr<ISamplerState> &&samplerState);
 		
 		void DrawNormalized(
-			Texture2D* texture,
+			ITexture2D* texture,
 			const Math::RectangleF& coords,
 			const Math::RectangleF& source = Math::RectangleF(0.0f, 0.0f, 1.0f, 1.0f),
 			Math::Color tintColor = Math::Colors::White,

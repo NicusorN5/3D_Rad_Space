@@ -49,7 +49,7 @@ std::array<unsigned, 36> Box::CreateIndices()
     };
 }
 
-Box::Box(GraphicsDevice *device, const BoundingBox&b, Color color) :
+Box::Box(IGraphicsDevice *device, const BoundingBox&b, Color color) :
     IPrimitive(device),
     _box(b)
 {
@@ -57,7 +57,7 @@ Box::Box(GraphicsDevice *device, const BoundingBox&b, Color color) :
     _vertices = std::make_unique<VertexBufferV<VertexPositionColor>>(device, box_vertices);
 
     std::array<unsigned, 36> indices = CreateIndices();
-    _indices = std::make_unique<IndexBuffer>(device, indices);
+    _indices = device->CreateIndexBuffer(indices);
 
     _shader = ShaderManager::LoadShader<BlankShader>(device);
 }
@@ -88,12 +88,12 @@ void Box::SetColor(const Color&color)
     _vertices->SetData(verts);
 }
 
-VertexBufferV<VertexPositionColor>* Box::GetVertexBuffer() const noexcept
+IVertexBuffer* Box::GetVertexBuffer() const noexcept
 {
     return _vertices.get();
 }
 
-IndexBuffer* Box::GetIndexBuffer() const noexcept
+IIndexBuffer* Box::GetIndexBuffer() const noexcept
 {
     return _indices.get();
 }

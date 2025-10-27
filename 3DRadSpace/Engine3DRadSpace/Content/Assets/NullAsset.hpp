@@ -20,6 +20,7 @@ namespace Engine3DRadSpace::Content::Assets
 
 		Reflection::UUID GetUUID() const noexcept override;
 		const char* FileExtension() const noexcept override;
+		std::type_index InitializationService() const noexcept override;
 
 		friend class Internal::AssetUUIDReader;
 	};

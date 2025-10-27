@@ -1,6 +1,6 @@
 #pragma once
 #include "AudioError.hpp"
-#include "../Core/Libs.hpp"
+#include "../Core/IService.hpp"
 #include "Listener.hpp"
 
 namespace Engine3DRadSpace::Audio
@@ -9,7 +9,7 @@ namespace Engine3DRadSpace::Audio
 	/// <summary>
 	/// Instances and handles audio device handles.
 	/// </summary>
-	class E3DRSP_AUDIO_EXPORT AudioEngine 
+	class E3DRSP_AUDIO_EXPORT AudioEngine : public IService
 	{
 		void* _audioDevice;
 		void* _audioContext;
@@ -33,10 +33,10 @@ namespace Engine3DRadSpace::Audio
 
 		void SwitchAudioDevice(const std::string& deviceName);
 
-		~AudioEngine();
-
-		void Update() const noexcept;
+		void Update();
 
 		std::optional<AudioError> CheckErrors();
+
+		~AudioEngine() override;
 	};
 }

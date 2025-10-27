@@ -57,7 +57,7 @@ namespace Engine3DRadSpace
 			/// Sets new indices to this index buffer instance.
 			/// </summary>
 			/// <param name="newindices"></param>
-			void SetData(std::span<unsigned> newindices);
+			void SetData(void* data, size_t buffSize);
 
 			/// <summary>
 			/// Maps this IndexBuffer to the CPU, so it can be read from. EndRead() must be called after!

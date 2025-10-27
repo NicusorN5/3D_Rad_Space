@@ -23,7 +23,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		/// <param name="radius">Radius of the sphere.</param>
 		/// <param name="color">Vertex color of the sphere.</param>
 		/// <param name="resolution">Defines how accurate the sphere is.</param>
-		Sphere(GraphicsDevice *device, float radius, Math::Color color, unsigned resolution);
+		Sphere(IGraphicsDevice *device, float radius, Math::Color color, unsigned resolution);
 
 		Sphere(const Sphere &) = delete;
 		Sphere(Sphere &&) noexcept = default;

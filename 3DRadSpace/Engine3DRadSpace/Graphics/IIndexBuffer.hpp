@@ -9,6 +9,7 @@ namespace Engine3DRadSpace::Graphics
 		IIndexBuffer() = default;
 	public:
 		virtual void Set(unsigned index) = 0;
-		virtual void SetData(std::span<unsigned> newindices) = 0;
+
+		~IIndexBuffer() override = default;
 	};
 }

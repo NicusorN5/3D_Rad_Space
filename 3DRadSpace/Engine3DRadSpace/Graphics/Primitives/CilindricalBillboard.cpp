@@ -9,7 +9,7 @@ using namespace Engine3DRadSpace::Graphics::Primitives;
 using namespace Engine3DRadSpace::Graphics::Shaders;
 using namespace Engine3DRadSpace::Math;
 
-CilindricalBillboard::CilindricalBillboard(GraphicsDevice *device) :
+CilindricalBillboard::CilindricalBillboard(IGraphicsDevice *device) :
 	_device(device),
 	Texture(nullptr)
 {

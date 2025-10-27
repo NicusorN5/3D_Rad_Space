@@ -19,7 +19,7 @@ namespace Engine3DRadSpace::Audio
 
 		Sound(Internal::AssetUUIDReader dummy);
 	public:
-		Sound(AudioEngine* audio, const std::filesystem::path& path);
+		Sound(IService* audio, const std::filesystem::path& path);
 
 		Sound(const Sound&) = delete;
 		Sound(Sound&& snd) noexcept;
@@ -30,6 +30,7 @@ namespace Engine3DRadSpace::Audio
 		// Inherited via IAsset
 		Reflection::UUID GetUUID() const noexcept override;
 		const char* FileExtension() const noexcept override;
+		std::type_index InitializationService() const noexcept override;
 
 		~Sound();
 

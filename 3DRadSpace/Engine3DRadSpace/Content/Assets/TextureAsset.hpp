@@ -1,25 +1,41 @@
 #pragma once
 #include "../IAsset.hpp"
-#include "../../Graphics/IGraphicsDevice.hpp"
-#include "../../Graphics/ITexture2D.hpp"
 
-namespace Engine3DRadSpace::Content::Assets
+namespace Engine3DRadSpace
 {
-	class E3DRSP_CONTENT_ASSETS_EXPORT TextureAsset final : IAsset
+	class IService;
+	namespace Graphics
 	{
-		std::unique_ptr<Graphics::ITexture2D> _texture;
-	public:
-		TextureAsset(Graphics::IGraphicsDevice* device, const std::filesystem::path &path);
+		class ITexture2D;
+	}
+	namespace Internal
+	{
+		struct AssetUUIDReader;
+	}
 
-		TextureAsset(const TextureAsset&) = delete;
-		TextureAsset(TextureAsset&&) noexcept = default;
+	namespace Content::Assets
+	{
+		class E3DRSP_CONTENT_ASSETS_EXPORT TextureAsset final : public IAsset
+		{
+			std::unique_ptr<Graphics::ITexture2D> _texture;
 
-		TextureAsset& operator=(const TextureAsset&) = delete;
-		TextureAsset& operator=(TextureAsset&&) noexcept = default;
+			TextureAsset(Internal::AssetUUIDReader dummy);
+		public:
+			TextureAsset(IService* device, const std::filesystem::path& path);
 
-		Reflection::UUID GetUUID() const noexcept override;
-		const char* FileExtension() const noexcept override;
+			TextureAsset(const TextureAsset&) = delete;
+			TextureAsset(TextureAsset&&) noexcept = default;
 
-		~TextureAsset() override = default;
-	};
+			TextureAsset& operator=(const TextureAsset&) = delete;
+			TextureAsset& operator=(TextureAsset&&) noexcept = default;
+
+			Reflection::UUID GetUUID() const noexcept override;
+			const char* FileExtension() const noexcept override;
+			std::type_index InitializationService() const noexcept override;
+
+			~TextureAsset() override = default;
+
+			friend class Internal::AssetUUIDReader;
+		};
+	}
 }

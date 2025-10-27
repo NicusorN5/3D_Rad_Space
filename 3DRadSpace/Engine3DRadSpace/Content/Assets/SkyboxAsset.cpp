@@ -1,5 +1,6 @@
 #include "SkyboxAsset.hpp"
 #include "../../Core/Logging/AssetLoadingError.hpp"
+#include "../../Core/Logging/ServiceBadCast.hpp"
 #include "../../Internal/AssetUUIDReader.hpp"
 
 using namespace Engine3DRadSpace;
@@ -10,8 +11,14 @@ using namespace Engine3DRadSpace::Graphics::Primitives;
 using namespace Engine3DRadSpace::Logging;
 using namespace Engine3DRadSpace::Reflection;
 
-CubeMapSkybox SkyboxAsset::_loadCubeMap(GraphicsDevice *device, const std::filesystem::path& path)
+CubeMapSkybox SkyboxAsset::_loadCubeMap(IService *service, const std::filesystem::path& path)
 {
+	auto device = dynamic_cast<IGraphicsDevice*>(service);
+	if (device == nullptr)
+	{
+		throw ServiceBadCast<IGraphicsDevice>();
+	}
+
 	if(!std::filesystem::exists(path))
 	{
 		throw AssetLoadingError(Tag<SkyboxAsset>{}, path, "File does not exist");

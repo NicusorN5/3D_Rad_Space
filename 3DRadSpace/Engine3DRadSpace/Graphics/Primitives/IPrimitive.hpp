@@ -17,11 +17,11 @@ namespace Engine3DRadSpace::Graphics::Primitives
 	class E3DRSP_GRAPHICS_PRIMITIVES_EXPORT IPrimitive : public IDrawable3D
 	{
 	protected:
-		IPrimitive(GraphicsDevice* device);
+		IPrimitive(IGraphicsDevice* device);
 
-		GraphicsDevice *_device;
-		std::unique_ptr<VertexBufferV<VertexPositionColor>> _vertices;
-		std::unique_ptr<IndexBuffer> _indices;
+		IGraphicsDevice*_device;
+		std::unique_ptr<IVertexBuffer> _vertices;
+		std::unique_ptr<IIndexBuffer> _indices;
 
 		std::shared_ptr<Shaders::BlankShader> _shader;
 

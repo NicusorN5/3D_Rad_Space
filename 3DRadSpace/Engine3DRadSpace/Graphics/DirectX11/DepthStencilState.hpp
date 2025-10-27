@@ -1,6 +1,6 @@
 #pragma once
 #include "GraphicsDevice.hpp"
-#include "IDepthStencilState.hpp"
+#include "../IDepthStencilState.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {

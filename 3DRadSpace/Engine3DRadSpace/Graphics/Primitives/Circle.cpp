@@ -6,7 +6,7 @@ using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Graphics::Primitives;
 using namespace Engine3DRadSpace::Math;
 
-Circle::Circle(GraphicsDevice* device, float radius, Color color, unsigned resolution) :
+Circle::Circle(IGraphicsDevice* device, float radius, Color color, unsigned resolution) :
 	LineStrip(device, CreateCircleVertices(radius, resolution, color)),
 	_radius(radius)
 {

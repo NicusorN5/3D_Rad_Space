@@ -2,9 +2,7 @@ cmake_minimum_required(VERSION 3.21)
 
 project("3DRadSpace.Content")
 
-add_library(3DRadSpace_Content STATIC 
-	"AssetFactory.cpp"
-	"Assets.cpp"
+add_library(3DRadSpace_Content SHARED 
 	"ContentManager.cpp"
 )
 
@@ -42,7 +40,6 @@ endif()
 
 target_link_libraries(3DRadSpace_Content PRIVATE 3DRadSpace_Core)
 target_link_libraries(3DRadSpace_Content PRIVATE 3DRadSpace_Math)
-target_link_libraries(3DRadSpace_Content PRIVATE 3DRadSpace_Audio)
-target_link_libraries(3DRadSpace_Content PRIVATE 3DRadSpace_Games)
+target_link_libraries(3DRadSpace_Content PRIVATE 3DRadSpace_Reflection)
 target_link_libraries(3DRadSpace_Content PRIVATE 3DRadSpace_Graphics)
 target_include_directories(3DRadSpace_Content PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)

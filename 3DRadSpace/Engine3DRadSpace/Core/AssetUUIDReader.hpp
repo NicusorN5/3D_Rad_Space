@@ -24,5 +24,12 @@ namespace Engine3DRadSpace::Internal
 			(void)dummy;
 			return (T(AssetUUIDReader{})).FileExtension();
 		}
+
+		template<Content::AssetType T>
+		static const char* GetInitializationService(Tag<T> dummy)
+		{
+			(void)dummy;
+			return (T(AssetUUIDReader{})).InitializationService();
+		}
 	};
 }

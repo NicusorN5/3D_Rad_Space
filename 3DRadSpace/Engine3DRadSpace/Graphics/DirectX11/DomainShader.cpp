@@ -1,10 +1,10 @@
-#include "IDomainShader.hpp"
+#include "DomainShader.hpp"
 #include "ShaderCompilationError.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
 
-const char *IDomainShader::_determineTarget()
+const char * DomainShader::_determineTarget()
 {
 	switch(_featureLevel)
 	{
@@ -22,7 +22,7 @@ const char *IDomainShader::_determineTarget()
 	}
 }
 
-void IDomainShader::_createShader()
+void DomainShader::_createShader()
 {
 #ifdef USING_DX11
 	HRESULT r = _device->_device->CreateDomainShader(
@@ -35,27 +35,27 @@ void IDomainShader::_createShader()
 	if(FAILED(r)) throw ShaderCompilationError("Failed to create a domain shader!");
 
 #ifdef  _DEBUG
-	const char shaderName[] = "IDomainShader::_shader";
+	const char shaderName[] = "DomainShader::_shader";
 	_shader->SetPrivateData(WKPDID_D3DDebugObjectName, sizeof(shaderName) - 1, shaderName);
 #endif //  _DEBUG
 #endif
 }
 
-IDomainShader::IDomainShader(GraphicsDevice *device, const char *source, const char *fnEntry, ShaderFeatureLevel fs) :
+DomainShader::DomainShader(GraphicsDevice *device, const char *source, const char *fnEntry, ShaderFeatureLevel fs) :
 	IShader(device, source, fnEntry, fs)
 {
 	_compileShader(source, _determineTarget());
 	_createShader();
 }
 
-IDomainShader::IDomainShader(GraphicsDevice *device, const std::filesystem::path &path, const char *fnEntry, ShaderFeatureLevel fs):
+DomainShader::DomainShader(GraphicsDevice *device, const std::filesystem::path &path, const char *fnEntry, ShaderFeatureLevel fs):
 	IShader(device, path, fnEntry, fs)
 {
 	_compileShaderFromFile(path.string().c_str(), _determineTarget());
 	_createShader();
 }
 
-void IDomainShader::SetTexture(unsigned index, Texture2D *texture)
+void DomainShader::SetTexture(unsigned index, Texture2D *texture)
 {
 	if(texture == nullptr)
 		return;
@@ -64,14 +64,14 @@ void IDomainShader::SetTexture(unsigned index, Texture2D *texture)
 #endif
 }
 
-void IDomainShader::SetSampler(unsigned index, SamplerState *samplerState)
+void DomainShader::SetSampler(unsigned index, SamplerState *samplerState)
 {
 #ifdef USING_DX11
 	_device->_context->DSSetSamplers(index, 1, samplerState->_samplerState.GetAddressOf());
 #endif // USING_DX11
 }
 
-void IDomainShader::SetShader()
+void DomainShader::SetShader()
 {
 #ifdef USING_DX11
 	unsigned i;
@@ -82,7 +82,7 @@ void IDomainShader::SetShader()
 #endif // USING_DX11
 }
 
-void* IDomainShader::GetHandle() const noexcept
+void* DomainShader::GetHandle() const noexcept
 {
 #ifdef USING_DX11
 	return static_cast<void*>(_shader.Get());

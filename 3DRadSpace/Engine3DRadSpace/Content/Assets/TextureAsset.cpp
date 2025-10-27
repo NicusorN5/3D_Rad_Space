@@ -9,8 +9,12 @@ using namespace Engine3DRadSpace::Content;
 using namespace Engine3DRadSpace::Content::Assets;
 using namespace Engine3DRadSpace::Graphics;
 
-TextureAsset::TextureAsset(IGraphicsDevice *device, const std::filesystem::path &path) :
-	_texture(device->CreateTexture(path))
+TextureAsset::TextureAsset(Internal::AssetUUIDReader dummy)
+{
+}
+
+TextureAsset::TextureAsset(IService *device, const std::filesystem::path &path) :
+	_texture((static_cast<IGraphicsDevice*>(device))->CreateTexture(path))
 {
 }
 
@@ -31,4 +35,9 @@ const char* TextureAsset::FileExtension() const noexcept
 		"Portable Network Graphics (PNG) image(*.png)\0*.png\0"
 		"DirectDraw Surface image(*.dds)\0*.dds\0"
 		"All Files(*.*)\0*.*\0\0";
+}
+
+std::type_index TextureAsset::InitializationService() const noexcept
+{
+	return typeid(IGraphicsDevice);
 }

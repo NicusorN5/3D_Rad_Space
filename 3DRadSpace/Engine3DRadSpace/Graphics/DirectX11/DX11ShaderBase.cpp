@@ -1,5 +1,6 @@
-#include "IShader.hpp"
+#include "DX11ShaderBase.hpp"
 #include "../Core/Logging.hpp"
+#include "GraphicsDevice.hpp"
 
 #ifdef USING_DX11
 #pragma comment(lib,"d3dcompiler.lib")
@@ -9,7 +10,7 @@ using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Logging;
 
-Array_ValidConstantBuffers IShader::_validConstantBuffers(unsigned &numConstantBuffers)
+DX11ShaderBase::Array_ValidConstantBuffers DX11ShaderBase::_validConstantBuffers(unsigned &numConstantBuffers)
 {
 #ifdef USING_DX11
 	const unsigned maxConstBuffers = D3D11_COMMONSHADER_CONSTANT_BUFFER_API_SLOT_COUNT;
@@ -28,7 +29,7 @@ Array_ValidConstantBuffers IShader::_validConstantBuffers(unsigned &numConstantB
 #endif
 }
 
-void IShader::_compileShader(const char *source, const char* target)
+void DX11ShaderBase::_compileShader(const char *source, const char* target)
 {
 #ifdef _WIN32
 #ifdef _DEBUG
@@ -62,7 +63,7 @@ void IShader::_compileShader(const char *source, const char* target)
 #endif
 }
 
-void IShader::_compileShaderFromFile(const char* path, const char* target)
+void DX11ShaderBase::_compileShaderFromFile(const char* path, const char* target)
 {
 #ifdef _WIN32
 	wchar_t wpath[_MAX_PATH]{ 0 };
@@ -100,7 +101,7 @@ void IShader::_compileShaderFromFile(const char* path, const char* target)
 #endif
 }
 
-IShader::IShader(GraphicsDevice *Device, const char *shaderSourceCode, const char *entry_function, ShaderFeatureLevel fl):
+DX11ShaderBase::DX11ShaderBase(GraphicsDevice *Device, const char *shaderSourceCode, const char *entry_function, ShaderFeatureLevel fl):
 	_device(Device),
 	_entry(entry_function),
 	_featureLevel(fl),
@@ -110,7 +111,7 @@ IShader::IShader(GraphicsDevice *Device, const char *shaderSourceCode, const cha
 {
 }
 
-IShader::IShader(GraphicsDevice *Device, const std::filesystem::path &path, const char *entry_function, ShaderFeatureLevel fl) :
+DX11ShaderBase::DX11ShaderBase(GraphicsDevice *Device, const std::filesystem::path &path, const char *entry_function, ShaderFeatureLevel fl) :
 	_device(Device),
 	_entry(entry_function),
 	_featureLevel(fl),
@@ -120,7 +121,7 @@ IShader::IShader(GraphicsDevice *Device, const std::filesystem::path &path, cons
 {
 }
 
-void IShader::SetData(unsigned index, const void *data, unsigned dataSize)
+void DX11ShaderBase::SetData(unsigned index, const void *data, unsigned dataSize)
 {
 #ifdef USING_DX11
 	if (_constantBuffers[index].Get() == nullptr)
@@ -155,17 +156,17 @@ void IShader::SetData(unsigned index, const void *data, unsigned dataSize)
 }
 
 
-ShaderFeatureLevel IShader::GetFeatureLevel()
+ShaderFeatureLevel DX11ShaderBase::GetFeatureLevel()
 {
 	return _featureLevel;
 }
 
-std::string IShader::GetEntryName()
+std::string DX11ShaderBase::GetEntryName()
 {
 	return std::string(_entry);
 }
 
-const char* IShader::GetCompilationErrorsAndWarnings()
+const char* DX11ShaderBase::GetCompilationErrorsAndWarnings()
 {
 	if(this->_errorBlob == nullptr) return nullptr;
 	return static_cast<const char*>(this->_errorBlob->GetBufferPointer());

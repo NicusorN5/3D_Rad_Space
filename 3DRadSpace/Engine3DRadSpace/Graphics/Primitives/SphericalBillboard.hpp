@@ -7,7 +7,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 	{
 		Math::Matrix4x4 _mvp() const noexcept override;
 	public:
-		SphericalBillboard(GraphicsDevice *device);
+		SphericalBillboard(IGraphicsDevice *device);
 
 		~SphericalBillboard() = default;
 	};

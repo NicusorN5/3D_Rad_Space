@@ -8,7 +8,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 	{
 		float _radius;
 	public:
-		Circle(GraphicsDevice* device, float radius = 1.0f, Math::Color color = Math::Colors::White, unsigned resolution = 100);
+		Circle(IGraphicsDevice* device, float radius = 1.0f, Math::Color color = Math::Colors::White, unsigned resolution = 100);
 
 		[[nodiscard]] static Algorithms::FixedArray<VertexPositionColor> CreateCircleVertices(float radius, unsigned resolution, Math::Color color);
 
