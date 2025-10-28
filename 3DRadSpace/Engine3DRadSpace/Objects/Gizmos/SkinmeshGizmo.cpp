@@ -1,12 +1,10 @@
 #include "SkinmeshGizmo.hpp"
-#include "../../Graphics/RasterizerState.hpp"
-#include "../../Graphics/Shaders/ShaderManager.hpp"
-#include "../../Graphics/Shaders/MeshHighlight.hpp"
+#include "../../Graphics/IGraphicsDevice.hpp"
+#include "../../Graphics/IRasterizerState.hpp"
 #include "../../Games/Game.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
-using namespace Engine3DRadSpace::Graphics::Shaders;
 using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Objects;
 using namespace Engine3DRadSpace::Objects::Gizmos;
@@ -25,7 +23,7 @@ void Gizmo<Skinmesh>::Load()
 	if(_wireframe_RasterizerState == nullptr)
 	{
 		_wireframe_RasterizerState = std::unique_ptr<void, std::function<void(void*)>>(
-			new RasterizerState(RasterizerState::Wireframe(std::move(skinmesh->GetGraphicsDeviceHandle()))),
+			skinmesh->GetGraphicsDeviceHandle()->CreateRasterizerState_Wireframe(),
 			[](void* rasterizerState)
 			{
 				delete static_cast<RasterizerState*>(rasterizerState);

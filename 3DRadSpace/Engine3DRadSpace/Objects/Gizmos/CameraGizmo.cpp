@@ -1,7 +1,7 @@
 #include "CameraGizmo.hpp"
 #include "../../Graphics/Model3D.hpp"
-#include "../../Graphics/RenderTarget.hpp"
-#include "../../Graphics/DepthStencilBuffer.hpp"
+#include "../../Graphics/IRenderTarget.hpp"
+#include "../../Graphics/IDepthStencilBuffer.hpp"
 #include "../../Games/Game.hpp"
 #include "../ObjectList.hpp"
 
@@ -35,20 +35,20 @@ void Gizmo<Camera>::Load()
 
 	if(_cameraPreview == nullptr)
 	{
-		_cameraPreview = std::unique_ptr<void, std::function<void(void*)>>(new RenderTarget(device, res.X, res.Y),
+		_cameraPreview = std::unique_ptr<void, std::function<void(void*)>>(device->CreateRenderTarget(res.X, res.Y).release(),
 			[](void* rt)
 			{
-				delete static_cast<RenderTarget*>(rt);
+				delete static_cast<IRenderTarget*>(rt);
 			}
 		);
 	}
 
 	if(_cameraPreviewDepth == nullptr)
 	{
-		_cameraPreviewDepth = std::unique_ptr<void, std::function<void(void*)>>(new DepthStencilBuffer(device, res.X, res.Y),
+		_cameraPreviewDepth = std::unique_ptr<void, std::function<void(void*)>>(device->CreateDepthStencilBuffer(res.X, res.Y).release(),
 			[](void* depth)
 			{
-				delete static_cast<DepthStencilBuffer*>(depth);
+				delete static_cast<IDepthStencilBuffer*>(depth);
 			}
 		);
 	}

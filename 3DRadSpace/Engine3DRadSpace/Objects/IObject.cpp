@@ -2,6 +2,7 @@
 #include "../Games/Game.hpp"
 
 using namespace Engine3DRadSpace;
+using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Input;
 using namespace Engine3DRadSpace::Math;
 
@@ -12,18 +13,18 @@ IObject::IObject(const std::string &name, bool enabled, bool visible) :
 {
 }
 
-void Engine3DRadSpace::IObject::InternalInitialize(Game* game)
+void Engine3DRadSpace::IObject::InternalInitialize(IGame* game)
 {
 	_game = game;
-	_device = game->Device.get();
+	_device = game->GetService<IGraphicsDevice>({});
 }
 
-Graphics::GraphicsDevice* IObject::GetGraphicsDeviceHandle()
+IGraphicsDevice* IObject::GetGraphicsDeviceHandle() const noexcept
 {
 	return _device;
 }
 
-Game* IObject::GetGame()
+IGame* IObject::GetGame() const noexcept
 {
 	return _game;
 }

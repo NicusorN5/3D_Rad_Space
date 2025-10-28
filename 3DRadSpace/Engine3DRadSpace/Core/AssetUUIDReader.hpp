@@ -26,7 +26,7 @@ namespace Engine3DRadSpace::Internal
 		}
 
 		template<Content::AssetType T>
-		static const char* GetInitializationService(Tag<T> dummy)
+		static std::type_index GetInitializationService(Tag<T> dummy)
 		{
 			(void)dummy;
 			return (T(AssetUUIDReader{})).InitializationService();
