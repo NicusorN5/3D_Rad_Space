@@ -1,4 +1,4 @@
-#include "IVertexShader.hpp"
+#include "VertexShader.hpp"
 #include "../Core/Logging.hpp"
 
 using namespace Engine3DRadSpace;
