@@ -1,5 +1,5 @@
 #pragma once
-#include "DX11ShaderBase.hpp"
+#include "ShaderBase.hpp"
 #include "InputLayoutElement.hpp"
 
 namespace Engine3DRadSpace::Graphics::DirectX11
@@ -7,7 +7,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 	/// <summary>
 	/// Represents a vertex shader.
 	/// </summary>
-	class E3DRSP_GRAPHICS_EXPORT VertexShader : public DX11ShaderBase
+	class E3DRSP_GRAPHICS_EXPORT VertexShader : public ShaderBase
 	{
 #ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11VertexShader> _shader;
@@ -31,7 +31,6 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		/// <param name="featureLevel">HLSL feature level.</param>
 		VertexShader(
 			GraphicsDevice* device, 
-			std::span<InputLayoutElement> inputLayout,
 			const char* shaderSourceCode,
 			const char* vsEntry,
 			ShaderFeatureLevel featureLevel = ShaderFeatureLevel::DX_V4
@@ -39,7 +38,6 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		
 		VertexShader(
 			GraphicsDevice* device,
-			std::span<InputLayoutElement> inputLayout, 
 			const std::filesystem::path& path, 
 			const char* vsEntry,
 			ShaderFeatureLevel featureLevel = ShaderFeatureLevel::DX_V4
@@ -53,12 +51,12 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 	public:
 		virtual std::span<InputLayoutElement> InputLayout() = 0;
 
-		void SetTexture(unsigned index, Texture2D *texture) override;
-		void SetSampler(unsigned index, SamplerState *samplerState) override;
+		void SetTexture(unsigned index, ITexture2D *texture) override;
+		void SetSampler(unsigned index, ISamplerState *samplerState) override;
 		void SetShader() override;
 		void* GetHandle() const noexcept override;
 
-		virtual ~IVertexShader() = default;
+		virtual ~VertexShader() = default;
 
 		friend class GraphicsDevice;
 	};

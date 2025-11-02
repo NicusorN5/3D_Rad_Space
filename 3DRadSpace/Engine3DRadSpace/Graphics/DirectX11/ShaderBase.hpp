@@ -4,6 +4,7 @@
 namespace Engine3DRadSpace::Graphics::DirectX11
 {
 	class GraphicsDevice;
+	class ShaderCompiler;
 
 	class ShaderBase : public IShader
 	{
@@ -14,7 +15,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 
 		Microsoft::WRL::ComPtr<ID3DBlob> _shaderBlob;
 		Microsoft::WRL::ComPtr<ID3DBlob> _errorBlob;
-		Microsoft::WRL::ComPtr<ID3D11ShaderReflection> _reflection;
+		Microsoft::WRL::ComPtr<ID3D11ShaderReflection> _reflector;
 
 		std::array<Microsoft::WRL::ComPtr<ID3D11Buffer>, D3D11_COMMONSHADER_CONSTANT_BUFFER_API_SLOT_COUNT> _constantBuffers;
 
@@ -46,5 +47,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		void Set(const std::string& name, const void* data, unsigned dataSize) override;
 
 		~ShaderBase() override = default;
+
+		friend class ShaderCompiler;
 	};
 }

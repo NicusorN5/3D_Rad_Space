@@ -136,12 +136,11 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		virtual ~Texture2D() = default;
 
 		friend class GraphicsDevice;
-		friend class IVertexShader;
-		friend class IFragmentShader;
-		friend class IHullShader;
-		friend class IDomainShader;
-		friend class IGeometryShader;
-		friend struct Internal::AssetUUIDReader;
+		friend class VertexShader;
+		friend class FragmentShader;
+		friend class HullShader;
+		friend class DomainShader;
+		friend class GeometryShader;
 		friend class DepthStencilBuffer;
 	};
 }

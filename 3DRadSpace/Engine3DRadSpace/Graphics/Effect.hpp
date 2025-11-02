@@ -1,10 +1,6 @@
 #pragma once
 #include "IGraphicsDevice.hpp"
-#include "IVertexShader.hpp"
-#include "IHullShader.hpp"
-#include "IDomainShader.hpp"
-#include "IGeometryShader.hpp"
-#include "IFragmentShader.hpp"
+#include "IShader.hpp"
 #include "ShaderType.hpp"
 
 namespace Engine3DRadSpace::Graphics
@@ -16,14 +12,20 @@ namespace Engine3DRadSpace::Graphics
 	{
 	protected:
 		IGraphicsDevice* _device;
-		std::unique_ptr<IVertexShader> _vertex;
-		std::unique_ptr<IHullShader> _hull;
-		std::unique_ptr<IDomainShader> _domain;
-		std::unique_ptr<IGeometryShader> _geometry;
-		std::unique_ptr<IFragmentShader> _pixel;
+		std::unique_ptr<IShader> _vertex;
+		std::unique_ptr<IShader> _hull;
+		std::unique_ptr<IShader> _domain;
+		std::unique_ptr<IShader> _geometry;
+		std::unique_ptr<IShader> _pixel;
 	public:
-		Effect(IGraphicsDevice* device, IVertexShader* vertexShader, IFragmentShader* fragmentShader, IHullShader* hullShader = nullptr,
-			IDomainShader* domainShader = nullptr, IGeometryShader* geometryShader = nullptr);
+		Effect(
+			IGraphicsDevice* device, 
+			IShader* vertexShader,
+			IShader* fragmentShader, 
+			IShader* hullShader = nullptr,
+			IShader* domainShader = nullptr,
+			IShader* geometryShader = nullptr
+		);
 
 		Effect(const Effect &p) = delete;
 		Effect(Effect&& p) noexcept = default;

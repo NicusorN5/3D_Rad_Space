@@ -12,6 +12,7 @@ add_library(3DRadSpace_Reflection STATIC
 	"ReflectedEnum.cpp"
 	"ReflectedObject.cpp"
 	"UUID.cpp"
+	"UnknownVariable.cpp"
 )
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)

@@ -175,21 +175,51 @@ const char* ShaderBase::GetCompilationErrorsAndWarnings()
 	return static_cast<const char*>(this->_errorBlob->GetBufferPointer());
 }
 
+
+
 void ShaderBase::_reflectShader()
 {
 	HRESULT r = D3DReflect(
 		this->_shaderBlob->GetBufferPointer(),
 		this->_shaderBlob->GetBufferSize(),
-		IID_PPV_ARGS(&_reflection)
+		IID_PPV_ARGS(&_reflector)
 	);
 	if (FAILED(r)) throw Exception("Failed to reflect the shader!");
 
-	//TODO...
+	for (int idxCbuffer = 0; ; idxCbuffer++)
+	{
+		auto cbuffer = _reflector->GetConstantBufferByIndex(idxCbuffer);
+		if (cbuffer == nullptr)
+			break;
+	
+		D3D11_SHADER_BUFFER_DESC buffDesc{};
+		r = cbuffer->GetDesc(&buffDesc);
+		if (FAILED(r))
+			break;
+
+		unsigned numVariables = buffDesc.Variables;
+		size_t buffSize = buffDesc.Size;
+
+		for (unsigned idxVariable = 0; idxVariable < numVariables; idxVariable++)
+		{
+			auto variable = cbuffer->GetVariableByIndex(0);
+			if (variable == nullptr)
+				break;
+
+			D3D11_SHADER_VARIABLE_DESC varDesc{};
+			variable->GetDesc(&varDesc);
+		}
+	}
 }
 
 std::vector<Reflection::IReflectedField*> ShaderBase::GetVariables() const
 {
-
+	std::vector<Reflection::IReflectedField*> r;
+	for (int i = 0; i < _reflectedFields.size(); i++)
+	{
+		r.emplace_back(_reflectedFields[i].get());
+	}
+	return r;
 }
 
 void ShaderBase::Set(const std::string& name, const void* data, unsigned dataSize)
