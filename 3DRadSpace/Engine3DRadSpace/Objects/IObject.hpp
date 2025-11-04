@@ -7,7 +7,6 @@
 
 namespace Engine3DRadSpace
 {
-	class IGame;
 	class Game;
 
 	namespace Objects::Gizmos
@@ -18,14 +17,13 @@ namespace Engine3DRadSpace
 	namespace Graphics
 	{
 		class GraphicsDevice;
-		class IGraphicsDevice;
 	}
 
 	class E3DRSP_OBJECTS_EXPORT IObject : public IInitiializable, public IUpdateable, public ILoadable
 	{
 	protected:
-		IGame* _game = nullptr;
-		Graphics::IGraphicsDevice* _device = nullptr;
+		Game* _game = nullptr;
+		Graphics::GraphicsDevice* _device = nullptr;
 		/// <summary>
 		/// Default constructor used for reflection. Objects created with this constructor are initially invalid, until internalInitialize() is called.
 		/// </summary>
@@ -43,13 +41,13 @@ namespace Engine3DRadSpace
 		/// Called by ObjectsList to set the _game Game instance. If there are objects manually managed, this MUST be called before Initialize or EditorInitialize.
 		/// </summary>
 		/// <param name="game">Application context</param>
-		void InternalInitialize(IGame* game);
+		void InternalInitialize(Game* game);
 
 		virtual Reflection::UUID GetUUID() const noexcept = 0;
 		virtual Objects::Gizmos::IGizmo* GetGizmo() const noexcept = 0;
 
-		Graphics::IGraphicsDevice *GetGraphicsDeviceHandle() const noexcept;
-		IGame* GetGame() const noexcept;
+		Graphics::GraphicsDevice *GetGraphicsDeviceHandle();
+		Game* GetGame();
 
 		///Getters and setters for events and visual scripting
 
