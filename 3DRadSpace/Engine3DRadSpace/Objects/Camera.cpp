@@ -62,8 +62,10 @@ void Camera::Draw3D()
 {
 	if(Visible)
 	{
-		_game->View = GetViewMatrix();
-		_game->Projection = GetProjectionMatrix();
+		auto game = static_cast<Game*>(_game);
+
+		game->View = GetViewMatrix();
+		game->Projection = GetProjectionMatrix();
 		Update();
 	}
 }
@@ -72,15 +74,18 @@ void Camera::Update()
 { 
 	if(Visible)
 	{
-		_game->Objects->_camera = this;
+		auto game = static_cast<Game*>(_game);
+		game->Objects->_camera = this;
 	}
 }
 
 void Camera::ForceUpdate()
 {
-	_game->Objects->_camera = this;
-	_game->View = GetViewMatrix();
-	_game->Projection = GetProjectionMatrix();
+	auto game = static_cast<Game*>(_game);
+
+	game->Objects->_camera = this;
+	game->View = GetViewMatrix();
+	game->Projection = GetProjectionMatrix();
 }
 
 Matrix4x4 Camera::GetModelMartix()
@@ -125,9 +130,10 @@ void Camera::Load(const std::filesystem::path& path)
 Camera::~Camera()
 {
 	//Remove the camera reference from the game object list.
-	if(_game && _game->Objects->_camera == this)
+	if(_game)
 	{
-		_game->Objects->_camera = nullptr;
+		if(auto game = static_cast<Game*>(_game); game->Objects->_camera == this)
+		game->Objects->_camera = nullptr;
 	}
 }
 

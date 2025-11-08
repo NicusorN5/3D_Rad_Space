@@ -1,8 +1,6 @@
 #include "SoundSourceGizmo.hpp"
 #include "../../Games/Game.hpp"
-#include "../../Graphics/RasterizerState.hpp"
-#include "../../Graphics/Shaders/MeshHighlight.hpp"
-#include "../../Graphics/Shaders/ShaderManager.hpp"
+#include "../../Graphics/IRasterizerState.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;

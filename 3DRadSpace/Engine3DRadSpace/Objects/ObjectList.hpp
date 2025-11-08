@@ -14,7 +14,7 @@ namespace Engine3DRadSpace
 	template<typename O>
 	concept GameObject = Reflection::ReflectableObject<O> || std::is_same_v<IObject, O> || std::is_same_v<IObject2D, O> || std::is_same_v<IObject3D, O>;
 
-	class E3DRSP_OBJECTS_EXPORT ObjectList
+	class E3DRSP_OBJECTS_EXPORT ObjectList : public IService
 	{
 	public:
 		struct ObjectInstance
@@ -54,7 +54,7 @@ namespace Engine3DRadSpace
 		void _validate(ObjectInstance& instance);
 		void _validate(IObject* instance);
 	public:
-		ObjectList(Game* owner);
+		ObjectList(IGame* owner);
 		ObjectList(const ObjectList&) = delete;
 		ObjectList(ObjectList&&) noexcept = default;
 

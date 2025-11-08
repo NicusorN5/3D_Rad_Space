@@ -1,7 +1,6 @@
 #pragma once
 #include "../Reflection/UUID.hpp"
 #include "../Content/IAsset.hpp"
-#include "../Core/Tag.hpp"
 
 namespace Engine3DRadSpace::Internal
 {

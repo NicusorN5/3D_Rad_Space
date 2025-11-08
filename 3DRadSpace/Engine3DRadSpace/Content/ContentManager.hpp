@@ -97,13 +97,15 @@ namespace Engine3DRadSpace::Content
 				{
 					auto serviceType = r.GetInitializationService<T>({});
 
+					_services[serviceType] = static_cast<IService*>(_owner->GetService(serviceType));
+
 					_types.emplace_back(
 						r.GetUUID<T>({}),
 						[](IService* service, const std::filesystem::path& path) -> IAsset*
 						{
 							return static_cast<IAsset*>(new T(service, path));
 						},
-						_services[serviceType] = _owner->GetService<T>({})
+						_services[serviceType]
 					);
 
 					return true;

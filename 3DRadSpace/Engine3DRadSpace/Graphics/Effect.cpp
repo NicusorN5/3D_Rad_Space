@@ -27,11 +27,12 @@ int Effect::SetAll() const noexcept
 
 bool Effect::Set(int index) const noexcept
 {
-	bool r = false;
 	if (_shaders[index] != nullptr)
 	{
-
+		_shaders[index]->SetShader();
+		return true;
 	}
+	return false;
 }
 
 void Effect::SetTexture(ITexture2D* texture, int idx) noexcept

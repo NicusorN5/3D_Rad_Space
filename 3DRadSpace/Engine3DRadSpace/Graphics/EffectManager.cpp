@@ -11,7 +11,7 @@ EffectManager::EffectManager(IGame* owner) :
 Effect* EffectManager::Add(const std::string& name, std::unique_ptr<Effect>&& effect)
 {
 	_effects[name] = std::move(effect);
-	return _effects[name].get()
+	return _effects[name].get();
 }
 
 IShader* EffectManager::Add(const std::string& name, std::unique_ptr<IShader>&& shader)

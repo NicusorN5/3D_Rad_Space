@@ -8,10 +8,6 @@ namespace Engine3DRadSpace::Graphics::Rendering
 	/// <summary>
 	/// Represents a pixel shader that is applied to the backbuffer.
 	/// </summary>
-	/// <remarks>
-	/// This is almost the same as IFragmentShader, but render target swaps are being done.
-	/// A vertex shader doesn't need to be set to the pipeline, it is set by the PostProcessVertex class.
-	/// </remarks>
 	class E3DRSP_GRAPHICS_RENDERING_EXPORT PostProcessEffect : public IShader
 	{
 	private:
@@ -49,7 +45,10 @@ namespace Engine3DRadSpace::Graphics::Rendering
 		ShaderFeatureLevel GetFeatureLevel() override;
 		std::string GetEntryName() override;
 		const char* GetCompilationErrorsAndWarnings() override;
-		
+
+		void* GetHandle() const noexcept override;
+		IGraphicsDevice* GetGraphicsDevice() const noexcept override;
+
 		~PostProcessEffect() override = default;
 
 		friend class PostProcessCollection;

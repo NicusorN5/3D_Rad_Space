@@ -8,7 +8,7 @@ namespace Engine3DRadSpace::Graphics
 	class ITexture2D;
 	class ISamplerState;
 
-	class E3DRSP_GRAPHICS_EXPORT IShader : IGPUResource
+	class E3DRSP_GRAPHICS_EXPORT IShader : public IGPUResource
 	{
 	protected:
 		IShader() = default;

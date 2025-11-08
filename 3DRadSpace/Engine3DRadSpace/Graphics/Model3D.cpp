@@ -293,7 +293,7 @@ BoundingSphere Model3D::GetBoundingSphere() const noexcept
 	return _sphere;
 }
 
-void Model3D::SetShader(std::shared_ptr<Effect> effect)
+void Model3D::SetShader(Effect* effect)
 {
 	for (auto& mesh : _meshes)
 	{

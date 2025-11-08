@@ -4,8 +4,8 @@
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Internal;
 
-Engine3DRadSpace::ObjectList::ObjectList(Game* owner):
-	_game(owner)
+Engine3DRadSpace::ObjectList::ObjectList(IGame* owner):
+	_game(static_cast<Game*>(owner))
 {
 }
 
@@ -100,7 +100,7 @@ void ObjectList::RemoveIf(std::function<bool(IObject*)> f)
 
 void ObjectList::Replace(IObject* obj, unsigned id) noexcept
 {
-	auto context = _objects[id].Object->GetGame();
+	auto context = static_cast<Game*>(_objects[id].Object->GetGame());
 	_objects[id].Object.reset(obj);
 
 	_objects[id].Object->InternalInitialize(context);

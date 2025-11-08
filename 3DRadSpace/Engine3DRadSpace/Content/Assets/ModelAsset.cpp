@@ -1,6 +1,7 @@
 #include "ModelAsset.hpp"
 #include "../../Graphics/Model3D.hpp"
 #include "../../Core/IService.hpp"
+#include "../../Core/AssetUUIDReader.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content;
@@ -9,6 +10,11 @@ using namespace Engine3DRadSpace::Graphics;
 
 ModelAsset::ModelAsset(IService* device, const std::filesystem::path &path) :
 	_model(new Model3D(static_cast<IGraphicsDevice*>(device), path))
+{
+}
+
+ModelAsset::ModelAsset(Internal::AssetUUIDReader dummy) :
+	_model(nullptr)
 {
 }
 

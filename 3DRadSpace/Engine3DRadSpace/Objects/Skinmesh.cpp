@@ -55,20 +55,23 @@ void Skinmesh::Initialize()
 
 void Skinmesh::Load()
 {
+	auto game = static_cast<Game*>(_game);
+
 	if (_path != nullptr)
 	{
-		_model = _game->Content->Load<Model3D>(*_path);
+		_model = &game->Content->Load<ModelAsset>(*_path)->GetModel();
 		_path.reset();
 	}
 	if (Model)
 	{
-		_model = static_cast<Model3D*>((*_game->Content)[Model]);
+		_model = static_cast<Model3D*>(&(*game->Content)[Model]->GetModel());
 	}
 }
 
 void Skinmesh::Load(const std::filesystem::path& path)
 {
-	_model = _game->Content->Load<Model3D>(path, &Model);
+	auto game = static_cast<Game*>(_game);
+	_model = &game->Content->Load<ModelAsset>(path, &Model)->GetModel();
 }
 
 void Skinmesh::Update()
@@ -83,8 +86,10 @@ Reflection::UUID Skinmesh::GetUUID() const noexcept
 
 void Skinmesh::Draw3D()
 {
+	auto game = static_cast<Game*>(_game);
+
 	if(Visible && _model)
-		_model->Draw(GetModelMartix() * _game->View * _game->Projection);
+		_model->Draw(GetModelMartix() * game->View * game->Projection);
 }
 
 std::optional<float> Skinmesh::Intersects(const Ray&r)

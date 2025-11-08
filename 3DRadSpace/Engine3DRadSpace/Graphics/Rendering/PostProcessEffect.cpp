@@ -59,3 +59,13 @@ void PostProcessEffect::Draw()
 	_device->SetTopology(VertexTopology::TriangleList);
 	_device->DrawScreenQuad();
 }
+
+void* PostProcessEffect::GetHandle() const noexcept
+{
+	return _vertex->GetHandle();
+}
+
+IGraphicsDevice* PostProcessEffect::GetGraphicsDevice() const noexcept
+{
+	return _device;
+}
