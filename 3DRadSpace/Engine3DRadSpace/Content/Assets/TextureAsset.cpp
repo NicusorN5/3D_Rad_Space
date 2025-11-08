@@ -3,6 +3,7 @@
 #include "../../Graphics/DirectX11/GraphicsDevice.hpp"
 #include "../../Graphics/Null/Texture2D.hpp"
 #include "../../Graphics/Null/GraphicsDevice.hpp"
+#include "../../Core/AssetUUIDReader.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content;
@@ -40,4 +41,9 @@ const char* TextureAsset::FileExtension() const noexcept
 std::type_index TextureAsset::InitializationService() const noexcept
 {
 	return typeid(IGraphicsDevice);
+}
+
+ITexture2D* TextureAsset::GetTexture() const noexcept
+{
+	return _texture.get();
 }

@@ -1,7 +1,7 @@
 #include "Model3D.hpp"
 #include "../Core/Logging/Exception.hpp"
 #include "../Core/Logging/AssetLoadingError.hpp"
-#include "../Graphics/EffectManager.hpp"
+#include "../Graphics/IShaderCompiler.hpp"
 
 #include <assimp/scene.h>
 #include <assimp/mesh.h>
@@ -16,11 +16,40 @@ using namespace Engine3DRadSpace::Math;
 
 Assimp::Importer importer;
 
+Effect* Model3D::_loadBasicShader(IGraphicsDevice* device)
+{
+	constexpr const char* basicEffectPath = "Data\\Shaders\\PositionNormalTangentUV.hlsl";
+
+	auto vsBasicEffect = ShaderDescFile(
+		basicEffectPath,
+		"VS_Main",
+		ShaderType::Vertex
+	);
+
+	auto psBasicEffect = ShaderDescFile(
+		basicEffectPath,
+		"PS_Main",
+		ShaderType::Fragment
+	);
+
+	std::array<ShaderDesc*, 2> basicEffectDesc =
+	{
+		&vsBasicEffect,
+		&psBasicEffect
+	};
+
+	auto result = device->ShaderCompiler()->CompileEffect(basicEffectDesc);
+	if (result.second.Succeded == false)
+	{
+		throw Exception("Failed to compile default shader for Model3D!" + result.second.Log);
+	}
+	return result.first;
+}
+
 Model3D::Model3D(IGraphicsDevice* Device, const std::filesystem::path& path) :
 	_device(Device)
 {
-	//basicTexturedNBT = std::make_unique<Shaders::BasicTextured>(Device);
-	//auto basicTexturedNBT = ShaderManager::LoadShader<Shaders::BasicTextured>(Device);
+	auto basicEffect = _loadBasicShader(Device);
 
 	if (!std::filesystem::exists(path)) throw AssetLoadingError(Tag<Model3D>{}, path, "This file doesn't exist!");
 
@@ -122,7 +151,7 @@ Model3D::Model3D(IGraphicsDevice* Device, const std::filesystem::path& path) :
 			continue;
 		}
 
-		auto mesh = std::make_unique<ModelMeshPart>(Device, &vertices[0], numVerts, structSize, indices, nullptr);
+		auto mesh = std::make_unique<ModelMeshPart>(Device, &vertices[0], numVerts, structSize, indices, basicEffect);
 		
 		//determine bounding box and sphere
 		auto aabbMin = scene->mMeshes[i]->mAABB.mMin;

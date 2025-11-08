@@ -1,12 +1,9 @@
 #include "Box.hpp"
-#include "../Shaders/BlankShader.hpp"
-#include "../Shaders/ShaderManager.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Graphics::Primitives;
-using namespace Engine3DRadSpace::Graphics::Shaders;
 using namespace Engine3DRadSpace::Math;
 
 std::array<VertexPositionColor, 8> Box::CreateVertices(const BoundingBox&b, const Color& color)

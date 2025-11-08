@@ -4,6 +4,7 @@
 #include "Gizmos/SpriteGizmo.hpp"
 
 using namespace Engine3DRadSpace;
+using namespace Engine3DRadSpace::Content::Assets;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Input;
 using namespace Engine3DRadSpace::Math;
@@ -38,7 +39,7 @@ Sprite::Sprite(const std::string &name, bool visible, RefTexture2D resource, con
 {
 }
 
-Texture2D* Sprite::GetSpriteImage()
+ITexture2D* Sprite::GetSpriteImage()
 {
 	return _texture;
 }
@@ -49,17 +50,21 @@ void Sprite::Initialize()
 
 void Sprite::Load()
 {
+	auto game = static_cast<Game*>(_game);
+
 	if(_tempResourceString != nullptr)
 	{
-		_texture = _game->Content->Load<Texture2D>(*_tempResourceString);
+		_texture = game->Content->Load<TextureAsset>(*_tempResourceString)->GetTexture();
 		_tempResourceString.reset();
 	}
-	else _texture = static_cast<Texture2D *>((_game->Content->operator[](Image)));
+	else _texture = static_cast<TextureAsset*>((game->Content->operator[](Image)))->GetTexture();
 }
 
 void Sprite::Load(const std::filesystem::path &path)
 {
-	_texture = _game->Content->Load<Texture2D>(path, &Image);
+	auto game = static_cast<Game*>(_game);
+
+	_texture = game->Content->Load<TextureAsset>(path, &Image)->GetTexture();
 }
 
 
@@ -70,7 +75,10 @@ void Sprite::Update()
 void Sprite::Draw2D()
 {
 	FlipMode flip = (FlipU ? FlipMode::FlipHorizontally : FlipMode::None) | (FlipV ? FlipMode::FlipVertically : FlipMode::None);
-	_game->SpriteBatch->DrawNormalized(_texture, RectangleF(Position.X, Position.Y, Scale.X, Scale.Y), Engine3DRadSpace::Math::RectangleF(0,0,1,1), TintColor, Rotation, flip, Depth);
+	
+	auto game = static_cast<Game*>(_game);
+
+	game->SpriteBatch->DrawNormalized(_texture, RectangleF(Position.X, Position.Y, Scale.X, Scale.Y), Engine3DRadSpace::Math::RectangleF(0,0,1,1), TintColor, Rotation, flip, Depth);
 }
 
 Reflection::UUID Sprite::GetUUID() const noexcept

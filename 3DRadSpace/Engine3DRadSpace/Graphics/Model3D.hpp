@@ -16,6 +16,7 @@ namespace Engine3DRadSpace::Graphics
 		IGraphicsDevice* _device;
 		std::vector<std::unique_ptr<ModelMesh>> _meshes;
 
+		Effect* _loadBasicShader(IGraphicsDevice* device);
 		void _processNode(std::vector<std::unique_ptr<ModelMeshPart>> &parts, void* currentNode);
 
 		Math::BoundingSphere _sphere;
