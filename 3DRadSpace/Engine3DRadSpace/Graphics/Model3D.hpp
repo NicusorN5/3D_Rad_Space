@@ -46,7 +46,7 @@ namespace Engine3DRadSpace::Graphics
 		Math::BoundingSphere GetBoundingSphere() const noexcept;
 
 		void SetShader(std::shared_ptr<Effect> effect);
-		void SetShaders(std::span<std::shared_ptr<Effect>> effects);
+		void SetShaders(std::span<Effect*> effects);
 
 		~Model3D() = default;
 

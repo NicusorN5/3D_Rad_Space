@@ -45,7 +45,7 @@ namespace Engine3DRadSpace::Graphics
 		template<typename T>
 		void Set(const std::string& name, const T& value, int shaderIndex) noexcept
 		{
-			_shaders[i]->Set<T>(name, value);
+			_shaders[shaderIndex]->Set<T>(name, value);
 		}
 
 		void SetTexture(ITexture2D* texture, int idx) noexcept;

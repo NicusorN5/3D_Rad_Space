@@ -13,9 +13,17 @@ namespace Engine3DRadSpace::Graphics
 		void* GetHandle() const noexcept override;
 		IGraphicsDevice* GetGraphicsDevice() const noexcept override;
 
-		void SetData(unsigned index, const void *data, unsigned dataSize) override;
+		void SetData(unsigned index, const void *data, size_t dataSize) override;
 		void SetTexture(unsigned index, ITexture2D *texture) override;
+		void SetTextures(std::span<ITexture2D*> textures) override;
 		void SetSampler(unsigned index, ISamplerState *samplerState) override;
+		void SetShader() override;
+		std::vector<Reflection::IReflectedField*> GetVariables() const override;
+		void Set(const std::string& name, const void* data, size_t dataSize) override;
+
+		ShaderFeatureLevel GetFeatureLevel() override;
+		std::string GetEntryName() override;
+		const char* GetCompilationErrorsAndWarnings() override;
 
 		~NullShader() override = default;
 	};

@@ -1,7 +1,6 @@
 #pragma once
 #include "IReflectedFunction.hpp"
 #include "Reflection.hpp"
-#include "../Core/Algorithms/FixedArray.hpp"
 
 namespace Engine3DRadSpace
 {

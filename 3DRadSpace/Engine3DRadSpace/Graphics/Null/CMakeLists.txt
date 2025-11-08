@@ -13,6 +13,7 @@ add_library(3DRadSpace.Graphics.Null STATIC
 	"SamplerState.cpp"
 	"Texture2D.cpp"
 	"VertexBuffer.cpp"
+	"ShaderCompiler.cpp"
 )
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)

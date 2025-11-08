@@ -1,14 +1,15 @@
 #pragma once
 #include "IObject2D.hpp"
 #include "../Reflection/Reflection.hpp"
+#include "../Content/Assets/TextureAsset.hpp"
 
 namespace Engine3DRadSpace::Objects
 {
-	using RefTexture2D = Content::AssetID<Graphics::Texture2D>;
+	using RefTexture2D = Content::AssetID<Content::Assets::TextureAsset>;
 
 	class E3DRSP_OBJECTS_EXPORT Sprite : public IObject2D
 	{
-		Graphics::Texture2D *_texture;
+		Graphics::ITexture2D *_texture;
 		std::unique_ptr<std::string> _tempResourceString;
 	public:
 		Sprite();
@@ -44,7 +45,7 @@ namespace Engine3DRadSpace::Objects
 		bool FlipV;
 
 		RefTexture2D Image;
-		Graphics::Texture2D *GetSpriteImage();
+		Graphics::ITexture2D *GetSpriteImage();
 
 		Math::Color TintColor;
 

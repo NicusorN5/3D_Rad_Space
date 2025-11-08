@@ -304,7 +304,7 @@ void Model3D::SetShader(std::shared_ptr<Effect> effect)
 	}
 }
 
-void Model3D::SetShaders(std::span<std::shared_ptr<Effect>> effects)
+void Model3D::SetShaders(std::span<Effect*> effects)
 {
 	size_t i = 0;
 	size_t len = effects.size();

@@ -1,8 +1,7 @@
 #pragma once
 #include "IPrimitive.hpp"
-#include "../Shaders/BlankShader.hpp"
-#include "../VertexBuffer.hpp"
-#include "../IndexBuffer.hpp"
+#include "../IVertexBuffer.hpp"
+#include "../IIndexBuffer.hpp"
 
 namespace Engine3DRadSpace::Graphics::Primitives
 {

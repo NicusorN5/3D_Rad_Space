@@ -20,7 +20,7 @@ namespace Engine3DRadSpace::Graphics
 	{
 		IGraphicsDevice* _device;
 
-		std::shared_ptr<Effect> _shaders;
+		Effect* _shaders;
 
 		Math::BoundingBox _box;
 		Math::BoundingSphere _sphere;
@@ -34,7 +34,7 @@ namespace Engine3DRadSpace::Graphics
 		ModelMeshPart(
 			Graphics::IVertexBuffer* vert, 
 			Graphics::IIndexBuffer* index,
-			std::shared_ptr<Effect> shaders
+			Effect* shaders
 		);
 
 		ModelMeshPart(
@@ -43,7 +43,7 @@ namespace Engine3DRadSpace::Graphics
 			size_t numVerts,
 			size_t structSize, 
 			std::span<unsigned> indices,
-			std::shared_ptr<Effect> shaders
+			Effect* shaders
 		);
 
 		ModelMeshPart(ModelMeshPart&& meshPart) noexcept = default;
@@ -57,7 +57,7 @@ namespace Engine3DRadSpace::Graphics
 			IGraphicsDevice* Device,
 			std::span<V> vertices,
 			std::span<unsigned> indices,
-			std::shared_ptr<Effect> shaders
+			Effect *shaders
 		);
 
 		Math::Matrix4x4 Transform = Math::Matrix4x4();
@@ -74,7 +74,7 @@ namespace Engine3DRadSpace::Graphics
 		Graphics::IIndexBuffer* GetIndexBuffer() const noexcept;
 
 		Effect* GetShaders() const noexcept;
-		void SetShaders(std::shared_ptr<Effect> shaders);
+		void SetShaders(Effect *shaders);
 
 		/// <summary>
 		/// Creates staging vertex and index buffers available for CPU reading if they don't exist. If they already exist, returns the already created buffers.
@@ -92,7 +92,7 @@ namespace Engine3DRadSpace::Graphics
 		IGraphicsDevice* Device,
 		std::span<V> vertices, 
 		std::span<unsigned> indices,
-		std::shared_ptr<Effect> shaders
+		Effect *shaders
 	):
 		_device(Device),
 		_shaders(shaders)

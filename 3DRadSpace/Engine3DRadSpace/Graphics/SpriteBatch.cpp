@@ -102,7 +102,7 @@ std::array<unsigned, 6> SpriteBatch::_createIndexQuad(unsigned offset)
 
 void SpriteBatch::_prepareGraphicsDevice()
 {
-	_spriteShader->SetBasic();
+	_spriteShader->SetAll();
 	_spriteShader->SetSampler(_samplerState.get(), 0);
 
 //#ifdef USING_DX11

@@ -21,7 +21,7 @@ PostProcessEffect::PostProcessEffect(
 	auto vs = _device->ShaderCompiler()->Compile(&desc);
 	if (vs.second.Succeded)
 	{
-
+		this->_vertex = vs.first;
 	}
 }
 

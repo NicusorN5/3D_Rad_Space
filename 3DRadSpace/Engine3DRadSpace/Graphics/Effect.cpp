@@ -6,8 +6,9 @@ Effect::Effect(
 	IGraphicsDevice *device, 
 	std::span<IShader*> shaders
 ) : 
-	_shaders(shaders)
+	_shaders()
 {
+	_shaders.assign(shaders.begin(), shaders.end());
 }
 
 int Effect::SetAll() const noexcept
