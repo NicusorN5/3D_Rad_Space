@@ -3,6 +3,7 @@
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
+using namespace Engine3DRadSpace::Graphics::DirectX11;
 using namespace Engine3DRadSpace::Logging;
 
 void DepthStencilState::_debugInfo()
@@ -196,4 +197,3 @@ DepthStencilState DepthStencilState::DepthReadReverseZ(GraphicsDevice *device)
         }
     );
 }
-

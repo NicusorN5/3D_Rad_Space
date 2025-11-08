@@ -1,6 +1,6 @@
 #pragma once
 #include "ReflectedObject.hpp"
-#include "..\Core\Algorithms\FixedArray.hpp"
+#include "..\Core\FixedArray.hpp"
 #include "../Core/Tag.hpp"
 #include "EnumEntry.hpp"
 
@@ -9,7 +9,7 @@ namespace Engine3DRadSpace::Reflection
 	class E3DRSP_REFLECTION_EXPORT ReflectedEnum
 	{
 		std::string _enumName;
-		Algorithms::FixedArray<EnumEntry> _entries;
+		FixedArray<EnumEntry> _entries;
 		size_t _typeHash;
 	public:
 		template<typename E> requires std::is_enum_v<E>
@@ -25,7 +25,7 @@ namespace Engine3DRadSpace::Reflection
 		const EnumEntry operator[](unsigned entryId) const noexcept;
 		const size_t TypeHashCode() const noexcept;
 
-		Algorithms::FixedArray<EnumEntry>::Iterator begin();
-		Algorithms::FixedArray<EnumEntry>::Iterator end();
+		FixedArray<EnumEntry>::Iterator begin();
+		FixedArray<EnumEntry>::Iterator end();
 	};
 }

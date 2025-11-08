@@ -17,7 +17,6 @@ namespace Engine3DRadSpace
 
 	namespace Graphics
 	{
-		class GraphicsDevice;
 		class IGraphicsDevice;
 	}
 

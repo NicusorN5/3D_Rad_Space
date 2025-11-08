@@ -1,25 +1,25 @@
 #pragma once
-#include "IShader.hpp"
+#include "ShaderBase.hpp"
 
-namespace Engine3DRadSpace::Graphics
+namespace Engine3DRadSpace::Graphics::DirectX11
 {
-	class E3DRSP_GRAPHICS_EXPORT GeometryShader : public IShader
+	class E3DRSP_GRAPHICS_EXPORT GeometryShader : public ShaderBase
 	{
-#ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11GeometryShader> _shader;
 		const char *_determineTarget();
-#endif
+
 		void _createShader();
-	protected:
+	public:
 		GeometryShader(GraphicsDevice* device, const char* source, const char* fnEntry, ShaderFeatureLevel fs = ShaderFeatureLevel::DX_V4);
 		GeometryShader(GraphicsDevice* device, const std::filesystem::path& path, const char* fnEntry, ShaderFeatureLevel fs = ShaderFeatureLevel::DX_V4);
 
 		GeometryShader(GeometryShader&) = delete;
 		GeometryShader(GeometryShader&&) noexcept = delete;
-		GeometryShader&operator = (GeometryShader&) = delete;
-		GeometryShader&operator = (GeometryShader&&) noexcept = delete;
-	public:
+		GeometryShader& operator = (GeometryShader&) = delete;
+		GeometryShader& operator = (GeometryShader&&) noexcept = delete;
+
 		void SetTexture(unsigned index, ITexture2D *texture) override;
+		void SetTextures(std::span<ITexture2D*> textures) override;
 		void SetSampler(unsigned index, ISamplerState *samplerState) override;
 		void SetShader() override;
 		void* GetHandle() const noexcept override;

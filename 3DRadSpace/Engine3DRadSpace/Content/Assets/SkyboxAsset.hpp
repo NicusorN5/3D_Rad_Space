@@ -19,7 +19,7 @@ namespace Engine3DRadSpace::Content::Assets
 
 		Graphics::Primitives::CubeMapSkybox& GetSkybox() const;
 		Graphics::Primitives::CubeMapSkybox* operator->() const noexcept;
-		Graphics::Primitives::CubeMapSkybox& operator();
+		operator Graphics::Primitives::CubeMapSkybox&() const;
 
 		Reflection::UUID GetUUID() const noexcept override;
 		const char* FileExtension() const noexcept override;

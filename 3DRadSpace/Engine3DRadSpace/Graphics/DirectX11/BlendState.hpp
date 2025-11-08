@@ -9,7 +9,6 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 	/// </summary>
 	class E3DRSP_GRAPHICS_EXPORT BlendState : IBlendState
 	{
-#ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11BlendState> _blendState;
         GraphicsDevice *_device;
 
@@ -19,7 +18,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
         D3D11_BLEND convert3DRSPBlend_toDX11(Blend b);
         D3D11_BLEND_OP convert3DRSPBlendOp_toDX11(BlendOperation op);
         D3D11_COLOR_WRITE_ENABLE convert3DRSPColorWrite_toDX11(ColorWriteEnable flag);
-#endif
+
         void _debugInfo();
         explicit BlendState(GraphicsDevice* device, std::monostate cpy);
 	public:

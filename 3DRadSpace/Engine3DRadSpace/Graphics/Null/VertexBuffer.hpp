@@ -10,7 +10,7 @@ namespace Engine3DRadSpace::Graphics::Null
 {
 	class GraphicsDevice;
 
-	class E3DRSP_GRAPHICS_EXPORT VertexBuffer : IVertexBuffer
+	class E3DRSP_GRAPHICS_NULL_EXPORT VertexBuffer : IVertexBuffer
 	{
 	public:
 		VertexBuffer(
@@ -41,42 +41,14 @@ namespace Engine3DRadSpace::Graphics::Null
 
 		void SetDebugName(const std::string& name);
 
-		[[nodiscard]] VertexBuffer CreateStaging();
+		[[nodiscard]] std::unique_ptr<IVertexBuffer> CreateStaging() override;
+
+		void* GetHandle() const noexcept override;
+		IGraphicsDevice* GetGraphicsDevice() const noexcept override;
 
 		~VertexBuffer() override = default;
 
 		friend class GraphicsDevice;
 		friend class ModelMeshPart;
 	};
-
-	template<VertexDecl V>
-	class VertexBufferV : public VertexBuffer
-	{
-	public:
-		VertexBufferV(_In_ GraphicsDevice* device, _In_ std::span<V> data, BufferUsage usage = BufferUsage::ReadOnlyGPU_WriteOnlyCPU);
-		VertexBufferV(_In_ GraphicsDevice* device, std::nullptr_t no_data, size_t numVerts, BufferUsage usage = BufferUsage::ReadOnlyGPU_WriteOnlyCPU);
-
-		void SetData(std::span<V> data);
-
-		friend class GraphicsDevice;
-	};
-
-	template<VertexDecl V>
-	VertexBufferV<V>::VertexBufferV(_In_ GraphicsDevice* device, _In_ std::span<V> data, BufferUsage usage) :
-		VertexBuffer(device, &data[0], sizeof(V), data.size(), usage)
-	{
-	}
-
-	template<VertexDecl V>
-	VertexBufferV<V>::VertexBufferV(_In_ GraphicsDevice* device, std::nullptr_t no_data, size_t numVerts, BufferUsage usage) :
-		VertexBuffer(device, nullptr, sizeof(V), numVerts, usage)
-	{
-		(void)no_data;
-	}
-
-	template<VertexDecl V>
-	inline void VertexBufferV<V>::SetData(std::span<V> data)
-	{
-		(void)data;
-	}
 }

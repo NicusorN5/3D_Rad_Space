@@ -1,7 +1,7 @@
 #pragma once
-#include "../Libs.hpp"
+#include "Libs.hpp"
 
-namespace Engine3DRadSpace::Algorithms
+namespace Engine3DRadSpace
 {
 	/// <summary>
 	/// "Fixed size array". Represents an array of type T that can be allocated one single time. Unlike std::array, the size can be defined at runtime, and not compile time.

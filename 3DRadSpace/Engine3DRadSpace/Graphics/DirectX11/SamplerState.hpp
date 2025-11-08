@@ -45,7 +45,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		void* GetHandle() const noexcept override;
 		IGraphicsDevice* GetGraphicsDevice() const noexcept override;
 
-		~SamplerState() = default;
+		~SamplerState() override = default;
 
 		friend class VertexShader;
 		friend class FragmentShader;

@@ -2,6 +2,7 @@
 #include "../Core/Logging.hpp"
 #include "GraphicsDevice.hpp"
 #include "SamplerState.hpp"
+#include "../Core/FixedArray.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Logging;
@@ -350,7 +351,6 @@ D3D11_INPUT_ELEMENT_DESC *VertexShader::_generateInputElementDesc(std::span<Inpu
 
 void VertexShader::_generateInputLayout(std::span<InputLayoutElement> inputLayout)
 {
-#ifdef USING_DX11
 	D3D11_INPUT_ELEMENT_DESC *elements = _generateInputElementDesc(inputLayout);
 
 	HRESULT r = _device->_device->CreateInputLayout(
@@ -368,7 +368,6 @@ void VertexShader::_generateInputLayout(std::span<InputLayoutElement> inputLayou
 #endif
 
 	if (FAILED(r)) throw Exception("Failed to create the input layout!");
-#endif
 }
 
 VertexShader::VertexShader(GraphicsDevice*Device, const char *shaderSourceCode, const char *vsEntry, ShaderFeatureLevel fl):
@@ -387,6 +386,10 @@ VertexShader::VertexShader(GraphicsDevice*Device, const std::filesystem::path &p
 {
 	_compileShaderFromFile(path.string().c_str(), _determineTarget());
 	_createShader();
+
+	std::span<InputLayoutElement> inputLayout;
+	//TODO: Generate input layout from reflection.
+
 	_generateInputLayout(inputLayout);
 }
 
@@ -394,36 +397,40 @@ void VertexShader::SetTexture(unsigned index, ITexture2D *texture)
 {
 	if(texture == nullptr)
 		return;
-#ifdef USING_DX11
+
 	auto dxTexture = dynamic_cast<DirectX11::Texture2D*>(texture);
 	_device->_context->VSSetShaderResources(index, 1, dxTexture->_resourceView.GetAddressOf());
-#endif
+}
+
+void VertexShader::SetTextures(std::span<ITexture2D*> textures)
+{
+	FixedArray<ID3D11ShaderResourceView*> views(textures.size());
+
+	for (size_t i = 0; i < textures.size() && i < D3D11_COMMONSHADER_INPUT_RESOURCE_REGISTER_COUNT; i++)
+	{
+		views[i] = static_cast<ID3D11ShaderResourceView*>(textures[i]->GetHandle());
+	}
+
+	_device->_context->VSSetShaderResources(0, textures.size(), &views[0]);
 }
 
 void VertexShader::SetSampler(unsigned index, ISamplerState *samplerState)
 {
-#ifdef USING_DX11
-	auto dxSamplerState = dynamic_cast<DirectX11::SamplerState*>(samplerState);
+	auto dxSamplerState = static_cast<DirectX11::SamplerState*>(samplerState);
 	_device->_context->VSSetSamplers(index, 1, dxSamplerState->_samplerState.GetAddressOf());
-#endif
 }
 
 void VertexShader::SetShader()
 {
-#ifdef  USING_DX11
 	unsigned i;
 	auto validConstantBuffers = this->_validConstantBuffers(i);
 	_device->_context->VSSetConstantBuffers(0, i, validConstantBuffers.data());
 
 	_device->_context->IASetInputLayout(_inputLayout.Get());
 	_device->_context->VSSetShader(_shader.Get(), nullptr, 0);
-#endif //  USING_DX11
-
 }
 
 void* VertexShader::GetHandle() const noexcept
 {
-#ifdef USING_DX11
 	return static_cast<void*>(_shader.Get());
-#endif
 }

@@ -519,7 +519,7 @@ EditorWindow::~EditorWindow()
 	UnregisterClassA(EditorWindowClassName, _hInstance);
 }
 
-GraphicsDevice*EditorWindow::GetGraphicsDevice()
+IGraphicsDevice* EditorWindow::GetGraphicsDevice()
 {
 	return this->editor->Device.get();
 }

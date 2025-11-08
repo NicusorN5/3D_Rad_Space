@@ -1,21 +1,23 @@
 #pragma once
 #include "ShaderCompilationResult.hpp"
 #include "ShaderDesc.hpp"
+#include "EffectManager.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {
 	class Effect;
+	class IShader;
 
 	class E3DRSP_GRAPHICS_EXPORT IShaderCompiler
 	{
 	protected:
-		IShaderCompiler() = default;
+		std::unique_ptr<EffectManager> _manager;
 	public:
-		using CompileOutput = std::pair<std::unique_ptr<IShader>, ShaderCompilationResult>;
-		using EffectCompileOutput = std::pair<std::unique_ptr<Effect>, ShaderCompilationResult>;
+		using CompileOutput = std::pair<IShader*, ShaderCompilationResult>;
+		using EffectCompileOutput = std::pair<Effect*, ShaderCompilationResult>;
 
-		virtual CompileOutput Compile(const ShaderDesc* desc) = 0;
-		virtual std::vector<EffectCompileOutput> CompileEffect(const ShaderDesc* const* descs) = 0;
+		virtual [[nodiscard]] CompileOutput Compile(const ShaderDesc* desc) = 0;
+		virtual [[nodiscard]] EffectCompileOutput CompileEffect(std::span<ShaderDesc*> descs) = 0;
 
 		virtual ~IShaderCompiler() = default;
 	};

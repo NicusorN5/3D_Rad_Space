@@ -207,14 +207,16 @@ StaticRigidbody::StaticRigidbody()
 
 void StaticRigidbody::Load()
 {
+	auto game = static_cast<Game*>(_game);
+
 	if(_path != nullptr)
 	{
-		_model = &_game->Content->Load<ModelAsset>(*_path)->GetModel();
+		_model = &game->Content->Load<ModelAsset>(*_path)->GetModel();
 		_path.reset();
 	}
 	if(Model)
 	{
-		_model = &static_cast<ModelAsset*>((*_game->Content)[Model])->GetModel();
+		_model = &static_cast<ModelAsset*>((*game->Content)[Model])->GetModel();
 	}
 
 	_generateRigidbody();
@@ -222,7 +224,8 @@ void StaticRigidbody::Load()
 
 void StaticRigidbody::Load(const std::filesystem::path &path)
 {
-	_model = &_game->Content->Load<ModelAsset>(path)->GetModel();
+	auto game = static_cast<Game*>(_game);
+	_model = &game->Content->Load<ModelAsset>(path)->GetModel();
 	_generateRigidbody();
 }
 

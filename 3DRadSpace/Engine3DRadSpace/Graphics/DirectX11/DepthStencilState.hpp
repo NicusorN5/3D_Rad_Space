@@ -2,7 +2,7 @@
 #include "GraphicsDevice.hpp"
 #include "../IDepthStencilState.hpp"
 
-namespace Engine3DRadSpace::Graphics
+namespace Engine3DRadSpace::Graphics::DirectX11
 {
 	class E3DRSP_GRAPHICS_EXPORT DepthStencilState : public IDepthStencilState
 	{

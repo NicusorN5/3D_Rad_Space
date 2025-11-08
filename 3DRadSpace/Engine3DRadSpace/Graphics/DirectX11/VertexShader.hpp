@@ -20,7 +20,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		[[nodiscard]] D3D11_INPUT_ELEMENT_DESC *_generateInputElementDesc(std::span<InputLayoutElement> inputLayout);
 #endif
 		void _generateInputLayout(std::span<InputLayoutElement> inputLayout);
-	protected:
+	public:
 		/// <summary>
 		/// Constructs a vertex shader from a string containing the source code.
 		/// </summary>
@@ -48,12 +48,12 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 
 		VertexShader &operator=(VertexShader&) = delete;
 		VertexShader &operator=(VertexShader&&) noexcept = delete;
-	public:
-		virtual std::span<InputLayoutElement> InputLayout() = 0;
 
 		void SetTexture(unsigned index, ITexture2D *texture) override;
+		void SetTextures(std::span<ITexture2D*> textures) override;
 		void SetSampler(unsigned index, ISamplerState *samplerState) override;
 		void SetShader() override;
+		
 		void* GetHandle() const noexcept override;
 
 		virtual ~VertexShader() = default;

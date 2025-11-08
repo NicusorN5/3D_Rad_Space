@@ -1,10 +1,14 @@
 #include "DomainShader.hpp"
 #include "ShaderCompilationError.hpp"
+#include "GraphicsDevice.hpp"
+#include "SamplerState.hpp"
+#include "../Core/FixedArray.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
+using namespace Engine3DRadSpace::Graphics::DirectX11;
 
-const char * DomainShader::_determineTarget()
+const char *DomainShader::_determineTarget()
 {
 	switch(_featureLevel)
 	{
@@ -24,7 +28,6 @@ const char * DomainShader::_determineTarget()
 
 void DomainShader::_createShader()
 {
-#ifdef USING_DX11
 	HRESULT r = _device->_device->CreateDomainShader(
 		_shaderBlob->GetBufferPointer(),
 		_shaderBlob->GetBufferSize(),
@@ -38,7 +41,6 @@ void DomainShader::_createShader()
 	const char shaderName[] = "DomainShader::_shader";
 	_shader->SetPrivateData(WKPDID_D3DDebugObjectName, sizeof(shaderName) - 1, shaderName);
 #endif //  _DEBUG
-#endif
 }
 
 DomainShader::DomainShader(GraphicsDevice *device, const char *source, const char *fnEntry, ShaderFeatureLevel fs) :
@@ -55,36 +57,31 @@ DomainShader::DomainShader(GraphicsDevice *device, const std::filesystem::path &
 	_createShader();
 }
 
-void DomainShader::SetTexture(unsigned index, Texture2D *texture)
+void DomainShader::SetTexture(unsigned index, ITexture2D *texture)
 {
 	if(texture == nullptr)
 		return;
-#ifdef USING_DX11
-	_device->_context->DSSetShaderResources(index, 1, texture->_resourceView.GetAddressOf());
-#endif
+
+	auto dxTexture = static_cast<Texture2D*>(texture);
+	_device->_context->DSSetShaderResources(index, 1, dxTexture->_resourceView.GetAddressOf());
 }
 
-void DomainShader::SetSampler(unsigned index, SamplerState *samplerState)
+void DomainShader::SetSampler(unsigned index, ISamplerState *samplerState)
 {
-#ifdef USING_DX11
-	_device->_context->DSSetSamplers(index, 1, samplerState->_samplerState.GetAddressOf());
-#endif // USING_DX11
+	auto dxSamplerState = static_cast<SamplerState*>(samplerState);
+	_device->_context->DSSetSamplers(index, 1, dxSamplerState->_samplerState.GetAddressOf());
 }
 
 void DomainShader::SetShader()
 {
-#ifdef USING_DX11
 	unsigned i;
 	auto validConstantBuffers = this->_validConstantBuffers(i);
 	_device->_context->DSSetConstantBuffers(0, i, validConstantBuffers.data());
 
 	_device->_context->DSSetShader(_shader.Get(), nullptr, 0);
-#endif // USING_DX11
 }
 
 void* DomainShader::GetHandle() const noexcept
 {
-#ifdef USING_DX11
 	return static_cast<void*>(_shader.Get());
-#endif
 }

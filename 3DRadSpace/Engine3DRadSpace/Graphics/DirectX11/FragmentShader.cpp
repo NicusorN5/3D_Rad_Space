@@ -1,5 +1,7 @@
 #include "FragmentShader.hpp"
 #include "ShaderCompilationError.hpp"
+#include "GraphicsDevice.hpp"
+#include "SamplerState.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
@@ -42,64 +44,57 @@ const char * FragmentShader::_determineTarget()
 }
 
 FragmentShader::FragmentShader(GraphicsDevice *device, const char *shaderSource, const char *entryFunction, ShaderFeatureLevel fl):
-	IShader(device, shaderSource, entryFunction, fl)
+	ShaderBase(device, shaderSource, entryFunction, fl)
 {
 	_compileShader(shaderSource, _determineTarget());
 	_createShader();
 }
 
 FragmentShader::FragmentShader(GraphicsDevice *device, const std::filesystem::path &path, const char *entryFunction, ShaderFeatureLevel fl):
-	IShader(device, path, entryFunction, fl)
+	ShaderBase(device, path, entryFunction, fl)
 {
 	_compileShaderFromFile(path.string().c_str(), _determineTarget());
 	_createShader();
 }
 
-void FragmentShader::SetTexture(unsigned index, Texture2D *texture)
+void FragmentShader::SetTexture(unsigned index, ITexture2D *texture)
 {
 	if(texture == nullptr)
 		return;
-#ifdef USING_DX11
-	_device->_context->PSSetShaderResources(index, 1, texture->_resourceView.GetAddressOf());
-#endif // USING_DX11
+
+	auto dxTexture = static_cast<Texture2D*>(texture);
+	_device->_context->PSSetShaderResources(index, 1, dxTexture->_resourceView.GetAddressOf());
 }
 
-void FragmentShader::SetTextures(std::span<Texture2D*> textures)
+void FragmentShader::SetTextures(std::span<ITexture2D*> textures)
 {
-#ifdef USING_DX11
 	std::unique_ptr<ID3D11ShaderResourceView* []> srvs = std::make_unique<ID3D11ShaderResourceView* []>(textures.size());
 	auto len = textures.size();
 
 	for(decltype(len) i = 0; i < len; i++)
 	{
-		srvs[i] = textures[i]->_resourceView.Get();
+		srvs[i] = static_cast<Texture2D*>(textures[i])->_resourceView.Get();
 	}
 
 	_device->_context->PSSetShaderResources(0, len, srvs.get());
-#endif // USING_DX11
 }
 
-void FragmentShader::SetSampler(unsigned index, SamplerState *samplerState)
+void FragmentShader::SetSampler(unsigned index, ISamplerState *samplerState)
 {
-#ifdef USING_DX11
-	_device->_context->PSSetSamplers(0, 1, samplerState->_samplerState.GetAddressOf());
-#endif
+	auto dxSamplerState = static_cast<SamplerState*>(samplerState);
+	_device->_context->PSSetSamplers(0, 1, dxSamplerState->_samplerState.GetAddressOf());
 }
 
 void FragmentShader::SetShader()
 {
-#ifdef USING_DX11
 	unsigned i;
 	auto validConstantBuffers = this->_validConstantBuffers(i);
 	_device->_context->PSSetConstantBuffers(0, i, validConstantBuffers.data());
 
 	_device->_context->PSSetShader(_shader.Get(), nullptr, 0);
-#endif
 }
 
 void* FragmentShader::GetHandle() const noexcept
 {
-#ifdef USING_DX11
 	return static_cast<void*>(_shader.Get());
-#endif
 }

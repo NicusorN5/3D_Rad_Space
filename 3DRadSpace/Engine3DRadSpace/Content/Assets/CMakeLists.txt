@@ -8,7 +8,7 @@ add_library(3DRadSpace.Content.Assets STATIC
 	"TextureAsset.cpp"
 	"FontAsset.cpp"
 	"ModelAsset.cpp"
-	"EffectAsset.cpp"
+	
 )
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)

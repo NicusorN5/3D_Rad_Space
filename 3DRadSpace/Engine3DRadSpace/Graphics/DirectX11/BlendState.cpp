@@ -10,7 +10,6 @@ using namespace Engine3DRadSpace::Math;
 BlendState::BlendState(GraphicsDevice *device):
 	_device(device)
 {
-#ifdef USING_DX11
 	D3D11_BLEND_DESC blendDesc;
 	blendDesc.AlphaToCoverageEnable = false;
 	blendDesc.IndependentBlendEnable = false;
@@ -27,15 +26,16 @@ BlendState::BlendState(GraphicsDevice *device):
 	for(int i = 1; i < 8; i++)
 		blendDesc.RenderTarget[i] = blendDesc.RenderTarget[0];
 
+	if (device == nullptr)
+		throw Exception("Null device");
+
 	HRESULT r = device->_device->CreateBlendState(&blendDesc, _blendState.GetAddressOf());
 	if (FAILED(r))
 		throw Exception("Failed to create a default blend state!");
 	
 	_debugInfo();
-#endif
 }
 
-#ifdef USING_DX11
 D3D11_BLEND BlendState::convert3DRSPBlend_toDX11(Blend b)
 {
 	switch(b)
@@ -119,23 +119,19 @@ D3D11_BLEND_OP BlendState::convert3DRSPBlendOp_toDX11(BlendOperation op)
 			return D3D11_BLEND_OP_ADD;
 	}
 }
-#endif
 
 BlendState::BlendState(GraphicsDevice* device, std::monostate cpy):
 	_device(device)
 {
-#ifdef USING_DX11
 	float factor[4];
 
 	device->_context->OMGetBlendState(&this->_blendState, factor, &_sampleMask);
 	this->_blendFactor = Color(factor[0], factor[1], factor[2], factor[3]);
-#endif
 }
 
 BlendState::BlendState(GraphicsDevice *device, bool alphaCoverage, bool indepedentBlend,const RenderTargetBlendState &renderTargetBlendState):
 	_device(device)
 {
-#ifdef USING_DX11
 	D3D11_BLEND_DESC blendDesc;
 	blendDesc.AlphaToCoverageEnable = alphaCoverage;
 	blendDesc.IndependentBlendEnable = indepedentBlend;
@@ -155,13 +151,11 @@ BlendState::BlendState(GraphicsDevice *device, bool alphaCoverage, bool indepede
 	HRESULT r = device->_device->CreateBlendState(&blendDesc, _blendState.GetAddressOf());
 	if(FAILED(r))
 		throw Exception("Failed to create a default blend state!");
-#endif
 }
 
 BlendState::BlendState(GraphicsDevice *device, bool alphaCoverage, bool indepedentBlend, std::array<RenderTargetBlendState, 8> renderTargetBlendStates):
 	_device(device)
 {
-#ifdef USING_DX11
 	D3D11_BLEND_DESC blendDesc;
 	blendDesc.AlphaToCoverageEnable = alphaCoverage;
 	blendDesc.IndependentBlendEnable = indepedentBlend;
@@ -183,10 +177,8 @@ BlendState::BlendState(GraphicsDevice *device, bool alphaCoverage, bool indepede
 		throw Exception("Failed to create a default blend state!");
 
 	_debugInfo();
-#endif
 }
 
-#ifdef USING_DX11
 D3D11_COLOR_WRITE_ENABLE BlendState::convert3DRSPColorWrite_toDX11(ColorWriteEnable flag)
 {
 	switch(flag)
@@ -203,15 +195,12 @@ D3D11_COLOR_WRITE_ENABLE BlendState::convert3DRSPColorWrite_toDX11(ColorWriteEna
 			return D3D11_COLOR_WRITE_ENABLE_ALL;
 	}
 }
-#endif
 
 void BlendState::_debugInfo()
 {
-#ifdef USING_DX11
 #ifdef _DEBUG
 	const char blendStateName[] = "BlendState::_blendState";
 	_blendState->SetPrivateData(WKPDID_D3DDebugObjectName, sizeof(blendStateName) - 1, blendStateName);
-#endif
 #endif
 }
 

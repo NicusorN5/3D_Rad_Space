@@ -5,9 +5,12 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 {
     class GraphicsDevice;
 
-    class E3DRSP_GRAPHICS_EXPORT ShaderCompiler : public IShaderCompiler
+    class E3DRSP_GRAPHICS_EXPORT ShaderCompiler final: public IShaderCompiler
     {
         GraphicsDevice* _device;
+
+        std::string shaderID_file(const ShaderDescFile* fileDesc);
+        std::string shaderID(const ShaderDesc* fileDesc);
     public:
         ShaderCompiler(GraphicsDevice* device);
 
@@ -18,7 +21,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
         ShaderCompiler& operator=(ShaderCompiler&&) = delete;
 
         [[nodiscard]] CompileOutput Compile(const ShaderDesc* desc) override;
-        [[nodiscard]] std::vector<CompileOutput> CompileEffect(std::span<ShaderDesc*> descs) override;
+        [[nodiscard]] EffectCompileOutput CompileEffect(std::span<ShaderDesc*> descs) override;
 
         ~ShaderCompiler() override = default;
     };

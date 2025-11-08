@@ -10,7 +10,7 @@ namespace Engine3DRadSpace::Graphics::Rendering
 	class E3DRSP_GRAPHICS_RENDERING_EXPORT PostProcessCollection
 	{
 	private:
-		GraphicsDevice* _device;
+		IGraphicsDevice* _device;
 		std::vector<std::unique_ptr<PostProcessEffect>> _effects;
 
 		std::unique_ptr<ITexture2D> _backbuffer_cpy;
@@ -20,7 +20,7 @@ namespace Engine3DRadSpace::Graphics::Rendering
 		/// Instantiates the list of effects.
 		/// </summary>
 		/// <param name="device">Graphics device.</param>
-		PostProcessCollection(GraphicsDevice* device);
+		PostProcessCollection(IGraphicsDevice* device);
 
 		PostProcessCollection(PostProcessCollection&&) noexcept = default;
 		PostProcessCollection& operator=(PostProcessCollection&&) noexcept = default;

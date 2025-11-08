@@ -34,7 +34,7 @@ D3D11_DEPTH_STENCIL_VIEW_DESC DepthStencilBuffer::_defaultDepthViewDesc()
 
 D3D11_SHADER_RESOURCE_VIEW_DESC DepthStencilBuffer::_defaultShaderViewDesc()
 {
-	D3D11_SHADER_RESOURCE_VIEW_DESC sr_desc;
+	D3D11_SHADER_RESOURCE_VIEW_DESC sr_desc{};
 	sr_desc.Format = DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
 	sr_desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 	sr_desc.Texture2D.MostDetailedMip = 0;
@@ -44,7 +44,6 @@ D3D11_SHADER_RESOURCE_VIEW_DESC DepthStencilBuffer::_defaultShaderViewDesc()
 
 void DepthStencilBuffer::_createDepthTexture(unsigned x, unsigned y)
 {
-#ifdef  USING_DX11
 	D3D11_TEXTURE2D_DESC desc = _defaultDepthDesc(x, y);
 
 	Microsoft::WRL::ComPtr<ID3D11Texture2D> depthTexture;
@@ -72,8 +71,6 @@ void DepthStencilBuffer::_createDepthTexture(unsigned x, unsigned y)
 #endif // _DEBUG
 
 	_depthTexture.reset(new Texture2D(_device, std::move(depthTexture), std::move(depthView)));
-
-#endif //  USING_DX11
 }
 
 DepthStencilBuffer::DepthStencilBuffer(GraphicsDevice *device):
@@ -96,17 +93,16 @@ void* DepthStencilBuffer::GetViewHandle() const noexcept
 
 void* DepthStencilBuffer::GetDepthTextureHandle() const noexcept
 {
-	return _depthTexture->TextureHandle();
+	return _depthTexture->GetHandle();
 }
 
-Texture2D* DepthStencilBuffer::GetDepthTexture() const noexcept
+ITexture2D* DepthStencilBuffer::GetDepthTexture() const noexcept
 {
 	return this->_depthTexture.get();
 }
 
-Texture2D DepthStencilBuffer::CloneDepthTexture()
+std::unique_ptr<ITexture2D> DepthStencilBuffer::CloneDepthTexture()
 {
-#ifdef USING_DX11
 	Texture2D texture(Internal::AssetUUIDReader{});
 
 	texture._device = this->_device;
@@ -128,8 +124,7 @@ Texture2D DepthStencilBuffer::CloneDepthTexture()
 
 	texture._retrieveSize();
 
-	return texture;
-#endif
+	return std::make_unique<Texture2D>(std::move(texture));
 }
 
 void* DepthStencilBuffer::GetHandle() const noexcept

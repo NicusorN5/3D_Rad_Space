@@ -14,9 +14,7 @@
 
 //Engine3DRadSpace
 #include "Core/Libs.hpp"
-
-//Engine3DRadSpace::Algorithms
-#include "Core\Algorithms\FixedArray.hpp"
+#include "Core/FixedArray.hpp"
 
 //Engine3DRadSpace::Audio
 #include "Audio\AudioBuffer.hpp"
@@ -29,7 +27,6 @@
 #include "Audio\SoundState.hpp"
 
 //Engine3DRadSpace::Content
-#include "Content\AssetFactory.hpp"
 #include "Content\AssetID.hpp"
 #include "Content\ContentManager.hpp"
 #include "Content\IAsset.hpp"

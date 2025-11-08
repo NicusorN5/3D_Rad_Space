@@ -124,7 +124,7 @@ ShaderBase::ShaderBase(GraphicsDevice *Device, const std::filesystem::path &path
 	_reflectShader();
 }
 
-void ShaderBase::SetData(unsigned index, const void *data, unsigned dataSize)
+void ShaderBase::SetData(unsigned index, const void *data, size_t dataSize)
 {
 #ifdef USING_DX11
 	if (_constantBuffers[index].Get() == nullptr)
@@ -222,7 +222,12 @@ std::vector<Reflection::IReflectedField*> ShaderBase::GetVariables() const
 	return r;
 }
 
-void ShaderBase::Set(const std::string& name, const void* data, unsigned dataSize)
+void ShaderBase::Set(const std::string& name, const void* data, size_t dataSize)
 {
 
+}
+
+IGraphicsDevice* ShaderBase::GetGraphicsDevice() const noexcept
+{
+	return _device;
 }

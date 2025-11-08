@@ -26,3 +26,18 @@ std::type_index FontAsset::InitializationService() const noexcept
 {
 	return typeid(IGraphicsDevice);
 }
+
+Font* FontAsset::GetFont() const noexcept
+{
+	return _font.get();
+}
+
+Font* FontAsset::operator->() const noexcept
+{
+	return _font.get();
+}
+
+FontAsset::operator Font&() const
+{
+	return *_font;
+}

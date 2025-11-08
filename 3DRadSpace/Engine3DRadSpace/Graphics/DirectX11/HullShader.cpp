@@ -1,12 +1,15 @@
 #include "HullShader.hpp"
 #include "ShaderCompilationError.hpp"
+#include "GraphicsDevice.hpp"
+#include "SamplerState.hpp"
+#include "../Core/FixedArray.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
+using namespace Engine3DRadSpace::Graphics::DirectX11;
 
 void HullShader::_createShader()
 {
-#ifdef USING_DX11
 	HRESULT r = _device->_device->CreateHullShader(
 		_shaderBlob->GetBufferPointer(),
 		_shaderBlob->GetBufferSize(),
@@ -19,7 +22,6 @@ void HullShader::_createShader()
 #ifdef _DEBUG
 	const char shaderName[] = "HullShader::_shader";
 	_shader->SetPrivateData(WKPDID_D3DDebugObjectName, sizeof(shaderName) - 1, shaderName);
-#endif
 #endif
 }
 
@@ -42,49 +44,56 @@ const char * HullShader::_determineTarget()
 }
 
 HullShader::HullShader(GraphicsDevice *device, const char *shaderSource, const char *hsEntry, ShaderFeatureLevel fl):
-	IShader(device, shaderSource, hsEntry, fl)
+	ShaderBase(device, shaderSource, hsEntry, fl)
 {
 	_compileShader(shaderSource, _determineTarget());
 	_createShader();
 }
 
 HullShader::HullShader(GraphicsDevice *device, const std::filesystem::path &path, const char *hsEntry, ShaderFeatureLevel fl):
-	IShader(device, path, hsEntry, fl)
+	ShaderBase(device, path, hsEntry, fl)
 {
 	_compileShaderFromFile(path.string().c_str(), _determineTarget());
 	_createShader();
 }
 
-void HullShader::HullShader(unsigned index, Texture2D *texture)
+void HullShader::SetTexture(unsigned index, ITexture2D *texture)
 {
 	if(texture == nullptr)
 		return;
-#ifdef USING_DX11
-	_device->_context->HSSetShaderResources(index, 1, texture->_resourceView.GetAddressOf());
-#endif
+
+	auto dxTexture2D = static_cast<Texture2D*>(texture);
+	_device->_context->HSSetShaderResources(index, 1, dxTexture2D->_resourceView.GetAddressOf());
 }
 
-void HullShader::SetSampler(unsigned index, SamplerState *samplerState)
+void HullShader::SetTextures(std::span<ITexture2D*> textures)
 {
-#ifdef USING_DX11
-	_device->_context->HSSetSamplers(index, 1, samplerState->_samplerState.GetAddressOf());
-#endif // USING_DX11
+	FixedArray<ID3D11ShaderResourceView*> views(textures.size());
+
+	for (size_t i = 0; i < textures.size() && i < D3D11_COMMONSHADER_INPUT_RESOURCE_REGISTER_COUNT; i++)
+	{
+		views[i] = static_cast<ID3D11ShaderResourceView*>(textures[i]->GetHandle());
+	}
+
+	_device->_context->HSSetShaderResources(0, textures.size(), &views[0]);
+}
+
+void HullShader::SetSampler(unsigned index, ISamplerState *samplerState)
+{
+	auto dxSamplerState = static_cast<SamplerState*>(samplerState);
+	_device->_context->HSSetSamplers(index, 1, dxSamplerState->_samplerState.GetAddressOf());
 }
 
 void HullShader::SetShader()
 {
-#ifdef USING_DX11
 	unsigned i;
 	auto validConstantBuffers = this->_validConstantBuffers(i);
 	_device->_context->HSSetConstantBuffers(0, i, validConstantBuffers.data());
 
 	_device->_context->HSSetShader(_shader.Get(), nullptr, 0);
-#endif // USING_DX11
 }
 
 void* HullShader::GetHandle() const noexcept
 {
-#ifdef USING_DX11
 	return static_cast<void*>(_shader.Get());
-#endif
 }

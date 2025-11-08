@@ -1,6 +1,5 @@
 #include "Texture2D.hpp"
 
-#ifdef USING_DX11
 #include <directxtk/WICTextureLoader.h>
 #include <directxtk/DDSTextureLoader.h>
 #include <Windows.h>
@@ -8,18 +7,14 @@
 #include <wincodec.h>
 
 #pragma comment( lib, "dxguid.lib") 
-#endif // USING_DX11
 #include "../Core/Logging/Exception.hpp"
 #include "../Core/Logging/AssetLoadingError.hpp"
 #include "GraphicsDevice.hpp"
 #include "RenderTarget.hpp"
-#include "Shaders/ShaderManager.hpp"
-#include "Shaders\SpriteShader.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content;
 using namespace Engine3DRadSpace::Graphics;
-using namespace Engine3DRadSpace::Graphics::Shaders;
 using namespace Engine3DRadSpace::Logging;
 using namespace Engine3DRadSpace::Math;
 
@@ -27,7 +22,6 @@ Texture2D::Texture2D(GraphicsDevice* device, const std::filesystem::path &path):
 	_device(device)
 {
 	auto filename = path.wstring();
-#ifdef USING_DX11
 	ID3D11Resource** resource = reinterpret_cast<ID3D11Resource**>(_texture.GetAddressOf());
 
 	HRESULT r = DirectX::CreateWICTextureFromFileEx(
@@ -68,7 +62,6 @@ Texture2D::Texture2D(GraphicsDevice* device, const std::filesystem::path &path):
 	}
 
 	_retrieveSize();
-#endif
 }
 
 Texture2D::Texture2D(GraphicsDevice *device, std::span<Color> colors, unsigned x, unsigned y):
@@ -76,7 +69,6 @@ Texture2D::Texture2D(GraphicsDevice *device, std::span<Color> colors, unsigned x
 	_width(x),
 	_height(y)
 {
-#ifdef USING_DX11
 	D3D11_TEXTURE2D_DESC tDesc{};
 	tDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	tDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
@@ -98,7 +90,7 @@ Texture2D::Texture2D(GraphicsDevice *device, std::span<Color> colors, unsigned x
 
 	r = device->_device->CreateShaderResourceView(_texture.Get(), nullptr, _resourceView.GetAddressOf());
 	if (FAILED(r)) throw Exception("Failed to create a shader resource view! " + std::system_category().message(r));
-#endif
+
 	_debugInfoTX2D();
 }
 
@@ -107,7 +99,6 @@ Texture2D::Texture2D(GraphicsDevice* device, void* buffer, unsigned x, unsigned 
 	_width(x),
 	_height(y)
 {
-#ifdef USING_DX11
 	D3D11_TEXTURE2D_DESC tDesc{};
 	tDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	tDesc.Format = _getTextureFormat(format);
@@ -129,7 +120,7 @@ Texture2D::Texture2D(GraphicsDevice* device, void* buffer, unsigned x, unsigned 
 
 	r = device->_device->CreateShaderResourceView(_texture.Get(), nullptr, _resourceView.GetAddressOf());
 	if (FAILED(r)) throw Exception("Failed to create a shader resource view!" + std::system_category().message(r));
-#endif
+
 	_debugInfoTX2D();
 }
 
@@ -138,7 +129,6 @@ Texture2D::Texture2D(GraphicsDevice* device, Color* colors, unsigned x, unsigned
 	_width(x),
 	_height(y)
 {
-#ifdef USING_DX11
 	D3D11_TEXTURE2D_DESC desc{};
 	desc.Width = x;
 	desc.Height = y;
@@ -160,7 +150,6 @@ Texture2D::Texture2D(GraphicsDevice* device, Color* colors, unsigned x, unsigned
 
 	r = device->_device->CreateShaderResourceView(_texture.Get(), nullptr, _resourceView.GetAddressOf());
 	if (FAILED(r)) throw Exception("Failed to create a shader resource view!" + std::system_category().message(r));
-#endif
 	_debugInfoTX2D();
 }
 
@@ -200,7 +189,6 @@ Texture2D::Texture2D(GraphicsDevice *device, unsigned x, unsigned y, PixelFormat
 	_width(x),
 	_height(y)
 {
-#ifdef USING_DX11
 	D3D11_TEXTURE2D_DESC desc{};
 	desc.Width = x;
 	desc.Height = y;
@@ -218,39 +206,33 @@ Texture2D::Texture2D(GraphicsDevice *device, unsigned x, unsigned y, PixelFormat
 
 	r = device->_device->CreateShaderResourceView(_texture.Get(), nullptr, _resourceView.GetAddressOf());
 	if (FAILED(r)) throw Exception("Failed to create a shader resource view!" + std::system_category().message(r));
-#endif
 	_debugInfoTX2D();
 }
 
 void Texture2D::_debugInfoTX2D()
 {
 #ifdef _DEBUG
-#ifdef USING_DX11
 	const char textureName[] = "Texture2D::_texture";
 	_texture->SetPrivateData(WKPDID_D3DDebugObjectName, sizeof(textureName) - 1, textureName);
 
 	const char resourceViewName[] = "Texture2D::_resourceView";
 	_resourceView->SetPrivateData(WKPDID_D3DDebugObjectName, sizeof(resourceViewName) - 1, resourceViewName);
 #endif
-#endif
 }
 
 void Texture2D::_debugInfoRT()
 {
 #ifdef _DEBUG
-#ifdef USING_DX11
 	const char textureName[] = "RenderTarget(Texture2D)::_texture";
 	_texture->SetPrivateData(WKPDID_D3DDebugObjectName, sizeof(textureName) - 1, textureName);
 
 	const char resourceViewName[] = "RenderTarget(Texture2D)::_resourceView";
 	_resourceView->SetPrivateData(WKPDID_D3DDebugObjectName, sizeof(resourceViewName) - 1, resourceViewName);
 #endif
-#endif
 }
 
 void Texture2D::_retrieveSize()
 {
-#ifdef  USING_DX11
 	//Retrieve the image size
 	D3D11_TEXTURE2D_DESC desc;
 	_texture->GetDesc(&desc);
@@ -258,10 +240,8 @@ void Texture2D::_retrieveSize()
 	_width = desc.Width;
 	_height = desc.Height;
 	_format = _getTextureFormatFromDX(desc.Format);
-#endif //  USING_DX11
 }
 
-#ifdef  USING_DX11
 DXGI_FORMAT Texture2D::_getTextureFormat(PixelFormat format)
 {
 	switch (format)
@@ -569,14 +549,12 @@ PixelFormat Texture2D::_getTextureFormatFromDX(DXGI_FORMAT format)
 		return PixelFormat::Unknown;
 	}
 }
-#endif
 
 Texture2D::Texture2D(GraphicsDevice *device, unsigned x, unsigned y, bool bindRenderTarget, PixelFormat format):
 	_device(device),
 	_width(x),
 	_height(y)
 {
-#ifdef USING_DX11
 	D3D11_TEXTURE2D_DESC desc{};
 	desc.Width = x;
 	desc.Height = y;
@@ -594,7 +572,7 @@ Texture2D::Texture2D(GraphicsDevice *device, unsigned x, unsigned y, bool bindRe
 
 	r = device->_device->CreateShaderResourceView(_texture.Get(), nullptr, _resourceView.GetAddressOf());
 	if (FAILED(r)) throw Exception("Failed to create a shader resource view!" + std::system_category().message(r));
-#endif
+
 	_debugInfoTX2D();
 }
 
@@ -602,7 +580,7 @@ Texture2D::Texture2D(GraphicsDevice *device, std::monostate dummy, bool bindRend
 	_device(device)
 {
 	(void)dummy;
-#ifdef USING_DX11
+
 	D3D11_TEXTURE2D_DESC desc{};
 	desc.Width = device->_resolution.X;
 	desc.Height = device->_resolution.Y;
@@ -620,7 +598,6 @@ Texture2D::Texture2D(GraphicsDevice *device, std::monostate dummy, bool bindRend
 
 	r = device->_device->CreateShaderResourceView(_texture.Get(), nullptr, _resourceView.GetAddressOf());
 	if (FAILED(r)) throw Exception("Failed to create a shader resource view!" + std::system_category().message(r));
-#endif
 
 	_width = device->_resolution.X;
 	_height = device->_resolution.Y;
@@ -635,7 +612,6 @@ Texture2D::Texture2D(Internal::AssetUUIDReader a):
 {
 }
 
-#ifdef USING_DX11
 Texture2D::Texture2D(GraphicsDevice* device, Microsoft::WRL::ComPtr<ID3D11Texture2D>&& texture, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>&& resource) :
 	_device(device),
 	_texture(std::move(texture)),
@@ -652,11 +628,9 @@ Texture2D::Texture2D(GraphicsDevice* device, std::monostate dummy, Microsoft::WR
 	(void)dummy;
 	_retrieveSize();
 }
-#endif
 
 void Texture2D::SetColors(Color** colors, unsigned x, unsigned y)
 {
-#ifdef USING_DX11
 	D3D11_MAPPED_SUBRESOURCE resource;
 
 	HRESULT r = _device->_context->Map(_texture.Get(), 0, D3D11_MAP_WRITE, 0, &resource);
@@ -664,12 +638,10 @@ void Texture2D::SetColors(Color** colors, unsigned x, unsigned y)
 
 	memcpy(resource.pData, colors, sizeof(Color) * x * y);
 	_device->_context->Unmap(_texture.Get(), 0);
-#endif
 }
 
 Texture2D Texture2D::CreateStaging(Texture2D* texture)
 {
-#ifdef USING_DX11
 	D3D11_TEXTURE2D_DESC desc{};
 	texture->_texture->GetDesc(&desc);
 
@@ -687,7 +659,6 @@ Texture2D Texture2D::CreateStaging(Texture2D* texture)
 	if (FAILED(r)) throw Exception("Failed to create a staging texture!" + std::system_category().message(r));
 
 	texture->_device->_context->CopyResource(stagingTexture.Get(), texture->_texture.Get());
-#endif
 
 	return Texture2D(texture->_device, std::monostate(), std::move(stagingTexture));
 }
@@ -726,13 +697,11 @@ void Texture2D::Resize(unsigned newX, unsigned newY)
 
 void Texture2D::SaveToFile(const std::string &path)
 {
-#ifdef USING_DX11
 	wchar_t wpath[_MAX_PATH]{};
 	MultiByteToWideChar(CP_ACP, 0, path.c_str(), -1, wpath, _MAX_PATH);
 
 	HRESULT r = DirectX::SaveWICTextureToFile(_device->_context.Get(), _texture.Get(), GUID_ContainerFormatPng, wpath, nullptr, nullptr, true);
 	if(FAILED(r)) throw Exception("Failed to save file!" + std::system_category().message(r));
-#endif
 }
 
 unsigned Texture2D::Width() const noexcept
@@ -752,7 +721,6 @@ Point Texture2D::Size() const noexcept
 
 Texture2D Texture2D::Clone()
 {
-#ifdef USING_DX11
 	Microsoft::WRL::ComPtr<ID3D11Texture2D> copy = nullptr;
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> srv = nullptr;
 
@@ -768,31 +736,27 @@ Texture2D Texture2D::Clone()
 	if (FAILED(r)) throw Exception("Failed to recreate the shader resource view!" + std::system_category().message(r));
 
 	return Texture2D(_device, std::move(copy), std::move(srv));
-#endif
 }
 
 std::pair<void*, size_t> Texture2D::BeginRead(unsigned resourceID)
 {
-#ifdef USING_DX11
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 
 	HRESULT r = _device->_context->Map(_texture.Get(), resourceID, D3D11_MAP_READ, 0, &mappedResource);
 	if(SUCCEEDED(r)) return { mappedResource.pData, mappedResource.RowPitch * _height };
 	else return { nullptr, 0 };
-#endif
 }
 
 void Texture2D::EndRead(unsigned resourceID)
 {
-#ifdef USING_DX11
 	_device->_context->Unmap(_texture.Get(), 0);
-#endif
 }
 
 void* Texture2D::GetHandle() const noexcept override
 {
-	return 
+	return _resourceView.Get();
 }
+
 virtual IGraphicsDevice* Texture2D::GetGraphicsDevice() const noexcept override
 {
 	return _device;
@@ -805,9 +769,9 @@ size_t Texture2D::ReadData(void **data) override
 	*data = ptr;
 	return s;
 }
+
 void Texture2D::SetData(void *data, size_t buffSize) override
 {
-#ifdef USING_DX11
 	D3D11_MAPPED_SUBRESOURCE resource;
 
 	HRESULT r = _device->_context->Map(_texture.Get(), 0, D3D11_MAP_WRITE, 0, &resource);
@@ -815,8 +779,8 @@ void Texture2D::SetData(void *data, size_t buffSize) override
 
 	memcpy(resource.pData, data, buffsize);
 	_device->_context->Unmap(_texture.Get(), 0);
-#endif
 }
+
 void Texture2D::EndRead() override
 {
 	EndRead(0);
@@ -824,17 +788,10 @@ void Texture2D::EndRead() override
 
 void Texture2D::Copy(Texture2D* destination, Texture2D* source)
 {
-#ifdef USING_DX11
 	destination->_device->_context->CopyResource(destination->_texture.Get(), source->_texture.Get());
-#endif
 }
 
-void* Texture2D::TextureHandle() const noexcept
-{
-	return _texture.Get();
-}
-
-void* Texture2D::ResourceViewHandle() const noexcept
+void* Texture2D::GetViewHandle() const noexcept
 {
 	return _resourceView.Get();
 }

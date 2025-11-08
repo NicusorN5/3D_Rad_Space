@@ -66,6 +66,8 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		//void SetTransformFromCamera(const Objects::Camera& camera);
 
 		void Draw3D() override;
+		
+		~CubeMapSkybox() override = default;
 
 		friend class Engine3DRadSpace::Content::Assets::SkyboxAsset;
 	};

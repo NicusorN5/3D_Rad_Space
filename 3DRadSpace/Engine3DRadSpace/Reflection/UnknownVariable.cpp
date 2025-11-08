@@ -12,14 +12,15 @@ UnknownVariable::UnknownVariable(
 {
 }
 
-const void* UnknownVariable::Get(void* objPtr)
+const void* UnknownVariable::Get(void* objPtr) const
 {
-	return objPtr + _offset;
+	return static_cast<void*>(static_cast<std::byte*>(objPtr) + _offset);
 }
 
-void UnknownVariable::Set(void* objPtr, const void* value)
+void UnknownVariable::Set(void* objPtr, const void* value) const
 {
-	memcpy(objPtr + _offset, value, _size);
+	auto ptr = static_cast<void*>(static_cast<std::byte*>(objPtr) + _offset);
+	memcpy(ptr, value, _size);
 }
 
 const void* UnknownVariable::DefaultValue() const
@@ -29,5 +30,5 @@ const void* UnknownVariable::DefaultValue() const
 
 FieldRepresentation UnknownVariable::Representation() const
 {
-	return FieldRepresentation::Unknown;
+	return { {FieldRepresentationType::Unknown, ""} };
 }

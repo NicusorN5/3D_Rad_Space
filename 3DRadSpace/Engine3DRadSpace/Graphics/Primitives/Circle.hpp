@@ -1,6 +1,6 @@
 #pragma once
 #include "LineStrip.hpp"
-#include "../../Core/Algorithms/FixedArray.hpp"
+#include "../../Core/FixedArray.hpp"
 
 namespace Engine3DRadSpace::Graphics::Primitives
 {
@@ -10,7 +10,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 	public:
 		Circle(IGraphicsDevice* device, float radius = 1.0f, Math::Color color = Math::Colors::White, unsigned resolution = 100);
 
-		[[nodiscard]] static Algorithms::FixedArray<VertexPositionColor> CreateCircleVertices(float radius, unsigned resolution, Math::Color color);
+		[[nodiscard]] static FixedArray<VertexPositionColor> CreateCircleVertices(float radius, unsigned resolution, Math::Color color);
 
 		float GetRadius() const noexcept;
 

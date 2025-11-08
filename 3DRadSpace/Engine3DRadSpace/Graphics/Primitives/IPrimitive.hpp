@@ -2,7 +2,7 @@
 #include "../../Objects/IDrawable3D.hpp"
 #include "../../Math/Matrix4x4.hpp"
 #include "../ModelMeshPart.hpp"
-#include "../Shaders/BlankShader.hpp"
+#include "../Effect.hpp"
 #include "../VertexDeclarations.hpp"
 
 namespace Engine3DRadSpace::Graphics::Primitives
@@ -23,7 +23,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		std::unique_ptr<IVertexBuffer> _vertices;
 		std::unique_ptr<IIndexBuffer> _indices;
 
-		std::shared_ptr<Shaders::BlankShader> _shader;
+		std::shared_ptr<Effect> _shader;
 
 		Math::Matrix4x4 _mvp() const noexcept;
 	public:

@@ -21,7 +21,8 @@ IPhysicsObject::IPhysicsObject():
 
 void IPhysicsObject::Initialize()
 {
-	_physics = _game->Physics.get();
+	auto game = static_cast<Game*>(_game);
+	_physics = game->Physics.get();
 }
 
 PhysicsEngine* IPhysicsObject::GetPhysics() const noexcept

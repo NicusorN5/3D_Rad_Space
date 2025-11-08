@@ -41,7 +41,7 @@ namespace Engine3DRadSpace
 		Game& operator=(Game&&) = delete;
 
 		std::unique_ptr<Native::Window> Window;
-		std::unique_ptr<Graphics::GraphicsDevice> Device;
+		std::unique_ptr<Graphics::IGraphicsDevice> Device;
 		std::unique_ptr<ObjectList> Objects;
 
 		Math::Matrix4x4 View;

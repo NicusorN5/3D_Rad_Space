@@ -19,8 +19,10 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 
 		void _debugInfoTX2D();
 		void _debugInfoRT();
+#if USING_DX11
         explicit Texture2D(GraphicsDevice* device, Microsoft::WRL::ComPtr<ID3D11Texture2D>&& texture, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>&& resource);
         explicit Texture2D(GraphicsDevice* device, std::monostate dummy, Microsoft::WRL::ComPtr<ID3D11Texture2D>&& texture);
+#endif
 	protected:
 #ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11Texture2D> _texture;
@@ -130,8 +132,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 
 		static void Copy(Texture2D* destination, Texture2D* source);
 
-		void* TextureHandle() const noexcept;
-		void* ResourceViewHandle() const noexcept;
+		void* GetViewHandle() const noexcept;
 
 		virtual ~Texture2D() = default;
 

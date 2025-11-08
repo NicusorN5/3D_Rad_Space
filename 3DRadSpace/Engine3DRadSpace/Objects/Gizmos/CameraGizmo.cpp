@@ -2,6 +2,7 @@
 #include "../../Graphics/Model3D.hpp"
 #include "../../Graphics/IRenderTarget.hpp"
 #include "../../Graphics/IDepthStencilBuffer.hpp"
+#include "../../Graphics/IGraphicsDevice.hpp"
 #include "../../Games/Game.hpp"
 #include "../ObjectList.hpp"
 
@@ -35,7 +36,7 @@ void Gizmo<Camera>::Load()
 
 	if(_cameraPreview == nullptr)
 	{
-		_cameraPreview = std::unique_ptr<void, std::function<void(void*)>>(device->CreateRenderTarget(res.X, res.Y).release(),
+		_cameraPreview = std::unique_ptr<void, std::function<void(void*)>>(device->CreateRenderTarget(res.X, res.Y, PixelFormat::R32G32B32A32_Float).release(),
 			[](void* rt)
 			{
 				delete static_cast<IRenderTarget*>(rt);
@@ -78,7 +79,7 @@ void Gizmo<Camera>::Draw3D()
 
 	auto cameraModel = static_cast<Model3D*>(_cameraModel.get());
 	
-	auto game = Object->GetGame();
+	auto game = static_cast<Game*>(Object->GetGame());
 
 	auto view = game->View;
 	auto proj = game->Projection;
@@ -91,7 +92,7 @@ void Gizmo<Camera>::Draw2D()
 	if(Object == nullptr) return;
 
 	auto camera = static_cast<Camera*>(Object);
-	auto game = Object->GetGame();
+	auto game = static_cast<Game*>(Object->GetGame());
 	auto view = game->View;
 	auto proj = game->Projection;
 
@@ -105,8 +106,8 @@ void Gizmo<Camera>::Draw2D()
 		game->Projection = camera->GetProjectionMatrix();
 		game->Objects->SetRenderingCamera(camera);
 
-		auto cameraPreview = static_cast<RenderTarget*>(_cameraPreview.get());
-		auto cameraPreviewDepth = static_cast<DepthStencilBuffer*>(_cameraPreviewDepth.get());
+		auto cameraPreview = static_cast<IRenderTarget*>(_cameraPreview.get());
+		auto cameraPreviewDepth = static_cast<IDepthStencilBuffer*>(_cameraPreviewDepth.get());
 
 		game->Device->SetRenderTargetAndDepth(cameraPreview, cameraPreviewDepth);
 		game->Device->ClearRenderTarget(cameraPreview);

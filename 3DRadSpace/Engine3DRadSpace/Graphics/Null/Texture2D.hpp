@@ -60,8 +60,7 @@ namespace Engine3DRadSpace::Graphics::Null
 
 		static void Copy(Texture2D* destination, Texture2D* source);
 
-		void* TextureHandle() const noexcept;
-		void* ResourceViewHandle() const noexcept;
+		void* GetViewHandle() const noexcept override;
 
 		~Texture2D() override = default;
 	};

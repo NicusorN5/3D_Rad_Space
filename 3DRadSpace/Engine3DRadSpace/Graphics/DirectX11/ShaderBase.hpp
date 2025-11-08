@@ -38,13 +38,15 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		ShaderBase& operator=(ShaderBase&) = delete;
 		ShaderBase& operator=(ShaderBase&&) noexcept = default;
 
-		void SetData(unsigned index, const void* data, unsigned dataSize) override;
+		void SetData(unsigned index, const void* data, size_t dataSize) override;
 		ShaderFeatureLevel GetFeatureLevel() override;
 		std::string GetEntryName() override;
 		const char* GetCompilationErrorsAndWarnings() override;
 
 		std::vector<Reflection::IReflectedField*> GetVariables() const override;
-		void Set(const std::string& name, const void* data, unsigned dataSize) override;
+		void Set(const std::string& name, const void* data, size_t dataSize) override;
+
+		IGraphicsDevice* GetGraphicsDevice() const noexcept override;
 
 		~ShaderBase() override = default;
 

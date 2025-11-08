@@ -18,8 +18,8 @@ PostProcessEffect::PostProcessEffect(
 		ShaderType::Vertex
 	);
 
-	auto c = _device->ShaderCompiler()->Compile(&desc);
-	if (c.second.Succeded)
+	auto vs = _device->ShaderCompiler()->Compile(&desc);
+	if (vs.second.Succeded)
 	{
 
 	}
@@ -35,6 +35,23 @@ void PostProcessEffect::Apply()
 	this->SetTexture(1, _depthBuffer_copy);
 
 	_device->SetShader(this);
+}
+
+void PostProcessEffect::SetTexture(unsigned index, ITexture2D* texture)
+{
+	_vertex->SetTexture(index, texture);
+	_effect->SetTexture(index, texture);
+}
+
+void PostProcessEffect::SetSampler(unsigned index, ISamplerState* sampler)
+{
+	_vertex->SetSampler(index, sampler);
+	_effect->SetSampler(index, sampler);
+}
+
+void PostProcessEffect::SetData(unsigned index, const void* data, size_t size)
+{
+	_effect->SetData(index, data, size);
 }
 
 void PostProcessEffect::Draw()

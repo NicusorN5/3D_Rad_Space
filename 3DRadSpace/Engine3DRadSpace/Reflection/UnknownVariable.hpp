@@ -13,8 +13,8 @@ namespace Engine3DRadSpace::Reflection
 			const std::string& desc
 		);
 
-		const void* Get(void* objPtr) override;
-		void Set(void* objPtr, const void* value) override;
+		const void* Get(void* objPtr) const override;
+		void Set(void* objPtr, const void* value) const override;
 
 		const void* DefaultValue() const override;
 

@@ -30,6 +30,12 @@ namespace Engine3DRadSpace
 			const char* FileExtension() const noexcept override;
 
 			std::type_index InitializationService() const noexcept override;
+			
+			Graphics::Font* GetFont() const noexcept;
+			Graphics::Font* operator->() const noexcept;
+			operator Graphics::Font& () const;
+
+			~FontAsset() override = default;
 		};
 	}
 }

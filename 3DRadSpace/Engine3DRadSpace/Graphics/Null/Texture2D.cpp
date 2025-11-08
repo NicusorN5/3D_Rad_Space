@@ -139,11 +139,7 @@ void Texture2D::Copy(Texture2D* destination, Texture2D* source)
 	(void)source;
 }
 
-void* Texture2D::TextureHandle() const noexcept
-{
-	return nullptr;
-}
-void* Texture2D::ResourceViewHandle() const noexcept
+void* Texture2D::GetViewHandle() const noexcept
 {
 	return nullptr;
 }

@@ -7,5 +7,6 @@ namespace Engine3DRadSpace::Graphics
 	{
 		std::string Log;
 		bool Succeded;
+		std::string Identifier;
 	};
 }

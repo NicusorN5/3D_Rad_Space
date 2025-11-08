@@ -12,6 +12,8 @@ namespace Engine3DRadSpace::Graphics
 		virtual unsigned Width() const noexcept = 0;
 		virtual unsigned Height() const noexcept = 0;
 
+		virtual void* GetViewHandle() const noexcept = 0;
+
 		virtual [[nodiscard]] std::unique_ptr<ITexture2D> CreateStaging() = 0;
 	};
 }

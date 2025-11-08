@@ -187,14 +187,14 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 			bool alphaCoverage, 
 			bool indepedentBlend,
 			std::array<RenderTargetBlendState, 8> renderTargetBlendStates
-		) = 0;
+		) override;
 
 		std::unique_ptr<IDepthStencilBuffer> CreateDepthStencilBuffer(
 			size_t x,
 			size_t y,
 			PixelFormat format,
 			BufferUsage usage
-		) = 0;
+		) override;
 
 		std::unique_ptr<IDepthStencilState> CreateDepthStencilState(
 			bool EnableDepth, 
@@ -205,13 +205,13 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 			uint8_t WriteMask,
 			FaceOperation FrontFace,
 			FaceOperation BackFace
-		) = 0;
+		) override;
 
-		virtual IShaderCompiler* ShaderCompiler() = 0;
+		virtual IShaderCompiler* ShaderCompiler() override;
 		///<summmary>
 		///Returns a 2x2 blank white texture.
 		///</summary>
-		virtual ITexture2D* WhiteBlank() = 0;
+		virtual ITexture2D* WhiteBlank() override;
 
 		virtual std::unique_ptr<IIndexBuffer> CreateIndexBuffer(std::span<unsigned> indices) override;
 		virtual std::unique_ptr<IIndexBuffer> CreateIndexBuffer(size_t numIndices, BufferUsage usage) override;

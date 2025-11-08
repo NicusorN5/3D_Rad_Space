@@ -26,7 +26,8 @@ void Fog::Load()
 
 void Fog::Initialize()
 {
-	_effect = &_game->PostProcesses->Add<LinearPixelFogEffect>(_game->Device.get());
+	auto game = static_cast<Game*>(_game);
+	_effect = &game->PostProcesses->Add<LinearPixelFogEffect>(game->Device.get());
 	Update();
 }
 
@@ -39,8 +40,10 @@ void Fog::Update()
 	_effect->Enabled = Enabled;
 	_effect->FogColor = FogColor;
 
-	_effect->NearPlaneDistance = _game->Objects->GetRenderingCamera()->NearPlaneDistance;
-	_effect->FarPlaneDistance = _game->Objects->GetRenderingCamera()->FarPlaneDistance;
+	auto game = static_cast<Game*>(_game);
+
+	_effect->NearPlaneDistance = game->Objects->GetRenderingCamera()->NearPlaneDistance;
+	_effect->FarPlaneDistance = game->Objects->GetRenderingCamera()->FarPlaneDistance;
 
 	_effect->FogBegin = FogBegin / _effect->FarPlaneDistance;
 	_effect->FogEnd = FogEnd / _effect->FarPlaneDistance;

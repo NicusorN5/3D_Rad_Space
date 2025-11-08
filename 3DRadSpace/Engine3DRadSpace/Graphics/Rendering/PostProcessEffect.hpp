@@ -12,17 +12,17 @@ namespace Engine3DRadSpace::Graphics::Rendering
 	/// This is almost the same as IFragmentShader, but render target swaps are being done.
 	/// A vertex shader doesn't need to be set to the pipeline, it is set by the PostProcessVertex class.
 	/// </remarks>
-	class E3DRSP_GRAPHICS_RENDERING_EXPORT PostProcessEffect
+	class E3DRSP_GRAPHICS_RENDERING_EXPORT PostProcessEffect : public IShader
 	{
 	private:
 		IShader* _vertex;
+		std::unique_ptr<IShader> _effect;
 	protected:
-		PostProcessEffect(IGraphicsDevice* device, const ShaderDesc& desc);
-
 		IGraphicsDevice* _device;
 		ITexture2D* _backbuffer_copy;
 		ITexture2D* _depthBuffer_copy;
 	public:
+		PostProcessEffect(IGraphicsDevice* device, const ShaderDesc& desc);
 		/// <summary>
 		/// Is this effect enabled?
 		/// </summary>
@@ -37,7 +37,20 @@ namespace Engine3DRadSpace::Graphics::Rendering
 		/// </summary>
 		void Draw();
 
-		virtual ~PostProcessEffect() = default;
+		void SetTexture(unsigned index, ITexture2D* texture) override;
+		void SetTextures(std::span<ITexture2D*> textures) override;
+		void SetSampler(unsigned index, ISamplerState* sampler) override;
+		void SetData(unsigned index, const void* data, size_t size) override;
+		void SetShader() override;
+
+		std::vector<Reflection::IReflectedField*> GetVariables() const override;
+		void Set(const std::string& name, const void* data, size_t dataSize) override;
+
+		ShaderFeatureLevel GetFeatureLevel() override;
+		std::string GetEntryName() override;
+		const char* GetCompilationErrorsAndWarnings() override;
+		
+		~PostProcessEffect() override = default;
 
 		friend class PostProcessCollection;
 	};
