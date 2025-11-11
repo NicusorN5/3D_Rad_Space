@@ -123,8 +123,8 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, unsigned width, unsigne
 		VertexPointUV{a, uv_a}
 	};
 
-	_screenQuad = std::make_unique<VertexBufferV<VertexPointUV>>(this, quad);
-	_screenQuad->SetDebugName("GraphicsDevice::_screenQuad");
+	_screenQuad = std::make_unique<VertexBuffer>(std::span<VertexPointUV>(quad), BufferUsage::ReadOnlyGPU);
+	//_screenQuad->SetDebugName("GraphicsDevice::_screenQuad");
 
 #if _DEBUG
 	const char deviceName[] = "GraphicsDevice::_device";
@@ -157,19 +157,18 @@ void GraphicsDevice::Clear(const Color& clearColor)
 #endif
 }
 
-void GraphicsDevice::ClearRenderTarget(RenderTarget* rt, const Color& clearColor)
+void GraphicsDevice::ClearRenderTarget(IRenderTarget* rt, const Color& clearColor)
 {
-#ifdef USING_DX11
+	auto dxrt = static_cast<DirectX11::RenderTarget*>(rt);
+
 	float color[4] = { clearColor.R,clearColor.G,clearColor.B,clearColor.A };
-	_context->ClearRenderTargetView(rt->_renderTarget.Get(), color);
-#endif
+	_context->ClearRenderTargetView(dxrt->_renderTarget.Get(), color);
 }
 
-void GraphicsDevice::ClearDepthBuffer(DepthStencilBuffer* depth)
+void GraphicsDevice::ClearDepthBuffer(IDepthStencilBuffer* depth)
 {
-#ifdef USING_DX11
-	_context->ClearDepthStencilView(depth->_depthView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0x00);
-#endif
+	auto dxdepth = static_cast<DepthStencilBuffer*>(depth);
+	_context->ClearDepthStencilView(dxdepth->_depthView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0x00);
 }
 
 void GraphicsDevice::SetViewport()
@@ -220,12 +219,11 @@ Viewport GraphicsDevice::GetViewport()
 #endif
 }
 
-void GraphicsDevice::SetRenderTarget(RenderTarget *renderTarget)
+void GraphicsDevice::SetRenderTarget(IRenderTarget *renderTarget)
 {
-#ifdef USING_DX11
-	auto rt = renderTarget != nullptr ? renderTarget->_renderTarget.GetAddressOf() : _backbufferRT->_renderTarget.GetAddressOf();
+	auto dxrt = static_cast<RenderTarget*>(renderTarget);
+	auto rt = dxrt != nullptr ? dxrt->_renderTarget.GetAddressOf() : _backbufferRT->_renderTarget.GetAddressOf();
 	_context->OMSetRenderTargets(1, rt, _stencilBuffer->_depthView.Get());
-#endif
 }
 
 void GraphicsDevice::UnbindRenderTargetAndDepth()
@@ -251,54 +249,55 @@ void GraphicsDevice::UnbindDepthBuffer()
 #endif
 }
 
-void GraphicsDevice::SetRenderTargetAndDepth(RenderTarget *renderTarget, DepthStencilBuffer *depthBuffer)
+void GraphicsDevice::SetRenderTargetAndDepth(IRenderTarget *renderTarget, IDepthStencilBuffer *depthBuffer)
 {
-#ifdef USING_DX11
-	auto depthviewBuffer = depthBuffer != nullptr ? depthBuffer->_depthView.Get() : _stencilBuffer->_depthView.Get();
-	auto renderTargetView = renderTarget != nullptr ? renderTarget->_renderTarget.GetAddressOf() : _backbufferRT->_renderTarget.GetAddressOf();
+	auto dxrt = static_cast<RenderTarget*>(renderTarget);
+	auto dxdepth = static_cast<DepthStencilBuffer*>(depthBuffer);
+
+	auto depthviewBuffer = dxrt != nullptr ? dxdepth->_depthView.Get() : _stencilBuffer->_depthView.Get();
+	auto renderTargetView = dxrt != nullptr ? dxrt->_renderTarget.GetAddressOf() : _backbufferRT->_renderTarget.GetAddressOf();
 	_context->OMSetRenderTargets(1, renderTargetView, depthviewBuffer);
-#endif
 }
 
-void GraphicsDevice::SetRenderTargetAndDisableDepth(RenderTarget* renderTarget)
+void GraphicsDevice::SetRenderTargetAndDisableDepth(IRenderTarget* renderTarget)
 {
-#ifdef USING_DX11
-	auto renderTargetView = renderTarget != nullptr ? renderTarget->_renderTarget.GetAddressOf() : _backbufferRT->_renderTarget.GetAddressOf();
+	auto dxrt = static_cast<RenderTarget*>(renderTarget);
+	auto renderTargetView = renderTarget != nullptr ? dxrt->_renderTarget.GetAddressOf() : _backbufferRT->_renderTarget.GetAddressOf();
 	_context->OMSetRenderTargets(1, renderTargetView, nullptr);
-#endif
 }
 
-void GraphicsDevice::DrawVertexBuffer(VertexBuffer* vertexBuffer, unsigned startSlot)
+void GraphicsDevice::DrawVertexBuffer(IVertexBuffer* vertexBuffer, unsigned startSlot)
 {
-#ifdef USING_DX11
-	UINT strides = UINT(vertexBuffer->_structSize);
+	auto dxvb = static_cast<VertexBuffer*>(vertexBuffer);
+	UINT strides = UINT(dxvb->_structSize);
 	UINT offsets = 0;
-	_context->IASetVertexBuffers(startSlot, 1, vertexBuffer->_buffer.GetAddressOf(), &strides, &offsets);
+	_context->IASetVertexBuffers(startSlot, 1, dxvb->_buffer.GetAddressOf(), &strides, &offsets);
 	_context->IASetIndexBuffer(nullptr, DXGI_FORMAT_UNKNOWN, 0);
-	_context->Draw(UINT(vertexBuffer->_numVerts), UINT(startSlot));
-#endif
+	_context->Draw(UINT(dxvb->_numVerts), UINT(startSlot));
 }
 
-void GraphicsDevice::DrawVertexBufferWithindices(VertexBuffer* vertexBuffer, IndexBuffer* indexBuffer)
+void GraphicsDevice::DrawVertexBufferWithindices(IVertexBuffer* vertexBuffer, IIndexBuffer* indexBuffer)
 {
-#ifdef USING_DX11
-	UINT strides = UINT(vertexBuffer->_structSize);
+	auto dxvb = static_cast<VertexBuffer*>(vertexBuffer);
+	auto dxib = static_cast<IndexBuffer*>(indexBuffer);
+
+	UINT strides = UINT(dxvb->_structSize);
 	UINT offsets = 0;
-	_context->IASetIndexBuffer(indexBuffer->_indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
-	_context->IASetVertexBuffers(0, 1, vertexBuffer->_buffer.GetAddressOf(), &strides, &offsets);
-	_context->DrawIndexed(UINT(indexBuffer->_numIndices),0u, 0u);
-#endif
+	_context->IASetIndexBuffer(dxib->_indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
+	_context->IASetVertexBuffers(0, 1, dxvb->_buffer.GetAddressOf(), &strides, &offsets);
+	_context->DrawIndexed(UINT(dxib->_numIndices),0u, 0u);
 }
 
-void GraphicsDevice::DrawVertexBufferWithindices(VertexBuffer* vertexBuffer, IndexBuffer* indexBuffer, unsigned numIndices)
+void GraphicsDevice::DrawVertexBufferWithindices(IVertexBuffer* vertexBuffer, IIndexBuffer* indexBuffer, unsigned numIndices)
 {
-#ifdef USING_DX11
-	UINT strides = UINT(vertexBuffer->_structSize);
+	auto dxvb = static_cast<VertexBuffer*>(vertexBuffer);
+	auto dxib = static_cast<IndexBuffer*>(indexBuffer);
+
+	UINT strides = UINT(dxvb->_structSize);
 	UINT offsets = 0;
-	_context->IASetIndexBuffer(indexBuffer->_indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
-	_context->IASetVertexBuffers(0, 1, vertexBuffer->_buffer.GetAddressOf(), &strides, &offsets);
+	_context->IASetIndexBuffer(dxib->_indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
+	_context->IASetVertexBuffers(0, 1, dxvb->_buffer.GetAddressOf(), &strides, &offsets);
 	_context->DrawIndexed(numIndices, 0u, 0u);
-#endif
 }
 
 void GraphicsDevice::Present()
@@ -341,10 +340,12 @@ void GraphicsDevice::SaveBackBufferToFile(const std::filesystem::path &path)
 #ifdef USING_DX11
 	UnbindRenderTargetAndDepth();
 
-	HRESULT r = DirectX::SaveWICTextureToFile(_context.Get(), _backbufferRT->_texture.Get(), GUID_ContainerFormatPng, path.wstring().c_str(), nullptr, nullptr, true);
-	if(FAILED(r)) throw std::exception("Failed to save file!");
+	//HRESULT r = DirectX::SaveWICTextureToFile(_context.Get(), _backbufferRT->_texture.Get(), GUID_ContainerFormatPng, path.wstring().c_str(), nullptr, nullptr, true);
+	//if(FAILED(r)) throw std::exception("Failed to save file!");
 
 	SetRenderTargetAndDepth(nullptr, nullptr);
+
+	Logging::SetLastMessage(std::format("Saved backbuffer image to {}", path.string()));
 #endif
 }
 
@@ -398,24 +399,22 @@ void GraphicsDevice::DrawAuto()
 #endif
 }
 
-void GraphicsDevice::SetRasterizerState(const RasterizerState *state)
+void GraphicsDevice::SetRasterizerState(const IRasterizerState *state)
 {
-#ifdef USING_DX11
+	auto dxraster = static_cast<const RasterizerState*>(state);
 	if (state != nullptr)
-		_context->RSSetState(state->_rasterizerState.Get());
+		_context->RSSetState(dxraster->_rasterizerState.Get());
 	else 
 		_context->RSSetState(nullptr);
-#endif
 }
 
-RasterizerState GraphicsDevice::GetRasterizerState()
+std::unique_ptr<IRasterizerState> GraphicsDevice::GetRasterizerState()
 {
-	return RasterizerState::GetCurrentRasterizerState(this);
+	auto ptr = ((RasterizerState*)nullptr)->GetCurrentRasterizerState(this);
 }
 
-void GraphicsDevice::SetDepthStencilBuffer(DepthStencilBuffer *depthBuffer)
+void GraphicsDevice::SetDepthStencilBuffer(IDepthStencilBuffer *depthBuffer)
 {
-#ifdef USING_DX11
 	ID3D11RenderTargetView *renderTargets[D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT];
 	_context->OMGetRenderTargets(
 		D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT, 
@@ -423,38 +422,43 @@ void GraphicsDevice::SetDepthStencilBuffer(DepthStencilBuffer *depthBuffer)
 		nullptr
 	);
 
+	auto dxdepth = static_cast<DepthStencilBuffer*>(depthBuffer);
+
 	_context->OMSetRenderTargets(
 		D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT, 
-		renderTargets,depthBuffer != nullptr ? depthBuffer->_depthView.Get() : nullptr
+		renderTargets,
+		dxdepth != nullptr ? dxdepth->_depthView.Get() : nullptr
 	);
 
 	for(auto& rt : renderTargets)
 	{
 		if(rt) rt->Release();
 	}
-#endif
 }
 
-void GraphicsDevice::SetDepthStencilState(DepthStencilState *depthState, unsigned ref = 0)
+void GraphicsDevice::SetDepthStencilState(IDepthStencilState *depthState, unsigned ref = 0)
 {
-#ifdef USING_DX11
+	auto dxDepth = static_cast<DepthStencilState*>(depthState);
 	if(depthState == nullptr)
 		_context->OMSetDepthStencilState(nullptr, ref);
 	else
 	{
-		_context->OMSetDepthStencilState(depthState->_state.Get(), ref);
-		depthState->_stencilRef = ref;
+		_context->OMSetDepthStencilState(dxDepth->_state.Get(), ref);
+		dxDepth->_stencilRef = ref;
 	}
-#endif
 }
 
-void GraphicsDevice::SetBlendState(BlendState* blendState,const Color &blendColor, unsigned sampleMask)
+void GraphicsDevice::SetBlendState(IBlendState* blendState,const Color &blendColor, unsigned sampleMask)
 {
-#if USING_DX11
-	blendState->_blendFactor = blendColor;
-	blendState->_sampleMask = sampleMask;
-	_context->OMSetBlendState(blendState->_blendState.Get(), reinterpret_cast<const float *>(&blendColor), sampleMask);
-#endif
+	auto dxBlendState = static_cast<BlendState*>(blendState);
+
+	dxBlendState->_blendFactor = blendColor;
+	dxBlendState->_sampleMask = sampleMask;
+	_context->OMSetBlendState(
+		dxBlendState->_blendState.Get(), 
+		reinterpret_cast<const float *>(&blendColor),
+		sampleMask
+	);
 }
 
 Math::Point GraphicsDevice::Resolution() const noexcept
@@ -506,17 +510,17 @@ void GraphicsDevice::DrawScreenQuad()
 	DrawVertexBuffer(_screenQuad.get());
 }
 
-RenderTarget* GraphicsDevice::GetBackBuffer()
+IRenderTarget* GraphicsDevice::GetBackBuffer()
 {
 	return _backbufferRT.get();
 }
 
-Graphics::Texture2D* GraphicsDevice::GetBackBufferTexture()
+Graphics::ITexture2D* GraphicsDevice::GetBackBufferTexture()
 {
 	return dynamic_cast<Texture2D*>(this->_backbufferRT.get());
 }
 
-DepthStencilBuffer& GraphicsDevice::GetDepthBuffer()
+IDepthStencilBuffer& GraphicsDevice::GetDepthBuffer()
 {
 	return *this->_stencilBuffer;
 }

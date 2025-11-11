@@ -1,16 +1,14 @@
 #pragma once
 #include "IObject3D.hpp"
 #include "IObject2D.hpp"
+#include "ObjectType.hpp"
 #include "../Reflection/ReflectedObject.hpp"
 #include "../Games/Game.hpp"
 
 namespace Engine3DRadSpace::Objects
 {
 	class Camera;
-}
 
-namespace Engine3DRadSpace
-{
 	template<typename O>
 	concept GameObject = Reflection::ReflectableObject<O> || std::is_same_v<IObject, O> || std::is_same_v<IObject2D, O> || std::is_same_v<IObject3D, O>;
 
@@ -21,13 +19,7 @@ namespace Engine3DRadSpace
 		{
 			std::unique_ptr<IObject> Object;
 
-			enum class ObjectType : uint8_t
-			{
-				None = 0,
-				IObject = 1,
-				IObject2D,
-				IObject3D,
-			} InternalType;
+			ObjectType InternalType;
 
 			ObjectInstance(IObject* obj);
 

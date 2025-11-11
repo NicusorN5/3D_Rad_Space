@@ -62,7 +62,7 @@ namespace Engine3DRadSpace::Graphics
 		virtual void SetShader(IShader* shader) = 0;
 
 		virtual void SetRasterizerState(const IRasterizerState* state) = 0;
-		virtual IRasterizerState* GetRasterizerState() = 0;
+		virtual std::unique_ptr<IRasterizerState> GetRasterizerState() = 0;
 
 		virtual void SetDepthStencilBuffer(IDepthStencilBuffer* depthBuffer) = 0;
 		virtual void SetDepthStencilState(IDepthStencilState* depthState, unsigned ref) = 0;
@@ -100,7 +100,9 @@ namespace Engine3DRadSpace::Graphics
 
 		virtual std::unique_ptr<IDepthStencilBuffer> CreateDepthStencilBuffer(
 			size_t x,
-			size_t y
+			size_t y,
+			PixelFormat format,
+			BufferUsage usage
 		) = 0;
 
 		virtual std::unique_ptr<IDepthStencilState> CreateDepthStencilState(

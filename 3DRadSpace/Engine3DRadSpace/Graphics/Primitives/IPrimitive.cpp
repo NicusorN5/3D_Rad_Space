@@ -1,19 +1,53 @@
 #include "IPrimitive.hpp"
-#include "../Shaders/ShaderManager.hpp"
+#include "../IShaderCompiler.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Graphics::Primitives;
-using namespace Engine3DRadSpace::Graphics::Shaders;
 
 IPrimitive::IPrimitive(IGraphicsDevice* device) :
 	_device(device)
 {
-	_shader = ShaderManager::LoadShader<BlankShader>(device);
+    constexpr const char* trivialShader = "Data\\Shaders\\PositionColor.hlsl";
+
+    auto vsBlankShader = ShaderDescFile(
+        trivialShader,
+        "VS_Main",
+        ShaderType::Vertex
+    );
+
+    auto psBlankShader = ShaderDescFile(
+        trivialShader,
+        "PS_Main",
+        ShaderType::Fragment
+    );
+
+    std::array<ShaderDesc*, 2> blankShaderDesc =
+    {
+        &vsBlankShader,
+        &psBlankShader
+    };
+
+    auto [blankEffect, result] = device->ShaderCompiler()->CompileEffect(blankShaderDesc);
+    if (result.Succeded)
+    {
+        _shader = blankEffect;
+    }
 }
 
 Math::Matrix4x4 IPrimitive::_mvp() const noexcept
 {
 	return Transform * View * Projection;
+}
+
+void IPrimitive::Draw3D()
+{
+    auto mvp = _mvp();
+
+    _shader->SetAll();
+    _shader->operator[](0)->SetData(0, &mvp, sizeof(mvp));
+
+    _device->SetTopology(VertexTopology::TriangleList);
+    _device->DrawVertexBufferWithindices(_vertices.get(), _indices.get());
 }

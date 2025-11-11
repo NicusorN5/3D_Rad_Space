@@ -1,4 +1,5 @@
 #include "Box.hpp"
+#include "../IShaderCompiler.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content;
@@ -51,12 +52,10 @@ Box::Box(IGraphicsDevice *device, const BoundingBox&b, Color color) :
     _box(b)
 {
     auto box_vertices = CreateVertices(b, color);
-    _vertices = std::make_unique<VertexBufferV<VertexPositionColor>>(device, box_vertices);
-
+    _vertices = device->CreateVertexBuffer<VertexPositionColor>(box_vertices, BufferUsage::ReadOnlyGPU);
+   
     std::array<unsigned, 36> indices = CreateIndices();
     _indices = device->CreateIndexBuffer(indices);
-
-    _shader = ShaderManager::LoadShader<BlankShader>(device);
 }
 
 BoundingBox Box::GetBoundingBox() const noexcept
@@ -69,7 +68,7 @@ void Box::SetBoundingBox(const BoundingBox&b)
     _box = b;
 
     auto box_vertices = CreateVertices(b, _color);
-    _vertices->SetData(box_vertices);
+    _vertices->SetData<VertexPositionColor>(box_vertices);
 }
 
 Color Box::GetColor() const noexcept
@@ -82,7 +81,7 @@ void Box::SetColor(const Color&color)
     _color = color;
 
     auto verts = CreateVertices(_box, color);
-    _vertices->SetData(verts);
+    _vertices->SetData<VertexPositionColor>(verts);
 }
 
 IVertexBuffer* Box::GetVertexBuffer() const noexcept
@@ -93,13 +92,4 @@ IVertexBuffer* Box::GetVertexBuffer() const noexcept
 IIndexBuffer* Box::GetIndexBuffer() const noexcept
 {
     return _indices.get();
-}
-
-void Box::Draw3D()
-{
-    _shader->SetBasic();
-    _shader->SetTransformation(_mvp());
-    
-    _device->SetTopology(VertexTopology::TriangleList);
-    _device->DrawVertexBufferWithindices(_vertices.get(), _indices.get());
 }

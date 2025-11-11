@@ -16,7 +16,8 @@ void DepthStencilState::_debugInfo()
 #endif
 }
 
-DepthStencilState::DepthStencilState(GraphicsDevice *device)
+DepthStencilState::DepthStencilState(GraphicsDevice *device) :
+    _device(device)
 {
 #ifdef USING_DX11
     CD3D11_DEPTH_STENCIL_DESC dsDesc(D3D11_DEFAULT);
@@ -61,12 +62,12 @@ DepthStencilState::DepthStencilState(GraphicsDevice *device, bool EnableDepth, D
 #endif
 }
 
-unsigned int DepthStencilState::StencilRef() const noexcept override
+unsigned int DepthStencilState::StencilRef() const noexcept
 {
     return _stencilRef;
 }
 
-void* DepthStencilState::GetHandle() const noexcept override
+void* DepthStencilState::GetHandle() const noexcept
 {
     return static_cast<void*>(this->_state.Get());
 }
@@ -196,4 +197,9 @@ DepthStencilState DepthStencilState::DepthReadReverseZ(GraphicsDevice *device)
             .Function = ComparisonFunction::Always,
         }
     );
+}
+
+IGraphicsDevice* DepthStencilState::GetGraphicsDevice() const noexcept
+{
+    return _device;
 }

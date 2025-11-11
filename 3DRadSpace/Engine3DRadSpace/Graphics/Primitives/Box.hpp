@@ -78,10 +78,5 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		/// </summary>
 		/// <returns>Index buffer.</returns>
 		IIndexBuffer* GetIndexBuffer() const noexcept;
-
-		/// <summary>
-		/// Draws the box once, with specified transform.
-		/// </summary>
-		virtual void Draw3D() override;
 	};
 }

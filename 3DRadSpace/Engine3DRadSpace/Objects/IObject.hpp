@@ -20,51 +20,54 @@ namespace Engine3DRadSpace
 		class IGraphicsDevice;
 	}
 
-	class E3DRSP_OBJECTS_EXPORT IObject : public IInitiializable, public IUpdateable, public ILoadable
+	namespace Objects
 	{
-	protected:
-		IGame* _game = nullptr;
-		Graphics::IGraphicsDevice* _device = nullptr;
-		/// <summary>
-		/// Default constructor used for reflection. Objects created with this constructor are initially invalid, until internalInitialize() is called.
-		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="tag"></param>
-		/// <param name="enabled"></param>
-		/// <param name="visible"></param>
-		explicit IObject(const std::string& name = "Empty", bool enabled = false, bool visible = false);
-	public:
-		std::string Name;
-		bool Enabled;
-		bool Visible;
+		class E3DRSP_OBJECTS_EXPORT IObject : public IInitiializable, public IUpdateable, public ILoadable
+		{
+		protected:
+			IGame* _game = nullptr;
+			Graphics::IGraphicsDevice* _device = nullptr;
+			/// <summary>
+			/// Default constructor used for reflection. Objects created with this constructor are initially invalid, until internalInitialize() is called.
+			/// </summary>
+			/// <param name="name"></param>
+			/// <param name="tag"></param>
+			/// <param name="enabled"></param>
+			/// <param name="visible"></param>
+			explicit IObject(const std::string& name = "Empty", bool enabled = false, bool visible = false);
+		public:
+			std::string Name;
+			bool Enabled;
+			bool Visible;
 
-		/// <summary>
-		/// Called by ObjectsList to set the _game Game instance. If there are objects manually managed, this MUST be called before Initialize or EditorInitialize.
-		/// </summary>
-		/// <param name="game">Application context</param>
-		void InternalInitialize(IGame* game);
+			/// <summary>
+			/// Called by ObjectsList to set the _game Game instance. If there are objects manually managed, this MUST be called before Initialize or EditorInitialize.
+			/// </summary>
+			/// <param name="game">Application context</param>
+			void InternalInitialize(IGame* game);
 
-		virtual Reflection::UUID GetUUID() const noexcept = 0;
-		virtual Objects::Gizmos::IGizmo* GetGizmo() const noexcept = 0;
+			virtual Reflection::UUID GetUUID() const noexcept = 0;
+			virtual Objects::Gizmos::IGizmo* GetGizmo() const noexcept = 0;
 
-		Graphics::IGraphicsDevice *GetGraphicsDeviceHandle() const noexcept;
-		IGame* GetGame() const noexcept;
+			Graphics::IGraphicsDevice* GetGraphicsDeviceHandle() const noexcept;
+			IGame* GetGame() const noexcept;
 
-		///Getters and setters for events and visual scripting
+			///Getters and setters for events and visual scripting
 
-		virtual void Enable();
-		virtual void Disable();
-		virtual bool Switch();
+			virtual void Enable();
+			virtual void Disable();
+			virtual bool Switch();
 
-		virtual void Show();
-		virtual void Hide();
-		virtual bool SwitchVisibility();
+			virtual void Show();
+			virtual void Hide();
+			virtual bool SwitchVisibility();
 
-		virtual ~IObject();
+			virtual ~IObject();
 
-		friend class Game;
-		friend class ObjectList;
-	};
+			friend class Game;
+			friend class ObjectList;
+		};
+	}
 }
 
 

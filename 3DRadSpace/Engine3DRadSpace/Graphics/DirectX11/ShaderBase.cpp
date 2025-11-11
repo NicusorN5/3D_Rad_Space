@@ -224,7 +224,14 @@ std::vector<Reflection::IReflectedField*> ShaderBase::GetVariables() const
 
 void ShaderBase::Set(const std::string& name, const void* data, size_t dataSize)
 {
-
+	for (auto &var : _reflectedFields)
+	{
+		if (var->FieldName() == name)
+		{
+			//var->Set(nullptr, data);
+			return;
+		}
+	}
 }
 
 IGraphicsDevice* ShaderBase::GetGraphicsDevice() const noexcept

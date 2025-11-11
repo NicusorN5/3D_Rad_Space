@@ -5,6 +5,7 @@
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Logging;
 using namespace Engine3DRadSpace::Graphics;
+using namespace Engine3DRadSpace::Graphics::DirectX11;
 
 void IndexBuffer::_debugInfo()
 {
@@ -66,7 +67,7 @@ IndexBuffer::IndexBuffer(GraphicsDevice* device, unsigned* indices, size_t numin
 	_debugInfo();
 }
 
-void IndexBuffer::SetData(void* data, size_t buffSize) override
+void IndexBuffer::SetData(void* data, size_t buffSize)
 {
 #ifdef USING_DX11
 	D3D11_MAPPED_SUBRESOURCE mappedBuff{};
@@ -78,7 +79,7 @@ void IndexBuffer::SetData(void* data, size_t buffSize) override
 #endif
 }
 
-size_t Engine3DRadSpace::Graphics::IndexBuffer::ReadData(void** data) override
+size_t IndexBuffer::ReadData(void** data)
 {
 #ifdef USING_DX11
 	D3D11_MAPPED_SUBRESOURCE res{};
@@ -89,19 +90,19 @@ size_t Engine3DRadSpace::Graphics::IndexBuffer::ReadData(void** data) override
 #endif
 }
 
-void Engine3DRadSpace::Graphics::IndexBuffer::EndRead() override
+void IndexBuffer::EndRead()
 {
 #ifdef USING_DX11
 	_device->_context->Unmap(_indexBuffer.Get(), 0);
 #endif
 }
 
-unsigned IndexBuffer::NumIndices() const noexcept override
+unsigned IndexBuffer::NumIndices() const noexcept
 {
 	return _numIndices;
 }
 
-void* IndexBuffer::GetHandle() const noexcept override
+void* IndexBuffer::GetHandle() const noexcept
 {
 #ifdef USING_DX11
 	return static_cast<void*>(_indexBuffer.Get());
@@ -123,22 +124,22 @@ void* IndexBuffer::GetHandle() const noexcept override
 
 	_device->_context->CopyResource(stagingIndexBuffer.Get(), _indexBuffer.Get());
 
-	std::unique_ptr<IIndexBuffer> ptr = std::make_unique<IIndexBuffer>(
-		static_cast<IIndexBuffer*>(
-			new IndexBuffer(
-				_device,
-				std::move(stagingIndexBuffer),
-				stagingIndexBufferDesc.ByteWidth / sizeof(unsigned)
-			)
-		)
-	);
+	std::unique_ptr<IIndexBuffer> ptr;
+	ptr.reset(new IndexBuffer(
+		_device,
+		std::move(stagingIndexBuffer),
+		stagingIndexBufferDesc.ByteWidth / sizeof(unsigned)
+	));
 	return ptr;
 #endif
 }
 
-void IndexBuffer::Set(unsigned offset) override
+void IndexBuffer::Set(unsigned offset)
 {
-#ifdef USING_DX11
 	_device->_context->IASetIndexBuffer(_indexBuffer.Get(), DXGI_FORMAT_R32_UINT, offset);
-#endif
+}
+
+IGraphicsDevice* IndexBuffer::GetGraphicsDevice() const noexcept
+{
+	return _device;
 }

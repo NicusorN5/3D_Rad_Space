@@ -31,7 +31,5 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		Sphere &operator=(Sphere &&) noexcept = default;
 
 		float GetRadius() const noexcept;
-
-		void Draw3D() override;
 	};
 }

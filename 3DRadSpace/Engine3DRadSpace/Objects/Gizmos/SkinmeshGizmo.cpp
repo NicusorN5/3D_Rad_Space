@@ -98,7 +98,7 @@ void Gizmo<Skinmesh>::Draw3D()
 			);
 
 			device->SetRenderTargetAndDepth(nullptr, nullptr);
-			device->SetRasterizerState(oldRasterizerState);
+			device->SetRasterizerState(oldRasterizerState.get());
 		}
 	}
 }

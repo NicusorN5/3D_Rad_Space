@@ -6,6 +6,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 {
 	class E3DRSP_GRAPHICS_EXPORT DepthStencilState : public IDepthStencilState
 	{
+		GraphicsDevice* _device;
 #ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilState> _state;
 #endif
@@ -35,6 +36,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 
 		unsigned int StencilRef() const noexcept override;
 		void* GetHandle() const noexcept override;
+		IGraphicsDevice* GetGraphicsDevice() const noexcept override;
 
 		static DepthStencilState DepthDefault(GraphicsDevice* device);
 		static DepthStencilState DepthNone(GraphicsDevice *device);

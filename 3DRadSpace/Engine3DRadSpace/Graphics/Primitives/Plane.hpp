@@ -43,10 +43,5 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		/// </summary>
 		/// <returns>6 indices representing 2 triangles.</returns>
 		static std::array<unsigned, 6> CreateIndices();
-
-		/// <summary>
-		/// Draws the plane, with transformation specified as IPrimitive fields.
-		/// </summary>
-		void Draw3D() override;
 	};
 }

@@ -1,6 +1,6 @@
 #pragma once
 #include "IPrimitive.hpp"
-#include "../../Core/Algorithms/FixedArray.hpp"
+#include "../../Core/FixedArray.hpp"
 
 namespace Engine3DRadSpace::Graphics::Primitives
 {
@@ -9,12 +9,13 @@ namespace Engine3DRadSpace::Graphics::Primitives
 	public:
 		Cylinder(IGraphicsDevice* device, float radius = 1.0f, float height = 1.0f, float tessellation = 64);
 
-		[[nodiscard]] static Algorithms::FixedArray<VertexPositionColor> CreateCylinderVertices(
+		[[nodiscard]] static FixedArray<VertexPositionColor> CreateCylinderVertices(
 			float radius,
 			float height,
 			unsigned resolution, 
 			Math::Color color
 		);
-		[[nodiscard]] static Algorithms::FixedArray<unsigned> CreateCylinderIndices(unsigned resolution);
+
+		[[nodiscard]] static FixedArray<unsigned> CreateCylinderIndices(unsigned resolution);
 	};
 }

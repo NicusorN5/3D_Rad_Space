@@ -1,7 +1,6 @@
 #include "Circle.hpp"
 
 using namespace Engine3DRadSpace;
-using namespace Engine3DRadSpace::Algorithms;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Graphics::Primitives;
 using namespace Engine3DRadSpace::Math;

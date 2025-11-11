@@ -23,9 +23,9 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		std::unique_ptr<IVertexBuffer> _vertices;
 		std::unique_ptr<IIndexBuffer> _indices;
 
-		std::shared_ptr<Effect> _shader;
+		Effect* _shader;
 
-		Math::Matrix4x4 _mvp() const noexcept;
+		virtual Math::Matrix4x4 _mvp() const noexcept;
 	public:
 		/// <summary>
 		/// Camera view matrix.
@@ -39,6 +39,8 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		/// World transform, composed usually of Scale, Rotation, Translation.
 		/// </summary>
 		Math::Matrix4x4 Transform;
+
+		void Draw3D() override;
 
 		virtual ~IPrimitive() = default;
 	};

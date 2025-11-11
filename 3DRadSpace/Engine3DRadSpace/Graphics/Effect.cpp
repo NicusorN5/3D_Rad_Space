@@ -50,3 +50,8 @@ void Effect::SetSampler(ISamplerState* sampler, int idx) noexcept
 		shader->SetSampler(idx, sampler);
 	}
 }
+
+IShader* Effect::operator[](size_t idx) const
+{
+	return _shaders.at(idx);
+}

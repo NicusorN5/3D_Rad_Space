@@ -53,6 +53,8 @@ namespace Engine3DRadSpace::Graphics
 		void SetSampler(ISamplerState* sampler, int idx) noexcept;
 		void SetSampler(ISamplerState* sampler, int samplerID, int shaderID) noexcept;
 
+		IShader* operator[](size_t idx) const;
+
 		~Effect() = default;
 	};
 }

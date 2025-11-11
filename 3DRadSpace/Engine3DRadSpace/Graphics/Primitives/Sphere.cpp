@@ -1,11 +1,9 @@
 #include "Sphere.hpp"
-#include "../Shaders/ShaderManager.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Graphics::Primitives;
-using namespace Engine3DRadSpace::Graphics::Shaders;
 using namespace Engine3DRadSpace::Math;
 
 Sphere::Sphere(IGraphicsDevice *device, float radius, Color color, unsigned resolution):
@@ -42,7 +40,7 @@ Sphere::Sphere(IGraphicsDevice *device, float radius, Color color, unsigned reso
 
 	//
 	sphere_points.emplace_back(Vector3::UnitY() * radius, color); 
-	_vertices = std::make_unique<VertexBufferV<VertexPositionColor>>(device, sphere_points);
+	_vertices = device->CreateVertexBuffer<VertexPositionColor>(sphere_points, BufferUsage::ReadOnlyGPU);
 
 	//Create indices...
 	std::vector<unsigned> sphere_indices;
@@ -98,18 +96,10 @@ Sphere::Sphere(IGraphicsDevice *device, float radius, Color color, unsigned reso
 	}
 
 	//TODO: Add last indices.
-	_indices = std::make_unique<IndexBuffer>(device, sphere_indices);
+	_indices = device->CreateIndexBuffer(sphere_indices);
 }
 
 float Sphere::GetRadius() const noexcept
 {
 	return _radius;
-}
-
-void Sphere::Draw3D()
-{
-	_shader->SetBasic();
-	_shader->SetTransformation(_mvp());
-	_device->SetTopology(VertexTopology::TriangleList);
-	_device->DrawVertexBufferWithindices(_vertices.get(), _indices.get());
 }

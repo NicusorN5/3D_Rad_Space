@@ -12,7 +12,6 @@
 
 namespace Engine3DRadSpace::Graphics::DirectX11
 {
-	template<VertexDecl V> class VertexBufferV;
 	class VertexBuffer;
 	class IndexBuffer;
 
@@ -58,7 +57,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		std::unique_ptr<BlendState> _blendState;
 
 		///Used for rendering post effects
-		std::unique_ptr<DirectX11::VertexBufferV<VertexPointUV>> _screenQuad;
+		std::unique_ptr<VertexBuffer> _screenQuad;
 	public:
 		GraphicsDevice() = delete;
 		explicit GraphicsDevice(void* nativeWindowHandle, unsigned width = 800, unsigned height = 600);
@@ -128,7 +127,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		void SetShader(IShader* shader) override;
 
 		void SetRasterizerState(const IRasterizerState* state) override;
-		IRasterizerState* GetRasterizerState() override;
+		std::unique_ptr<IRasterizerState> GetRasterizerState() override;
 
 		void SetDepthStencilBuffer(IDepthStencilBuffer* depthBuffer) override;
 		void SetDepthStencilState(IDepthStencilState* depthState, unsigned ref) override;
@@ -238,8 +237,6 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		) override;
 
 		~GraphicsDevice() override;
-
-		template<VertexDecl V> friend class VertexBufferV;
 
 		friend class VertexBuffer;
 		friend class IndexBuffer;

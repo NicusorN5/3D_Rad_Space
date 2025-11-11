@@ -2,15 +2,16 @@
 #include "../Games/Game.hpp"
 
 using namespace Engine3DRadSpace;
+using namespace Engine3DRadSpace::Objects;
 using namespace Engine3DRadSpace::Internal;
 
-Engine3DRadSpace::ObjectList::ObjectList(IGame* owner):
+ObjectList::ObjectList(IGame* owner):
 	_game(static_cast<Game*>(owner))
 {
 }
 
 
-void Engine3DRadSpace::ObjectList::_validate(ObjectInstance& instance)
+void ObjectList::_validate(ObjectInstance& instance)
 {
 	instance.Object->InternalInitialize(_game);
 	

@@ -16,9 +16,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 	class E3DRSP_GRAPHICS_PRIMITIVES_EXPORT LineList : public IPrimitive
 	{
 		std::unique_ptr<IRasterizerState> _lineRasterizer;
-#ifdef USING_DX11
-		Microsoft::WRL::ComPtr<ID3D11RasterizerState> _oldRasterizerState;
-#endif
+		std::unique_ptr<IRasterizerState> _oldRasterizerState;
 	protected:
 		void _swapRasterizer();
 		void _restoreRasterizer();
@@ -36,11 +34,6 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		LineList &operator=(const LineList &) = delete;
 		LineList &operator=(LineList &&) noexcept = default;
 
-		/// <summary>
-		/// Gets the vertex buffer this instance was build with.
-		/// </summary>
-		/// <returns>Lines list</returns>
-		IVertexBuffer* GetVertexBuffer() const noexcept;
 		/// <summary>
 		/// Rasterizer state used to render lines.
 		/// </summary>

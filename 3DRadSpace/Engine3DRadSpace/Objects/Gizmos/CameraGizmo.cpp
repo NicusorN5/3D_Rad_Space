@@ -106,11 +106,12 @@ void Gizmo<Camera>::Draw2D()
 		game->Projection = camera->GetProjectionMatrix();
 		game->Objects->SetRenderingCamera(camera);
 
-		auto cameraPreview = static_cast<IRenderTarget*>(_cameraPreview.get());
+		auto cameraPreview = static_cast<ITexture2D*>(_cameraPreview.get());
+		auto cameraRT = static_cast<IRenderTarget*>(_cameraPreview.get());
 		auto cameraPreviewDepth = static_cast<IDepthStencilBuffer*>(_cameraPreviewDepth.get());
 
-		game->Device->SetRenderTargetAndDepth(cameraPreview, cameraPreviewDepth);
-		game->Device->ClearRenderTarget(cameraPreview);
+		game->Device->SetRenderTargetAndDepth(cameraRT, cameraPreviewDepth);
+		game->Device->ClearRenderTarget(cameraRT);
 		game->Device->ClearDepthBuffer(cameraPreviewDepth);
 		game->Device->SetViewport(
 			Viewport{
