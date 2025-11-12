@@ -10,17 +10,14 @@ using namespace Engine3DRadSpace::Math;
 void SamplerState::_debugInfo()
 {
 #ifdef _DEBUG
-#ifdef USING_DX11
 	const char samplerStateName[] = "SamplerState::_samplerState";
 	_samplerState->SetPrivateData(WKPDID_D3DDebugObjectName, sizeof(samplerStateName) - 1, samplerStateName);
-#endif
 #endif
 }
 
 SamplerState::SamplerState(GraphicsDevice* device) :
 	_device(device)
 {
-#ifdef USING_DX11
 	//Default values, as described here: https://learn.microsoft.com/en-us/windows/win32/api/d3d11/nf-d3d11-id3d11devicecontext-pssetsamplers
 	D3D11_SAMPLER_DESC desc{};
 	desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
@@ -41,7 +38,6 @@ SamplerState::SamplerState(GraphicsDevice* device) :
 
 	HRESULT r = device->_device->CreateSamplerState(&desc, _samplerState.GetAddressOf());
 	if (FAILED(r)) throw Exception("Failed to create a sampler state with default values!");
-#endif
 }
 
 SamplerState::SamplerState(
@@ -59,7 +55,6 @@ SamplerState::SamplerState(
 ) :
 	_device(device)
 {
-#ifdef USING_DX11
 	D3D11_SAMPLER_DESC desc{};
 	
 	switch(Filter)
@@ -158,7 +153,6 @@ SamplerState::SamplerState(
 
 	HRESULT r = device->_device->CreateSamplerState(&desc, _samplerState.GetAddressOf());
 	if (FAILED(r)) throw Exception("Failed to create a sampler state with default values!");
-#endif
 }
 
 SamplerState SamplerState::LinearClamp(GraphicsDevice* device)

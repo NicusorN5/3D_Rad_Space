@@ -8,10 +8,9 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 	/// </summary>
 	class E3DRSP_GRAPHICS_EXPORT DomainShader : public ShaderBase
 	{
-#ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11DomainShader> _shader;
+		
 		const char *_determineTarget();
-#endif
 		void _createShader();
 	public:
 		DomainShader(GraphicsDevice* device, const char* source, const char* fnEntry, ShaderFeatureLevel fs = ShaderFeatureLevel::DX_V4);

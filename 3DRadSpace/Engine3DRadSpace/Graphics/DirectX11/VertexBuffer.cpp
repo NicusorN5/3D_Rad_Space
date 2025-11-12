@@ -8,10 +8,8 @@ using namespace Engine3DRadSpace::Logging;
 
 void VertexBuffer::_debugInfo()
 {
-#ifdef USING_DX11
 	const char bufferName[] = "VertexBuffer::_buffer";
 	_buffer->SetPrivateData(WKPDID_D3DDebugObjectName, sizeof(bufferName) - 1, bufferName);
-#endif
 }
 
 D3D11_USAGE VertexBuffer::_to_d3d11_usage(BufferUsage usage)

@@ -35,9 +35,7 @@ if(MSVC)
 endif()
 
 if(WIN32)
-	target_compile_definitions(3DRadSpace_Graphics_Rendering PRIVATE USING_DX11=1 _WINDLL=1)
-elseif(LINUX)
-	target_compile_definitions(3DRadSpace_Graphics_Rendering PRIVATE USING_VULKAN=1)
+	target_compile_definitions(3DRadSpace_Graphics_Rendering PRIVATE _WINDLL=1)
 endif()
 
 #

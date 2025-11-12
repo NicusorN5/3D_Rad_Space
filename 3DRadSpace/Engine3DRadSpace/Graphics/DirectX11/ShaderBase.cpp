@@ -11,7 +11,6 @@ using namespace Engine3DRadSpace::Logging;
 
 ShaderBase::Array_ValidConstantBuffers ShaderBase::_validConstantBuffers(unsigned &numConstantBuffers)
 {
-#ifdef USING_DX11
 	const unsigned maxConstBuffers = D3D11_COMMONSHADER_CONSTANT_BUFFER_API_SLOT_COUNT;
 	Array_ValidConstantBuffers ppConstantBuffers = {nullptr};
 
@@ -25,7 +24,6 @@ ShaderBase::Array_ValidConstantBuffers ShaderBase::_validConstantBuffers(unsigne
 	}
 
 	return ppConstantBuffers;
-#endif
 }
 
 void ShaderBase::_compileShader(const char *source, const char* target)
@@ -126,7 +124,6 @@ ShaderBase::ShaderBase(GraphicsDevice *Device, const std::filesystem::path &path
 
 void ShaderBase::SetData(unsigned index, const void *data, size_t dataSize)
 {
-#ifdef USING_DX11
 	if (_constantBuffers[index].Get() == nullptr)
 	{
 		D3D11_BUFFER_DESC constantBufferDesc{};
@@ -155,7 +152,6 @@ void ShaderBase::SetData(unsigned index, const void *data, size_t dataSize)
 		memcpy(res.pData, data, dataSize);
 		_device->_context->Unmap(_constantBuffers[index].Get(), 0);
 	}
-#endif
 }
 
 

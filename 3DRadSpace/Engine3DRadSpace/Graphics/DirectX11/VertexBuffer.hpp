@@ -5,6 +5,7 @@
 #include "IShader.hpp"
 #include "BufferUsage.hpp"
 #include "../IVertexBuffer.hpp"
+#include "DirectX11.h"
 
 namespace Engine3DRadSpace::Graphics::DirectX11
 {

@@ -5,11 +5,9 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 {
 	class E3DRSP_GRAPHICS_EXPORT HullShader : public ShaderBase
 	{
-#ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11HullShader> _shader;
 
 		void _createShader();
-#endif
 		const char *_determineTarget();
 	public:
 		HullShader(GraphicsDevice* device, const char* shaderSource, const char* hsEntry, ShaderFeatureLevel fl = ShaderFeatureLevel::DX_V4);

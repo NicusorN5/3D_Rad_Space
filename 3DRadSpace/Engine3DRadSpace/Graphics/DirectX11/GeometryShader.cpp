@@ -28,7 +28,6 @@ const char *GeometryShader::_determineTarget()
 
 void GeometryShader::_createShader()
 {
-#ifdef USING_DX11
 	HRESULT r = _device->_device->CreateGeometryShader(
 		_shaderBlob->GetBufferPointer(),
 		_shaderBlob->GetBufferSize(),
@@ -41,7 +40,6 @@ void GeometryShader::_createShader()
 #ifdef _DEBUG
 	const char shaderName[] = "IGeometryShader::_shader";
 	_shader->SetPrivateData(WKPDID_D3DDebugObjectName, sizeof(shaderName) - 1, shaderName);
-#endif
 #endif
 }
 

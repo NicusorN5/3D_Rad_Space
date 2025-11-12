@@ -4,6 +4,7 @@
 #include "../../Content/IAsset.hpp"
 #include "../../Math/Color.hpp"
 #include "../ITexture2D.hpp"
+#include "DirectX11.h"
 
 namespace Engine3DRadSpace::Graphics::DirectX11
 {
@@ -19,12 +20,10 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 
 		void _debugInfoTX2D();
 		void _debugInfoRT();
-#if USING_DX11
+
         explicit Texture2D(GraphicsDevice* device, Microsoft::WRL::ComPtr<ID3D11Texture2D>&& texture, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>&& resource);
         explicit Texture2D(GraphicsDevice* device, std::monostate dummy, Microsoft::WRL::ComPtr<ID3D11Texture2D>&& texture);
-#endif
 	protected:
-#ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11Texture2D> _texture;
 		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> _resourceView;
 		GraphicsDevice *_device;
@@ -32,7 +31,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 
         DXGI_FORMAT _getTextureFormat(PixelFormat format);
 		PixelFormat _getTextureFormatFromDX(DXGI_FORMAT format);
-#endif
+
 		void _retrieveSize();
 
 		explicit Texture2D(GraphicsDevice *device, unsigned x, unsigned y, bool bindRenderTarget, PixelFormat format = PixelFormat::R32G32B32A32_Float);

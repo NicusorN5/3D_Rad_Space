@@ -156,7 +156,6 @@ Texture2D::Texture2D(GraphicsDevice* device, Color* colors, unsigned x, unsigned
 Texture2D::Texture2D(GraphicsDevice* device,const uint8_t* imageBuffer, size_t size):
 	_device(device)
 {
-#ifdef USING_DX11
 	auto resource = reinterpret_cast<ID3D11Resource**>(_texture.GetAddressOf());
 
 	HRESULT r = DirectX::CreateWICTextureFromMemory(
@@ -181,7 +180,6 @@ Texture2D::Texture2D(GraphicsDevice* device,const uint8_t* imageBuffer, size_t s
 	if (FAILED(r)) throw Exception("Failed to create texture from memory!" + std::system_category().message(r));
 
 	_retrieveSize();
-#endif
 }
 
 Texture2D::Texture2D(GraphicsDevice *device, unsigned x, unsigned y, PixelFormat format):

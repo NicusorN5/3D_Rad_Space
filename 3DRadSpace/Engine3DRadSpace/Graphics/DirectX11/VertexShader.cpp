@@ -29,7 +29,6 @@ const char* VertexShader::_determineTarget()
 
 void VertexShader::_createShader()
 {
-#ifdef USING_DX11
 	HRESULT r = _device->_device->CreateVertexShader(
 		_shaderBlob->GetBufferPointer(),
 		_shaderBlob->GetBufferSize(),
@@ -42,12 +41,10 @@ void VertexShader::_createShader()
 	const char shaderName[] = "IVertexShader::_shader";
 	_shader->SetPrivateData(WKPDID_D3DDebugObjectName, sizeof(shaderName) - 1, shaderName);
 #endif
-#endif // USING_DX11
 }
 
 D3D11_INPUT_ELEMENT_DESC *VertexShader::_generateInputElementDesc(std::span<InputLayoutElement> inputLayout)
 {
-#ifdef USING_DX11
 	size_t numLayoutEntries = inputLayout.size();
 
 	D3D11_INPUT_ELEMENT_DESC *elem = new D3D11_INPUT_ELEMENT_DESC[numLayoutEntries]{};
@@ -346,7 +343,6 @@ D3D11_INPUT_ELEMENT_DESC *VertexShader::_generateInputElementDesc(std::span<Inpu
 		}
 	}
 	return elem;
-#endif
 }
 
 void VertexShader::_generateInputLayout(std::span<InputLayoutElement> inputLayout)

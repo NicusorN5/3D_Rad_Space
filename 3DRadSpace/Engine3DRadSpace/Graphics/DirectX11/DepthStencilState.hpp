@@ -1,15 +1,15 @@
 #pragma once
 #include "GraphicsDevice.hpp"
 #include "../IDepthStencilState.hpp"
+#include "DirectX11.h"
 
 namespace Engine3DRadSpace::Graphics::DirectX11
 {
 	class E3DRSP_GRAPHICS_EXPORT DepthStencilState : public IDepthStencilState
 	{
 		GraphicsDevice* _device;
-#ifdef USING_DX11
+
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilState> _state;
-#endif
 		unsigned int _stencilRef;
 		void _debugInfo();
 		explicit DepthStencilState(GraphicsDevice* device, std::monostate cpy);

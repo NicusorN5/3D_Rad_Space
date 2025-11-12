@@ -1,5 +1,6 @@
 #pragma once
 #include "../IShader.hpp"
+#include "DirectX11.h"
 
 namespace Engine3DRadSpace::Graphics::DirectX11
 {

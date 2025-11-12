@@ -10,19 +10,15 @@ using namespace Engine3DRadSpace::Internal;
 RenderTarget::RenderTarget(GraphicsDevice *device, PixelFormat format) :
 	Texture2D(device, std::monostate{}, true, format)
 {
-#ifdef USING_DX11
 	HRESULT r = device->_device->CreateRenderTargetView(_texture.Get(), nullptr, _renderTarget.GetAddressOf());
 	if(FAILED(r)) throw Exception("Failed to create a render target!");
-#endif
 }
 
 RenderTarget::RenderTarget(GraphicsDevice *device, unsigned x, unsigned y, PixelFormat format):
 	Texture2D(device, x, y, true, format)
 {
-#ifdef USING_DX11
 	HRESULT r = device->_device->CreateRenderTargetView(_texture.Get(), nullptr, _renderTarget.GetAddressOf());
 	if(FAILED(r)) throw Exception("Failed to create a render target!");
-#endif
 }
 
 RenderTarget::RenderTarget(GraphicsDevice* device, std::monostate cpy) :
@@ -31,7 +27,7 @@ RenderTarget::RenderTarget(GraphicsDevice* device, std::monostate cpy) :
 	(void)cpy;
 
 	_device = device;
-#ifdef USING_DX11
+
 	device->_context->OMGetRenderTargets(1, &_renderTarget, nullptr);
 
 	ID3D11Resource* res;
@@ -39,7 +35,6 @@ RenderTarget::RenderTarget(GraphicsDevice* device, std::monostate cpy) :
 
 	HRESULT r = res->QueryInterface<ID3D11Texture2D>(&_texture);
 	if(FAILED(r)) throw Exception("Failed to get the texture from the render target!");
-#endif
 }
 
 RenderTarget::RenderTarget(AssetUUIDReader r) :

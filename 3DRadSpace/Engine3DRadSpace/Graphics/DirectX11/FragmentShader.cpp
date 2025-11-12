@@ -10,7 +10,6 @@ using namespace Engine3DRadSpace::Logging;
 
 void FragmentShader::_createShader()
 {
-#ifdef USING_DX11
 	HRESULT r = _device->_device->CreatePixelShader(
 		_shaderBlob->GetBufferPointer(),
 		_shaderBlob->GetBufferSize(),
@@ -22,7 +21,6 @@ void FragmentShader::_createShader()
 #ifdef _DEBUG
 	const char shaderName[] = "FragmentShader::_shader";
 	_shader->SetPrivateData(WKPDID_D3DDebugObjectName, sizeof(shaderName), shaderName);
-#endif
 #endif
 }
 

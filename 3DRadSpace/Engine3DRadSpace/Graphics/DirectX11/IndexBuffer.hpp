@@ -1,5 +1,6 @@
 #pragma once
 #include "IIndexBuffer.hpp"
+#include "DirectX11.h"
 
 namespace Engine3DRadSpace::Graphics::DirectX11
 {
@@ -12,15 +13,13 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 	/// </remarks>
 	class E3DRSP_GRAPHICS_EXPORT IndexBuffer : IIndexBuffer
 	{
-#ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11Buffer> _indexBuffer;
-#endif
+
 		GraphicsDevice* _device;
 		unsigned _numIndices;
 		void _debugInfo();
-#ifdef USING_DX11
+
 		IndexBuffer(GraphicsDevice* device, Microsoft::WRL::ComPtr<ID3D11Buffer>&& buffer, unsigned numIndices);
-#endif
 	public:
 		/// <summary>
 		/// Constructs a index buffer from the specified indices.
@@ -28,13 +27,6 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		/// <param name="device">Graphics device handle.</param>
 		/// <param name="indices">Array of indices. Must not be empty.</param>
 		IndexBuffer(GraphicsDevice* device, std::span<unsigned> indices);
-		/// <summary>
-		/// Constructs a index buffer from the specified indices.
-		/// </summary>
-		/// <param name="device">Graphics device.</param>
-		/// <param name="indices">Pointer to a array of unsigned indices.</param>
-		/// <param name="numindices">Number of indices. Must not be 0.</param>
-		IndexBuffer(GraphicsDevice* device, unsigned* indices, size_t numindices);
 
 		IndexBuffer(IndexBuffer&) = delete;
 		IndexBuffer(IndexBuffer&&) noexcept = default;

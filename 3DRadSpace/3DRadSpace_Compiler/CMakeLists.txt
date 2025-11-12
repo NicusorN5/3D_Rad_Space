@@ -23,12 +23,6 @@ if(MSVC)
 	add_compile_options(3DRadSpace-compiler PRIVATE "/MP")
 endif()
 
-if(WIN32)
-	target_compile_definitions(3DRadSpace-compiler PRIVATE USING_DX11=1)
-elseif(LINUX)
-	target_compile_definitions(3DRadSpace-compiler PRIVATE USING_VULKAN=1)
-endif()
-
 #Link 3DRadSpace
 #target_link_libraries(3DRadSpace-compiler PRIVATE 3DRadSpace)
 #target_include_directories(3DRadSpace-compiler PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)

@@ -2,6 +2,7 @@
 #include "../IDepthStencilBuffer.hpp"
 #include "GraphicsDevice.hpp"
 #include "Texture2D.hpp"
+#include "DirectX11.h"
 
 namespace Engine3DRadSpace::Graphics::DirectX11
 {
@@ -13,13 +14,12 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 	/// </remarks>
 	class E3DRSP_GRAPHICS_NULL_EXPORT DepthStencilBuffer : public IDepthStencilBuffer
 	{
-#ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilView> _depthView;
 
 		D3D11_TEXTURE2D_DESC _defaultDepthDesc(unsigned x, unsigned y);
 		D3D11_DEPTH_STENCIL_VIEW_DESC _defaultDepthViewDesc();
 		D3D11_SHADER_RESOURCE_VIEW_DESC _defaultShaderViewDesc();
-#endif
+
 		std::unique_ptr<Texture2D> _depthTexture;
 		GraphicsDevice *_device;
 		void _createDepthTexture(unsigned x, unsigned y);

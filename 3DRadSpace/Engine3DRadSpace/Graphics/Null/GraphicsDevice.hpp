@@ -23,45 +23,6 @@ namespace Engine3DRadSpace::Graphics::Null
 		GraphicsDevice& operator=(const GraphicsDevice&) = delete;
 		GraphicsDevice& operator=(GraphicsDevice&&) = delete;
 
-		void Clear(const Math::Color& clearColor = {0.0f, 0.0f, 0.0f, 1.0f}) override;
-		void ClearRenderTarget(IRenderTarget* rt, const Math::Color& clearColor = {0.0f, 0.0f, 0.0f, 1.0f}) override;
-		void ClearDepthBuffer(IDepthStencilBuffer* depth) override;
-
-		void SetViewport() override;
-		void SetViewport(const Viewport& viewport) override;
-
-		void SetViewports(std::span<Viewport> viewports) override;
-		Viewport GetViewport() override;
-
-		void SetRenderTarget(IRenderTarget* renderTarget) override;
-		
-		void UnbindRenderTargetAndDepth() override;
-		
-		void UnbindDepthBuffer() override;
-		
-		void SetRenderTargetAndDepth(IRenderTarget* renderTarget, IDepthStencilBuffer* depthBuffer) override;
-		
-		void SetRenderTargetAndDisableDepth(IRenderTarget* renderTarget) override;
-
-		void DrawVertexBufferWithindices(IVertexBuffer* vertexBuffer, IIndexBuffer* indexBuffer) override;
-		void DrawVertexBufferWithindices(IVertexBuffer* vertexBuffer, IIndexBuffer* indexBuffer, unsigned numIndices) override;
-
-		void SetShader(IShader* shader) override;
-
-		void SetRasterizerState(const IRasterizerState* state) override;
-		IRasterizerState* GetRasterizerState() override;
-
-		void SetDepthStencilBuffer(IDepthStencilBuffer* depthBuffer) override;
-		void SetDepthStencilState(IDepthStencilState* depthState, unsigned ref) override;
-
-		void SetBlendState(IBlendState* blendState, const Math::Color& blendFactor = Math::Colors::Black, unsigned sampleMask = 0xFFFFFFFF) override;
-
-		void SetTopology(VertexTopology topology) override;
-		void DrawAuto() override;
-		void Present() override;
-
-		void SaveBackBufferToFile(const std::filesystem::path& path) override;
-
 		bool EnableVSync;
 
 		Math::Point Resolution() const noexcept override;

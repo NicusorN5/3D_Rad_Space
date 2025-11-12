@@ -8,7 +8,6 @@ add_library(3DRadSpace.Content.Assets STATIC
 	"TextureAsset.cpp"
 	"FontAsset.cpp"
 	"ModelAsset.cpp"
-	
 )
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
@@ -34,9 +33,7 @@ if(MSVC)
 endif()
 
 if(WIN32)
-	target_compile_definitions(3DRadSpace.Content.Assets PRIVATE USING_DX11=1 _WINDLL=1)
-elseif(LINUX)
-	target_compile_definitions(3DRadSpace.Content.Assets PRIVATE USING_VULKAN=1)
+	target_compile_definitions(3DRadSpace.Content.Assets PRIVATE _WINDLL=1)
 endif()
 
 #

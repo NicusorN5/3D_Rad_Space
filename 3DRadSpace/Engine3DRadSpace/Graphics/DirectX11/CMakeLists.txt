@@ -19,6 +19,7 @@ add_library(3DRadSpace.Graphics.DirectX11 STATIC
 	"Texture2D.cpp"
 	"VertexBuffer.cpp"
 	"ShaderCompiler.cpp"
+	"GraphicsCommandList.cpp"
 )
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
@@ -44,9 +45,7 @@ if(MSVC)
 endif()
 
 if(WIN32)
-	target_compile_definitions(3DRadSpace.Graphics.DirectX11 PRIVATE USING_DX11=1 _WINDLL=1)
-elseif(LINUX)
-	target_compile_definitions(3DRadSpace.Graphics.DirectX11 PRIVATE USING_VULKAN=1)
+	target_compile_definitions(3DRadSpace.Graphics.DirectX11 PRIVATE _WINDLL=1)
 endif()
 
 #

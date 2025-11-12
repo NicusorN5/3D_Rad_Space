@@ -8,12 +8,10 @@ using namespace Engine3DRadSpace::Logging;
 
 void RasterizerState::_debugInfo()
 {
-#ifdef USING_DX11
 #ifdef DEBUG
 	const char textureName[] = "RasterizerState::_rasterizerState";
 	_rasterizerState->SetPrivateData(WKPDID_D3DDebugObjectName, sizeof(textureName) - 1, textureName);
 #endif // DEBUG
-#endif
 }
 
 RasterizerState::RasterizerState(
@@ -29,7 +27,6 @@ RasterizerState::RasterizerState(
 	bool multisample,
 	bool aaLine) 
 {
-#ifdef USING_DX11
 	D3D11_RASTERIZER_DESC desc{};
 	desc.FillMode = static_cast<D3D11_FILL_MODE>(filling); //TODO: prefer using a switch case
 	desc.CullMode = static_cast<D3D11_CULL_MODE>(culling);
@@ -50,15 +47,12 @@ RasterizerState::RasterizerState(
 	_rasterizerState->SetPrivateData(WKPDID_D3DDebugObjectName, sizeof(rasterizerStateName) - 1, rasterizerStateName);
 #endif
 	_debugInfo();
-#endif
 }
 
 RasterizerState::RasterizerState(GraphicsDevice* device, std::monostate cpy)
 {
 	(void)cpy; //unused argument
-#ifdef USING_DX11
 	device->_context->RSGetState(&_rasterizerState);
-#endif
 }
 
 void* RasterizerState::GetHandle() const noexcept

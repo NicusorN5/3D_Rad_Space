@@ -29,12 +29,6 @@ if(MSVC)
 	endif()
 endif()
 
-if(WIN32)
-	target_compile_definitions(3DRadSpace-editor PRIVATE USING_DX11=1)
-elseif(LINUX)
-	target_compile_definitions(3DRadSpace-editor PRIVATE USING_VULKAN=1)
-endif()
-
 #Link 3DRadSpace
 target_link_libraries(3DRadSpace-editor PRIVATE 3DRadSpace_Objects)
 target_link_libraries(3DRadSpace-editor PRIVATE 3DRadSpace_Graphics)

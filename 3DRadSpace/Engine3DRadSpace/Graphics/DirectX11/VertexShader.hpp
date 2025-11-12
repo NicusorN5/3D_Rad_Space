@@ -9,16 +9,13 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 	/// </summary>
 	class E3DRSP_GRAPHICS_EXPORT VertexShader : public ShaderBase
 	{
-#ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11VertexShader> _shader;
 
 		Microsoft::WRL::ComPtr<ID3D11InputLayout> _inputLayout;
-#endif
 		void _createShader();
-#ifdef USING_DX11
+
 		const char *_determineTarget();
 		[[nodiscard]] D3D11_INPUT_ELEMENT_DESC *_generateInputElementDesc(std::span<InputLayoutElement> inputLayout);
-#endif
 		void _generateInputLayout(std::span<InputLayoutElement> inputLayout);
 	public:
 		/// <summary>

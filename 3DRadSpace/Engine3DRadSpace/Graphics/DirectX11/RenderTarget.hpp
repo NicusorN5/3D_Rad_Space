@@ -6,9 +6,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 {
 	class E3DRSP_GRAPHICS_EXPORT RenderTarget : public Texture2D, public IRenderTarget
 	{
-#ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11RenderTargetView> _renderTarget;
-#endif
 	protected:
 		explicit RenderTarget(GraphicsDevice* device, std::monostate cpy);
 		explicit RenderTarget(Internal::AssetUUIDReader r);

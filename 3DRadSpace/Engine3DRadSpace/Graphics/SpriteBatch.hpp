@@ -103,7 +103,6 @@ namespace Engine3DRadSpace::Graphics
 		void _drawAllEntries();
 		void _restoreGraphicsDevice();
 
-#ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11RasterizerState> _oldRasterizerState;
 
 		Microsoft::WRL::ComPtr<ID3D11BlendState> _oldBlendState;
@@ -112,7 +111,7 @@ namespace Engine3DRadSpace::Graphics
 
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilState> _oldStencilState;
 		unsigned _oldStencilRef;
-#endif
+
 		std::unique_ptr<IRasterizerState> _rasterizerState;
 		std::unique_ptr<ISamplerState> _samplerState;
 		std::unique_ptr<IDepthStencilState> _depthBufferState;

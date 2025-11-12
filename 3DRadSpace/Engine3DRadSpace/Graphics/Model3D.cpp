@@ -64,10 +64,10 @@ Model3D::Model3D(IGraphicsDevice* Device, const std::filesystem::path& path) :
 		aiProcess_SplitLargeMeshes |
 		aiProcess_SortByPType |
 		aiProcess_GenBoundingBoxes |
-#if USING_DX11
+// Dx11 (begin)
 		aiProcess_FlipUVs |
 		aiProcess_FlipWindingOrder
-#endif
+// Dx11 (end)
 	);
 
 	if(scene == nullptr)

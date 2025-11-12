@@ -1,6 +1,7 @@
 #pragma once
 #include "GraphicsDevice.hpp"
 #include "../IBlendState.hpp"
+#include "DirectX11.h"
 
 namespace Engine3DRadSpace::Graphics::DirectX11
 {

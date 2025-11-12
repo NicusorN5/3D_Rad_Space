@@ -3,6 +3,7 @@
 #include "GraphicsDevice.hpp"
 #include "../TextureFilter.hpp"
 #include "../TextureAddressMode.hpp"
+#include "DirectX11.h"
 
 namespace Engine3DRadSpace::Graphics::DirectX11
 {

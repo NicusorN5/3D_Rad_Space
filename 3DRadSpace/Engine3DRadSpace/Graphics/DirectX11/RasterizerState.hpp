@@ -2,6 +2,7 @@
 #include "../IRasterizerState.hpp"
 #include "../RasterizerCullMode.hpp"
 #include "../RasterizerFillMode.hpp"
+#include "DirectX11.h"
 
 namespace Engine3DRadSpace::Graphics::DirectX11
 {
@@ -9,10 +10,9 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 
 	class E3DRSP_GRAPHICS_EXPORT RasterizerState : public IRasterizerState
 	{
-#ifdef USING_DX11
 		Microsoft::WRL::ComPtr<ID3D11RasterizerState> _rasterizerState;
 		void _debugInfo();
-#endif
+
 		RasterizerState(GraphicsDevice* device, std::monostate cpy);
 	public:
 
