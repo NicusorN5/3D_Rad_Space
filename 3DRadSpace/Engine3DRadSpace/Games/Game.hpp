@@ -14,11 +14,12 @@
 #include "../Physics/PhysicsEngine.hpp"
 #include "../Audio/AudioEngine.hpp"
 #include "../Graphics/Rendering/PostProcessCollection.hpp"
+#include "../Core/IGame.hpp"
 
 namespace Engine3DRadSpace
 {
-	class ObjectList;
-	class E3DRSP_GAMES_EXPORT Game : public IUpdateable, public IDrawable3D, public IDrawable2D, public IInitiializable, public ILoadable
+	class Objects::ObjectList;
+	class E3DRSP_GAMES_EXPORT Game : public IGame, public IUpdateable, public IDrawable3D, public IDrawable2D, public IInitiializable, public ILoadable
 	{
 	private:
 		bool _valid = false;
@@ -40,7 +41,7 @@ namespace Engine3DRadSpace
 		Game& operator=(Game&&) = delete;
 
 		std::unique_ptr<Native::Window> Window;
-		std::unique_ptr<Graphics::GraphicsDevice> Device;
+		std::unique_ptr<Graphics::IGraphicsDevice> Device;
 		std::unique_ptr<ObjectList> Objects;
 
 		Math::Matrix4x4 View;

@@ -24,17 +24,17 @@ template<> FieldRepresentation Reflection::GetFieldRepresentation<std::string>()
 	return {{ FieldRepresentationType::String, ""}};
 }
 
-template<> FieldRepresentation Reflection::GetFieldRepresentation<AssetID<Texture2D>>()
+template<> FieldRepresentation Reflection::GetFieldRepresentation<AssetID<TextureAsset>>()
 {
 	return {{FieldRepresentationType::Image, ""}};
 }
 
-template<> FieldRepresentation Reflection::GetFieldRepresentation<AssetID<Model3D>>()
+template<> FieldRepresentation Reflection::GetFieldRepresentation<AssetID<ModelAsset>>()
 {
 	return {{FieldRepresentationType::Model, ""}};
 }
 
-template<> FieldRepresentation Reflection::GetFieldRepresentation<AssetID<Font>>()
+template<> FieldRepresentation Reflection::GetFieldRepresentation<AssetID<FontAsset>>()
 {
 	return { {FieldRepresentationType::Font, ""} };
 }

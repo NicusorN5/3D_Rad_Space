@@ -4,9 +4,9 @@
 #include "../Math/Vector4.hpp"
 #include "../Math/Quaternion.hpp"
 #include "../Math/Rectangle.hpp"
-#include "../Graphics/Texture2D.hpp"
-#include "../Graphics/Model3D.hpp"
-#include "../Graphics/Font.hpp"
+#include "../Content/Assets/TextureAsset.hpp"
+#include "../Content/Assets/ModelAsset.hpp"
+#include "../Content/Assets/FontAsset.hpp"
 #include "../Content/Assets/SkyboxAsset.hpp"
 #include "../Input/Keyboard.hpp"
 #include "../Core/Concepts.hpp"
@@ -17,6 +17,19 @@
 namespace Engine3DRadSpace
 {
 	class IObject;
+
+	namespace Audio
+	{
+		class Sound;
+	}
+	namespace Content::Assets
+	{
+		class TextureAsset;
+		class ModelAsset;
+		class FontAsset;
+		class SkyboxAsset;
+		class ShaderAsset;
+	}
 }
 namespace Engine3DRadSpace::Reflection
 {
@@ -59,9 +72,9 @@ namespace Engine3DRadSpace::Reflection
 	template<AssetIDType T>
 	FieldRepresentation GetFieldRepresentation() { return { {FieldRepresentationType::Custom,""} }; }
 	
-	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Content::AssetID<Graphics::Texture2D>>();
-	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Content::AssetID<Graphics::Model3D>>();
-	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Content::AssetID<Graphics::Font>>();
+	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Content::AssetID<Content::Assets::TextureAsset>>();
+	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Content::AssetID<Content::Assets::ModelAsset>>();
+	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Content::AssetID<Content::Assets::FontAsset>>();
 	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Content::AssetID<Content::Assets::SkyboxAsset>>();
 	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Content::AssetID<Audio::Sound>>();
 

@@ -6,7 +6,7 @@ namespace Engine3DRadSpace::Graphics::Rendering
 	/// <summary>
 	/// Represents a base type of a Outline rendering effect.
 	/// </summary>
-	class E3DRSP_GRAPHICS_EXPORT IEffectOutline : public IRenderingEffect
+	class E3DRSP_GRAPHICS_RENDERING_EXPORT IEffectOutline : public IRenderingEffect
 	{
 	protected:
 		IEffectOutline() = default;

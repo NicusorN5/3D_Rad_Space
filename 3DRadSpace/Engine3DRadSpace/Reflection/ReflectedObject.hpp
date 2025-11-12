@@ -1,11 +1,12 @@
 #pragma once
 #include "ReflectedField.hpp"
 #include "UUID.hpp"
+#include "../Core/AssetUUIDReader.hpp"
 
 namespace Engine3DRadSpace::Reflection
 {
 	template<typename O>
-	concept ReflectableObject = std::is_base_of_v<IObject, O> && std::is_default_constructible_v<O>;
+	concept ReflectableObject = std::is_default_constructible_v<O>;
 
 	template<ReflectableObject O>
 	struct ObjectTag {};

@@ -1,7 +1,7 @@
 #pragma once
 #include "../Reflection/UUID.hpp"
 #include "../Content/IAsset.hpp"
-#include "../Core/Tag.hpp"
+#include "Tag.hpp"
 
 namespace Engine3DRadSpace::Internal
 {
@@ -23,6 +23,13 @@ namespace Engine3DRadSpace::Internal
 		{
 			(void)dummy;
 			return (T(AssetUUIDReader{})).FileExtension();
+		}
+
+		template<Content::AssetType T>
+		static std::type_index GetInitializationService(Tag<T> dummy)
+		{
+			(void)dummy;
+			return (T(AssetUUIDReader{})).InitializationService();
 		}
 	};
 }

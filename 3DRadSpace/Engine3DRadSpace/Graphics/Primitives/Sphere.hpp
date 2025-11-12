@@ -1,8 +1,7 @@
 #pragma once
 #include "IPrimitive.hpp"
-#include "../Shaders/BlankShader.hpp"
-#include "../VertexBuffer.hpp"
-#include "../IndexBuffer.hpp"
+#include "../IVertexBuffer.hpp"
+#include "../IIndexBuffer.hpp"
 
 namespace Engine3DRadSpace::Graphics::Primitives
 {
@@ -12,7 +11,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 	/// <remarks>
 	/// Same remarks as the Box type.
 	/// </remarks>
-	class E3DRSP_GRAPHICS_EXPORT Sphere : public IPrimitive
+	class E3DRSP_GRAPHICS_PRIMITIVES_EXPORT Sphere : public IPrimitive
 	{
 		float _radius;
 	public:
@@ -23,7 +22,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		/// <param name="radius">Radius of the sphere.</param>
 		/// <param name="color">Vertex color of the sphere.</param>
 		/// <param name="resolution">Defines how accurate the sphere is.</param>
-		Sphere(GraphicsDevice *device, float radius, Math::Color color, unsigned resolution);
+		Sphere(IGraphicsDevice *device, float radius, Math::Color color, unsigned resolution);
 
 		Sphere(const Sphere &) = delete;
 		Sphere(Sphere &&) noexcept = default;
@@ -32,7 +31,5 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		Sphere &operator=(Sphere &&) noexcept = default;
 
 		float GetRadius() const noexcept;
-
-		void Draw3D() override;
 	};
 }

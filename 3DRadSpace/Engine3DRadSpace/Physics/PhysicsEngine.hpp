@@ -1,12 +1,13 @@
 #pragma once
 #include "PhysicsSettings.hpp"
+#include "../Core/IService.hpp"
 
 namespace Engine3DRadSpace::Physics
 {
 	/// <summary>
 	/// Manages physics scene, and physics object factory.
 	/// </summary>
-	class E3DRSP_PHYSICS_EXPORT PhysicsEngine
+	class E3DRSP_PHYSICS_EXPORT PhysicsEngine : public IService
 	{
 		std::unique_ptr<void, std::function<void(void*)>> _allocator;
 		std::unique_ptr<void, std::function<void(void*)>> _errCallback;
@@ -48,6 +49,6 @@ namespace Engine3DRadSpace::Physics
 		void* GetCPUDispatcher() const noexcept;
 		void* GetScene() const noexcept;
 
-		~PhysicsEngine();
+		~PhysicsEngine() override;
 	};
 }

@@ -1,0 +1,44 @@
+#pragma once
+#include "../IAsset.hpp"
+
+namespace Engine3DRadSpace
+{
+	class IService;
+	namespace Graphics
+	{
+		class Model3D;
+	}
+	namespace Internal
+	{
+		struct AssetUUIDReader;
+	}
+
+	namespace Content::Assets
+	{
+		class E3DRSP_CONTENT_ASSETS_EXPORT ModelAsset final : public IAsset
+		{
+			std::unique_ptr<Graphics::Model3D> _model;
+
+			ModelAsset(Internal::AssetUUIDReader dummy);
+		public:
+			ModelAsset(IService* device, const std::filesystem::path &path);
+
+			Reflection::UUID GetUUID() const noexcept override;
+			/// <summary>
+			/// Refer to https://github.com/assimp/assimp/blob/master/doc/Fileformats.md for all supported file formats.
+			/// </summary>
+			/// <returns></returns>
+			const char* FileExtension() const noexcept override;
+
+			operator Graphics::Model3D() const;
+			Graphics::Model3D& GetModel() const;
+			Graphics::Model3D* operator->() const noexcept;
+
+			std::type_index InitializationService() const noexcept override;
+
+			~ModelAsset() override = default;
+
+			friend struct Internal::AssetUUIDReader;
+		};
+	}
+}

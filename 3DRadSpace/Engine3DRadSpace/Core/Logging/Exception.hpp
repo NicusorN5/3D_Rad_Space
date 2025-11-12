@@ -22,6 +22,7 @@ namespace Engine3DRadSpace::Logging
 
 		virtual std::string What() const;
 		const char* what() const override;
+
 		~Exception() override = default;
 	};
 #pragma warning(pop)

@@ -1,45 +1,57 @@
 #include "PostProcessEffect.hpp"
+#include "../IGraphicsDevice.hpp"
+#include "../IShaderCompiler.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Graphics::Rendering;
 
 PostProcessEffect::PostProcessEffect(
-	GraphicsDevice* device,
-	const char* shaderSource,
-	const char* entryFunction, 
-	ShaderFeatureLevel fl
-) : 
-	IFragmentShader(device, shaderSource, entryFunction, fl),
-	_vertex(device, fl),
-	_backbuffer_copy(nullptr),
-	_depthBuffer_copy(nullptr)
+	IGraphicsDevice* device,
+	const ShaderDesc& desc
+) :
+	_device(device)
 {
-}
+	auto desc = ShaderDescFile(
+		"Data\\Shaders\\PostProcessBase.hlsl",
+		"PostProcessBase_Main",
+		ShaderType::Vertex
+	);
 
-PostProcessEffect::PostProcessEffect(
-	GraphicsDevice* device,
-	const std::filesystem::path &path,
-	const char* entryFunction, 
-	ShaderFeatureLevel fl
-) : 
-	IFragmentShader(device, path, entryFunction, fl),
-	_vertex(device, fl),
-	_backbuffer_copy(nullptr),
-	_depthBuffer_copy(nullptr)
-{
+	auto vs = _device->ShaderCompiler()->Compile(&desc);
+	if (vs.second.Succeded)
+	{
+		this->_vertex = vs.first;
+	}
 }
 
 void PostProcessEffect::Apply()
 {	
 	//create a full screen quad and apply the shader to it.
 	_device->SetScreenQuad();
-	_device->SetShader(&_vertex);
+	_device->SetShader(_vertex);
 
 	this->SetTexture(0, _backbuffer_copy);
-	//this->SetTexture(1, _device->GetDepthBuffer().GetDepthTexture());
 	this->SetTexture(1, _depthBuffer_copy);
-	SetShader();
+
+	_device->SetShader(this);
+}
+
+void PostProcessEffect::SetTexture(unsigned index, ITexture2D* texture)
+{
+	_vertex->SetTexture(index, texture);
+	_effect->SetTexture(index, texture);
+}
+
+void PostProcessEffect::SetSampler(unsigned index, ISamplerState* sampler)
+{
+	_vertex->SetSampler(index, sampler);
+	_effect->SetSampler(index, sampler);
+}
+
+void PostProcessEffect::SetData(unsigned index, const void* data, size_t size)
+{
+	_effect->SetData(index, data, size);
 }
 
 void PostProcessEffect::Draw()
@@ -48,18 +60,12 @@ void PostProcessEffect::Draw()
 	_device->DrawScreenQuad();
 }
 
-PostProcessEffect::PostProcessVertex::PostProcessVertex(GraphicsDevice* device, ShaderFeatureLevel fl) :
-	IVertexShader(
-		device, 
-		_elements, 
-		std::filesystem::path("Data\\Shaders\\PostProcessBase.hlsl"),
-		"PostProcessBase_Main",
-		fl
-	)
+void* PostProcessEffect::GetHandle() const noexcept
 {
+	return _vertex->GetHandle();
 }
 
-std::span<InputLayoutElement> PostProcessEffect::PostProcessVertex::InputLayout()
+IGraphicsDevice* PostProcessEffect::GetGraphicsDevice() const noexcept
 {
-	return _elements;
+	return _device;
 }
