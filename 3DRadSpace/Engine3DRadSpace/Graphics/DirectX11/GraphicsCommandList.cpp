@@ -361,3 +361,12 @@ IGraphicsDevice* GraphicsCommandList::GetGraphicsDevice() const noexcept
 {
 	return _device;
 }
+
+void GraphicsCommandList::Copy(IGPUBuffer* dest, IGPUBuffer* src)
+{
+	if (dest == nullptr || src == nullptr) return;
+
+	auto rscA = static_cast<ID3D11Resource*>(dest->GetHandle());
+	auto rscB = static_cast<ID3D11Resource*>(src->GetHandle());
+	_context->CopyResource(rscA, rscB);
+}

@@ -27,6 +27,7 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, unsigned width, unsigne
 	_compiler = std::make_unique<Null::ShaderCompiler>(this);
 	_whiteBlankTexture = std::make_unique<Texture2D>(this, 2, 2, nullptr, PixelFormat::R8G8B8A8_SignedInt, BufferUsage::ReadOnlyGPU);
 	_context = std::make_unique<GraphicsCommandList>(this);
+	_screenQuad = std::make_unique<VertexBuffer>(this, nullptr, 0, 0);
 }
 
 Math::Point GraphicsDevice::Resolution() const noexcept
@@ -296,4 +297,9 @@ std::unique_ptr<IGraphicsCommandList> GraphicsDevice::CreateCommandList()
 IGraphicsCommandList* GraphicsDevice::ImmediateContext()
 {
 	return _context.get();
+}
+
+IVertexBuffer* GraphicsDevice::GetScreenQuad() const noexcept
+{
+	return _screenQuad.get();
 }

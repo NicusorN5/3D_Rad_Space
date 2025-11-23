@@ -17,6 +17,7 @@ namespace Engine3DRadSpace::Graphics::Null
 		std::unique_ptr<IShaderCompiler> _compiler;
 		std::unique_ptr<ITexture2D> _whiteBlankTexture;
 		std::unique_ptr<IGraphicsCommandList> _context;
+		std::unique_ptr<IVertexBuffer> _screenQuad;
 	public:
 		GraphicsDevice() = delete;
 		explicit GraphicsDevice(void* nativeWindowHandle, unsigned width = 800, unsigned height = 600);
@@ -29,32 +30,32 @@ namespace Engine3DRadSpace::Graphics::Null
 
 		bool EnableVSync;
 
-		//virtual std::unique_ptr<IRasterizerState> GetRasterizerState() override;
+		//std::unique_ptr<IRasterizerState> GetRasterizerState() override;
 
-		virtual Math::Point Resolution() const noexcept override;
+		Math::Point Resolution() const noexcept override;
 
-		virtual IRenderTarget* GetBackBuffer() override;
-		virtual ITexture2D *GetBackBufferTexture() override;
-		virtual IDepthStencilBuffer& GetDepthBuffer() override;
+		IRenderTarget* GetBackBuffer() override;
+		ITexture2D *GetBackBufferTexture() override;
+		IDepthStencilBuffer& GetDepthBuffer() override;
 		std::unique_ptr<IRasterizerState> GetRasterizerState() override;
 
-		virtual std::unique_ptr<IBlendState> CreateBlendState(
+		std::unique_ptr<IBlendState> CreateBlendState(
 			bool alphaCoverage, 
 			bool indepedentBlend,
 			std::array<RenderTargetBlendState, 8> renderTargetBlendStates
 		) override;
 
-		virtual std::unique_ptr<IBlendState> CreateBlendState_Opaque() override;
-		virtual std::unique_ptr<IBlendState> CreateBlendState_AlphaBlend() override;
-		virtual std::unique_ptr<IBlendState> CreateBlendState_Additive() override;
-		virtual std::unique_ptr<IBlendState> CreateBlendState_NonPremultiplied() override;
+		std::unique_ptr<IBlendState> CreateBlendState_Opaque() override;
+		std::unique_ptr<IBlendState> CreateBlendState_AlphaBlend() override;
+		std::unique_ptr<IBlendState> CreateBlendState_Additive() override;
+		std::unique_ptr<IBlendState> CreateBlendState_NonPremultiplied() override;
 
-		virtual std::unique_ptr<IDepthStencilBuffer> CreateDepthStencilBuffer(
+		std::unique_ptr<IDepthStencilBuffer> CreateDepthStencilBuffer(
 			size_t x,
 			size_t y
 		) override;
 
-		virtual std::unique_ptr<IDepthStencilState> CreateDepthStencilState(
+		std::unique_ptr<IDepthStencilState> CreateDepthStencilState(
 			bool EnableDepth, 
 			DepthWriteMask Mask, 
 			ComparisonFunction Function,
@@ -65,22 +66,22 @@ namespace Engine3DRadSpace::Graphics::Null
 			FaceOperation BackFace
 		) override;
 
-		virtual std::unique_ptr<IDepthStencilState> CreateDepthStencilState_DepthDefault() override;
-		virtual std::unique_ptr<IDepthStencilState> CreateDepthStencilState_DepthNone() override;
-		virtual std::unique_ptr<IDepthStencilState> CreateDepthStencilState_DepthRead() override;
-		virtual std::unique_ptr<IDepthStencilState> CreateDepthStencilState_DepthReverseZ() override;
-		virtual std::unique_ptr<IDepthStencilState> CreateDepthStencilState_DepthReadReverseZ() override;
+		std::unique_ptr<IDepthStencilState> CreateDepthStencilState_DepthDefault() override;
+		std::unique_ptr<IDepthStencilState> CreateDepthStencilState_DepthNone() override;
+		std::unique_ptr<IDepthStencilState> CreateDepthStencilState_DepthRead() override;
+		std::unique_ptr<IDepthStencilState> CreateDepthStencilState_DepthReverseZ() override;
+		std::unique_ptr<IDepthStencilState> CreateDepthStencilState_DepthReadReverseZ() override;
 
-		virtual IShaderCompiler* ShaderCompiler() override;
+		IShaderCompiler* ShaderCompiler() override;
 		///<summmary>
 		///Returns a 2x2 blank white texture.
 		///</summary>
-		virtual ITexture2D* WhiteBlank() override;
+		ITexture2D* WhiteBlank() override;
 
-		virtual std::unique_ptr<IIndexBuffer> CreateIndexBuffer(std::span<unsigned> indices) override;
-		virtual std::unique_ptr<IIndexBuffer> CreateIndexBuffer(size_t numIndices, BufferUsage usage) override;
+		std::unique_ptr<IIndexBuffer> CreateIndexBuffer(std::span<unsigned> indices) override;
+		std::unique_ptr<IIndexBuffer> CreateIndexBuffer(size_t numIndices, BufferUsage usage) override;
 
-		virtual std::unique_ptr<IRasterizerState> CreateRasterizerState(
+		std::unique_ptr<IRasterizerState> CreateRasterizerState(
 			RasterizerFillMode filling = RasterizerFillMode::Solid,
 			RasterizerCullMode culling = RasterizerCullMode::CullBack,
 			bool switchFrontBack = false,
@@ -93,20 +94,20 @@ namespace Engine3DRadSpace::Graphics::Null
 			bool aaLine = false
 		) override;
 
-		virtual std::unique_ptr<IRasterizerState> CreateRasterizerState_CullNone() override;
-		virtual std::unique_ptr<IRasterizerState> CreateRasterizerState_CullClockwise() override;
-		virtual std::unique_ptr<IRasterizerState> CreateRasterizerState_CullCounterClockwise() override;
-		virtual std::unique_ptr<IRasterizerState> CreateRasterizerState_Wireframe() override;
+		std::unique_ptr<IRasterizerState> CreateRasterizerState_CullNone() override;
+		std::unique_ptr<IRasterizerState> CreateRasterizerState_CullClockwise() override;
+		std::unique_ptr<IRasterizerState> CreateRasterizerState_CullCounterClockwise() override;
+		std::unique_ptr<IRasterizerState> CreateRasterizerState_Wireframe() override;
 
-		virtual std::unique_ptr<IRenderTarget> CreateRenderTarget(
+		std::unique_ptr<IRenderTarget> CreateRenderTarget(
 			size_t x,
 			size_t y,
 			PixelFormat format
 		) override;
 
-		virtual std::unique_ptr<ISamplerState> CreateSamplerState() override;
+		std::unique_ptr<ISamplerState> CreateSamplerState() override;
 
-		virtual std::unique_ptr<ISamplerState> CreateSamplerState(
+		std::unique_ptr<ISamplerState> CreateSamplerState(
 			TextureFilter filter,
 			TextureAddressMode addressU,
 			TextureAddressMode addressV,
@@ -119,16 +120,16 @@ namespace Engine3DRadSpace::Graphics::Null
 			float maxLOD
 		) override;
 
-		virtual std::unique_ptr<ISamplerState> CreateSamplerState_LinearClamp() override;
-		virtual std::unique_ptr<ISamplerState> CreateSamplerState_LinearWrap() override;
+		std::unique_ptr<ISamplerState> CreateSamplerState_LinearClamp() override;
+		std::unique_ptr<ISamplerState> CreateSamplerState_LinearWrap() override;
 
-		virtual std::unique_ptr<ISamplerState> CreateSamplerState_PointClamp() override;
-		virtual std::unique_ptr<ISamplerState> CreateSamplerState_PointWrap() override;
+		std::unique_ptr<ISamplerState> CreateSamplerState_PointClamp() override;
+		std::unique_ptr<ISamplerState> CreateSamplerState_PointWrap() override;
 
-		virtual std::unique_ptr<ISamplerState> CreateSamplerState_AnisotropicClamp() override;
-		virtual std::unique_ptr<ISamplerState> CreateSamplerState_AnisotropicWrap() override;
+		std::unique_ptr<ISamplerState> CreateSamplerState_AnisotropicClamp() override;
+		std::unique_ptr<ISamplerState> CreateSamplerState_AnisotropicWrap() override;
 
-		virtual std::unique_ptr<ITexture2D> CreateTexture2D(
+		std::unique_ptr<ITexture2D> CreateTexture2D(
 			size_t x,
 			size_t y,
 			void* data,
@@ -136,17 +137,19 @@ namespace Engine3DRadSpace::Graphics::Null
 			BufferUsage usage
 		) override;
 
-		virtual std::unique_ptr<ITexture2D> CreateTexture2D(const std::filesystem::path& path) override;
+		std::unique_ptr<ITexture2D> CreateTexture2D(const std::filesystem::path& path) override;
 
-		virtual std::unique_ptr<IVertexBuffer> CreateVertexBuffer(
+		std::unique_ptr<IVertexBuffer> CreateVertexBuffer(
 			const void* data,
 			size_t structSize,
 			size_t numVertices,
 			BufferUsage usage
 		) override;
 
-		virtual std::unique_ptr<IGraphicsCommandList> CreateCommandList() override;
-		virtual IGraphicsCommandList* ImmediateContext() override;
+		std::unique_ptr<IGraphicsCommandList> CreateCommandList() override;
+		IGraphicsCommandList* ImmediateContext() override;
+
+		IVertexBuffer* GetScreenQuad() const noexcept override;
 
 		~GraphicsDevice() override;
 	};

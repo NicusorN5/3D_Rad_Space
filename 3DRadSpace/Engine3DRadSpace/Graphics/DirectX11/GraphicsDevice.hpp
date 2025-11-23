@@ -191,6 +191,8 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		virtual std::unique_ptr<IGraphicsCommandList> CreateCommandList() override;
 		virtual IGraphicsCommandList* ImmediateContext() override;
 
+		IVertexBuffer* GetScreenQuad() const noexcept override;
+
 		~GraphicsDevice() override;
 
 		friend class VertexBuffer;

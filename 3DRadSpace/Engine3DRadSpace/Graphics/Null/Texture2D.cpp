@@ -133,12 +133,6 @@ void Texture2D::EndRead()
 
 }
 
-void Texture2D::Copy(Texture2D* destination, Texture2D* source)
-{
-	(void)destination;
-	(void)source;
-}
-
 void* Texture2D::GetViewHandle() const noexcept
 {
 	return nullptr;

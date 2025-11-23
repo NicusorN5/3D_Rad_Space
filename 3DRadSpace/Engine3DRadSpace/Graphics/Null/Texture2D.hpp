@@ -7,6 +7,7 @@
 
 namespace Engine3DRadSpace::Graphics::Null
 {
+	class GraphicsDevice;
 	class DepthStencilBuffer;
 	/// <summary>
 	/// Represents a 2D texture.
@@ -35,8 +36,6 @@ namespace Engine3DRadSpace::Graphics::Null
 
 		void SetColors(Math::Color** colors, unsigned x, unsigned y);
 
-		void Resize(unsigned newX, unsigned newY);
-
 		void SaveToFile(const std::string &path);
 
 		unsigned Width() const noexcept override;
@@ -57,8 +56,6 @@ namespace Engine3DRadSpace::Graphics::Null
 		size_t ReadData(void **data) override;
 		void SetData(void *data, size_t buffSize) override;
 		void EndRead() override;
-
-		static void Copy(Texture2D* destination, Texture2D* source);
 
 		void* GetViewHandle() const noexcept override;
 

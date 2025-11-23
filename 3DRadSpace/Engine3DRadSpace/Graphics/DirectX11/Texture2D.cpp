@@ -11,6 +11,8 @@
 #include "../Core/Logging/AssetLoadingError.hpp"
 #include "GraphicsDevice.hpp"
 #include "RenderTarget.hpp"
+#include "SamplerState.hpp"
+#include "../IGraphicsCommandList.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content;
@@ -603,14 +605,6 @@ Texture2D::Texture2D(GraphicsDevice *device, std::monostate dummy, bool bindRend
 	_debugInfoRT();
 }
 
-Texture2D::Texture2D(Internal::AssetUUIDReader a):
-	_device(nullptr),
-	_width(0),
-	_height(0),
-	_format(PixelFormat::Unknown)
-{
-}
-
 Texture2D::Texture2D(GraphicsDevice* device, Microsoft::WRL::ComPtr<ID3D11Texture2D>&& texture, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>&& resource) :
 	_device(device),
 	_texture(std::move(texture)),
@@ -662,36 +656,9 @@ Texture2D Texture2D::CreateStaging(Texture2D* texture)
 	return Texture2D(texture->_device, std::monostate(), std::move(stagingTexture));
 }
 
-std::unique_ptr<ITexture2D> Texture2D::CreateStaging() override
+std::unique_ptr<ITexture2D> Texture2D::CreateStaging()
 {
-	return std::unique_ptr<Texture2D>(new Texture2D::CreateStaging(this));
-}
-
-
-void Texture2D::Resize(unsigned newX, unsigned newY)
-{
-	RenderTarget rt(_device, newX, newY, _format);
-	SamplerState ss(_device);
-
-	_device->SetRenderTargetAndDisableDepth(&rt);
-	_device->ClearRenderTarget(&rt,Colors::Black);
-
-	auto effect = ShaderManager::LoadShader<Shaders::SpriteShader>(_device);
-	effect->SetBasic();
-	effect->SetTexture(this);
-	effect->SetSamplerState(&ss);
-
-	_device->SetScreenQuad();
-	_device->DrawScreenQuad();
-
-	_width = newX;
-	_height = newY;
-
-	_device->SetRenderTargetAndDepth(nullptr, nullptr);
-
-	auto copy = static_cast<Texture2D*>(&rt);
-	this->_texture = std::move(copy->_texture);
-	this->_resourceView = std::move(copy->_resourceView);
+	
 }
 
 void Texture2D::SaveToFile(const std::string &path)
@@ -751,17 +718,17 @@ void Texture2D::EndRead(unsigned resourceID)
 	_device->_context->Unmap(_texture.Get(), 0);
 }
 
-void* Texture2D::GetHandle() const noexcept override
+void* Texture2D::GetHandle() const noexcept
 {
 	return _resourceView.Get();
 }
 
-virtual IGraphicsDevice* Texture2D::GetGraphicsDevice() const noexcept override
+virtual IGraphicsDevice* Texture2D::GetGraphicsDevice() const noexcept
 {
 	return _device;
 }
 
-size_t Texture2D::ReadData(void **data) override
+size_t Texture2D::ReadData(void **data)
 {
 	auto [ptr, s] = BeginRead(0);
 
@@ -769,25 +736,20 @@ size_t Texture2D::ReadData(void **data) override
 	return s;
 }
 
-void Texture2D::SetData(void *data, size_t buffSize) override
+void Texture2D::SetData(void *data, size_t buffSize)
 {
 	D3D11_MAPPED_SUBRESOURCE resource;
 
 	HRESULT r = _device->_context->Map(_texture.Get(), 0, D3D11_MAP_WRITE, 0, &resource);
 	if(FAILED(r)) throw Exception("Failed to map a texture!" + std::system_category().message(r));
 
-	memcpy(resource.pData, data, buffsize);
+	memcpy(resource.pData, data, buffSize);
 	_device->_context->Unmap(_texture.Get(), 0);
 }
 
-void Texture2D::EndRead() override
+void Texture2D::EndRead()
 {
 	EndRead(0);
-}
-
-void Texture2D::Copy(Texture2D* destination, Texture2D* source)
-{
-	destination->_device->_context->CopyResource(destination->_texture.Get(), source->_texture.Get());
 }
 
 void* Texture2D::GetViewHandle() const noexcept

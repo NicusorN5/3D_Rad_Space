@@ -14,6 +14,7 @@ namespace Engine3DRadSpace::Graphics
 	class IShader;
 	class IRasterizerState;
 	class IBlendState;
+	class IGPUBuffer;
 
 	class E3DRSP_GRAPHICS_EXPORT IGraphicsCommandList : public IGPUResource
 	{
@@ -61,6 +62,8 @@ namespace Engine3DRadSpace::Graphics
 
 		virtual void ResizeBackBuffer(const Math::Point& newResolution) = 0;
 		virtual void ToggleFullScreen() = 0;
+
+		virtual void Copy(IGPUBuffer* dest, IGPUBuffer* src) = 0;
 
 		virtual ~IGraphicsCommandList() = default;
 	};

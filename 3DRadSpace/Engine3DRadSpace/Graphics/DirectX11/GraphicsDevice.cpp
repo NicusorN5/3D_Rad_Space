@@ -457,3 +457,8 @@ std::unique_ptr<IVertexBuffer> GraphicsDevice::CreateVertexBuffer(
 {
 	return std::make_unique<VertexBuffer>(this, data, structSize, numVertices, usage);
 }
+
+IVertexBuffer* GraphicsDevice::GetScreenQuad() const noexcept
+{
+	return _screenQuad.get();
+}

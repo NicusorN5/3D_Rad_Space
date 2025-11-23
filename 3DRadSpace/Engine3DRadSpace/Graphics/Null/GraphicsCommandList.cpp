@@ -91,10 +91,10 @@ void GraphicsCommandList::SetRasterizerState(const IRasterizerState* state)
 	(void)state;
 }
 
-std::unique_ptr<IRasterizerState> GraphicsCommandList::GetRasterizerState()
-{
-	return std::make_unique<RasterizerState>(this);
-}
+//std::unique_ptr<IRasterizerState> GraphicsCommandList::GetRasterizerState()
+//{
+//	return std::make_unique<RasterizerState>(_device);
+//}
 
 void GraphicsCommandList::SetDepthStencilBuffer(IDepthStencilBuffer* depthBuffer)
 {
@@ -136,6 +136,13 @@ void GraphicsCommandList::ResizeBackBuffer(const Math::Point& newResolution)
 {
 	(void)newResolution;
 }
+
 void GraphicsCommandList::ToggleFullScreen()
 {
+}
+
+void GraphicsCommandList::Copy(IGPUBuffer* dest, IGPUBuffer* src)
+{
+	(void)dest;
+	(void)src;
 }

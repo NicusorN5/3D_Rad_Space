@@ -83,6 +83,8 @@ namespace Engine3DRadSpace::Graphics
 		///</summary>
 		virtual ITexture2D* WhiteBlank() = 0;
 
+		virtual IVertexBuffer* GetScreenQuad() const noexcept = 0;
+
 		virtual std::unique_ptr<IIndexBuffer> CreateIndexBuffer(std::span<unsigned> indices) = 0;
 		virtual std::unique_ptr<IIndexBuffer> CreateIndexBuffer(size_t numIndices, BufferUsage usage) = 0;
 

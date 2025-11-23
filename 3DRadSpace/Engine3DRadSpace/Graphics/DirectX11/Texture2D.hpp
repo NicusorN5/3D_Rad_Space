@@ -102,12 +102,6 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		Texture2D& operator=(Texture2D&&) noexcept = default;
 
 		void SetColors(Math::Color** colors, unsigned x, unsigned y);
-		/// <summary>
-		/// Resizes the texture using nearest neighbor interpolation.
-		/// </summary>
-		/// <param name="newX">New width</param>
-		/// <param name="newY">New height</param>
-		void Resize(unsigned newX, unsigned newY);
 
 		void SaveToFile(const std::string &path);
 
@@ -128,8 +122,6 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 
 		std::pair<void*,size_t> BeginRead(unsigned resourceID = 0);
 		void EndRead(unsigned resourceID = 0);
-
-		static void Copy(Texture2D* destination, Texture2D* source);
 
 		void* GetViewHandle() const noexcept;
 

@@ -56,3 +56,7 @@ target_link_libraries(3DRadSpace.Graphics.DirectX11 PRIVATE 3DRadSpace_Core)
 target_link_libraries(3DRadSpace.Graphics.DirectX11 PRIVATE 3DRadSpace_Math)
 target_link_libraries(3DRadSpace.Graphics.DirectX11 PRIVATE 3DRadSpace_Graphics)
 target_include_directories(3DRadSpace.Graphics.DirectX11 PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)
+
+#DirectXTK
+find_package(directxtk CONFIG REQUIRED)
+target_link_libraries(3DRadSpace.Graphics.DirectX11 PRIVATE Microsoft::DirectXTK)

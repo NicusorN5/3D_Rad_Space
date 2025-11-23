@@ -56,6 +56,8 @@ namespace Engine3DRadSpace::Graphics::Null
 		virtual void ResizeBackBuffer(const Math::Point& newResolution) override;
 		virtual void ToggleFullScreen() override;
 
+		virtual void Copy(IGPUBuffer* dest, IGPUBuffer* src) override;
+
 		~GraphicsCommandList() override = default;
 	};
 }
