@@ -1,7 +1,7 @@
 #pragma once
 #include "../IDepthStencilState.hpp"
 
-namespace Engine3DRadSpace::Graphics
+namespace Engine3DRadSpace::Graphics::Null
 {
 	class GraphicsDevice;
 	class E3DRSP_GRAPHICS_NULL_EXPORT DepthStencilState final : public IDepthStencilState

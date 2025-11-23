@@ -33,6 +33,7 @@
 #define NOMINMAX
 #include <wrl/client.h>
 #include <sal.h>
+#endif
 #pragma endregion
 
 #pragma region Other defines

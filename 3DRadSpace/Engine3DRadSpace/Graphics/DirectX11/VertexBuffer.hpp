@@ -11,7 +11,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 {
 	class GraphicsDevice;
 
-	class E3DRSP_GRAPHICS_EXPORT VertexBuffer : IVertexBuffer
+	class E3DRSP_GRAPHICS_DX11_EXPORT VertexBuffer : public IVertexBuffer
 	{
 		void _debugInfo();
 	protected:
@@ -78,6 +78,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		virtual ~VertexBuffer() = default;
 
 		friend class GraphicsDevice;
+		friend class GraphicsCommandList;
 		friend class ModelMeshPart;
 	};
 }

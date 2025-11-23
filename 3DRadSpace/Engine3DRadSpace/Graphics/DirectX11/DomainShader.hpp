@@ -6,7 +6,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 	/// <summary>
 	/// Represents a domain shader.
 	/// </summary>
-	class E3DRSP_GRAPHICS_EXPORT DomainShader : public ShaderBase
+	class E3DRSP_GRAPHICS_DX11_EXPORT DomainShader : public ShaderBase
 	{
 		Microsoft::WRL::ComPtr<ID3D11DomainShader> _shader;
 		

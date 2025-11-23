@@ -10,7 +10,7 @@ namespace Engine3DRadSpace::Graphics::Null
 {
 	class GraphicsDevice;
 
-	class E3DRSP_GRAPHICS_NULL_EXPORT VertexBuffer : IVertexBuffer
+	class E3DRSP_GRAPHICS_NULL_EXPORT VertexBuffer : public IVertexBuffer
 	{
 	public:
 		VertexBuffer(

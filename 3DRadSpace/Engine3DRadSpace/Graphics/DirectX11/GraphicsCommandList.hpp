@@ -22,10 +22,15 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 	class DomainShader;
 	class GeometryShader;
 	class FragmentShader;
+	class GraphicsDevice;
 
-	class E3DRSP_DX11_EXPORT GraphicsCommandList : public IGraphicsCommandList
+	class E3DRSP_GRAPHICS_DX11_EXPORT GraphicsCommandList : public IGraphicsCommandList
 	{
+		GraphicsDevice* _device;
+		ID3D11DeviceContext* _context;
 	public:
+		GraphicsCommandList(GraphicsDevice* device);
+
 		void Clear(const Math::Color& clearColor = { 0.0f, 0.0f, 0.0f, 1.0f }) override;
 		void ClearRenderTarget(IRenderTarget* rt, const Math::Color& clearColor = { 0.0f, 0.0f, 0.0f, 1.0f }) override;
 		void ClearDepthBuffer(IDepthStencilBuffer* depth) override;
@@ -123,24 +128,27 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		/// </summary>
 		void ToggleFullScreen() override;
 
+		void* GetHandle() const noexcept override;
+		IGraphicsDevice* GetGraphicsDevice() const noexcept override;
+
 		~GraphicsCommandList() override = default;
+	
+		friend class VertexBuffer;
+		friend class IndexBuffer;
+		friend class Texture2D;
+		friend class RenderTarget;
+		friend class RasterizerState;
+		friend class DepthStencilState;
+		friend class SamplerState;
+		friend class SpriteBatch;
+		friend class DepthStencilBuffer;
+		friend class BlendState;
+
+		friend class ShaderBase;
+		friend class VertexShader;
+		friend class HullShader;
+		friend class DomainShader;
+		friend class GeometryShader;
+		friend class FragmentShader;
 	};
-
-	friend class VertexBuffer;
-	friend class IndexBuffer;
-	friend class Texture2D;
-	friend class RenderTarget;
-	friend class RasterizerState;
-	friend class DepthStencilState;
-	friend class SamplerState;
-	friend class SpriteBatch;
-	friend class DepthStencilBuffer;
-	friend class BlendState;
-
-	friend class ShaderBase;
-	friend class VertexShader;
-	friend class HullShader;
-	friend class DomainShader;
-	friend class GeometryShader;
-	friend class FragmentShader;
 }

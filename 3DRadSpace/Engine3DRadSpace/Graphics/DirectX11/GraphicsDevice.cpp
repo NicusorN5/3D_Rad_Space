@@ -5,9 +5,14 @@
 #include "RenderTarget.hpp"
 #include "DepthStencilBuffer.hpp"
 #include "..\Core\AssetUUIDReader.hpp"
+#include "GraphicsCommandList.hpp"
+#include "BlendState.hpp"
+#include "ShaderCompiler.hpp"
+#include "SamplerState.hpp"
+#include "DeferredCommandList.hpp"
 
-#pragma comment(lib,"d3d11.lib")
-#pragma comment(lib,"dxgi.lib")
+#pragma comment(lib, "d3d11.lib")
+#pragma comment(lib, "dxgi.lib")
 
 //#include <directxtk\ScreenGrab.h>
 #include <wincodec.h>
@@ -139,18 +144,25 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, unsigned width, unsigne
 	const char renderTargetBackBufferName[] = "GraphicsDevice::_backBufferRT::_renderTarget";
 	_backbufferRT->_renderTarget->SetPrivateData(WKPDID_D3DDebugObjectName, sizeof(renderTargetBackBufferName) - 1, renderTargetBackBufferName);
 #endif
+	_immediateContext = std::make_unique<GraphicsCommandList>(this);
+	_compiler = std::make_unique<DirectX11::ShaderCompiler>(this);
+
+	Color white[] =
+	{
+		Colors::White, Colors::White,
+		Colors::White, Colors::White
+	};
+
+	_white2x2 = std::make_unique<Texture2D>(
+		this,
+		2,
+		2,
+		&white,
+		PixelFormat::R32G32B32A32_Float,
+		BufferUsage::ReadOnlyGPU
+	);
+
 	Logging::SetLastMessage("Created D3D11 backend");
-}
-
-std::unique_ptr<IRasterizerState> GraphicsDevice::GetRasterizerState()
-{
-	auto c = ((RasterizerState*)nullptr)->GetCurrentRasterizerState(this);
-	auto ptr = c.reset();
-
-	std::unique_ptr<IRasterizerState> r;
-	r.reset(ptr);
-
-	return r;
 }
 
 Math::Point GraphicsDevice::Resolution() const noexcept
@@ -175,7 +187,6 @@ IDepthStencilBuffer& GraphicsDevice::GetDepthBuffer()
 
 GraphicsDevice::~GraphicsDevice()
 {
-	_context->ClearState();
 //
 //		UNCOMMENT THE COMMENT BLOCK BELOW IF THERE ARE DIRECTX OBJECTS LEAKING! 
 //
@@ -187,4 +198,262 @@ GraphicsDevice::~GraphicsDevice()
 	debug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
 #endif
 */
+}
+
+std::unique_ptr<IGraphicsCommandList> GraphicsDevice::CreateCommandList()
+{
+	return std::make_unique<DeferredCommandList>(this);
+}
+
+IGraphicsCommandList* GraphicsDevice::ImmediateContext()
+{
+	return _immediateContext.get();
+}
+
+std::unique_ptr<IBlendState> GraphicsDevice::CreateBlendState(
+	bool alphaCoverage,
+	bool indepedentBlend,
+	std::array<RenderTargetBlendState, 8> renderTargetBlendStates
+)
+{
+	return std::make_unique<BlendState>(this, alphaCoverage, indepedentBlend, renderTargetBlendStates);
+}
+
+std::unique_ptr<IBlendState> GraphicsDevice::CreateBlendState_Opaque()
+{
+	return std::make_unique<BlendState>(std::move(BlendState::Opaque(this)));
+}
+
+std::unique_ptr<IBlendState> GraphicsDevice::CreateBlendState_AlphaBlend()
+{
+	return std::make_unique<BlendState>(std::move(BlendState::AlphaBlend(this)));
+}
+
+std::unique_ptr<IBlendState> GraphicsDevice::CreateBlendState_Additive()
+{
+	return std::make_unique<BlendState>(std::move(BlendState::Additive(this)));
+}
+
+std::unique_ptr<IBlendState> GraphicsDevice::CreateBlendState_NonPremultiplied()
+{
+	return std::make_unique<BlendState>(std::move(BlendState::NonPremultiplied(this)));
+}
+
+std::unique_ptr<IDepthStencilBuffer> GraphicsDevice::CreateDepthStencilBuffer(
+	size_t x,
+	size_t y
+)
+{
+	return std::make_unique<DepthStencilBuffer>(this, x, y);
+}
+
+std::unique_ptr<IDepthStencilState> GraphicsDevice::CreateDepthStencilState(
+	bool EnableDepth,
+	DepthWriteMask Mask,
+	ComparisonFunction Function,
+	bool EnableStencil,
+	uint8_t ReadMask,
+	uint8_t WriteMask,
+	FaceOperation FrontFace,
+	FaceOperation BackFace
+)
+{
+	return std::make_unique<DepthStencilState>(
+		this,
+		EnableDepth,
+		Mask,
+		Function,
+		EnableStencil,
+		ReadMask,
+		WriteMask,
+		FrontFace,
+		BackFace
+	);
+}
+
+std::unique_ptr<IDepthStencilState> GraphicsDevice::CreateDepthStencilState_DepthDefault()
+{
+	return std::make_unique<DepthStencilState>(std::move(DepthStencilState::DepthDefault(this)));
+}
+std::unique_ptr<IDepthStencilState> GraphicsDevice::CreateDepthStencilState_DepthNone()
+{
+	return std::make_unique<DepthStencilState>(std::move(DepthStencilState::DepthNone(this)));
+}
+std::unique_ptr<IDepthStencilState> GraphicsDevice::CreateDepthStencilState_DepthRead()
+{
+	return std::make_unique<DepthStencilState>(std::move(DepthStencilState::DepthRead(this)));
+}
+std::unique_ptr<IDepthStencilState> GraphicsDevice::CreateDepthStencilState_DepthReverseZ()
+{
+	return std::make_unique<DepthStencilState>(std::move(DepthStencilState::DepthReverseZ(this)));
+}
+std::unique_ptr<IDepthStencilState> GraphicsDevice::CreateDepthStencilState_DepthReadReverseZ()
+{
+	return std::make_unique<DepthStencilState>(std::move(DepthStencilState::DepthReadReverseZ(this)));
+}
+
+IShaderCompiler* GraphicsDevice::ShaderCompiler()
+{
+	return _compiler.get();
+}
+
+ITexture2D* GraphicsDevice::WhiteBlank()
+{
+	return _white2x2.get();
+}
+
+std::unique_ptr<IIndexBuffer> GraphicsDevice::CreateIndexBuffer(std::span<unsigned> indices)
+{
+	return std::make_unique<IndexBuffer>(this, indices);
+}
+
+std::unique_ptr<IIndexBuffer> GraphicsDevice::CreateIndexBuffer(size_t numIndices, BufferUsage usage)
+{
+	return std::make_unique<IndexBuffer>(this, numIndices, usage);
+}
+
+//std::unique_ptr<IRasterizerState> GraphicsDevice::GetRasterizerState()
+//{
+//	return std::make_unique<RasterizerState>(this);
+//}
+
+std::unique_ptr<IRasterizerState> GraphicsDevice::CreateRasterizerState(
+	RasterizerFillMode filling,
+	RasterizerCullMode culling,
+	bool switchFrontBack,
+	int depthBias,
+	float depthBiasClamp,
+	float slopeScaleDepthBias,
+	bool depthClip,
+	bool scissor,
+	bool multisample,
+	bool aaLine
+)
+{
+	return std::make_unique<RasterizerState>(
+		this,
+		filling,
+		culling,
+		switchFrontBack,
+		depthBias,
+		depthBiasClamp,
+		slopeScaleDepthBias,
+		depthClip,
+		scissor,
+		multisample,
+		aaLine
+	);
+}
+
+std::unique_ptr<IRasterizerState> GraphicsDevice::CreateRasterizerState_CullNone()
+{
+	return std::make_unique<RasterizerState>(std::move(RasterizerState::CullNone(this)));
+}
+
+std::unique_ptr<IRasterizerState> GraphicsDevice::CreateRasterizerState_CullClockwise()
+{
+	return std::make_unique<RasterizerState>(std::move(RasterizerState::CullClockwise(this)));
+}
+
+std::unique_ptr<IRasterizerState> GraphicsDevice::CreateRasterizerState_CullCounterClockwise()
+{
+	return std::make_unique<RasterizerState>(std::move(RasterizerState::CullCounterClockwise(this)));
+}
+
+std::unique_ptr<IRasterizerState> GraphicsDevice::CreateRasterizerState_Wireframe()
+{
+	return std::make_unique<RasterizerState>(std::move(RasterizerState::Wireframe(this)));
+}
+
+std::unique_ptr<IRenderTarget> GraphicsDevice::CreateRenderTarget(
+	size_t x,
+	size_t y,
+	PixelFormat format
+)
+{
+	return std::make_unique<RenderTarget>(this, x, y, format);
+}
+
+std::unique_ptr<ISamplerState> GraphicsDevice::CreateSamplerState()
+{
+	return std::make_unique<SamplerState>(this);
+}
+
+std::unique_ptr<ISamplerState> GraphicsDevice::CreateSamplerState(
+	TextureFilter Filter,
+	TextureAddressMode AddressU,
+	TextureAddressMode AddressV,
+	TextureAddressMode AddressW,
+	float MipLODBias,
+	unsigned MaxAnisotropy,
+	ComparisonFunction ComparisionFunction,
+	Math::Color BorderColor,
+	float MinLOD,
+	float MaxLOD
+)
+{
+	return std::make_unique<SamplerState>(
+		this,
+		Filter,
+		AddressU,
+		AddressV,
+		AddressW,
+		MipLODBias,
+		MaxAnisotropy,
+		ComparisionFunction,
+		BorderColor,
+		MinLOD,
+		MaxLOD
+	);
+}
+
+std::unique_ptr<ISamplerState> GraphicsDevice::CreateSamplerState_LinearClamp()
+{
+	return std::make_unique<SamplerState>(std::move(SamplerState::LinearClamp(this)));
+}
+
+std::unique_ptr<ISamplerState> GraphicsDevice::CreateSamplerState_LinearWrap()
+{
+	return std::make_unique<SamplerState>(std::move(SamplerState::LinearWrap(this)));
+}
+
+std::unique_ptr<ISamplerState> GraphicsDevice::CreateSamplerState_PointClamp()
+{
+	return std::make_unique<SamplerState>(std::move(SamplerState::PointClamp(this)));
+}
+
+std::unique_ptr<ISamplerState> GraphicsDevice::CreateSamplerState_PointWrap()
+{
+	return std::make_unique<SamplerState>(std::move(SamplerState::PointWrap(this)));
+}
+
+std::unique_ptr<ISamplerState> GraphicsDevice::CreateSamplerState_AnisotropicClamp()
+{
+	return std::make_unique<SamplerState>(std::move(SamplerState::AnisotropicClamp(this)));
+}
+
+std::unique_ptr<ISamplerState> GraphicsDevice::CreateSamplerState_AnisotropicWrap()
+{
+	return std::make_unique<SamplerState>(std::move(SamplerState::AnisotropicWrap(this)));
+}
+
+std::unique_ptr<ITexture2D> GraphicsDevice::CreateTexture2D(
+	size_t x,
+	size_t y,
+	void* data,
+	PixelFormat format,
+	BufferUsage usage
+)
+{
+	return std::make_unique<Texture2D>(this, x, y, data, format, usage);
+}
+
+std::unique_ptr<IVertexBuffer> GraphicsDevice::CreateVertexBuffer(
+	const void* data,
+	size_t structSize,
+	size_t numVertices,
+	BufferUsage usage
+)
+{
+	return std::make_unique<VertexBuffer>(this, data, structSize, numVertices, usage);
 }

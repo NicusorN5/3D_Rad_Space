@@ -1,4 +1,5 @@
 #include "Legacy.hpp"
+#include "../Objects/Objects.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Math;
@@ -226,7 +227,7 @@ void iObjectAccelerationApply(unsigned obj_x, const Math::Vector3& acc)
 
 void iObjectDampingApply(unsigned obj_x, Math::Vector3& v, bool is_rotation, bool local_axis)
 {
-	
+
 }
 
 int iObjectScan(
@@ -266,6 +267,26 @@ void iObjectTextSet(unsigned obj_x, const std::string &str)
 {
 	auto txtPrint = dynamic_cast<TextPrint*>((*objList)[obj_x]);
 	if(txtPrint != nullptr) txtPrint->Text = str;
+}
+
+void iObjectParamSet(unsigned obj_x, int index, float t)
+{
+	auto obj = (*objList)[obj_x];
+	if (obj == nullptr) return;
+
+	auto uuid = obj->GetUUID();
+	if (uuid == Reflection::UUID{}) return;
+
+	auto refl = Internal::GetReflDataFromUUID(uuid);
+	if (refl->NumFields() > index) return;
+	if (refl == nullptr) throw std::exception("??? This exception indicates a severe bug with object reflection metadata not being registered.");
+
+	auto field = refl->operator[](index);
+
+	if(field->TypeHash() == typeid(float).hash_code())
+	{
+		field->Set(obj, &t);
+	}
 }
 
 void iObjectRefresh(unsigned obj_x, const std::string& path)

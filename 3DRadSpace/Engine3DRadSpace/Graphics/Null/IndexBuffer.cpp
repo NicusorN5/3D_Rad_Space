@@ -47,3 +47,8 @@ void* IndexBuffer::GetHandle() const noexcept
 {
 	return nullptr;
 }
+
+std::unique_ptr<IIndexBuffer> IndexBuffer::CreateStaging()
+{
+	return std::make_unique<IndexBuffer>(nullptr, std::span<unsigned>());
+}

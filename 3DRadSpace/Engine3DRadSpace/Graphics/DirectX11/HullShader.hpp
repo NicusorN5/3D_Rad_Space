@@ -3,7 +3,7 @@
 
 namespace Engine3DRadSpace::Graphics::DirectX11
 {
-	class E3DRSP_GRAPHICS_EXPORT HullShader : public ShaderBase
+	class E3DRSP_GRAPHICS_DX11_EXPORT HullShader : public ShaderBase
 	{
 		Microsoft::WRL::ComPtr<ID3D11HullShader> _shader;
 

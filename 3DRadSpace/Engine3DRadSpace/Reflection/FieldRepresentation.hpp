@@ -16,7 +16,10 @@
 
 namespace Engine3DRadSpace
 {
-	class IObject;
+	namespace Objects
+	{
+		class IObject;
+	}
 
 	namespace Audio
 	{

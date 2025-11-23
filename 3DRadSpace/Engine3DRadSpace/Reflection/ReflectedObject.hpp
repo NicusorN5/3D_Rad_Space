@@ -5,11 +5,17 @@
 
 namespace Engine3DRadSpace::Reflection
 {
+	/// <summary>
+	/// Objects that are being reflected must be default constructible for serialization.
+	/// </summary>
 	template<typename O>
 	concept ReflectableObject = std::is_default_constructible_v<O>;
 
 	template<ReflectableObject O>
-	struct ObjectTag {};
+	struct ObjectTag 
+	{
+		using Type = O;
+	};
 
 	class E3DRSP_REFLECTION_EXPORT ReflectedObject
 	{
@@ -32,7 +38,7 @@ namespace Engine3DRadSpace::Reflection
 		{
 			CreateBlankObject = []()
 			{
-				return new O();
+				return static_cast<void*>(new O());
 			};
 		}
 
@@ -48,7 +54,7 @@ namespace Engine3DRadSpace::Reflection
 		std::vector<IReflectedField *>::iterator begin();
 		std::vector<IReflectedField *>::iterator end();
 
-		std::function<IObject *()> CreateBlankObject;
+		std::function<void*()> CreateBlankObject;
 
 		~ReflectedObject();
 	};

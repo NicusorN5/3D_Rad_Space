@@ -31,10 +31,13 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 	class GeometryShader;
 	class FragmentShader;
 
+	class GraphicsCommandList;
+	class ShaderCompiler;
+
 	/// <summary>
 	/// DirectX11 RHI (Rendering Hardware Interface)
 	/// </summary>
-	class E3DRSP_GRAPHICS_EXPORT GraphicsDevice final : public IGraphicsDevice
+	class E3DRSP_GRAPHICS_DX11_EXPORT GraphicsDevice final : public IGraphicsDevice
 	{
 		Microsoft::WRL::ComPtr<ID3D11Device> _device;
 		Microsoft::WRL::ComPtr<ID3D11DeviceContext> _context;
@@ -51,6 +54,10 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 
 		///Used for rendering post effects
 		std::unique_ptr<VertexBuffer> _screenQuad;
+		std::unique_ptr<ITexture2D> _white2x2;
+
+		std::unique_ptr<GraphicsCommandList> _immediateContext;
+		std::unique_ptr<DirectX11::ShaderCompiler> _compiler;
 	public:
 		GraphicsDevice() = delete;
 		explicit GraphicsDevice(void* nativeWindowHandle, unsigned width = 800, unsigned height = 600);
@@ -72,8 +79,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		IRenderTarget* GetBackBuffer() override;
 		ITexture2D *GetBackBufferTexture() override;
 		IDepthStencilBuffer& GetDepthBuffer() override;
-
-		std::unique_ptr<IRasterizerState> GetRasterizerState() override;
+		//std::unique_ptr<IRasterizerState> GetRasterizerState() override;
 
 		//Graphics::PixelFormat BackBufferFormat() const noexcept;
 
@@ -83,11 +89,14 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 			std::array<RenderTargetBlendState, 8> renderTargetBlendStates
 		) override;
 
+		std::unique_ptr<IBlendState> CreateBlendState_Opaque() override;
+		std::unique_ptr<IBlendState> CreateBlendState_AlphaBlend() override;
+		std::unique_ptr<IBlendState> CreateBlendState_Additive() override;
+		std::unique_ptr<IBlendState> CreateBlendState_NonPremultiplied() override;
+
 		std::unique_ptr<IDepthStencilBuffer> CreateDepthStencilBuffer(
 			size_t x,
-			size_t y,
-			PixelFormat format,
-			BufferUsage usage
+			size_t y
 		) override;
 
 		std::unique_ptr<IDepthStencilState> CreateDepthStencilState(
@@ -101,6 +110,12 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 			FaceOperation BackFace
 		) override;
 
+		virtual std::unique_ptr<IDepthStencilState> CreateDepthStencilState_DepthDefault() override;
+		virtual std::unique_ptr<IDepthStencilState> CreateDepthStencilState_DepthNone() override;
+		virtual std::unique_ptr<IDepthStencilState> CreateDepthStencilState_DepthRead() override;
+		virtual std::unique_ptr<IDepthStencilState> CreateDepthStencilState_DepthReverseZ() override;
+		virtual std::unique_ptr<IDepthStencilState> CreateDepthStencilState_DepthReadReverseZ() override;
+
 		virtual IShaderCompiler* ShaderCompiler() override;
 		///<summmary>
 		///Returns a 2x2 blank white texture.
@@ -110,11 +125,53 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		virtual std::unique_ptr<IIndexBuffer> CreateIndexBuffer(std::span<unsigned> indices) override;
 		virtual std::unique_ptr<IIndexBuffer> CreateIndexBuffer(size_t numIndices, BufferUsage usage) override;
 
+		virtual std::unique_ptr<IRasterizerState> CreateRasterizerState(
+			RasterizerFillMode filling = RasterizerFillMode::Solid,
+			RasterizerCullMode culling = RasterizerCullMode::CullBack,
+			bool switchFrontBack = false,
+			int depthBias = 0,
+			float depthBiasClamp = 0,
+			float slopeScaleDepthBias = 0,
+			bool depthClip = false,
+			bool scissor = false,
+			bool multisample = false,
+			bool aaLine = false
+		) override;
+
+		virtual std::unique_ptr<IRasterizerState> CreateRasterizerState_CullNone() override;
+		virtual std::unique_ptr<IRasterizerState> CreateRasterizerState_CullClockwise() override;
+		virtual std::unique_ptr<IRasterizerState> CreateRasterizerState_CullCounterClockwise() override;
+		virtual std::unique_ptr<IRasterizerState> CreateRasterizerState_Wireframe() override;
+
 		virtual std::unique_ptr<IRenderTarget> CreateRenderTarget(
 			size_t x,
 			size_t y,
 			PixelFormat format
 		) override;
+
+		virtual std::unique_ptr<ISamplerState> CreateSamplerState() override;
+
+		virtual std::unique_ptr<ISamplerState> CreateSamplerState(
+			TextureFilter filter,
+			TextureAddressMode addressU,
+			TextureAddressMode addressV,
+			TextureAddressMode addressW,
+			float mipLODBias,
+			unsigned maxAnisotropy,
+			ComparisonFunction comparisonFunc,
+			Math::Color borderColor,
+			float minLOD,
+			float maxLOD
+		) override;
+
+		virtual std::unique_ptr<ISamplerState> CreateSamplerState_LinearClamp() override;
+		virtual std::unique_ptr<ISamplerState> CreateSamplerState_LinearWrap() override;
+
+		virtual std::unique_ptr<ISamplerState> CreateSamplerState_PointClamp() override;
+		virtual std::unique_ptr<ISamplerState> CreateSamplerState_PointWrap() override;
+
+		virtual std::unique_ptr<ISamplerState> CreateSamplerState_AnisotropicClamp() override;
+		virtual std::unique_ptr<ISamplerState> CreateSamplerState_AnisotropicWrap() override;
 
 		virtual std::unique_ptr<ITexture2D> CreateTexture2D(
 			size_t x,
@@ -132,6 +189,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		) override;
 
 		virtual std::unique_ptr<IGraphicsCommandList> CreateCommandList() override;
+		virtual IGraphicsCommandList* ImmediateContext() override;
 
 		~GraphicsDevice() override;
 
@@ -152,5 +210,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		friend class DomainShader;
 		friend class GeometryShader;
 		friend class FragmentShader;
+
+		friend class GraphicsCommandList;
 	};
 }

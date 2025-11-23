@@ -26,7 +26,7 @@ namespace Engine3DRadSpace::Graphics::Null
 		unsigned NumIndices() const noexcept override;
 		void* GetHandle() const noexcept override;
 
-		[[nodiscard]] std::unique_ptr<IVertexBuffer> CreateStaging() override;
+		[[nodiscard]] std::unique_ptr<IIndexBuffer> CreateStaging() override;
 	};
 }
 

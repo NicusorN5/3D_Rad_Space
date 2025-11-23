@@ -7,7 +7,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 	/// <summary>
 	/// Represents a vertex shader.
 	/// </summary>
-	class E3DRSP_GRAPHICS_EXPORT VertexShader : public ShaderBase
+	class E3DRSP_GRAPHICS_DX11_EXPORT VertexShader : public ShaderBase
 	{
 		Microsoft::WRL::ComPtr<ID3D11VertexShader> _shader;
 
@@ -56,5 +56,6 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		virtual ~VertexShader() = default;
 
 		friend class GraphicsDevice;
+		friend class GraphicsCommandList;
 	};
 }

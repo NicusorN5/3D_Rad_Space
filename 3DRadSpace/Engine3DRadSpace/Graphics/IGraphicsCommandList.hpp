@@ -1,10 +1,24 @@
 #pragma once
 #include "IGPUResource.hpp"
+#include "../Math/Color.hpp"
+#include "Viewport.hpp"
+#include "VertexTopology.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {
-	class E3DRSP_GRAPHICS_EXPORT IGraphicsCommandList
+	class IRenderTarget;
+	class IDepthStencilBuffer;
+	class IDepthStencilState;
+	class IVertexBuffer;
+	class IIndexBuffer;
+	class IShader;
+	class IRasterizerState;
+	class IBlendState;
+
+	class E3DRSP_GRAPHICS_EXPORT IGraphicsCommandList : public IGPUResource
 	{
+	protected:
+		IGraphicsCommandList() = default;
 	public:
 		virtual void Clear(const Math::Color& clearColor = { 0.0f, 0.0f, 0.0f, 1.0f }) = 0;
 		virtual void ClearRenderTarget(IRenderTarget* rt, const Math::Color& clearColor = { 0.0f, 0.0f, 0.0f, 1.0f }) = 0;

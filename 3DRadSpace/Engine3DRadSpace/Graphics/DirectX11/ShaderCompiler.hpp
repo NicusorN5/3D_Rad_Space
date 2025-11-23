@@ -5,7 +5,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 {
     class GraphicsDevice;
 
-    class E3DRSP_GRAPHICS_EXPORT ShaderCompiler final: public IShaderCompiler
+    class E3DRSP_GRAPHICS_DX11_EXPORT ShaderCompiler final: public IShaderCompiler
     {
         GraphicsDevice* _device;
 

@@ -15,6 +15,7 @@ using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Audio;
 using namespace Engine3DRadSpace::Content;
 using namespace Engine3DRadSpace::Graphics;
+using namespace Engine3DRadSpace::Objects;
 using namespace Engine3DRadSpace::Reflection;
 
 INT_PTR __stdcall EditObjectDialog_DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)

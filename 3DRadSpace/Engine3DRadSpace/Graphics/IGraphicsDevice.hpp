@@ -57,9 +57,7 @@ namespace Engine3DRadSpace::Graphics
 
 		virtual std::unique_ptr<IDepthStencilBuffer> CreateDepthStencilBuffer(
 			size_t x,
-			size_t y,
-			PixelFormat format,
-			BufferUsage usage
+			size_t y
 		) = 0;
 
 		virtual std::unique_ptr<IDepthStencilState> CreateDepthStencilState(
@@ -166,6 +164,9 @@ namespace Engine3DRadSpace::Graphics
 		}
 
 		virtual std::unique_ptr<IGraphicsCommandList> CreateCommandList() = 0;
+		virtual IGraphicsCommandList* ImmediateContext() = 0;
+
+		virtual void* NativeHandle() const noexcept = 0;
 
 		virtual ~IGraphicsDevice() override = default;
 	};

@@ -1,5 +1,6 @@
 #include "ModelMeshPart.hpp"
 #include "Effect.hpp"
+#include "../Graphics/IGraphicsCommandList.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
@@ -51,8 +52,10 @@ void ModelMeshPart::Draw(Effect* effect)
 		//effect->SetData()
 	}
 
-	_device->SetTopology(VertexTopology::TriangleList);
-	_device->DrawVertexBufferWithindices(VertexBuffer.get(), IndexBuffer.get());
+	auto cmdList = _device->ImmediateContext();
+
+	cmdList->SetTopology(VertexTopology::TriangleList);
+	cmdList->DrawVertexBufferWithindices(VertexBuffer.get(), IndexBuffer.get());
 }
 
 BoundingSphere ModelMeshPart::GetBoundingSphere() const noexcept

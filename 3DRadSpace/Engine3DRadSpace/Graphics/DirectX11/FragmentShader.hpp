@@ -15,7 +15,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 	class Texture2D;
 	class SamplerState;
 
-	class E3DRSP_GRAPHICS_EXPORT FragmentShader : public ShaderBase
+	class E3DRSP_GRAPHICS_DX11_EXPORT FragmentShader : public ShaderBase
 	{
 		Microsoft::WRL::ComPtr<ID3D11PixelShader> _shader;
 		void _createShader();

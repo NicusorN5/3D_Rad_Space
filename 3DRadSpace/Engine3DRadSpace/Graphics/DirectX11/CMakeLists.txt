@@ -20,6 +20,7 @@ add_library(3DRadSpace.Graphics.DirectX11 STATIC
 	"VertexBuffer.cpp"
 	"ShaderCompiler.cpp"
 	"GraphicsCommandList.cpp"
+	"DeferredCommandList.cpp"
 )
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)

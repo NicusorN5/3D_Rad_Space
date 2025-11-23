@@ -42,7 +42,7 @@ namespace Engine3DRadSpace
 
 		std::unique_ptr<Native::Window> Window;
 		std::unique_ptr<Graphics::IGraphicsDevice> Device;
-		std::unique_ptr<ObjectList> Objects;
+		std::unique_ptr<Objects::ObjectList> Objects;
 
 		Math::Matrix4x4 View;
 		Math::Matrix4x4 Projection;

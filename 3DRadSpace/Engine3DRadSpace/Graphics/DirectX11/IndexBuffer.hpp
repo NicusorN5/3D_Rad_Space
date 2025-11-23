@@ -1,6 +1,7 @@
 #pragma once
 #include "IIndexBuffer.hpp"
 #include "DirectX11.h"
+#include "../BufferUsage.hpp"
 
 namespace Engine3DRadSpace::Graphics::DirectX11
 {
@@ -11,7 +12,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 	/// <remarks>
 	/// Since this is a GPU resource, copy constructors are removed.
 	/// </remarks>
-	class E3DRSP_GRAPHICS_EXPORT IndexBuffer : IIndexBuffer
+	class E3DRSP_GRAPHICS_EXPORT IndexBuffer : public IIndexBuffer
 	{
 		Microsoft::WRL::ComPtr<ID3D11Buffer> _indexBuffer;
 
@@ -27,6 +28,8 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		/// <param name="device">Graphics device handle.</param>
 		/// <param name="indices">Array of indices. Must not be empty.</param>
 		IndexBuffer(GraphicsDevice* device, std::span<unsigned> indices);
+
+		IndexBuffer(GraphicsDevice* device, size_t numIndices, BufferUsage usage);
 
 		IndexBuffer(IndexBuffer&) = delete;
 		IndexBuffer(IndexBuffer&&) noexcept = default;
@@ -75,6 +78,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 
 		friend class GraphicsDevice;
 		friend class ModelMeshPart;
+		friend class GraphicsCommandList;
 	};
 }
 

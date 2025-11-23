@@ -3,7 +3,7 @@
 
 namespace Engine3DRadSpace::Graphics::DirectX11
 {
-	class E3DRSP_GRAPHICS_EXPORT GeometryShader : public ShaderBase
+	class E3DRSP_GRAPHICS_DX11_EXPORT GeometryShader : public ShaderBase
 	{
 		Microsoft::WRL::ComPtr<ID3D11GeometryShader> _shader;
 		const char *_determineTarget();

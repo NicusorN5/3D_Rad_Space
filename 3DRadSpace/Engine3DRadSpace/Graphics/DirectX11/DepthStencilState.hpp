@@ -5,7 +5,7 @@
 
 namespace Engine3DRadSpace::Graphics::DirectX11
 {
-	class E3DRSP_GRAPHICS_EXPORT DepthStencilState : public IDepthStencilState
+	class E3DRSP_GRAPHICS_DX11_EXPORT DepthStencilState : public IDepthStencilState
 	{
 		GraphicsDevice* _device;
 
@@ -48,5 +48,6 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		~DepthStencilState() = default;
 
 		friend class GraphicsDevice;
+		friend class GraphicsCommandList;
 	};
 }

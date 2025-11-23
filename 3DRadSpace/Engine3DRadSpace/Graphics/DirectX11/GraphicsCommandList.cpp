@@ -1,16 +1,41 @@
 #include "GraphicsCommandList.hpp"
+#include "GraphicsDevice.hpp"
+#include "RenderTarget.hpp"
+#include "../Core/Logging/Exception.hpp"
+#include "../Core/Logging/Message.hpp"
+#include "../IShader.hpp"
+#include "VertexBuffer.hpp"
+#include "IndexBuffer.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Graphics::DirectX11;
+using namespace Engine3DRadSpace::Logging;
+using namespace Engine3DRadSpace::Math;
+
+GraphicsCommandList::GraphicsCommandList(GraphicsDevice* device) :
+	_device(device),
+	_context(device->_context.Get())
+{
+}
 
 void GraphicsCommandList::Clear(const Color& clearColor)
 {
-	_context->OMSetRenderTargets(1, _backbufferRT->_renderTarget.GetAddressOf(), _stencilBuffer->_depthView.Get());
+	_context->OMSetRenderTargets(
+		1,
+		_device->_backbufferRT->_renderTarget.GetAddressOf(),
+		_device->_stencilBuffer->_depthView.Get()
+	);
 
 	float color[4] = { clearColor.R,clearColor.G,clearColor.B,clearColor.A };
-	_context->ClearRenderTargetView(_backbufferRT->_renderTarget.Get(), color);
-	_context->ClearDepthStencilView(_stencilBuffer->_depthView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0x00);
+	_context->ClearRenderTargetView(_device->_backbufferRT->_renderTarget.Get(), color);
+
+	_context->ClearDepthStencilView(
+		_device->_stencilBuffer->_depthView.Get(),
+		D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL,
+		1.0f, 
+		0x00
+	);
 }
 
 void GraphicsCommandList::ClearRenderTarget(IRenderTarget* rt, const Color& clearColor)
@@ -29,10 +54,12 @@ void GraphicsCommandList::ClearDepthBuffer(IDepthStencilBuffer* depth)
 
 void GraphicsCommandList::SetViewport()
 {
+	auto r = _device->_resolution;
+
 	D3D11_VIEWPORT vp{};
 	vp.TopLeftX = vp.TopLeftY = 0;
-	vp.Width = static_cast<float>(_resolution.X);
-	vp.Height = static_cast<float>(_resolution.Y);
+	vp.Width = static_cast<float>(r.X);
+	vp.Height = static_cast<float>(r.Y);
 	vp.MinDepth = 0.0f;
 	vp.MaxDepth = 1.0f;
 
@@ -70,8 +97,8 @@ Viewport GraphicsCommandList::GetViewport()
 void GraphicsCommandList::SetRenderTarget(IRenderTarget* renderTarget)
 {
 	auto dxrt = static_cast<RenderTarget*>(renderTarget);
-	auto rt = dxrt != nullptr ? dxrt->_renderTarget.GetAddressOf() : _backbufferRT->_renderTarget.GetAddressOf();
-	_context->OMSetRenderTargets(1, rt, _stencilBuffer->_depthView.Get());
+	auto rt = dxrt != nullptr ? dxrt->_renderTarget.GetAddressOf() : _device->_backbufferRT->_renderTarget.GetAddressOf();
+	_context->OMSetRenderTargets(1, rt, _device->_stencilBuffer->_depthView.Get());
 }
 
 void GraphicsCommandList::UnbindRenderTargetAndDepth()
@@ -98,15 +125,15 @@ void GraphicsCommandList::SetRenderTargetAndDepth(IRenderTarget* renderTarget, I
 	auto dxrt = static_cast<RenderTarget*>(renderTarget);
 	auto dxdepth = static_cast<DepthStencilBuffer*>(depthBuffer);
 
-	auto depthviewBuffer = dxrt != nullptr ? dxdepth->_depthView.Get() : _stencilBuffer->_depthView.Get();
-	auto renderTargetView = dxrt != nullptr ? dxrt->_renderTarget.GetAddressOf() : _backbufferRT->_renderTarget.GetAddressOf();
+	auto depthviewBuffer = dxrt != nullptr ? dxdepth->_depthView.Get() : _device->_stencilBuffer->_depthView.Get();
+	auto renderTargetView = dxrt != nullptr ? dxrt->_renderTarget.GetAddressOf() : _device->_backbufferRT->_renderTarget.GetAddressOf();
 	_context->OMSetRenderTargets(1, renderTargetView, depthviewBuffer);
 }
 
 void GraphicsCommandList::SetRenderTargetAndDisableDepth(IRenderTarget* renderTarget)
 {
 	auto dxrt = static_cast<RenderTarget*>(renderTarget);
-	auto renderTargetView = renderTarget != nullptr ? dxrt->_renderTarget.GetAddressOf() : _backbufferRT->_renderTarget.GetAddressOf();
+	auto renderTargetView = renderTarget != nullptr ? dxrt->_renderTarget.GetAddressOf() : _device->_backbufferRT->_renderTarget.GetAddressOf();
 	_context->OMSetRenderTargets(1, renderTargetView, nullptr);
 }
 
@@ -146,13 +173,13 @@ void GraphicsCommandList::DrawVertexBufferWithindices(IVertexBuffer* vertexBuffe
 
 void GraphicsCommandList::Present()
 {
-	HRESULT r = _swapChain->Present(EnableVSync ? 1 : 0, 0);
+	HRESULT r = _device->_swapChain->Present(_device->EnableVSync ? 1 : 0, 0);
 	if (SUCCEEDED(r)) return; //if Present call succeded, skip error reporting.
 
 	if (r == DXGI_ERROR_DEVICE_RESET) throw Exception("Graphics device reset");
 	if (r == DXGI_ERROR_DEVICE_REMOVED)
 	{
-		HRESULT reason = _device->GetDeviceRemovedReason();
+		HRESULT reason = _device->_device->GetDeviceRemovedReason();
 		switch (reason)
 		{
 		case DXGI_ERROR_DEVICE_HUNG:
@@ -295,19 +322,22 @@ void GraphicsCommandList::SetBlendState(IBlendState* blendState, const Color& bl
 void GraphicsCommandList::ResizeBackBuffer(const Math::Point& newResolution)
 {
 	_context->ClearState();
-	HRESULT r = _swapChain->ResizeBuffers(0, newResolution.X, newResolution.Y, DXGI_FORMAT_UNKNOWN, 0);
+	HRESULT r = _device->_swapChain->ResizeBuffers(0, newResolution.X, newResolution.Y, DXGI_FORMAT_UNKNOWN, 0);
 	if (FAILED(r))
 	{
 		throw std::exception("Failed to resize buffers!");
 	}
 
-	r = _swapChain->GetBuffer(0, IID_PPV_ARGS(_backbufferRT->_texture.GetAddressOf()));
+	r = _device->_swapChain->GetBuffer(0, IID_PPV_ARGS(_device->_backbufferRT->_texture.GetAddressOf()));
 	if (FAILED(r)) throw std::exception("Failed to get the back buffer texture!");
 }
 
 void GraphicsCommandList::ToggleFullScreen()
 {
-	HRESULT r = _swapChain->SetFullscreenState(_fullscreen = !_fullscreen, nullptr);
+	HRESULT r = _device->_swapChain->SetFullscreenState(
+		_device->_fullscreen = !_device->_fullscreen,
+		nullptr
+	);
 
 	switch (r)
 	{
@@ -320,4 +350,14 @@ void GraphicsCommandList::ToggleFullScreen()
 	default:
 		throw Exception(std::format("Failure toggling to fullscreen - HRESULT : {:x}", r));
 	}
+}
+
+void* GraphicsCommandList::GetHandle() const noexcept
+{
+	return _context;
+}
+
+IGraphicsDevice* GraphicsCommandList::GetGraphicsDevice() const noexcept
+{
+	return _device;
 }

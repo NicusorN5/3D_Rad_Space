@@ -8,7 +8,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 {
 	class GraphicsDevice;
 
-	class E3DRSP_GRAPHICS_EXPORT RasterizerState : public IRasterizerState
+	class E3DRSP_GRAPHICS_DX11_EXPORT RasterizerState : public IRasterizerState
 	{
 		Microsoft::WRL::ComPtr<ID3D11RasterizerState> _rasterizerState;
 		void _debugInfo();
@@ -49,5 +49,6 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		~RasterizerState() = default;
 
 		friend class GraphicsDevice;
+		friend class GraphicsCommandList;
 	};
 }

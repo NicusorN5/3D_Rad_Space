@@ -13,7 +13,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 	/// Represents a 2D texture.
 	/// <remarks>
 	/// </remarks>
-	class E3DRSP_GRAPHICS_EXPORT Texture2D : public ITexture2D
+	class E3DRSP_GRAPHICS_DX11_EXPORT Texture2D : public ITexture2D
 	{
 		unsigned _width;
 		unsigned _height;
@@ -136,6 +136,8 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		virtual ~Texture2D() = default;
 
 		friend class GraphicsDevice;
+		friend class GraphicsCommandList;
+
 		friend class VertexShader;
 		friend class FragmentShader;
 		friend class HullShader;

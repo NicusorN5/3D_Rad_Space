@@ -1,12 +1,10 @@
 #include "AssetRenderer.hpp"
 #include <Engine3DRadSpace\Graphics\Model3D.hpp>
 #include <Engine3DRadSpace\Math\Matrix4x4.hpp>
-#include <Engine3DRadSpace/Graphics/Shaders/BasicTextured.hpp>
 #include <Engine3DRadSpace\Graphics\SpriteBatch.hpp>
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
-using namespace Engine3DRadSpace::Graphics::Shaders;
 using namespace Engine3DRadSpace::Math;
 
 template<> bool AssetRenderer(GraphicsDevice *device, const std::string &imagePath, Texture2D *texture)

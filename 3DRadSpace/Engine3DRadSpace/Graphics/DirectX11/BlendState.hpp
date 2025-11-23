@@ -8,7 +8,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 	/// <summary>
 	/// Represents blend state GPU handles.
 	/// </summary>
-	class E3DRSP_GRAPHICS_EXPORT BlendState : IBlendState
+	class E3DRSP_GRAPHICS_DX11_EXPORT BlendState : public IBlendState
 	{
 		Microsoft::WRL::ComPtr<ID3D11BlendState> _blendState;
         GraphicsDevice *_device;
@@ -94,5 +94,6 @@ namespace Engine3DRadSpace::Graphics::DirectX11
         static BlendState GetCurrentBlendState(GraphicsDevice* device);
 
 		friend class GraphicsDevice;
+		friend class GraphicsCommandList;
 	};
 }

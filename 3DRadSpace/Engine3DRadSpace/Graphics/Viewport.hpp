@@ -3,7 +3,7 @@
 #include "../Math/Rectangle.hpp"
 #include "../Math/Matrix4x4.hpp"
 
-namespace Engine3DRadSpace
+namespace Engine3DRadSpace::Graphics
 {
 	struct E3DRSP_GRAPHICS_EXPORT Viewport
 	{

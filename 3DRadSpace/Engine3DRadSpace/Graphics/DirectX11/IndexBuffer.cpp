@@ -42,6 +42,37 @@ IndexBuffer::IndexBuffer(GraphicsDevice* device, std::span<unsigned> indices):
 	_debugInfo();
 }
 
+IndexBuffer::IndexBuffer(GraphicsDevice* device, size_t numIndices, BufferUsage usage) :
+	_device(device),
+	_numIndices(unsigned(numIndices))
+{
+	D3D11_BUFFER_DESC desc{};
+	desc.ByteWidth = UINT(numIndices * sizeof(unsigned));
+	desc.StructureByteStride = sizeof(unsigned);
+	desc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	switch (usage)
+	{
+	case BufferUsage::ReadOnlyGPU:
+		desc.Usage = D3D11_USAGE_DEFAULT;
+		desc.CPUAccessFlags = 0;
+		break;
+	case BufferUsage::ReadWriteGPU:
+		desc.Usage = D3D11_USAGE_DEFAULT;
+		desc.CPUAccessFlags = 0;
+		break;
+	case BufferUsage::ReadOnlyGPU_WriteOnlyCPU:
+		desc.Usage = D3D11_USAGE_DYNAMIC;
+		desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		break;
+	default:
+		throw Exception("Unsupported buffer usage for index buffer!");
+	}
+	HRESULT r = device->_device->CreateBuffer(&desc, nullptr, &_indexBuffer);
+	if (FAILED(r)) throw Exception("Failed to create a index buffer!");
+
+	_debugInfo();
+}
+
 void IndexBuffer::SetData(void* data, size_t buffSize)
 {
 	D3D11_MAPPED_SUBRESOURCE mappedBuff{};

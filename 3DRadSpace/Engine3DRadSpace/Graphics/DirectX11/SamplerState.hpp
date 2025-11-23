@@ -7,7 +7,7 @@
 
 namespace Engine3DRadSpace::Graphics::DirectX11
 {
-	class E3DRSP_GRAPHICS_EXPORT SamplerState : public ISamplerState
+	class E3DRSP_GRAPHICS_DX11_EXPORT SamplerState : public ISamplerState
 	{
 		GraphicsDevice* _device;
 		Microsoft::WRL::ComPtr<ID3D11SamplerState> _samplerState;
@@ -53,6 +53,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		friend class HullShader;
 		friend class DomainShader;
 		friend class GeometryShader;
+		friend class GraphicsCommandList;
 	};
 }
 

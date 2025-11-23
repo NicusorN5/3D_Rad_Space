@@ -1,6 +1,7 @@
 #include "SpriteBatch.hpp"
 #include "../Math/Matrix3x3.hpp"
 #include "../Math/Math.hpp"
+#include "IGraphicsCommandList.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
@@ -110,9 +111,11 @@ void SpriteBatch::_prepareGraphicsDevice()
 //	_device->_context->OMGetBlendState(&_oldBlendState, _oldBlendFactor, &_oldSampleMask);
 //	_device->_context->OMGetDepthStencilState(&_oldStencilState, &_oldStencilRef);
 //#endif
-	_device->SetRasterizerState(_rasterizerState.get());
-	_device->SetTopology(VertexTopology::TriangleList);
-	_device->SetBlendState(_blendState.get());
+	auto cmd = _device->ImmediateContext();
+
+	cmd->SetRasterizerState(_rasterizerState.get());
+	cmd->SetTopology(VertexTopology::TriangleList);
+	cmd->SetBlendState(_blendState.get());
 }
 
 void SpriteBatch::_drawEntry(const spriteBatchEntry &entry)
@@ -149,7 +152,7 @@ void SpriteBatch::_drawEntry(const spriteBatchEntry &entry)
 
 	_spriteShader->SetTexture(_textures[entry.textureID], 0);
 
-	_device->DrawVertexBufferWithindices(_vertexBuffer.get(), _indexBuffer.get());
+	_device->ImmediateContext()->DrawVertexBufferWithindices(_vertexBuffer.get(), _indexBuffer.get());
 	_restoreGraphicsDevice();
 }
 
@@ -161,12 +164,14 @@ void SpriteBatch::_drawAllEntries_SortByTexture()
 	std::vector<unsigned> currentIndices;
 	_prepareGraphicsDevice();
 
+	auto cmd = _device->ImmediateContext();
+
 	auto draw = [&]()
 	{
 		_vertexBuffer->SetData<VertexPointUVColor>(currentVertices);
 		_indexBuffer->SetData<unsigned>(currentIndices);
-		_device->DrawVertexBufferWithindices(_vertexBuffer.get(), _indexBuffer.get());
-		_device->DrawVertexBuffer(_vertexBuffer.get());
+		cmd->DrawVertexBufferWithindices(_vertexBuffer.get(), _indexBuffer.get());
+		cmd->DrawVertexBuffer(_vertexBuffer.get());
 	};
 
 	unsigned i = 0;

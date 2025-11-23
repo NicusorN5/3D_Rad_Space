@@ -4,7 +4,7 @@
 
 namespace Engine3DRadSpace::Graphics::DirectX11
 {
-	class E3DRSP_GRAPHICS_EXPORT RenderTarget : public Texture2D, public IRenderTarget
+	class E3DRSP_GRAPHICS_DX11_EXPORT RenderTarget : public Texture2D, public IRenderTarget
 	{
 		Microsoft::WRL::ComPtr<ID3D11RenderTargetView> _renderTarget;
 	protected:
@@ -40,6 +40,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		~RenderTarget() = default;
 
 		friend class GraphicsDevice;
+		friend class GraphicsCommandList;
 	};
 }
 

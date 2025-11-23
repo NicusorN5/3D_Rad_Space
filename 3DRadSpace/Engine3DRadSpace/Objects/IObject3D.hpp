@@ -4,7 +4,7 @@
 #include "../Math/Ray.hpp"
 #include "../Math/Quaternion.hpp"
 
-namespace Engine3DRadSpace
+namespace Engine3DRadSpace::Objects
 {
 	class E3DRSP_OBJECTS_EXPORT IObject3D : public IObject, public IDrawable3D
 	{

@@ -12,7 +12,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 	/// <remarks>
 	/// Since this is a large resource, usually the same size as the backbuffer, copy constructors are removed.
 	/// </remarks>
-	class E3DRSP_GRAPHICS_NULL_EXPORT DepthStencilBuffer : public IDepthStencilBuffer
+	class E3DRSP_GRAPHICS_DX11_EXPORT DepthStencilBuffer : public IDepthStencilBuffer
 	{
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilView> _depthView;
 
@@ -45,11 +45,6 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		DepthStencilBuffer &operator=(DepthStencilBuffer &&buff) noexcept = default;
 
 		/// <summary>
-		/// Gets the native depth stencil view handle.
-		/// </summary>
-		/// <returns>ID3D11DepthStencilView in DX11.</returns>
-		void* GetViewHandle() const noexcept;
-		/// <summary>
 		/// Gets the depth texture native handle.
 		/// </summary>
 		/// <returns>ID3D11Texture2D in DX11.</returns>
@@ -63,8 +58,16 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 
 		std::unique_ptr<ITexture2D> CloneDepthTexture() override;
 
+		/// <summary>
+		/// Gets the native depth stencil view handle.
+		/// </summary>
+		/// <returns>ID3D11DepthStencilView</returns>
+		void* GetHandle() const noexcept override;
+		virtual IGraphicsDevice* GetGraphicsDevice() const noexcept override;
+
 		~DepthStencilBuffer() override = default;
 
 		friend class GraphicsDevice;
+		friend class GraphicsCommandList;
 	};
 }

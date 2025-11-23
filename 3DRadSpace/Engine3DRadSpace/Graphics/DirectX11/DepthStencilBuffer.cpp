@@ -86,11 +86,6 @@ DepthStencilBuffer::DepthStencilBuffer(GraphicsDevice* device, unsigned x, unsig
 	_createDepthTexture(x,y);
 }
 
-void* DepthStencilBuffer::GetViewHandle() const noexcept
-{
-	return static_cast<void*>(_depthView.Get());
-}
-
 void* DepthStencilBuffer::GetDepthTextureHandle() const noexcept
 {
 	return _depthTexture->GetHandle();
@@ -130,4 +125,9 @@ std::unique_ptr<ITexture2D> DepthStencilBuffer::CloneDepthTexture()
 void* DepthStencilBuffer::GetHandle() const noexcept
 {
 	return this->_depthTexture.get();
+}
+
+IGraphicsDevice* DepthStencilBuffer::GetGraphicsDevice() const noexcept
+{
+	return this->_device;
 }
