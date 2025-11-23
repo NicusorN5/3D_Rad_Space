@@ -244,7 +244,10 @@ SpriteBatch::SpriteBatch(IGraphicsDevice *device) :
 	_state(Immediate),
 	_oldBlendFactor{},
 	_oldSampleMask(0),
-	_oldStencilRef(0)
+	_oldStencilRef(0),
+	_oldBlendState(nullptr),
+	_oldRasterizerState(nullptr),
+	_oldStencilState(nullptr)
 {
 	//_spriteShader = _device->ShaderManager()->
 	// 256 quads: 1024 vertices and 1536 indices
@@ -273,6 +276,8 @@ void SpriteBatch::Begin(SpriteBatchSortMode sortingMode)
 		}
 		else throw std::logic_error("Begin() was called when the sprite batch was waiting for entries.");
 	}
+	
+	//_oldBlendState = _device->GetBlendState();
 
 	_sortingMode = sortingMode;
 }
@@ -411,7 +416,7 @@ void SpriteBatch::DrawString(Font* font, const std::string& text, const Vector2&
 	{
 		if (!font->GetCharGlyph(c).has_value()) continue;
 
-		auto glyph = font->GetCharGlyph(c).value();
+		auto&& glyph = font->GetCharGlyph(c).value();
 
 		Math::Rectangle rcChar;
 		// https://learnopengl.com/In-Practice/Text-Rendering

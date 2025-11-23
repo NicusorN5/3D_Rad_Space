@@ -7,6 +7,7 @@
 #include "VertexDeclarations.hpp"
 #include "../Math/BoundingSphere.hpp"
 #include "../Math/BoundingBox.hpp"
+#include "IGraphicsCommandList.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {
@@ -97,7 +98,7 @@ namespace Engine3DRadSpace::Graphics
 		_device(Device),
 		_shaders(shaders)
 	{
-		VertexBuffer = _device->CreateVertexBuffer<V>(vertices);
+		VertexBuffer = _device->CreateVertexBuffer<V>(vertices, BufferUsage::ReadOnlyGPU_WriteOnlyCPU);
 		IndexBuffer = _device->CreateIndexBuffer(indices);
 	}
 }

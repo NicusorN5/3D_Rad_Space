@@ -15,6 +15,7 @@
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content;
 using namespace Engine3DRadSpace::Graphics;
+using namespace Engine3DRadSpace::Graphics::DirectX11;
 using namespace Engine3DRadSpace::Logging;
 using namespace Engine3DRadSpace::Math;
 

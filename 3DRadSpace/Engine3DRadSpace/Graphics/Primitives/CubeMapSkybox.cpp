@@ -116,7 +116,10 @@ CubeMapSkybox::CubeMapSkybox(IGraphicsDevice* device, std::array<ITexture2D*, 6>
 		);
 		_faces[index].reset(mesh);
 
-		_faces[index]->Textures.emplace_back(std::make_unique<ITexture2D>(std::move(faces[index])));
+		std::unique_ptr<ITexture2D> texturePtr;
+		texturePtr.reset(faces[index]);
+
+		_faces[index]->Textures.emplace_back(std::move(texturePtr));
 		_faces[index]->TextureSamplers.emplace_back(device->CreateSamplerState_LinearClamp());
 	};
 

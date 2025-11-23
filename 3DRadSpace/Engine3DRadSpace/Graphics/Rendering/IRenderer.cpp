@@ -1,9 +1,8 @@
 #include "IRenderer.hpp"
 
 using namespace Engine3DRadSpace::Graphics::Rendering;
-using namespace Engine3DRadSpace::Graphics::Shaders;
 
-IRenderer::IRenderer(GraphicsDevice* device):
+IRenderer::IRenderer(IGraphicsDevice* device):
 	_device(device)
 {
 }
@@ -13,7 +12,7 @@ void IRenderer::Draw(ModelMeshPart* part)
 	part->Draw();
 }
 
-void IRenderer::Draw(VertexBuffer* vertices, IndexBuffer* indices)
+void IRenderer::Draw(IVertexBuffer* vertices, IIndexBuffer* indices)
 {
-	_device->DrawVertexBufferWithindices(vertices, indices);
+	_device->ImmediateContext()->DrawVertexBufferWithindices(vertices, indices);
 }

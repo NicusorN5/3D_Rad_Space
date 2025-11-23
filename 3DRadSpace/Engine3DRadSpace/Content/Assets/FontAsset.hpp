@@ -10,11 +10,18 @@ namespace Engine3DRadSpace
 		class Font;
 	}
 
+	namespace Internal
+	{
+		struct AssetUUIDReader;
+	}
+
 	namespace Content::Assets
 	{
 		class E3DRSP_CONTENT_ASSETS_EXPORT FontAsset final : public IAsset
 		{
 			std::unique_ptr<Graphics::Font> _font;
+
+			FontAsset(Internal::AssetUUIDReader dummy);
 		public:
 			FontAsset(IService* device, const std::filesystem::path &path);
 
@@ -36,6 +43,8 @@ namespace Engine3DRadSpace
 			operator Graphics::Font& () const;
 
 			~FontAsset() override = default;
+
+			friend struct Internal::AssetUUIDReader;
 		};
 	}
 }

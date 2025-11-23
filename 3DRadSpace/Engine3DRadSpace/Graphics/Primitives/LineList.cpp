@@ -1,4 +1,6 @@
 #include "LineList.hpp"
+#include "../IGraphicsCommandList.hpp"
+#include "../IRasterizerState.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
@@ -8,12 +10,12 @@ using namespace Engine3DRadSpace::Math;
 void LineList::_swapRasterizer()
 {
 	_oldRasterizerState = _device->GetRasterizerState();
-	_device->SetRasterizerState(_lineRasterizer.get());
+	_device->ImmediateContext()->SetRasterizerState(_lineRasterizer.get());
 }
 
 void LineList::_restoreRasterizer()
 {
-	_device->SetRasterizerState(_oldRasterizerState.get());
+	_device->ImmediateContext()->SetRasterizerState(_oldRasterizerState.get());
 }
 
 LineList::LineList(IGraphicsDevice* device, std::span<VertexPositionColor> points) :
@@ -36,8 +38,10 @@ void LineList::Draw3D()
 	_shader->SetAll();
 	_shader->operator[](0)->SetData(0, &mvp, sizeof(mvp));
 
-	_device->SetRasterizerState(_lineRasterizer.get());
-	_device->SetTopology(VertexTopology::LineList);
-	_device->DrawVertexBuffer(_vertices.get());
+	auto cmd = _device->ImmediateContext();
+	cmd->SetRasterizerState(_lineRasterizer.get());
+	cmd->SetTopology(VertexTopology::LineList);
+	cmd->DrawVertexBuffer(_vertices.get());
+	
 	_restoreRasterizer();
 }

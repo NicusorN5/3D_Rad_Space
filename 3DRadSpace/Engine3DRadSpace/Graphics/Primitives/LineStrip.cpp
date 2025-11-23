@@ -18,8 +18,9 @@ void LineStrip::Draw3D()
 	_shader->SetAll();
 	_shader->operator[](0)->SetData(0, &mvp, sizeof(mvp));
 
-	_device->SetRasterizerState(_lineRasterizer.get());
-	_device->SetTopology(VertexTopology::LineStrip);
-	_device->DrawVertexBuffer(_vertices.get());
+	auto cmd = _device->ImmediateContext();
+	cmd->SetRasterizerState(_lineRasterizer.get());
+	cmd->SetTopology(VertexTopology::LineStrip);
+	cmd->DrawVertexBuffer(_vertices.get());
 	_restoreRasterizer();
 }

@@ -15,7 +15,7 @@ namespace Engine3DRadSpace::Graphics::Rendering
 		/// </summary>
 		/// <param name="device"></param>
 		/// <param name="pipeline"></param>
-		ForwardRenderer(GraphicsDevice* device, const std::shared_ptr<Shaders::Effect>& pipeline);
+		ForwardRenderer(IGraphicsDevice* device, Effect* pipeline);
 
 		/// <summary>
 		/// Begins drawing.

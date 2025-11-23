@@ -26,7 +26,7 @@ void ObjectList::_validate(ObjectInstance& instance)
 	}
 }
 
-void Engine3DRadSpace::ObjectList::_validate(IObject* instance)
+void ObjectList::_validate(IObject* instance)
 {
 	if (_game->WasInitialized())
 	{
@@ -118,12 +118,12 @@ void ObjectList::Clear() noexcept
 	_objects.clear();
 }
 
-IObject* Engine3DRadSpace::ObjectList::operator[](size_t i) const
+IObject* ObjectList::operator[](size_t i) const
 {
 	return _objects[i].Object.get();
 }
 
-size_t Engine3DRadSpace::ObjectList::Count() const noexcept
+size_t ObjectList::Count() const noexcept
 {
 	return _objects.size();
 }

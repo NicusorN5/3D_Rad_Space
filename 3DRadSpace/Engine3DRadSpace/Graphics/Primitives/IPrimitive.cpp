@@ -7,7 +7,8 @@ using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Graphics::Primitives;
 
 IPrimitive::IPrimitive(IGraphicsDevice* device) :
-	_device(device)
+	_device(device),
+    _shader(nullptr)
 {
     constexpr const char* trivialShader = "Data\\Shaders\\PositionColor.hlsl";
 
@@ -48,6 +49,8 @@ void IPrimitive::Draw3D()
     _shader->SetAll();
     _shader->operator[](0)->SetData(0, &mvp, sizeof(mvp));
 
-    _device->SetTopology(VertexTopology::TriangleList);
-    _device->DrawVertexBufferWithindices(_vertices.get(), _indices.get());
+    auto cmd = _device->ImmediateContext();
+
+    cmd->SetTopology(VertexTopology::TriangleList);
+    cmd->DrawVertexBufferWithindices(_vertices.get(), _indices.get());
 }

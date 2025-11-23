@@ -24,5 +24,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 
 		LineStrip &operator=(const LineStrip &) = delete;
 		LineStrip &operator=(LineStrip &&) noexcept = default;
+
+		void Draw3D() override;
 	};
 }

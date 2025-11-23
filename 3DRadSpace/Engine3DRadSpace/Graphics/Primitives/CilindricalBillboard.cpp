@@ -1,5 +1,6 @@
 #include "CilindricalBillboard.hpp"
 #include "Plane.hpp"
+#include "../IGraphicsCommandList.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
@@ -56,6 +57,6 @@ void CilindricalBillboard::Draw3D()
 	_shader->SetAll();
 	_shader->operator[](0)->SetData(0, &mat, sizeof(mat));
 	_shader->operator[](1)->SetTexture(0, Texture);
-	_device->DrawVertexBufferWithindices(_vertices.get(), _indices.get());
+	_device->ImmediateContext()->DrawVertexBufferWithindices(_vertices.get(), _indices.get());
 }
 

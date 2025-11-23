@@ -5,6 +5,7 @@ using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Input;
 using namespace Engine3DRadSpace::Math;
+using namespace Engine3DRadSpace::Objects;
 
 IObject::IObject(const std::string &name, bool enabled, bool visible) :
 	Name(name),
@@ -13,7 +14,7 @@ IObject::IObject(const std::string &name, bool enabled, bool visible) :
 {
 }
 
-void Engine3DRadSpace::IObject::InternalInitialize(IGame* game)
+void IObject::InternalInitialize(IGame* game)
 {
 	_game = game;
 	_device = game->GetService<IGraphicsDevice>({});

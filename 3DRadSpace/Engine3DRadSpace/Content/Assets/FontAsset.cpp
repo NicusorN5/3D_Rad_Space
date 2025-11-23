@@ -1,5 +1,6 @@
 #include "FontAsset.hpp"
 #include "../../Graphics/Font.hpp"
+#include "../../Core/AssetUUIDReader.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content;
@@ -9,6 +10,11 @@ using namespace Engine3DRadSpace::Graphics;
 FontAsset::FontAsset(IService* device, const std::filesystem::path & path) :
 	_font(new Font(static_cast<IGraphicsDevice*>(device), path))
 {
+}
+
+FontAsset::FontAsset(Internal::AssetUUIDReader dummy)
+{
+	(void)dummy;
 }
 
 Reflection::UUID FontAsset::GetUUID() const noexcept

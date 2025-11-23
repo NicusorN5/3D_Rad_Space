@@ -27,5 +27,9 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		ITexture2D* Texture;
 
 		static std::array<VertexPositionUV, 4> CreateVertices();
+
+		void Draw3D() override;
+
+		~CilindricalBillboard() override = default;
 	};
 }

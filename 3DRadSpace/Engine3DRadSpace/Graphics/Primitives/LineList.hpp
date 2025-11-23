@@ -15,9 +15,10 @@ namespace Engine3DRadSpace::Graphics::Primitives
 	/// </remarks>
 	class E3DRSP_GRAPHICS_PRIMITIVES_EXPORT LineList : public IPrimitive
 	{
+	protected:
 		std::unique_ptr<IRasterizerState> _lineRasterizer;
 		std::unique_ptr<IRasterizerState> _oldRasterizerState;
-	protected:
+
 		void _swapRasterizer();
 		void _restoreRasterizer();
 	public:

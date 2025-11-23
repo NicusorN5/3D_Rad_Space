@@ -18,7 +18,8 @@
 
 namespace Engine3DRadSpace
 {
-	class Objects::ObjectList;
+	//class Objects::ObjectList;
+
 	class E3DRSP_GAMES_EXPORT Game : public IGame, public IUpdateable, public IDrawable3D, public IDrawable2D, public IInitiializable, public ILoadable
 	{
 	private:

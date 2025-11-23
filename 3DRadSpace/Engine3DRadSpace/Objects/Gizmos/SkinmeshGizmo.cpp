@@ -3,6 +3,7 @@
 #include "../../Graphics/IRasterizerState.hpp"
 #include "../../Games/Game.hpp"
 #include "../../Graphics/IShaderCompiler.hpp"
+#include "../../Graphics/IGraphicsCommandList.hpp"
 #include "../../Core/Logging/Exception.hpp"
 
 using namespace Engine3DRadSpace;
@@ -81,8 +82,9 @@ void Gizmo<Skinmesh>::Draw3D()
 			auto device = skinmesh->GetGraphicsDeviceHandle();		
 			auto oldRasterizerState = device->GetRasterizerState();
 			auto wireframe = static_cast<IRasterizerState*>(_wireframe_RasterizerState.get());
+			auto cmd = device->ImmediateContext();
 
-			device->SetRasterizerState(wireframe);
+			cmd->SetRasterizerState(wireframe);
 
 			skinmesh->Draw3D();
 
@@ -90,15 +92,15 @@ void Gizmo<Skinmesh>::Draw3D()
 			
 			//highlight_effect->SetColor(Color(1.0f, 0.5f, 0.0f, 0.5f));
 
-			device->UnbindDepthBuffer();
+			cmd->UnbindDepthBuffer();
 
 			skinmesh->GetModel()->DrawEffect(
 				_highlightEffect,
 				skinmesh->GetModelMartix() * game->View * game->Projection
 			);
 
-			device->SetRenderTargetAndDepth(nullptr, nullptr);
-			device->SetRasterizerState(oldRasterizerState.get());
+			cmd->SetRenderTargetAndDepth(nullptr, nullptr);
+			cmd->SetRasterizerState(oldRasterizerState.get());
 		}
 	}
 }
