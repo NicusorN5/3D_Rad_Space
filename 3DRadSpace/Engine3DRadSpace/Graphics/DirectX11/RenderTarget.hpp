@@ -12,7 +12,13 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		/// Used by GraphicsDevice when creating the backbuffer and swap chain.
 		/// </summary>
 		/// <param name="device">Graphics device being created</param>
-		explicit RenderTarget(GraphicsDevice* device);
+		/// <param name="backbuffer">Backbuffer</param>
+		explicit RenderTarget(
+			GraphicsDevice* device,
+			Microsoft::WRL::ComPtr<ID3D11Texture2D> &&backbuffer,
+			Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> &&srv,
+			Microsoft::WRL::ComPtr<ID3D11RenderTargetView> &&rtv
+		);
 	protected:
 		explicit RenderTarget(GraphicsDevice* device, std::monostate cpy);
 	public:

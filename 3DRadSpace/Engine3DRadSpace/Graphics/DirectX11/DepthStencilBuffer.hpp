@@ -16,13 +16,13 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 	{
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilView> _depthView;
 
-		D3D11_TEXTURE2D_DESC _defaultDepthDesc(unsigned x, unsigned y);
+		D3D11_TEXTURE2D_DESC _defaultDepthDesc(size_t x, size_t y);
 		D3D11_DEPTH_STENCIL_VIEW_DESC _defaultDepthViewDesc();
 		D3D11_SHADER_RESOURCE_VIEW_DESC _defaultShaderViewDesc();
 
 		std::unique_ptr<Texture2D> _depthTexture;
 		GraphicsDevice *_device;
-		void _createDepthTexture(unsigned x, unsigned y);
+		void _createDepthTexture(size_t x, size_t y);
 	public:
 		/// <summary>
 		/// Creates a depth stencil buffer.
@@ -36,7 +36,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		/// <param name="device">Graphics device.</param>
 		/// <param name="x">Width.</param>
 		/// <param name="y">Height.</param>
-		explicit DepthStencilBuffer(GraphicsDevice* device, unsigned x, unsigned y);
+		explicit DepthStencilBuffer(GraphicsDevice* device, size_t x, size_t y);
 
 		DepthStencilBuffer(DepthStencilBuffer &) = delete;
 		DepthStencilBuffer(DepthStencilBuffer &&buff) noexcept = default;

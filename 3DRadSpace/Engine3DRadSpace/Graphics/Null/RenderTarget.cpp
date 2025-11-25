@@ -5,14 +5,14 @@ using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Graphics::Null;
 
 RenderTarget::RenderTarget(GraphicsDevice *device, PixelFormat format) :
-	Texture2D(device, 0, 0, format)
+	Texture2D(device, nullptr, 0, 0, format)
 {
 	(void)device;
 	(void)format;
 }
 
 RenderTarget::RenderTarget(GraphicsDevice * device, unsigned x, unsigned y, PixelFormat format) 
-	: Texture2D(device, x, y, format)
+	: Texture2D(device, nullptr, x, y, format)
 {
 	(void)device;
 	(void)x;

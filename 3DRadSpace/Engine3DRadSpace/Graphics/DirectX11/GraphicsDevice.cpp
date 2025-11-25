@@ -64,29 +64,42 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, unsigned width, unsigne
 		&_context
 	);
 	if (FAILED(r)) throw Exception("D3D11CreateDeviceAndSwapChain failed!");
+	else
+	{
+		Microsoft::WRL::ComPtr<ID3D11Texture2D> rtTexture;
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> srv;
+		Microsoft::WRL::ComPtr<ID3D11RenderTargetView> rtv;
 
-	_backbufferRT = std::make_unique<RenderTarget>(this); //create a invalid render target, but fill it with correct data after object creation
+		//assign texture to main render target.
+		
+		r = _swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), static_cast<void**>(&rtTexture));
+		if (FAILED(r)) throw Exception("Failed to get the back buffer texture!");
 
-	//assign texture to main render target.
-	r = _swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), static_cast<void**>(&_backbufferRT->_texture));
-	if (FAILED(r)) throw Exception("Failed to get the back buffer texture!");
+		//_backbufferRT->_texture->Release();
 
-	//_backbufferRT->_texture->Release();
-	_backbufferRT->_retrieveSize();
+		//Create shader resource view for back buffer
+		D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+		srvDesc.Format = DXGI_FORMAT_R16G16B16A16_FLOAT;
+		srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+		srvDesc.Texture2D.MipLevels = -1;
+		srvDesc.Texture2D.MostDetailedMip = 0;
 
-	//Create shader resource view for back buffer
-	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-	srvDesc.Format = DXGI_FORMAT_R16G16B16A16_FLOAT;
-	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-	srvDesc.Texture2D.MipLevels = -1;
-	srvDesc.Texture2D.MostDetailedMip = 0;
+		r = _device->CreateShaderResourceView(_backbufferRT->_texture.Get(), &srvDesc, &srv);
+		if (FAILED(r)) throw Exception("Failed to create shader resource view for the back buffer!");
 
-	r = _device->CreateShaderResourceView(_backbufferRT->_texture.Get(), &srvDesc, _backbufferRT->_resourceView.GetAddressOf());
-	if(FAILED(r)) throw Exception("Failed to create shader resource view for the back buffer!");
+		//assign render target view
+		r = _device->CreateRenderTargetView(_backbufferRT->_texture.Get(), nullptr, &rtv);
+		if (FAILED(r)) throw Exception("Failed to create the main render target!");
 
-	//assign render target view
-	r = _device->CreateRenderTargetView(_backbufferRT->_texture.Get(), nullptr, _backbufferRT->_renderTarget.GetAddressOf());
-	if (FAILED(r)) throw Exception("Failed to create the main render target!");
+		_backbufferRT.reset(
+			new RenderTarget(this,
+				std::move(rtTexture),
+				std::move(srv),
+				std::move(rtv)
+			)
+		);
+		_backbufferRT->_retrieveSize();
+	}
 
 	_stencilBuffer = std::make_unique<DepthStencilBuffer>(this);
 	_stencilState = std::make_unique<DepthStencilState>(this);

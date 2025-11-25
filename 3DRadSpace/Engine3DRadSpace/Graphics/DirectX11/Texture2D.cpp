@@ -699,7 +699,7 @@ void Texture2D::SetData(void *data, size_t buffSize)
 	HRESULT r = _device->_context->Map(_texture.Get(), 0, D3D11_MAP_WRITE, 0, &resource);
 	if(FAILED(r)) throw Exception("Failed to map a texture!" + std::system_category().message(r));
 
-	memcpy(resource.pData, data, buffSize);
+	memcpy_s(resource.pData, buffSize, data, buffSize);
 	_device->_context->Unmap(_texture.Get(), 0);
 }
 

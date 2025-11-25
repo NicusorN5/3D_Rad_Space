@@ -1,4 +1,5 @@
 #include "DepthStencilBuffer.hpp"
+#include "Texture2D.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
@@ -29,7 +30,7 @@ ITexture2D* DepthStencilBuffer::GetDepthTexture() const noexcept
 
 std::unique_ptr<ITexture2D> DepthStencilBuffer::CloneDepthTexture()
 {
-	return nullptr;
+	return std::make_unique<Texture2D>(nullptr, nullptr, 0, 0);
 }
 
 IGraphicsDevice* DepthStencilBuffer::GetGraphicsDevice() const noexcept

@@ -10,7 +10,7 @@ Texture2D::Texture2D(GraphicsDevice* device, const std::filesystem::path& path)
 	(void)path;
 }
 
-Texture2D::Texture2D(GraphicsDevice *device, std::span<Math::Color> colors, unsigned x, unsigned y)
+Texture2D::Texture2D(GraphicsDevice *device, std::span<Math::Color> colors, size_t x, size_t y)
 {
 	(void)device;
 	(void)colors;
@@ -18,15 +18,7 @@ Texture2D::Texture2D(GraphicsDevice *device, std::span<Math::Color> colors, unsi
 	(void)y;
 }
 
-Texture2D::Texture2D(GraphicsDevice *device, Math::Color* colors, unsigned x, unsigned y)
-{
-	(void)device;
-	(void)colors;
-	(void)x;
-	(void)y;
-}
-
-Texture2D::Texture2D(GraphicsDevice *device, void* buffer, unsigned x, unsigned y, PixelFormat format)
+Texture2D::Texture2D(GraphicsDevice *device, void* buffer, size_t x, size_t y, PixelFormat format, BufferUsage usage)
 {
 	(void)device;
 	(void)buffer;
@@ -40,14 +32,6 @@ Texture2D::Texture2D(GraphicsDevice *device, const uint8_t* imageBuffer, size_t 
 	(void)device;
 	(void)imageBuffer;
 	(void)size;
-}
-
-Texture2D::Texture2D(GraphicsDevice *device, unsigned x, unsigned y, PixelFormat format)
-{
-	(void)device;
-	(void)x;
-	(void)y;
-	(void)format;
 }
 
 void Texture2D::SetColors(Math::Color** colors, unsigned x, unsigned y)

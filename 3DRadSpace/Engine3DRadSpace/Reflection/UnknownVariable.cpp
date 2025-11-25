@@ -20,7 +20,7 @@ const void* UnknownVariable::Get(void* objPtr) const
 void UnknownVariable::Set(void* objPtr, const void* value) const
 {
 	auto ptr = static_cast<void*>(static_cast<std::byte*>(objPtr) + _offset);
-	memcpy(ptr, value, _size);
+	memcpy_s(ptr, _size, value, _size);
 }
 
 const void* UnknownVariable::DefaultValue() const

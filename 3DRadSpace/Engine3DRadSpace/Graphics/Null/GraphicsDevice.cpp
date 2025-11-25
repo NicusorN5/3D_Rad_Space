@@ -25,7 +25,7 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, unsigned width, unsigne
 
 	_depthStencilBuffer = std::make_unique<DepthStencilBuffer>(this);
 	_compiler = std::make_unique<Null::ShaderCompiler>(this);
-	_whiteBlankTexture = std::make_unique<Texture2D>(this, 2, 2, nullptr, PixelFormat::R8G8B8A8_SignedInt, BufferUsage::ReadOnlyGPU);
+	_whiteBlankTexture = std::make_unique<Texture2D>(this, "");
 	_context = std::make_unique<GraphicsCommandList>(this);
 	_screenQuad = std::make_unique<VertexBuffer>(this, nullptr, 0, 0);
 }
@@ -47,7 +47,7 @@ ITexture2D* GraphicsDevice::GetBackBufferTexture()
 
 std::unique_ptr<IRasterizerState> GraphicsDevice::GetRasterizerState()
 {
-	return std::make_unique<RasterizerState>();
+	return std::make_unique<RasterizerState>(this);
 }
 
 IDepthStencilBuffer& GraphicsDevice::GetDepthBuffer()
@@ -61,27 +61,27 @@ std::unique_ptr<IBlendState> GraphicsDevice::CreateBlendState(
 	std::array<RenderTargetBlendState, 8> renderTargetBlendStates
 )
 {
-	return std::make_unique<BlendState>();
+	return std::make_unique<BlendState>(this);
 }
 
 std::unique_ptr<IBlendState> GraphicsDevice::CreateBlendState_Opaque()
 {
-	return std::make_unique<BlendState>();
+	return std::make_unique<BlendState>(this);
 }
 
 std::unique_ptr<IBlendState> GraphicsDevice::CreateBlendState_AlphaBlend()
 {
-	return std::make_unique<BlendState>();
+	return std::make_unique<BlendState>(this);
 }
 
 std::unique_ptr<IBlendState> GraphicsDevice::CreateBlendState_Additive()
 {
-	return std::make_unique<BlendState>();
+	return std::make_unique<BlendState>(this);
 }
 
 std::unique_ptr<IBlendState> GraphicsDevice::CreateBlendState_NonPremultiplied()
 {
-	 return std::make_unique<BlendState>();
+	 return std::make_unique<BlendState>(this);
 }
 
 std::unique_ptr<IDepthStencilBuffer> GraphicsDevice::CreateDepthStencilBuffer( size_t x, size_t y)
@@ -136,12 +136,12 @@ ITexture2D* GraphicsDevice::WhiteBlank()
 
 std::unique_ptr<IIndexBuffer> GraphicsDevice::CreateIndexBuffer(std::span<unsigned> indices)
 {
-	return std::make_unique<IndexBuffer>(this, indices.data(), indices.size(), BufferUsage::ReadOnlyGPU);
+	return std::make_unique<IndexBuffer>(this, indices);
 }
 
 std::unique_ptr<IIndexBuffer> GraphicsDevice::CreateIndexBuffer(size_t numIndices, BufferUsage usage)
 {
-	return std::make_unique<IndexBuffer>(this, nullptr, numIndices, usage);
+	return std::make_unique<IndexBuffer>(this, numIndices, usage);
 }
 
 std::unique_ptr<IRasterizerState> GraphicsDevice::CreateRasterizerState(
@@ -271,7 +271,7 @@ std::unique_ptr<ITexture2D> GraphicsDevice::CreateTexture2D(
 	BufferUsage usage
 )
 {
-	return std::make_unique<Texture2D>(this, x, y, data, format, usage);
+	return std::make_unique<Texture2D>(this, data, x, y, format, usage);
 }
 
 std::unique_ptr<ITexture2D> GraphicsDevice::CreateTexture2D(const std::filesystem::path& path)

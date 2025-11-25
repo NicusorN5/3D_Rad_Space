@@ -4,6 +4,7 @@
 #include "../../Content/IAsset.hpp"
 #include "../../Math/Color.hpp"
 #include "../ITexture2D.hpp"
+#include "../BufferUsage.hpp"
 
 namespace Engine3DRadSpace::Graphics::Null
 {
@@ -18,15 +19,18 @@ namespace Engine3DRadSpace::Graphics::Null
 	public:
 		Texture2D(GraphicsDevice* device, const std::filesystem::path& path);
 
-		explicit Texture2D(GraphicsDevice *device, std::span<Math::Color> colors, unsigned x, unsigned y);
+		explicit Texture2D(GraphicsDevice *device, std::span<Math::Color> colors, size_t x, size_t y);
 
-		explicit Texture2D(GraphicsDevice *device, Math::Color* colors, unsigned x, unsigned y);
-
-		explicit Texture2D(GraphicsDevice *device, void* buffer, unsigned x, unsigned y, PixelFormat format = PixelFormat::R32G32B32A32_Float);
+		explicit Texture2D(
+			GraphicsDevice *device,
+			void* buffer, 
+			size_t x, 
+			size_t y,
+			PixelFormat format = PixelFormat::R32G32B32A32_Float,
+			BufferUsage usage = BufferUsage::ReadOnlyGPU_WriteOnlyCPU
+		);
 
 		explicit Texture2D(GraphicsDevice *device, const uint8_t* imageBuffer, size_t size);
-
-		explicit Texture2D(GraphicsDevice *device, unsigned x, unsigned y, PixelFormat format = PixelFormat::R32G32B32A32_Float);
 
 		Texture2D(const Texture2D &) = delete;
 		Texture2D(Texture2D&&) noexcept = default;

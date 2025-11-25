@@ -13,7 +13,7 @@ namespace Engine3DRadSpace::Content::Assets
 		{
 		}
 
-		IAssetWrapper() noexcept : _asset(std::nullopt)
+		IAssetWrapper() noexcept
 		{
 		}
 

@@ -10,11 +10,11 @@ IndexBuffer::IndexBuffer(GraphicsDevice* device, std::span<unsigned> indices)
 	(void)indices;
 }
 
-IndexBuffer::IndexBuffer(GraphicsDevice* device, unsigned* indices, size_t numIndices)
+IndexBuffer::IndexBuffer(GraphicsDevice* device, size_t numIndices, BufferUsage usage)
 {
 	(void)device;
-	(void)indices;
 	(void)numIndices;
+	(void)usage;
 }
 
 void IndexBuffer::Set(unsigned index)

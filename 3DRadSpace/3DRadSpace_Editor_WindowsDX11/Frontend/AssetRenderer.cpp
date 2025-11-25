@@ -7,30 +7,32 @@ using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Math;
 
-template<> bool AssetRenderer(GraphicsDevice *device, const std::string &imagePath, Texture2D *texture)
+template<> bool AssetRenderer(IGraphicsDevice *device, const std::string &imagePath, ITexture2D *texture)
 {
 	if(device && texture)
 	{
-		texture->SaveToFile(imagePath);
+		//texture->SaveToFile(imagePath);
+		//CopyFileA()
 		return true;
 	}
 	else return false;
 }
 
-template<> bool AssetRenderer(GraphicsDevice *device, const std::string &imagePath, Model3D *model)
+template<> bool AssetRenderer(IGraphicsDevice *device, const std::string &imagePath, Model3D *model)
 {
 	using std::ranges::views::iota;
 
 	if(device && model)
 	{
-		std::shared_ptr<BasicTextured> shader = std::make_shared<BasicTextured>(device);
+		//std::shared_ptr<BasicTextured> shader = std::make_shared<BasicTextured>(device);
 
 		auto boundingSphere = model->GetBoundingSphere();
+		auto cmd = device->ImmediateContext();
 
 		for (auto&& n : iota(0, 3))
 		{
-			device->Clear(Colors::Gray);
-			model->SetShader(shader);
+			cmd->Clear(Colors::Gray);
+			//model->SetShader(shader);
 			model->Draw(
 				Matrix4x4() *
 				Matrix4x4::CreateLookAtView(
@@ -46,17 +48,17 @@ template<> bool AssetRenderer(GraphicsDevice *device, const std::string &imagePa
 				Matrix4x4::CreatePerspectiveProjection(4.f / 3.f, 65, 0.01f, 500.0f)
 			);
 
-			device->Present();
+			cmd->Present();
 		}
 
-		device->SaveBackBufferToFile(imagePath);
+		cmd->SaveBackBufferToFile(imagePath);
 		return true;
 	}
 	return false;
 }
 
 template<>
-bool AssetRenderer(GraphicsDevice* device, const std::string& imagePath, Font* font)
+bool AssetRenderer(IGraphicsDevice* device, const std::string& imagePath, Font* font)
 {
 	using std::ranges::views::iota;
 	if (device && font)
@@ -69,7 +71,7 @@ bool AssetRenderer(GraphicsDevice* device, const std::string& imagePath, Font* f
 			spriteBatch.DrawString(font, "The quick brown fox jumps over the lazy dog", Point(20), 1);
 			spriteBatch.End();
 		}
-		device->SaveBackBufferToFile(imagePath);
+		device->ImmediateContext()->SaveBackBufferToFile(imagePath);
 	}
 	return false;
 }

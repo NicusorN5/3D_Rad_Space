@@ -23,9 +23,10 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		void _debugInfoTX2D();
 		void _debugInfoRT();
 
+	protected:
         explicit Texture2D(GraphicsDevice* device, Microsoft::WRL::ComPtr<ID3D11Texture2D>&& texture, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>&& resource);
         explicit Texture2D(GraphicsDevice* device, std::monostate dummy, Microsoft::WRL::ComPtr<ID3D11Texture2D>&& texture);
-	protected:
+
 		Microsoft::WRL::ComPtr<ID3D11Texture2D> _texture;
 		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> _resourceView;
 		GraphicsDevice *_device;

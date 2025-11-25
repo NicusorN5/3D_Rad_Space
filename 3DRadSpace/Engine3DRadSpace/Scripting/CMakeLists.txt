@@ -28,11 +28,13 @@ if(MSVC)
 	target_compile_definitions(3DRadSpace_Scripting PRIVATE [[E3DRSP_SCRIPTING_EXPORT=__declspec(dllexport)]])
 endif()
 
-target_link_libraries(3DRadSpace_Scripting PRIVATE 3DRadSpace_Objects)
+target_link_libraries(3DRadSpace_Scripting PRIVATE 3DRadSpace_Content)
+target_link_libraries(3DRadSpace_Scripting PRIVATE 3DRadSpace.Content.Assets)
 target_link_libraries(3DRadSpace_Scripting PRIVATE 3DRadSpace_Graphics)
 target_link_libraries(3DRadSpace_Scripting PRIVATE 3DRadSpace_Objects)
 target_link_libraries(3DRadSpace_Scripting PRIVATE 3DRadSpace_Graphics_Primitives)
 target_link_libraries(3DRadSpace_Scripting PRIVATE 3DRadSpace_Graphics_Rendering)
+target_link_libraries(3DRadSpace_Scripting PRIVATE 3DRadSpace_Games)
 target_include_directories(3DRadSpace_Scripting PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)
 
 #Nlohmann JSON

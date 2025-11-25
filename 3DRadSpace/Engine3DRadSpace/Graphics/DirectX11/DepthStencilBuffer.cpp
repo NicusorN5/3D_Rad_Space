@@ -8,7 +8,7 @@ using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Graphics::DirectX11;
 using namespace Engine3DRadSpace::Logging;
 
-D3D11_TEXTURE2D_DESC DepthStencilBuffer::_defaultDepthDesc(unsigned x, unsigned y)
+D3D11_TEXTURE2D_DESC DepthStencilBuffer::_defaultDepthDesc(size_t x, size_t y)
 {
 	D3D11_TEXTURE2D_DESC desc{};
 	desc.Format = DXGI_FORMAT_R24G8_TYPELESS;
@@ -42,7 +42,7 @@ D3D11_SHADER_RESOURCE_VIEW_DESC DepthStencilBuffer::_defaultShaderViewDesc()
 	return sr_desc;
 }
 
-void DepthStencilBuffer::_createDepthTexture(unsigned x, unsigned y)
+void DepthStencilBuffer::_createDepthTexture(size_t x, size_t y)
 {
 	D3D11_TEXTURE2D_DESC desc = _defaultDepthDesc(x, y);
 
@@ -80,7 +80,7 @@ DepthStencilBuffer::DepthStencilBuffer(GraphicsDevice *device):
 	_createDepthTexture(r.X, r.Y);
 }
 
-DepthStencilBuffer::DepthStencilBuffer(GraphicsDevice* device, unsigned x, unsigned y) :
+DepthStencilBuffer::DepthStencilBuffer(GraphicsDevice* device, size_t x, size_t y) :
 	_device(device)
 {
 	_createDepthTexture(x,y);

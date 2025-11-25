@@ -147,3 +147,13 @@ void GraphicsCommandList::Copy(IGPUBuffer* dest, IGPUBuffer* src)
 	(void)dest;
 	(void)src;
 }
+
+void* GraphicsCommandList::GetHandle() const noexcept
+{
+	return nullptr;
+}
+
+IGraphicsDevice* GraphicsCommandList::GetGraphicsDevice() const noexcept
+{
+	return nullptr;
+}

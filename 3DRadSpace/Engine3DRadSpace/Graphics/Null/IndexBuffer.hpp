@@ -1,5 +1,6 @@
 #pragma once
 #include "../IIndexBuffer.hpp"
+#include "../BufferUsage.hpp"
 
 namespace Engine3DRadSpace::Graphics::Null
 {
@@ -9,7 +10,7 @@ namespace Engine3DRadSpace::Graphics::Null
 	{
 	public:
 		IndexBuffer(GraphicsDevice* device, std::span<unsigned> indices);
-		IndexBuffer(GraphicsDevice* device, unsigned* indices, size_t numindices);
+		IndexBuffer(GraphicsDevice* device, size_t numIndices, BufferUsage usage);
 
 		IndexBuffer(IndexBuffer &) = delete;
 		IndexBuffer(IndexBuffer &&) noexcept = default;

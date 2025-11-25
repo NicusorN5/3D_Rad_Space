@@ -58,6 +58,9 @@ namespace Engine3DRadSpace::Graphics::Null
 
 		virtual void Copy(IGPUBuffer* dest, IGPUBuffer* src) override;
 
+		void* GetHandle() const noexcept override;
+		IGraphicsDevice* GetGraphicsDevice() const noexcept override;
+
 		~GraphicsCommandList() override = default;
 	};
 }

@@ -8,8 +8,13 @@ using namespace Engine3DRadSpace::Graphics::DirectX11;
 using namespace Engine3DRadSpace::Logging;
 using namespace Engine3DRadSpace::Internal;
 
-RenderTarget::RenderTarget(GraphicsDevice* device) : 
-	Texture2D(device)
+RenderTarget::RenderTarget(
+	GraphicsDevice* device,
+	Microsoft::WRL::ComPtr<ID3D11Texture2D>&& backbuffer,
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>&& srv,
+	Microsoft::WRL::ComPtr<ID3D11RenderTargetView>&& rtv
+) : Texture2D(device, std::move(backbuffer), std::move(srv)),
+	_renderTarget(std::move(rtv))
 {
 }
 
