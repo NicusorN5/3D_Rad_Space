@@ -1,22 +1,24 @@
 #pragma once
 #include "ShaderBase.hpp"
-#include "InputLayoutElement.hpp"
+#include "../IVertexShader.hpp"
 
 namespace Engine3DRadSpace::Graphics::DirectX11
 {
 	/// <summary>
 	/// Represents a vertex shader.
 	/// </summary>
-	class E3DRSP_GRAPHICS_DX11_EXPORT VertexShader : public ShaderBase
+	class E3DRSP_GRAPHICS_DX11_EXPORT VertexShader : public ShaderBase, public IVertexShader
 	{
 		Microsoft::WRL::ComPtr<ID3D11VertexShader> _shader;
 
 		Microsoft::WRL::ComPtr<ID3D11InputLayout> _inputLayout;
 		void _createShader();
 
+		std::vector<D3D11_INPUT_ELEMENT_DESC> _inputLayoutDesc;
+		std::vector<std::unique_ptr<Reflection::IReflectedField>> _reflectedInputLayout;
+
 		const char *_determineTarget();
-		[[nodiscard]] D3D11_INPUT_ELEMENT_DESC *_generateInputElementDesc(std::span<InputLayoutElement> inputLayout);
-		void _generateInputLayout(std::span<InputLayoutElement> inputLayout);
+		void _generateInputLayout();
 	public:
 		/// <summary>
 		/// Constructs a vertex shader from a string containing the source code.
@@ -52,6 +54,8 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		void SetShader() override;
 		
 		void* GetHandle() const noexcept override;
+
+		std::vector<Reflection::IReflectedField*> GetInputLayout() const noexcept override;
 
 		virtual ~VertexShader() = default;
 

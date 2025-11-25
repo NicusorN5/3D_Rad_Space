@@ -1,6 +1,7 @@
 #include "ShaderBase.hpp"
 #include "../Core/Logging.hpp"
 #include "GraphicsDevice.hpp"
+#include "../Reflection/UnknownVariable.hpp"
 
 #pragma comment(lib,"d3dcompiler.lib")
 
@@ -17,7 +18,7 @@ ShaderBase::Array_ValidConstantBuffers ShaderBase::_validConstantBuffers(unsigne
 	unsigned &i = numConstantBuffers;
 	for(i = 0; i < maxConstBuffers; i++)
 	{
-		ID3D11Buffer *constBuffer = _constantBuffers[i].Get();
+		ID3D11Buffer *constBuffer = _constantBuffers[i].Handle.Get();
 		if(constBuffer == nullptr) break;
 
 		ppConstantBuffers[i] = constBuffer;
@@ -87,11 +88,12 @@ void ShaderBase::_compileShaderFromFile(const char* path, const char* target)
 	else
 	{
 		if (_errorBlob.Get() != nullptr)
+		{
 			SetLastWarning(Warning(r, (char*)_errorBlob->GetBufferPointer(), 2, nullptr));
+		}
 
 		if(FAILED(r))
 		{
-			//MessageBoxA(nullptr, static_cast<char*>(_errorBlob->GetBufferPointer()), "Shader compilation error!", MB_ICONERROR);
 			throw Exception(std::string("Shader compilation failure! \r\n") + static_cast<char*>(_errorBlob->GetBufferPointer()));
 		}
 	}
@@ -124,8 +126,20 @@ ShaderBase::ShaderBase(GraphicsDevice *Device, const std::filesystem::path &path
 
 void ShaderBase::SetData(unsigned index, const void *data, size_t dataSize)
 {
-	if (_constantBuffers[index].Get() == nullptr)
+	auto &constantBuff = _constantBuffers[index];
+	auto &handle = constantBuff.Handle;
+	auto ptr = constantBuff.Buffer.get();
+
+	if (ptr == nullptr)
 	{
+		constantBuff.Buffer = std::make_unique<std::byte[]>(dataSize);
+		ptr = constantBuff.Buffer.get();
+	}
+	memcpy_s(ptr, dataSize, data, dataSize);
+
+	if (handle == nullptr)
+	{
+		//create dx11 constant buffer if it doesn't exist
 		D3D11_BUFFER_DESC constantBufferDesc{};
 		constantBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 		constantBufferDesc.ByteWidth = dataSize;
@@ -133,24 +147,26 @@ void ShaderBase::SetData(unsigned index, const void *data, size_t dataSize)
 		constantBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
 
 		D3D11_SUBRESOURCE_DATA res{};
-		res.pSysMem = data;
+		res.pSysMem = ptr;
 
-		HRESULT r = _device->_device->CreateBuffer(&constantBufferDesc, &res, _constantBuffers[index].ReleaseAndGetAddressOf());
+		HRESULT r = _device->_device->CreateBuffer(&constantBufferDesc, &res, handle.ReleaseAndGetAddressOf());
 		if (FAILED(r)) throw Exception("Failed to create a constant buffer for a shader!");
+
+		//set debug name
 #ifdef _DEBUG
 		std::string constantBufferName = "IShader::constantBuffer[";
 		constantBufferName += std::to_string(index) + ']';
 
-		_constantBuffers[index]->SetPrivateData(WKPDID_D3DDebugObjectName, unsigned(constantBufferName.length()), constantBufferName.c_str());
+		handle->SetPrivateData(WKPDID_D3DDebugObjectName, unsigned(constantBufferName.length()), constantBufferName.c_str());
 #endif
 	}
 	else
 	{
 		D3D11_MAPPED_SUBRESOURCE res;
-		HRESULT r = _device->_context->Map(_constantBuffers[index].Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &res);
+		HRESULT r = _device->_context->Map(handle.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &res);
 		if (FAILED(r)) throw Exception("Failed to write the shader data!");
-		memcpy(res.pData, data, dataSize);
-		_device->_context->Unmap(_constantBuffers[index].Get(), 0);
+		memcpy_s(res.pData, dataSize, ptr, dataSize);
+		_device->_context->Unmap(handle.Get(), 0);
 	}
 }
 
@@ -167,23 +183,24 @@ std::string ShaderBase::GetEntryName()
 
 const char* ShaderBase::GetCompilationErrorsAndWarnings()
 {
-	if(this->_errorBlob == nullptr) return nullptr;
-	return static_cast<const char*>(this->_errorBlob->GetBufferPointer());
+	return (_errorBlob == nullptr) ? static_cast<const char*>(_errorBlob->GetBufferPointer()) : nullptr;
 }
 
 void ShaderBase::_reflectShader()
 {
+	Microsoft::WRL::ComPtr<ID3D11ShaderReflection> reflector;
+
 	HRESULT r = D3DReflect(
-		this->_shaderBlob->GetBufferPointer(),
-		this->_shaderBlob->GetBufferSize(),
-		IID_PPV_ARGS(&_reflector)
+		_shaderBlob->GetBufferPointer(),
+		_shaderBlob->GetBufferSize(),
+		IID_PPV_ARGS(&reflector)
 	);
 	if (FAILED(r)) throw Exception("Failed to reflect the shader!");
 
 	//Reflect constant buffer variables
 	for (int idxCbuffer = 0; ; idxCbuffer++)
 	{
-		auto cbuffer = _reflector->GetConstantBufferByIndex(idxCbuffer);
+		auto cbuffer = reflector->GetConstantBufferByIndex(idxCbuffer);
 		if (cbuffer == nullptr)
 			break;
 	
@@ -197,29 +214,23 @@ void ShaderBase::_reflectShader()
 
 		for (unsigned idxVariable = 0; idxVariable < numVariables; idxVariable++)
 		{
-			auto variable = cbuffer->GetVariableByIndex(0);
+			auto variable = cbuffer->GetVariableByIndex(idxVariable);
 			if (variable == nullptr)
 				break;
 
 			D3D11_SHADER_VARIABLE_DESC varDesc{};
 			variable->GetDesc(&varDesc);
+
+			_reflectedFields.emplace_back(
+				std::make_unique<Reflection::UnknownVariable>(
+					varDesc.StartOffset,
+					varDesc.Size,
+					varDesc.Name,
+					""
+				)
+			);
 		}
 	}
-
-	//Reflect input parameters
-	D3D11_SHADER_DESC shaderDesc{};
-	r = _reflector->GetDesc(&shaderDesc);
-	if (FAILED(r)) throw Exception("Failed to get shader description from reflector!");
-
-	for(int i = 0; i < shaderDesc.InputParameters; i++)
-	{
-		D3D11_SIGNATURE_PARAMETER_DESC paramDesc{};
-		r = _reflector->GetInputParameterDesc(i, &paramDesc);
-		if (FAILED(r)) break;
-
-
-	}
-
 }
 
 std::vector<Reflection::IReflectedField*> ShaderBase::GetVariables() const
@@ -238,7 +249,7 @@ void ShaderBase::Set(const std::string& name, const void* data, size_t dataSize)
 	{
 		if (var->FieldName() == name)
 		{
-			//var->Set();
+			var->Set(_constantBuffers[0].Buffer.get(), data);
 			return;
 		}
 	}

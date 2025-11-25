@@ -3,6 +3,7 @@
 #include "GraphicsDevice.hpp"
 #include "SamplerState.hpp"
 #include "../Core/FixedArray.hpp"
+#include "../Reflection/ReflectedField.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Logging;
@@ -43,320 +44,140 @@ void VertexShader::_createShader()
 #endif
 }
 
-D3D11_INPUT_ELEMENT_DESC *VertexShader::_generateInputElementDesc(std::span<InputLayoutElement> inputLayout)
+template<typename E>
+auto dx11vs_createInputLayoutDesc(const D3D11_INPUT_ELEMENT_DESC &elementDesc)
 {
-	size_t numLayoutEntries = inputLayout.size();
-
-	D3D11_INPUT_ELEMENT_DESC *elem = new D3D11_INPUT_ELEMENT_DESC[numLayoutEntries]{};
-	if(elem == nullptr)
-	{
-		throw Exception("Failed to allocate heap memory for a D3D11_INPUT_ELEMENT_DESC array!");
-	}
-
-	unsigned posIndex = 0;
-	//unsigned posTIndex = 0;
-	unsigned colorIndex = 0;
-	unsigned normalIndex = 0;
-	unsigned tangentIndex = 0;
-	unsigned bitangentIndex = 0;
-	unsigned texCoordIndex = 0;
-	unsigned blendIndicesIndex = 0;
-	unsigned blendWeightIndex = 0;
-	unsigned pointSizeIndex = 0;
-
-	for(int i = 0; i < numLayoutEntries; i++)
-	{
-		switch(inputLayout[i])
-		{
-			case InputLayoutElement::Position_Vec2:
-			{
-				elem[i] =
-				{
-					"POSITION", //SemanticName
-					posIndex, //SemanticIndex
-					DXGI_FORMAT_R32G32_FLOAT, //Format
-					0, //InputSlot
-					D3D11_APPEND_ALIGNED_ELEMENT, //AlignedByteOffset
-					D3D11_INPUT_PER_VERTEX_DATA, //InputSlotClass
-					0 //InstanceDataStepRate
-				};
-				posIndex++;
-				break;
-			}
-			case InputLayoutElement::Position_Vec3:
-			{
-				elem[i] =
-				{
-					"POSITION", //SemanticName
-					posIndex, //SemanticIndex
-					DXGI_FORMAT_R32G32B32_FLOAT, //Format
-					0, //InputSlot
-					D3D11_APPEND_ALIGNED_ELEMENT, //AlignedByteOffset
-					D3D11_INPUT_PER_VERTEX_DATA, //InputSlotClass
-					0 //InstanceDataStepRate
-				};
-				posIndex++;
-				break;
-			}
-			case InputLayoutElement::Position_Vec4:
-			{
-				elem[i] =
-				{
-					"POSITION", //SemanticName
-					posIndex, //SemanticIndex
-					DXGI_FORMAT_R32G32B32A32_FLOAT, //Format
-					0, //InputSlot
-					D3D11_APPEND_ALIGNED_ELEMENT, //AlignedByteOffset
-					D3D11_INPUT_PER_VERTEX_DATA, //InputSlotClass
-					0 //InstanceDataStepRate
-				};
-				posIndex++;
-				break;
-			}
-			case InputLayoutElement::PositionTransformed_Vec3:
-			{
-				elem[i] =
-				{
-					"POSITIONT", //SemanticName
-					0, //posTIndex, //SemanticIndex
-					DXGI_FORMAT_R32G32B32_FLOAT, //Format
-					0, //InputSlot
-					D3D11_APPEND_ALIGNED_ELEMENT, //AlignedByteOffset
-					D3D11_INPUT_PER_VERTEX_DATA, //InputSlotClass
-					0 //InstanceDataStepRate
-				};
-				//posTIndex++;
-				break;
-			}
-			case InputLayoutElement::PositionTransformed_Vec4:
-			{
-				elem[i] =
-				{
-					"POSITIONT", //SemanticName
-					0, //posTIndex, //SemanticIndex
-					DXGI_FORMAT_R32G32B32A32_FLOAT, //Format
-					0, //InputSlot
-					D3D11_APPEND_ALIGNED_ELEMENT, //AlignedByteOffset
-					D3D11_INPUT_PER_VERTEX_DATA, //InputSlotClass
-					0 //InstanceDataStepRate
-				};
-				//posTIndex++;
-				break;
-			}
-			case InputLayoutElement::Color:
-			{
-				elem[i] =
-				{
-					"COLOR", //SemanticName
-					colorIndex, //SemanticIndex
-					DXGI_FORMAT_R32G32B32A32_FLOAT, //Format
-					0, //InputSlot
-					D3D11_APPEND_ALIGNED_ELEMENT, //AlignedByteOffset
-					D3D11_INPUT_PER_VERTEX_DATA, //InputSlotClass
-					0 //InstanceDataStepRate
-				};
-				colorIndex++;
-				break;
-			}
-			case InputLayoutElement::Normal_Vec3:
-			{
-				elem[i] =
-				{
-					"NORMAL", //SemanticName
-					normalIndex, //SemanticIndex
-					DXGI_FORMAT_R32G32B32_FLOAT, //Format
-					0, //InputSlot
-					D3D11_APPEND_ALIGNED_ELEMENT, //AlignedByteOffset
-					D3D11_INPUT_PER_VERTEX_DATA, //InputSlotClass
-					0 //InstanceDataStepRate
-				};
-				normalIndex++;
-				break;
-			}
-			case InputLayoutElement::Normal_Vec4:
-			{
-				elem[i] =
-				{
-					"NORMAL", //SemanticName
-					normalIndex, //SemanticIndex
-					DXGI_FORMAT_R32G32B32A32_FLOAT, //Format
-					0, //InputSlot
-					D3D11_APPEND_ALIGNED_ELEMENT, //AlignedByteOffset
-					D3D11_INPUT_PER_VERTEX_DATA, //InputSlotClass
-					0 //InstanceDataStepRate
-				};
-				normalIndex++;
-				break;
-			}
-			case InputLayoutElement::Tangent_Vec3:
-			{
-				elem[i] =
-				{
-					"TANGENT", //SemanticName
-					tangentIndex, //SemanticIndex
-					DXGI_FORMAT_R32G32B32_FLOAT, //Format
-					0, //InputSlot
-					D3D11_APPEND_ALIGNED_ELEMENT, //AlignedByteOffset
-					D3D11_INPUT_PER_VERTEX_DATA, //InputSlotClass
-					0 //InstanceDataStepRate
-				};
-				tangentIndex++;
-				break;
-			}
-			case InputLayoutElement::Tangent_Vec4:
-			{
-				elem[i] =
-				{
-					"TANGENT", //SemanticName
-					tangentIndex, //SemanticIndex
-					DXGI_FORMAT_R32G32B32A32_FLOAT, //Format
-					0, //InputSlot
-					D3D11_APPEND_ALIGNED_ELEMENT, //AlignedByteOffset
-					D3D11_INPUT_PER_VERTEX_DATA, //InputSlotClass
-					0 //InstanceDataStepRate
-				};
-				tangentIndex++;
-				break;
-			}
-			case InputLayoutElement::Bitangent_Vec3:
-			{
-				elem[i] =
-				{
-					"BITANGENT", //SemanticName
-					bitangentIndex, //SemanticIndex
-					DXGI_FORMAT_R32G32B32_FLOAT, //Format
-					0, //InputSlot
-					D3D11_APPEND_ALIGNED_ELEMENT, //AlignedByteOffset
-					D3D11_INPUT_PER_VERTEX_DATA, //InputSlotClass
-					0 //InstanceDataStepRate
-				};
-				bitangentIndex++;
-				break;
-			}
-			case InputLayoutElement::Bitangent_Vec4:
-			{
-				elem[i] =
-				{
-					"BITANGENT", //SemanticName
-					bitangentIndex, //SemanticIndex
-					DXGI_FORMAT_R32G32B32A32_FLOAT, //Format
-					0, //InputSlot
-					D3D11_APPEND_ALIGNED_ELEMENT, //AlignedByteOffset
-					D3D11_INPUT_PER_VERTEX_DATA, //InputSlotClass
-					0 //InstanceDataStepRate
-				};
-				bitangentIndex++;
-				break;
-			}
-			case InputLayoutElement::TextureCoordinate2D:
-			{
-				elem[i] =
-				{
-					"TEXCOORD", //SemanticName
-					texCoordIndex, //SemanticIndex
-					DXGI_FORMAT_R32G32_FLOAT, //Format
-					0, //InputSlot
-					D3D11_APPEND_ALIGNED_ELEMENT, //AlignedByteOffset
-					D3D11_INPUT_PER_VERTEX_DATA, //InputSlotClass
-					0 //InstanceDataStepRate
-				};
-				texCoordIndex++;
-				break;
-			}
-			case InputLayoutElement::TextureCoordinate3D:
-			{
-				elem[i] =
-				{
-					"TEXCOORD", //SemanticName
-					texCoordIndex, //SemanticIndex
-					DXGI_FORMAT_R32G32B32_FLOAT, //Format
-					0, //InputSlot
-					D3D11_APPEND_ALIGNED_ELEMENT, //AlignedByteOffset
-					D3D11_INPUT_PER_VERTEX_DATA, //InputSlotClass
-					0 //InstanceDataStepRate
-				};
-				texCoordIndex++;
-				break;
-			}
-			case InputLayoutElement::TextureCoordinate4D:
-			{
-				elem[i] =
-				{
-					"TEXCOORD", //SemanticName
-					texCoordIndex, //SemanticIndex
-					DXGI_FORMAT_R32G32B32A32_FLOAT, //Format
-					0, //InputSlot
-					D3D11_APPEND_ALIGNED_ELEMENT, //AlignedByteOffset
-					D3D11_INPUT_PER_VERTEX_DATA, //InputSlotClass
-					0 //InstanceDataStepRate
-				};
-				texCoordIndex++;
-				break;
-			}
-			case InputLayoutElement::BlendIndices:
-			{
-				elem[i] =
-				{
-					"BLENDINDICES", //SemanticName
-					blendIndicesIndex, //SemanticIndex
-					DXGI_FORMAT_R32_UINT, //Format
-					0, //InputSlot
-					D3D11_APPEND_ALIGNED_ELEMENT, //AlignedByteOffset
-					D3D11_INPUT_PER_VERTEX_DATA, //InputSlotClass
-					0 //InstanceDataStepRate
-				};
-				blendIndicesIndex++;
-				break;
-			}
-			case InputLayoutElement::BlendWeights:
-			{
-				elem[i] =
-				{
-					"BLENDWEIGHT", //SemanticName
-					blendWeightIndex, //SemanticIndex
-					DXGI_FORMAT_R32_FLOAT, //Format
-					0, //InputSlot
-					D3D11_APPEND_ALIGNED_ELEMENT, //AlignedByteOffset
-					D3D11_INPUT_PER_VERTEX_DATA, //InputSlotClass
-					0 //InstanceDataStepRate
-				};
-				blendWeightIndex++;
-				break;
-			}
-			case InputLayoutElement::PointSize:
-			{
-				elem[i] =
-				{
-					"PSIZE", //SemanticName
-					blendWeightIndex, //SemanticIndex
-					DXGI_FORMAT_R32_FLOAT, //Format
-					0, //InputSlot
-					D3D11_APPEND_ALIGNED_ELEMENT, //AlignedByteOffset
-					D3D11_INPUT_PER_VERTEX_DATA, //InputSlotClass
-					0 //InstanceDataStepRate
-				};
-				blendWeightIndex++;
-				break;
-			}
-			default:
-				break;
-		}
-	}
-	return elem;
+	return std::make_unique<Reflection::ReflectedField<E>>(
+		elementDesc.AlignedByteOffset,
+		std::format("{}{}", elementDesc.SemanticName, elementDesc.SemanticIndex),
+		"",
+		E{}
+	);
 }
 
-void VertexShader::_generateInputLayout(std::span<InputLayoutElement> inputLayout)
+void VertexShader::_generateInputLayout()
 {
-	D3D11_INPUT_ELEMENT_DESC *elements = _generateInputElementDesc(inputLayout);
+	Microsoft::WRL::ComPtr<ID3D11ShaderReflection> reflector;
+
+	HRESULT r = D3DReflect(this->_shaderBlob->GetBufferPointer(),
+		this->_shaderBlob->GetBufferSize(),
+		IID_PPV_ARGS(&reflector)
+	);
+	if (FAILED(r)) throw Exception("Failed to create shader reflector!");
+
+	//Reflect input parameters
+	D3D11_SHADER_DESC shaderDesc{};
+	r = reflector->GetDesc(&shaderDesc);
+	if (FAILED(r)) throw Exception("Failed to get shader description from reflector!");
+
+	for (int i = 0; i < shaderDesc.InputParameters; i++)
+	{
+		D3D11_SIGNATURE_PARAMETER_DESC paramDesc{};
+		r = reflector->GetInputParameterDesc(i, &paramDesc);
+		if (FAILED(r)) break;
+
+		//https://takinginitiative.net/2011/12/11/directx-1011-basic-shader-reflection-automatic-input-layout-creation/
+
+		D3D11_INPUT_ELEMENT_DESC elementDesc;
+		elementDesc.SemanticName = paramDesc.SemanticName;
+		elementDesc.SemanticIndex = paramDesc.SemanticIndex;
+		elementDesc.InputSlot = 0;
+		elementDesc.AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
+		elementDesc.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+		elementDesc.InstanceDataStepRate = 0;
+
+		std::unique_ptr<Reflection::IReflectedField> e;
+
+		// determine DXGI format
+		if (paramDesc.Mask == 1)
+		{
+			if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_UINT32)
+			{
+				e = dx11vs_createInputLayoutDesc<uint32_t>(elementDesc);
+				elementDesc.Format = DXGI_FORMAT_R32_UINT;
+			}
+			else if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_SINT32)
+			{
+				e = dx11vs_createInputLayoutDesc<int32_t>(elementDesc);
+				elementDesc.Format = DXGI_FORMAT_R32_SINT;
+			}
+			else if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_FLOAT32)
+			{
+				e = dx11vs_createInputLayoutDesc<float>(elementDesc);
+				elementDesc.Format = DXGI_FORMAT_R32_FLOAT;
+			}
+		}
+		else if (paramDesc.Mask <= 3)
+		{
+			if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_UINT32)
+			{
+				//TODO: UPoint, UVector2, UVector3, UVector4...
+				e = dx11vs_createInputLayoutDesc<Math::Point>(elementDesc);
+				elementDesc.Format = DXGI_FORMAT_R32G32_UINT;
+			}
+			else if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_SINT32)
+			{
+				e = dx11vs_createInputLayoutDesc<Math::Point>(elementDesc);
+				elementDesc.Format = DXGI_FORMAT_R32G32_SINT;
+			}
+			else if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_FLOAT32)
+			{
+				e = dx11vs_createInputLayoutDesc<Math::Vector2>(elementDesc);
+				elementDesc.Format = DXGI_FORMAT_R32G32_FLOAT;
+			}
+		}
+		else if (paramDesc.Mask <= 7)
+		{
+			if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_UINT32)
+			{
+				//TODO: UPoint3
+				e = dx11vs_createInputLayoutDesc<Math::Vector3>(elementDesc);
+				elementDesc.Format = DXGI_FORMAT_R32G32B32_UINT;
+			}
+			else if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_SINT32)
+			{
+				//TODO: Point3
+				e = dx11vs_createInputLayoutDesc<Math::Vector3>(elementDesc);
+				elementDesc.Format = DXGI_FORMAT_R32G32B32_SINT;
+			}
+			else if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_FLOAT32)
+			{
+				e = dx11vs_createInputLayoutDesc<Math::Vector3>(elementDesc);
+				elementDesc.Format = DXGI_FORMAT_R32G32B32_FLOAT;
+			}
+		}
+		else if (paramDesc.Mask <= 15)
+		{
+			if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_UINT32)
+			{
+				//TODO: UVector4
+				e = dx11vs_createInputLayoutDesc<Math::Vector4>(elementDesc);
+				elementDesc.Format = DXGI_FORMAT_R32G32B32A32_UINT;
+			}
+			else if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_SINT32)
+			{
+				//todo: Point4
+				e = dx11vs_createInputLayoutDesc<Math::Vector4>(elementDesc);
+				elementDesc.Format = DXGI_FORMAT_R32G32B32A32_SINT;
+			}
+			else if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_FLOAT32)
+			{
+				e = dx11vs_createInputLayoutDesc<Math::Vector4>(elementDesc);
+				elementDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+			}
+		}
+
+		//save element desc
+		_inputLayoutDesc.push_back(elementDesc);
+	}
 
 	HRESULT r = _device->_device->CreateInputLayout(
-		elements,
-		static_cast<UINT>(inputLayout.size()),
+		&_inputLayoutDesc[0],
+		static_cast<UINT>(_inputLayoutDesc.size()),
 		_shaderBlob->GetBufferPointer(),
 		_shaderBlob->GetBufferSize(),
 		&this->_inputLayout
 	);
-	delete[] elements;
 
 #ifdef _DEBUG
 	const char inputLayoutName[] = "IVertexShader::InputLayout";
@@ -371,10 +192,7 @@ VertexShader::VertexShader(GraphicsDevice*Device, const char *shaderSourceCode, 
 {
 	_compileShader(shaderSourceCode, _determineTarget());
 	_createShader();
-
-	std::span<InputLayoutElement> inputLayout;
-
-	_generateInputLayout(inputLayout);
+	_generateInputLayout();
 }
 
 VertexShader::VertexShader(GraphicsDevice*Device, const std::filesystem::path &path, const char *vsEntry, ShaderFeatureLevel fl):
@@ -382,11 +200,7 @@ VertexShader::VertexShader(GraphicsDevice*Device, const std::filesystem::path &p
 {
 	_compileShaderFromFile(path.string().c_str(), _determineTarget());
 	_createShader();
-
-	std::span<InputLayoutElement> inputLayout;
-	//TODO: Generate input layout from reflection.
-
-	_generateInputLayout(inputLayout);
+	_generateInputLayout();
 }
 
 void VertexShader::SetTexture(unsigned index, ITexture2D *texture)
@@ -429,4 +243,16 @@ void VertexShader::SetShader()
 void* VertexShader::GetHandle() const noexcept
 {
 	return static_cast<void*>(_shader.Get());
+}
+
+std::vector<Reflection::IReflectedField*> VertexShader::GetInputLayout() const noexcept
+{
+	std::vector<Reflection::IReflectedField*> layout;
+
+	for (const auto &element : _reflectedInputLayout)
+	{
+		layout.emplace_back(element.get());
+	}
+
+	return layout;
 }

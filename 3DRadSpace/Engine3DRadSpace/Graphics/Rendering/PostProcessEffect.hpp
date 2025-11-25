@@ -1,6 +1,5 @@
 #pragma once
 #include "../IShader.hpp"
-#include "../InputLayoutElement.hpp"
 #include "../ShaderDesc.hpp"
 
 namespace Engine3DRadSpace::Graphics::Rendering
