@@ -4,6 +4,11 @@
 #include "SamplerState.hpp"
 #include "../Core/FixedArray.hpp"
 #include "../Reflection/ReflectedField.hpp"
+#include "../Math/Point3.hpp"
+#include "../Math/Point4.hpp"
+#include "../Math/UPoint.hpp"
+#include "../Math/UPoint3.hpp"
+#include "../Math/UPoint4.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Logging;
@@ -111,8 +116,7 @@ void VertexShader::_generateInputLayout()
 		{
 			if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_UINT32)
 			{
-				//TODO: UPoint, UVector2, UVector3, UVector4...
-				e = dx11vs_createInputLayoutDesc<Math::Point>(elementDesc);
+				e = dx11vs_createInputLayoutDesc<Math::UPoint>(elementDesc);
 				elementDesc.Format = DXGI_FORMAT_R32G32_UINT;
 			}
 			else if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_SINT32)
@@ -130,14 +134,12 @@ void VertexShader::_generateInputLayout()
 		{
 			if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_UINT32)
 			{
-				//TODO: UPoint3
-				e = dx11vs_createInputLayoutDesc<Math::Vector3>(elementDesc);
+				e = dx11vs_createInputLayoutDesc<Math::UPoint3>(elementDesc);
 				elementDesc.Format = DXGI_FORMAT_R32G32B32_UINT;
 			}
 			else if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_SINT32)
 			{
-				//TODO: Point3
-				e = dx11vs_createInputLayoutDesc<Math::Vector3>(elementDesc);
+				e = dx11vs_createInputLayoutDesc<Math::Point3>(elementDesc);
 				elementDesc.Format = DXGI_FORMAT_R32G32B32_SINT;
 			}
 			else if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_FLOAT32)
@@ -150,14 +152,12 @@ void VertexShader::_generateInputLayout()
 		{
 			if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_UINT32)
 			{
-				//TODO: UVector4
-				e = dx11vs_createInputLayoutDesc<Math::Vector4>(elementDesc);
+				e = dx11vs_createInputLayoutDesc<Math::UPoint4>(elementDesc);
 				elementDesc.Format = DXGI_FORMAT_R32G32B32A32_UINT;
 			}
 			else if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_SINT32)
 			{
-				//todo: Point4
-				e = dx11vs_createInputLayoutDesc<Math::Vector4>(elementDesc);
+				e = dx11vs_createInputLayoutDesc<Math::Point4>(elementDesc);
 				elementDesc.Format = DXGI_FORMAT_R32G32B32A32_SINT;
 			}
 			else if (paramDesc.ComponentType == D3D_REGISTER_COMPONENT_FLOAT32)

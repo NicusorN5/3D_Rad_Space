@@ -72,6 +72,27 @@ template<> FieldRepresentation Reflection::GetFieldRepresentation<Point>()
 	};
 }
 
+template<> FieldRepresentation Reflection::GetFieldRepresentation<Point3>()
+{
+	return
+	{
+		{ FieldRepresentationType::Integer, "X"},
+		{ FieldRepresentationType::Integer, "Y"},
+		{ FieldRepresentationType::Integer, "Z"}
+	};
+}
+
+template<> FieldRepresentation Reflection::GetFieldRepresentation<Point4>()
+{
+	return
+	{
+		{ FieldRepresentationType::Integer, "X"},
+		{ FieldRepresentationType::Integer, "Y"},
+		{ FieldRepresentationType::Integer, "Z"},
+		{ FieldRepresentationType::Integer, "W"}
+	};
+}
+
 template<> FieldRepresentation Reflection::GetFieldRepresentation<Vector3>()
 {
 	return
@@ -151,5 +172,35 @@ template<> FieldRepresentation Reflection::GetFieldRepresentation<Matrix4x4>()
 		{ FieldRepresentationType::Float, "M42"},
 		{ FieldRepresentationType::Float, "M43"},
 		{ FieldRepresentationType::Float, "M44"}
+	};
+}
+
+template<> FieldRepresentation Reflection::GetFieldRepresentation<UPoint>()
+{
+	return
+	{
+		{ FieldRepresentationType::Unsigned, "X"},
+		{ FieldRepresentationType::Unsigned, "Y" }
+	};
+}
+
+template<> FieldRepresentation Reflection::GetFieldRepresentation<UPoint3>()
+{
+	return
+	{
+		{ FieldRepresentationType::Unsigned, "X"},
+		{ FieldRepresentationType::Unsigned, "Y" },
+		{ FieldRepresentationType::Unsigned, "Z" },
+	};
+}
+
+template<> FieldRepresentation Reflection::GetFieldRepresentation<UPoint4>()
+{
+	return
+	{
+		{ FieldRepresentationType::Unsigned, "X"},
+		{ FieldRepresentationType::Unsigned, "Y" },
+		{ FieldRepresentationType::Unsigned, "Z" },
+		{ FieldRepresentationType::Unsigned, "W" }
 	};
 }
