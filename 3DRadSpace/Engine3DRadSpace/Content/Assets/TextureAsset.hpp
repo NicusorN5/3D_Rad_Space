@@ -33,7 +33,7 @@ namespace Engine3DRadSpace
 			const char* FileExtension() const noexcept override;
 			std::type_index InitializationService() const noexcept override;
 
-			Graphics::ITexture2D* GetTexture() const noexcept;
+			Graphics::ITexture2D* Get() const noexcept;
 
 			~TextureAsset() override = default;
 

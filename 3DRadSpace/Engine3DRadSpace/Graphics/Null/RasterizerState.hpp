@@ -1,14 +1,13 @@
 #pragma once
 #include "../IRasterizerState.hpp"
-#include "../RasterizerFillMode.hpp"
-#include "../RasterizerCullMode.hpp"
 
 namespace Engine3DRadSpace::Graphics::Null
 {
+	class GraphicsDevice;
 	class E3DRSP_GRAPHICS_NULL_EXPORT RasterizerState final : public IRasterizerState
 	{
 	public:
-		explicit RasterizerState(
+		RasterizerState(
 			GraphicsDevice *device,
 			RasterizerFillMode filling = RasterizerFillMode::Solid,
 			RasterizerCullMode culling = RasterizerCullMode::CullBack,
@@ -29,6 +28,7 @@ namespace Engine3DRadSpace::Graphics::Null
 		RasterizerState &operator =(RasterizerState &&state) noexcept = default;
 
 		void* GetHandle() const noexcept;
+		IGraphicsDevice* GetGraphicsDevice() const noexcept override;
 
 		static RasterizerState CullNone(GraphicsDevice *device);
 		static RasterizerState CullClockwise(GraphicsDevice *device);

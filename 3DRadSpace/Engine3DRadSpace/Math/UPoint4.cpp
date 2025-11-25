@@ -13,7 +13,7 @@ UPoint4 UPoint4::operator+=(const UPoint4& p)
 
 UPoint4 UPoint4::operator+(const UPoint4& p) const
 {
-	return Point(
+	return UPoint4(
 		this->X + p.X,
 		this->Y + p.Y,
 		this->Z + p.Z,
@@ -32,11 +32,11 @@ UPoint4 UPoint4::operator-=(const UPoint4& p)
 
 UPoint4 UPoint4::operator-(const UPoint4& p) const
 {
-	return Point(
+	return UPoint4(
 		this->X - p.X,
 		this->Y - p.Y,
 		this->Z - p.Z,
-		this->W - p.W,
+		this->W - p.W
 	);
 }
 
@@ -86,8 +86,8 @@ UPoint4 operator*(float s, const UPoint4& p)
 	return UPoint4(
 		int(s * p.X),
 		int(s * p.Y),
-		int(x * p.Z),
-		int(x * p.W)
+		int(s * p.Z),
+		int(s * p.W)
 	);
 }
 

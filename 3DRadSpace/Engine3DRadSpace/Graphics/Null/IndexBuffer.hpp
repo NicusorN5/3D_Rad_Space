@@ -24,7 +24,9 @@ namespace Engine3DRadSpace::Graphics::Null
 		void EndRead() override;
 
 		unsigned NumIndices() const noexcept override;
+
 		void* GetHandle() const noexcept override;
+		IGraphicsDevice* GetGraphicsDevice() const noexcept override;
 
 		[[nodiscard]] std::unique_ptr<IIndexBuffer> CreateStaging() override;
 	};

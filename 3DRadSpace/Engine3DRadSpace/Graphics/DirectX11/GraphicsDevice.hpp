@@ -33,6 +33,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 
 	class GraphicsCommandList;
 	class ShaderCompiler;
+	class DeferredCommandList;
 
 	/// <summary>
 	/// DirectX11 RHI (Rendering Hardware Interface)
@@ -174,9 +175,9 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		virtual std::unique_ptr<ISamplerState> CreateSamplerState_AnisotropicWrap() override;
 
 		virtual std::unique_ptr<ITexture2D> CreateTexture2D(
+			void* data,
 			size_t x,
 			size_t y,
-			void* data,
 			PixelFormat format,
 			BufferUsage usage
 		) override;
@@ -214,5 +215,6 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		friend class FragmentShader;
 
 		friend class GraphicsCommandList;
+		friend class DeferredCommandList;
 	};
 }

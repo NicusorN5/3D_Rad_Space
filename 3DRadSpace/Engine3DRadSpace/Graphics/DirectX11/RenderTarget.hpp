@@ -7,9 +7,14 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 	class E3DRSP_GRAPHICS_DX11_EXPORT RenderTarget : public Texture2D, public IRenderTarget
 	{
 		Microsoft::WRL::ComPtr<ID3D11RenderTargetView> _renderTarget;
+
+		/// <summary>
+		/// Used by GraphicsDevice when creating the backbuffer and swap chain.
+		/// </summary>
+		/// <param name="device">Graphics device being created</param>
+		explicit RenderTarget(GraphicsDevice* device);
 	protected:
 		explicit RenderTarget(GraphicsDevice* device, std::monostate cpy);
-		explicit RenderTarget(Internal::AssetUUIDReader r);
 	public:
 		/// <summary>
 		/// Create a render target with the same size as the backbuffer, and the specified format.
@@ -24,7 +29,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		/// <param name="x">Texture width.</param>
 		/// <param name="y">Texture height.</param>
 		/// <param name="format">Color format.</param>
-		RenderTarget(GraphicsDevice* device, unsigned x, unsigned y, PixelFormat format = PixelFormat::R16G16B16A16_Float);
+		RenderTarget(GraphicsDevice* device, size_t x, size_t y, PixelFormat format = PixelFormat::R16G16B16A16_Float);
 
 		RenderTarget(const RenderTarget&) = delete;
 		RenderTarget& operator=(const RenderTarget&) = delete;

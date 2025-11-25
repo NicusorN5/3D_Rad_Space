@@ -1,4 +1,5 @@
 #include "RasterizerState.hpp"
+#include "GraphicsDevice.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
@@ -36,6 +37,11 @@ void* RasterizerState::GetHandle() const noexcept
 	return nullptr;
 }
 
+IGraphicsDevice* RasterizerState::GetGraphicsDevice() const noexcept
+{
+	return nullptr;
+}
+
 RasterizerState RasterizerState::CullNone(GraphicsDevice *device)
 {
 	return RasterizerState(device);
@@ -57,5 +63,5 @@ RasterizerState RasterizerState::Wireframe(GraphicsDevice *device)
 
 std::unique_ptr<RasterizerState> GetCurrentRasterizerState(IGraphicsDevice* device)
 {
-	return RasterizerState(device);
+	return std::make_unique<RasterizerState>(static_cast<GraphicsDevice*>(device));
 }

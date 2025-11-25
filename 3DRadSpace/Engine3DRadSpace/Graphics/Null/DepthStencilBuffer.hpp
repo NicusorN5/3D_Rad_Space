@@ -23,6 +23,7 @@ namespace Engine3DRadSpace::Graphics::Null
 		ITexture2D* GetDepthTexture() const noexcept override;
 
 		void* GetHandle() const noexcept override;
+		IGraphicsDevice* GetGraphicsDevice() const noexcept override;
 
 		std::unique_ptr<ITexture2D> CloneDepthTexture() override;
 	};

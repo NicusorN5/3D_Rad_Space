@@ -15,7 +15,7 @@ TextureAsset::TextureAsset(Internal::AssetUUIDReader dummy)
 }
 
 TextureAsset::TextureAsset(IService *device, const std::filesystem::path &path) :
-	_texture((static_cast<IGraphicsDevice*>(device))->CreateTexture(path))
+	_texture((static_cast<IGraphicsDevice*>(device))->CreateTexture2D(path))
 {
 }
 
@@ -43,7 +43,7 @@ std::type_index TextureAsset::InitializationService() const noexcept
 	return typeid(IGraphicsDevice);
 }
 
-ITexture2D* TextureAsset::GetTexture() const noexcept
+ITexture2D* TextureAsset::Get() const noexcept
 {
 	return _texture.get();
 }

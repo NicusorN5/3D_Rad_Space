@@ -1,13 +1,12 @@
 #pragma once
 #include "../../Graphics/Primitives/CubeMapSkybox.hpp"
-#include "../IAsset.hpp"
+#include "IAssetWrapper.hpp"
 #include "../../Core/AssetUUIDReader.hpp"
 
 namespace Engine3DRadSpace::Content::Assets
 {
-	class E3DRSP_CONTENT_ASSETS_EXPORT SkyboxAsset : public IAsset
+	class E3DRSP_CONTENT_ASSETS_EXPORT SkyboxAsset : public IAssetWrapper<Graphics::Primitives::CubeMapSkybox>
 	{
-		Graphics::Primitives::CubeMapSkybox _skybox;
 		Graphics::Primitives::CubeMapSkybox _loadCubeMap(Graphics::IGraphicsDevice *device, const std::filesystem::path& path);
 
 		SkyboxAsset(Internal::AssetUUIDReader dummy);
@@ -16,10 +15,6 @@ namespace Engine3DRadSpace::Content::Assets
 
 		SkyboxAsset(SkyboxAsset&&) noexcept = default;
 		SkyboxAsset& operator=(SkyboxAsset&&) noexcept = default;
-
-		Graphics::Primitives::CubeMapSkybox& GetSkybox() const;
-		Graphics::Primitives::CubeMapSkybox* operator->() const noexcept;
-		operator Graphics::Primitives::CubeMapSkybox&() const;
 
 		Reflection::UUID GetUUID() const noexcept override;
 		const char* FileExtension() const noexcept override;

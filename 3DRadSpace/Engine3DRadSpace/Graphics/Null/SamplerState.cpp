@@ -66,7 +66,12 @@ SamplerState SamplerState::AnisotropicWrap(GraphicsDevice* device)
 	return SamplerState(device);
 }
 
-const void* SamplerState::GetHandle() const noexcept
+void* SamplerState::GetHandle() const noexcept
+{
+	return nullptr;
+}
+
+IGraphicsDevice* SamplerState::GetGraphicsDevice() const noexcept
 {
 	return nullptr;
 }

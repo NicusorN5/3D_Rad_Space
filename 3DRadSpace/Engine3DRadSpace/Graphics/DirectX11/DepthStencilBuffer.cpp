@@ -98,9 +98,7 @@ ITexture2D* DepthStencilBuffer::GetDepthTexture() const noexcept
 
 std::unique_ptr<ITexture2D> DepthStencilBuffer::CloneDepthTexture()
 {
-	Texture2D texture(Internal::AssetUUIDReader{});
-
-	texture._device = this->_device;
+	Texture2D texture(_device);
 
 	auto res = _device->Resolution();
 	auto desc = _defaultDepthDesc(res.X, res.Y);

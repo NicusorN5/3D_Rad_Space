@@ -32,7 +32,7 @@ std::unique_ptr<ITexture2D> DepthStencilBuffer::CloneDepthTexture()
 	return nullptr;
 }
 
-void* DepthStencilBuffer::GetHandle() const noexcept
+IGraphicsDevice* DepthStencilBuffer::GetGraphicsDevice() const noexcept
 {
 	return nullptr;
 }

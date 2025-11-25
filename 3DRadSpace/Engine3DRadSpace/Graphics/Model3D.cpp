@@ -185,7 +185,7 @@ Model3D::Model3D(IGraphicsDevice* Device, const std::filesystem::path& path) :
 				{
 					std::array<Color, 4> tColors;
 					tColors.fill(c);
-					return Device->CreateTexture2D(2, 2, tColors.data(), PixelFormat::R32G32B32A32_Float, BufferUsage::ReadOnlyGPU_WriteOnlyCPU);
+					return Device->CreateTexture2D(tColors.data(), 2, 2, PixelFormat::R32G32B32A32_Float, BufferUsage::ReadOnlyGPU_WriteOnlyCPU);
 				};
 
 				if(r == aiReturn_SUCCESS)

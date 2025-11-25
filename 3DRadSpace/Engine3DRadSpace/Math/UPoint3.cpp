@@ -1,4 +1,4 @@
-#include "UUPoint3.hpp"
+#include "UPoint3.hpp"
 
 using namespace Engine3DRadSpace::Math;
 
@@ -12,7 +12,7 @@ UPoint3 UPoint3::operator+=(const UPoint3& p)
 
 UPoint3 UPoint3::operator+(const UPoint3& p) const
 {
-	return Point(
+	return UPoint3(
 		this->X + p.X,
 		this->Y + p.Y,
 		this->Z + p.Z
@@ -29,7 +29,7 @@ UPoint3 UPoint3::operator-=(const UPoint3& p)
 
 UPoint3 UPoint3::operator-(const UPoint3& p) const
 {
-	return Point(
+	return UPoint3(
 		this->X - p.X,
 		this->Y - p.Y,
 		this->Z - p.Z
@@ -78,7 +78,7 @@ UPoint3 operator*(float s, const UPoint3& p)
 	return UPoint3(
 		int(s * p.X),
 		int(s * p.Y),
-		int(x * p.Z)
+		int(s * p.Z)
 	);
 }
 

@@ -279,7 +279,8 @@ void iObjectParamSet(unsigned obj_x, int index, float t)
 
 	auto refl = Internal::GetReflDataFromUUID(uuid);
 	if (refl->NumFields() > index) return;
-	if (refl == nullptr) throw std::exception("??? This exception indicates a severe bug with object reflection metadata not being registered.");
+	//if (refl == nullptr) throw std::exception("??? This exception indicates a severe bug with object reflection metadata not being registered.");
+	if (refl == nullptr) return;
 
 	auto field = refl->operator[](index);
 

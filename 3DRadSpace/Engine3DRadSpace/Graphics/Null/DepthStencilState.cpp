@@ -22,35 +22,41 @@ DepthStencilState::DepthStencilState(
 {
 }
 
-unsigned int DepthStencilState::StencilRef() const noexcept override
+unsigned int DepthStencilState::StencilRef() const noexcept
 {
 	return 0;
 }
-void* DepthStencilState::GetHandle() const noexcept override
+void* DepthStencilState::GetHandle() const noexcept
 {
 	return nullptr;
 }
 
-static DepthStencilState DepthStencilState::DepthDefault(GraphicsDevice* device)
+IGraphicsDevice* DepthStencilState::GetGraphicsDevice() const noexcept
 {
-	return DepthStencilState(device);
+	return nullptr;
 }
-static DepthStencilState DepthStencilState::DepthNone(GraphicsDevice *device)
+
+DepthStencilState DepthStencilState::DepthDefault(GraphicsDevice* device)
 {
 	return DepthStencilState(device);
 }
 
-static DepthStencilState DepthStencilState::DepthRead(GraphicsDevice *device)
+DepthStencilState DepthStencilState::DepthNone(GraphicsDevice *device)
 {
 	return DepthStencilState(device);
 }
 
-static DepthStencilState DepthStencilState::DepthReverseZ(GraphicsDevice *device)
+DepthStencilState DepthStencilState::DepthRead(GraphicsDevice *device)
 {
 	return DepthStencilState(device);
 }
 
-static DepthStencilState DepthStencilState::DepthReadReverseZ(GraphicsDevice *device)
+DepthStencilState DepthStencilState::DepthReverseZ(GraphicsDevice *device)
+{
+	return DepthStencilState(device);
+}
+
+DepthStencilState DepthStencilState::DepthReadReverseZ(GraphicsDevice *device)
 {
 	return DepthStencilState(device);
 }

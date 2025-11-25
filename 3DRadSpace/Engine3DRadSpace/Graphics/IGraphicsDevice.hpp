@@ -137,9 +137,9 @@ namespace Engine3DRadSpace::Graphics
 		virtual std::unique_ptr<ISamplerState> CreateSamplerState_AnisotropicWrap() = 0;
 
 		virtual std::unique_ptr<ITexture2D> CreateTexture2D(
+			void* data,
 			size_t x,
 			size_t y,
-			void* data,
 			PixelFormat format,
 			BufferUsage usage
 		) = 0;

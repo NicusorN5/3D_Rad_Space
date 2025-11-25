@@ -4,6 +4,7 @@
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Graphics::Null;
+using namespace Engine3DRadSpace::Math;
 
 GraphicsCommandList::GraphicsCommandList(GraphicsDevice* device)
 {
@@ -42,7 +43,7 @@ void GraphicsCommandList::SetViewports(std::span<Viewport> viewports)
 
 Viewport GraphicsCommandList::GetViewport()
 {
-
+	return Viewport(RectangleF(), 0, 0);
 }
 
 void GraphicsCommandList::SetRenderTarget(IRenderTarget* renderTarget)

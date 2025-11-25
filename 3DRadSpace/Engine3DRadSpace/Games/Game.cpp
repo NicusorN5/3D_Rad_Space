@@ -1,6 +1,7 @@
 #include "Game.hpp"
 #include "../Objects/ObjectList.hpp"
 #include "../Projects/Serialization.hpp"
+#include "../Core/Logging.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Audio;
@@ -11,6 +12,7 @@ using namespace Engine3DRadSpace::Graphics::Rendering;
 using namespace Engine3DRadSpace::Physics;
 using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Native;
+using namespace Engine3DRadSpace::Objects;
 
 void Game::_initialize()
 {
@@ -23,23 +25,23 @@ void Game::_initialize()
 
 Game::Game(const std::string &title, unsigned width, unsigned height, bool fullscreen) :
 	Window(std::make_unique<Native::Window>(title, width, height)),
-	Objects(std::make_unique<Engine3DRadSpace::ObjectList>(this)),
+	Objects(std::make_unique<ObjectList>(this)),
 	Keyboard(Window->GetKeyboardState()),
 	Mouse(Window->GetMouseState())
 {
-	Device = std::make_unique<GraphicsDevice>(Window->NativeHandle(), width, height);
+	//Device = std::make_unique<GraphicsDevice>(Window->NativeHandle(), width, height);
 	_initialize();
 }
 
 Game::Game(Native::Window &&window) :
 	Window(std::make_unique<Native::Window>(std::move(window))),
-	Objects(std::make_unique<Engine3DRadSpace::ObjectList>(this)),
+	Objects(std::make_unique<ObjectList>(this)),
 	Keyboard(Window->GetKeyboardState()),
 	Mouse(Window->GetMouseState())
 {
 	Math::Point size = Window->Size();
 
-	Device = std::make_unique<GraphicsDevice>(Window->NativeHandle(), size.X, size.Y);
+	//Device = std::make_unique<GraphicsDevice>(Window->NativeHandle(), size.X, size.Y);
 
 	_initialize();
 }
@@ -73,8 +75,9 @@ void Game::RunOneFrame()
 
 	auto ts_d1 = std::chrono::high_resolution_clock::now();
 
-	this->Device->SetViewport();
-	this->Device->Clear(ClearColor);
+	auto cmd = Device->ImmediateContext();
+	cmd->SetViewport();
+	cmd->Clear(ClearColor);
 
 	Draw3D();
 
@@ -82,7 +85,7 @@ void Game::RunOneFrame()
 
 	Draw2D();
 
-	Device->Present();
+	cmd->Present();
 
 	auto ts_d2 = std::chrono::high_resolution_clock::now();
 
@@ -145,7 +148,7 @@ void Game::Draw3D()
 {
 	for (auto& [object, type] : *Objects)
 	{
-		if (type == ObjectList::ObjectInstance::ObjectType::IObject3D)
+		if (type == ObjectType::IObject3D)
 		{
 			(static_cast<IObject3D*>(object.get()))->Draw3D();
 		}
@@ -156,7 +159,7 @@ void Game::Draw2D()
 {
 	for (auto& [object, type] : *Objects)
 	{
-		if (type == ObjectList::ObjectInstance::ObjectType::IObject2D)
+		if (type == ObjectType::IObject2D)
 		{
 			(static_cast<IObject2D*>(object.get()))->Draw2D();
 		}
@@ -183,7 +186,7 @@ Ray Game::GetMouseRay(const Vector2 &mousePosition, const Matrix4x4 &view, const
 	Vector3 nearPoint = Vector3(mousePosition.X, mousePosition.Y, 0.0f);
 	Vector3 farPoint = Vector3(mousePosition.X, mousePosition.Y, 1.0f);
 
-	auto viewport = Device->GetViewport();
+	auto viewport = Device->ImmediateContext()->GetViewport();
 
 	nearPoint = viewport.Unproject(nearPoint, projection, view, Matrix4x4());
 	farPoint = viewport.Unproject(farPoint, projection, view, Matrix4x4());

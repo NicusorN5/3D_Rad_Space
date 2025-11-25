@@ -13,6 +13,7 @@
 #include "RenderTarget.hpp"
 #include "SamplerState.hpp"
 #include "../IGraphicsCommandList.hpp"
+#include "BufferUsage.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content;
@@ -20,6 +21,13 @@ using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Graphics::DirectX11;
 using namespace Engine3DRadSpace::Logging;
 using namespace Engine3DRadSpace::Math;
+
+Texture2D::Texture2D(GraphicsDevice* device) :
+	_device(device),
+	_width(0),
+	_height(0)
+{
+}
 
 Texture2D::Texture2D(GraphicsDevice* device, const std::filesystem::path &path):
 	_device(device)
@@ -67,7 +75,7 @@ Texture2D::Texture2D(GraphicsDevice* device, const std::filesystem::path &path):
 	_retrieveSize();
 }
 
-Texture2D::Texture2D(GraphicsDevice *device, std::span<Color> colors, unsigned x, unsigned y):
+Texture2D::Texture2D(GraphicsDevice *device, std::span<Color> colors, size_t x, size_t y):
 	_device(device),
 	_width(x),
 	_height(y)
@@ -97,17 +105,18 @@ Texture2D::Texture2D(GraphicsDevice *device, std::span<Color> colors, unsigned x
 	_debugInfoTX2D();
 }
 
-Texture2D::Texture2D(GraphicsDevice* device, void* buffer, unsigned x, unsigned y, PixelFormat format):
+Texture2D::Texture2D(GraphicsDevice* device, void* buffer, size_t x, size_t y, PixelFormat format, BufferUsage usage):
 	_device(device),
 	_width(x),
 	_height(y)
 {
 	D3D11_TEXTURE2D_DESC tDesc{};
-	tDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	
+	tDesc.CPUAccessFlags = BufferUsage_ToDX11CPUFlag(usage);
 	tDesc.Format = _getTextureFormat(format);
 	tDesc.Height = y;
 	tDesc.Width = x;
-	tDesc.Usage = D3D11_USAGE_DYNAMIC;
+	tDesc.Usage = BufferUsage_ToDirectX11(usage);
 	tDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
 	tDesc.ArraySize = 1;
 	tDesc.SampleDesc.Count = 1;
@@ -124,35 +133,6 @@ Texture2D::Texture2D(GraphicsDevice* device, void* buffer, unsigned x, unsigned 
 	r = device->_device->CreateShaderResourceView(_texture.Get(), nullptr, _resourceView.GetAddressOf());
 	if (FAILED(r)) throw Exception("Failed to create a shader resource view!" + std::system_category().message(r));
 
-	_debugInfoTX2D();
-}
-
-Texture2D::Texture2D(GraphicsDevice* device, Color* colors, unsigned x, unsigned y):
-	_device(device),
-	_width(x),
-	_height(y)
-{
-	D3D11_TEXTURE2D_DESC desc{};
-	desc.Width = x;
-	desc.Height = y;
-	desc.ArraySize = 1;
-	desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	desc.Usage = D3D11_USAGE_DYNAMIC;
-	desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-	desc.MipLevels = 1;
-	desc.SampleDesc.Count = 1;
-	desc.SampleDesc.Quality = 0;
-	desc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-
-	D3D11_SUBRESOURCE_DATA data{};
-	data.pSysMem = colors;
-	data.SysMemPitch = sizeof(Color) * x;
-
-	HRESULT r = device->_device->CreateTexture2D(&desc, &data, _texture.GetAddressOf());
-	if (FAILED(r)) throw Exception("Failed to initialize a 2D texture!" + std::system_category().message(r));
-
-	r = device->_device->CreateShaderResourceView(_texture.Get(), nullptr, _resourceView.GetAddressOf());
-	if (FAILED(r)) throw Exception("Failed to create a shader resource view!" + std::system_category().message(r));
 	_debugInfoTX2D();
 }
 
@@ -183,31 +163,6 @@ Texture2D::Texture2D(GraphicsDevice* device,const uint8_t* imageBuffer, size_t s
 	if (FAILED(r)) throw Exception("Failed to create texture from memory!" + std::system_category().message(r));
 
 	_retrieveSize();
-}
-
-Texture2D::Texture2D(GraphicsDevice *device, unsigned x, unsigned y, PixelFormat format):
-	_device(device),
-	_width(x),
-	_height(y)
-{
-	D3D11_TEXTURE2D_DESC desc{};
-	desc.Width = x;
-	desc.Height = y;
-	desc.ArraySize = 1;
-	desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	desc.Usage = D3D11_USAGE_DYNAMIC;
-	desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-	desc.MipLevels = 1;
-	desc.SampleDesc.Count = 1;
-	desc.SampleDesc.Quality = 0;
-	desc.Format = _getTextureFormat(format);
-
-	HRESULT r = device->_device->CreateTexture2D(&desc, nullptr, _texture.GetAddressOf());
-	if (FAILED(r)) throw Exception("Failed to initialize a 2D texture!" + std::system_category().message(r));
-
-	r = device->_device->CreateShaderResourceView(_texture.Get(), nullptr, _resourceView.GetAddressOf());
-	if (FAILED(r)) throw Exception("Failed to create a shader resource view!" + std::system_category().message(r));
-	_debugInfoTX2D();
 }
 
 void Texture2D::_debugInfoTX2D()
@@ -551,7 +506,7 @@ PixelFormat Texture2D::_getTextureFormatFromDX(DXGI_FORMAT format)
 	}
 }
 
-Texture2D::Texture2D(GraphicsDevice *device, unsigned x, unsigned y, bool bindRenderTarget, PixelFormat format):
+Texture2D::Texture2D(GraphicsDevice *device, size_t x, size_t y, bool bindRenderTarget, PixelFormat format):
 	_device(device),
 	_width(x),
 	_height(y)
@@ -658,7 +613,8 @@ Texture2D Texture2D::CreateStaging(Texture2D* texture)
 
 std::unique_ptr<ITexture2D> Texture2D::CreateStaging()
 {
-	
+	auto staging = this->CreateStaging(this);
+	return std::make_unique<Texture2D>(std::move(staging));
 }
 
 void Texture2D::SaveToFile(const std::string &path)
@@ -723,7 +679,7 @@ void* Texture2D::GetHandle() const noexcept
 	return _resourceView.Get();
 }
 
-virtual IGraphicsDevice* Texture2D::GetGraphicsDevice() const noexcept
+IGraphicsDevice* Texture2D::GetGraphicsDevice() const noexcept
 {
 	return _device;
 }

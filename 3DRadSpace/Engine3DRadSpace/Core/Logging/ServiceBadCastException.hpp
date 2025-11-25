@@ -12,13 +12,13 @@ namespace Engine3DRadSpace
 		public:
 			template<typename T>
 			ServiceBadCastException(Tag<T> to) :
-				Exception(std::format("Cast to " + typeid(T).name() + " failed: ")
+				Exception(std::format("Cast to {} failed", typeid(T).name()))
 			{
 			}
 
 			template<typename T>
 			ServiceBadCastException(Tag<T> to, const std::string& details) :
-				Exception(std::format("Cast to " + typeid(T).name()+ " failed: " + details)
+				Exception(std::format("Cast to {} failed: {}", typeid(T).name(), details))
 			{
 			}
 		

@@ -1,4 +1,5 @@
 #include "VertexBuffer.hpp"
+#include "BufferUsage.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
@@ -10,28 +11,6 @@ void VertexBuffer::_debugInfo()
 {
 	const char bufferName[] = "VertexBuffer::_buffer";
 	_buffer->SetPrivateData(WKPDID_D3DDebugObjectName, sizeof(bufferName) - 1, bufferName);
-}
-
-D3D11_USAGE VertexBuffer::_to_d3d11_usage(BufferUsage usage)
-{
-	switch (usage)
-	{
-	case BufferUsage::ReadWriteGPU: return D3D11_USAGE_DEFAULT;
-	case BufferUsage::ReadOnlyGPU: return D3D11_USAGE_IMMUTABLE;
-	case BufferUsage::ReadOnlyGPU_WriteOnlyCPU: return D3D11_USAGE_DYNAMIC;
-	case BufferUsage::Staging: return D3D11_USAGE_STAGING;
-	default: return D3D11_USAGE_DEFAULT;
-	}
-}
-
-UINT VertexBuffer::d3d11_cpu_usage(BufferUsage usage)
-{
-	switch (usage)
-	{
-	case BufferUsage::ReadOnlyGPU_WriteOnlyCPU: return D3D11_CPU_ACCESS_FLAG::D3D11_CPU_ACCESS_WRITE;
-	case BufferUsage::Staging: return D3D11_CPU_ACCESS_FLAG::D3D11_CPU_ACCESS_READ;
-	default: return 0;
-	}
 }
 
 VertexBuffer::VertexBuffer(
@@ -47,9 +26,9 @@ VertexBuffer::VertexBuffer(
 {
 	D3D11_BUFFER_DESC vertexBuffDesc{};
 	vertexBuffDesc.ByteWidth = UINT(_structSize * numVertices);
-	vertexBuffDesc.Usage = _to_d3d11_usage(usage);
+	vertexBuffDesc.Usage = BufferUsage_ToDirectX11(usage);
 	vertexBuffDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	vertexBuffDesc.CPUAccessFlags = d3d11_cpu_usage(usage);
+	vertexBuffDesc.CPUAccessFlags = BufferUsage_ToDX11CPUFlag(usage);
 	vertexBuffDesc.StructureByteStride = UINT(_structSize);
 
 	D3D11_SUBRESOURCE_DATA resource{};
@@ -151,10 +130,8 @@ std::unique_ptr<IVertexBuffer> VertexBuffer::CreateStaging()
 	if(FAILED(r)) throw Exception("Failed to create a staging buffer!" + std::system_category().message(r));
 	
 	_device->_context->CopyResource(staging.Get(), _buffer.Get());
-	return std::make_unique<IVertexBuffer>(
-		static_cast<IVertexBuffer*>(new VertexBuffer(_device, std::move(staging), _structSize, _numVerts)
-			)
-	);
+	auto v = VertexBuffer(_device, std::move(staging), _structSize, _numVerts);
+	return std::make_unique<VertexBuffer>(std::move(v));
 }
 
 void* VertexBuffer::GetHandle() const noexcept

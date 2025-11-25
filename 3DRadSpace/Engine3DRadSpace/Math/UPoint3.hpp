@@ -5,11 +5,11 @@ namespace Engine3DRadSpace::Math
 {
 	struct E3DRSP_MATH_EXPORT UPoint3
 	{
-		constexpr UUPoint3(
+		constexpr UPoint3(
 			unsigned x = 0,
 			unsigned y = 0,
 			unsigned z = 0
-		) :X(x), Y(y), Z(z) 
+		) : X(x), Y(y), Z(z) 
 		{
 		};
 

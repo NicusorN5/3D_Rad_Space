@@ -9,12 +9,11 @@ using namespace Engine3DRadSpace::Content::Assets;
 using namespace Engine3DRadSpace::Graphics;
 
 ModelAsset::ModelAsset(IService* device, const std::filesystem::path &path) :
-	_model(new Model3D(static_cast<IGraphicsDevice*>(device), path))
+	IAssetWrapper(std::move(Model3D(static_cast<IGraphicsDevice*>(device), path)))
 {
 }
 
-ModelAsset::ModelAsset(Internal::AssetUUIDReader dummy) :
-	_model(nullptr)
+ModelAsset::ModelAsset(Internal::AssetUUIDReader dummy)
 {
 }
 
@@ -40,14 +39,4 @@ const char* ModelAsset::FileExtension() const noexcept
 std::type_index ModelAsset::InitializationService() const noexcept
 {
 	return typeid(IGraphicsDevice);
-}
-
-Model3D ModelAsset::operator() const
-{
-	return *_model;
-}
-
-Model3D* ModelAsset::operator->() const noexcept
-{
-	return _model.get();
 }

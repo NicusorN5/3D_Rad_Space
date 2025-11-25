@@ -1,6 +1,7 @@
 #pragma once
 #include "FaceOperation.hpp"
 #include "IGPUResource.hpp"
+#include "DepthWriteMask.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {

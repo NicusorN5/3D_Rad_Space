@@ -7,7 +7,14 @@ PostProcessCollection::PostProcessCollection(IGraphicsDevice* device):
 	_device(device)
 {
 	//TODO - Get the backbuffer and depth buffer format from the device, don't hardcode them.
-	_backbuffer_cpy = device->CreateTexture2D(device->Resolution().X, device->Resolution().Y, nullptr, PixelFormat::R16G16B16A16_Float, BufferUsage::ReadOnlyGPU_WriteOnlyCPU);
+	_backbuffer_cpy = device->CreateTexture2D(
+		nullptr,
+		device->Resolution().X,
+		device->Resolution().Y,
+		PixelFormat::R16G16B16A16_Float,
+		BufferUsage::ReadOnlyGPU_WriteOnlyCPU
+	);
+
 	_depthbuffer_cpy = device->GetDepthBuffer().CloneDepthTexture();
 }
 
@@ -25,8 +32,9 @@ void PostProcessCollection::ApplyAll()
 		auto cmd = _device->ImmediateContext();
 
 		cmd->UnbindRenderTargetAndDepth();
-		Texture2D::Copy(_backbuffer_cpy.get(), _device->GetBackBufferTexture());
-		Texture2D::Copy(_depthbuffer_cpy.get(), _device->GetDepthBuffer().GetDepthTexture());
+
+		cmd->Copy(_backbuffer_cpy.get(), _device->GetBackBufferTexture());
+		cmd->Copy(_depthbuffer_cpy.get(), _device->GetDepthBuffer().GetDepthTexture());
 
 		effect->Apply();
 		cmd->SetRenderTargetAndDisableDepth(nullptr);

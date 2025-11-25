@@ -10,7 +10,7 @@ using namespace Engine3DRadSpace::Logging;
 DeferredCommandList::DeferredCommandList(GraphicsDevice* device) :
 	GraphicsCommandList(device)
 {
-	HRESULT r = device->CreateDeferredContext(0, &_deferredContext);
+	HRESULT r = device->_device->CreateDeferredContext(0, &_deferredContext);
 	if (FAILED(r)) throw Exception("Failed to create deferred context!");
 	_context = _deferredContext.Get();
 }

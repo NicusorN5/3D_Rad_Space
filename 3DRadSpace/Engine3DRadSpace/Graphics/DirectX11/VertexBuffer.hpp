@@ -17,9 +17,6 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 	protected:
 		Microsoft::WRL::ComPtr<ID3D11Buffer> _buffer;
 
-		D3D11_USAGE _to_d3d11_usage(BufferUsage usage);
-		UINT d3d11_cpu_usage(BufferUsage usage);
-
 		GraphicsDevice* _device;
 
 		size_t _numVerts;

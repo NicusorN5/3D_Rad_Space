@@ -171,7 +171,7 @@ void VertexShader::_generateInputLayout()
 		_inputLayoutDesc.push_back(elementDesc);
 	}
 
-	HRESULT r = _device->_device->CreateInputLayout(
+	r = _device->_device->CreateInputLayout(
 		&_inputLayoutDesc[0],
 		static_cast<UINT>(_inputLayoutDesc.size()),
 		_shaderBlob->GetBufferPointer(),

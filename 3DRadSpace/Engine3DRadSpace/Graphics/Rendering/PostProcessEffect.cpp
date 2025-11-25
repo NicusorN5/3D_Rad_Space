@@ -8,10 +8,12 @@ using namespace Engine3DRadSpace::Graphics::Rendering;
 
 PostProcessEffect::PostProcessEffect(
 	IGraphicsDevice* device,
-	const ShaderDesc& desc
+	ShaderDesc& effectDesc
 ) :
+	_vertex(nullptr),
 	_device(device)
 {
+	//Compile base vertex effect
 	auto desc = ShaderDescFile(
 		"Data\\Shaders\\PostProcessBase.hlsl",
 		"PostProcessBase_Main",
@@ -21,31 +23,42 @@ PostProcessEffect::PostProcessEffect(
 	auto vs = _device->ShaderCompiler()->Compile(&desc);
 	if (vs.second.Succeded)
 	{
-		this->_vertex = vs.first;
+		_vertex = vs.first;
+	}
+
+	//Compile given post process effect
+	auto ps = _device->ShaderCompiler()->Compile(&effectDesc);
+	if (ps.second.Succeded)
+	{
+		_effect = vs.first;
 	}
 }
 
 void PostProcessEffect::Apply()
 {	
 	//create a full screen quad and apply the shader to it.
-	_device->SetScreenQuad();
-	_device->SetShader(_vertex);
+	auto cmd = _device->ImmediateContext();
+
+	cmd->SetShader(_vertex);
 
 	this->SetTexture(0, _backbuffer_copy);
 	this->SetTexture(1, _depthBuffer_copy);
 
-	_device->SetShader(this);
+	cmd->SetShader(this);
 }
 
 void PostProcessEffect::SetTexture(unsigned index, ITexture2D* texture)
 {
-	_vertex->SetTexture(index, texture);
 	_effect->SetTexture(index, texture);
+}
+
+void PostProcessEffect::SetTextures(std::span<ITexture2D*> textures)
+{
+	_effect->SetTextures(textures);
 }
 
 void PostProcessEffect::SetSampler(unsigned index, ISamplerState* sampler)
 {
-	_vertex->SetSampler(index, sampler);
 	_effect->SetSampler(index, sampler);
 }
 
@@ -56,8 +69,10 @@ void PostProcessEffect::SetData(unsigned index, const void* data, size_t size)
 
 void PostProcessEffect::Draw()
 {
-	_device->SetTopology(VertexTopology::TriangleList);
-	_device->DrawScreenQuad();
+	auto cmd = _device->ImmediateContext();
+
+	cmd->SetTopology(VertexTopology::TriangleList);
+	cmd->DrawVertexBuffer(_device->GetScreenQuad());
 }
 
 void* PostProcessEffect::GetHandle() const noexcept
@@ -68,4 +83,34 @@ void* PostProcessEffect::GetHandle() const noexcept
 IGraphicsDevice* PostProcessEffect::GetGraphicsDevice() const noexcept
 {
 	return _device;
+}
+
+std::vector<Reflection::IReflectedField*> PostProcessEffect::GetVariables() const
+{
+	return _effect->GetVariables();
+}
+
+void PostProcessEffect::Set(const std::string& name, const void* data, size_t dataSize)
+{
+	_effect->Set(name, data, dataSize);
+}
+
+ShaderFeatureLevel PostProcessEffect::GetFeatureLevel()
+{
+	return _effect->GetFeatureLevel();
+}
+
+std::string PostProcessEffect::GetEntryName()
+{
+	return _effect->GetEntryName();
+}
+
+const char* PostProcessEffect::GetCompilationErrorsAndWarnings()
+{
+	return _effect->GetCompilationErrorsAndWarnings();
+}
+
+void PostProcessEffect::SetShader()
+{
+	_effect->SetShader();
 }

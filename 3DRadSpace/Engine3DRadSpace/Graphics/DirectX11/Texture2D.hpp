@@ -1,22 +1,24 @@
 #pragma once
 #include "../PixelFormat.hpp"
-#include "../../Math/Point.hpp"
+#include "../../Math/Size.hpp"
 #include "../../Content/IAsset.hpp"
 #include "../../Math/Color.hpp"
 #include "../ITexture2D.hpp"
+#include "../BufferUsage.hpp"
 #include "DirectX11.h"
 
 namespace Engine3DRadSpace::Graphics::DirectX11
 {
 	class DepthStencilBuffer;
+	class GraphicsDevice;
 	/// <summary>
 	/// Represents a 2D texture.
 	/// <remarks>
 	/// </remarks>
 	class E3DRSP_GRAPHICS_DX11_EXPORT Texture2D : public ITexture2D
 	{
-		unsigned _width;
-		unsigned _height;
+		size_t _width;
+		size_t _height;
 
 		void _debugInfoTX2D();
 		void _debugInfoRT();
@@ -34,7 +36,21 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 
 		void _retrieveSize();
 
-		explicit Texture2D(GraphicsDevice *device, unsigned x, unsigned y, bool bindRenderTarget, PixelFormat format = PixelFormat::R32G32B32A32_Float);
+		/// <summary>
+		/// Used by RenderTarget.
+		/// </summary>
+		/// <param name="device"></param>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="bindRenderTarget">Set to true.</param>
+		/// <param name="format"></param>
+		explicit Texture2D(
+			GraphicsDevice *device,
+			size_t x,
+			size_t y,
+			bool bindRenderTarget,
+			PixelFormat format = PixelFormat::R32G32B32A32_Float
+		);
 		/// <summary>
 		/// Used by RenderTarget.
 		/// </summary>
@@ -43,7 +59,11 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		/// <param name="bindRenderTarget">Bind render target creation flag</param>
 		/// <param name="format">Texture format.</param>
 		explicit Texture2D(GraphicsDevice *device, std::monostate dummy, bool bindRenderTarget, PixelFormat format = PixelFormat::R32G32B32A32_Float);
-		explicit Texture2D(Internal::AssetUUIDReader);
+
+		/// <summary>
+		/// Used by RenderTarget to create a null texture.
+		/// </summary>
+		Texture2D(GraphicsDevice* device);
 	public:
 		/// <summary>
 		/// Loads a texture from a file.
@@ -59,23 +79,23 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		/// <param name="colors">Color array. Size must be x * y.</param>
 		/// <param name="x">Width of the texture</param>
 		/// <param name="y">Height</param>
-		explicit Texture2D(GraphicsDevice *device, std::span<Math::Color> colors, unsigned x, unsigned y);
-		/// <summary>
-		/// Creates a texture from a Color array.
-		/// <param name="device">Device context.</param>
-		/// <param name="colors">Color array. Size must be x * y.</param>
-		/// <pram name="x">Width of the texture.</param>
-		/// <param name="y">Height of the texture.</param>
-		explicit Texture2D(GraphicsDevice *device, Math::Color* colors, unsigned x, unsigned y);
+		explicit Texture2D(GraphicsDevice *device, std::span<Math::Color> colors, size_t x, size_t y);
 		/// <summary>
 		/// Creates a texture from a buffer with a specified pixel format.
 		/// </summary>
 		/// <param name="device">Device context.</param>
-		/// <param name="colors">Color array. Size must be x * y.</param>
+		/// <param name="colors">Color array. Size must be x * y. If usage is "ReadOnlyGPU_WriteOnlyCPU"(Dynamic), this can be null.</param>
 		/// <pram name="x">Width of the texture.</param>
 		/// <param name="y">Height of the texture.</param>
 		/// <param name="format">Pixel format.</param>
-		explicit Texture2D(GraphicsDevice *device, void* buffer, unsigned x, unsigned y, PixelFormat format = PixelFormat::R32G32B32A32_Float);
+		explicit Texture2D(
+			GraphicsDevice *device,
+			void* buffer,
+			size_t x,
+			size_t y,
+			PixelFormat format = PixelFormat::R32G32B32A32_Float,
+			BufferUsage usage = BufferUsage::ReadOnlyGPU_WriteOnlyCPU
+		);
 		/// <summary>
 		/// Creates a texture from an image buffer.
 		/// </summary>
@@ -86,14 +106,6 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		/// This calls CreateWICTextureFromMemory.
 		/// </remarks>
 		explicit Texture2D(GraphicsDevice *device, const uint8_t* imageBuffer, size_t size);
-		/// <summary>
-		/// Creates a texture with specified width, height and format, but unspecified initial data.
-		/// </summary>
-		/// <param name="device">Device context.</param>
-		/// <param name="x">Width</param>
-		/// <param name="y">Height</param>
-		/// <param name="format">Pixel format</param>
-		explicit Texture2D(GraphicsDevice *device, unsigned x, unsigned y, PixelFormat format = PixelFormat::R32G32B32A32_Float);
 
 		Texture2D(const Texture2D &) = delete;
 		Texture2D(Texture2D&&) noexcept = default;

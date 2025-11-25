@@ -65,8 +65,7 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, unsigned width, unsigne
 	);
 	if (FAILED(r)) throw Exception("D3D11CreateDeviceAndSwapChain failed!");
 
-	_backbufferRT = std::make_unique<RenderTarget>(std::move(RenderTarget(Internal::AssetUUIDReader{}))); //create a invalid render target, then correctly assign it.
-	_backbufferRT->_device = this; //assign device handle
+	_backbufferRT = std::make_unique<RenderTarget>(this); //create a invalid render target, but fill it with correct data after object creation
 
 	//assign texture to main render target.
 	r = _swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), static_cast<void**>(&_backbufferRT->_texture));
@@ -125,8 +124,14 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, unsigned width, unsigne
 		VertexPointUV{a, uv_a}
 	};
 
-	_screenQuad = std::make_unique<VertexBuffer>(std::span<VertexPointUV>(quad), BufferUsage::ReadOnlyGPU);
-	//_screenQuad->SetDebugName("GraphicsDevice::_screenQuad");
+	_screenQuad = std::make_unique<VertexBuffer>(
+		this,
+		quad.data(),
+		sizeof(VertexPointUV),
+		static_cast<size_t>(quad.size()),
+		BufferUsage::ReadOnlyGPU
+	);
+	_screenQuad->SetDebugName("GraphicsDevice::_screenQuad");
 
 #if _DEBUG
 	const char deviceName[] = "GraphicsDevice::_device";
@@ -155,11 +160,9 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, unsigned width, unsigne
 
 	_white2x2 = std::make_unique<Texture2D>(
 		this,
+		white,
 		2,
-		2,
-		&white,
-		PixelFormat::R32G32B32A32_Float,
-		BufferUsage::ReadOnlyGPU
+		2
 	);
 
 	Logging::SetLastMessage("Created D3D11 backend");
@@ -438,14 +441,14 @@ std::unique_ptr<ISamplerState> GraphicsDevice::CreateSamplerState_AnisotropicWra
 }
 
 std::unique_ptr<ITexture2D> GraphicsDevice::CreateTexture2D(
+	void* data,
 	size_t x,
 	size_t y,
-	void* data,
 	PixelFormat format,
 	BufferUsage usage
 )
 {
-	return std::make_unique<Texture2D>(this, x, y, data, format, usage);
+	return std::make_unique<Texture2D>(this, data, x, y, format, usage);
 }
 
 std::unique_ptr<IVertexBuffer> GraphicsDevice::CreateVertexBuffer(

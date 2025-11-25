@@ -54,19 +54,18 @@ void Sprite::Load()
 
 	if(_tempResourceString != nullptr)
 	{
-		_texture = game->Content->Load<TextureAsset>(*_tempResourceString)->GetTexture();
+		_texture = game->Content->Load<TextureAsset>(*_tempResourceString)->Get();
 		_tempResourceString.reset();
 	}
-	else _texture = static_cast<TextureAsset*>((game->Content->operator[](Image)))->GetTexture();
+	else _texture = static_cast<TextureAsset*>((game->Content->operator[](Image)))->Get();
 }
 
 void Sprite::Load(const std::filesystem::path &path)
 {
 	auto game = static_cast<Game*>(_game);
 
-	_texture = game->Content->Load<TextureAsset>(path, &Image)->GetTexture();
+	_texture = game->Content->Load<TextureAsset>(path, &Image)->Get();
 }
-
 
 void Sprite::Update()
 {
@@ -77,7 +76,6 @@ void Sprite::Draw2D()
 	FlipMode flip = (FlipU ? FlipMode::FlipHorizontally : FlipMode::None) | (FlipV ? FlipMode::FlipVertically : FlipMode::None);
 	
 	auto game = static_cast<Game*>(_game);
-
 	game->SpriteBatch->DrawNormalized(_texture, RectangleF(Position.X, Position.Y, Scale.X, Scale.Y), Engine3DRadSpace::Math::RectangleF(0,0,1,1), TintColor, Rotation, flip, Depth);
 }
 

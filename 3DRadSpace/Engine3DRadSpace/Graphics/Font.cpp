@@ -138,9 +138,9 @@ fontSizeComputation:
 	}
 
 	_texture = _device->CreateTexture2D(
+		static_cast<void*>(fontAtlas.get()),
 		atlasX,
 		atlasY,
-		static_cast<void*>(fontAtlas.get()),
 		PixelFormat::R32G32B32A32_Float,
 		BufferUsage::ReadOnlyGPU
 	);

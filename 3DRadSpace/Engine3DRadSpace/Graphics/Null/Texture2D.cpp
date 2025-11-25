@@ -57,12 +57,6 @@ void Texture2D::SetColors(Math::Color** colors, unsigned x, unsigned y)
 	(void)y;
 }
 
-void Texture2D::Resize(unsigned newX, unsigned newY)
-{
-	(void)newX;
-	(void)newY;
-}
-
 void Texture2D::SaveToFile(const std::string &path)
 {
 	(void)path;

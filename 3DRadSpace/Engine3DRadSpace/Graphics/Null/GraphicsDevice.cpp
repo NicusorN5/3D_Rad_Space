@@ -145,16 +145,16 @@ std::unique_ptr<IIndexBuffer> GraphicsDevice::CreateIndexBuffer(size_t numIndice
 }
 
 std::unique_ptr<IRasterizerState> GraphicsDevice::CreateRasterizerState(
-	RasterizerFillMode filling = RasterizerFillMode::Solid,
-	RasterizerCullMode culling = RasterizerCullMode::CullBack,
-	bool switchFrontBack = false,
-	int depthBias = 0,
-	float depthBiasClamp = 0,
-	float slopeScaleDepthBias = 0,
-	bool depthClip = false,
-	bool scissor = false,
-	bool multisample = false,
-	bool aaLine = false
+	RasterizerFillMode filling,
+	RasterizerCullMode culling,
+	bool switchFrontBack,
+	int depthBias,
+	float depthBiasClamp,
+	float slopeScaleDepthBias,
+	bool depthClip,
+	bool scissor,
+	bool multisample,
+	bool aaLine
 )
 {
 	return std::make_unique<RasterizerState>(
@@ -264,9 +264,9 @@ std::unique_ptr<ISamplerState> GraphicsDevice::CreateSamplerState_AnisotropicWra
 }
 
 std::unique_ptr<ITexture2D> GraphicsDevice::CreateTexture2D(
+	void* data,
 	size_t x,
 	size_t y,
-	void* data,
 	PixelFormat format,
 	BufferUsage usage
 )

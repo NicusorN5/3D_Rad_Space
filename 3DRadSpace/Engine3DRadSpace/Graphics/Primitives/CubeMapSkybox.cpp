@@ -13,7 +13,7 @@ using namespace Engine3DRadSpace::Logging;
 using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Objects;
 
-CubeMapSkybox::CubeMapSkybox(IGraphicsDevice* device, std::array<ITexture2D*, 6> &&faces)
+CubeMapSkybox::CubeMapSkybox(IGraphicsDevice* device, std::array<ITexture2D*, 6> &faces)
 {
 	std::array<VertexPositionUV, 4> px_vert =
 	{

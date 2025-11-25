@@ -28,7 +28,8 @@ namespace Engine3DRadSpace::Graphics::Null
 		static SamplerState AnisotropicClamp(GraphicsDevice* device);
 		static SamplerState AnisotropicWrap(GraphicsDevice* device);
 
-		const void* GetHandle() const noexcept override;
+		void* GetHandle() const noexcept override;
+		IGraphicsDevice* GetGraphicsDevice() const noexcept override;
 
 		~SamplerState() override = default;
 	};

@@ -11,13 +11,14 @@ namespace Engine3DRadSpace::Graphics::Rendering
 	{
 	private:
 		IShader* _vertex;
-		std::unique_ptr<IShader> _effect;
-	protected:
-		IGraphicsDevice* _device;
+		IShader* _effect;
+
 		ITexture2D* _backbuffer_copy;
 		ITexture2D* _depthBuffer_copy;
+	protected:
+		IGraphicsDevice* _device;
 	public:
-		PostProcessEffect(IGraphicsDevice* device, const ShaderDesc& desc);
+		PostProcessEffect(IGraphicsDevice* device, ShaderDesc& effect);
 		/// <summary>
 		/// Is this effect enabled?
 		/// </summary>

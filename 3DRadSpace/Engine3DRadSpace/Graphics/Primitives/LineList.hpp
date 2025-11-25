@@ -1,5 +1,6 @@
 #pragma once
 #include "IPrimitive.hpp"
+#include "../IRasterizerState.hpp"
 
 namespace Engine3DRadSpace::Graphics::Primitives
 {

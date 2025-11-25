@@ -26,6 +26,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 
 	class E3DRSP_GRAPHICS_DX11_EXPORT GraphicsCommandList : public IGraphicsCommandList
 	{
+	protected:
 		GraphicsDevice* _device;
 		ID3D11DeviceContext* _context;
 	public:
@@ -90,7 +91,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		void SetShader(IShader* shader) override;
 
 		void SetRasterizerState(const IRasterizerState* state) override;
-		std::unique_ptr<IRasterizerState> GetRasterizerState() override;
+		//std::unique_ptr<IRasterizerState> GetRasterizerState() override;
 
 		void SetDepthStencilBuffer(IDepthStencilBuffer* depthBuffer) override;
 		void SetDepthStencilState(IDepthStencilState* depthState, unsigned ref) override;

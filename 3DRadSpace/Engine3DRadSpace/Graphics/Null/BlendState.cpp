@@ -17,21 +17,22 @@ BlendState::BlendState(IGraphicsDevice *device, bool alphaCoverage, bool indeped
 {
 }
 
-Math::Color BlendState::BlendFactor() const noexcept override
+Math::Color BlendState::BlendFactor() const noexcept
 {
 	return Colors::Black;
 }
-unsigned int BlendState::SampleMask() const noexcept override
+
+unsigned int BlendState::SampleMask() const noexcept
 {
 	return 0x00;
 }
 
-void* BlendState::GetHandle() const noexcept override
+void* BlendState::GetHandle() const noexcept
 {
 	return nullptr;
 }
 
-virtual IGraphicsDevice* BlendState::GetGraphicsDevice() const noexcept override
+IGraphicsDevice* BlendState::GetGraphicsDevice() const noexcept
 {
 	return nullptr;
 }

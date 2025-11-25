@@ -13,7 +13,7 @@ Point4 Point4::operator+=(const Point4& p)
 
 Point4 Point4::operator+(const Point4& p) const
 {
-	return Point(
+	return Point4(
 		this->X + p.X,
 		this->Y + p.Y,
 		this->Z + p.Z,
@@ -32,11 +32,11 @@ Point4 Point4::operator-=(const Point4& p)
 
 Point4 Point4::operator-(const Point4& p) const
 {
-	return Point(
+	return Point4(
 		this->X - p.X,
 		this->Y - p.Y,
 		this->Z - p.Z,
-		this->W - p.W,
+		this->W - p.W
 	);
 }
 
@@ -92,7 +92,7 @@ Point4 Point4::operator/(float s) const
 
 Engine3DRadSpace::Math::Point4::operator Engine3DRadSpace::Math::Vector4() const
 {
-	return Vector3(
+	return Vector4(
 		float(X),
 		float(Y),
 		float(Z),
@@ -105,8 +105,8 @@ Point4 operator*(float s, const Point4& p)
 	return Point4(
 		int(s * p.X),
 		int(s * p.Y),
-		int(x * p.Z),
-		int(x * p.W)
+		int(s * p.Z),
+		int(s * p.W)
 	);
 }
 

@@ -12,7 +12,7 @@ Point3 Point3::operator+=(const Point3& p)
 
 Point3 Point3::operator+(const Point3& p) const
 {
-	return Point(
+	return Point3(
 		this->X + p.X,
 		this->Y + p.Y,
 		this->Z + p.Z
@@ -29,7 +29,7 @@ Point3 Point3::operator-=(const Point3& p)
 
 Point3 Point3::operator-(const Point3& p) const
 {
-	return Point(
+	return Point3(
 		this->X - p.X,
 		this->Y - p.Y,
 		this->Z - p.Z
@@ -95,7 +95,7 @@ Point3 operator*(float s, const Point3& p)
 	return Point3(
 		int(s * p.X),
 		int(s * p.Y),
-		int(x * p.Z)
+		int(s * p.Z)
 	);
 }
 

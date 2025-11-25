@@ -21,6 +21,7 @@ add_library(3DRadSpace.Graphics.DirectX11 STATIC
 	"ShaderCompiler.cpp"
 	"GraphicsCommandList.cpp"
 	"DeferredCommandList.cpp"
+	"BufferUsage.cpp"
 )
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)

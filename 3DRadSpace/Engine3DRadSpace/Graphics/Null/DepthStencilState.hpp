@@ -20,6 +20,7 @@ namespace Engine3DRadSpace::Graphics::Null
 
 		unsigned int StencilRef() const noexcept override;
 		void* GetHandle() const noexcept override;
+		IGraphicsDevice* GetGraphicsDevice() const noexcept override;
 
 		static DepthStencilState DepthDefault(GraphicsDevice* device);
 		static DepthStencilState DepthNone(GraphicsDevice *device);

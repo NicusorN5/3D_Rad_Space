@@ -8,7 +8,7 @@ using namespace Engine3DRadSpace::Content::Assets;
 using namespace Engine3DRadSpace::Graphics;
 
 FontAsset::FontAsset(IService* device, const std::filesystem::path & path) :
-	_font(new Font(static_cast<IGraphicsDevice*>(device), path))
+	IAssetWrapper(std::move(Font(static_cast<IGraphicsDevice*>(device), path)))
 {
 }
 
@@ -31,19 +31,4 @@ const char* FontAsset::FileExtension() const noexcept
 std::type_index FontAsset::InitializationService() const noexcept
 {
 	return typeid(IGraphicsDevice);
-}
-
-Font* FontAsset::GetFont() const noexcept
-{
-	return _font.get();
-}
-
-Font* FontAsset::operator->() const noexcept
-{
-	return _font.get();
-}
-
-FontAsset::operator Font&() const
-{
-	return *_font;
 }

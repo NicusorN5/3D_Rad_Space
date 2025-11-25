@@ -59,19 +59,19 @@ void Skinmesh::Load()
 
 	if (_path != nullptr)
 	{
-		_model = &game->Content->Load<ModelAsset>(*_path)->GetModel();
+		_model = game->Content->Load<ModelAsset>(*_path)->Get();
 		_path.reset();
 	}
 	if (Model)
 	{
-		_model = static_cast<Model3D*>(&(*game->Content)[Model]->GetModel());
+		_model = const_cast<Model3D*>((*game->Content)[Model]->Get());
 	}
 }
 
 void Skinmesh::Load(const std::filesystem::path& path)
 {
 	auto game = static_cast<Game*>(_game);
-	_model = &game->Content->Load<ModelAsset>(path, &Model)->GetModel();
+	_model = game->Content->Load<ModelAsset>(path, &Model)->Get();
 }
 
 void Skinmesh::Update()

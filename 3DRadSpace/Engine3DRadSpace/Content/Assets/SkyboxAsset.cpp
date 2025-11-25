@@ -15,7 +15,7 @@ CubeMapSkybox SkyboxAsset::_loadCubeMap(Graphics::IGraphicsDevice* device, const
 {
 	if (device == nullptr)
 	{
-		throw ServiceBadCastException<IGraphicsDevice>();
+		throw ServiceBadCastException(Tag<IGraphicsDevice>{});
 	}
 
 	if(!std::filesystem::exists(path))
@@ -42,17 +42,17 @@ CubeMapSkybox SkyboxAsset::_loadCubeMap(Graphics::IGraphicsDevice* device, const
 			texturePaths[i] = std::filesystem::path(path).remove_filename().append(texturePath);
 		}
 		
-		std::array<ITexture2D, 6> cubeMap =
+		std::array<ITexture2D*, 6> cubeMap =
 		{
-			_device->CreateTexture2D(device, texturePaths[0]),
-			_device->CreateTexture2D(device, texturePaths[1]),
-			_device->CreateTexture2D(device, texturePaths[2]),
-			_device->CreateTexture2D(device, texturePaths[3]),
-			_device->CreateTexture2D(device, texturePaths[4]),
-			_device->CreateTexture2D(device, texturePaths[5]),
+			device->CreateTexture2D(texturePaths[0]).release(),
+			device->CreateTexture2D(texturePaths[1]).release(),
+			device->CreateTexture2D(texturePaths[2]).release(),
+			device->CreateTexture2D(texturePaths[3]).release(),
+			device->CreateTexture2D(texturePaths[4]).release(),
+			device->CreateTexture2D(texturePaths[5]).release(),
 		};
 
-		return CubeMapSkybox(device, std::move(cubeMap));
+		return CubeMapSkybox(device, cubeMap);
 	}
 	else if(path.extension() == ".dds")
 	{
@@ -65,30 +65,14 @@ CubeMapSkybox SkyboxAsset::_loadCubeMap(Graphics::IGraphicsDevice* device, const
 	}
 }
 
-SkyboxAsset::SkyboxAsset(Internal::AssetUUIDReader dummy) :
-	_skybox(nullptr)
+SkyboxAsset::SkyboxAsset(Internal::AssetUUIDReader dummy)
 {
 	(void)dummy;
 }
 
 SkyboxAsset::SkyboxAsset(IService *device, const std::filesystem::path& path) :
-	_skybox(_loadCubeMap(dynamic_cast<IGraphicsDevice*>(device), path))
+	IAssetWrapper(std::move(_loadCubeMap(dynamic_cast<IGraphicsDevice*>(device), path)))
 {
-}
-
-CubeMapSkybox& SkyboxAsset::GetSkybox() noexcept
-{
-	return _skybox;
-}
-
-CubeMapSkybox* SkyboxAsset::operator->() noexcept
-{
-	return &_skybox;
-}
-
-CubeMapSkybox& SkyboxAsset::operator() noexcept
-{
-	return *_skybox;
 }
 
 Reflection::UUID SkyboxAsset::GetUUID() const noexcept
@@ -102,4 +86,9 @@ const char* SkyboxAsset::FileExtension() const noexcept
 	return "Skybox file(*.skybox)\0*.skybox\0"
 			"Direct Draw Surface(*.dds)\0*.dds\0"
 			"All Files(*.*)\0*.*\0\0";
+}
+
+std::type_index Engine3DRadSpace::Content::Assets::SkyboxAsset::InitializationService() const noexcept
+{
+	return typeid(IGraphicsDevice);
 }

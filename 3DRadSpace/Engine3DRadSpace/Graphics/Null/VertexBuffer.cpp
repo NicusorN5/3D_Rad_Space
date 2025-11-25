@@ -9,7 +9,7 @@ VertexBuffer::VertexBuffer(
 	_In_reads_bytes_opt_(p_structSize* numVertices) const void* data,
 	size_t p_structSize,
 	size_t numVertices,
-	BufferUsage usage = BufferUsage::ReadOnlyGPU
+	BufferUsage usage
 )
 {
 
@@ -34,7 +34,8 @@ void VertexBuffer::EndRead()
 void VertexBuffer::Set()
 {
 }
-void VertexBuffer::Draw(unsigned startIndex = 0)
+
+void VertexBuffer::Draw(unsigned startIndex)
 {
 }
 
