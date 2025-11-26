@@ -1,6 +1,7 @@
 #include "AngelScriptObject.hpp"
 
 using namespace Engine3DRadSpace;
+using namespace Engine3DRadSpace::Objects;
 using namespace Engine3DRadSpace::Reflection;
 
 using namespace Engine3DRadSpace_Angelscript;

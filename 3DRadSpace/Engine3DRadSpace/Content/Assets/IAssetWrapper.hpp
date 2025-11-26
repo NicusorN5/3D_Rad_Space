@@ -9,7 +9,7 @@ namespace Engine3DRadSpace::Content::Assets
 	protected:
 		std::optional<T> _asset;
 
-		IAssetWrapper(T&& asset) noexcept : _asset(std::move(asset)) 
+		IAssetWrapper(T&& asset) noexcept : _asset(std::make_optional<T>(std::move(asset))) 
 		{
 		}
 

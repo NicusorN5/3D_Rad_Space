@@ -48,7 +48,7 @@ void FontControl::HandleClick(HWND clickedWindow)
 	if (clickedWindow == _pictureBox || clickedWindow == _button)
 	{
 		AssetManagerDialog assetManager(this->owner, this->instance, _content);
-		auto r = assetManager.ShowDialog<Engine3DRadSpace::Graphics::Font>();
+		auto r = assetManager.ShowDialog<Engine3DRadSpace::Content::Assets::FontAsset>();
 
 		if (r.ID != 0)
 		{

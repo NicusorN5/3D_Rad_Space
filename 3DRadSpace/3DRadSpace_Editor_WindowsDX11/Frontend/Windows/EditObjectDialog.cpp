@@ -14,6 +14,7 @@
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Audio;
 using namespace Engine3DRadSpace::Content;
+using namespace Engine3DRadSpace::Content::Assets;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Objects;
 using namespace Engine3DRadSpace::Reflection;
@@ -385,7 +386,7 @@ void EditObjectDialog::createForms()
 			}
 			case FieldRepresentationType::Image:
 			{
-				auto value = *static_cast<const AssetID<Texture2D>*>(valuePtr);
+				auto value = *static_cast<const AssetID<Assets::TextureAsset>*>(valuePtr);
 				
 				TextureControl *ctrl = new TextureControl(window, hInstance, _content, value, fieldName, x, y);
 				windows.push_back(ctrl);
@@ -396,7 +397,7 @@ void EditObjectDialog::createForms()
 			}
 			case FieldRepresentationType::Model:
 			{
-				auto value = *static_cast<const AssetID<Model3D>*>(valuePtr);
+				auto value = *static_cast<const AssetID<ModelAsset>*>(valuePtr);
 
 				ModelControl* ctrl = new ModelControl(window, hInstance, _content, value, fieldName, x, y);
 				windows.push_back(ctrl);
@@ -407,7 +408,7 @@ void EditObjectDialog::createForms()
 			}
 			case FieldRepresentationType::Font:
 			{
-				auto value = *static_cast<const AssetID<Font>*>(valuePtr);
+				auto value = *static_cast<const AssetID<FontAsset>*>(valuePtr);
 
 				FontControl* ctrl = new FontControl(window, hInstance, _content, value, fieldName, x, y);
 				windows.push_back(ctrl);
@@ -587,7 +588,7 @@ void EditObjectDialog::setObject()
 		auto graphicsDevice = object != nullptr ? object->GetGraphicsDeviceHandle() : gEditorWindow->GetGraphicsDevice();
 		
 		if(object == nullptr)
-			object = objRefl->CreateBlankObject();
+			object = static_cast<IObject*>(objRefl->CreateBlankObject());
 
 		for(auto &repr : field->Representation())
 		{
@@ -758,24 +759,24 @@ void EditObjectDialog::setObject()
 				{
 					auto textureControl = static_cast<TextureControl *>(std::get<IControl *>(windows[i++]));
 					
-					memcpy_s(newStruct.get() + j, sizeof(AssetID<Texture2D>), &textureControl->AssetReference, sizeof(AssetID<Texture2D>));
-					j += sizeof(AssetID<Texture2D>);
+					memcpy_s(newStruct.get() + j, sizeof(AssetID<TextureAsset>), &textureControl->AssetReference, sizeof(AssetID<TextureAsset>));
+					j += sizeof(AssetID<TextureAsset>);
 					break;
 				}
 				case FieldRepresentationType::Model:
 				{
 					auto modelControl = static_cast<ModelControl*>(std::get<IControl*>(windows[i++]));
 
-					memcpy_s(newStruct.get() + j, sizeof(AssetID<Model3D>), &modelControl->AssetReference, sizeof(AssetID<Texture2D>));
-					j += sizeof(AssetID<Model3D>);
+					memcpy_s(newStruct.get() + j, sizeof(AssetID<ModelAsset>), &modelControl->AssetReference, sizeof(AssetID<ModelAsset>));
+					j += sizeof(AssetID<ModelAsset>);
 					break;
 				}
 				case FieldRepresentationType::Font:
 				{
 					auto fontControl = static_cast<FontControl*>(std::get<IControl*>(windows[i++]));
 
-					memcpy_s(newStruct.get() + j, sizeof(AssetID<Font>), &fontControl->AssetReference, sizeof(AssetID<Font>));
-					j += sizeof(AssetID<Font>);
+					memcpy_s(newStruct.get() + j, sizeof(AssetID<FontAsset>), &fontControl->AssetReference, sizeof(AssetID<FontAsset>));
+					j += sizeof(AssetID<FontAsset>);
 					break;
 				}
 				case FieldRepresentationType::Key:
@@ -815,7 +816,7 @@ void EditObjectDialog::setObject()
 				{
 					auto skyboxCtrl = static_cast<SkyboxControl *>(std::get<IControl *>(windows[i++]));
 					
-					memcpy_s(newStruct.get() + j, sizeof(AssetID<SkyboxAsset>), &skyboxCtrl->AssetReference, sizeof(AssetID<Texture2D>));
+					memcpy_s(newStruct.get() + j, sizeof(AssetID<SkyboxAsset>), &skyboxCtrl->AssetReference, sizeof(AssetID<TextureAsset>));
 					j += sizeof(AssetID<SkyboxAsset>);
 					break;
 				}

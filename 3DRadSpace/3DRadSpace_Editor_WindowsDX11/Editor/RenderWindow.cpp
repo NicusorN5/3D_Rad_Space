@@ -62,17 +62,6 @@ void RenderWindow::Initialize()
 void RenderWindow::Load()
 {
 	_font = std::make_unique<Font>(Device.get(), "Data//Fonts//Arial.ttf");
-
-	try{
-		sob = std::make_unique<Texture2D>(Device.get(), "sob.png");
-		sob->Resize(256, 256);
-
-		billboard = std::make_unique<CilindricalBillboard>(Device.get());
-		billboard->Texture = sob.get();
-	}
-	catch(...)
-	{
-	}
 }
 
 Vector2 mouseDelta;
@@ -115,7 +104,7 @@ void RenderWindow::Update()
 
 		for (auto& obj : *Objects)
 		{
-			if (obj.InternalType == ObjectList::ObjectInstance::ObjectType::IObject3D)
+			if (obj.InternalType == ObjectType::IObject3D)
 			{
 				auto dst = static_cast<IObject3D*>(obj.Object.get())->Intersects(ray);
 				if (dst.has_value())
@@ -173,7 +162,7 @@ void RenderWindow::Draw3D()
 	{
 		for(auto& obj : *Objects)
 		{
-			if(obj.InternalType == ObjectList::ObjectInstance::ObjectType::IObject3D)
+			if(obj.InternalType == ObjectType::IObject3D)
 			{
 				auto obj_3d = static_cast<IObject3D*>(obj.Object.get());
 

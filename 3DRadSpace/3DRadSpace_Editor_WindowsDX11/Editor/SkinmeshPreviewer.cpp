@@ -5,7 +5,6 @@
 #include <Engine3DRadSpace/Objects/ObjectList.hpp>
 
 using namespace Engine3DRadSpace;
-using namespace Engine3DRadSpace::Graphics::Shaders;
 using namespace Engine3DRadSpace::Input;
 using namespace Engine3DRadSpace::Objects;
 using namespace Engine3DRadSpace::Math;
@@ -17,7 +16,7 @@ SkinmeshPreviewer::SkinmeshPreviewer(const std::filesystem::path &meshPath):
 		sinf(std::numbers::pi_v<float> / 6)
 	)
 {
-	_basicShader.reset(new BasicTextured(Device.get()));
+	//_basicShader.reset(new BasicTextured(Device.get()));
 
 	_skinmesh = std::make_unique<Skinmesh>("", true, meshPath);
 	_skinmesh->InternalInitialize(this);
@@ -27,7 +26,7 @@ SkinmeshPreviewer::SkinmeshPreviewer(const std::filesystem::path &meshPath):
 	{
 		for (auto& modelMeshPart : *meshPart)
 		{
-			modelMeshPart->SetShaders(_basicShader);
+			//modelMeshPart->SetShaders(_basicShader);
 		}
 	}
 

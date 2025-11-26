@@ -34,7 +34,7 @@ AssetListRenderer::AssetListRenderer(HWND owner, HINSTANCE instance, Content::Co
 	);
 	//_device = std::make_unique<GraphicsDevice>(static_cast<void *>(_renderWindow), 512, 512);
 
-	_device->Clear();
+	_device->ImmediateContext()->Clear();
 }
 
 AssetListRenderer::~AssetListRenderer()

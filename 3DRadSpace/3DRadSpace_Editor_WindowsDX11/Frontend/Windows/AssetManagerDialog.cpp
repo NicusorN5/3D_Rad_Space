@@ -7,6 +7,7 @@
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content;
+using namespace Engine3DRadSpace::Content::Assets;
 
 void SetWorkingDirectory();
 
@@ -235,21 +236,25 @@ void AssetManagerDialog::_loadAssetIcons()
 				//TODO: Find a way to use UUIDs instead of RTTI.
 				std::unordered_map<size_t, int> type_map =
 				{
-					{typeid(Graphics::Model3D).hash_code(), 1},
-					{typeid(Graphics::Texture2D).hash_code(), 2},
-					{typeid(Graphics::Font).hash_code(), 3}
+					{typeid(ModelAsset).hash_code(), 1},
+					{typeid(TextureAsset).hash_code(), 2},
+					{typeid(FontAsset).hash_code(), 3},
+					{typeid(SkyboxAsset).hash_code(), 4}
 				};
 
 				switch (type_map[asset.RTTI.hash_code()])
 				{
 				case 1:
-					if (_renderer) _renderer->RenderAsset<Graphics::Model3D>(imagePath, asset.Path);
+					if (_renderer) _renderer->RenderAsset<ModelAsset>(imagePath, asset.Path);
 					break;
 				case 2:
-					if (_renderer) _renderer->RenderAsset<Graphics::Texture2D>(imagePath, asset.Path);
+					if (_renderer) _renderer->RenderAsset<TextureAsset>(imagePath, asset.Path);
 					break;
 				case 3:
-					if (_renderer) _renderer->RenderAsset<Graphics::Font>(imagePath, asset.Path);
+					if (_renderer) _renderer->RenderAsset<FontAsset>(imagePath, asset.Path);
+					break;
+				case 4:
+					if (_renderer) _renderer->RenderAsset<SkyboxAsset>(imagePath, asset.Path);
 					break;
 				default:
 					break;

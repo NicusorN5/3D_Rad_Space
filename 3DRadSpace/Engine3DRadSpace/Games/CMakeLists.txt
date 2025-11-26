@@ -37,6 +37,7 @@ endif()
 #
 target_link_libraries(3DRadSpace_Games PRIVATE 3DRadSpace_Audio)
 target_link_libraries(3DRadSpace_Games PRIVATE 3DRadSpace_Graphics)
+target_link_libraries(3DRadSpace_Games PRIVATE 3DRadSpace_Graphics_Rendering)
 target_link_libraries(3DRadSpace_Games PRIVATE 3DRadSpace_Content)
 target_link_libraries(3DRadSpace_Games PRIVATE 3DRadSpace_Objects)
 target_link_libraries(3DRadSpace_Games PRIVATE 3DRadSpace_Content)

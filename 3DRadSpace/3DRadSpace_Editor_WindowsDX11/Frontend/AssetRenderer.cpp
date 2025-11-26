@@ -4,10 +4,12 @@
 #include <Engine3DRadSpace\Graphics\SpriteBatch.hpp>
 
 using namespace Engine3DRadSpace;
+using namespace Engine3DRadSpace::Content;
+using namespace Engine3DRadSpace::Content::Assets;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Math;
 
-template<> bool AssetRenderer(IGraphicsDevice *device, const std::string &imagePath, ITexture2D *texture)
+template<> bool AssetRenderer(IGraphicsDevice *device, const std::string &imagePath, TextureAsset *texture)
 {
 	if(device && texture)
 	{
@@ -18,9 +20,11 @@ template<> bool AssetRenderer(IGraphicsDevice *device, const std::string &imageP
 	else return false;
 }
 
-template<> bool AssetRenderer(IGraphicsDevice *device, const std::string &imagePath, Model3D *model)
+template<> bool AssetRenderer(IGraphicsDevice *device, const std::string &imagePath, ModelAsset *modelAsset)
 {
 	using std::ranges::views::iota;
+
+	auto model = modelAsset->Get();
 
 	if(device && model)
 	{
@@ -58,9 +62,11 @@ template<> bool AssetRenderer(IGraphicsDevice *device, const std::string &imageP
 }
 
 template<>
-bool AssetRenderer(IGraphicsDevice* device, const std::string& imagePath, Font* font)
+bool AssetRenderer(IGraphicsDevice* device, const std::string& imagePath, FontAsset* fontAsset)
 {
 	using std::ranges::views::iota;
+	auto font = fontAsset->Get();
+	
 	if (device && font)
 	{
 		SpriteBatch spriteBatch(device);
@@ -74,4 +80,11 @@ bool AssetRenderer(IGraphicsDevice* device, const std::string& imagePath, Font* 
 		device->ImmediateContext()->SaveBackBufferToFile(imagePath);
 	}
 	return false;
+}
+
+template<>
+bool AssetRenderer(IGraphicsDevice* device, const std::string& imagePath, Engine3DRadSpace::Content::Assets::SkyboxAsset* path)
+{
+	//TODO.
+	return true;
 }
