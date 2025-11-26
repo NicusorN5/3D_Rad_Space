@@ -107,6 +107,14 @@ typedef bool _Bool;
 #endif
 #endif
 
+#ifndef E3DRSP_LOGGING_EXPORT
+#if _WIN32
+#define E3DRSP_LOGGING_EXPORT
+#else
+#define E3DRSP_LOGGING_EXPORT
+#endif
+#endif
+
 #ifndef E3DRSP_MATH_EXPORT
 #if _WIN32
 #define E3DRSP_MATH_EXPORT

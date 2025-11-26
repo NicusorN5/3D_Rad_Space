@@ -1,5 +1,5 @@
 #include "ContentManager.hpp"
-#include "../Core/Logging.hpp"
+#include "../Logging/Logging.hpp"
 #include "../Graphics/IGraphicsDevice.hpp"
 
 using namespace Engine3DRadSpace;
@@ -28,7 +28,8 @@ IAsset* ContentManager::AssetFactory::CreateAssetInstance(const Reflection::UUID
 
 ContentManager::ContentManager(IGame* owner) :
 	_lastID(1),
-	_factory(owner)
+	_factory(owner),
+	_owner(owner)
 {
 	//We add a null asset at index 0 because reference IDs are unsigned integers.
 	_assets.emplace_back(nullptr);

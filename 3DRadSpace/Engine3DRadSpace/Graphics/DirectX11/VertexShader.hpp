@@ -17,7 +17,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		std::vector<D3D11_INPUT_ELEMENT_DESC> _inputLayoutDesc;
 		std::vector<std::unique_ptr<Reflection::IReflectedField>> _reflectedInputLayout;
 
-		const char *_determineTarget();
+		static const char *_determineTarget(ShaderFeatureLevel f);
 		void _generateInputLayout();
 	public:
 		/// <summary>

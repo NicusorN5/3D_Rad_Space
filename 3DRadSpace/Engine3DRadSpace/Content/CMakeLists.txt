@@ -37,6 +37,7 @@ endif()
 #
 
 target_link_libraries(3DRadSpace_Content PRIVATE 3DRadSpace_Core)
+target_link_libraries(3DRadSpace_Content PRIVATE 3DRadSpace.Logging)
 target_link_libraries(3DRadSpace_Content PRIVATE 3DRadSpace_Math)
 target_link_libraries(3DRadSpace_Content PRIVATE 3DRadSpace_Reflection)
 target_link_libraries(3DRadSpace_Content PRIVATE 3DRadSpace_Graphics)

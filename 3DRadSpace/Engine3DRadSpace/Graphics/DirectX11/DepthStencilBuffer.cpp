@@ -1,5 +1,5 @@
 #include "DepthStencilBuffer.hpp"
-#include "../Core/Logging/Exception.hpp"
+#include "../Logging/Exception.hpp"
 #include "Texture2D.hpp"
 #include "../Core/AssetUUIDReader.hpp"
 

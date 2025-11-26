@@ -14,7 +14,8 @@ add_library(3DRadSpace.Graphics.Null STATIC
 	"Texture2D.cpp"
 	"VertexBuffer.cpp"
 	"ShaderCompiler.cpp"
- "GraphicsCommandList.cpp")
+	"GraphicsCommandList.cpp"
+)
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET 3DRadSpace.Graphics.Null PROPERTY CXX_STANDARD 23)

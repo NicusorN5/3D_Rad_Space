@@ -151,6 +151,8 @@ namespace Engine3DRadSpace::Graphics::Null
 
 		IVertexBuffer* GetScreenQuad() const noexcept override;
 
+		void* NativeHandle() const noexcept override;
+
 		~GraphicsDevice() override;
 	};
 }

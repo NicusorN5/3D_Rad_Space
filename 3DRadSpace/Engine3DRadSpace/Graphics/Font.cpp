@@ -1,7 +1,7 @@
 #include "Font.hpp"
 #include "PixelFormat.hpp"
-#include "../Core/Logging/Exception.hpp"
-#include "../Core/Logging/AssetLoadingError.hpp"
+#include "../Logging/Exception.hpp"
+#include "../Logging/AssetLoadingError.hpp"
 #include "ITexture2D.hpp"
 
 #include <ft2build.h>

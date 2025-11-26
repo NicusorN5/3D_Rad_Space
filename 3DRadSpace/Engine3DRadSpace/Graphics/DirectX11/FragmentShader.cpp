@@ -24,9 +24,9 @@ void FragmentShader::_createShader()
 #endif
 }
 
-const char * FragmentShader::_determineTarget()
+const char * FragmentShader::_determineTarget(ShaderFeatureLevel f)
 {
-	switch(_featureLevel)
+	switch(f)
 	{
 		case ShaderFeatureLevel::DX_V4:
 			return "ps_4_0";
@@ -42,16 +42,16 @@ const char * FragmentShader::_determineTarget()
 }
 
 FragmentShader::FragmentShader(GraphicsDevice *device, const char *shaderSource, const char *entryFunction, ShaderFeatureLevel fl):
-	ShaderBase(device, shaderSource, entryFunction, fl)
+	ShaderBase(device, shaderSource, entryFunction, _determineTarget(fl))
 {
-	_compileShader(shaderSource, _determineTarget());
+	_compileShader(shaderSource, _determineTarget(fl));
 	_createShader();
 }
 
 FragmentShader::FragmentShader(GraphicsDevice *device, const std::filesystem::path &path, const char *entryFunction, ShaderFeatureLevel fl):
-	ShaderBase(device, path, entryFunction, fl)
+	ShaderBase(device, path, entryFunction, _determineTarget(fl))
 {
-	_compileShaderFromFile(path.string().c_str(), _determineTarget());
+	_compileShaderFromFile(path.string().c_str(), _determineTarget(fl));
 	_createShader();
 }
 

@@ -11,7 +11,6 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 	{
 	protected:
 		GraphicsDevice* _device;
-		ShaderFeatureLevel _featureLevel;
 		const char* _entry;
 
 		Microsoft::WRL::ComPtr<ID3DBlob> _shaderBlob;
@@ -35,8 +34,8 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		void _compileShaderFromFile(const char* path, const char* target);
 		void _reflectShader();
 
-		ShaderBase(GraphicsDevice* device, const char* shaderSourceCode, const char* entry_function, ShaderFeatureLevel fl);
-		ShaderBase(GraphicsDevice* device, const std::filesystem::path& path, const char* entry_function, ShaderFeatureLevel fl);
+		ShaderBase(GraphicsDevice* device, const char* shaderSourceCode, const char* entry_function, const char* target);
+		ShaderBase(GraphicsDevice* device, const std::filesystem::path& path, const char* entry_function, const char* target);
 	public:
 		ShaderBase(ShaderBase&) = delete;
 		ShaderBase(ShaderBase&&) noexcept = default;
@@ -45,7 +44,6 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		ShaderBase& operator=(ShaderBase&&) noexcept = default;
 
 		void SetData(unsigned index, const void* data, size_t dataSize) override;
-		ShaderFeatureLevel GetFeatureLevel() override;
 		std::string GetEntryName() override;
 		const char* GetCompilationErrorsAndWarnings() override;
 

@@ -7,8 +7,8 @@
 #include <wincodec.h>
 
 #pragma comment( lib, "dxguid.lib") 
-#include "../Core/Logging/Exception.hpp"
-#include "../Core/Logging/AssetLoadingError.hpp"
+#include "../Logging/Exception.hpp"
+#include "../Logging/AssetLoadingError.hpp"
 #include "GraphicsDevice.hpp"
 #include "RenderTarget.hpp"
 #include "SamplerState.hpp"
@@ -127,7 +127,7 @@ Texture2D::Texture2D(GraphicsDevice* device, void* buffer, size_t x, size_t y, P
 	textureData.pSysMem = buffer;
 	textureData.SysMemPitch = sizeof(Color) * x;
 
-	HRESULT r = device->_device->CreateTexture2D(&tDesc, &textureData, _texture.GetAddressOf());
+	HRESULT r = device->_device->CreateTexture2D(&tDesc, buffer != nullptr ? &textureData : nullptr, _texture.GetAddressOf());
 	if (FAILED(r)) throw Exception("Failed to initialize a 2D texture!" + std::system_category().message(r));
 
 	r = device->_device->CreateShaderResourceView(_texture.Get(), nullptr, _resourceView.GetAddressOf());

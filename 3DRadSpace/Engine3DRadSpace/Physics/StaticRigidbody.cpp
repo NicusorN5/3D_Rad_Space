@@ -2,6 +2,7 @@
 #include "../Games/Game.hpp"
 #include "../Graphics/Model3D.hpp"
 #include "../Objects/Gizmos.hpp"
+#include "PhysicsEngine.hpp"
 #include <PxRigidStatic.h>
 #include <PxPhysics.h>
 #include <geometry/PxTriangleMesh.h>
@@ -18,7 +19,7 @@ using namespace Engine3DRadSpace::Physics;
 
 void StaticRigidbody::_generateRigidbody()
 {
-	auto nvPhysics = static_cast<physx::PxPhysics*>(_physics->GetPhysics());
+	auto nvPhysics = static_cast<physx::PxPhysics*>(static_cast<PhysicsEngine*>(_physics)->GetPhysics());
 
 	_material = std::unique_ptr<void, std::function<void(void*)>>(
 		nvPhysics->createMaterial(StaticFriction, DynamicFriction, Restitution),

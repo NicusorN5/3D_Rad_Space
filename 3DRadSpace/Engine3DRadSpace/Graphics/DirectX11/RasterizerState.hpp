@@ -10,6 +10,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 
 	class E3DRSP_GRAPHICS_DX11_EXPORT RasterizerState : public IRasterizerState
 	{
+		GraphicsDevice* _device;
 		Microsoft::WRL::ComPtr<ID3D11RasterizerState> _rasterizerState;
 		void _debugInfo();
 
@@ -43,8 +44,6 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		static RasterizerState CullClockwise(GraphicsDevice *device);
 		static RasterizerState CullCounterClockwise(GraphicsDevice *device);
 		static RasterizerState Wireframe(GraphicsDevice *device);
-
-		std::unique_ptr<IRasterizerState> GetCurrentRasterizerState(IGraphicsDevice* device) override;
 
 		~RasterizerState() = default;
 

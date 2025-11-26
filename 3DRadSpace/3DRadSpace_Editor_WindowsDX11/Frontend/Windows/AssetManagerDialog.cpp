@@ -1,5 +1,5 @@
 #include "AssetManagerDialog.hpp"
-#include <Engine3DRadSpace/Core/Logging/Exception.hpp>
+#include <Engine3DRadSpace/Logging/Exception.hpp>
 #include <Engine3DRadSpace/Core/Tag.hpp>
 #include <shlobj_core.h>
 #include "../HelperFunctions.hpp"

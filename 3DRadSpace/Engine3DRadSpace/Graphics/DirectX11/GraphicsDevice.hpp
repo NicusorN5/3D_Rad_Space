@@ -80,7 +80,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		IRenderTarget* GetBackBuffer() override;
 		ITexture2D *GetBackBufferTexture() override;
 		IDepthStencilBuffer& GetDepthBuffer() override;
-		//std::unique_ptr<IRasterizerState> GetRasterizerState() override;
+		std::unique_ptr<IRasterizerState> GetRasterizerState() override;
 
 		//Graphics::PixelFormat BackBufferFormat() const noexcept;
 
@@ -182,6 +182,8 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 			BufferUsage usage
 		) override;
 
+		virtual std::unique_ptr<ITexture2D> CreateTexture2D(const std::filesystem::path& path) override;
+
 		virtual std::unique_ptr<IVertexBuffer> CreateVertexBuffer(
 			const void* data,
 			size_t structSize,
@@ -193,6 +195,8 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		virtual IGraphicsCommandList* ImmediateContext() override;
 
 		IVertexBuffer* GetScreenQuad() const noexcept override;
+
+		void* NativeHandle() const noexcept override;
 
 		~GraphicsDevice() override;
 

@@ -52,11 +52,6 @@ void NullShader::Set(const std::string& name, const void* data, size_t dataSize)
 	(void)dataSize;
 }
 
-ShaderFeatureLevel NullShader::GetFeatureLevel()
-{
-	return ShaderFeatureLevel::DX_V4;
-}
-
 std::string NullShader::GetEntryName()
 {
 	return "";

@@ -89,10 +89,10 @@
 #include "Input\Mouse.hpp"
 
 //Engine3DRadSpace::Logging
-#include "Core\Logging\Exception.hpp"
-#include "Core\Logging\Message.hpp"
-#include "Core\Logging\AssetLoadingError.hpp"
-#include "Core\Logging\Warning.hpp"
+#include "Logging\Exception.hpp"
+#include "Logging\Message.hpp"
+#include "Logging\AssetLoadingError.hpp"
+#include "Logging\Warning.hpp"
 
 //Engine3DRadSpace::Math
 #include "Math\BoundingBox.hpp"

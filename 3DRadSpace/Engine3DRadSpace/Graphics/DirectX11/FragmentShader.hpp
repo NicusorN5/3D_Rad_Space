@@ -19,7 +19,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 	{
 		Microsoft::WRL::ComPtr<ID3D11PixelShader> _shader;
 		void _createShader();
-		const char *_determineTarget();
+		static const char *_determineTarget(ShaderFeatureLevel f);
 	public:
 		FragmentShader(GraphicsDevice* device, const char* shaderSource, const char* entryFunction, ShaderFeatureLevel fl = ShaderFeatureLevel::DX_V4);
 		FragmentShader(GraphicsDevice* device, const std::filesystem::path& path, const char* entryFunction, ShaderFeatureLevel fl = ShaderFeatureLevel::DX_V4);

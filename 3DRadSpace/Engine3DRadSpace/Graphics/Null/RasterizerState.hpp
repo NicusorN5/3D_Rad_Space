@@ -35,9 +35,7 @@ namespace Engine3DRadSpace::Graphics::Null
 		static RasterizerState CullCounterClockwise(GraphicsDevice *device);
 		static RasterizerState Wireframe(GraphicsDevice *device);
 
-		std::unique_ptr<IRasterizerState> GetCurrentRasterizerState(IGraphicsDevice* device) override;
-
-		~RasterizerState() = default;
+		~RasterizerState() override = default;
 
 		friend class GraphicsDevice;
 	};

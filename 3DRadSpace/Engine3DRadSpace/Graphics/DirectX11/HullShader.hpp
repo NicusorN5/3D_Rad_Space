@@ -8,7 +8,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		Microsoft::WRL::ComPtr<ID3D11HullShader> _shader;
 
 		void _createShader();
-		const char *_determineTarget();
+		static const char *_determineTarget(ShaderFeatureLevel f);
 	public:
 		HullShader(GraphicsDevice* device, const char* shaderSource, const char* hsEntry, ShaderFeatureLevel fl = ShaderFeatureLevel::DX_V4);
 		HullShader(GraphicsDevice* device, const std::filesystem::path& path, const char* hsEntry, ShaderFeatureLevel fl = ShaderFeatureLevel::DX_V4);

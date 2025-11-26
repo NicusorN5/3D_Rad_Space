@@ -8,7 +8,7 @@
 
 #include "AddObjectDialog.hpp"
 #include "SettingsWindow.hpp"
-#include "Engine3DRadSpace/Core/Logging/Exception.hpp"
+#include "Engine3DRadSpace/Logging/Exception.hpp"
 #include <Engine3DRadSpace/Objects/ObjectList.hpp>
 #include <Engine3DRadSpace/Objects/Gizmos/IGizmo.hpp>
 

@@ -69,7 +69,7 @@ IGraphicsDevice* VertexBuffer::GetGraphicsDevice() const noexcept
 	return nullptr;
 }
 
-[[nodiscard]] std::unique_ptr<IVertexBuffer> CreateStaging()
+[[nodiscard]] std::unique_ptr<IVertexBuffer> VertexBuffer::CreateStaging()
 {
 	return std::unique_ptr<IVertexBuffer>(nullptr);
 }

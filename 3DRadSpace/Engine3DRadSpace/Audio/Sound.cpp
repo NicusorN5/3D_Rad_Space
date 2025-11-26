@@ -1,7 +1,7 @@
 #include "Sound.hpp"
 #include "Sound.h"
 #include "../Core/AssetUUIDReader.hpp"
-#include "../Core/Logging/Exception.hpp"
+#include "../Logging/Exception.hpp"
 #include <al.h>
 
 using namespace Engine3DRadSpace;

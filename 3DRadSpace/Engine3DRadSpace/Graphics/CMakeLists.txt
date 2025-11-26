@@ -50,6 +50,7 @@ endif()
 target_link_libraries(3DRadSpace_Graphics PRIVATE 3DRadSpace_Core)
 target_link_libraries(3DRadSpace_Graphics PRIVATE 3DRadSpace_Reflection)
 target_link_libraries(3DRadSpace_Graphics PRIVATE 3DRadSpace_Math)
+target_link_libraries(3DRadSpace_Graphics PRIVATE 3DRadSpace.Logging)
 target_include_directories(3DRadSpace_Graphics PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)
 
 #DirectXTK

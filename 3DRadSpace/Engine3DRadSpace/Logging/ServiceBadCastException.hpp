@@ -1,13 +1,12 @@
 #pragma once
-#include <typeinfo>
 #include "Exception.hpp"
-#include "../Tag.hpp"
+#include "../Core/Tag.hpp"
 
 namespace Engine3DRadSpace
 {
 	namespace Logging
 	{
-		class E3DRSP_CORE_EXPORT ServiceBadCastException : public Exception
+		class E3DRSP_LOGGING_EXPORT ServiceBadCastException : public Exception
 		{
 		public:
 			template<typename T>

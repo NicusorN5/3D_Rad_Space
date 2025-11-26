@@ -11,6 +11,8 @@ namespace Engine3DRadSpace::Graphics
 	class E3DRSP_GRAPHICS_EXPORT IShaderCompiler
 	{
 	protected:
+		IShaderCompiler();
+
 		std::unique_ptr<EffectManager> _manager;
 	public:
 		using CompileOutput = std::pair<IShader*, ShaderCompilationResult>;

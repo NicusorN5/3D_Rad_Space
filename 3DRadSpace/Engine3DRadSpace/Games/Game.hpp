@@ -11,8 +11,8 @@
 #include "../Content/ContentManager.hpp"
 #include "../Graphics/SpriteBatch.hpp"
 #include "../Reflection/ReflectedObject.hpp"
-#include "../Physics/PhysicsEngine.hpp"
-#include "../Audio/AudioEngine.hpp"
+#include "../Physics/IPhysicsEngine.hpp"
+#include "../Audio/IAudioEngine.hpp"
 #include "../Graphics/Rendering/PostProcessCollection.hpp"
 #include "../Core/IGame.hpp"
 
@@ -33,13 +33,13 @@ namespace Engine3DRadSpace
 		void _initialize();
 		void _loadScene();
 	public:
-		Game(const std::string &title, unsigned width = 800, unsigned height = 600, bool fullscreen = false);
+		Game(const std::string &title, size_t width = 800, size_t height = 600, bool fullscreen = false);
 		Game(Native::Window&& window);
 
 		Game(Game&) = delete;
 		Game(Game&&) = delete;
-		Game& operator=(const Game&) = delete;
-		Game& operator=(Game&&) = delete;
+		Game& operator=(const Game&) = default;
+		Game& operator=(Game&&) = default;
 
 		std::unique_ptr<Native::Window> Window;
 		std::unique_ptr<Graphics::IGraphicsDevice> Device;
@@ -57,8 +57,8 @@ namespace Engine3DRadSpace
 		Input::Keyboard& Keyboard;
 		Input::Mouse& Mouse;
 
-		std::unique_ptr<Physics::PhysicsEngine> Physics;
-		std::unique_ptr<Audio::AudioEngine> Audio;
+		std::unique_ptr<Physics::IPhysicsEngine> Physics;
+		std::unique_ptr<Audio::IAudioEngine> Audio;
 		std::unique_ptr<Graphics::Rendering::PostProcessCollection> PostProcesses;
 
 		double Draw_dt = 0;

@@ -1,9 +1,9 @@
 #pragma once
-#include "../Libs.hpp"
+#include "../Core/Libs.hpp"
 
 namespace Engine3DRadSpace::Logging
 {
-	struct E3DRSP_CORE_EXPORT Message
+	struct E3DRSP_LOGGING_EXPORT Message
 	{
 		const std::string Details;
 		int32_t Code;
@@ -15,7 +15,7 @@ namespace Engine3DRadSpace::Logging
 	typedef void (*FuncMessageHandler)(const Message& warning);
 	extern FuncMessageHandler MessageHandler;
 
-	void E3DRSP_CORE_EXPORT SetLastMessage(const Message &warning);
-	void E3DRSP_CORE_EXPORT SetLastMessage(const std::string& msg);
-	void E3DRSP_CORE_EXPORT DefaultMessageHandler(const Message &warning);
+	void E3DRSP_LOGGING_EXPORT SetLastMessage(const Message &warning);
+	void E3DRSP_LOGGING_EXPORT SetLastMessage(const std::string& msg);
+	void E3DRSP_LOGGING_EXPORT DefaultMessageHandler(const Message &warning);
 }

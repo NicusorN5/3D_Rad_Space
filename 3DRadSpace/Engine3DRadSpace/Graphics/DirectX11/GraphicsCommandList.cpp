@@ -1,11 +1,14 @@
 #include "GraphicsCommandList.hpp"
 #include "GraphicsDevice.hpp"
 #include "RenderTarget.hpp"
-#include "../Core/Logging/Exception.hpp"
-#include "../Core/Logging/Message.hpp"
+#include "../Logging/Exception.hpp"
+#include "../Logging/Message.hpp"
 #include "../IShader.hpp"
 #include "VertexBuffer.hpp"
 #include "IndexBuffer.hpp"
+
+#include <directxtk/ScreenGrab.h>
+#include <wincodec.h>
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
@@ -208,8 +211,8 @@ void GraphicsCommandList::SaveBackBufferToFile(const std::filesystem::path& path
 {
 	UnbindRenderTargetAndDepth();
 
-	//HRESULT r = DirectX::SaveWICTextureToFile(_context.Get(), _backbufferRT->_texture.Get(), GUID_ContainerFormatPng, path.wstring().c_str(), nullptr, nullptr, true);
-	//if(FAILED(r)) throw std::exception("Failed to save file!");
+	HRESULT r = DirectX::SaveWICTextureToFile(_context, _device->_backbufferRT->_texture.Get(), GUID_ContainerFormatPng, path.wstring().c_str(), nullptr, nullptr, true);
+	if(FAILED(r)) throw std::exception("Failed to save file!");
 
 	SetRenderTargetAndDepth(nullptr, nullptr);
 

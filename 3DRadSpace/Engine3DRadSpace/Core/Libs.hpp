@@ -26,6 +26,7 @@
 #include <fstream>
 #include <expected>
 #include <concepts>
+#include <typeinfo>
 #pragma endregion
 
 #pragma region WIN32 imports

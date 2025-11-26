@@ -21,7 +21,6 @@ namespace Engine3DRadSpace::Graphics
 		std::vector<Reflection::IReflectedField*> GetVariables() const override;
 		void Set(const std::string& name, const void* data, size_t dataSize) override;
 
-		ShaderFeatureLevel GetFeatureLevel() override;
 		std::string GetEntryName() override;
 		const char* GetCompilationErrorsAndWarnings() override;
 

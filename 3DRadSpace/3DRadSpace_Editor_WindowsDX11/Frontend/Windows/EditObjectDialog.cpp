@@ -2,7 +2,7 @@
 #include "..\Controls\NumericTextbox.hpp"
 #include "..\Controls\ColorBox.hpp"
 #include <Engine3DRadSpace/Objects/IObject.hpp>
-#include <Engine3DRadSpace/Core/Logging/AssetLoadingError.hpp>
+#include <Engine3DRadSpace/Logging/AssetLoadingError.hpp>
 #include "EditorWindow.hpp"
 #include "..\Controls\TextureControl.hpp"
 #include "..\Controls\ModelControl.hpp"

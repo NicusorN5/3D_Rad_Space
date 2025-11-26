@@ -10,7 +10,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 	{
 		Microsoft::WRL::ComPtr<ID3D11DomainShader> _shader;
 		
-		const char *_determineTarget();
+		static const char *_determineTarget(ShaderFeatureLevel f);
 		void _createShader();
 	public:
 		DomainShader(GraphicsDevice* device, const char* source, const char* fnEntry, ShaderFeatureLevel fs = ShaderFeatureLevel::DX_V4);

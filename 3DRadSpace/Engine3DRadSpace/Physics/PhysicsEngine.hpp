@@ -1,13 +1,13 @@
 #pragma once
 #include "PhysicsSettings.hpp"
-#include "../Core/IService.hpp"
+#include "IPhysicsEngine.hpp"
 
 namespace Engine3DRadSpace::Physics
 {
 	/// <summary>
 	/// Manages physics scene, and physics object factory.
 	/// </summary>
-	class E3DRSP_PHYSICS_EXPORT PhysicsEngine : public IService
+	class E3DRSP_PHYSICS_EXPORT PhysicsEngine : public IPhysicsEngine
 	{
 		std::unique_ptr<void, std::function<void(void*)>> _allocator;
 		std::unique_ptr<void, std::function<void(void*)>> _errCallback;
@@ -41,13 +41,13 @@ namespace Engine3DRadSpace::Physics
 		void SetGravity(const Math::Vector3 &gravity);
 		Math::Vector3 GetGravity();
 
-		void Simulate(float dt);
+		void Simulate(float dt) override;
 
 		void* GetFoundation() const noexcept;
 		void* GetPvd() const noexcept;
 		void* GetPhysics() const noexcept;
 		void* GetCPUDispatcher() const noexcept;
-		void* GetScene() const noexcept;
+		void* GetScene() const noexcept override;
 
 		~PhysicsEngine() override;
 	};

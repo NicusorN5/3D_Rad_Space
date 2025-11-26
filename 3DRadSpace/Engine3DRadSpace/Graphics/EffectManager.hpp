@@ -17,7 +17,7 @@ namespace Engine3DRadSpace::Graphics
 		std::unordered_map<std::string, std::unique_ptr<Effect>> _effects;
 		std::unordered_map<std::string, std::unique_ptr<IShader>> _shaders;
 	public:
-		EffectManager(IGame* owner);
+		EffectManager() = default;
 
 		EffectManager(const EffectManager&) = delete;
 		EffectManager(EffectManager&&) = delete;

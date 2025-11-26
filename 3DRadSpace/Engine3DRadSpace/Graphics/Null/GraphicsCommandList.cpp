@@ -70,6 +70,12 @@ void GraphicsCommandList::SetRenderTargetAndDisableDepth(IRenderTarget* renderTa
 	(void)renderTarget;
 }
 
+void GraphicsCommandList::DrawVertexBuffer(IVertexBuffer* vertexBuffer, unsigned startSlot)
+{
+	(void)vertexBuffer;
+	(void)startSlot;
+}
+
 void GraphicsCommandList::DrawVertexBufferWithindices(IVertexBuffer* vertexBuffer, IIndexBuffer* indexBuffer)
 {
 	(void)vertexBuffer;

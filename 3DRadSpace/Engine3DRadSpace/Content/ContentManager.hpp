@@ -1,6 +1,5 @@
 #pragma once
 #include "AssetID.hpp"
-#include "../Core/Logging/Message.hpp"
 #include "../Core/IGame.hpp"
 #include "../Core/AssetUUIDReader.hpp"
 
@@ -120,12 +119,6 @@ namespace Engine3DRadSpace::Content
 		unsigned _lastID;
 		std::vector<AssetEntry> _assets;
 		IGame* _owner;
-
-		template<AssetType T>
-		std::unique_ptr<T> _createAssetEntry(const std::filesystem::path& path);
-
-		template<AssetType T, typename ...Args>
-		std::unique_ptr<T> _createAssetEntry(const std::filesystem::path& path, Args&& ...params);
 	public:
 		ContentManager(IGame* owner);
 

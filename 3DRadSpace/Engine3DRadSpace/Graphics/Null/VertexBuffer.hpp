@@ -1,7 +1,7 @@
 #pragma once
 #include "GraphicsDevice.hpp"
 #include "VertexDeclarations.hpp"
-#include "../Core/Logging/Exception.hpp"
+#include "../Logging/Exception.hpp"
 #include "IShader.hpp"
 #include "BufferUsage.hpp"
 #include "../IVertexBuffer.hpp"

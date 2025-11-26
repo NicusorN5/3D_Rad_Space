@@ -3,7 +3,7 @@
 #include "../../Objects/Camera.hpp"
 #include "../IGraphicsDevice.hpp"
 #include "../IShaderCompiler.hpp"
-#include "../../Core/Logging/Exception.hpp"
+#include "../../Logging/Exception.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content;

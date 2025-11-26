@@ -1,5 +1,5 @@
 #include "GraphicsDevice.hpp"
-#include "../Core/Logging.hpp"
+#include "../Logging/Logging.hpp"
 #include "VertexBuffer.hpp"
 #include "IndexBuffer.hpp"
 #include "RenderTarget.hpp"
@@ -84,11 +84,11 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, unsigned width, unsigne
 		srvDesc.Texture2D.MipLevels = -1;
 		srvDesc.Texture2D.MostDetailedMip = 0;
 
-		r = _device->CreateShaderResourceView(_backbufferRT->_texture.Get(), &srvDesc, &srv);
+		r = _device->CreateShaderResourceView(rtTexture.Get(), &srvDesc, &srv);
 		if (FAILED(r)) throw Exception("Failed to create shader resource view for the back buffer!");
 
 		//assign render target view
-		r = _device->CreateRenderTargetView(_backbufferRT->_texture.Get(), nullptr, &rtv);
+		r = _device->CreateRenderTargetView(rtTexture.Get(), nullptr, &rtv);
 		if (FAILED(r)) throw Exception("Failed to create the main render target!");
 
 		_backbufferRT.reset(
@@ -328,10 +328,10 @@ std::unique_ptr<IIndexBuffer> GraphicsDevice::CreateIndexBuffer(size_t numIndice
 	return std::make_unique<IndexBuffer>(this, numIndices, usage);
 }
 
-//std::unique_ptr<IRasterizerState> GraphicsDevice::GetRasterizerState()
-//{
-//	return std::make_unique<RasterizerState>(this);
-//}
+std::unique_ptr<IRasterizerState> GraphicsDevice::GetRasterizerState()
+{
+	return std::make_unique<RasterizerState>(this);
+}
 
 std::unique_ptr<IRasterizerState> GraphicsDevice::CreateRasterizerState(
 	RasterizerFillMode filling,
@@ -453,6 +453,11 @@ std::unique_ptr<ISamplerState> GraphicsDevice::CreateSamplerState_AnisotropicWra
 	return std::make_unique<SamplerState>(std::move(SamplerState::AnisotropicWrap(this)));
 }
 
+std::unique_ptr<ITexture2D> GraphicsDevice::CreateTexture2D(const std::filesystem::path& path)
+{
+	return std::make_unique<Texture2D>(this, path);
+}
+
 std::unique_ptr<ITexture2D> GraphicsDevice::CreateTexture2D(
 	void* data,
 	size_t x,
@@ -477,4 +482,9 @@ std::unique_ptr<IVertexBuffer> GraphicsDevice::CreateVertexBuffer(
 IVertexBuffer* GraphicsDevice::GetScreenQuad() const noexcept
 {
 	return _screenQuad.get();
+}
+
+void* GraphicsDevice::NativeHandle() const noexcept
+{
+	return _device.Get();
 }

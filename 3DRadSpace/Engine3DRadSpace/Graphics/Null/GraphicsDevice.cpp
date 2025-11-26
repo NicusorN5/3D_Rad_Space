@@ -303,3 +303,12 @@ IVertexBuffer* GraphicsDevice::GetScreenQuad() const noexcept
 {
 	return _screenQuad.get();
 }
+
+void* GraphicsDevice::NativeHandle() const noexcept
+{
+	return nullptr;
+}
+
+GraphicsDevice::~GraphicsDevice()
+{
+}

@@ -1,9 +1,10 @@
 #include "RasterizerState.hpp"
-#include "../Core/Logging/Exception.hpp"
+#include "../Logging/Exception.hpp"
 #include "GraphicsDevice.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
+using namespace Engine3DRadSpace::Graphics::DirectX11;
 using namespace Engine3DRadSpace::Logging;
 
 void RasterizerState::_debugInfo()
@@ -16,16 +17,17 @@ void RasterizerState::_debugInfo()
 
 RasterizerState::RasterizerState(
 	GraphicsDevice* device,
-	RasterizerFillMode filling, 
-	RasterizerCullMode culling, 
-	bool switchFrontBack, 
-	int depthBias, 
-	float depthBiasClamp, 
-	float slopeScaleDepthBias, 
+	RasterizerFillMode filling,
+	RasterizerCullMode culling,
+	bool switchFrontBack,
+	int depthBias,
+	float depthBiasClamp,
+	float slopeScaleDepthBias,
 	bool depthClip,
 	bool scissor,
 	bool multisample,
-	bool aaLine) 
+	bool aaLine
+) : _device(device)
 {
 	D3D11_RASTERIZER_DESC desc{};
 	desc.FillMode = static_cast<D3D11_FILL_MODE>(filling); //TODO: prefer using a switch case
@@ -130,10 +132,10 @@ RasterizerState RasterizerState::Wireframe(GraphicsDevice *device)
 	);
 }
 
-std::unique_ptr<IRasterizerState> RasterizerState::GetCurrentRasterizerState(IGraphicsDevice* device)
-{
-	std::unique_ptr<IRasterizerState> ptr;
-	ptr.reset(new RasterizerState(static_cast<GraphicsDevice*>(device), std::monostate{}));
-
-	return ptr;
-}
+//std::unique_ptr<IRasterizerState> RasterizerState::GetCurrentRasterizerState(IGraphicsDevice* device)
+//{
+//	std::unique_ptr<IRasterizerState> ptr;
+//	ptr.reset(new RasterizerState(static_cast<GraphicsDevice*>(device), std::monostate{}));
+//
+//	return ptr;
+//}

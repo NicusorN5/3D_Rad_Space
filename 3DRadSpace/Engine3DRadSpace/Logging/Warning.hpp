@@ -1,9 +1,9 @@
 #pragma once
-#include "../Libs.hpp"
+#include "../Core/Libs.hpp"
 
 namespace Engine3DRadSpace::Logging
 {
-	struct E3DRSP_CORE_EXPORT Warning
+	struct E3DRSP_LOGGING_EXPORT Warning
 	{
 		const std::string Details;
 		int32_t Code;
@@ -17,7 +17,7 @@ namespace Engine3DRadSpace::Logging
 	typedef void (*FuncWarningHandler)(const Warning& warning);
 	extern FuncWarningHandler WarningHandler;
 
-	void E3DRSP_CORE_EXPORT SetLastWarning(const Warning &warning);
-	void E3DRSP_CORE_EXPORT SetLastWarning(const std::string &warning_text);
-	void E3DRSP_CORE_EXPORT DefaultWarningHandler(const Warning &warning);
+	inline void E3DRSP_LOGGING_EXPORT SetLastWarning(const Warning &warning);
+	inline void E3DRSP_LOGGING_EXPORT SetLastWarning(const std::string &warning_text);
+	inline void E3DRSP_LOGGING_EXPORT DefaultWarningHandler(const Warning &warning);
 }

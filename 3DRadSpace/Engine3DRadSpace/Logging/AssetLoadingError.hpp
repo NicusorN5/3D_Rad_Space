@@ -1,13 +1,12 @@
 #pragma once
-#include <typeinfo>
 #include "Exception.hpp"
-#include "../Tag.hpp"
+#include "../Core/Tag.hpp"
 
 namespace Engine3DRadSpace
 {
 	namespace Logging
 	{
-		class E3DRSP_CORE_EXPORT AssetLoadingError : public Exception
+		class E3DRSP_LOGGING_EXPORT AssetLoadingError : public Exception
 		{
 		public:
 			template<typename T>

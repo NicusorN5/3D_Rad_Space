@@ -25,7 +25,7 @@ void IPhysicsObject::Initialize()
 	_physics = game->Physics.get();
 }
 
-PhysicsEngine* IPhysicsObject::GetPhysics() const noexcept
+IPhysicsEngine* IPhysicsObject::GetPhysics() const noexcept
 {
 	return _physics;
 }

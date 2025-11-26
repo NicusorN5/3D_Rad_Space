@@ -1,6 +1,5 @@
 #pragma once
-#include <string>
-#include "../Libs.hpp"
+#include "../Core/Libs.hpp"
 
 namespace Engine3DRadSpace::Logging
 {
@@ -9,7 +8,7 @@ namespace Engine3DRadSpace::Logging
 	/// <summary>
 	/// Replaces std::exception.
 	/// </summary>
-	class E3DRSP_CORE_EXPORT Exception : std::exception
+	class E3DRSP_LOGGING_EXPORT Exception : std::exception
 	{
 	protected:
 		std::string _str;

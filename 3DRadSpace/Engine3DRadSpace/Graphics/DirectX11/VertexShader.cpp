@@ -1,5 +1,5 @@
 #include "VertexShader.hpp"
-#include "../Core/Logging.hpp"
+#include "../Logging/Logging.hpp"
 #include "GraphicsDevice.hpp"
 #include "SamplerState.hpp"
 #include "../Core/FixedArray.hpp"
@@ -15,9 +15,9 @@ using namespace Engine3DRadSpace::Logging;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Graphics::DirectX11;
 
-const char* VertexShader::_determineTarget()
+const char* VertexShader::_determineTarget(ShaderFeatureLevel f)
 {
-	switch(_featureLevel)
+	switch(f)
 	{
 		case ShaderFeatureLevel::DX_V4:
 			return "vs_4_0";
@@ -188,17 +188,17 @@ void VertexShader::_generateInputLayout()
 }
 
 VertexShader::VertexShader(GraphicsDevice*Device, const char *shaderSourceCode, const char *vsEntry, ShaderFeatureLevel fl):
-	ShaderBase(Device, shaderSourceCode, vsEntry, fl)
+	ShaderBase(Device, shaderSourceCode, vsEntry, _determineTarget(fl))
 {
-	_compileShader(shaderSourceCode, _determineTarget());
+	_compileShader(shaderSourceCode, _determineTarget(fl));
 	_createShader();
 	_generateInputLayout();
 }
 
 VertexShader::VertexShader(GraphicsDevice*Device, const std::filesystem::path &path, const char *vsEntry, ShaderFeatureLevel fl):
-	ShaderBase(Device, path, vsEntry, fl)
+	ShaderBase(Device, path, vsEntry, _determineTarget(fl))
 {
-	_compileShaderFromFile(path.string().c_str(), _determineTarget());
+	_compileShaderFromFile(path.string().c_str(), _determineTarget(fl));
 	_createShader();
 	_generateInputLayout();
 }

@@ -3,11 +3,6 @@
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
 
-EffectManager::EffectManager(IGame* owner) :
-	_game(owner)
-{
-}
-
 Effect* EffectManager::Add(const std::string& name, std::unique_ptr<Effect>&& effect)
 {
 	_effects[name] = std::move(effect);

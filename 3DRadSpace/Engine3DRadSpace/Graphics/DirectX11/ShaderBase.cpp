@@ -1,5 +1,5 @@
 #include "ShaderBase.hpp"
-#include "../Core/Logging.hpp"
+#include "../Logging/Logging.hpp"
 #include "GraphicsDevice.hpp"
 #include "../Reflection/UnknownVariable.hpp"
 
@@ -100,10 +100,9 @@ void ShaderBase::_compileShaderFromFile(const char* path, const char* target)
 #endif
 }
 
-ShaderBase::ShaderBase(GraphicsDevice *Device, const char *shaderSourceCode, const char *entry_function, ShaderFeatureLevel fl):
+ShaderBase::ShaderBase(GraphicsDevice *Device, const char *shaderSourceCode, const char *entry_function, const char* target):
 	_device(Device),
 	_entry(entry_function),
-	_featureLevel(fl),
 	_constantBuffers({nullptr}),
 	_shaderBlob(nullptr),
 	_errorBlob(nullptr)
@@ -112,22 +111,21 @@ ShaderBase::ShaderBase(GraphicsDevice *Device, const char *shaderSourceCode, con
 	_reflectShader();
 }
 
-ShaderBase::ShaderBase(GraphicsDevice *Device, const std::filesystem::path &path, const char *entry_function, ShaderFeatureLevel fl) :
+ShaderBase::ShaderBase(GraphicsDevice *Device, const std::filesystem::path &path, const char *entry_function, const char* target) :
 	_device(Device),
 	_entry(entry_function),
-	_featureLevel(fl),
 	_constantBuffers({nullptr}),
 	_shaderBlob(nullptr),
 	_errorBlob(nullptr)
 {
-	_compileShaderFromFile(path.string().c_str(), entry_function);
+	_compileShaderFromFile(path.string().c_str(), target);
 	_reflectShader();
 }
 
-void ShaderBase::SetData(unsigned index, const void *data, size_t dataSize)
+void ShaderBase::SetData(unsigned index, const void* data, size_t dataSize)
 {
-	auto &constantBuff = _constantBuffers[index];
-	auto &handle = constantBuff.Handle;
+	auto& constantBuff = _constantBuffers[index];
+	auto& handle = constantBuff.Handle;
 	auto ptr = constantBuff.Buffer.get();
 
 	if (ptr == nullptr)
@@ -170,12 +168,6 @@ void ShaderBase::SetData(unsigned index, const void *data, size_t dataSize)
 	}
 }
 
-
-ShaderFeatureLevel ShaderBase::GetFeatureLevel()
-{
-	return _featureLevel;
-}
-
 std::string ShaderBase::GetEntryName()
 {
 	return std::string(_entry);
@@ -183,7 +175,7 @@ std::string ShaderBase::GetEntryName()
 
 const char* ShaderBase::GetCompilationErrorsAndWarnings()
 {
-	return (_errorBlob == nullptr) ? static_cast<const char*>(_errorBlob->GetBufferPointer()) : nullptr;
+	return (_errorBlob != nullptr) ? static_cast<const char*>(_errorBlob->GetBufferPointer()) : "";
 }
 
 void ShaderBase::_reflectShader()

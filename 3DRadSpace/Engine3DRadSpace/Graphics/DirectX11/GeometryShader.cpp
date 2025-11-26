@@ -8,9 +8,9 @@ using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Graphics::DirectX11;
 
-const char *GeometryShader::_determineTarget()
+const char *GeometryShader::_determineTarget(ShaderFeatureLevel f)
 {
-	switch(_featureLevel)
+	switch(f)
 	{
 		case ShaderFeatureLevel::DX_V4:
 			return "gs_4_0";
@@ -44,16 +44,16 @@ void GeometryShader::_createShader()
 }
 
 GeometryShader::GeometryShader(GraphicsDevice *device, const char *source, const char *fnEntry, ShaderFeatureLevel fs) :
-	ShaderBase(device, source, fnEntry, fs)
+	ShaderBase(device, source, fnEntry, _determineTarget(fs))
 {
-	_compileShader(source, _determineTarget());
+	_compileShader(source, _determineTarget(fs));
 	_createShader();
 }
 
 GeometryShader::GeometryShader(GraphicsDevice *device, const std::filesystem::path &path, const char *fnEntry, ShaderFeatureLevel fs) :
-	ShaderBase(device, path, fnEntry, fs)
+	ShaderBase(device, path, fnEntry, _determineTarget(fs))
 {
-	_compileShaderFromFile(path.string().c_str(), _determineTarget());
+	_compileShaderFromFile(path.string().c_str(), _determineTarget(fs));
 	_createShader();
 }
 

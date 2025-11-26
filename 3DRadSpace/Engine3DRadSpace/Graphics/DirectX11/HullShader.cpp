@@ -25,9 +25,9 @@ void HullShader::_createShader()
 #endif
 }
 
-const char * HullShader::_determineTarget()
+const char * HullShader::_determineTarget(ShaderFeatureLevel f)
 {
-	switch(_featureLevel)
+	switch(f)
 	{
 		case ShaderFeatureLevel::DX_V4:
 			return "hs_4_0";
@@ -44,16 +44,16 @@ const char * HullShader::_determineTarget()
 }
 
 HullShader::HullShader(GraphicsDevice *device, const char *shaderSource, const char *hsEntry, ShaderFeatureLevel fl):
-	ShaderBase(device, shaderSource, hsEntry, fl)
+	ShaderBase(device, shaderSource, hsEntry, _determineTarget(fl))
 {
-	_compileShader(shaderSource, _determineTarget());
+	_compileShader(shaderSource, _determineTarget(fl));
 	_createShader();
 }
 
 HullShader::HullShader(GraphicsDevice *device, const std::filesystem::path &path, const char *hsEntry, ShaderFeatureLevel fl):
-	ShaderBase(device, path, hsEntry, fl)
+	ShaderBase(device, path, hsEntry, _determineTarget(fl))
 {
-	_compileShaderFromFile(path.string().c_str(), _determineTarget());
+	_compileShaderFromFile(path.string().c_str(), _determineTarget(fl));
 	_createShader();
 }
 

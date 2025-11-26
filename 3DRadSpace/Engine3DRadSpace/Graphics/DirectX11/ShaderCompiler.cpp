@@ -6,7 +6,7 @@
 #include "GeometryShader.hpp"
 #include "HullShader.hpp"
 #include "ShaderBase.hpp"
-#include "../../Core/Logging/Exception.hpp"
+#include "../../Logging/Exception.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
@@ -14,6 +14,7 @@ using namespace Engine3DRadSpace::Graphics::DirectX11;
 using namespace Engine3DRadSpace::Logging;
 
 ShaderCompiler::ShaderCompiler(GraphicsDevice *device) :
+	IShaderCompiler(),
 	_device(device)
 {
 }
@@ -219,13 +220,15 @@ ShaderCompiler::CompileOutput ShaderCompiler::Compile(const ShaderDesc* desc)
 		}
 
 		auto id = shaderID(desc);
+
+		auto pShader = ptr.get();
 		_manager->Add(id, std::move(ptr));
 
-		return std::make_pair<IShader*, ShaderCompilationResult>(
-			ptr.get(),
+		return std::make_pair(
+			pShader,
 			ShaderCompilationResult
 			{
-				ptr->GetCompilationErrorsAndWarnings(),
+				pShader->GetCompilationErrorsAndWarnings(),
 				true,
 				shaderID(desc)
 			}

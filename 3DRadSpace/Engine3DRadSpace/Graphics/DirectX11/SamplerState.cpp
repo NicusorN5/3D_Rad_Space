@@ -1,5 +1,5 @@
 #include "SamplerState.hpp"
-#include "../Core/Logging/Exception.hpp"
+#include "../Logging/Exception.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;

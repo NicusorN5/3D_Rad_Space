@@ -26,7 +26,7 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #pragma comment(lib, "DXGI.lib")
 #pragma comment(lib, "dxguid.lib")
 
-#include "Engine3DRadSpace/Core/Logging/Exception.hpp"
+#include "Engine3DRadSpace/Logging/Exception.hpp"
 #include "Frontend/Settings.hpp"
 #include "Editor/SkinmeshPreviewer.hpp"
 

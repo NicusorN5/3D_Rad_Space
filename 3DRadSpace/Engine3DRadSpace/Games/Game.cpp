@@ -1,7 +1,8 @@
 #include "Game.hpp"
 #include "../Objects/ObjectList.hpp"
 #include "../Projects/Serialization.hpp"
-#include "../Core/Logging.hpp"
+#include "../Logging/Logging.hpp"
+#include "GameFactory.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Audio;
@@ -23,13 +24,13 @@ void Game::_initialize()
 	_valid = true;
 }
 
-Game::Game(const std::string &title, unsigned width, unsigned height, bool fullscreen) :
+Game::Game(const std::string &title, size_t width, size_t height, bool fullscreen) :
 	Window(std::make_unique<Native::Window>(title, width, height)),
 	Objects(std::make_unique<ObjectList>(this)),
 	Keyboard(Window->GetKeyboardState()),
 	Mouse(Window->GetMouseState())
 {
-	//Device = std::make_unique<GraphicsDevice>(Window->NativeHandle(), width, height);
+	Device = GameFactory::CreateGraphicsDevice("", Window->NativeHandle(), width, height);
 	_initialize();
 }
 

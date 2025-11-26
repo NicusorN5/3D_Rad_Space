@@ -95,11 +95,6 @@ void PostProcessEffect::Set(const std::string& name, const void* data, size_t da
 	_effect->Set(name, data, dataSize);
 }
 
-ShaderFeatureLevel PostProcessEffect::GetFeatureLevel()
-{
-	return _effect->GetFeatureLevel();
-}
-
 std::string PostProcessEffect::GetEntryName()
 {
 	return _effect->GetEntryName();
