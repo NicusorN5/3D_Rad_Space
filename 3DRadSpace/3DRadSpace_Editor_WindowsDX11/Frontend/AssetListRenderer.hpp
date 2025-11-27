@@ -6,7 +6,7 @@
 
 class AssetListRenderer
 {
-	std::unique_ptr<Engine3DRadSpace::Graphics::GraphicsDevice> _device;
+	std::unique_ptr<Engine3DRadSpace::Graphics::IGraphicsDevice> _device;
 	HWND _renderWindow;
 	HINSTANCE _hInstance;
 public:
@@ -20,8 +20,10 @@ public:
 	template<Engine3DRadSpace::Content::AssetType T>
 	bool RenderAsset(const std::string& imagePath, const std::filesystem::path &assetPath)
 	{
-		_device->SetViewport();
-		_device->Clear(Engine3DRadSpace::Math::Colors::Gray);
+		auto cmd = _device->ImmediateContext();
+
+		cmd->SetViewport();
+		cmd->Clear(Engine3DRadSpace::Math::Colors::Gray);
 
 		std::unique_ptr<T> asset = std::make_unique<T>(_device.get(), assetPath);
 

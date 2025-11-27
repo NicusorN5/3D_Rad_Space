@@ -12,7 +12,7 @@ class EditObjectDialog : public Dialog
 	Engine3DRadSpace::Content::ContentManager *_content;
 	std::vector<std::variant<HWND,IControl*>> windows;
 	std::vector<HBITMAP> images;
-	Engine3DRadSpace::IObject* object;
+	Engine3DRadSpace::Objects::IObject* object;
 
 	HWND helpButton;
 	HWND okButton;
@@ -26,10 +26,10 @@ public:
 		HINSTANCE hInstance, 
 		Engine3DRadSpace::Reflection::ReflectedObject *data,
 		Engine3DRadSpace::Content::ContentManager* content,
-		Engine3DRadSpace::IObject *object = nullptr
+		Engine3DRadSpace::Objects::IObject *object = nullptr
 	);
 
-	[[nodiscard]] Engine3DRadSpace::IObject* ShowDialog();
+	[[nodiscard]] Engine3DRadSpace::Objects::IObject* ShowDialog();
 
 	~EditObjectDialog();
 

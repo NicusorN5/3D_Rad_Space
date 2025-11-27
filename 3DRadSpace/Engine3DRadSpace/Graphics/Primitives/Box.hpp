@@ -17,7 +17,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 	/// Do not use negative scales - unless back face culling is disabled.
 	/// Avoid using GetVertexBuffer() and GetIndexBuffer(). Prefer the CreateVertices and CreateIndices static methods.
 	/// </remarks>
-	class E3DRSP_GRAPHICS_EXPORT Box : public IPrimitive
+	class E3DRSP_GRAPHICS_PRIMITIVES_EXPORT Box : public IPrimitive
 	{
 		Math::BoundingBox _box;
 		Math::Color _color;
@@ -29,7 +29,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		/// <param name="device">Graphics device used to create vertex and index buffers.</param>
 		/// <param name="b">Bounding box representing the boundaries of the mesh.</param>
 		/// <param name="color">Color of the mesh.</param>
-		Box(GraphicsDevice *device, const Math::BoundingBox &b, Math::Color color);
+		Box(IGraphicsDevice *device, const Math::BoundingBox &b, Math::Color color);
 
 		/// <summary>
 		/// Creates the vertices of the box given by b.
@@ -72,16 +72,11 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		/// Gets the internal vertex buffer.
 		/// </summary>
 		/// <returns>Box vertex buffer</returns>
-		VertexBufferV<VertexPositionColor>* GetVertexBuffer() const noexcept;
+		IVertexBuffer* GetVertexBuffer() const noexcept;
 		/// <summary>
 		/// Gets the internal index buffer.
 		/// </summary>
 		/// <returns>Index buffer.</returns>
-		IndexBuffer* GetIndexBuffer() const noexcept;
-
-		/// <summary>
-		/// Draws the box once, with specified transform.
-		/// </summary>
-		virtual void Draw3D() override;
+		IIndexBuffer* GetIndexBuffer() const noexcept;
 	};
 }

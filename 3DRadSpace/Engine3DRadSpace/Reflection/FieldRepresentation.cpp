@@ -24,17 +24,17 @@ template<> FieldRepresentation Reflection::GetFieldRepresentation<std::string>()
 	return {{ FieldRepresentationType::String, ""}};
 }
 
-template<> FieldRepresentation Reflection::GetFieldRepresentation<AssetID<Texture2D>>()
+template<> FieldRepresentation Reflection::GetFieldRepresentation<AssetID<TextureAsset>>()
 {
 	return {{FieldRepresentationType::Image, ""}};
 }
 
-template<> FieldRepresentation Reflection::GetFieldRepresentation<AssetID<Model3D>>()
+template<> FieldRepresentation Reflection::GetFieldRepresentation<AssetID<ModelAsset>>()
 {
 	return {{FieldRepresentationType::Model, ""}};
 }
 
-template<> FieldRepresentation Reflection::GetFieldRepresentation<AssetID<Font>>()
+template<> FieldRepresentation Reflection::GetFieldRepresentation<AssetID<FontAsset>>()
 {
 	return { {FieldRepresentationType::Font, ""} };
 }
@@ -69,6 +69,27 @@ template<> FieldRepresentation Reflection::GetFieldRepresentation<Point>()
 	{
 		{ FieldRepresentationType::Integer, "X"},
 		{ FieldRepresentationType::Integer, "Y" }
+	};
+}
+
+template<> FieldRepresentation Reflection::GetFieldRepresentation<Point3>()
+{
+	return
+	{
+		{ FieldRepresentationType::Integer, "X"},
+		{ FieldRepresentationType::Integer, "Y"},
+		{ FieldRepresentationType::Integer, "Z"}
+	};
+}
+
+template<> FieldRepresentation Reflection::GetFieldRepresentation<Point4>()
+{
+	return
+	{
+		{ FieldRepresentationType::Integer, "X"},
+		{ FieldRepresentationType::Integer, "Y"},
+		{ FieldRepresentationType::Integer, "Z"},
+		{ FieldRepresentationType::Integer, "W"}
 	};
 }
 
@@ -151,5 +172,35 @@ template<> FieldRepresentation Reflection::GetFieldRepresentation<Matrix4x4>()
 		{ FieldRepresentationType::Float, "M42"},
 		{ FieldRepresentationType::Float, "M43"},
 		{ FieldRepresentationType::Float, "M44"}
+	};
+}
+
+template<> FieldRepresentation Reflection::GetFieldRepresentation<UPoint>()
+{
+	return
+	{
+		{ FieldRepresentationType::Unsigned, "X"},
+		{ FieldRepresentationType::Unsigned, "Y" }
+	};
+}
+
+template<> FieldRepresentation Reflection::GetFieldRepresentation<UPoint3>()
+{
+	return
+	{
+		{ FieldRepresentationType::Unsigned, "X"},
+		{ FieldRepresentationType::Unsigned, "Y" },
+		{ FieldRepresentationType::Unsigned, "Z" },
+	};
+}
+
+template<> FieldRepresentation Reflection::GetFieldRepresentation<UPoint4>()
+{
+	return
+	{
+		{ FieldRepresentationType::Unsigned, "X"},
+		{ FieldRepresentationType::Unsigned, "Y" },
+		{ FieldRepresentationType::Unsigned, "Z" },
+		{ FieldRepresentationType::Unsigned, "W" }
 	};
 }

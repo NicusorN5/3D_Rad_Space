@@ -1,14 +1,35 @@
 #include "ContentManager.hpp"
-#include "../Core/Logging.hpp"
+#include "../Logging/Logging.hpp"
+#include "../Graphics/IGraphicsDevice.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Reflection;
 
-ContentManager::ContentManager(Game* owner) :
+ContentManager::AssetFactory::AssetFactory(IGame* owner) :
+	_owner(owner)
+{
+	_owner = owner;
+	_services[typeid(void)] = nullptr;
+}
+
+IAsset* ContentManager::AssetFactory::CreateAssetInstance(const Reflection::UUID& uuid, const std::filesystem::path& path)
+{
+	for (const auto& [r_uuid, ctor, service] : _types)
+	{
+		if (r_uuid == uuid)
+		{
+			return ctor(service, path);
+		}
+	}
+	return nullptr;
+}
+
+ContentManager::ContentManager(IGame* owner) :
 	_lastID(1),
-	_factory(owner)
+	_factory(owner),
+	_owner(owner)
 {
 	//We add a null asset at index 0 because reference IDs are unsigned integers.
 	_assets.emplace_back(nullptr);
@@ -83,7 +104,7 @@ size_t Engine3DRadSpace::Content::ContentManager::Count() const noexcept
 	return _assets.size();
 }
 
-GraphicsDevice* ContentManager::GetDevice() const noexcept
+IGraphicsDevice* ContentManager::GetDevice() const noexcept
 {
-	return _factory.Device();
+	return _owner->GetService<IGraphicsDevice>({});
 }

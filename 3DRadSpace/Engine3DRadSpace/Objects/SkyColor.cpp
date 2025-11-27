@@ -17,8 +17,10 @@ void SkyColor::Initialize()
 
 void SkyColor::Update()
 {
+	auto game = static_cast<Game*>(_game);
+
 	if(Enabled) 
-		_game->ClearColor = Colour;
+		game->ClearColor = Colour;
 }
 
 void SkyColor::Load()

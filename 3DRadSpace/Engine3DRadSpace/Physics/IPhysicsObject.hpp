@@ -1,17 +1,17 @@
 #pragma once
 #include "../Objects/IObject3D.hpp"
 #include "../Core/GetSet.hpp"
-#include "PhysicsEngine.hpp"
+#include "IPhysicsEngine.hpp"
 
 namespace Engine3DRadSpace::Physics
 {
 	/// <summary>
 	/// Base class for all objects that interact with the physics engine.
 	/// </summary>
-	class E3DRSP_PHYSICS_EXPORT IPhysicsObject : public IObject3D
+	class E3DRSP_PHYSICS_EXPORT IPhysicsObject : public Objects::IObject3D
 	{
 	protected:
-		PhysicsEngine* _physics;
+		IPhysicsEngine* _physics;
 
 		float _mass = 0;
 		virtual float _getMass() = 0;
@@ -61,7 +61,7 @@ namespace Engine3DRadSpace::Physics
 		GetSet<Math::Vector3, IPhysicsObject, &_getAngularVelocity, &_setAngularVelocity> AngularVelocity;
 		GetSet<Math::Vector3, IPhysicsObject, &_getMaxAngularVelocity, &_setMaxAngularVelocity> MaxAngularVelocity;
 
-		PhysicsEngine* GetPhysics() const noexcept;
+		IPhysicsEngine* GetPhysics() const noexcept;
 
 		virtual bool ApplyForce(const Math::Vector3& force) = 0;
 		virtual bool ApplyForce(const Math::Vector3& force, const Math::Vector3& center) = 0;

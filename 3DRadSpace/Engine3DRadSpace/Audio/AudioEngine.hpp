@@ -1,15 +1,15 @@
 #pragma once
 #include "AudioError.hpp"
-#include "../Core/Libs.hpp"
+#include "IAudioEngine.hpp"
 #include "Listener.hpp"
 
 namespace Engine3DRadSpace::Audio
 {
 	class SoundInstance;
 	/// <summary>
-	/// Instances and handles audio device handles.
+	/// OpenAL based audio engine.
 	/// </summary>
-	class E3DRSP_AUDIO_EXPORT AudioEngine 
+	class E3DRSP_AUDIO_EXPORT AudioEngine : public IAudioEngine
 	{
 		void* _audioDevice;
 		void* _audioContext;
@@ -31,12 +31,12 @@ namespace Engine3DRadSpace::Audio
 
 		static std::vector<std::string> ListAudioDevices();
 
-		void SwitchAudioDevice(const std::string& deviceName);
+		void SwitchAudioDevice(const std::string& deviceName) override;
 
-		~AudioEngine();
+		void Update() noexcept override;
 
-		void Update() const noexcept;
+		std::optional<AudioError> CheckErrors() override;
 
-		std::optional<AudioError> CheckErrors();
+		~AudioEngine() override;
 	};
 }

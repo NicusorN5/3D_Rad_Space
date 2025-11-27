@@ -1,7 +1,5 @@
 #include "Skinmesh.hpp"
 #include "../Games/Game.hpp"
-#include "../Graphics/Shaders/MeshHighlight.hpp"
-#include "../Graphics/Shaders/ShaderManager.hpp"
 #include "Gizmos/SkinmeshGizmo.hpp"
 #include "Gizmos.hpp"
 
@@ -57,20 +55,23 @@ void Skinmesh::Initialize()
 
 void Skinmesh::Load()
 {
+	auto game = static_cast<Game*>(_game);
+
 	if (_path != nullptr)
 	{
-		_model = _game->Content->Load<Model3D>(*_path);
+		_model = game->Content->Load<ModelAsset>(*_path)->Get();
 		_path.reset();
 	}
 	if (Model)
 	{
-		_model = static_cast<Model3D*>((*_game->Content)[Model]);
+		_model = const_cast<Model3D*>((*game->Content)[Model]->Get());
 	}
 }
 
 void Skinmesh::Load(const std::filesystem::path& path)
 {
-	_model = _game->Content->Load<Model3D>(path, &Model);
+	auto game = static_cast<Game*>(_game);
+	_model = game->Content->Load<ModelAsset>(path, &Model)->Get();
 }
 
 void Skinmesh::Update()
@@ -85,8 +86,10 @@ Reflection::UUID Skinmesh::GetUUID() const noexcept
 
 void Skinmesh::Draw3D()
 {
+	auto game = static_cast<Game*>(_game);
+
 	if(Visible && _model)
-		_model->Draw(GetModelMartix() * _game->View * _game->Projection);
+		_model->Draw(GetModelMartix() * game->View * game->Projection);
 }
 
 std::optional<float> Skinmesh::Intersects(const Ray&r)

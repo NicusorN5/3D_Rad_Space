@@ -5,6 +5,7 @@
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Reflection;
 using namespace Engine3DRadSpace::Math;
+using namespace Engine3DRadSpace::Objects;
 using namespace Engine3DRadSpace::Input;
 using namespace Engine3DRadSpace::Content;
 

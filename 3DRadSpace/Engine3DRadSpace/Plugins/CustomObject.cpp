@@ -1,5 +1,5 @@
 #include "CustomObject.hpp"
-#include "../Core/Logging.hpp"
+#include "../Logging/Logging.hpp"
 #include "../Native/LibraryLoader.hpp"
 
 using namespace Engine3DRadSpace::Plugins;

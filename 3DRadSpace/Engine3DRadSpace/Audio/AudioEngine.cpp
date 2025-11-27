@@ -1,6 +1,6 @@
 #include "AudioEngine.hpp"
 #include "AudioEngine.h"
-#include "../Core/Logging/Exception.hpp"
+#include "../Logging/Exception.hpp"
 
 #include <AL/al.h>
 #include <AL/alc.h>
@@ -89,7 +89,7 @@ AudioEngine::~AudioEngine()
 	alcCloseDevice(device);
 }
 
-void AudioEngine::Update() const noexcept
+void AudioEngine::Update() noexcept
 {
 	if(this->Listener.Enabled)
 	{

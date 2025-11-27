@@ -26,8 +26,7 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #pragma comment(lib, "DXGI.lib")
 #pragma comment(lib, "dxguid.lib")
 
-#include <Engine3DRadSpace/Graphics/Shaders/ShaderManager.hpp>
-#include "Engine3DRadSpace/Core/Logging/Exception.hpp"
+#include "Engine3DRadSpace/Logging/Exception.hpp"
 #include "Frontend/Settings.hpp"
 #include "Editor/SkinmeshPreviewer.hpp"
 
@@ -98,14 +97,9 @@ int __stdcall WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 	DeinitializeGDI();
 	CoUninitialize();
 
-	//Manually release the stored shaders inside the ShaderManager class. 
-	//This is necessary to avoid reports of live objects when the debug layer detects the application process being terminated, even if the destructors are called when the program terminates.
-	Engine3DRadSpace::Graphics::Shaders::ShaderManager::ReleaseAll();
-
 #if _DEBUG
 	//_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG);
 	//_CrtDumpMemoryLeaks();
 #endif
-
 	return 0;
 }

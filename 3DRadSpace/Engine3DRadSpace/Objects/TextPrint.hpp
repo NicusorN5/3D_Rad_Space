@@ -3,10 +3,11 @@
 #include "../Graphics/Font.hpp"
 #include "../Content/AssetID.hpp"
 #include "../Reflection/Reflection.hpp"
+#include "../Content/Assets/FontAsset.hpp"
 
 namespace Engine3DRadSpace::Objects
 { 
-	using RefFont = Content::AssetID<Graphics::Font>;
+	using RefFont = Content::AssetID<Content::Assets::FontAsset>;
 
 	class E3DRSP_OBJECTS_EXPORT TextPrint : public IObject2D
 	{

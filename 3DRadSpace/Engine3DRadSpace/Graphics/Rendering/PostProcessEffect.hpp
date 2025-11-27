@@ -1,49 +1,24 @@
 #pragma once
-#include "../IFragmentShader.hpp"
-#include "..\IVertexShader.hpp"
-#include "../RenderTarget.hpp"
+#include "../IShader.hpp"
+#include "../ShaderDesc.hpp"
 
 namespace Engine3DRadSpace::Graphics::Rendering
 {
 	/// <summary>
 	/// Represents a pixel shader that is applied to the backbuffer.
 	/// </summary>
-	/// <remarks>
-	/// This is almost the same as IFragmentShader, but render target swaps are being done.
-	/// A vertex shader doesn't need to be set to the pipeline, it is set by the PostProcessVertex class.
-	/// </remarks>
-	class E3DRSP_GRAPHICS_EXPORT PostProcessEffect : public IFragmentShader
+	class E3DRSP_GRAPHICS_RENDERING_EXPORT PostProcessEffect : public IShader
 	{
 	private:
-		class PostProcessVertex : public IVertexShader
-		{
-			static inline InputLayoutElement _elements[] = {
-				InputLayoutElement::Position_Vec2,
-				InputLayoutElement::TextureCoordinate2D
-			};
+		IShader* _vertex;
+		IShader* _effect;
 
-		public:
-			PostProcessVertex(GraphicsDevice* device, ShaderFeatureLevel fl);
-			std::span<InputLayoutElement> InputLayout() override;
-		} _vertex;
+		ITexture2D* _backbuffer_copy;
+		ITexture2D* _depthBuffer_copy;
 	protected:
-		PostProcessEffect(
-			 GraphicsDevice* device, 
-			 const char* shaderSource, 
-			 const char* entryFunction, 
-			 ShaderFeatureLevel fl = ShaderFeatureLevel::DX_V4
-		 );
-
-		 	 PostProcessEffect(
-			 GraphicsDevice* device, 
-			 const std::filesystem::path &shaderPath, 
-			 const char* entryFunction, 
-			 ShaderFeatureLevel fl = ShaderFeatureLevel::DX_V4
-		 );
-
-		Texture2D* _backbuffer_copy;
-		Texture2D* _depthBuffer_copy;
+		IGraphicsDevice* _device;
 	public:
+		PostProcessEffect(IGraphicsDevice* device, ShaderDesc& effect);
 		/// <summary>
 		/// Is this effect enabled?
 		/// </summary>
@@ -58,7 +33,22 @@ namespace Engine3DRadSpace::Graphics::Rendering
 		/// </summary>
 		void Draw();
 
-		virtual ~PostProcessEffect() = default;
+		void SetTexture(unsigned index, ITexture2D* texture) override;
+		void SetTextures(std::span<ITexture2D*> textures) override;
+		void SetSampler(unsigned index, ISamplerState* sampler) override;
+		void SetData(unsigned index, const void* data, size_t size) override;
+		void SetShader() override;
+
+		std::vector<Reflection::IReflectedField*> GetVariables() const override;
+		void Set(const std::string& name, const void* data, size_t dataSize) override;
+
+		std::string GetEntryName() override;
+		const char* GetCompilationErrorsAndWarnings() override;
+
+		void* GetHandle() const noexcept override;
+		IGraphicsDevice* GetGraphicsDevice() const noexcept override;
+
+		~PostProcessEffect() override = default;
 
 		friend class PostProcessCollection;
 	};

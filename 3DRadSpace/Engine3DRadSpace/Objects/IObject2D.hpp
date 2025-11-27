@@ -3,7 +3,7 @@
 #include "IDrawable2D.hpp"
 #include "../Math/Vector2.hpp"
 
-namespace Engine3DRadSpace
+namespace Engine3DRadSpace::Objects
 {
 	class E3DRSP_OBJECTS_EXPORT IObject2D : public IObject, public IDrawable2D
 	{

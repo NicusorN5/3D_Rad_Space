@@ -2,7 +2,7 @@
 #include "SoundInstance.h"
 #include "Sound.hpp"
 #include <al.h>
-#include "../Core/Logging/Exception.hpp"
+#include "../Logging/Exception.hpp"
 
 using namespace Engine3DRadSpace::Audio;
 using namespace Engine3DRadSpace::Math;

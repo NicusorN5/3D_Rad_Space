@@ -14,9 +14,7 @@
 
 //Engine3DRadSpace
 #include "Core/Libs.hpp"
-
-//Engine3DRadSpace::Algorithms
-#include "Core\Algorithms\FixedArray.hpp"
+#include "Core/FixedArray.hpp"
 
 //Engine3DRadSpace::Audio
 #include "Audio\AudioBuffer.hpp"
@@ -29,7 +27,6 @@
 #include "Audio\SoundState.hpp"
 
 //Engine3DRadSpace::Content
-#include "Content\AssetFactory.hpp"
 #include "Content\AssetID.hpp"
 #include "Content\ContentManager.hpp"
 #include "Content\IAsset.hpp"
@@ -38,32 +35,27 @@
 #include "Content\Assets\SkyboxAsset.hpp"
 
 //Engine3DRadSpace::Graphics
-#include "Graphics\BlendState.hpp"
+#include "Graphics\IBlendState.hpp"
 #include "Graphics\BufferUsage.hpp"
-#include "Graphics\DepthStencilBuffer.hpp"
-#include "Graphics\DepthStencilState.hpp"
+#include "Graphics\IDepthStencilBuffer.hpp"
+#include "Graphics\IDepthStencilState.hpp"
 #include "Graphics\FlipMode.hpp"
 #include "Graphics\Font.hpp"
 #include "Graphics\Glyph.hpp"
-#include "Graphics\IDomainShader.hpp"
-#include "Graphics\IFragmentShader.hpp"
-#include "Graphics\IGeometryShader.hpp"
-#include "Graphics\IHullShader.hpp"
-#include "Graphics\IndexBuffer.hpp"
+#include "Graphics\IIndexBuffer.hpp"
 #include "Graphics\IShader.hpp"
-#include "Graphics\IVertexShader.hpp"
 #include "Graphics\Model3D.hpp"
 #include "Graphics\ModelMesh.hpp"
 #include "Graphics\ModelMeshPart.hpp"
 #include "Graphics\PixelFormat.hpp"
-#include "Graphics\RasterizerState.hpp"
-#include "Graphics\RenderTarget.hpp"
-#include "Graphics\SamplerState.hpp"
+#include "Graphics\IRasterizerState.hpp"
+#include "Graphics\IRenderTarget.hpp"
+#include "Graphics\ISamplerState.hpp"
 #include "Graphics\ShaderCompilationError.hpp"
 #include "Graphics\ShaderFeatureLevel.hpp"
 #include "Graphics\SpriteBatch.hpp"
-#include "Graphics\Texture2D.hpp"
-#include "Graphics\VertexBuffer.hpp"
+#include "Graphics\ITexture2D.hpp"
+#include "Graphics\IVertexBuffer.hpp"
 #include "Graphics\VertexDeclarations.hpp"
 #include "Graphics\VertexTopology.hpp"
 #include "Graphics\Viewport.hpp"
@@ -89,15 +81,6 @@
 #include "Graphics\Rendering\PostProcessCollection.hpp"
 #include "Graphics\Rendering\PostProcessEffect.hpp"
 
-//Engine3DRadSpace::Graphics::Shaders
-#include "Graphics\Shaders\BasicTextured.hpp"
-#include "Graphics\Shaders\BlankShader.hpp"
-#include "Graphics\Shaders\Blank_NoMatrix.hpp"
-#include "Graphics\Shaders\MeshHighlight.hpp"
-#include "Graphics\Shaders\ShaderManager.hpp"
-#include "Graphics\Shaders\SkyboxShader.hpp"
-#include "Graphics\Shaders\SpriteShader.hpp"
-
 //Engine3DRadSpace::Input
 #include "Input\ButtonState.hpp"
 #include "Input\Key.hpp"
@@ -106,10 +89,10 @@
 #include "Input\Mouse.hpp"
 
 //Engine3DRadSpace::Logging
-#include "Core\Logging\Exception.hpp"
-#include "Core\Logging\Message.hpp"
-#include "Core\Logging\AssetLoadingError.hpp"
-#include "Core\Logging\Warning.hpp"
+#include "Logging\Exception.hpp"
+#include "Logging\Message.hpp"
+#include "Logging\AssetLoadingError.hpp"
+#include "Logging\Warning.hpp"
 
 //Engine3DRadSpace::Math
 #include "Math\BoundingBox.hpp"

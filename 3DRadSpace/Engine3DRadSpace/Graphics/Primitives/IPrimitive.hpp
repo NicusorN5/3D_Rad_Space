@@ -2,7 +2,7 @@
 #include "../../Objects/IDrawable3D.hpp"
 #include "../../Math/Matrix4x4.hpp"
 #include "../ModelMeshPart.hpp"
-#include "../Shaders/BlankShader.hpp"
+#include "../Effect.hpp"
 #include "../VertexDeclarations.hpp"
 
 namespace Engine3DRadSpace::Graphics::Primitives
@@ -14,18 +14,18 @@ namespace Engine3DRadSpace::Graphics::Primitives
 	/// IPrimitive is the base for vertex coloured, trivial meshes without normals, UV coordinates, bitangents, etc...
 	/// Primitives are meant to wrap a vertex Position Color declared buffer and a index buffer.
 	/// </remarks>
-	class E3DRSP_GRAPHICS_EXPORT IPrimitive : public IDrawable3D
+	class E3DRSP_GRAPHICS_PRIMITIVES_EXPORT IPrimitive : public IDrawable3D
 	{
 	protected:
-		IPrimitive(GraphicsDevice* device);
+		IPrimitive(IGraphicsDevice* device);
 
-		GraphicsDevice *_device;
-		std::unique_ptr<VertexBufferV<VertexPositionColor>> _vertices;
-		std::unique_ptr<IndexBuffer> _indices;
+		IGraphicsDevice*_device;
+		std::unique_ptr<IVertexBuffer> _vertices;
+		std::unique_ptr<IIndexBuffer> _indices;
 
-		std::shared_ptr<Shaders::BlankShader> _shader;
+		Effect* _shader;
 
-		Math::Matrix4x4 _mvp() const noexcept;
+		virtual Math::Matrix4x4 _mvp() const noexcept;
 	public:
 		/// <summary>
 		/// Camera view matrix.
@@ -39,6 +39,8 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		/// World transform, composed usually of Scale, Rotation, Translation.
 		/// </summary>
 		Math::Matrix4x4 Transform;
+
+		void Draw3D() override;
 
 		virtual ~IPrimitive() = default;
 	};

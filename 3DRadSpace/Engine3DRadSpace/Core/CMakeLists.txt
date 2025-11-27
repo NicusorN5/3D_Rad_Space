@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 3.21)
 
 project("Engine3DRadSpace.Core")
 
-file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS "*.cpp" "*.hpp" )
-
-add_library(3DRadSpace_Core STATIC ${SOURCE_FILES})
+add_library(3DRadSpace_Core STATIC
+	"IGame.cpp"
+)
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET 3DRadSpace_Core PROPERTY CXX_STANDARD 23)

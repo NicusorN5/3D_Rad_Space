@@ -21,8 +21,9 @@ void ExitFade::Update()
 void ExitFade::Draw2D()
 {
 	if(!Enabled) return;
+	auto game = static_cast<Game*>(_game);
 
-	_timer += _game->Draw_dt;
+	_timer += game->Draw_dt;
 
 	if(_timer >= FadeTime)
 	{
@@ -30,7 +31,7 @@ void ExitFade::Draw2D()
 			_game->Exit();
 		else
 		{
-			_game->AppendScene(ProjectPath);
+			game->AppendScene(ProjectPath);
 		}
 	}
 }

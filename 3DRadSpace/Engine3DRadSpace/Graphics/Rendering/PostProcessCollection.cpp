@@ -1,13 +1,21 @@
 #include "PostProcessCollection.hpp"
+#include "../IDepthStencilBuffer.hpp"
 
 using namespace Engine3DRadSpace::Graphics::Rendering;
 
-PostProcessCollection::PostProcessCollection(GraphicsDevice* device):
+PostProcessCollection::PostProcessCollection(IGraphicsDevice* device):
 	_device(device)
 {
 	//TODO - Get the backbuffer and depth buffer format from the device, don't hardcode them.
-	_backbuffer_cpy = std::make_unique<Texture2D>(device, device->Resolution().X, device->Resolution().Y, PixelFormat::R16G16B16A16_Float);
-	_depthbuffer_cpy = std::make_unique<Texture2D>(std::move(device->GetDepthBuffer().CloneDepthTexture()));
+	_backbuffer_cpy = device->CreateTexture2D(
+		nullptr,
+		device->Resolution().X,
+		device->Resolution().Y,
+		PixelFormat::R16G16B16A16_Float,
+		BufferUsage::ReadOnlyGPU_WriteOnlyCPU
+	);
+
+	_depthbuffer_cpy = device->GetDepthBuffer().CloneDepthTexture();
 }
 
 size_t PostProcessCollection::Length() const noexcept
@@ -21,12 +29,15 @@ void PostProcessCollection::ApplyAll()
 	{
 		if(!effect->Enabled) continue;
 		
-		_device->UnbindRenderTargetAndDepth();
-		Texture2D::Copy(_backbuffer_cpy.get(), _device->GetBackBufferTexture());
-		Texture2D::Copy(_depthbuffer_cpy.get(), _device->GetDepthBuffer().GetDepthTexture());
+		auto cmd = _device->ImmediateContext();
+
+		cmd->UnbindRenderTargetAndDepth();
+
+		cmd->Copy(_backbuffer_cpy.get(), _device->GetBackBufferTexture());
+		cmd->Copy(_depthbuffer_cpy.get(), _device->GetDepthBuffer().GetDepthTexture());
 
 		effect->Apply();
-		_device->SetRenderTargetAndDisableDepth(nullptr);
+		cmd->SetRenderTargetAndDisableDepth(nullptr);
 		effect->Draw();
 	}
 }

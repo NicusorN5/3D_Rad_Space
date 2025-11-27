@@ -1,8 +1,8 @@
 #include "Font.hpp"
-#include "Graphics/PixelFormat.hpp"
-#include "../Core/Logging/Exception.hpp"
-#include "../Core/Logging/AssetLoadingError.hpp"
-#include "Graphics/Texture2D.hpp"
+#include "PixelFormat.hpp"
+#include "../Logging/Exception.hpp"
+#include "../Logging/AssetLoadingError.hpp"
+#include "ITexture2D.hpp"
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
@@ -29,7 +29,7 @@ Font::FontManager::~FontManager()
 
 Font::FontManager Font::_manager;
 
-Font::Font(GraphicsDevice* device, const std::filesystem::path& path, unsigned size, const char* supportedCharacters):
+Font::Font(IGraphicsDevice* device, const std::filesystem::path& path, unsigned size, const char* supportedCharacters):
 	_device(device),
 	_size(size),
 	_supportedCharacters(supportedCharacters != nullptr ? supportedCharacters : "")
@@ -137,12 +137,18 @@ fontSizeComputation:
 		}
 	}
 
-	_texture = std::make_unique<Texture2D>(_device, static_cast<void*>(fontAtlas.get()), atlasX, atlasY, PixelFormat::R32G32B32A32_Float);
+	_texture = _device->CreateTexture2D(
+		static_cast<void*>(fontAtlas.get()),
+		atlasX,
+		atlasY,
+		PixelFormat::R32G32B32A32_Float,
+		BufferUsage::ReadOnlyGPU
+	);
 
 	_valid = true;
 }
 
-Font::Font(GraphicsDevice* device, const std::filesystem::path& path) : Font(device, path, 14, nullptr)
+Font::Font(IGraphicsDevice* device, const std::filesystem::path& path) : Font(device, path, 14, nullptr)
 {
 }
 
@@ -157,15 +163,6 @@ Font::Font(Font&& font) noexcept :
 {
 	font._valid = false;
 	font._font = nullptr;
-}
-
-Font::Font(Internal::AssetUUIDReader dummy) :
-	_valid(false),
-	_font{},
-	_device(nullptr),
-	_size(0)
-{
-	(void)dummy;
 }
 
 Font& Font::operator=(Font&& font) noexcept
@@ -195,7 +192,7 @@ const std::string Font::SupportedCharacters() const noexcept
 	return _supportedCharacters;
 }
 
-Texture2D* Font::GetTexture() const noexcept
+ITexture2D* Font::GetTexture() const noexcept
 {
 	return _texture.get();
 }
@@ -227,15 +224,4 @@ std::optional<Math::Rectangle> Font::GetCharSourceRectangle(char chr) const noex
 			return std::make_optional<Math::Rectangle>(rectangle);
 	}
 	return std::nullopt;
-}
-
-Reflection::UUID Font::GetUUID() const noexcept
-{
-	// {7A9DEE1F-A3DE-4E55-B4D8-EC1BFE173B86}
-	return { 0x7a9dee1f, 0xa3de, 0x4e55, { 0xb4, 0xd8, 0xec, 0x1b, 0xfe, 0x17, 0x3b, 0x86 } };
-}
-
-const char* Font::FileExtension() const noexcept
-{
-	return "TrueType Font (*.ttf)\0*.ttf\0All Files(*.*)\0*.*\0\0";
 }

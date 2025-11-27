@@ -73,7 +73,7 @@ Counter::~Counter()
 	Save();
 }
 
-::Engine3DRadSpace::Reflection::ReflectedObject CounterReflInstance(::Engine3DRadSpace::Reflection::ObjectTag<Counter>{}, "Counter", "Events", "Counter", {
+REFL_BEGIN(Counter, "Counter", "Events", "Counter")
 	REFL_FIELD(Counter, std::string, Name, "Name", "Counter", "Counter name")
 	REFL_FIELD(Counter, double, Value, "Value", 0, "The value of the counter")
 	REFL_FIELD(Counter, double, Increment, "Increment", 1, "The increment of the counter")

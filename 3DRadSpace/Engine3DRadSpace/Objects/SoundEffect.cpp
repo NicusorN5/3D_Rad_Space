@@ -97,14 +97,16 @@ void SoundEffect::Initialize()
 
 void SoundEffect::Load()
 {
+	auto game = static_cast<Game*>(_game);
+
 	if (_path != nullptr)
 	{
-		_sound = _game->Content->Load<class Sound>(*_path);
+		_sound = game->Content->Load<class Sound>(*_path);
 		_path.reset();
 	}
 	if(Sound)
 	{
-		_sound = static_cast<class Sound*>((*_game->Content)[Sound]);
+		_sound = static_cast<class Sound*>((*game->Content)[Sound]);
 	}
 
 	if(_sound) _instance = std::make_unique<SoundInstance>(_sound);
@@ -114,7 +116,9 @@ void SoundEffect::Load()
 
 void SoundEffect::Load(const std::filesystem::path& path)
 {
-	_sound = _game->Content->Load<class Sound>(*_path);
+	auto game = static_cast<Game*>(_game);
+
+	_sound = game->Content->Load<class Sound>(*_path);
 	if(_sound) _instance = std::make_unique<SoundInstance>(_sound);
 
 	SE_SETPARAM;

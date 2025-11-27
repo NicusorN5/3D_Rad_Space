@@ -2,15 +2,16 @@
 #include "../Games/Game.hpp"
 
 using namespace Engine3DRadSpace;
+using namespace Engine3DRadSpace::Objects;
 using namespace Engine3DRadSpace::Internal;
 
-Engine3DRadSpace::ObjectList::ObjectList(Game* owner):
-	_game(owner)
+ObjectList::ObjectList(IGame* owner):
+	_game(static_cast<Game*>(owner))
 {
 }
 
 
-void Engine3DRadSpace::ObjectList::_validate(ObjectInstance& instance)
+void ObjectList::_validate(ObjectInstance& instance)
 {
 	instance.Object->InternalInitialize(_game);
 	
@@ -25,7 +26,7 @@ void Engine3DRadSpace::ObjectList::_validate(ObjectInstance& instance)
 	}
 }
 
-void Engine3DRadSpace::ObjectList::_validate(IObject* instance)
+void ObjectList::_validate(IObject* instance)
 {
 	if (_game->WasInitialized())
 	{
@@ -100,7 +101,7 @@ void ObjectList::RemoveIf(std::function<bool(IObject*)> f)
 
 void ObjectList::Replace(IObject* obj, unsigned id) noexcept
 {
-	auto context = _objects[id].Object->GetGame();
+	auto context = static_cast<Game*>(_objects[id].Object->GetGame());
 	_objects[id].Object.reset(obj);
 
 	_objects[id].Object->InternalInitialize(context);
@@ -117,12 +118,12 @@ void ObjectList::Clear() noexcept
 	_objects.clear();
 }
 
-IObject* Engine3DRadSpace::ObjectList::operator[](size_t i) const
+IObject* ObjectList::operator[](size_t i) const
 {
 	return _objects[i].Object.get();
 }
 
-size_t Engine3DRadSpace::ObjectList::Count() const noexcept
+size_t ObjectList::Count() const noexcept
 {
 	return _objects.size();
 }
