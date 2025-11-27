@@ -42,7 +42,7 @@ Game::Game(Native::Window &&window) :
 {
 	Math::Point size = Window->Size();
 
-	//Device = std::make_unique<GraphicsDevice>(Window->NativeHandle(), size.X, size.Y);
+	Device = GameFactory::CreateGraphicsDevice("", Window->NativeHandle(), size.X, size.Y);
 
 	_initialize();
 }

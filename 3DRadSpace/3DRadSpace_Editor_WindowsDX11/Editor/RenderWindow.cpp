@@ -198,9 +198,9 @@ void RenderWindow::Draw3D()
 	}
 	*/
 
-	billboard->View = this->View;
-	billboard->Projection = this->Projection;
-	billboard->Draw3D();
+	//billboard->View = this->View;
+	//billboard->Projection = this->Projection;
+	//billboard->Draw3D();
 }
 
 void RenderWindow::SelectObject(IObject* obj)

@@ -322,12 +322,12 @@ void EditObjectDialog::createForms()
 				switch (field->TypeSize() / field->Representation().size())
 				{
 					case sizeof(float) :
-						value = *reinterpret_cast<const float *>(static_cast<const char *>(valuePtr) + fOffset);
+						value = *reinterpret_cast<const float *>(static_cast<const std::byte*>(valuePtr) + fOffset);
 						fOffset += sizeof(float);
 						break;
 					case sizeof(double) :
-						value = *reinterpret_cast<const double *>(static_cast<const char *>(valuePtr) + fOffset);
-						fOffset += sizeof(float);
+						value = *reinterpret_cast<const double *>(static_cast<const std::byte*>(valuePtr) + fOffset);
+						fOffset += sizeof(double);
 						break;
 					default:
 						throw std::logic_error("unknown floating point type");

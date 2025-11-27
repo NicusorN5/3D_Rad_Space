@@ -267,8 +267,20 @@ ShaderCompiler::EffectCompileOutput ShaderCompiler::CompileEffect(std::span<Shad
 		);
 	}
 
+	if (auto effect = _manager->GetEffect(id); effect != nullptr)
+	{
+		return std::make_pair<Effect*, ShaderCompilationResult>(
+			(Effect*)effect,
+			ShaderCompilationResult{
+				.Log = "",
+				.Succeded = true,
+				.Identifier = id
+			}
+		);
+	}
+
 	Effect effect(_device, shaders);
-	auto r = _manager->Add("", std::make_unique<Effect>(std::move(effect)));
+	auto r = _manager->Add(id, std::make_unique<Effect>(std::move(effect)));
 	
 	return std::make_pair<Effect*, ShaderCompilationResult>(
 		(Effect*)r,
