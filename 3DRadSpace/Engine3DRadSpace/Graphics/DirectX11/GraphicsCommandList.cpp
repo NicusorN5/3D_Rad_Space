@@ -369,7 +369,8 @@ void GraphicsCommandList::Copy(IGPUBuffer* dest, IGPUBuffer* src)
 {
 	if (dest == nullptr || src == nullptr) return;
 
-	auto rscA = static_cast<ID3D11Resource*>(dest->GetHandle());
-	auto rscB = static_cast<ID3D11Resource*>(src->GetHandle());
-	_context->CopyResource(rscA, rscB);
+	auto rscDest = dynamic_cast<Texture2D*>(dest)->_texture.Get();
+	auto rscSrc = dynamic_cast<Texture2D*>(src)->_texture.Get();
+
+	_context->CopyResource(rscDest, rscSrc);
 }

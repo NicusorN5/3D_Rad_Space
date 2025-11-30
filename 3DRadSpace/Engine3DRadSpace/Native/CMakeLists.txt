@@ -4,7 +4,7 @@ project("Engine3DRadSpace.Native")
 
 file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS "*.cpp" "*.hpp" )
 
-add_library(3DRadSpace_Native STATIC ${SOURCE_FILES})
+add_library(3DRadSpace_Native SHARED ${SOURCE_FILES})
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET 3DRadSpace_Native PROPERTY CXX_STANDARD 23)
@@ -28,4 +28,6 @@ if(MSVC)
 	target_compile_definitions(3DRadSpace_Native PRIVATE [[E3DRSP_NATIVE_EXPORT=__declspec(dllexport)]])
 endif()
 
+target_link_libraries(3DRadSpace_Native PRIVATE 3DRadSpace_Math)
+target_link_libraries(3DRadSpace_Native PRIVATE 3DRadSpace_Input)
 target_include_directories(3DRadSpace_Native PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)

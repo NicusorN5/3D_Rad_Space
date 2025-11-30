@@ -51,7 +51,7 @@ INT_PTR WINAPI AddObjectDialog_DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 					if(item->iItem >= 0)
 					{
-						EditObjectDialog dialog(hwnd, aod->hInstance, _3drsp_internal_objects_list[item->iItem], aod->_content);
+						EditObjectDialog dialog(hwnd, aod->hInstance, e3drsp_internal_objects_list[item->iItem], aod->_content);
 						EndDialog(hwnd, reinterpret_cast<INT_PTR>(dialog.ShowDialog()));
 					}
 					break;
@@ -115,7 +115,7 @@ struct objectItem
 
 void AddObjectDialog::createForms()
 {
-	auto& Objects = _3drsp_internal_objects_list;
+	auto& Objects = e3drsp_internal_objects_list;
 
 	//Create the list view control
 	listView = CreateWindowExA(0, "SysListView32", "", WS_VISIBLE | WS_CHILD | LVS_ALIGNTOP, 0, 0, 800, 600, window, nullptr, hInstance, nullptr);
@@ -139,8 +139,6 @@ void AddObjectDialog::createForms()
 	for ( int i = IDB_PNG1, j = 0, k = 1 ; i <= IDB_PNG24 && j < Objects.size(); i++, j++, k++)
 	{
 		auto image = MAKEINTRESOURCEW(i);
-
-		//if (Objects[j].second == nullptr) continue;
 		
 		int categoryID = 0;
 

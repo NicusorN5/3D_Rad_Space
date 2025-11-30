@@ -4,7 +4,7 @@
 
 using namespace Engine3DRadSpace::Plugins;
 
-extern std::vector<Engine3DRadSpace::Reflection::ReflectedObject*> _3drsp_internal_objects_list;
+extern std::vector<Engine3DRadSpace::Reflection::ReflectedObject*> e3drsp_internal_objects_list;
 
 void Engine3DRadSpace::Plugins::LoadCustomObjectsFromLibHandle(void* libraryHandle)
 {
@@ -18,7 +18,7 @@ void Engine3DRadSpace::Plugins::LoadCustomObjectsFromLibHandle(void* libraryHand
 			bool ok = true;
 
 			//avoid repeating UUIDs. O(n^2) but hopefully the number of custom objects is small.
-			for(auto& internalObject : _3drsp_internal_objects_list)
+			for(auto& internalObject : e3drsp_internal_objects_list)
 			{
 				//if UUIDs are in conflicting throw an exception. We can't guarantee serialization when saving or loading... Skip this object...
 				if(internalObject->ObjectUUID == object->ObjectUUID)
@@ -31,7 +31,7 @@ void Engine3DRadSpace::Plugins::LoadCustomObjectsFromLibHandle(void* libraryHand
 
 			if(!ok) continue;
 
-			_3drsp_internal_objects_list.push_back(object);
+			e3drsp_internal_objects_list.push_back(object);
 			Logging::SetLastMessage(Logging::Message(1000, "Loaded custom object " + object->Name, nullptr));
 		}
 	}

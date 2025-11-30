@@ -19,13 +19,13 @@ REFL_FWD(SoundSource)
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Reflection;
 
-std::vector<ReflectedObject*> _3drsp_internal_objects_list;
+std::vector<ReflectedObject*> e3drsp_internal_objects_list;
 
 void Engine3DRadSpace::Internal::LoadDefaultObjects()
 {
-	if(_3drsp_internal_objects_list.size() != 0) return;
+	if(e3drsp_internal_objects_list.size() != 0) return;
 
-	_3drsp_internal_objects_list =
+	e3drsp_internal_objects_list =
 	{
 		&CameraReflInstance, //Camera
 		&CounterReflInstance, //Counter
@@ -62,7 +62,7 @@ void Engine3DRadSpace::Internal::LoadDefaultObjects()
 
 ReflectedObject* Engine3DRadSpace::Internal::GetReflDataFromUUID(const Reflection::UUID& uuid)
 {
-	for(auto &refl : _3drsp_internal_objects_list)
+	for(auto &refl : e3drsp_internal_objects_list)
 	{
 		if(uuid == refl->ObjectUUID)
 			return refl;
