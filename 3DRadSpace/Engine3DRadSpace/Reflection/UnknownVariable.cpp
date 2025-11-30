@@ -14,13 +14,14 @@ UnknownVariable::UnknownVariable(
 
 const void* UnknownVariable::Get(void* objPtr) const
 {
-	return static_cast<void*>(static_cast<std::byte*>(objPtr) + _offset);
+	(void)objPtr;
+	return nullptr;
 }
 
 void UnknownVariable::Set(void* objPtr, const void* value) const
 {
-	auto ptr = static_cast<void*>(static_cast<std::byte*>(objPtr) + _offset);
-	memcpy_s(ptr, _size, value, _size);
+	(void)objPtr;
+	(void)value;
 }
 
 const void* UnknownVariable::DefaultValue() const

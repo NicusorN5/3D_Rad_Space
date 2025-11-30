@@ -8,6 +8,7 @@ add_library(3DRadSpace.Content.Assets STATIC
 	"TextureAsset.cpp"
 	"FontAsset.cpp"
 	"ModelAsset.cpp"
+	"Assets.cpp"
 )
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
@@ -46,4 +47,5 @@ target_link_libraries(3DRadSpace.Content.Assets PRIVATE 3DRadSpace_Audio)
 target_link_libraries(3DRadSpace.Content.Assets PRIVATE 3DRadSpace_Games)
 target_link_libraries(3DRadSpace.Content.Assets PRIVATE 3DRadSpace_Graphics)
 target_link_libraries(3DRadSpace.Content.Assets PRIVATE 3DRadSpace_Graphics_Primitives)
+target_link_libraries(3DRadSpace.Content.Assets PRIVATE 3DRadSpace_Content)
 target_include_directories(3DRadSpace.Content.Assets PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)

@@ -119,7 +119,7 @@ namespace Engine3DRadSpace
 
 			Iterator operator-(int i)
 			{
-				return Interator(_ptr - i);
+				return Iterator(_ptr - i);
 			}
 
 			Iterator& operator+=(int i)

@@ -1,7 +1,7 @@
 #include "ShaderBase.hpp"
 #include "../Logging/Logging.hpp"
 #include "GraphicsDevice.hpp"
-#include "../Reflection/UnknownVariable.hpp"
+#include "../ShaderVariable.hpp"
 
 #pragma comment(lib,"d3dcompiler.lib")
 
@@ -135,37 +135,12 @@ void ShaderBase::SetData(unsigned index, const void* data, size_t dataSize)
 	}
 	memcpy_s(ptr, dataSize, data, dataSize);
 
-	if (handle == nullptr)
-	{
-		//create dx11 constant buffer if it doesn't exist
-		D3D11_BUFFER_DESC constantBufferDesc{};
-		constantBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-		constantBufferDesc.ByteWidth = dataSize;
-		constantBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-		constantBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-
-		D3D11_SUBRESOURCE_DATA res{};
-		res.pSysMem = ptr;
-
-		HRESULT r = _device->_device->CreateBuffer(&constantBufferDesc, &res, handle.ReleaseAndGetAddressOf());
-		if (FAILED(r)) throw Exception("Failed to create a constant buffer for a shader!");
-
-		//set debug name
-#ifdef _DEBUG
-		std::string constantBufferName = "IShader::constantBuffer[";
-		constantBufferName += std::to_string(index) + ']';
-
-		handle->SetPrivateData(WKPDID_D3DDebugObjectName, unsigned(constantBufferName.length()), constantBufferName.c_str());
-#endif
-	}
-	else
-	{
-		D3D11_MAPPED_SUBRESOURCE res;
-		HRESULT r = _device->_context->Map(handle.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &res);
-		if (FAILED(r)) throw Exception("Failed to write the shader data!");
-		memcpy_s(res.pData, dataSize, ptr, dataSize);
-		_device->_context->Unmap(handle.Get(), 0);
-	}
+	//Assume cbuffer was created when reflecting shader.
+	D3D11_MAPPED_SUBRESOURCE res;
+	HRESULT r = _device->_context->Map(handle.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &res);
+	if (FAILED(r)) throw Exception("Failed to write the shader data!");
+	memcpy_s(res.pData, dataSize, ptr, dataSize);
+	_device->_context->Unmap(handle.Get(), 0);
 }
 
 std::string ShaderBase::GetEntryName()
@@ -201,10 +176,30 @@ void ShaderBase::_reflectShader()
 		if (FAILED(r))
 			break;
 
-		unsigned numVariables = buffDesc.Variables;
-		size_t buffSize = buffDesc.Size;
+		auto buffSize = buffDesc.Size;
 
-		for (unsigned idxVariable = 0; idxVariable < numVariables; idxVariable++)
+		//Create constant buffer.
+		D3D11_BUFFER_DESC constantBufferDesc{};
+		constantBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+		constantBufferDesc.ByteWidth = buffSize;
+		constantBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		constantBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+
+		r = _device->_device->CreateBuffer(&constantBufferDesc, nullptr, &_constantBuffers[idxCbuffer].Handle);
+		if (FAILED(r)) throw Exception("Failed to create a constant buffer for a shader!");
+
+#ifdef _DEBUG
+		std::string constantBufferName = "IShader::constantBuffer[";
+		constantBufferName += std::to_string(idxCbuffer) + ']';
+
+		_constantBuffers[idxCbuffer].Handle->SetPrivateData(WKPDID_D3DDebugObjectName, unsigned(constantBufferName.length()), constantBufferName.c_str());
+#endif
+		
+		_constantBuffers[idxCbuffer].Buffer = std::make_unique<std::byte[]>(buffSize);
+		_constantBuffers[idxCbuffer].Size = buffSize;
+
+		//Iterate variables
+		for (unsigned idxVariable = 0; idxVariable < buffDesc.Variables; idxVariable++)
 		{
 			auto variable = cbuffer->GetVariableByIndex(idxVariable);
 			if (variable == nullptr)
@@ -214,11 +209,11 @@ void ShaderBase::_reflectShader()
 			variable->GetDesc(&varDesc);
 
 			_reflectedFields.emplace_back(
-				std::make_unique<Reflection::UnknownVariable>(
-					varDesc.StartOffset,
-					varDesc.Size,
+				std::make_unique<ShaderVariable>(
 					varDesc.Name,
-					""
+					idxCbuffer, 
+					varDesc.StartOffset,
+					varDesc.Size
 				)
 			);
 		}
@@ -250,4 +245,23 @@ void ShaderBase::Set(const std::string& name, const void* data, size_t dataSize)
 IGraphicsDevice* ShaderBase::GetGraphicsDevice() const noexcept
 {
 	return _device;
+}
+
+void ShaderBase::SetShader()
+{
+	unsigned numCbuffers;
+	_validConstantBuffers(numCbuffers);
+
+	for (int i = 0; i < numCbuffers; i++)
+	{
+		auto handle = _constantBuffers[i].Handle.Get();
+		auto& data = _constantBuffers[i].Buffer;
+		size_t size = _constantBuffers[i].Size;
+
+		D3D11_MAPPED_SUBRESOURCE res;
+		HRESULT r = _device->_context->Map(handle, 0, D3D11_MAP_WRITE_DISCARD, 0, &res);
+		if (FAILED(r)) throw Exception("Failed to write the shader data!");
+		memcpy_s(res.pData, size, data.get(), size);
+		_device->_context->Unmap(handle, 0);
+	}
 }

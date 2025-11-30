@@ -62,7 +62,7 @@ void VertexBuffer::SetData(void *data, size_t size)
 	if (FAILED(r)) throw Exception("Failed to write a vertex buffer!");
 
 	memset(res.pData, 0, _numVerts * _structSize);
-	memcpy_s(res.pData, _numVerts * _structSize, data, _numVerts * _structSize);
+	memcpy_s(res.pData, _numVerts * _structSize, data, size);
 	
 	_device->_context->Unmap(_buffer.Get(), 0);
 }

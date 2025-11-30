@@ -48,7 +48,7 @@ namespace Engine3DRadSpace::Graphics
 			EndCalled
 		} _state;
 
-		std::unique_ptr<Effect> _spriteShader;
+		Effect* _spriteShader;
 
 		std::unique_ptr<IVertexBuffer> _vertexBuffer;
 		std::unique_ptr<IIndexBuffer> _indexBuffer;

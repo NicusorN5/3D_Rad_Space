@@ -232,6 +232,8 @@ void VertexShader::SetSampler(unsigned index, ISamplerState *samplerState)
 
 void VertexShader::SetShader()
 {
+	ShaderBase::SetShader();
+
 	unsigned i;
 	auto validConstantBuffers = this->_validConstantBuffers(i);
 	_device->_context->VSSetConstantBuffers(0, i, validConstantBuffers.data());

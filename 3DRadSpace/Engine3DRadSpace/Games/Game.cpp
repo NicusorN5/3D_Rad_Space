@@ -3,6 +3,7 @@
 #include "../Projects/Serialization.hpp"
 #include "../Logging/Logging.hpp"
 #include "GameFactory.hpp"
+#include "Content/Assets/Assets.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Audio;
@@ -17,10 +18,17 @@ using namespace Engine3DRadSpace::Objects;
 
 void Game::_initialize()
 {
+	AddService<IGraphicsDevice>(Device.get());
+
 	Content = std::make_unique<Content::ContentManager>(this);
+	Internal::RegisterDefaultTypes(Content.get());
+
+	Audio = std::make_unique<AudioEngine>();
+	AddService<IAudioEngine>(Audio.get());
+
 	SpriteBatch = std::make_unique<Graphics::SpriteBatch>(Device.get());
 	PostProcesses = std::make_unique<Graphics::Rendering::PostProcessCollection>(Device.get());
-	Audio = std::make_unique<AudioEngine>();
+
 	_valid = true;
 }
 

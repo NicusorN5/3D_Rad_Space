@@ -1,6 +1,7 @@
 #include "ContentManager.hpp"
 #include "../Logging/Logging.hpp"
 #include "../Graphics/IGraphicsDevice.hpp"
+#include "Assets/Assets.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content;
@@ -14,7 +15,7 @@ ContentManager::AssetFactory::AssetFactory(IGame* owner) :
 	_services[typeid(void)] = nullptr;
 }
 
-IAsset* ContentManager::AssetFactory::CreateAssetInstance(const Reflection::UUID& uuid, const std::filesystem::path& path)
+IAsset* ContentManager::AssetFactory::Create(const Reflection::UUID& uuid, const std::filesystem::path& path)
 {
 	for (const auto& [r_uuid, ctor, service] : _types)
 	{
@@ -37,7 +38,7 @@ ContentManager::ContentManager(IGame* owner) :
 
 IAsset* ContentManager::Load(const Reflection::UUID &uuid, const std::filesystem::path& path, unsigned* refID)
 {
-	auto asset = _factory.CreateAssetInstance(uuid, path);
+	auto asset = _factory.Create(uuid, path);
 	
 	std::unique_ptr<IAsset> ptrAsset;
 	ptrAsset.reset(asset);
@@ -59,7 +60,7 @@ void ContentManager::Reload(unsigned id)
 	auto path = _assets[id].Path;
 
 	Logging::SetLastMessage(std::format("Loaded asset ID {} path {} UUID {}", id, path.string(), uuid));
-	auto asset = _factory.CreateAssetInstance(uuid, path);
+	auto asset = _factory.Create(uuid, path);
 	_assets[id].Entry.reset(asset);
 }
 
@@ -93,13 +94,13 @@ void ContentManager::RemoveAsset(unsigned id)
 	_assets.erase(_assets.begin() + id);
 }
 
-void Engine3DRadSpace::Content::ContentManager::Clear()
+void ContentManager::Clear()
 {
 	_assets.clear();
 	_assets.emplace_back(nullptr);
 }
 
-size_t Engine3DRadSpace::Content::ContentManager::Count() const noexcept
+size_t ContentManager::Count() const noexcept
 {
 	return _assets.size();
 }

@@ -10,6 +10,7 @@ namespace Engine3DRadSpace
 	/// </summary>
 	class E3DRSP_CORE_EXPORT IGame
 	{
+	protected:
 		std::unordered_map<std::type_index, IService*> _services;
 	public:
 		template<typename T>

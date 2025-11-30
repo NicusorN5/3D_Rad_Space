@@ -44,12 +44,12 @@ void ModelMeshPart::Draw(Effect* effect)
 	if(effect == nullptr) return;
 
 	effect->SetAll();
+	effect->SetData<Math::Matrix4x4>(&Transform, 0, 0);
 
 	for(int i = 0; i < Textures.size(); i++)
 	{
 		effect->SetTexture(Textures[i].get(), i);
 		effect->SetSampler(TextureSamplers[i].get(), i);
-		//effect->SetData()
 	}
 
 	auto cmdList = _device->ImmediateContext();

@@ -9,7 +9,7 @@ namespace Engine3DRadSpace::Graphics::Null
 	{
 	public:
 		RenderTarget(GraphicsDevice*device, PixelFormat format = PixelFormat::R16G16B16A16_Float);
-		RenderTarget(GraphicsDevice* device, unsigned x, unsigned y, PixelFormat format = PixelFormat::R16G16B16A16_Float);
+		RenderTarget(GraphicsDevice* device, size_t x, size_t y, PixelFormat format = PixelFormat::R16G16B16A16_Float);
 
 		RenderTarget(const RenderTarget&) = delete;
 		RenderTarget& operator=(const RenderTarget&) = delete;

@@ -8,7 +8,7 @@ namespace Engine3DRadSpace::Reflection
 		struct EnumEntry
 		{
 			std::string VisibleName;
-			int Value;
+			int64_t Value;
 		};
 	#pragma warning(pop)
 }

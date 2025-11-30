@@ -85,6 +85,8 @@ void FragmentShader::SetSampler(unsigned index, ISamplerState *samplerState)
 
 void FragmentShader::SetShader()
 {
+	ShaderBase::SetShader();
+
 	unsigned i;
 	auto validConstantBuffers = this->_validConstantBuffers(i);
 	_device->_context->PSSetConstantBuffers(0, i, validConstantBuffers.data());

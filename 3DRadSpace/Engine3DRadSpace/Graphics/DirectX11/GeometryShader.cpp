@@ -86,6 +86,8 @@ void GeometryShader::SetSampler(unsigned index, ISamplerState *samplerState)
 
 void GeometryShader::SetShader()
 {
+	ShaderBase::SetShader();
+
 	unsigned i;
 	auto validConstantBuffers = this->_validConstantBuffers(i);
 	_device->_context->GSSetConstantBuffers(0, i, validConstantBuffers.data());

@@ -11,7 +11,7 @@ RenderTarget::RenderTarget(GraphicsDevice *device, PixelFormat format) :
 	(void)format;
 }
 
-RenderTarget::RenderTarget(GraphicsDevice * device, unsigned x, unsigned y, PixelFormat format) 
+RenderTarget::RenderTarget(GraphicsDevice * device, size_t x, size_t y, PixelFormat format) 
 	: Texture2D(device, nullptr, x, y, format)
 {
 	(void)device;

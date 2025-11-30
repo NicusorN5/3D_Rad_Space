@@ -20,6 +20,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		{
 			Microsoft::WRL::ComPtr<ID3D11Buffer> Handle;
 			std::unique_ptr<std::byte[]> Buffer;
+			size_t Size;
 		};
 
 		std::array<ConstantBuffer, D3D11_COMMONSHADER_CONSTANT_BUFFER_API_SLOT_COUNT> _constantBuffers;
@@ -49,6 +50,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 
 		std::vector<Reflection::IReflectedField*> GetVariables() const override;
 		void Set(const std::string& name, const void* data, size_t dataSize) override;
+		void SetShader() override;
 
 		IGraphicsDevice* GetGraphicsDevice() const noexcept override;
 

@@ -81,11 +81,9 @@ namespace Engine3DRadSpace::Content
 			template<AssetType T>
 			bool RegisterType(Tag<T> dummy)
 			{
-				Internal::AssetUUIDReader r;
-
-				if (std::find_if(_types.begin(), _types.end(), [r](const TypeEntry& t) -> bool
+				if (std::find_if(_types.begin(), _types.end(), [](const TypeEntry& t) -> bool
 					{
-						auto uuid = r.GetUUID<T>({});
+						auto uuid = Internal::AssetUUIDReader::GetUUID<T>({});
 						return uuid == t.UUID;
 					}
 				) != _types.end())
@@ -94,12 +92,12 @@ namespace Engine3DRadSpace::Content
 				}
 				else
 				{
-					auto serviceType = r.GetInitializationService<T>({});
+					auto serviceType = Internal::AssetUUIDReader::GetInitializationService<T>({});
 
 					_services[serviceType] = static_cast<IService*>(_owner->GetService(serviceType));
 
 					_types.emplace_back(
-						r.GetUUID<T>({}),
+						Internal::AssetUUIDReader::GetUUID<T>({}),
 						[](IService* service, const std::filesystem::path& path) -> IAsset*
 						{
 							return static_cast<IAsset*>(new T(service, path));
@@ -112,7 +110,7 @@ namespace Engine3DRadSpace::Content
 
 			}
 
-			IAsset* CreateAssetInstance(const Reflection::UUID& uuid, const std::filesystem::path& path);
+			IAsset* Create(const Reflection::UUID& uuid, const std::filesystem::path& path);
 
 		} _factory;
 
@@ -232,6 +230,6 @@ namespace Engine3DRadSpace::Content
 	template<AssetType T>
 	inline void ContentManager::RegisterType(Tag<T> dummy)
 	{
-		_factory.RegisterType<T>();
+		_factory.RegisterType<T>({});
 	}
 }

@@ -2,6 +2,7 @@
 #include "../Math/Matrix3x3.hpp"
 #include "../Math/Math.hpp"
 #include "IGraphicsCommandList.hpp"
+#include "IShaderCompiler.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
@@ -249,7 +250,14 @@ SpriteBatch::SpriteBatch(IGraphicsDevice *device) :
 	_oldRasterizerState(nullptr),
 	_oldStencilState(nullptr)
 {
-	//_spriteShader = _device->ShaderManager()->
+	constexpr std::string_view shaderPath = "Data\\Shaders\\Sprite.hlsl";
+
+	ShaderDescFile vs(shaderPath, "VS_Main", ShaderType::Vertex);
+	ShaderDescFile ps(shaderPath, "PS_Main", ShaderType::Fragment);
+
+	std::array<ShaderDesc*, 2> spriteEffect = { &vs, &ps };
+
+	_spriteShader = _device->ShaderCompiler()->CompileEffect(spriteEffect).first;
 	// 256 quads: 1024 vertices and 1536 indices
 	_vertexBuffer = device->CreateVertexBuffer<VertexPointUVColor>(1024, BufferUsage::ReadOnlyGPU_WriteOnlyCPU);
 	_indexBuffer = device->CreateIndexBuffer(1536, BufferUsage::ReadOnlyGPU_WriteOnlyCPU);

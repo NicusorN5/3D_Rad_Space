@@ -86,6 +86,8 @@ void HullShader::SetSampler(unsigned index, ISamplerState *samplerState)
 
 void HullShader::SetShader()
 {
+	ShaderBase::SetShader();
+
 	unsigned i;
 	auto validConstantBuffers = this->_validConstantBuffers(i);
 	_device->_context->HSSetConstantBuffers(0, i, validConstantBuffers.data());
