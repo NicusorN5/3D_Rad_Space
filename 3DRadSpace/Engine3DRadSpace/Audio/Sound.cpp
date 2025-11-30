@@ -75,7 +75,7 @@ const char* Sound::FileExtension() const noexcept
 
 std::type_index Sound::InitializationService() const noexcept
 {
-	return typeid(AudioEngine);
+	return typeid(IAudioEngine);
 }
 
 Sound::~Sound()

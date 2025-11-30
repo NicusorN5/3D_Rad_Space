@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Engine3DRadSpace_Angelscript
+namespace Engine3DRadSpace::Angelscript
 {
 	class AngelScriptWrapper final
 	{

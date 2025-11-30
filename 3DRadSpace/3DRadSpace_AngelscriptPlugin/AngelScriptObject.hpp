@@ -2,7 +2,7 @@
 #include <Engine3DRadSpace\Objects\IObject.hpp>
 #include <Engine3DRadSpace\Reflection\Reflection.hpp>
 
-namespace Engine3DRadSpace_Angelscript
+namespace Engine3DRadSpace::Angelscript
 {
 	/// <summary>
 	/// A script object handing a AngelScript source.

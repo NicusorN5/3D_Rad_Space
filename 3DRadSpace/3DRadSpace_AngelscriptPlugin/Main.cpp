@@ -3,13 +3,25 @@
 #include "AngelScriptObject.hpp"
 #include "AngelscriptWrapper.hpp"
 
-std::unique_ptr<Engine3DRadSpace_Angelscript::AngelScriptWrapper> _angelscriptWrapper;
+using namespace Engine3DRadSpace;
+using namespace Engine3DRadSpace::Angelscript;
+using namespace Engine3DRadSpace::Plugins;
+using namespace Engine3DRadSpace::Reflection;
+
+std::unique_ptr<AngelScriptWrapper> _angelscriptWrapper;
+
+REFL_FWD(AngelScriptObject);
+
+std::array<Engine3DRadSpace::Reflection::ReflectedObject*, 1> newObjects =
+{
+	&AngelScriptObjectReflInstance
+};
 
 extern "C"
 {
 	__declspec(dllexport) bool PluginMain()
 	{
-		_angelscriptWrapper = std::make_unique<Engine3DRadSpace_Angelscript::AngelScriptWrapper>();
+		_angelscriptWrapper = std::make_unique<AngelScriptWrapper>();
 		return true;
 	}
 
@@ -19,9 +31,9 @@ extern "C"
 		return true;
 	}
 
-	__declspec(dllexport) Engine3DRadSpace::Plugins::PluginInfo LoadPluginInfo()
+	__declspec(dllexport) PluginInfo LoadPluginInfo()
 	{
-		return Engine3DRadSpace::Plugins::PluginInfo
+		return PluginInfo
 		{
 			.Name = "3DRadSpace Angelscript plugin",
 			.Version = "0.1.0-Alpha",
@@ -31,5 +43,10 @@ extern "C"
 			.Homepage = "3dradspace.github.io",
 			.IconFilename = "AngelScript.png"
 		};
+	}
+
+	__declspec(dllexport) std::span<ReflectedObject*> LoadCustomObjects()
+	{
+		return newObjects;
 	}
 }

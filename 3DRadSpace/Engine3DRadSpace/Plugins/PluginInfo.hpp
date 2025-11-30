@@ -8,13 +8,13 @@ namespace Engine3DRadSpace::Plugins
 	/// </summary>
 	struct PluginInfo
 	{
-		const char* Name;
-		const char* Version;
+		const std::string_view& Name;
+		const std::string_view& Version;
 
-		const char* Author;
-		const char* Description;
-		const char* Homepage;
+		const std::string_view& Author;
+		const std::string_view& Description;
+		const std::string_view& Homepage;
 
-		const char* IconFilename;
+		const std::string_view& IconFilename;
 	};
 }
