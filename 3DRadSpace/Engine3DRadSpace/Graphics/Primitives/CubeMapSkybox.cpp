@@ -1,19 +1,19 @@
 #include "CubeMapSkybox.hpp"
 #include "Box.hpp"
-#include "../Shaders/ShaderManager.hpp"
-#include "..\Shaders\SkyboxShader.hpp"
 #include "../../Objects/Camera.hpp"
-
-using namespace Engine3DRadSpace::Graphics::Shaders;
+#include "../IGraphicsDevice.hpp"
+#include "../IShaderCompiler.hpp"
+#include "../../Logging/Exception.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Graphics::Primitives;
+using namespace Engine3DRadSpace::Logging;
 using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Objects;
 
-CubeMapSkybox::CubeMapSkybox(GraphicsDevice* device, std::array<Texture2D, 6> &&faces)
+CubeMapSkybox::CubeMapSkybox(IGraphicsDevice* device, std::array<ITexture2D*, 6> &faces)
 {
 	std::array<VertexPositionUV, 4> px_vert =
 	{
@@ -81,18 +81,46 @@ CubeMapSkybox::CubeMapSkybox(GraphicsDevice* device, std::array<Texture2D, 6> &&
 		2, 1, 3
 	};
 
+	std::array<ShaderDesc*, 2> skyboxEffectDesc;
+
+	constexpr const char* skyboxShaderPath = "Data\\Shaders\\Skybox.hlsl";
+
+	auto vsSkybox = ShaderDescFile(
+		skyboxShaderPath,
+		"VS_Main",
+		ShaderType::Vertex
+	);
+
+	auto psSkybox = ShaderDescFile(
+		skyboxShaderPath,
+		"PS_Main",
+		ShaderType::Fragment
+	);
+
+	skyboxEffectDesc[0] = &vsSkybox;
+	skyboxEffectDesc[1] = &psSkybox;
+
+	auto compileResult = device->ShaderCompiler()->CompileEffect(skyboxEffectDesc);
+	if (compileResult.second.Succeded == false)
+	{
+		throw Exception("Failed to compile Skybox shader!" + compileResult.second.Log);
+	}
+
 	auto create_face = [&](unsigned index, std::span<VertexPositionUV> vertices, std::span<unsigned> indices)
 	{
 		auto mesh = new ModelMeshPart(
-			std::static_pointer_cast<Effect>(ShaderManager::LoadShader<SkyboxShader>(device)),
 			device,
 			vertices,
-			indices
+			indices,
+			compileResult.first
 		);
 		_faces[index].reset(mesh);
 
-		_faces[index]->Textures.emplace_back(std::make_unique<Texture2D>(std::move(faces[index])));
-		_faces[index]->TextureSamplers.emplace_back(std::make_unique<SamplerState>(std::move(SamplerState::LinearClamp(device))));
+		std::unique_ptr<ITexture2D> texturePtr;
+		texturePtr.reset(faces[index]);
+
+		_faces[index]->Textures.emplace_back(std::move(texturePtr));
+		_faces[index]->TextureSamplers.emplace_back(device->CreateSamplerState_LinearClamp());
 	};
 
 	create_face(0, px_vert, face_indices_backface);
@@ -103,7 +131,7 @@ CubeMapSkybox::CubeMapSkybox(GraphicsDevice* device, std::array<Texture2D, 6> &&
 	create_face(5, nz_vert, face_indices_backface);
 }
 
-CubeMapSkybox::CubeMapSkybox(GraphicsDevice* device,const std::filesystem::path& dds)
+CubeMapSkybox::CubeMapSkybox(IGraphicsDevice* device,const std::filesystem::path& dds)
 {
 	//TODO: Implement DDS loading
 }

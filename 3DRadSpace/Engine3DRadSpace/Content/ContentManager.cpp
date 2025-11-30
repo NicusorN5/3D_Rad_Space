@@ -1,14 +1,36 @@
 #include "ContentManager.hpp"
-#include "../Core/Logging.hpp"
+#include "../Logging/Logging.hpp"
+#include "../Graphics/IGraphicsDevice.hpp"
+#include "Assets/Assets.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Reflection;
 
-ContentManager::ContentManager(Game* owner) :
+ContentManager::AssetFactory::AssetFactory(IGame* owner) :
+	_owner(owner)
+{
+	_owner = owner;
+	_services[typeid(void)] = nullptr;
+}
+
+IAsset* ContentManager::AssetFactory::Create(const Reflection::UUID& uuid, const std::filesystem::path& path)
+{
+	for (const auto& [r_uuid, ctor, service] : _types)
+	{
+		if (r_uuid == uuid)
+		{
+			return ctor(service, path);
+		}
+	}
+	return nullptr;
+}
+
+ContentManager::ContentManager(IGame* owner) :
 	_lastID(1),
-	_factory(owner)
+	_factory(owner),
+	_owner(owner)
 {
 	//We add a null asset at index 0 because reference IDs are unsigned integers.
 	_assets.emplace_back(nullptr);
@@ -16,7 +38,7 @@ ContentManager::ContentManager(Game* owner) :
 
 IAsset* ContentManager::Load(const Reflection::UUID &uuid, const std::filesystem::path& path, unsigned* refID)
 {
-	auto asset = _factory.CreateAssetInstance(uuid, path);
+	auto asset = _factory.Create(uuid, path);
 	
 	std::unique_ptr<IAsset> ptrAsset;
 	ptrAsset.reset(asset);
@@ -38,7 +60,7 @@ void ContentManager::Reload(unsigned id)
 	auto path = _assets[id].Path;
 
 	Logging::SetLastMessage(std::format("Loaded asset ID {} path {} UUID {}", id, path.string(), uuid));
-	auto asset = _factory.CreateAssetInstance(uuid, path);
+	auto asset = _factory.Create(uuid, path);
 	_assets[id].Entry.reset(asset);
 }
 
@@ -72,18 +94,18 @@ void ContentManager::RemoveAsset(unsigned id)
 	_assets.erase(_assets.begin() + id);
 }
 
-void Engine3DRadSpace::Content::ContentManager::Clear()
+void ContentManager::Clear()
 {
 	_assets.clear();
 	_assets.emplace_back(nullptr);
 }
 
-size_t Engine3DRadSpace::Content::ContentManager::Count() const noexcept
+size_t ContentManager::Count() const noexcept
 {
 	return _assets.size();
 }
 
-GraphicsDevice* ContentManager::GetDevice() const noexcept
+IGraphicsDevice* ContentManager::GetDevice() const noexcept
 {
-	return _factory.Device();
+	return _owner->GetService<IGraphicsDevice>({});
 }

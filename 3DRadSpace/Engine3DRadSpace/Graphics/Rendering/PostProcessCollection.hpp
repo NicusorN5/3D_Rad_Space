@@ -1,26 +1,26 @@
 #pragma once
 #include "PostProcessEffect.hpp"
-#include "../RenderTarget.hpp"
+#include "../IRenderTarget.hpp"
 
 namespace Engine3DRadSpace::Graphics::Rendering
 {
 	/// <summary>
 	/// Represents multiple post processes, one applied after the other.
 	/// </summary>
-	class E3DRSP_GRAPHICS_EXPORT PostProcessCollection
+	class E3DRSP_GRAPHICS_RENDERING_EXPORT PostProcessCollection
 	{
 	private:
-		GraphicsDevice* _device;
+		IGraphicsDevice* _device;
 		std::vector<std::unique_ptr<PostProcessEffect>> _effects;
 
-		std::unique_ptr<Texture2D> _backbuffer_cpy;
-		std::unique_ptr<Texture2D> _depthbuffer_cpy;
+		std::unique_ptr<ITexture2D> _backbuffer_cpy;
+		std::unique_ptr<ITexture2D> _depthbuffer_cpy;
 	public:
 		/// <summary>
 		/// Instantiates the list of effects.
 		/// </summary>
 		/// <param name="device">Graphics device.</param>
-		PostProcessCollection(GraphicsDevice* device);
+		PostProcessCollection(IGraphicsDevice* device);
 
 		PostProcessCollection(PostProcessCollection&&) noexcept = default;
 		PostProcessCollection& operator=(PostProcessCollection&&) noexcept = default;

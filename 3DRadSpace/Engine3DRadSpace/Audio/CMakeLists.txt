@@ -33,6 +33,7 @@ endif()
 #
 target_link_libraries(3DRadSpace_Audio PRIVATE 3DRadSpace_Core)
 target_link_libraries(3DRadSpace_Audio PRIVATE 3DRadSpace_Math)
+target_link_libraries(3DRadSpace_Audio PRIVATE 3DRadSpace.Logging)
 target_include_directories(3DRadSpace_Audio PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)
 
 #OpenAL-Soft

@@ -1,7 +1,7 @@
 #pragma once
 #include "IReflectedFunction.hpp"
 #include "Reflection.hpp"
-#include "../Core/Algorithms/FixedArray.hpp"
+#include "../Core/AssetUUIDReader.hpp"
 
 namespace Engine3DRadSpace
 {

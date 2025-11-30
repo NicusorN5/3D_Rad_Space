@@ -1,29 +1,21 @@
 #include "CilindricalBillboard.hpp"
-#include "../Shaders/ShaderManager.hpp"
-#include "../Shaders/BasicTextured.hpp"
 #include "Plane.hpp"
+#include "../IGraphicsCommandList.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Graphics::Primitives;
-using namespace Engine3DRadSpace::Graphics::Shaders;
 using namespace Engine3DRadSpace::Math;
 
-CilindricalBillboard::CilindricalBillboard(GraphicsDevice *device) :
-	_device(device),
+CilindricalBillboard::CilindricalBillboard(IGraphicsDevice *device) :
+	IPrimitive(device),
 	Texture(nullptr)
 {
-	auto shader = ShaderManager::LoadShader<BasicTextured>(device);
 	auto vertices = CreateVertices();
+	_vertices = device->CreateVertexBuffer<VertexPositionUV>(vertices, BufferUsage::ReadOnlyGPU);
+	
 	auto indices = Plane::CreateIndices();
-
-	auto plane = new ModelMeshPart(
-		std::static_pointer_cast<Effect>(shader), 
-		device,
-		std::span<VertexPositionUV>(vertices),
-		indices
-	);
-	_plane.reset(plane);
+	_indices = device->CreateIndexBuffer(indices);
 }
 
 Matrix4x4 CilindricalBillboard::_mvp() const noexcept
@@ -60,8 +52,11 @@ std::array<VertexPositionUV, 4> CilindricalBillboard::CreateVertices()
 
 void CilindricalBillboard::Draw3D()
 {
-	_plane->Transform = _mvp();
-	_plane->GetShaders()->GetPixelShader()->SetTexture(0, Texture);
-	_plane->Draw();
+	auto mat = _mvp();
+
+	_shader->SetAll();
+	_shader->operator[](0)->SetData(0, &mat, sizeof(mat));
+	_shader->operator[](1)->SetTexture(0, Texture);
+	_device->ImmediateContext()->DrawVertexBufferWithindices(_vertices.get(), _indices.get());
 }
 

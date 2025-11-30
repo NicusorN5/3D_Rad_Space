@@ -1,27 +1,23 @@
 #pragma once
-#include "IVertexShader.hpp"
-#include "IHullShader.hpp"
-#include "IDomainShader.hpp"
-#include "IGeometryShader.hpp"
-#include "IFragmentShader.hpp"
+#include "IGraphicsDevice.hpp"
+#include "IShader.hpp"
+#include "ShaderType.hpp"
 
-namespace Engine3DRadSpace::Graphics::Shaders
+namespace Engine3DRadSpace::Graphics
 {
 	/// <summary>
-	/// Represents a vertex, hull, domain, geometry and fragment shader.
+	/// Represents references to N shaders, all making up a pipeline.
 	/// </summary>
 	class E3DRSP_GRAPHICS_EXPORT Effect
 	{
 	protected:
-		GraphicsDevice* _device;
-		std::unique_ptr<IVertexShader> _vertex;
-		std::unique_ptr<IHullShader> _hull;
-		std::unique_ptr<IDomainShader> _domain;
-		std::unique_ptr<IGeometryShader> _geometry;
-		std::unique_ptr<IFragmentShader> _pixel;
+		IGraphicsDevice* _device;
+		std::vector<IShader*> _shaders;
 	public:
-		Effect(GraphicsDevice *device, IVertexShader* vertexShader, IFragmentShader* fragmentShader, IHullShader* hullShader = nullptr,
-			IDomainShader* domainShader = nullptr, IGeometryShader* geometryShader = nullptr);
+		Effect(
+			IGraphicsDevice* device, 
+			std::span<IShader*> shaders
+		);
 
 		Effect(const Effect &p) = delete;
 		Effect(Effect&& p) noexcept = default;
@@ -34,63 +30,46 @@ namespace Engine3DRadSpace::Graphics::Shaders
 		/// </summary>
 		/// <returns>Number of effects succesfully set.</returns>
 		int SetAll() const noexcept;
-		/// <summary>
-		/// Sets the vertex and fragment shaders.
-		/// </summary>
-		/// <returns>Count of shaders applied.</returns>
-		int SetBasic() const noexcept;
-		/// <summary>
-		/// Sets the vertex shader.
-		/// </summary>
-		/// <returns>True if it was successfully set.</returns>
-		bool SetVertex() const noexcept;
-		/// <summary>
-		/// Sets the hull shader.
-		/// </summary>
-		/// <returns>True if it was successfully set.</returns>
-		bool SetHull() const noexcept;
-		/// <summary>
-		/// Sets the domain shader.
-		/// </summary>
-		/// <returns>True if it was successfully set.</returns>
-		bool SetDomain() const noexcept;
-		/// <summary>
-		/// Sets the geometry shader.
-		/// </summary>
-		/// <returns>True if it was successfully set.</returns>
-		bool SetGeometry() const noexcept;
-		/// <summary>
-		/// Sets the fragment shader.
-		/// </summary>
-		/// <returns>True if it was successfully set.</returns>
-		bool SetFragment() const noexcept;
 
-		/// <summary>
-		/// Gets the instance of the vertex shader.
-		/// </summary>
-		/// <returns>VertexShader instance, nullptr if not assigned.</returns>
-		IShader* GetVertexShader() const noexcept;
-		/// <summary>
-		/// Gets the instance of the hull shader.
-		/// </summary>
-		/// <returns>HullShader instance, nullptr if not assigned.</returns>
-		IShader* GetHullShader() const noexcept;
-		/// <summary>
-		/// Gets the instance of the domain shader.
-		/// </summary>
-		/// <returns>DomainShader instance, nullptr if not assigned.</returns>
-		IShader* GetDomainShader() const noexcept;
-		/// <summary>
-		/// Gets the instance of the geometry shader.
-		/// </summary>
-		/// <returns>GeometryShader instance, nullptr if not assigned.</returns>
-		IShader* GetGeometryShader() const noexcept;
-		/// <summary>
-		/// Gets the instance of the fragment/pixel shader.
-		/// </summary>
-		/// <returns>FragmentShader instance, nullptr if not assigned.</returns>
-		IShader* GetPixelShader() const noexcept;
+		bool Set(int index) const noexcept;
+	
+		template<typename T>
+		void Set(const std::string& name, const T& value) noexcept
+		{
+			for (auto shader : _shaders)
+			{
+				shader->Set<T>(name, value);
+			}
+		}
 
-		virtual ~Effect() = default;
+		template<typename T>
+		void Set(const std::string& name, const T& value, int shaderIndex) noexcept
+		{
+			_shaders[shaderIndex]->Set<T>(name, value);
+		}
+
+		void SetData(void* data, size_t size, int cbufferID, int shaderID);
+		void SetData(void* data, size_t size, int cbufferID);
+
+		template<typename T>
+		void SetData(T* data, int cbufferID, int shaderID)
+		{
+			SetData(data, sizeof(T), cbufferID, shaderID);
+		}
+
+		template<typename T>
+		void SetData(T* data, int cbufferID)
+		{
+			SetData(data, sizeof(T), cbufferID);
+		}
+
+		void SetTexture(ITexture2D* texture, int idx) noexcept;
+		void SetTexture(ITexture2D* texture, int textureID, int shaderID) noexcept;
+		void SetSampler(ISamplerState* sampler, int idx) noexcept;
+		void SetSampler(ISamplerState* sampler, int samplerID, int shaderID) noexcept;
+
+		IShader* operator[](size_t idx) const;
+
+		~Effect() = default;
 	};
 }

@@ -32,4 +32,5 @@ find_package(unofficial-omniverse-physx-sdk CONFIG REQUIRED)
 target_link_libraries(3DRadSpace_Physics PRIVATE unofficial::omniverse-physx-sdk::sdk)
 
 target_link_libraries(3DRadSpace_Physics PRIVATE 3DRadSpace_Math)
+target_link_libraries(3DRadSpace_Physics PRIVATE 3DRadSpace.Logging)
 target_include_directories(3DRadSpace_Physics PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)

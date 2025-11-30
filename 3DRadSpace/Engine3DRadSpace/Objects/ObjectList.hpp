@@ -1,33 +1,25 @@
 #pragma once
 #include "IObject3D.hpp"
 #include "IObject2D.hpp"
+#include "ObjectType.hpp"
 #include "../Reflection/ReflectedObject.hpp"
 #include "../Games/Game.hpp"
 
 namespace Engine3DRadSpace::Objects
 {
 	class Camera;
-}
 
-namespace Engine3DRadSpace
-{
 	template<typename O>
 	concept GameObject = Reflection::ReflectableObject<O> || std::is_same_v<IObject, O> || std::is_same_v<IObject2D, O> || std::is_same_v<IObject3D, O>;
 
-	class E3DRSP_OBJECTS_EXPORT ObjectList
+	class E3DRSP_OBJECTS_EXPORT ObjectList : public IService
 	{
 	public:
 		struct ObjectInstance
 		{
 			std::unique_ptr<IObject> Object;
 
-			enum class ObjectType : uint8_t
-			{
-				None = 0,
-				IObject = 1,
-				IObject2D,
-				IObject3D,
-			} InternalType;
+			ObjectType InternalType;
 
 			ObjectInstance(IObject* obj);
 
@@ -54,7 +46,7 @@ namespace Engine3DRadSpace
 		void _validate(ObjectInstance& instance);
 		void _validate(IObject* instance);
 	public:
-		ObjectList(Game* owner);
+		ObjectList(IGame* owner);
 		ObjectList(const ObjectList&) = delete;
 		ObjectList(ObjectList&&) noexcept = default;
 

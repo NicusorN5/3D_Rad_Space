@@ -1,12 +1,10 @@
 #include "Box.hpp"
-#include "../Shaders/BlankShader.hpp"
-#include "../Shaders/ShaderManager.hpp"
+#include "../IShaderCompiler.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Graphics::Primitives;
-using namespace Engine3DRadSpace::Graphics::Shaders;
 using namespace Engine3DRadSpace::Math;
 
 std::array<VertexPositionColor, 8> Box::CreateVertices(const BoundingBox&b, const Color& color)
@@ -49,17 +47,15 @@ std::array<unsigned, 36> Box::CreateIndices()
     };
 }
 
-Box::Box(GraphicsDevice *device, const BoundingBox&b, Color color) :
+Box::Box(IGraphicsDevice *device, const BoundingBox&b, Color color) :
     IPrimitive(device),
     _box(b)
 {
     auto box_vertices = CreateVertices(b, color);
-    _vertices = std::make_unique<VertexBufferV<VertexPositionColor>>(device, box_vertices);
-
+    _vertices = device->CreateVertexBuffer<VertexPositionColor>(box_vertices, BufferUsage::ReadOnlyGPU);
+   
     std::array<unsigned, 36> indices = CreateIndices();
-    _indices = std::make_unique<IndexBuffer>(device, indices);
-
-    _shader = ShaderManager::LoadShader<BlankShader>(device);
+    _indices = device->CreateIndexBuffer(indices);
 }
 
 BoundingBox Box::GetBoundingBox() const noexcept
@@ -72,7 +68,7 @@ void Box::SetBoundingBox(const BoundingBox&b)
     _box = b;
 
     auto box_vertices = CreateVertices(b, _color);
-    _vertices->SetData(box_vertices);
+    _vertices->SetData<VertexPositionColor>(box_vertices);
 }
 
 Color Box::GetColor() const noexcept
@@ -85,24 +81,15 @@ void Box::SetColor(const Color&color)
     _color = color;
 
     auto verts = CreateVertices(_box, color);
-    _vertices->SetData(verts);
+    _vertices->SetData<VertexPositionColor>(verts);
 }
 
-VertexBufferV<VertexPositionColor>* Box::GetVertexBuffer() const noexcept
+IVertexBuffer* Box::GetVertexBuffer() const noexcept
 {
     return _vertices.get();
 }
 
-IndexBuffer* Box::GetIndexBuffer() const noexcept
+IIndexBuffer* Box::GetIndexBuffer() const noexcept
 {
     return _indices.get();
-}
-
-void Box::Draw3D()
-{
-    _shader->SetBasic();
-    _shader->SetTransformation(_mvp());
-    
-    _device->SetTopology(VertexTopology::TriangleList);
-    _device->DrawVertexBufferWithindices(_vertices.get(), _indices.get());
 }

@@ -9,6 +9,7 @@ using namespace Engine3DRadSpace::Content;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Internal;
 using namespace Engine3DRadSpace::Math;
+using namespace Engine3DRadSpace::Objects;
 using namespace Engine3DRadSpace::Reflection;
 
 void Engine3DRadSpace::Reflection::to_json(json& j, const UUID& uuid)
@@ -444,7 +445,7 @@ json Engine3DRadSpace::Projects::Serializer::SerializeObject(IObject* obj)
 		field->Set(r, newStruct.get());
 	}
 
-	return r;
+	return static_cast<IObject*>(r);
 }
 
 bool Engine3DRadSpace::Projects::Serializer::LoadProject(ObjectList* lst, ContentManager *content, const std::filesystem::path& projectPath) //Internal::InitializationFlag f )
@@ -482,7 +483,7 @@ bool Engine3DRadSpace::Projects::Serializer::LoadProject(ObjectList* lst, Conten
 	return true;
 }
 
-[[nodiscard]] Engine3DRadSpace::IObject* Engine3DRadSpace::Projects::Serializer::LoadObjectFromProject(const std::filesystem::path &path ,unsigned id)
+[[nodiscard]] IObject* Engine3DRadSpace::Projects::Serializer::LoadObjectFromProject(const std::filesystem::path &path ,unsigned id)
 {
 	std::ifstream file(path);
 

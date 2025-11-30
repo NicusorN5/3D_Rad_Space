@@ -3,10 +3,11 @@
 namespace Engine3DRadSpace
 {
 	/// <summary>
-	/// Dummy argument.
+	/// Type carrier.
 	/// </summary>
 	/// <typeparam name="T">Template type.</typeparam>
 	template<typename T> struct Tag
 	{
+		using Type = T;
 	};
 }

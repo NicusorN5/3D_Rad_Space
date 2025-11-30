@@ -25,6 +25,14 @@ typedef bool _Bool;
 #endif
 #endif
 
+#ifndef E3DRSP_CONTENT_ASSETS_EXPORT
+#if _WIN32
+#define E3DRSP_CONTENT_ASSETS_EXPORT
+#else
+#define E3DRSP_CONTENT_ASSETS_EXPORT
+#endif
+#endif
+
 #ifndef E3DRSP_CORE_EXPORT
 #if _WIN32
 #define E3DRSP_CORE_EXPORT
@@ -49,11 +57,61 @@ typedef bool _Bool;
 #endif
 #endif
 
+#ifndef E3DRSP_GRAPHICS_DX11_EXPORT
+#if _WIN32
+#define E3DRSP_GRAPHICS_DX11_EXPORT
+#else
+#define E3DRSP_GRAPHICS_DX11_EXPORT
+#endif
+#endif
+
+#ifndef E3DRSP_GRAPHICS_NULL_EXPORT
+#if _WIN32
+#define E3DRSP_GRAPHICS_NULL_EXPORT
+#else
+#define E3DRSP_GRAPHICS_NULL_EXPORT
+#endif
+#endif
+
+
+#ifndef E3DRSP_GRAPHICS_PRIMITIVES_EXPORT
+#if _WIN32
+#define E3DRSP_GRAPHICS_PRIMITIVES_EXPORT
+#else
+#define E3DRSP_GRAPHICS_PRIMITIVES_EXPORT
+#endif
+#endif
+
+#ifndef E3DRSP_GRAPHICS_RENDERING_EXPORT
+#if _WIN32
+#define E3DRSP_GRAPHICS_RENDERING_EXPORT
+#else
+#define E3DRSP_GRAPHICS_RENDERING_EXPORT
+#endif
+#endif
+
+#ifndef E3DRSP_GRAPHICS_SHADERS_EXPORT
+#if _WIN32
+#define E3DRSP_GRAPHICS_SHADERS_EXPORT
+#else
+#define E3DRSP_GRAPHICS_SHADERS_EXPORT
+#endif
+#endif
+
+
 #ifndef E3DRSP_INPUT_EXPORT
 #if _WIN32
 #define E3DRSP_INPUT_EXPORT
 #else
 #define E3DRSP_INPUT_EXPORT
+#endif
+#endif
+
+#ifndef E3DRSP_LOGGING_EXPORT
+#if _WIN32
+#define E3DRSP_LOGGING_EXPORT
+#else
+#define E3DRSP_LOGGING_EXPORT
 #endif
 #endif
 

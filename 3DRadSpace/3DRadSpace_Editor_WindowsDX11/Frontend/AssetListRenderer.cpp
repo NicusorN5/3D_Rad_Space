@@ -1,4 +1,5 @@
 #include "AssetListRenderer.hpp"
+#include <Engine3DRadSpace/Games/GameFactory.hpp>
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
@@ -32,9 +33,9 @@ AssetListRenderer::AssetListRenderer(HWND owner, HINSTANCE instance, Content::Co
 		instance,
 		nullptr
 	);
-	_device = std::make_unique<GraphicsDevice>(static_cast<void *>(_renderWindow), 512, 512);
+	_device = GameFactory::CreateGraphicsDevice("", _renderWindow, 512, 512);
 
-	_device->Clear();
+	_device->ImmediateContext()->Clear();
 }
 
 AssetListRenderer::~AssetListRenderer()

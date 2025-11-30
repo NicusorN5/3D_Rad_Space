@@ -1,17 +1,15 @@
 #pragma once
-#include "../ModelMeshPart.hpp"
+#include "IPrimitive.hpp"
 #include "../../Objects/IDrawable3D.hpp"
 
 namespace Engine3DRadSpace::Graphics::Primitives
 {
-	class E3DRSP_GRAPHICS_EXPORT CilindricalBillboard : public IDrawable3D
+	class E3DRSP_GRAPHICS_PRIMITIVES_EXPORT CilindricalBillboard : public IPrimitive
 	{
-		GraphicsDevice *_device;
-		std::unique_ptr<ModelMeshPart> _plane;
-
-		virtual Math::Matrix4x4 _mvp() const noexcept;
+	protected:
+		Math::Matrix4x4 _mvp() const noexcept override;
 	public:
-		CilindricalBillboard(GraphicsDevice* device);
+		CilindricalBillboard(IGraphicsDevice* device);
 
 		/// <summary>
 		/// Camera view matrix.
@@ -26,10 +24,12 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		Math::Vector2 Scale = Math::Vector2::One();
 		Math::Vector3 Axis = Math::Vector3::UnitY();
 	
-		Texture2D* Texture;
+		ITexture2D* Texture;
 
 		static std::array<VertexPositionUV, 4> CreateVertices();
 
 		void Draw3D() override;
+
+		~CilindricalBillboard() override = default;
 	};
 }

@@ -25,17 +25,17 @@ namespace Engine3DRadSpace::Projects
 		/// </summary>
 		/// <param name="obj">Reference to an object.</param>
 		/// <returns>JSON data.</returns>
-		static json SerializeObject(Engine3DRadSpace::IObject* obj);
+		static json SerializeObject(Objects::IObject* obj);
 		/// <summary>
 		/// Creates an object from JSON data.
 		/// </summary>
 		/// <param name="j">JSON data, usually from a project file.</param>
 		/// <returns>Newly allocated object. Must be freed.</returns>
-		static [[nodiscard]] Engine3DRadSpace::IObject* DeserializeObject(const json& j);
+		static [[nodiscard]] Objects::IObject* DeserializeObject(const json& j);
 
 		static bool LoadProject(
-			Engine3DRadSpace::ObjectList* lst,
-			Engine3DRadSpace::Content::ContentManager* content,
+			Objects::ObjectList* lst,
+			Content::ContentManager* content,
 			const std::filesystem::path& projectPath
 		);
 
@@ -45,7 +45,7 @@ namespace Engine3DRadSpace::Projects
 		/// <param name="path">Path to project.</param>
 		/// <param name="id">Object ID.</param>
 		/// <returns>Newly allocated object. Must be freed.</returns>
-		static [[nodiscard]] Engine3DRadSpace::IObject* LoadObjectFromProject(const std::filesystem::path& path, unsigned id);
+		static [[nodiscard]] Objects::IObject* LoadObjectFromProject(const std::filesystem::path& path, unsigned id);
 
 		/// <summary>
 		/// Saves all the objects and asset data into a 3DRSP file.
@@ -54,6 +54,6 @@ namespace Engine3DRadSpace::Projects
 		/// <param name="content">Content manager.</param>
 		/// <param name="projectPath">File to save to.</param>
 		/// <returns>True if succeded.</returns>
-		static bool SaveProject(Engine3DRadSpace::ObjectList* lst, Engine3DRadSpace::Content::ContentManager* content, const std::filesystem::path& projectPath);
+		static bool SaveProject(Objects::ObjectList* lst, Content::ContentManager* content, const std::filesystem::path& projectPath);
 	};
 }

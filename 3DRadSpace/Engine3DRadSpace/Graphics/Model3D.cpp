@@ -1,8 +1,7 @@
 #include "Model3D.hpp"
-#include "../Core/Logging/Exception.hpp"
-#include "../Core/Logging/AssetLoadingError.hpp"
-#include "../Graphics/Shaders/ShaderManager.hpp"
-#include "../Internal/AssetUUIDReader.hpp"
+#include "../Logging/Exception.hpp"
+#include "../Logging/AssetLoadingError.hpp"
+#include "../Graphics/IShaderCompiler.hpp"
 
 #include <assimp/scene.h>
 #include <assimp/mesh.h>
@@ -11,24 +10,46 @@
 #include <assimp/postprocess.h>
 
 using namespace Engine3DRadSpace;
-using namespace Engine3DRadSpace::Content;
 using namespace Engine3DRadSpace::Logging;
 using namespace Engine3DRadSpace::Graphics;
-using namespace Engine3DRadSpace::Graphics::Shaders;
 using namespace Engine3DRadSpace::Math;
 
 Assimp::Importer importer;
 
-Model3D::Model3D(Internal::AssetUUIDReader) : 
-	_device(nullptr)
+Effect* Model3D::_loadBasicShader(IGraphicsDevice* device)
 {
+	constexpr const char* basicEffectPath = "Data\\Shaders\\PositionNormalTangentUV.hlsl";
+
+	auto vsBasicEffect = ShaderDescFile(
+		basicEffectPath,
+		"VS_Main",
+		ShaderType::Vertex
+	);
+
+	auto psBasicEffect = ShaderDescFile(
+		basicEffectPath,
+		"PS_Main",
+		ShaderType::Fragment
+	);
+
+	std::array<ShaderDesc*, 2> basicEffectDesc =
+	{
+		&vsBasicEffect,
+		&psBasicEffect
+	};
+
+	auto result = device->ShaderCompiler()->CompileEffect(basicEffectDesc);
+	if (result.second.Succeded == false)
+	{
+		throw Exception("Failed to compile default shader for Model3D!" + result.second.Log);
+	}
+	return result.first;
 }
 
-Model3D::Model3D(GraphicsDevice* Device, const std::filesystem::path& path) :
+Model3D::Model3D(IGraphicsDevice* Device, const std::filesystem::path& path) :
 	_device(Device)
 {
-	//basicTexturedNBT = std::make_unique<Shaders::BasicTextured>(Device);
-	auto basicTexturedNBT = ShaderManager::LoadShader<Shaders::BasicTextured>(Device);
+	auto basicEffect = _loadBasicShader(Device);
 
 	if (!std::filesystem::exists(path)) throw AssetLoadingError(Tag<Model3D>{}, path, "This file doesn't exist!");
 
@@ -43,10 +64,10 @@ Model3D::Model3D(GraphicsDevice* Device, const std::filesystem::path& path) :
 		aiProcess_SplitLargeMeshes |
 		aiProcess_SortByPType |
 		aiProcess_GenBoundingBoxes |
-#if USING_DX11
+// Dx11 (begin)
 		aiProcess_FlipUVs |
 		aiProcess_FlipWindingOrder
-#endif
+// Dx11 (end)
 	);
 
 	if(scene == nullptr)
@@ -130,7 +151,7 @@ Model3D::Model3D(GraphicsDevice* Device, const std::filesystem::path& path) :
 			continue;
 		}
 
-		auto mesh = std::make_unique<ModelMeshPart>(Device, basicTexturedNBT, &vertices[0], numVerts, structSize, indices);
+		auto mesh = std::make_unique<ModelMeshPart>(Device, &vertices[0], numVerts, structSize, indices, basicEffect);
 		
 		//determine bounding box and sphere
 		auto aabbMin = scene->mMeshes[i]->mAABB.mMin;
@@ -140,7 +161,7 @@ Model3D::Model3D(GraphicsDevice* Device, const std::filesystem::path& path) :
 			Vector3(aabbMax.x - aabbMin.x, aabbMax.y - aabbMin.y, aabbMax.z - aabbMin.z)
 		);
 		mesh->_sphere = BoundingSphere(mesh->_box);
-		std::unique_ptr<Texture2D> diffuseTexture;
+		std::unique_ptr<ITexture2D> diffuseTexture;
 
 		if(numUVMaps == 1)
 		{
@@ -153,34 +174,36 @@ Model3D::Model3D(GraphicsDevice* Device, const std::filesystem::path& path) :
 				p.remove_filename(); //remove the model filename 
 				p += texturePath.C_Str(); //concatenate the texture path.
 
-				diffuseTexture = std::make_unique<Texture2D>(Device, p.string());
+				diffuseTexture = Device->CreateTexture2D(p.string());
 			}
 			else
 			{
 				aiColor3D color;
 				r = scene->mMaterials[materialindex]->Get(AI_MATKEY_COLOR_DIFFUSE, color);
+
+				auto createBlankTexture = [&](const Color& c)
+				{
+					std::array<Color, 4> tColors;
+					tColors.fill(c);
+					return Device->CreateTexture2D(tColors.data(), 2, 2, PixelFormat::R32G32B32A32_Float, BufferUsage::ReadOnlyGPU_WriteOnlyCPU);
+				};
+
 				if(r == aiReturn_SUCCESS)
 				{
 					float opacity = 1.0f;
 					scene->mMaterials[materialindex]->Get(AI_MATKEY_OPACITY, opacity);
 
-					std::array<Color, 4> tColors;
-					tColors.fill(Color(color.r, color.g, color.b, opacity));
-
-					diffuseTexture = std::make_unique<Texture2D>(Device, tColors, 2, 2);
+					diffuseTexture = createBlankTexture(Color(color.r, color.g, color.b, opacity));
 				}
 				else
 				{
-					std::array<Color, 4> tColors;
-					tColors.fill(Colors::White);
-
-					diffuseTexture = std::make_unique<Texture2D>(Device, tColors, 2, 2);
+					diffuseTexture = createBlankTexture(Colors::White);
 				}
 			}
 		}
 
 		mesh->Textures.push_back(std::move(diffuseTexture));
-		mesh->TextureSamplers.push_back(std::make_unique<SamplerState>(Device));
+		mesh->TextureSamplers.push_back(Device->CreateSamplerState());
 		meshParts.push_back(std::move(mesh));
 	}
 
@@ -299,7 +322,7 @@ BoundingSphere Model3D::GetBoundingSphere() const noexcept
 	return _sphere;
 }
 
-void Model3D::SetShader(std::shared_ptr<Shaders::Effect> effect)
+void Model3D::SetShader(Effect* effect)
 {
 	for (auto& mesh : _meshes)
 	{
@@ -310,7 +333,7 @@ void Model3D::SetShader(std::shared_ptr<Shaders::Effect> effect)
 	}
 }
 
-void Model3D::SetShaders(std::span<std::shared_ptr<Shaders::Effect>> effects)
+void Model3D::SetShaders(std::span<Effect*> effects)
 {
 	size_t i = 0;
 	size_t len = effects.size();
@@ -326,7 +349,7 @@ void Model3D::SetShaders(std::span<std::shared_ptr<Shaders::Effect>> effects)
 	}
 }
 
-void Model3D::DrawEffect(Shaders::Effect *effect)
+void Model3D::DrawEffect(Effect *effect)
 {
 	for (auto& mesh : _meshes)
 	{
@@ -337,7 +360,7 @@ void Model3D::DrawEffect(Shaders::Effect *effect)
 	}
 }
 
-void Model3D::DrawEffect(Shaders::Effect* effect, const Math::Matrix4x4& mvp)
+void Model3D::DrawEffect(Effect* effect, const Math::Matrix4x4& mvp)
 {
 	for(auto &mesh : _meshes)
 	{
@@ -347,25 +370,6 @@ void Model3D::DrawEffect(Shaders::Effect* effect, const Math::Matrix4x4& mvp)
 			meshPart->Draw(effect);
 		}
 	}
-}
-
-Reflection::UUID Model3D::GetUUID() const noexcept
-{
-	// {A405951A-7454-4A03-868C-1D2022D43F45}
-	return { 0xa405951a, 0x7454, 0x4a03, { 0x86, 0x8c, 0x1d, 0x20, 0x22, 0xd4, 0x3f, 0x45 } };
-}
-
-const char* Model3D::FileExtension() const noexcept
-{
-	return  "All supported mesh files (*.3ds;*.3mf;*.dae;*.fbx;*.gltf;*.glb;*.obj;*.x)\0*.3ds;*.3mf;*.dae;*.fbx;*.gltf;*.glb;*.obj;*.x\0"
-			"Autodesk 3ds Max Model (*.3ds)\0*.3ds\0"
-			"3D Manufacturing Format(*.3mf)\0*.3mf\0"
-			"COLLADA Model (*.dae)\0*.dae\0"
-			"Filmbox (FBX) Mesh (*.fbx)\0*.fbx\0"
-			"Graphics Library Transmission Format(glTF) (*.gltf;*.glb)\0*.gltf;*.glb\0"
-			"Wavefront OBJ (*.obj)\0*.obj\0"
-			"DirectX Mesh (*.x)\0*.x\0"
-			"All Files(*.*)\0*.*\0\0";
 }
 
 ModelMesh* Model3D::operator[](unsigned i)

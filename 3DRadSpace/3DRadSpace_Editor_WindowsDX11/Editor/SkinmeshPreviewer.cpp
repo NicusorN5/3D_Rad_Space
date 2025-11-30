@@ -5,7 +5,6 @@
 #include <Engine3DRadSpace/Objects/ObjectList.hpp>
 
 using namespace Engine3DRadSpace;
-using namespace Engine3DRadSpace::Graphics::Shaders;
 using namespace Engine3DRadSpace::Input;
 using namespace Engine3DRadSpace::Objects;
 using namespace Engine3DRadSpace::Math;
@@ -15,11 +14,12 @@ SkinmeshPreviewer::SkinmeshPreviewer(const std::filesystem::path &meshPath):
 	_camCoords(
 		cosf(std::numbers::pi_v<float> / 6), //30 degrees = pi/6 radians
 		sinf(std::numbers::pi_v<float> / 6)
-	)
+	),
+	_skinmesh(std::make_unique<Skinmesh>("", true, meshPath)),
+	_camera(std::make_unique<Camera>(""))
 {
-	_basicShader.reset(new BasicTextured(Device.get()));
+	//_basicShader.reset(new BasicTextured(Device.get()));
 
-	_skinmesh = std::make_unique<Skinmesh>("", true, meshPath);
 	_skinmesh->InternalInitialize(this);
 	_skinmesh->Load();
 
@@ -27,18 +27,16 @@ SkinmeshPreviewer::SkinmeshPreviewer(const std::filesystem::path &meshPath):
 	{
 		for (auto& modelMeshPart : *meshPart)
 		{
-			modelMeshPart->SetShaders(_basicShader);
+			//modelMeshPart->SetShaders(_basicShader);
 		}
 	}
 
 	_zoom = _initialZoom = _skinmesh->GetModel()->GetBoundingSphere().Radius * 2.0f;
 
-	_camera = std::make_unique<Camera>("");
 	_camera->InternalInitialize(this);
 	_camera->LookAt = Vector3::Zero();
 
 	_camera->LookMode = Camera::CameraMode::UseLookAtCoordinates;
-
 }
 
 void SkinmeshPreviewer::Update()

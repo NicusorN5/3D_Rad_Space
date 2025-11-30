@@ -1,33 +1,41 @@
 #include "ModelMeshPart.hpp"
+#include "Effect.hpp"
+#include "../Graphics/IGraphicsCommandList.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
-using namespace Engine3DRadSpace::Graphics::Shaders;
 using namespace Engine3DRadSpace::Math;
 
 ModelMeshPart::ModelMeshPart(
-	std::shared_ptr<Effect> shaders,
-	Graphics::VertexBuffer *vert, 
-	Graphics::IndexBuffer *buffer):
-	_device(vert->_device),
+	Graphics::IVertexBuffer *vert, 
+	Graphics::IIndexBuffer *index,
+	Effect* shaders
+):
+	_device(vert->GetGraphicsDevice()),
 	VertexBuffer(vert),
-	IndexBuffer(buffer),
+	IndexBuffer(index),
 	_shaders(shaders)
 {
 }
 
-ModelMeshPart::ModelMeshPart(GraphicsDevice *Device, std::shared_ptr<Effect> shaders,
-	void *vertices, size_t numVerts, size_t structSize, std::span<unsigned> indices):
+ModelMeshPart::ModelMeshPart(
+	IGraphicsDevice *Device, 
+	void *vertices,
+	size_t numVerts,
+	size_t structSize, 
+	std::span<unsigned> indices,
+	Effect* shaders
+):
 	_device(Device),
 	_shaders(shaders)
 {
-	VertexBuffer = std::make_unique<Graphics::VertexBuffer>(Device, vertices, structSize, numVerts);
-	IndexBuffer = std::make_unique<Graphics::IndexBuffer>(Device, indices);
+	VertexBuffer = Device->CreateVertexBuffer(vertices, structSize, numVerts, BufferUsage::ReadOnlyGPU_WriteOnlyCPU);
+	IndexBuffer = Device->CreateIndexBuffer(indices);
 }
 
 void ModelMeshPart::Draw()
 {
-	Draw(_shaders.get());
+	Draw(_shaders);
 }
 
 void ModelMeshPart::Draw(Effect* effect)
@@ -36,52 +44,18 @@ void ModelMeshPart::Draw(Effect* effect)
 	if(effect == nullptr) return;
 
 	effect->SetAll();
+	effect->SetData<Math::Matrix4x4>(&Transform, 0, 0);
 
 	for(int i = 0; i < Textures.size(); i++)
 	{
-		auto vertexShader = effect->GetVertexShader();
-		if(vertexShader != nullptr)
-		{
-			vertexShader->SetTexture(i, Textures[i].get());
-			vertexShader->SetSampler(i, TextureSamplers[i].get());
-			vertexShader->SetData(0, &Transform, sizeof(Matrix4x4));
-		}
-
-		auto hullShader = effect->GetHullShader();
-		if(hullShader != nullptr)
-		{
-			hullShader->SetTexture(i, Textures[i].get());
-			hullShader->SetSampler(i, TextureSamplers[i].get());
-			hullShader->SetData(0, &Transform, sizeof(Matrix4x4));
-		}
-
-		auto domainShader = effect->GetDomainShader();
-		if(domainShader != nullptr)
-		{
-			domainShader->SetTexture(i, Textures[i].get());
-			domainShader->SetSampler(i, TextureSamplers[i].get());
-			domainShader->SetData(0, &Transform, sizeof(Matrix4x4));
-		}
-
-		auto geometryShader = effect->GetGeometryShader();
-		if(geometryShader != nullptr)
-		{
-			geometryShader->SetTexture(i, Textures[i].get());
-			geometryShader->SetSampler(i, TextureSamplers[i].get());
-			geometryShader->SetData(0, &Transform, sizeof(Matrix4x4));
-		}
-
-		auto pixelShader = effect->GetPixelShader();
-		if(pixelShader != nullptr)
-		{
-			pixelShader->SetTexture(i, Textures[i].get());
-			pixelShader->SetSampler(i, TextureSamplers[i].get());
-			pixelShader->SetData(0, &Transform, sizeof(Matrix4x4));
-		}
+		effect->SetTexture(Textures[i].get(), i);
+		effect->SetSampler(TextureSamplers[i].get(), i);
 	}
 
-	_device->SetTopology(VertexTopology::TriangleList);
-	_device->DrawVertexBufferWithindices(VertexBuffer.get(), IndexBuffer.get());
+	auto cmdList = _device->ImmediateContext();
+
+	cmdList->SetTopology(VertexTopology::TriangleList);
+	cmdList->DrawVertexBufferWithindices(VertexBuffer.get(), IndexBuffer.get());
 }
 
 BoundingSphere ModelMeshPart::GetBoundingSphere() const noexcept
@@ -89,12 +63,12 @@ BoundingSphere ModelMeshPart::GetBoundingSphere() const noexcept
 	return _sphere;
 }
 
-VertexBuffer* ModelMeshPart::GetVertexBuffer() const noexcept
+IVertexBuffer* ModelMeshPart::GetVertexBuffer() const noexcept
 {
 	return VertexBuffer.get();
 }
 
-IndexBuffer* ModelMeshPart::GetIndexBuffer() const noexcept
+IIndexBuffer* ModelMeshPart::GetIndexBuffer() const noexcept
 {
 	return IndexBuffer.get();
 }
@@ -106,29 +80,27 @@ BoundingBox ModelMeshPart::GetBoundingBox() const noexcept
 
 Effect *ModelMeshPart::GetShaders() const noexcept
 {
-	return _shaders.get();
+	return _shaders;
 }
 
-void ModelMeshPart::SetShaders(std::shared_ptr<Effect> shaders)
+void ModelMeshPart::SetShaders(Effect *shaders)
 {
 	_shaders = shaders;
 }
 
-std::pair<Graphics::VertexBuffer*, Graphics::IndexBuffer*> ModelMeshPart::CreateStagingBuffers()
+std::pair<IVertexBuffer*, IIndexBuffer*> ModelMeshPart::CreateStagingBuffers()
 {
 	if(!_stagingVertex)
 	{
-		auto vert = VertexBuffer->CreateStaging();
-		_stagingVertex = std::make_unique<Graphics::VertexBuffer>(std::move(vert));
+		_stagingVertex = VertexBuffer->CreateStaging();
 	}
 	
 	if(!_stagingIndex)
 	{
-		auto ind = IndexBuffer->CreateStaging();
-		_stagingIndex = std::make_unique<Graphics::IndexBuffer>(std::move(ind));
+		_stagingIndex = IndexBuffer->CreateStaging();
 	}
 
-	return std::make_pair<Graphics::VertexBuffer*, Graphics::IndexBuffer*>(
+	return std::make_pair<IVertexBuffer*, IIndexBuffer*>(
 		_stagingVertex.get(),
 		_stagingIndex.get()
 	);

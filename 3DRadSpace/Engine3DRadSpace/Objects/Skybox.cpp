@@ -35,20 +35,23 @@ void Skybox::Update()
 
 void Skybox::Load()
 {
+	auto game = static_cast<Game*>(_game);
+
 	if(_path)
 	{
-		_skybox = _game->Content->Load<SkyboxAsset>(*_path);
+		_skybox = game->Content->Load<SkyboxAsset>(*_path);
 		_path.reset();
 	}
 	if(SkyboxID)
 	{
-		_skybox = _game->Content->operator[](SkyboxID);
+		_skybox = game->Content->operator[](SkyboxID);
 	}
 }
 
 void Skybox::Load(const std::filesystem::path& path)
 {
-	_skybox = _game->Content->Load<SkyboxAsset>(path.string());
+	auto game = static_cast<Game*>(_game);
+	_skybox = game->Content->Load<SkyboxAsset>(path.string());
 }
 
 Reflection::UUID Skybox::GetUUID() const noexcept
@@ -59,9 +62,11 @@ Reflection::UUID Skybox::GetUUID() const noexcept
 
 void Skybox::Draw3D()
 {
+	auto game = static_cast<Game*>(_game);
+
 	if(_skybox && Visible)
 	{
-		auto camera = _game->Objects->GetRenderingCamera();
+		auto camera = game->Objects->GetRenderingCamera();
 
 		float s = camera->FarPlaneDistance * 0.5f;
 		(*_skybox)->Model = Matrix4x4::CreateScale(Vector3(s, s, s)) * Matrix4x4::CreateTranslation(camera->Position);

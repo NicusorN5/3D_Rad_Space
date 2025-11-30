@@ -8,12 +8,6 @@ if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET 3DRadSpace-tests PROPERTY CXX_STANDARD 23)
 endif()
 
-if(WIN32)
-	target_compile_definitions(3DRadSpace-tests PRIVATE USING_DX11=1)
-elseif(LINUX)
-	target_compile_definitions(3DRadSpace-tests PRIVATE USING_VULKAN=1)
-endif()
-
 if(MSVC)
 	#Fix C4530
 	target_compile_options(3DRadSpace-tests PRIVATE "/EHsc")

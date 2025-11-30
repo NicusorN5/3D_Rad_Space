@@ -3,10 +3,16 @@
 #include "../Math/Color.hpp"
 #include "../Math/Vector4.hpp"
 #include "../Math/Quaternion.hpp"
+#include "../Math/Point.hpp"
+#include "../Math/Point3.hpp"
+#include "../Math/Point4.hpp"
 #include "../Math/Rectangle.hpp"
-#include "../Graphics/Texture2D.hpp"
-#include "../Graphics/Model3D.hpp"
-#include "../Graphics/Font.hpp"
+#include "../Math/UPoint.hpp"
+#include "../Math/UPoint3.hpp"
+#include "../Math/UPoint4.hpp"
+#include "../Content/Assets/TextureAsset.hpp"
+#include "../Content/Assets/ModelAsset.hpp"
+#include "../Content/Assets/FontAsset.hpp"
 #include "../Content/Assets/SkyboxAsset.hpp"
 #include "../Input/Keyboard.hpp"
 #include "../Core/Concepts.hpp"
@@ -16,7 +22,23 @@
 
 namespace Engine3DRadSpace
 {
-	class IObject;
+	namespace Objects
+	{
+		class IObject;
+	}
+
+	namespace Audio
+	{
+		class Sound;
+	}
+	namespace Content::Assets
+	{
+		class TextureAsset;
+		class ModelAsset;
+		class FontAsset;
+		class SkyboxAsset;
+		class ShaderAsset;
+	}
 }
 namespace Engine3DRadSpace::Reflection
 {
@@ -48,9 +70,9 @@ namespace Engine3DRadSpace::Reflection
 	//GetFieldRepresentation() specializations
 	template<> E3DRSP_REFLECTION_EXPORT FieldRepresentation GetFieldRepresentation<void>();
 	template<> E3DRSP_REFLECTION_EXPORT FieldRepresentation GetFieldRepresentation<bool>();
-	template<signed_integer T> FieldRepresentation GetFieldRepresentation() { return {{FieldRepresentationType::Integer,""}}; }
-	template<unsigned_integer T> FieldRepresentation GetFieldRepresentation() { return {{FieldRepresentationType::Unsigned,""}}; }
-	template<std::floating_point T> FieldRepresentation GetFieldRepresentation() { return {{ FieldRepresentationType::Float,""}}; }
+	template<signed_integer T> FieldRepresentation GetFieldRepresentation() { return { {FieldRepresentationType::Integer,""} }; }
+	template<unsigned_integer T> FieldRepresentation GetFieldRepresentation() { return { {FieldRepresentationType::Unsigned,""} }; }
+	template<std::floating_point T> FieldRepresentation GetFieldRepresentation() { return { { FieldRepresentationType::Float,""} }; }
 	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<std::string>();
 
 	template<Content::AssetType T>
@@ -58,10 +80,10 @@ namespace Engine3DRadSpace::Reflection
 
 	template<AssetIDType T>
 	FieldRepresentation GetFieldRepresentation() { return { {FieldRepresentationType::Custom,""} }; }
-	
-	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Content::AssetID<Graphics::Texture2D>>();
-	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Content::AssetID<Graphics::Model3D>>();
-	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Content::AssetID<Graphics::Font>>();
+
+	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Content::AssetID<Content::Assets::TextureAsset>>();
+	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Content::AssetID<Content::Assets::ModelAsset>>();
+	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Content::AssetID<Content::Assets::FontAsset>>();
 	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Content::AssetID<Content::Assets::SkyboxAsset>>();
 	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Content::AssetID<Audio::Sound>>();
 
@@ -69,15 +91,22 @@ namespace Engine3DRadSpace::Reflection
 
 	//FieldRepresentationType() specializations for mathematical types
 	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Math::Vector2>();
-	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Math::Point>();
 	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Math::Vector3>();
-	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Math::Vector4>();	
+	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Math::Vector4>();
 	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Math::Quaternion>();
 	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Math::Color>();
 	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Math::Rectangle>();
 	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Math::RectangleF>();
 
 	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Math::Matrix4x4>();
+
+	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Math::Point>();
+	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Math::Point3>();
+	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Math::Point4>();
+
+	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Math::UPoint>();
+	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Math::UPoint3>();
+	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Math::UPoint4>();
 
 	//template<typename F> requires std::is_function_v<F> || std::is_member_function_pointer_v<F>
 	//FieldRepresentation GetFieldRepresentation() { return { {FieldRepresentationType::Function,""} };}

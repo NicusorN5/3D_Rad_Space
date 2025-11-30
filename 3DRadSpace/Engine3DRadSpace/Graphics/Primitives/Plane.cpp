@@ -5,14 +5,14 @@ using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Graphics::Primitives;
 using namespace Engine3DRadSpace::Math;
 
-Plane::Plane(GraphicsDevice* device, const Color& color, const Math::Vector2& size) :
+Plane::Plane(IGraphicsDevice* device, const Color& color, const Math::Vector2& size) :
 	IPrimitive(device)
 {
 	auto vertices = CreateVertices(color, size);
-	_vertices = std::make_unique<VertexBufferV<VertexPositionColor>>(device, vertices);
+	_vertices = device->CreateVertexBuffer<VertexPositionColor>(vertices, BufferUsage::ReadOnlyGPU);
 
 	auto indices = CreateIndices();
-	_indices = std::make_unique<IndexBuffer>(device, indices);
+	_indices = device->CreateIndexBuffer(indices);
 }
 
 std::array<VertexPositionColor, 4> Plane::CreateVertices(const Color& color, const Math::Vector2& size)
@@ -42,13 +42,4 @@ std::array<unsigned, 6> Primitives::Plane::CreateIndices()
 {
 	//Counter-clockwise ordered.
 	return { 0, 2, 1, 0, 3, 2 };
-}
-
-void Plane::Draw3D()
-{
-	_shader->SetBasic();
-	_shader->SetTransformation(_mvp());
-
-	_device->SetTopology(VertexTopology::TriangleList);
-	_device->DrawVertexBufferWithindices(_vertices.get(), _indices.get());
 }

@@ -13,7 +13,7 @@ namespace Engine3DRadSpace::Legacy
 	//
 
 	//Sets the global state, since a list of objects is required.
-	void E3DRSP_SCRIPTING_EXPORT SetObjectList(Engine3DRadSpace::ObjectList* list);
+	void E3DRSP_SCRIPTING_EXPORT SetObjectList(Engine3DRadSpace::Objects::ObjectList* list);
 	//Sets project file path used when resetting objects.
 	void E3DRSP_SCRIPTING_EXPORT SetProjectPath(const std::filesystem::path &path);
 }
@@ -67,7 +67,8 @@ extern "C"
 		unsigned obj_x,
 		const std::string& str
 	);
-	//iObjectParamSet(OBJ_X,int,float)
+	
+	void E3DRSP_SCRIPTING_EXPORT iObjectParamSet(unsigned obj_x, int index, float t);
 	void E3DRSP_SCRIPTING_EXPORT iObjectRefresh(unsigned obj_x, const std::string& path);
 	//int iObjectBonesCount(OBJ_X)
 	//void iObjectBoneOrientation(OBJ_X,int,Quaternion,int)
@@ -91,7 +92,7 @@ extern "C"
 	//iObjectImposterVelocitySet(OBJ_X,int,Vector3)
 	//iObjectChildTransform(OBJ_X, OBJ_Y, Vector3, Vector3)
 
-	//void DLLEXPORT iShaderSet(int obj_x, const std::string& path);
+	//void iShaderSet(int obj_x, const std::string& path);
 	//iShaderStack(OBJ_X,string,float)
 	//iShaderFloatSet(OBJ_X, string, float)
 	//iShaderFloat2Set(OBJ_X,string,float,float)

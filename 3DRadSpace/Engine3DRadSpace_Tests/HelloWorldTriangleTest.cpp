@@ -1,7 +1,7 @@
 #include "pch.h"
 #include <Engine3DRadSpace/Games/Game.hpp>
-#include <Engine3DRadSpace/Graphics/VertexBuffer.hpp>
-#include <Engine3DRadSpace/Graphics/Shaders/Blank_NoMatrix.hpp>
+#include <Engine3DRadSpace/Graphics/IVertexBuffer.hpp>
+#include <Engine3DRadSpace/Graphics/IShaderCompiler.hpp>
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
@@ -11,8 +11,8 @@ using namespace Engine3DRadSpace::Content;
 
 class TriangleTest : public Game
 {
-	Shaders::Blank_NoMatrix _triangleShader;
-	std::unique_ptr<VertexBufferV<VertexPositionColor>> _triangleBuffer;
+	Effect* _triangleShader;
+	std::unique_ptr<IVertexBuffer> _triangleBuffer;
 public:
 	TriangleTest();
 
@@ -26,7 +26,7 @@ public:
 
 TriangleTest::TriangleTest():
 	Game("Triangle Test", 800, 600, false),
-	_triangleShader(Device.get())
+	_triangleShader(nullptr)
 {
 
 }
@@ -40,11 +40,19 @@ void TriangleTest::Initialize()
 		VertexPositionColor{Vector3(-0.5,-0.5,0.0), Colors::Blue}
 	};
 
-	_triangleBuffer = std::make_unique<VertexBufferV<VertexPositionColor>>(Device.get(), triangle);
+	_triangleBuffer = Device->CreateVertexBuffer<VertexPositionColor>(triangle, BufferUsage::ReadOnlyGPU);
 }
 
 void TriangleTest::Load()
 {
+	constexpr std::string_view shaderPath = "Data\\Shaders\\PositionColor_NoMat.hlsl";
+
+	ShaderDescFile vs(shaderPath, "VS_Main", ShaderType::Vertex);
+	ShaderDescFile ps(shaderPath, "PS_Main", ShaderType::Fragment);
+
+	ShaderDesc* effect[2] = { &vs, &ps };
+
+	_triangleShader = Device->ShaderCompiler()->CompileEffect(effect).first;
 }
 
 void TriangleTest::Update()
@@ -56,10 +64,12 @@ void TriangleTest::Draw3D()
 	if (frameCount == 1) Exit();
 	frameCount++;
 
-	_triangleShader.SetBasic();
-	Device->SetTopology(VertexTopology::TriangleList);
-	_triangleBuffer->Draw();
-	Device->SaveBackBufferToFile("Triangle.png");
+	auto cmd = Device->ImmediateContext();
+
+	_triangleShader->SetAll();
+	cmd->SetTopology(VertexTopology::TriangleList);
+	cmd->DrawVertexBuffer(_triangleBuffer.get());
+	cmd->SaveBackBufferToFile("Triangle.png");
 	//TODO: Check if the saved image is matching with a expected image
 }
 

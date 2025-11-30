@@ -4,6 +4,7 @@
 #include <Engine3DRadSpace/Objects/Objects.hpp>
 
 using namespace Engine3DRadSpace;
+using namespace Engine3DRadSpace::Objects;
 using namespace Engine3DRadSpace::Reflection;
 
 INT_PTR WINAPI AddObjectDialog_DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)

@@ -96,6 +96,5 @@ namespace Engine3DRadSpace::Reflection
 		{
 			return _enum;
 		}
-
 	};
 }

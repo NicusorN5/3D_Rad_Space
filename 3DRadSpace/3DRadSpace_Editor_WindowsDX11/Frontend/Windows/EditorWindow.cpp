@@ -8,7 +8,7 @@
 
 #include "AddObjectDialog.hpp"
 #include "SettingsWindow.hpp"
-#include "Engine3DRadSpace/Core/Logging/Exception.hpp"
+#include "Engine3DRadSpace/Logging/Exception.hpp"
 #include <Engine3DRadSpace/Objects/ObjectList.hpp>
 #include <Engine3DRadSpace/Objects/Gizmos/IGizmo.hpp>
 
@@ -22,6 +22,7 @@ using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Internal;
 using namespace Engine3DRadSpace::Logging;
 using namespace Engine3DRadSpace::Math;
+using namespace Engine3DRadSpace::Objects;
 using namespace Engine3DRadSpace::Projects;
 
 EditorWindow* gEditorWindow = nullptr;
@@ -499,12 +500,14 @@ void EditorWindow::Run()
 
 		auto ts_d1 = std::chrono::steady_clock::now();
 
-		this->editor->Device->SetViewport();
-		this->editor->Device->Clear(editor->ClearColor);
+		auto cmd = editor->Device->ImmediateContext();
+
+		cmd->SetViewport();
+		cmd->Clear(editor->ClearColor);
 		this->editor->Draw3D();
 		this->editor->PostProcesses->ApplyAll();
 		this->editor->Draw2D();
-		this->editor->Device->Present();
+		cmd->Present();
 
 		auto ts_d2 = std::chrono::steady_clock::now();
 
@@ -519,7 +522,7 @@ EditorWindow::~EditorWindow()
 	UnregisterClassA(EditorWindowClassName, _hInstance);
 }
 
-GraphicsDevice*EditorWindow::GetGraphicsDevice()
+IGraphicsDevice* EditorWindow::GetGraphicsDevice()
 {
 	return this->editor->Device.get();
 }
@@ -529,7 +532,7 @@ Content::ContentManager *EditorWindow::GetContentManager()
 	return editor->Content.get();
 }
 
-void EditorWindow::AddObject(IObject*obj)
+void EditorWindow::AddObject(IObject* obj)
 {
 	if(obj == nullptr) return;
 
@@ -888,9 +891,8 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 		case WM_NOTIFY:
 		{
 			auto notif = reinterpret_cast<NMHDR *>(lParam);
-			switch(notif->code)
-			{
-				auto listBox_check_selectedItem = []()
+			
+			auto listBox_check_selectedItem = []()
 				{
 					auto selectedItem = reinterpret_cast<HTREEITEM>(SendMessageA(
 						gEditorWindow->_listBox,
@@ -902,6 +904,8 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 					return selectedItem;
 				};
 
+			switch(notif->code)
+			{
 				case NM_RCLICK:
 				{
 					if(notif->hwndFrom == gEditorWindow->_listBox)

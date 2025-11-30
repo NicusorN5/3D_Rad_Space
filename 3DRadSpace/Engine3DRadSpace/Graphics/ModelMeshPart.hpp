@@ -1,45 +1,50 @@
 #pragma once
-#include "VertexBuffer.hpp"
-#include "IndexBuffer.hpp"
-#include "Effect.hpp"
+#include "IGraphicsDevice.hpp"
+#include "IVertexBuffer.hpp"
+#include "IIndexBuffer.hpp"
+#include "ISamplerState.hpp"
+#include "ITexture2D.hpp"
+#include "VertexDeclarations.hpp"
 #include "../Math/BoundingSphere.hpp"
 #include "../Math/BoundingBox.hpp"
+#include "IGraphicsCommandList.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {
 	class Model3D;
+	class Effect;
 
 	/// <summary>
 	/// Represents a mesh formed by a index and vertex buffer, plus an effect.
 	/// </summary>
 	class E3DRSP_GRAPHICS_EXPORT ModelMeshPart
 	{
-		GraphicsDevice* _device;
+		IGraphicsDevice* _device;
 
-		std::shared_ptr<Shaders::Effect> _shaders;
+		Effect* _shaders;
 
 		Math::BoundingBox _box;
 		Math::BoundingSphere _sphere;
 
-		std::unique_ptr<VertexBuffer> _stagingVertex;
-		std::unique_ptr<IndexBuffer> _stagingIndex;
+		std::unique_ptr<IVertexBuffer> _stagingVertex;
+		std::unique_ptr<IIndexBuffer> _stagingIndex;
 	public:
-		std::unique_ptr<IndexBuffer> IndexBuffer;
-		std::unique_ptr<VertexBuffer> VertexBuffer;
+		std::unique_ptr<IIndexBuffer> IndexBuffer;
+		std::unique_ptr<IVertexBuffer> VertexBuffer;
 
 		ModelMeshPart(
-			std::shared_ptr<Shaders::Effect> shaders,
-			Graphics::VertexBuffer* vert, 
-			Graphics::IndexBuffer* buffer
+			Graphics::IVertexBuffer* vert, 
+			Graphics::IIndexBuffer* index,
+			Effect* shaders
 		);
 
 		ModelMeshPart(
-			GraphicsDevice *Device,
-			std::shared_ptr<Shaders::Effect> shaders, 
+			IGraphicsDevice *Device,
 			void* vertices, 
 			size_t numVerts,
 			size_t structSize, 
-			std::span<unsigned> indices
+			std::span<unsigned> indices,
+			Effect* shaders
 		);
 
 		ModelMeshPart(ModelMeshPart&& meshPart) noexcept = default;
@@ -50,33 +55,33 @@ namespace Engine3DRadSpace::Graphics
 
 		template<VertexDecl V>
 		ModelMeshPart(
-			std::shared_ptr<Shaders::Effect> shaders,
-			GraphicsDevice* Device,
+			IGraphicsDevice* Device,
 			std::span<V> vertices,
-			std::span<unsigned> indices
+			std::span<unsigned> indices,
+			Effect *shaders
 		);
 
 		Math::Matrix4x4 Transform = Math::Matrix4x4();
-		std::vector<std::unique_ptr<Texture2D>> Textures;
-		std::vector<std::unique_ptr<SamplerState>> TextureSamplers;
+		std::vector<std::unique_ptr<ITexture2D>> Textures;
+		std::vector<std::unique_ptr<ISamplerState>> TextureSamplers;
 
 		void Draw();
-		void Draw(Shaders::Effect* effect);
+		void Draw(Effect* effect);
 
 		Math::BoundingBox GetBoundingBox() const noexcept;
 		Math::BoundingSphere GetBoundingSphere() const noexcept;
 
-		Graphics::VertexBuffer* GetVertexBuffer() const noexcept;
-		Graphics::IndexBuffer* GetIndexBuffer() const noexcept;
+		Graphics::IVertexBuffer* GetVertexBuffer() const noexcept;
+		Graphics::IIndexBuffer* GetIndexBuffer() const noexcept;
 
-		Shaders::Effect* GetShaders() const noexcept;
-		void SetShaders(std::shared_ptr<Shaders::Effect> shaders);
+		Effect* GetShaders() const noexcept;
+		void SetShaders(Effect *shaders);
 
 		/// <summary>
 		/// Creates staging vertex and index buffers available for CPU reading if they don't exist. If they already exist, returns the already created buffers.
 		/// </summary>
 		/// <returns>Pair of vertex and index buffers pointer references</returns>
-		std::pair<Graphics::VertexBuffer*, Graphics::IndexBuffer*> CreateStagingBuffers();
+		std::pair<Graphics::IVertexBuffer*, Graphics::IIndexBuffer*> CreateStagingBuffers();
 
 		~ModelMeshPart() = default;
 
@@ -85,14 +90,15 @@ namespace Engine3DRadSpace::Graphics
 
 	template<VertexDecl V>
 	inline ModelMeshPart::ModelMeshPart(
-		std::shared_ptr<Shaders::Effect> shaders,
-		GraphicsDevice* Device, std::span<V> vertices, std::span<unsigned> indices ):
+		IGraphicsDevice* Device,
+		std::span<V> vertices, 
+		std::span<unsigned> indices,
+		Effect *shaders
+	):
 		_device(Device),
 		_shaders(shaders)
 	{
-		VertexBuffer = std::make_unique<VertexBufferV<V>>(Device, vertices);
-		IndexBuffer = std::make_unique<Graphics::IndexBuffer>(Device, indices);
+		VertexBuffer = _device->CreateVertexBuffer<V>(vertices, BufferUsage::ReadOnlyGPU_WriteOnlyCPU);
+		IndexBuffer = _device->CreateIndexBuffer(indices);
 	}
-
 }
-

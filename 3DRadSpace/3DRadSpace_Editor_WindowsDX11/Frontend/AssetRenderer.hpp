@@ -1,24 +1,33 @@
 #pragma once
-#include <Engine3DRadSpace/Graphics/Model3D.hpp>
-#include <Engine3DRadSpace/Graphics/Font.hpp>
+#include <Engine3DRadSpace/Content/Assets/ModelAsset.hpp>
+#include <Engine3DRadSpace/Content/Assets/FontAsset.hpp>
+#include <Engine3DRadSpace/Content/Assets/SkyboxAsset.hpp>
+#include <Engine3DRadSpace/Content/Assets/TextureAsset.hpp>
 
 template<typename T>
-bool AssetRenderer(Engine3DRadSpace::Graphics::GraphicsDevice *device, const std::string &imagePath, T *assetPtr) = delete;
+bool AssetRenderer(Engine3DRadSpace::Graphics::IGraphicsDevice *device, const std::string &imagePath, T *assetPtr) = delete;
 
-template<> bool AssetRenderer<Engine3DRadSpace::Graphics::Texture2D>(
-	Engine3DRadSpace::Graphics::GraphicsDevice *device,
+template<> bool AssetRenderer<Engine3DRadSpace::Content::Assets::TextureAsset>(
+	Engine3DRadSpace::Graphics::IGraphicsDevice *device,
 	const std::string &imagePath,
-	Engine3DRadSpace::Graphics::Texture2D *texture
+	Engine3DRadSpace::Content::Assets::TextureAsset *texture
 );
 
-template<> bool AssetRenderer<Engine3DRadSpace::Graphics::Model3D>(
-	Engine3DRadSpace::Graphics::GraphicsDevice * device,
+template<> bool AssetRenderer<Engine3DRadSpace::Content::Assets::ModelAsset>(
+	Engine3DRadSpace::Graphics::IGraphicsDevice * device,
 	const std::string &imagePath,
-	Engine3DRadSpace::Graphics::Model3D *model
+	Engine3DRadSpace::Content::Assets::ModelAsset *model
 );
 
-template<> bool AssetRenderer<Engine3DRadSpace::Graphics::Font>(
-	Engine3DRadSpace::Graphics::GraphicsDevice* device,
+template<> bool AssetRenderer<Engine3DRadSpace::Content::Assets::FontAsset>(
+	Engine3DRadSpace::Graphics::IGraphicsDevice* device,
 	const std::string& imagePath,
-	Engine3DRadSpace::Graphics::Font* font
+	Engine3DRadSpace::Content::Assets::FontAsset* font
+);
+
+template<> bool AssetRenderer<Engine3DRadSpace::Content::Assets::SkyboxAsset>
+(
+	Engine3DRadSpace::Graphics::IGraphicsDevice* device,
+	const std::string& imagePath,
+	Engine3DRadSpace::Content::Assets::SkyboxAsset* path
 );

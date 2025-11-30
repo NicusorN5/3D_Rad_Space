@@ -1,11 +1,11 @@
 #include "Cylinder.hpp"
 
-using namespace Engine3DRadSpace::Algorithms;
+using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Graphics::Primitives;
 using namespace Engine3DRadSpace::Math;
 
-Cylinder::Cylinder(GraphicsDevice *device, float radius, float height, float tessellation) :
+Cylinder::Cylinder(IGraphicsDevice *device, float radius, float height, float tessellation) :
 	IPrimitive(device)
 {
 }
@@ -88,7 +88,6 @@ Cylinder::Cylinder(GraphicsDevice *device, float radius, float height, float tes
 	std::array<unsigned, 4> last_quad = {
 
 	};
-
 
 	return r;
 }

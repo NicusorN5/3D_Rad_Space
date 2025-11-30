@@ -8,7 +8,8 @@ namespace Engine3DRadSpace::Objects::Gizmos
 	class E3DRSP_OBJECTS_EXPORT Gizmo<Skinmesh> final: public IGizmo
 	{
 		bool _wasLoaded = false;
-		STD_UPtrTypeless _wireframe_RasterizerState;
+		std::unique_ptr<Graphics::IRasterizerState> _wireframe_RasterizerState;
+		Graphics::Effect* _highlightEffect;
 	public:
 		Gizmo();
 

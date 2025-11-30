@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 3.21)
 
 project("3DRadSpace.Content")
 
-file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS "*.cpp" "*.hpp" )
-
-add_library(3DRadSpace_Content STATIC ${SOURCE_FILES})
+add_library(3DRadSpace_Content SHARED 
+	"ContentManager.cpp"
+)
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET 3DRadSpace_Content PROPERTY CXX_STANDARD 23)
@@ -29,9 +29,7 @@ if(MSVC)
 endif()
 
 if(WIN32)
-	target_compile_definitions(3DRadSpace_Content PRIVATE USING_DX11=1 _WINDLL=1)
-elseif(LINUX)
-	target_compile_definitions(3DRadSpace_Content PRIVATE USING_VULKAN=1)
+	target_compile_definitions(3DRadSpace_Content PRIVATE _WINDLL=1)
 endif()
 
 #
@@ -39,8 +37,8 @@ endif()
 #
 
 target_link_libraries(3DRadSpace_Content PRIVATE 3DRadSpace_Core)
+target_link_libraries(3DRadSpace_Content PRIVATE 3DRadSpace.Logging)
 target_link_libraries(3DRadSpace_Content PRIVATE 3DRadSpace_Math)
-target_link_libraries(3DRadSpace_Content PRIVATE 3DRadSpace_Audio)
-target_link_libraries(3DRadSpace_Content PRIVATE 3DRadSpace_Games)
+target_link_libraries(3DRadSpace_Content PRIVATE 3DRadSpace_Reflection)
 target_link_libraries(3DRadSpace_Content PRIVATE 3DRadSpace_Graphics)
 target_include_directories(3DRadSpace_Content PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)

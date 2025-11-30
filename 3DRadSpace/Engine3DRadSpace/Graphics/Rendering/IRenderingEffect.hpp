@@ -6,7 +6,7 @@ namespace Engine3DRadSpace::Graphics::Rendering
 	/// <summary>
 	/// Represents the base type of a rendering effect, such as fog, outline, et cetera.
 	/// </summary>
-	class E3DRSP_GRAPHICS_EXPORT IRenderingEffect
+	class E3DRSP_GRAPHICS_RENDERING_EXPORT IRenderingEffect
 	{
 	protected:
 		IRenderingEffect() = default;

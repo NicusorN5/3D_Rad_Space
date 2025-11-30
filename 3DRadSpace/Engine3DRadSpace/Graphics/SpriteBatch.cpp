@@ -1,10 +1,11 @@
 #include "SpriteBatch.hpp"
 #include "../Math/Matrix3x3.hpp"
 #include "../Math/Math.hpp"
+#include "IGraphicsCommandList.hpp"
+#include "IShaderCompiler.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
-using namespace Engine3DRadSpace::Graphics::Shaders;
 using namespace Engine3DRadSpace::Math;
 
 constexpr Math::RectangleF _fullDefaultUV(0.0f, 0.0f, 1.0f, 1.0f);
@@ -35,7 +36,16 @@ std::array<VertexPointUVColor,4> SpriteBatch::_createQuad(
 	return _createQuad(a, b, c, d, flipU, flipV, tintColor, uvRect);
 }
 
-std::array<VertexPointUVColor, 4> SpriteBatch::_createQuad(const Math::Vector2& a, const Math::Vector2& b, const Math::Vector2& c, const Math::Vector2& d, bool flipU, bool flipV,const Color &tintColor, const Math::RectangleF &uvRect)
+std::array<VertexPointUVColor, 4> SpriteBatch::_createQuad(
+	const Math::Vector2& a,
+	const Math::Vector2& b,
+	const Math::Vector2& c,
+	const Math::Vector2& d,
+	bool flipU,
+	bool flipV,
+	const Color &tintColor,
+	const Math::RectangleF &uvRect
+)
 {
 	Vector2 uv_a = uvRect.BottomLeft();
 	Vector2 uv_b = uvRect.TopLeft();
@@ -94,17 +104,19 @@ std::array<unsigned, 6> SpriteBatch::_createIndexQuad(unsigned offset)
 
 void SpriteBatch::_prepareGraphicsDevice()
 {
-	_spriteShader->SetBasic();
-	_spriteShader->SetSamplerState(_samplerState.get());
+	_spriteShader->SetAll();
+	_spriteShader->SetSampler(_samplerState.get(), 0);
 
-#ifdef USING_DX11
-	_device->_context->RSGetState(&_oldRasterizerState);
-	_device->_context->OMGetBlendState(&_oldBlendState, _oldBlendFactor, &_oldSampleMask);
-	_device->_context->OMGetDepthStencilState(&_oldStencilState, &_oldStencilRef);
-#endif
-	_device->SetRasterizerState(_rasterizerState.get());
-	_device->SetTopology(VertexTopology::TriangleList);
-	_device->SetBlendState(_blendState.get());
+//#ifdef Dx11
+//	_device->_context->RSGetState(&_oldRasterizerState);
+//	_device->_context->OMGetBlendState(&_oldBlendState, _oldBlendFactor, &_oldSampleMask);
+//	_device->_context->OMGetDepthStencilState(&_oldStencilState, &_oldStencilRef);
+//#endif
+	auto cmd = _device->ImmediateContext();
+
+	cmd->SetRasterizerState(_rasterizerState.get());
+	cmd->SetTopology(VertexTopology::TriangleList);
+	cmd->SetBlendState(_blendState.get());
 }
 
 void SpriteBatch::_drawEntry(const spriteBatchEntry &entry)
@@ -132,16 +144,16 @@ void SpriteBatch::_drawEntry(const spriteBatchEntry &entry)
 	d.Transform(rotation).Transform(tr);
 
 	auto quad = _createQuad( a, b, c, d, entry.flipU, entry.flipV, entry.tintColor, entry.uvSource);
-	_vertexBuffer->SetData(quad);
+	_vertexBuffer->SetData<VertexPointUVColor>(quad);
 
 	auto indices = _createIndexQuad(0);
-	_indexBuffer->SetData(indices);
+	_indexBuffer->SetData<unsigned>(indices);
 
 	_prepareGraphicsDevice();
 
-	_spriteShader->SetTexture(_textures[entry.textureID]);
+	_spriteShader->SetTexture(_textures[entry.textureID], 0);
 
-	_device->DrawVertexBufferWithindices(_vertexBuffer.get(), _indexBuffer.get());
+	_device->ImmediateContext()->DrawVertexBufferWithindices(_vertexBuffer.get(), _indexBuffer.get());
 	_restoreGraphicsDevice();
 }
 
@@ -153,12 +165,14 @@ void SpriteBatch::_drawAllEntries_SortByTexture()
 	std::vector<unsigned> currentIndices;
 	_prepareGraphicsDevice();
 
+	auto cmd = _device->ImmediateContext();
+
 	auto draw = [&]()
 	{
-		_vertexBuffer->SetData(currentVertices);
-		_indexBuffer->SetData(currentIndices);
-		_device->DrawVertexBufferWithindices(_vertexBuffer.get(), _indexBuffer.get());
-		_device->DrawVertexBuffer(_vertexBuffer.get());
+		_vertexBuffer->SetData<VertexPointUVColor>(currentVertices);
+		_indexBuffer->SetData<unsigned>(currentIndices);
+		cmd->DrawVertexBufferWithindices(_vertexBuffer.get(), _indexBuffer.get());
+		cmd->DrawVertexBuffer(_vertexBuffer.get());
 	};
 
 	unsigned i = 0;
@@ -187,19 +201,19 @@ void SpriteBatch::_drawAllEntries_SortByTexture()
 			{
 				_capacity *= 2; //growth factor
 
-				_vertexBuffer = std::make_unique<VertexBufferV<VertexPointUVColor>>(_device, nullptr, _capacity * 4);
-				_indexBuffer = std::make_unique<IndexBuffer>(_device, nullptr, _capacity * 6);
+				_vertexBuffer = _device->CreateVertexBuffer<VertexPointUVColor>(_capacity * 4, BufferUsage::ReadOnlyGPU_WriteOnlyCPU);	
+				_indexBuffer = _device->CreateIndexBuffer(_capacity * 6, BufferUsage::ReadOnlyGPU_WriteOnlyCPU);
 			}
 
 			lastID = entry.textureID;
-			_spriteShader->SetTexture(_textures[entry.textureID]);
+			_spriteShader->SetTexture(_textures[entry.textureID], 0);
 			draw();
 
 			currentVertices.clear();
 		}
 	}
 
-	_spriteShader->SetTexture(_textures[lastID]);
+	_spriteShader->SetTexture(_textures[lastID], 0);
 	draw();
 
 	_restoreGraphicsDevice();
@@ -218,30 +232,40 @@ void SpriteBatch::_drawAllEntries()
 
 void SpriteBatch::_restoreGraphicsDevice()
 {
-#ifdef USING_DX11
-	_device->_context->RSSetState(_oldRasterizerState.Get());
-	_device->_context->OMSetBlendState(_oldBlendState.Get(), _oldBlendFactor, _oldSampleMask);
-	_device->_context->OMSetDepthStencilState(_oldStencilState.Get(), _oldStencilRef);
-#endif
+//#ifdef Dx11
+//	_device->_context->RSSetState(_oldRasterizerState.Get());
+//	_device->_context->OMSetBlendState(_oldBlendState.Get(), _oldBlendFactor, _oldSampleMask);
+//	_device->_context->OMSetDepthStencilState(_oldStencilState.Get(), _oldStencilRef);
+//#endif
 }
 
-SpriteBatch::SpriteBatch(GraphicsDevice *device) :
+SpriteBatch::SpriteBatch(IGraphicsDevice *device) :
 	_device(device),
 	_sortingMode(SpriteBatchSortMode::Immediate),
 	_state(Immediate),
 	_oldBlendFactor{},
 	_oldSampleMask(0),
-	_oldStencilRef(0)
+	_oldStencilRef(0),
+	_oldBlendState(nullptr),
+	_oldRasterizerState(nullptr),
+	_oldStencilState(nullptr)
 {
-	_spriteShader = std::make_unique<SpriteShader>(device);
-	// 256 quads: 1024 vertices and 1536 indices
-	_vertexBuffer = std::make_unique<VertexBufferV<VertexPointUVColor>>(device, nullptr, _capacity * 4);
-	_indexBuffer = std::make_unique<IndexBuffer>(device, nullptr, _capacity * 6);
+	constexpr std::string_view shaderPath = "Data\\Shaders\\Sprite.hlsl";
 
-	_rasterizerState = std::make_unique<RasterizerState>(device, RasterizerFillMode::Solid, RasterizerCullMode::CullBack);
-	_samplerState = std::make_unique<SamplerState>(SamplerState::PointWrap(device));
-	_depthBufferState = std::make_unique<DepthStencilState>(DepthStencilState::DepthNone(device));
-	_blendState = std::make_unique<BlendState>(BlendState::AlphaBlend(device));
+	ShaderDescFile vs(shaderPath, "VS_Main", ShaderType::Vertex);
+	ShaderDescFile ps(shaderPath, "PS_Main", ShaderType::Fragment);
+
+	std::array<ShaderDesc*, 2> spriteEffect = { &vs, &ps };
+
+	_spriteShader = _device->ShaderCompiler()->CompileEffect(spriteEffect).first;
+	// 256 quads: 1024 vertices and 1536 indices
+	_vertexBuffer = device->CreateVertexBuffer<VertexPointUVColor>(1024, BufferUsage::ReadOnlyGPU_WriteOnlyCPU);
+	_indexBuffer = device->CreateIndexBuffer(1536, BufferUsage::ReadOnlyGPU_WriteOnlyCPU);
+
+	_rasterizerState = device->CreateRasterizerState(RasterizerFillMode::Solid, RasterizerCullMode::CullBack);
+	_samplerState = device->CreateSamplerState_PointWrap();
+	_depthBufferState = device->CreateDepthStencilState_DepthNone();
+	_blendState = device->CreateBlendState_AlphaBlend();
 
 	_textures.push_back(nullptr);
 }
@@ -260,17 +284,19 @@ void SpriteBatch::Begin(SpriteBatchSortMode sortingMode)
 		}
 		else throw std::logic_error("Begin() was called when the sprite batch was waiting for entries.");
 	}
+	
+	//_oldBlendState = _device->GetBlendState();
 
 	_sortingMode = sortingMode;
 }
 
-void SpriteBatch::Begin(SpriteBatchSortMode sortingMode, SamplerState &&samplerState)
+void SpriteBatch::Begin(SpriteBatchSortMode sortingMode, std::unique_ptr<ISamplerState> &&samplerState)
 {
-	_samplerState = std::make_unique<SamplerState>(std::move(samplerState));
+	_samplerState = std::move(samplerState);
 	Begin(sortingMode);
 }
 
-void SpriteBatch::DrawNormalized(Texture2D* texture, const Math::RectangleF& coords, const Math::RectangleF& source, Color tintColor, float rotation, FlipMode flipMode, float depth)
+void SpriteBatch::DrawNormalized(ITexture2D* texture, const Math::RectangleF& coords, const Math::RectangleF& source, Color tintColor, float rotation, FlipMode flipMode, float depth)
 {
 	if (texture == nullptr) return;
 
@@ -337,12 +363,12 @@ void SpriteBatch::DrawNormalized(Texture2D* texture, const Math::RectangleF& coo
 	if (_state == EndCalled) throw std::logic_error("Cannot draw textures when End() was called.");
 }
 
-void SpriteBatch::DrawNormalized(Texture2D* texture, const Math::RectangleF& coords, const Math::Rectangle source, Color tintColor, float rotation, FlipMode flipMode, float depth)
+void SpriteBatch::DrawNormalized(ITexture2D* texture, const Math::RectangleF& coords, const Math::Rectangle source, Color tintColor, float rotation, FlipMode flipMode, float depth)
 {
 	DrawNormalized(texture, coords, _fullDefaultUV, tintColor, rotation, flipMode, depth);
 }
 
-void SpriteBatch::Draw(Texture2D* texture, const Math::Rectangle& coords, const Math::Rectangle& source, Color tintColor, float rotation, FlipMode flipMode, float depth)
+void SpriteBatch::Draw(ITexture2D* texture, const Math::Rectangle& coords, const Math::Rectangle& source, Color tintColor, float rotation, FlipMode flipMode, float depth)
 {
 	if (texture == nullptr) return;
 
@@ -365,7 +391,7 @@ void SpriteBatch::Draw(Texture2D* texture, const Math::Rectangle& coords, const 
 	DrawNormalized(texture, nCoords, nSource, tintColor, rotation, flipMode, depth);
 }
 
-void SpriteBatch::Draw(Texture2D* texture, const Math::Rectangle& coords, Color tintColor, float rotation, FlipMode flipMode, float depth)
+void SpriteBatch::Draw(ITexture2D* texture, const Math::Rectangle& coords, Color tintColor, float rotation, FlipMode flipMode, float depth)
 {
 	auto screenSize = _device->Resolution();
 	RectangleF nCoords(
@@ -398,7 +424,7 @@ void SpriteBatch::DrawString(Font* font, const std::string& text, const Vector2&
 	{
 		if (!font->GetCharGlyph(c).has_value()) continue;
 
-		auto glyph = font->GetCharGlyph(c).value();
+		auto&& glyph = font->GetCharGlyph(c).value();
 
 		Math::Rectangle rcChar;
 		// https://learnopengl.com/In-Practice/Text-Rendering

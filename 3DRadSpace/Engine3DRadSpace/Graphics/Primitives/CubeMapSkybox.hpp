@@ -20,7 +20,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 	/// <remarks>
 	/// This doesn't inherit IPrimitive - since this renders a textured mesh.
 	/// </remarks>
-	class E3DRSP_GRAPHICS_EXPORT CubeMapSkybox final : public IDrawable3D
+	class E3DRSP_GRAPHICS_PRIMITIVES_EXPORT CubeMapSkybox final : public IDrawable3D
 	{
 		std::array<std::unique_ptr<ModelMeshPart>, 6> _faces;
 
@@ -41,14 +41,17 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		///     5 - Positive Z - PZ
 		///		6 - Negative Z - NZ
 		/// </remarks>
-		CubeMapSkybox(GraphicsDevice* device, std::array<Texture2D, 6> &&faces);
+		CubeMapSkybox(IGraphicsDevice* device, std::array<ITexture2D*, 6> &faces);
 
 		/// <summary>
 		/// Creates a new instance of the CubeMapSkybox class.
 		/// </summary>
 		/// <param name="device">Graphics device</param>
 		/// <param name="dds">Cubemap DDS image</param>
-		CubeMapSkybox(GraphicsDevice* device,const std::filesystem::path& dds);
+		CubeMapSkybox(IGraphicsDevice* device, const std::filesystem::path& dds);
+
+		CubeMapSkybox(CubeMapSkybox&&) noexcept = default;
+		CubeMapSkybox& operator=(CubeMapSkybox&&) noexcept = default;
 
 		/// <summary>
 		/// Model/world transform for this primitive. Usually only made of scale and translation(camera position). 
@@ -66,6 +69,8 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		//void SetTransformFromCamera(const Objects::Camera& camera);
 
 		void Draw3D() override;
+		
+		~CubeMapSkybox() override = default;
 
 		friend class Engine3DRadSpace::Content::Assets::SkyboxAsset;
 	};

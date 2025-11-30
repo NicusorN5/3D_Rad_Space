@@ -2,9 +2,21 @@ cmake_minimum_required(VERSION 3.21)
 
 project("3DRadSpace.Graphics")
 
-file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS "*.cpp" "*.hpp" )
-
-add_library(3DRadSpace_Graphics STATIC ${SOURCE_FILES})
+add_library(3DRadSpace_Graphics SHARED 
+	"Effect.cpp"
+	"FlipMode.cpp"
+	"Font.cpp"
+	"IBlendState.cpp"
+	"ITexture2D.cpp"
+	"ModelMesh.cpp"
+	"ModelMeshPart.cpp"
+	"Model3D.cpp"
+	"SpriteBatch.cpp"
+	"Viewport.cpp"
+	"NullShader.cpp"
+	"ShaderDesc.cpp"
+	"EffectManager.cpp"
+ "ShaderVariable.cpp")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET 3DRadSpace_Graphics PROPERTY CXX_STANDARD 23)
@@ -29,9 +41,7 @@ if(MSVC)
 endif()
 
 if(WIN32)
-	target_compile_definitions(3DRadSpace_Graphics PRIVATE USING_DX11=1 _WINDLL=1)
-elseif(LINUX)
-	target_compile_definitions(3DRadSpace_Graphics PRIVATE USING_VULKAN=1)
+	target_compile_definitions(3DRadSpace_Graphics PRIVATE _WINDLL=1)
 endif()
 
 #
@@ -40,6 +50,7 @@ endif()
 target_link_libraries(3DRadSpace_Graphics PRIVATE 3DRadSpace_Core)
 target_link_libraries(3DRadSpace_Graphics PRIVATE 3DRadSpace_Reflection)
 target_link_libraries(3DRadSpace_Graphics PRIVATE 3DRadSpace_Math)
+target_link_libraries(3DRadSpace_Graphics PRIVATE 3DRadSpace.Logging)
 target_include_directories(3DRadSpace_Graphics PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)
 
 #DirectXTK

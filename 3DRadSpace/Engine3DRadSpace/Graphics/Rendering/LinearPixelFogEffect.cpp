@@ -1,17 +1,24 @@
 #include "LinearPixelFogEffect.hpp"
-#include "../DepthStencilBuffer.hpp"
 
+using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Graphics::Rendering;
 using namespace Engine3DRadSpace::Math;
 
-LinearPixelFogEffect::LinearPixelFogEffect(GraphicsDevice* device) : PostProcessEffect(
+static ShaderDescFile linearPixelFogShaderDesc(
+	"Data\\Shaders\\LinearFogSS.hlsl",
+	"PS_Main",
+	ShaderType::Fragment
+);
+
+LinearPixelFogEffect::LinearPixelFogEffect(IGraphicsDevice* device) : PostProcessEffect(
 	device,
-	std::filesystem::path("Data\\Shaders\\LinearFogSS.hlsl"), //shader filename
-	"PS_Main" //fragment shader function
+	linearPixelFogShaderDesc
 ), 
 	FogColor(1.0f, 1.0f, 1.0f, 1.0f),
 	FogBegin(0.0f), 
-	FogEnd(1.0f)
+	FogEnd(1.0f),
+	NearPlaneDistance(0.1f),
+	FarPlaneDistance(0.8f)
 {
 }
 

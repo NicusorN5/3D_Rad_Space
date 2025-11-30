@@ -1,7 +1,7 @@
 #include "ReflectedEnum.hpp"
 
+using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Reflection;
-using namespace Engine3DRadSpace::Algorithms;
 
 const std::string Engine3DRadSpace::Reflection::ReflectedEnum::EnumName() const noexcept
 {

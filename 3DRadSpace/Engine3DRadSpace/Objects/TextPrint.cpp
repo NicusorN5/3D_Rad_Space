@@ -4,6 +4,7 @@
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content;
+using namespace Engine3DRadSpace::Content::Assets;
 using namespace Engine3DRadSpace::Objects;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Math;
@@ -57,21 +58,23 @@ void TextPrint::Update()
 
 void TextPrint::Load()
 {
-    auto content = _game->Content.get();
+    auto game = static_cast<Game*>(_game);
+    auto content = game->Content.get();
     if (_path != nullptr)
     {
-        _font = content->Load<class Font>(*_path, &Font);
+        _font = content->Load<FontAsset>(*_path, &Font)->Get();
         _path.reset();
     }
     if (Font)
     {
-        _font = static_cast<class Font*>((*content)[Font]);
+        _font = static_cast<class Font*>((*content)[Font]->Get());
     }
 }
 
 void TextPrint::Load(const std::filesystem::path& path)
 {
-    _font = _game->Content->Load<class Font>(path, &Font);
+    auto game = static_cast<Game*>(_game);
+    _font = game->Content->Load<FontAsset>(path, &Font)->Get();
 }
 
 Reflection::UUID TextPrint::GetUUID() const noexcept
@@ -84,7 +87,8 @@ void TextPrint::Draw2D()
 {
     if (Visible)
     {
-        _game->SpriteBatch->DrawString(_font, Text, Position, Scale.X, Colour, Rotation, FlipMode::None);
+        auto game = static_cast<Game*>(_game);
+        game->SpriteBatch->DrawString(_font, Text, Position, Scale.X, Colour, Rotation, FlipMode::None);
     }
 }
 
