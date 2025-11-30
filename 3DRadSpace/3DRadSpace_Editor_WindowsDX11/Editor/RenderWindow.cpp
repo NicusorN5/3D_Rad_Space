@@ -220,8 +220,6 @@ void RenderWindow::Draw2D()
 		1
 	);
 
-	//if(_keyboardTest)
-	//	SpriteBatch->DrawNormalized(sob.get(), RectangleF(0, 0, 1, 1));
 	SpriteBatch->End();
 
 	for(auto& obj : *Objects)
@@ -251,5 +249,4 @@ void RenderWindow::Reset3DCursor()
 
 RenderWindow::~RenderWindow()
 {
-	_3drsp_gizmos.clear();
 }

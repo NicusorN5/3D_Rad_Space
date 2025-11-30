@@ -14,8 +14,10 @@ PostProcessCollection::PostProcessCollection(IGraphicsDevice* device):
 		PixelFormat::R16G16B16A16_Float,
 		BufferUsage::ReadOnlyGPU_WriteOnlyCPU
 	);
+	_backbuffer_cpy->EndRead(); // ???
 
 	_depthbuffer_cpy = device->GetDepthBuffer().CloneDepthTexture();
+	_depthbuffer_cpy->EndRead();
 }
 
 size_t PostProcessCollection::Length() const noexcept

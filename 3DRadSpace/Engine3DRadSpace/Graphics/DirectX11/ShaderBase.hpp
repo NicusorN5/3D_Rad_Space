@@ -30,6 +30,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		std::vector<std::unique_ptr<Reflection::IReflectedField>> _reflectedFields;
 
 		Array_ValidConstantBuffers _validConstantBuffers(unsigned& numConstantBuffers);
+		void _createConstantBuffer(size_t idxBuffer, size_t buffSize, const void* data);
 
 		void _compileShader(const std::string_view& source, const std::string_view& target);
 		void _compileShaderFromFile(const std::filesystem::path& path, const std::string_view& target);

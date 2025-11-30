@@ -130,12 +130,44 @@ void ShaderBase::SetData(unsigned index, const void* data, size_t dataSize)
 	}
 	memcpy_s(ptr, dataSize, data, dataSize);
 
+	if (handle == nullptr)
+	{
+		_createConstantBuffer(index, dataSize, data);
+	}
+
 	//Assume cbuffer was created when reflecting shader.
 	D3D11_MAPPED_SUBRESOURCE res;
 	HRESULT r = _device->_context->Map(handle.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &res);
 	if (FAILED(r)) throw Exception("Failed to write the shader data!");
 	memcpy_s(res.pData, dataSize, ptr, dataSize);
 	_device->_context->Unmap(handle.Get(), 0);
+}
+
+void ShaderBase::_createConstantBuffer(size_t idxCbuffer, size_t buffSize, const void* data)
+{
+	D3D11_BUFFER_DESC constantBufferDesc{};
+	constantBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	constantBufferDesc.ByteWidth = buffSize;
+	constantBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	constantBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+
+	D3D11_SUBRESOURCE_DATA srd{};
+	srd.pSysMem = data;
+	srd.SysMemPitch = buffSize;
+
+	HRESULT r = _device->_device->CreateBuffer(
+		&constantBufferDesc,
+		data != nullptr ? &srd : nullptr,
+		&_constantBuffers[idxCbuffer].Handle
+	);
+	if (FAILED(r)) throw Exception("Failed to create a constant buffer for a shader!");
+
+#ifdef _DEBUG
+	std::string constantBufferName = "IShader::constantBuffer[";
+	constantBufferName += std::to_string(idxCbuffer) + ']';
+
+	_constantBuffers[idxCbuffer].Handle->SetPrivateData(WKPDID_D3DDebugObjectName, unsigned(constantBufferName.length()), constantBufferName.c_str());
+#endif
 }
 
 std::string ShaderBase::GetEntryName()
@@ -160,7 +192,7 @@ void ShaderBase::_reflectShader()
 	if (FAILED(r)) throw Exception("Failed to reflect the shader!");
 
 	//Reflect constant buffer variables
-	for (int idxCbuffer = 0; ; idxCbuffer++)
+	for (int idxCbuffer = 0; idxCbuffer < D3D11_COMMONSHADER_CONSTANT_BUFFER_API_SLOT_COUNT; idxCbuffer++)
 	{
 		auto cbuffer = reflector->GetConstantBufferByIndex(idxCbuffer);
 		if (cbuffer == nullptr)
@@ -169,27 +201,11 @@ void ShaderBase::_reflectShader()
 		D3D11_SHADER_BUFFER_DESC buffDesc{};
 		r = cbuffer->GetDesc(&buffDesc);
 		if (FAILED(r))
-			break;
+			continue;
 
 		auto buffSize = buffDesc.Size;
 
-		//Create constant buffer.
-		D3D11_BUFFER_DESC constantBufferDesc{};
-		constantBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-		constantBufferDesc.ByteWidth = buffSize;
-		constantBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-		constantBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-
-		r = _device->_device->CreateBuffer(&constantBufferDesc, nullptr, &_constantBuffers[idxCbuffer].Handle);
-		if (FAILED(r)) throw Exception("Failed to create a constant buffer for a shader!");
-
-#ifdef _DEBUG
-		std::string constantBufferName = "IShader::constantBuffer[";
-		constantBufferName += std::to_string(idxCbuffer) + ']';
-
-		_constantBuffers[idxCbuffer].Handle->SetPrivateData(WKPDID_D3DDebugObjectName, unsigned(constantBufferName.length()), constantBufferName.c_str());
-#endif
-		
+		_createConstantBuffer(idxCbuffer, buffSize, nullptr);
 		_constantBuffers[idxCbuffer].Buffer = std::make_unique<std::byte[]>(buffSize);
 		_constantBuffers[idxCbuffer].Size = buffSize;
 
