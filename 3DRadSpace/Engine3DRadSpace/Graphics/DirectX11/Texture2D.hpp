@@ -116,7 +116,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 
 		void SetColors(Math::Color** colors, unsigned x, unsigned y);
 
-		void SaveToFile(const std::string &path);
+		void SaveToFile(const std::filesystem::path& path) override;
 
 		unsigned Width() const noexcept override;
 		unsigned Height() const noexcept override;

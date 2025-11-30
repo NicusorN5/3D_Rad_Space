@@ -31,8 +31,8 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 
 		Array_ValidConstantBuffers _validConstantBuffers(unsigned& numConstantBuffers);
 
-		void _compileShader(const char* source, const char* target);
-		void _compileShaderFromFile(const char* path, const char* target);
+		void _compileShader(const std::string_view& source, const std::string_view& target);
+		void _compileShaderFromFile(const std::filesystem::path& path, const std::string_view& target);
 		void _reflectShader();
 
 		ShaderBase(GraphicsDevice* device, const char* shaderSourceCode, const char* entry_function, const char* target);

@@ -15,5 +15,9 @@ namespace Engine3DRadSpace::Graphics
 		virtual void* GetViewHandle() const noexcept = 0;
 
 		virtual [[nodiscard]] std::unique_ptr<ITexture2D> CreateStaging() = 0;
+	
+		virtual void SaveToFile(const std::filesystem::path& path) = 0;
+
+		virtual ~ITexture2D() override = default;
 	};
 }

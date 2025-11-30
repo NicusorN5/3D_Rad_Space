@@ -41,7 +41,7 @@ void Texture2D::SetColors(Math::Color** colors, unsigned x, unsigned y)
 	(void)y;
 }
 
-void Texture2D::SaveToFile(const std::string &path)
+void Texture2D::SaveToFile(const std::filesystem::path& path)
 {
 	(void)path;
 }

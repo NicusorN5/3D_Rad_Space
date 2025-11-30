@@ -617,12 +617,9 @@ std::unique_ptr<ITexture2D> Texture2D::CreateStaging()
 	return std::make_unique<Texture2D>(std::move(staging));
 }
 
-void Texture2D::SaveToFile(const std::string &path)
+void Texture2D::SaveToFile(const std::filesystem::path& path)
 {
-	wchar_t wpath[_MAX_PATH]{};
-	MultiByteToWideChar(CP_ACP, 0, path.c_str(), -1, wpath, _MAX_PATH);
-
-	HRESULT r = DirectX::SaveWICTextureToFile(_device->_context.Get(), _texture.Get(), GUID_ContainerFormatPng, wpath, nullptr, nullptr, true);
+	HRESULT r = DirectX::SaveWICTextureToFile(_device->_context.Get(), _texture.Get(), GUID_ContainerFormatPng, path.wstring().c_str(), nullptr, nullptr, true);
 	if(FAILED(r)) throw Exception("Failed to save file!" + std::system_category().message(r));
 }
 

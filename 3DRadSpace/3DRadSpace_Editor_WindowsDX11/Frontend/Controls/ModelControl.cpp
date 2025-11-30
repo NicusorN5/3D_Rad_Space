@@ -40,16 +40,16 @@ ModelControl::ModelControl(
 
 	SetImage(_pictureBox,_image, imageWidth, imageHeight);
 
-	constexpr const char* previewBtnText = "Preview";
+	constexpr std::string_view previewBtnText = "Preview";
 
 	HDC hdc = GetDC(owner);
 	SIZE textSize;
-	GetTextExtentPointA(hdc, previewBtnText, int(strlen(previewBtnText)), &textSize);
+	GetTextExtentPointA(hdc, previewBtnText.data(), previewBtnText.size(), &textSize);
 
 	_previewButton = CreateWindowExA(
 		0,
 		"Button",
-		previewBtnText,
+		previewBtnText.data(),
 		WS_VISIBLE | WS_CHILD,
 		x + 10,
 		y + _cy,

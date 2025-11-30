@@ -27,7 +27,7 @@ ShaderBase::Array_ValidConstantBuffers ShaderBase::_validConstantBuffers(unsigne
 	return ppConstantBuffers;
 }
 
-void ShaderBase::_compileShader(const char *source, const char* target)
+void ShaderBase::_compileShader(const std::string_view& source, const std::string_view& target)
 {
 #ifdef _WIN32
 #ifdef _DEBUG
@@ -37,13 +37,13 @@ void ShaderBase::_compileShader(const char *source, const char* target)
 #endif
 
 	HRESULT r = D3DCompile(
-		source,
-		strlen(source),
+		source.data(),
+		source.size(),
 		nullptr,
 		nullptr,
 		nullptr,
 		_entry,
-		target,
+		target.data(),
 		shaderFlags,
 		0,
 		&_shaderBlob,
@@ -61,12 +61,8 @@ void ShaderBase::_compileShader(const char *source, const char* target)
 #endif
 }
 
-void ShaderBase::_compileShaderFromFile(const char* path, const char* target)
+void ShaderBase::_compileShaderFromFile(const std::filesystem::path& path, const std::string_view &target)
 {
-#ifdef _WIN32
-	wchar_t wpath[_MAX_PATH]{ 0 };
-	MultiByteToWideChar(CP_ACP, 0, path, (int)strlen(path), wpath, _MAX_PATH);
-
 #ifdef _DEBUG
 	const UINT shaderFlags = D3DCOMPILE_DEBUG;
 #else
@@ -74,17 +70,17 @@ void ShaderBase::_compileShaderFromFile(const char* path, const char* target)
 #endif
 
 	HRESULT r = D3DCompileFromFile(
-		wpath,
+		path.wstring().c_str(),
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE,
 		_entry,
-		target,
+		target.data(),
 		shaderFlags,
 		0,
 		&_shaderBlob,
 		&_errorBlob
 	);
-	if(_errorBlob.Get() == nullptr && FAILED(r)) throw Exception(std::string("Shader file not found! \r\n Path:") + path);
+	if(_errorBlob.Get() == nullptr && FAILED(r)) throw Exception(std::format("Shader file not found! \r\n Path: {}", path.string()));
 	else
 	{
 		if (_errorBlob.Get() != nullptr)
@@ -97,7 +93,6 @@ void ShaderBase::_compileShaderFromFile(const char* path, const char* target)
 			throw Exception(std::string("Shader compilation failure! \r\n") + static_cast<char*>(_errorBlob->GetBufferPointer()));
 		}
 	}
-#endif
 }
 
 ShaderBase::ShaderBase(GraphicsDevice *Device, const char *shaderSourceCode, const char *entry_function, const char* target):
