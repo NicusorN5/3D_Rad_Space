@@ -16,7 +16,7 @@ add_library(3DRadSpace_Graphics SHARED
 	"NullShader.cpp"
 	"ShaderDesc.cpp"
 	"EffectManager.cpp"
- "ShaderVariable.cpp")
+ "ShaderVariable.cpp" "IShaderCompiler.cpp")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET 3DRadSpace_Graphics PROPERTY CXX_STANDARD 23)

@@ -7,6 +7,9 @@ namespace Engine3DRadSpace::Graphics::Rendering
 	/// <summary>
 	/// Represents a pixel shader that is applied to the backbuffer.
 	/// </summary>
+	/// <remarks>
+	/// By default, copies of the back buffer and depth buffer are sent as textures to the specified Fragment/Pixel shader. Use <c>NotDepthAware = true</c> to only upload the backbuffer.
+	/// </remarks>
 	class E3DRSP_GRAPHICS_RENDERING_EXPORT PostProcessEffect : public IShader
 	{
 	private:
@@ -23,6 +26,8 @@ namespace Engine3DRadSpace::Graphics::Rendering
 		/// Is this effect enabled?
 		/// </summary>
 		bool Enabled = true;
+
+		bool NotDepthAware = false;
 
 		/// <summary>
 		/// Applies the effect.

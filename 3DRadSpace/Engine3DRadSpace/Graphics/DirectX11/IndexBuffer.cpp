@@ -79,6 +79,7 @@ void IndexBuffer::SetData(void* data, size_t buffSize)
 	HRESULT r = _device->_context->Map(_indexBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedBuff);
 	if(FAILED(r)) throw Exception("Failed to map a index buffer!");
 
+	memset(mappedBuff.pData, 0, mappedBuff.DepthPitch);
 	memcpy_s(mappedBuff.pData, buffSize, data, buffSize);
 	_device->_context->Unmap(_indexBuffer.Get(), 0);
 }

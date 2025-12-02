@@ -23,7 +23,7 @@ add_library(3DRadSpace.Graphics.DirectX11 STATIC
 	"DeferredCommandList.cpp"
 	"BufferUsage.cpp"
 	"RasterizerState.cpp"
- "IShaderCompiler.cpp")
+ )
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET 3DRadSpace.Graphics.DirectX11 PROPERTY CXX_STANDARD 23)

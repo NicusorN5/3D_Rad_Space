@@ -14,10 +14,8 @@ PostProcessCollection::PostProcessCollection(IGraphicsDevice* device):
 		PixelFormat::R16G16B16A16_Float,
 		BufferUsage::ReadOnlyGPU_WriteOnlyCPU
 	);
-	_backbuffer_cpy->EndRead(); // ???
 
 	_depthbuffer_cpy = device->GetDepthBuffer().CloneDepthTexture();
-	_depthbuffer_cpy->EndRead();
 }
 
 size_t PostProcessCollection::Length() const noexcept
@@ -37,6 +35,9 @@ void PostProcessCollection::ApplyAll()
 
 		cmd->Copy(_backbuffer_cpy.get(), _device->GetBackBufferTexture());
 		cmd->Copy(_depthbuffer_cpy.get(), _device->GetDepthBuffer().GetDepthTexture());
+
+		effect->_backbuffer_copy = _backbuffer_cpy.get();
+		effect->_depthBuffer_copy = _depthbuffer_cpy.get();
 
 		effect->Apply();
 		cmd->SetRenderTargetAndDisableDepth(nullptr);

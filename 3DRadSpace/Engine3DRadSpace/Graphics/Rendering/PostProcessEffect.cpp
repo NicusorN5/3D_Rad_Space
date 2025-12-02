@@ -11,7 +11,10 @@ PostProcessEffect::PostProcessEffect(
 	ShaderDesc& effectDesc
 ) :
 	_vertex(nullptr),
-	_device(device)
+	_device(device),
+	_backbuffer_copy(nullptr),
+	_depthBuffer_copy(nullptr),
+	_effect(nullptr)
 {
 	//Compile base vertex effect
 	auto desc = ShaderDescFile(
@@ -30,7 +33,7 @@ PostProcessEffect::PostProcessEffect(
 	auto ps = _device->ShaderCompiler()->Compile(&effectDesc);
 	if (ps.second.Succeded)
 	{
-		_effect = vs.first;
+		_effect = ps.first;
 	}
 }
 
@@ -40,11 +43,17 @@ void PostProcessEffect::Apply()
 	auto cmd = _device->ImmediateContext();
 
 	cmd->SetShader(_vertex);
+	cmd->SetShader(_effect);
 
-	this->SetTexture(0, _backbuffer_copy);
-	this->SetTexture(1, _depthBuffer_copy);
+	if (!NotDepthAware)
+	{
+		std::array<ITexture2D*, 2> textures = { _backbuffer_copy, _depthBuffer_copy };
+		SetTextures(textures);
+	}
+	else SetTexture(0, _backbuffer_copy);
 
-	cmd->SetShader(this);
+	_vertex->SetShader();
+	_effect->SetShader();
 }
 
 void PostProcessEffect::SetTexture(unsigned index, ITexture2D* texture)
