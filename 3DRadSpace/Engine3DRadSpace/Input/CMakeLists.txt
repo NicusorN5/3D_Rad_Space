@@ -35,5 +35,5 @@ endif()
 #
 #Dependencies 
 #
-target_link_libraries(3DRadSpace_Input PRIVATE 3DRadSpace_Core)
+target_link_libraries(3DRadSpace_Input PRIVATE 3DRadSpace.Core)
 target_include_directories(3DRadSpace_Input PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)

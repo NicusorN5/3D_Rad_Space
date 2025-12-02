@@ -41,7 +41,7 @@ endif()
 #
 #Dependencies 
 #
-target_link_libraries(3DRadSpace.Graphics_Rendering PRIVATE 3DRadSpace_Core)
+target_link_libraries(3DRadSpace.Graphics_Rendering PRIVATE 3DRadSpace.Core)
 target_link_libraries(3DRadSpace.Graphics_Rendering PRIVATE 3DRadSpace_Reflection)
 target_link_libraries(3DRadSpace.Graphics_Rendering PRIVATE 3DRadSpace_Math)
 target_include_directories(3DRadSpace.Graphics_Rendering PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)

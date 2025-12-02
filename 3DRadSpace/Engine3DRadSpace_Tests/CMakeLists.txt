@@ -19,7 +19,7 @@ if(MSVC)
 endif()
 
 #Link 3DRadSpace
-target_link_libraries(3DRadSpace-tests PRIVATE 3DRadSpace_Games)
+target_link_libraries(3DRadSpace-tests PRIVATE 3DRadSpace.Games)
 target_include_directories(3DRadSpace-tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)
 
 enable_testing()

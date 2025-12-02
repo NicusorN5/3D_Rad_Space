@@ -61,7 +61,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		std::unique_ptr<DirectX11::ShaderCompiler> _compiler;
 	public:
 		GraphicsDevice() = delete;
-		explicit GraphicsDevice(void* nativeWindowHandle, unsigned width = 800, unsigned height = 600);
+		explicit GraphicsDevice(void* nativeWindowHandle, size_t width = 800, size_t height = 600);
 
 		GraphicsDevice(GraphicsDevice&) = delete;
 		GraphicsDevice(GraphicsDevice&&) = delete;

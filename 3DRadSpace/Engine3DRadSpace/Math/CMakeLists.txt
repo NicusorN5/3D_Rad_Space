@@ -28,5 +28,5 @@ if(MSVC)
 	target_compile_definitions(3DRadSpace_Math PRIVATE [[E3DRSP_MATH_EXPORT=__declspec(dllexport)]])
 endif()
 
-target_link_libraries(3DRadSpace_Math PRIVATE 3DRadSpace_Core)
+target_link_libraries(3DRadSpace_Math PRIVATE 3DRadSpace.Core)
 target_include_directories(3DRadSpace_Math PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)

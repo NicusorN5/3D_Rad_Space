@@ -26,7 +26,7 @@ using namespace Engine3DRadSpace::Graphics::DirectX11;
 using namespace Engine3DRadSpace::Logging;
 using namespace Engine3DRadSpace::Math;
 
-GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, unsigned width, unsigned height) :
+GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, size_t width, size_t height) :
 	EnableVSync(true),
 	_resolution(width, height)
 {
