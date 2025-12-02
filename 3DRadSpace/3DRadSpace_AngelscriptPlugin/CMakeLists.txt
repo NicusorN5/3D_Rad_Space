@@ -27,7 +27,7 @@ endif()
 #Link 3DRadSpace
 target_link_libraries(3DRadSpace-angelscript PRIVATE 3DRadSpace.Math)
 target_link_libraries(3DRadSpace-angelscript PRIVATE 3DRadSpace.Games)
-target_link_libraries(3DRadSpace-angelscript PRIVATE 3DRadSpace_Scripting)
+target_link_libraries(3DRadSpace-angelscript PRIVATE 3DRadSpace.Scripting)
 target_include_directories(3DRadSpace-angelscript PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)
 
 #Add Angelscript
