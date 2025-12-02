@@ -37,7 +37,7 @@ if(MSVC)
 	target_compile_definitions(3DRadSpace_Reflection PRIVATE [[E3DRSP_REFLECTION_EXPORT=__declspec(dllexport)]])
 endif()
 
-target_link_libraries(3DRadSpace_Reflection PRIVATE 3DRadSpace_Math)
+target_link_libraries(3DRadSpace_Reflection PRIVATE 3DRadSpace.Math)
 target_include_directories(3DRadSpace_Reflection PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)
 
 #Nlohmann JSON

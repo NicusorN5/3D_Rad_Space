@@ -38,7 +38,7 @@ endif()
 
 target_link_libraries(3DRadSpace.Content PRIVATE 3DRadSpace.Core)
 target_link_libraries(3DRadSpace.Content PRIVATE 3DRadSpace.Logging)
-target_link_libraries(3DRadSpace.Content PRIVATE 3DRadSpace_Math)
+target_link_libraries(3DRadSpace.Content PRIVATE 3DRadSpace.Math)
 target_link_libraries(3DRadSpace.Content PRIVATE 3DRadSpace_Reflection)
 target_link_libraries(3DRadSpace.Content PRIVATE 3DRadSpace.Graphics)
 target_include_directories(3DRadSpace.Content PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)

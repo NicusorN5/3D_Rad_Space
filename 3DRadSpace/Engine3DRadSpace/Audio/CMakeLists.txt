@@ -32,7 +32,7 @@ endif()
 #Dependencies 
 #
 target_link_libraries(3DRadSpace.Audio PRIVATE 3DRadSpace.Core)
-target_link_libraries(3DRadSpace.Audio PRIVATE 3DRadSpace_Math)
+target_link_libraries(3DRadSpace.Audio PRIVATE 3DRadSpace.Math)
 target_link_libraries(3DRadSpace.Audio PRIVATE 3DRadSpace.Logging)
 target_include_directories(3DRadSpace.Audio PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)
 
