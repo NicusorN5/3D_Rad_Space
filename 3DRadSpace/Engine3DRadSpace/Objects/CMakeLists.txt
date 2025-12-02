@@ -30,7 +30,7 @@ endif()
 
 target_link_libraries(3DRadSpace_Objects PRIVATE 3DRadSpace.Audio)
 target_link_libraries(3DRadSpace_Objects PRIVATE 3DRadSpace.Graphics)
-target_link_libraries(3DRadSpace_Objects PRIVATE 3DRadSpace_Content)
+target_link_libraries(3DRadSpace_Objects PRIVATE 3DRadSpace.Content)
 target_link_libraries(3DRadSpace_Objects PRIVATE 3DRadSpace.Content.Assets)
 target_link_libraries(3DRadSpace_Objects PRIVATE 3DRadSpace_Physics)
 target_link_libraries(3DRadSpace_Objects PRIVATE 3DRadSpace_Reflection)
