@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 namespace Engine3DRadSpace::Angelscript
 {
@@ -7,6 +8,8 @@ namespace Engine3DRadSpace::Angelscript
 		void* _engine;
 	public:
 		AngelScriptWrapper();
+
+		void Call(const std::string& fnName);
 
 		~AngelScriptWrapper();
 	};

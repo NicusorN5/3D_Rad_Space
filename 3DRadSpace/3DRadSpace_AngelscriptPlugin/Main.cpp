@@ -2,32 +2,34 @@
 #include <Engine3DRadSpace\Plugins\CustomObject.hpp>
 #include "AngelScriptObject.hpp"
 #include "AngelscriptWrapper.hpp"
+#include <Engine3DRadSpace/Core/RawSpan.h>
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Angelscript;
 using namespace Engine3DRadSpace::Plugins;
 using namespace Engine3DRadSpace::Reflection;
 
-std::unique_ptr<AngelScriptWrapper> _angelscriptWrapper;
+std::unique_ptr<AngelScriptWrapper> p_angelscriptWrapper;
 
 REFL_FWD(AngelScriptObject);
 
-std::array<Engine3DRadSpace::Reflection::ReflectedObject*, 1> newObjects =
+E3DRSP_RawSpan newObjects =
 {
-	&AngelScriptObjectReflInstance
+	.Ptr = &AngelScriptObjectReflInstance,
+	.Size = 1u
 };
 
-extern "C"
+extern "C" //Prevent name mangling.
 {
 	__declspec(dllexport) bool PluginMain()
 	{
-		_angelscriptWrapper = std::make_unique<AngelScriptWrapper>();
+		p_angelscriptWrapper = std::make_unique<AngelScriptWrapper>();
 		return true;
 	}
 
 	__declspec(dllexport) bool PluginUnload()
 	{
-		_angelscriptWrapper.reset();
+		p_angelscriptWrapper.reset();
 		return true;
 	}
 
@@ -45,7 +47,7 @@ extern "C"
 		};
 	}
 
-	__declspec(dllexport) std::span<ReflectedObject*> LoadCustomObjects()
+	__declspec(dllexport) E3DRSP_RawSpan LoadCustomObjects()
 	{
 		return newObjects;
 	}

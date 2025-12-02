@@ -315,6 +315,11 @@ AngelScriptWrapper::AngelScriptWrapper()
 #pragma endregion
 }
 
+void AngelScriptWrapper::Call(const std::string& name)
+{
+	auto engine = static_cast<asIScriptEngine*>(_engine);
+}
+
 AngelScriptWrapper::~AngelScriptWrapper()
 {
 	auto engine = static_cast<asIScriptEngine*>(_engine);

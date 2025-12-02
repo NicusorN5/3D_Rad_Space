@@ -27,7 +27,7 @@ Sound::Sound(Internal::AssetUUIDReader dummy) :
 }
 
 Sound::Sound(IService *audio, const std::filesystem::path& path) :
-	_audio(static_cast<AudioEngine*>(audio))
+	_audio(dynamic_cast<AudioEngine*>(audio))
 {
 	AudioBuffer sound(std::move(_attemptLoading(path)));
 

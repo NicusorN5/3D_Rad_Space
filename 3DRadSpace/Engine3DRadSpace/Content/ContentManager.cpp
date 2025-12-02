@@ -11,7 +11,6 @@ using namespace Engine3DRadSpace::Reflection;
 ContentManager::AssetFactory::AssetFactory(IGame* owner) :
 	_owner(owner)
 {
-	_owner = owner;
 	_services[typeid(void)] = nullptr;
 }
 

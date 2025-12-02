@@ -1,6 +1,8 @@
 #include "CustomObject.hpp"
 #include "../Logging/Logging.hpp"
 #include "../Native/LibraryLoader.hpp"
+#include "../Core/FixedArray.hpp"
+#include "../Reflection/ReflectedObject.hpp"
 
 using namespace Engine3DRadSpace::Plugins;
 
@@ -11,7 +13,13 @@ void Engine3DRadSpace::Plugins::LoadCustomObjectsFromLibHandle(void* libraryHand
 	LoadCustomObjects loadCustomObjects = Native::GetFunctionFromLibrary<LoadCustomObjects>(libraryHandle, "LoadCustomObjects");
 	if(loadCustomObjects)
 	{
-		auto objects = loadCustomObjects();
+		auto rawObjects = loadCustomObjects();
+
+		FixedArray<Reflection::ReflectedObject*> objects(rawObjects.Size);
+		for (auto i = 0u; i < rawObjects.Size; i++)
+		{
+			objects[i] = static_cast<Reflection::ReflectedObject*>(rawObjects.Ptr) + i;
+		}
 
 		for(auto& object : objects)
 		{

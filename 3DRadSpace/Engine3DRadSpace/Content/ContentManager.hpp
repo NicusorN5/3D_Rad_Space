@@ -75,7 +75,12 @@ namespace Engine3DRadSpace::Content
 			{
 				RegisterType<T>({});
 
-				return std::make_unique<T>(_services[typeid(T)], path);
+				auto serviceType = Internal::AssetUUIDReader::GetInitializationService<T>({});
+
+				return std::make_unique<T>(
+					_services[serviceType],
+					path
+				);
 			}
 
 			template<AssetType T>

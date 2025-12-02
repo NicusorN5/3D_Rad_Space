@@ -21,13 +21,14 @@ void Game::_initialize()
 	AddService<IGraphicsDevice>(Device.get());
 
 	Content = std::make_unique<Content::ContentManager>(this);
-	Internal::RegisterDefaultTypes(Content.get());
 
 	Audio = std::make_unique<AudioEngine>();
 	AddService<IAudioEngine>(Audio.get());
 
 	SpriteBatch = std::make_unique<Graphics::SpriteBatch>(Device.get());
 	PostProcesses = std::make_unique<Graphics::Rendering::PostProcessCollection>(Device.get());
+
+	Internal::RegisterDefaultTypes(Content.get());
 
 	_valid = true;
 }
