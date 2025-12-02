@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.21)
 
 project("3DRadSpace.Logging")
 
-add_library(3DRadSpace.Logging STATIC 
+add_library(3DRadSpace.Logging SHARED 
 	"Exception.cpp"
 	"Message.cpp"
 	"Warning.cpp"
