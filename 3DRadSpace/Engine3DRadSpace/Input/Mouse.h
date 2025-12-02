@@ -11,4 +11,4 @@ typedef struct E3DRSP_Mouse
 
 	E3DRSP_Point Position;
 	float ScrollWheel;
-};
+} E3DRSP_Mouse;
