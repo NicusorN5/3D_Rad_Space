@@ -35,7 +35,7 @@ endif()
 #
 #Dependencies 
 #
-target_link_libraries(3DRadSpace_Games PRIVATE 3DRadSpace_Audio)
+target_link_libraries(3DRadSpace_Games PRIVATE 3DRadSpace.Audio)
 target_link_libraries(3DRadSpace_Games PRIVATE 3DRadSpace_Graphics)
 target_link_libraries(3DRadSpace_Games PRIVATE 3DRadSpace.Graphics.DirectX11)
 target_link_libraries(3DRadSpace_Games PRIVATE 3DRadSpace.Graphics.Null)

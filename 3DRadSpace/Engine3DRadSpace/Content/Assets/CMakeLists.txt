@@ -43,7 +43,7 @@ endif()
 
 target_link_libraries(3DRadSpace.Content.Assets PRIVATE 3DRadSpace_Core)
 target_link_libraries(3DRadSpace.Content.Assets PRIVATE 3DRadSpace_Math)
-target_link_libraries(3DRadSpace.Content.Assets PRIVATE 3DRadSpace_Audio)
+target_link_libraries(3DRadSpace.Content.Assets PRIVATE 3DRadSpace.Audio)
 target_link_libraries(3DRadSpace.Content.Assets PRIVATE 3DRadSpace_Games)
 target_link_libraries(3DRadSpace.Content.Assets PRIVATE 3DRadSpace_Graphics)
 target_link_libraries(3DRadSpace.Content.Assets PRIVATE 3DRadSpace_Graphics_Primitives)

@@ -28,7 +28,7 @@ if(MSVC)
 	target_compile_definitions(3DRadSpace_Objects PRIVATE [[E3DRSP_OBJECTS_EXPORT=__declspec(dllexport)]])
 endif()
 
-target_link_libraries(3DRadSpace_Objects PRIVATE 3DRadSpace_Audio)
+target_link_libraries(3DRadSpace_Objects PRIVATE 3DRadSpace.Audio)
 target_link_libraries(3DRadSpace_Objects PRIVATE 3DRadSpace_Graphics)
 target_link_libraries(3DRadSpace_Objects PRIVATE 3DRadSpace_Content)
 target_link_libraries(3DRadSpace_Objects PRIVATE 3DRadSpace.Content.Assets)
