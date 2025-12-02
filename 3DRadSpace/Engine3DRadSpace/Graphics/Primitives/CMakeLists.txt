@@ -47,6 +47,6 @@ endif()
 #Dependencies 
 #
 target_link_libraries(3DRadSpace.Graphics.Primitives PRIVATE 3DRadSpace.Core)
-target_link_libraries(3DRadSpace.Graphics.Primitives PRIVATE 3DRadSpace_Reflection)
+target_link_libraries(3DRadSpace.Graphics.Primitives PRIVATE 3DRadSpace.Reflection)
 target_link_libraries(3DRadSpace.Graphics.Primitives PRIVATE 3DRadSpace.Math)
 target_include_directories(3DRadSpace.Graphics.Primitives PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)
