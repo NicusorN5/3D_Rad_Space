@@ -34,7 +34,7 @@ target_link_libraries(3DRadSpace-editor PRIVATE 3DRadSpace_Objects)
 target_link_libraries(3DRadSpace-editor PRIVATE 3DRadSpace.Graphics)
 target_link_libraries(3DRadSpace-editor PRIVATE 3DRadSpace.Graphics.DirectX11)
 target_link_libraries(3DRadSpace-editor PRIVATE 3DRadSpace.Graphics.Primitives)
-target_link_libraries(3DRadSpace-editor PRIVATE 3DRadSpace.Graphics_Rendering)
+target_link_libraries(3DRadSpace-editor PRIVATE 3DRadSpace.Graphics.Rendering)
 target_link_libraries(3DRadSpace-editor PRIVATE 3DRadSpace.Games)
 target_include_directories(3DRadSpace-editor PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)
 
