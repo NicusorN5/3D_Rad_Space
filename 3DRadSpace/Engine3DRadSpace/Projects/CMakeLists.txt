@@ -28,7 +28,7 @@ if(MSVC)
 	target_compile_definitions(3DRadSpace_Projects PRIVATE [[E3DRSP_PROJECTS_EXPORT=__declspec(dllexport)]])
 endif()
 
-target_link_libraries(3DRadSpace_Projects PRIVATE 3DRadSpace_Objects)
+target_link_libraries(3DRadSpace_Projects PRIVATE 3DRadSpace.Objects)
 target_include_directories(3DRadSpace_Projects PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)
 
 #Nlohmann JSON

@@ -30,7 +30,7 @@ if(MSVC)
 endif()
 
 #Link 3DRadSpace
-target_link_libraries(3DRadSpace-editor PRIVATE 3DRadSpace_Objects)
+target_link_libraries(3DRadSpace-editor PRIVATE 3DRadSpace.Objects)
 target_link_libraries(3DRadSpace-editor PRIVATE 3DRadSpace.Graphics)
 target_link_libraries(3DRadSpace-editor PRIVATE 3DRadSpace.Graphics.DirectX11)
 target_link_libraries(3DRadSpace-editor PRIVATE 3DRadSpace.Graphics.Primitives)
