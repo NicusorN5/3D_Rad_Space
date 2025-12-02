@@ -3,7 +3,7 @@
 
 namespace Engine3DRadSpace::Reflection
 {
-	struct UUID
+	struct E3DRSP_REFLECTION_EXPORT UUID
 	{
 		unsigned long  Data1;
 		unsigned short Data2;

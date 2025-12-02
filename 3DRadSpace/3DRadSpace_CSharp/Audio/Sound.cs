@@ -4,10 +4,10 @@ namespace Engine3DRadSpace.Audio
 {
     public class Sound : IDisposable
     {
-        [DllImport("3DRadSpace_Audio.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_Sound_Create")]
+        [DllImport("3DRadSpace.Audio.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_Sound_Create")]
         private static extern IntPtr create(AudioEngine audio, string path);
 
-        [DllImport("3DRadSpace_Audio.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_Sound_Destroy")]
+        [DllImport("3DRadSpace.Audio.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_Sound_Destroy")]
         private static extern void destroy(IntPtr sound);
 
         IntPtr _sound;

@@ -41,11 +41,11 @@ endif()
 #Dependencies 
 #
 
-target_link_libraries(3DRadSpace.Content.Assets PRIVATE 3DRadSpace_Core)
-target_link_libraries(3DRadSpace.Content.Assets PRIVATE 3DRadSpace_Math)
-target_link_libraries(3DRadSpace.Content.Assets PRIVATE 3DRadSpace_Audio)
-target_link_libraries(3DRadSpace.Content.Assets PRIVATE 3DRadSpace_Games)
-target_link_libraries(3DRadSpace.Content.Assets PRIVATE 3DRadSpace_Graphics)
-target_link_libraries(3DRadSpace.Content.Assets PRIVATE 3DRadSpace_Graphics_Primitives)
-target_link_libraries(3DRadSpace.Content.Assets PRIVATE 3DRadSpace_Content)
+target_link_libraries(3DRadSpace.Content.Assets PRIVATE 3DRadSpace.Core)
+target_link_libraries(3DRadSpace.Content.Assets PRIVATE 3DRadSpace.Math)
+target_link_libraries(3DRadSpace.Content.Assets PRIVATE 3DRadSpace.Audio)
+target_link_libraries(3DRadSpace.Content.Assets PRIVATE 3DRadSpace.Games)
+target_link_libraries(3DRadSpace.Content.Assets PRIVATE 3DRadSpace.Graphics)
+target_link_libraries(3DRadSpace.Content.Assets PRIVATE 3DRadSpace.Graphics.Primitives)
+target_link_libraries(3DRadSpace.Content.Assets PRIVATE 3DRadSpace.Content)
 target_include_directories(3DRadSpace.Content.Assets PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)

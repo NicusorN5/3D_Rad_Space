@@ -12,7 +12,6 @@ namespace Engine3DRadSpace::Native
 #ifdef _WIN32
 		HINSTANCE _hInstance;
 #endif
-
 		Input::Mouse _mouse;
 		Input::Keyboard _keyboard;
 
