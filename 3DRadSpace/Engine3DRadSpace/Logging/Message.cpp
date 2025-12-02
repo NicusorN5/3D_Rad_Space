@@ -1,4 +1,5 @@
 #include "Message.hpp"
+#include "Message.h"
 #include <fstream>
 #include <print>
 #include <iostream>
@@ -32,3 +33,13 @@ inline void Engine3DRadSpace::Logging::DefaultMessageHandler(const Message &msg)
 }
 
 inline FuncMessageHandler Engine3DRadSpace::Logging::MessageHandler = DefaultMessageHandler;
+
+void E3DRSP_SetLastMessage(const E3DRSP_Message* message)
+{
+	SetLastMessage(Message(
+		message->Code,
+		message->Details,
+		message->Extra
+		)
+	);
+}
