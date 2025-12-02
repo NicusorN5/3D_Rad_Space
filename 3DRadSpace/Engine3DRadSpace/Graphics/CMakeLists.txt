@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.21)
 
 project("3DRadSpace.Graphics")
 
-add_library(3DRadSpace_Graphics SHARED 
+add_library(3DRadSpace.Graphics SHARED 
 	"Effect.cpp"
 	"FlipMode.cpp"
 	"Font.cpp"
@@ -19,48 +19,48 @@ add_library(3DRadSpace_Graphics SHARED
  "ShaderVariable.cpp" "IShaderCompiler.cpp")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
-  set_property(TARGET 3DRadSpace_Graphics PROPERTY CXX_STANDARD 23)
+  set_property(TARGET 3DRadSpace.Graphics PROPERTY CXX_STANDARD 23)
 endif()
 
 if(MSVC)
 	#Disable warning 4251 : 'type' : class 'type1' needs to have dll-interface to be used by clients of class 'type2'
-	target_compile_options(3DRadSpace_Graphics PRIVATE "/wd4251")
+	target_compile_options(3DRadSpace.Graphics PRIVATE "/wd4251")
 	#Fix C4530
-	target_compile_options(3DRadSpace_Graphics PRIVATE "/EHsc")
+	target_compile_options(3DRadSpace.Graphics PRIVATE "/EHsc")
 	# Create separate pdb debug info files
-	add_compile_options(3DRadSpace_Graphics PRIVATE "/Zi")
+	add_compile_options(3DRadSpace.Graphics PRIVATE "/Zi")
 	# Multiprocessor build
-	add_compile_options(3DRadSpace_Graphics PRIVATE "/MP")
+	add_compile_options(3DRadSpace.Graphics PRIVATE "/MP")
 
 	#enable address sanitizer if using a debug configuration
-	if(3DRadSpace_Graphics STREQUAL "Debug")
-		target_compile_options(3DRadSpace_Graphics PRIVATE "/fsanitize=address")
+	if(3DRadSpace.Graphics STREQUAL "Debug")
+		target_compile_options(3DRadSpace.Graphics PRIVATE "/fsanitize=address")
 	endif()
 
-	target_compile_definitions(3DRadSpace_Graphics PRIVATE [[E3DRSP_GRAPHICS_EXPORT=__declspec(dllexport)]])
+	target_compile_definitions(3DRadSpace.Graphics PRIVATE [[E3DRSP_GRAPHICS_EXPORT=__declspec(dllexport)]])
 endif()
 
 if(WIN32)
-	target_compile_definitions(3DRadSpace_Graphics PRIVATE _WINDLL=1)
+	target_compile_definitions(3DRadSpace.Graphics PRIVATE _WINDLL=1)
 endif()
 
 #
 #Dependencies 
 #
-target_link_libraries(3DRadSpace_Graphics PRIVATE 3DRadSpace_Core)
-target_link_libraries(3DRadSpace_Graphics PRIVATE 3DRadSpace_Reflection)
-target_link_libraries(3DRadSpace_Graphics PRIVATE 3DRadSpace_Math)
-target_link_libraries(3DRadSpace_Graphics PRIVATE 3DRadSpace.Logging)
-target_include_directories(3DRadSpace_Graphics PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)
+target_link_libraries(3DRadSpace.Graphics PRIVATE 3DRadSpace_Core)
+target_link_libraries(3DRadSpace.Graphics PRIVATE 3DRadSpace_Reflection)
+target_link_libraries(3DRadSpace.Graphics PRIVATE 3DRadSpace_Math)
+target_link_libraries(3DRadSpace.Graphics PRIVATE 3DRadSpace.Logging)
+target_include_directories(3DRadSpace.Graphics PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)
 
 #DirectXTK
 find_package(directxtk CONFIG REQUIRED)
-target_link_libraries(3DRadSpace_Graphics PRIVATE Microsoft::DirectXTK)
+target_link_libraries(3DRadSpace.Graphics PRIVATE Microsoft::DirectXTK)
 
 #assimp
 find_package(assimp CONFIG REQUIRED)
-target_link_libraries(3DRadSpace_Graphics PRIVATE assimp::assimp)
+target_link_libraries(3DRadSpace.Graphics PRIVATE assimp::assimp)
 
 #FreeType
 find_package(freetype CONFIG REQUIRED)
-target_link_libraries(3DRadSpace_Graphics PRIVATE Freetype::Freetype)
+target_link_libraries(3DRadSpace.Graphics PRIVATE Freetype::Freetype)
