@@ -215,7 +215,7 @@ void RenderWindow::Draw2D()
 	SpriteBatch->Begin();
 	SpriteBatch->DrawString(
 		_font.get(),
-		std::format("Mouse {} {}", cameraPos.X, cameraPos.Y),
+		std::format("Mouse {} {} FPS {}", cameraPos.X, cameraPos.Y, 1.0f / Draw_dt),
 		Point(20, 20),
 		1
 	);
