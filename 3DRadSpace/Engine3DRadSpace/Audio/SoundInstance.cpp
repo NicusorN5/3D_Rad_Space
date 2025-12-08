@@ -457,7 +457,7 @@ E3DRSP_SoundInstance E3DRSP_SoundInstance_Create1(E3DRSP_Sound sound)
 
 E3DRSP_AUDIO_EXPORT E3DRSP_AudioSource E3DRSP_SoundInstance_GetSource(E3DRSP_SoundInstance sndInstance)
 {
-	if (sndInstance == nullptr) return;
+	assert(sndInstance != nullptr);
 
 	E3DRSP_AudioSource src{};
 	auto source = static_cast<SoundInstance*>(sndInstance)->GetSource();
@@ -477,7 +477,7 @@ void E3DRSP_SoundInstance_SetSource(E3DRSP_SoundInstance sndInstance, const E3DR
 
 E3DRSP_SoundState E3DRSP_SoundInstance_GetState(E3DRSP_SoundInstance sndInstance)
 {
-	if (sndInstance == nullptr) return;
+	if (sndInstance == nullptr) return E3DRSP_SoundState_Undefined;
 	return static_cast<E3DRSP_SoundState>(static_cast<SoundInstance*>(sndInstance)->GetState());
 }
 

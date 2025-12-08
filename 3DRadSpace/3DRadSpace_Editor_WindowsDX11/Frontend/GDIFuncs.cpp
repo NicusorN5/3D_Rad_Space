@@ -9,7 +9,7 @@ void InitializeGDI()
 	GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, nullptr);
 }
 
-HBITMAP loadImgResource(const wchar_t* pName,const wchar_t* pType, HMODULE hInst)
+HBITMAP loadImgResource(const wchar_t* pName, const wchar_t* pType, HMODULE hInst)
 {
     HBITMAP result = nullptr;
 
@@ -34,7 +34,7 @@ HBITMAP loadImgResource(const wchar_t* pName,const wchar_t* pType, HMODULE hInst
         void* pBuffer = GlobalLock(m_hBuffer);
         if(pBuffer)
         {
-            CopyMemory(pBuffer, pResourceData, imgSize);
+            memcpy_s(pBuffer, imgSize, pResourceData, imgSize);
             IStream* pStream = NULL;
             if(CreateStreamOnHGlobal(m_hBuffer, FALSE, &pStream) == S_OK)
             {
