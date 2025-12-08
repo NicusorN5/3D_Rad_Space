@@ -139,6 +139,14 @@ typedef bool _Bool;
 #endif
 #endif
 
+#ifndef E3DRSP_OBJECTS_GIZMOS_EXPORT
+#if _WIN32
+#define E3DRSP_OBJECTS_GIZMOS_EXPORT
+#else
+#define E3DRSP_OBJECTS_GIZMOS_EXPORT
+#endif
+#endif
+
 #ifndef E3DRSP_PHYSICS_EXPORT
 #if _WIN32
 #define E3DRSP_PHYSICS_EXPORT

@@ -1,12 +1,12 @@
 #pragma once
 #include "../Native/Window.hpp"
-#include "../Objects/IUpdateable.hpp"
-#include "../Objects/IDrawable3D.hpp"
-#include "../Objects/IDrawable2D.hpp"
-#include "../Objects/IInitializable.hpp"
+#include "../Core/IUpdateable.hpp"
+#include "../Core/IDrawable3D.hpp"
+#include "../Core/IDrawable2D.hpp"
+#include "../Core/IInitializable.hpp"
 #include "../Objects/IObject2D.hpp"
 #include "../Objects/IObject3D.hpp"
-#include "../Objects/ILoadable.hpp"
+#include "../Core/ILoadable.hpp"
 #include "../Math\Matrix4x4.hpp"
 #include "../Content/ContentManager.hpp"
 #include "../Graphics/SpriteBatch.hpp"
@@ -20,7 +20,7 @@ namespace Engine3DRadSpace
 {
 	//class Objects::ObjectList;
 
-	class E3DRSP_GAMES_EXPORT Game : public IGame, public IUpdateable, public IDrawable3D, public IDrawable2D, public IInitiializable, public ILoadable
+	class E3DRSP_GAMES_EXPORT Game : public IGame, public IUpdateable, public IDrawable3D, public IDrawable2D, public IInitializable, public ILoadable
 	{
 	private:
 		bool _valid = false;

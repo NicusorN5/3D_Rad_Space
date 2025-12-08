@@ -15,6 +15,11 @@
 //Engine3DRadSpace
 #include "Core/Libs.hpp"
 #include "Core/FixedArray.hpp"
+#include "Core\IDrawable2D.hpp"
+#include "Core\IDrawable3D.hpp"
+#include "Core\IInitializable.hpp"
+#include "Core\ILoadable.hpp"
+#include "Core\IUpdateable.hpp"
 
 //Engine3DRadSpace::Audio
 #include "Audio\AudioBuffer.hpp"
@@ -117,14 +122,9 @@
 #include "Objects\ExitFade.hpp"
 #include "Objects\Fog.hpp"
 #include "Objects\Gizmos.hpp"
-#include "Objects\IDrawable2D.hpp"
-#include "Objects\IDrawable3D.hpp"
-#include "Objects\IInitializable.hpp"
-#include "Objects\ILoadable.hpp"
 #include "Objects\IObject.hpp"
 #include "Objects\IObject2D.hpp"
 #include "Objects\IObject3D.hpp"
-#include "Objects\IUpdateable.hpp"
 #include "Objects\ObjectList.hpp"
 #include "Objects\Skinmesh.hpp"
 #include "Objects\Skybox.hpp"

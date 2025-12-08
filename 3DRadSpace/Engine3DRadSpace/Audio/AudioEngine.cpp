@@ -56,9 +56,11 @@ std::vector<std::string> AudioEngine::ListAudioDevices()
 
 	//https://ffainelli.github.io/openal-example/
 	while (device && *device != '\0' && next && *next != '\0') {
-		deviceList.push_back(device);
+		auto strDevice = std::string(device);
 
-		size_t len = strlen(device);
+		deviceList.push_back(strDevice);
+
+		size_t len = strDevice.length();
 		device += (len + 1);
 		next += (len + 2);
 	}
@@ -171,7 +173,7 @@ char** E3DRSP_AudioEngine_ListAudioDevices()
 		char* deviceName = new char[deviceNameLength];
 		//I had cases where strings inside std::string wasn't null terminated, but somehow valid. (that happened when using ASan few months ago)
 		memset(deviceName, 0, deviceNameLength);
-		memcpy(deviceName, devices[i].c_str(), deviceNameLength - 1); 
+		memcpy_s(deviceName, deviceNameLength - 1, devices[i].c_str(), deviceNameLength - 1);
 
 		result[i] = deviceName;
 	}

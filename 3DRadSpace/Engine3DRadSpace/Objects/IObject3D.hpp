@@ -1,6 +1,6 @@
 #pragma once
 #include "IObject.hpp"
-#include "IDrawable3D.hpp"
+#include "../Core/IDrawable3D.hpp"
 #include "../Math/Ray.hpp"
 #include "../Math/Quaternion.hpp"
 

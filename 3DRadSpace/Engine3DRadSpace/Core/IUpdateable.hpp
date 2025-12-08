@@ -1,5 +1,5 @@
 #pragma once
-#include "../Core/Libs.hpp"
+#include "Libs.hpp"
 
 namespace Engine3DRadSpace
 {

@@ -27,9 +27,9 @@ using namespace Engine3DRadSpace::Projects;
 
 EditorWindow* gEditorWindow = nullptr;
 
-void EditorWindow::_saveProject(const char* filename)
+void EditorWindow::_saveProject(const std::filesystem::path &filename)
 {
-	if (filename == nullptr || strlen(filename) == 0)
+	if (!filename.empty())
 	{
 		char filebuff[_MAX_PATH]{};
 
@@ -55,11 +55,10 @@ void EditorWindow::_saveProject(const char* filename)
 	}
 }
 
-void EditorWindow::_writeProject(const char *fileName)
+void EditorWindow::_writeProject(const std::filesystem::path& fileName)
 {
 	_changesSaved = true;
-
-	Serializer::SaveProject(editor->Objects.get(), editor->Content.get(), std::filesystem::path(fileName));
+	Serializer::SaveProject(editor->Objects.get(), editor->Content.get(), fileName);
 }
 
 void EditorWindow::_findUpdate()

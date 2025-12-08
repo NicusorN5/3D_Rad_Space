@@ -1,6 +1,6 @@
 #pragma once
 #include "../ModelMeshPart.hpp"
-#include "../../Objects/IDrawable3D.hpp"
+#include "../../Core/IDrawable3D.hpp"
 
 namespace Engine3DRadSpace::Objects
 {

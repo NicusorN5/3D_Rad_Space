@@ -2,7 +2,7 @@
 #include "../Objects/Gizmos/Gizmo.hpp"
 #include "../Reflection/UUID.hpp"
 
-extern E3DRSP_OBJECTS_EXPORT std::vector<std::pair<Engine3DRadSpace::Reflection::UUID, std::unique_ptr<Engine3DRadSpace::Objects::Gizmos::IGizmo>>> _3drsp_gizmos;
+extern E3DRSP_OBJECTS_EXPORT std::vector<std::pair<Engine3DRadSpace::Reflection::UUID, std::unique_ptr<Engine3DRadSpace::Objects::Gizmos::IGizmo>>> e3drsp_gizmos;
 
 namespace Engine3DRadSpace::Internal
 {
@@ -20,7 +20,7 @@ namespace Engine3DRadSpace::Internal
 		gizmo.reset(new Objects::Gizmos::Gizmo<O>());
 		auto result = gizmo.get();
 
-		_3drsp_gizmos.emplace_back(
+		e3drsp_gizmos.emplace_back(
 			object->GetUUID(),
 			std::move(gizmo)
 		);
