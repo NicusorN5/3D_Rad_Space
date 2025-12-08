@@ -11,23 +11,23 @@ typedef void* E3DRSP_Game;
 extern "C"
 {
 #endif
-	E3DRSP_Game E3DRSP_Game_Create(const char* title, size_t width, size_t height, bool fullscreen);
+	E3DRSP_GAMES_EXPORT E3DRSP_Game E3DRSP_Game_Create(const char* title, size_t width, size_t height, bool fullscreen);
 	
-	void E3DRSP_Game_Run(E3DRSP_Game game);
-	void E3DRSP_Game_RunOneFrame(E3DRSP_Game game);
-	void E3DRSP_Game_Exit(E3DRSP_Game game);
+	E3DRSP_GAMES_EXPORT void E3DRSP_Game_Run(E3DRSP_Game game);
+	E3DRSP_GAMES_EXPORT void E3DRSP_Game_RunOneFrame(E3DRSP_Game game);
+	E3DRSP_GAMES_EXPORT void E3DRSP_Game_Exit(E3DRSP_Game game);
 
-	bool E3DRSP_Game_WasInitialized(E3DRSP_Game game);
-	bool E3DRSP_Game_WasLoaded(E3DRSP_Game game);
-	E3DRSP_Ray E3DRSP_Game_GetMouseRay(
+	E3DRSP_GAMES_EXPORT bool E3DRSP_Game_WasInitialized(E3DRSP_Game game);
+	E3DRSP_GAMES_EXPORT bool E3DRSP_Game_WasLoaded(E3DRSP_Game game);
+	E3DRSP_GAMES_EXPORT E3DRSP_Ray E3DRSP_Game_GetMouseRay(
 		E3DRSP_Game game,
 		E3DRSP_Vector2 mousePos,
 		const E3DRSP_Matrix4x4* view,
 		const E3DRSP_Matrix4x4* projection
 	);
 
-	void E3DRSP_Game_AppendScene(E3DRSP_Game game, const char* path);
-	void E3DRSP_Game_Destroy(E3DRSP_Game game);
+	E3DRSP_GAMES_EXPORT void E3DRSP_Game_AppendScene(E3DRSP_Game game, const char* path);
+	E3DRSP_GAMES_EXPORT void E3DRSP_Game_Destroy(E3DRSP_Game game);
 #ifdef __cplusplus
 }
 #endif

@@ -4,6 +4,7 @@ project("3DRadSpace.Content")
 
 add_library(3DRadSpace.Content SHARED 
 	"ContentManager.cpp"
+	"IAsset.cpp"
 )
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
