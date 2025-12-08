@@ -186,17 +186,10 @@ json Engine3DRadSpace::Projects::Serializer::SerializeObject(IObject* obj)
 					break;
 				}
 				case FieldRepresentationType::Image:
+				case FieldRepresentationType::Model:
 				{
 					unsigned texture = field->GetAtOffset<unsigned>(objPtr, offset);
 					jsonField[subFieldName][str_i] = texture;
-
-					offset += sizeof(unsigned);
-					break;
-				}
-				case FieldRepresentationType::Model:
-				{
-					unsigned model = field->GetAtOffset<unsigned>(objPtr, offset);
-					jsonField[subFieldName][str_i] = model;
 
 					offset += sizeof(unsigned);
 					break;

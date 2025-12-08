@@ -17,7 +17,13 @@ namespace Engine3DRadSpace::Objects
 	protected:
 		::Engine3DRadSpace::Graphics::Rendering::LinearPixelFogEffect* _effect;
 	public:
-		Fog(const std::string& name = "Fog", bool enabled = true, float begin = 200.0f, float end = 500.0f, Math::Color color = Math::Colors::White);
+		Fog(
+			const std::string& name = "Fog", 
+			bool enabled = true,
+			float begin = 200.0f,
+			float end = 500.0f,
+			Math::Color color = Math::Colors::White
+		);
 
 		Fog(const Fog&) = default;
 		Fog(Fog&&) = default;

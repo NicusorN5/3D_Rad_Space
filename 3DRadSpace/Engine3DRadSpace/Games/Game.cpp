@@ -1,4 +1,5 @@
 #include "Game.hpp"
+#include "Game.h"
 #include "../Objects/ObjectList.hpp"
 #include "../Projects/Serialization.hpp"
 #include "../Logging/Logging.hpp"
@@ -208,4 +209,79 @@ Ray Game::GetMouseRay(const Vector2 &mousePosition, const Matrix4x4 &view, const
 		.Origin = nearPoint,
 		.Direction = direction
 	};
+}
+
+E3DRSP_Game E3DRSP_Game_Create(const char* title, size_t width, size_t height, bool fullscreen)
+{
+	if (title == nullptr) title = "";
+	return new Game(title, width, height, fullscreen);
+}
+
+void E3DRSP_Game_Run(E3DRSP_Game game)
+{
+	if (game == nullptr) return;
+	static_cast<Game*>(game)->Run();
+}
+
+void E3DRSP_Game_RunOneFrame(E3DRSP_Game game)
+{
+	static_cast<Game*>(game)->RunOneFrame();
+}
+void E3DRSP_Game_Exit(E3DRSP_Game game)
+{
+	if (game == nullptr) return;
+	static_cast<Game*>(game)->Exit();
+}
+
+bool E3DRSP_Game_WasInitialized(E3DRSP_Game game)
+{
+	if (game == nullptr) return false;
+	return static_cast<Game*>(game)->WasInitialized();
+}
+bool E3DRSP_Game_WasLoaded(E3DRSP_Game game)
+{
+	if (game == nullptr) return false;
+	return static_cast<Game*>(game)->WasLoaded();
+}
+E3DRSP_Ray E3DRSP_Game_GetMouseRay(
+	E3DRSP_Game game,
+	E3DRSP_Vector2 mousePos,
+	const E3DRSP_Matrix4x4* view,
+	const E3DRSP_Matrix4x4* projection
+)
+{
+	assert(game != nullptr);
+	assert(view != nullptr);
+	assert(projection != nullptr);
+
+	//Assume same memory layout
+	Matrix4x4 m_view;
+	memcpy_s(&m_view, sizeof(Matrix4x4), view, sizeof(E3DRSP_Matrix4x4));
+
+	Matrix4x4 m_proj;
+	memcpy_s(&m_proj, sizeof(Matrix4x4), projection, sizeof(E3DRSP_Matrix4x4));
+
+	auto ray = static_cast<Game*>(game)->GetMouseRay(
+		{ mousePos.X, mousePos.Y },
+		m_view,
+		m_proj
+	);
+
+	return
+	{
+		E3DRSP_Vector3{ray.Origin.X, ray.Origin.Y, ray.Origin.Z},
+		E3DRSP_Vector3{ray.Direction.X, ray.Direction.Y, ray.Direction.Z},
+	};
+}
+
+void E3DRSP_Game_AppendScene(E3DRSP_Game game, const char* path)
+{
+	assert(game != nullptr);
+	assert(path != nullptr);
+	static_cast<Game*>(game)->AppendScene(path);
+}
+void E3DRSP_Game_Destroy(E3DRSP_Game game)
+{
+	assert(game != nullptr);
+	delete static_cast<Game*>(game);
 }
