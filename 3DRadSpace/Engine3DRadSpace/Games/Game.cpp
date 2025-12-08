@@ -225,8 +225,10 @@ void E3DRSP_Game_Run(E3DRSP_Game game)
 
 void E3DRSP_Game_RunOneFrame(E3DRSP_Game game)
 {
+	if (game == nullptr) return;
 	static_cast<Game*>(game)->RunOneFrame();
 }
+
 void E3DRSP_Game_Exit(E3DRSP_Game game)
 {
 	if (game == nullptr) return;
@@ -238,11 +240,13 @@ bool E3DRSP_Game_WasInitialized(E3DRSP_Game game)
 	if (game == nullptr) return false;
 	return static_cast<Game*>(game)->WasInitialized();
 }
+
 bool E3DRSP_Game_WasLoaded(E3DRSP_Game game)
 {
 	if (game == nullptr) return false;
 	return static_cast<Game*>(game)->WasLoaded();
 }
+
 E3DRSP_Ray E3DRSP_Game_GetMouseRay(
 	E3DRSP_Game game,
 	E3DRSP_Vector2 mousePos,
@@ -250,9 +254,11 @@ E3DRSP_Ray E3DRSP_Game_GetMouseRay(
 	const E3DRSP_Matrix4x4* projection
 )
 {
-	assert(game != nullptr);
-	assert(view != nullptr);
-	assert(projection != nullptr);
+	if (game == nullptr || view == nullptr || projection == nullptr) return E3DRSP_Ray
+	{
+		E3DRSP_Vector3{0.0f, 0.0f, 0.0f},
+		E3DRSP_Vector3{0.0f, 0.0f, 0.0f}
+	};
 
 	//Assume same memory layout
 	Matrix4x4 m_view;
@@ -267,7 +273,7 @@ E3DRSP_Ray E3DRSP_Game_GetMouseRay(
 		m_proj
 	);
 
-	return
+	return E3DRSP_Ray
 	{
 		E3DRSP_Vector3{ray.Origin.X, ray.Origin.Y, ray.Origin.Z},
 		E3DRSP_Vector3{ray.Direction.X, ray.Direction.Y, ray.Direction.Z},
@@ -276,12 +282,12 @@ E3DRSP_Ray E3DRSP_Game_GetMouseRay(
 
 void E3DRSP_Game_AppendScene(E3DRSP_Game game, const char* path)
 {
-	assert(game != nullptr);
-	assert(path != nullptr);
+	if (game == nullptr) return;
+	if (path == nullptr) return;
 	static_cast<Game*>(game)->AppendScene(path);
 }
 void E3DRSP_Game_Destroy(E3DRSP_Game game)
 {
-	assert(game != nullptr);
+	if (game == nullptr) return;
 	delete static_cast<Game*>(game);
 }

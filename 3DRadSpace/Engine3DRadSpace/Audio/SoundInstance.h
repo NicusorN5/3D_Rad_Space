@@ -9,7 +9,7 @@ typedef void* E3DRSP_SoundInstance;
 extern "C"
 {
 #endif
-	E3DRSP_AUDIO_EXPORT E3DRSP_SoundInstance E3DRSP_SoundInstance_Create(E3DRSP_Sound sound, E3DRSP_AudioSource source);
+	E3DRSP_AUDIO_EXPORT E3DRSP_SoundInstance E3DRSP_SoundInstance_Create(E3DRSP_Sound sound, const E3DRSP_AudioSource *source);
 	E3DRSP_AUDIO_EXPORT E3DRSP_SoundInstance E3DRSP_SoundInstance_Create1(E3DRSP_Sound sound);
 
 	E3DRSP_AUDIO_EXPORT E3DRSP_AudioSource E3DRSP_SoundInstance_GetSource(E3DRSP_SoundInstance sndInstance);

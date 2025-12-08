@@ -28,6 +28,6 @@ extern "C"
 
 	void E3DRSP_Game_AppendScene(E3DRSP_Game game, const char* path);
 	void E3DRSP_Game_Destroy(E3DRSP_Game game);
-#ifdef
+#ifdef __cplusplus
 }
 #endif

@@ -152,6 +152,7 @@ E3DRSP_AudioEngine E3DRSP_AudioEngine_Create()
 
 E3DRSP_AudioEngine E3DRSP_AudioEngine_Create1(const char* deviceName)
 {
+	if (deviceName == nullptr) return E3DRSP_AudioEngine_Create();
 	return new AudioEngine(deviceName);
 }
 
@@ -181,11 +182,14 @@ char** E3DRSP_AudioEngine_ListAudioDevices()
 
 void E3DRSP_AudioEngine_Update(E3DRSP_AudioEngine audio)
 {
+	if (audio == nullptr) return;
 	static_cast<AudioEngine*>(audio)->Update();
 }
 
 E3DRSP_AudioError E3DRSP_AudioEngine_CheckErrors(E3DRSP_AudioEngine audio)
 {
+	if (audio == nullptr) return E3DRSP_AudioError_None;
+
 	auto err = static_cast<AudioEngine*>(audio)->CheckErrors();
 	if(!err.has_value()) return E3DRSP_AudioError_None;
 	else return static_cast<E3DRSP_AudioError>(err.value());
@@ -193,10 +197,12 @@ E3DRSP_AudioError E3DRSP_AudioEngine_CheckErrors(E3DRSP_AudioEngine audio)
 
 void E3DRSP_AudioEngine_SwitchAudioDevice(E3DRSP_AudioEngine audio, const char* deviceName)
 {
+	if (audio == nullptr) return;
 	static_cast<AudioEngine*>(audio)->SwitchAudioDevice(deviceName);
 }
 
 void E3DRSP_AudioEngine_Destroy(E3DRSP_AudioEngine audio)
 {
+	assert(audio != nullptr);
 	delete static_cast<AudioEngine*>(audio);
 }
