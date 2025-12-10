@@ -79,10 +79,15 @@ void LoadAllPlugins()
 	unsigned numPlugins = 0;
 	for (auto const& entry : dirIterator)
 	{
-		++numPlugins;
+		if (entry.path().extension() == ".dll")
+		{
+			++numPlugins;
+		}
 	}
 
 	Logging::SetLastMessage(std::format("Found {} plugins:", numPlugins));
+
+	dirIterator = std::filesystem::directory_iterator("Plugins");
 
 	//Load all dll files in "./Plugins"
 	for (auto const& entry : dirIterator)

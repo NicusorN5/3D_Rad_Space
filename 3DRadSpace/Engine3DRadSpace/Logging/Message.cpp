@@ -29,7 +29,7 @@ inline void Engine3DRadSpace::Logging::DefaultMessageHandler(const Message &msg)
 	std::println(file, "{} Code {}", msg.Details, msg.Code);
 	
 #if _DEBUG
-	std::println(std::cout, "{}", msg.Details, msg.Code);
+	std::println(std::cout, "{}", msg.Details);
 #endif
 	file.close();
 }
