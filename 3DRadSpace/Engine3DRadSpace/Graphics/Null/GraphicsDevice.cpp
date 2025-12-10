@@ -16,7 +16,7 @@ using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Graphics::Null;
 using namespace Engine3DRadSpace::Math;
 
-GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, unsigned width, unsigned height) :
+GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, size_t width, size_t height) :
 	EnableVSync(false)
 {
 	(void)nativeWindowHandle;

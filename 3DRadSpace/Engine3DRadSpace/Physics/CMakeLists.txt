@@ -4,6 +4,7 @@ project("Engine3DRadSpace.Physics")
 
 add_library(3DRadSpace.Physics SHARED
 	"ICollider.cpp"
+	"IPhysicsEngine.cpp"
 )
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
