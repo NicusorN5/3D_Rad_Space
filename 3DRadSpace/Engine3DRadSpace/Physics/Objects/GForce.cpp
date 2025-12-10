@@ -1,10 +1,12 @@
 #include "GForce.hpp"
-#include "../Games/Game.hpp"
-#include "../Objects/Gizmos.hpp"
+#include "../IPhysicsEngine.hpp"
+#include "../../Core/IGame.hpp"
+#include "../../Objects/Gizmos.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Objects;
+using namespace Engine3DRadSpace::Physics::Objects;
 using namespace Engine3DRadSpace::Reflection;
 
 GForce::GForce(const std::string& name, bool enabled, const Math::Vector3& gravity) :
@@ -15,6 +17,7 @@ GForce::GForce(const std::string& name, bool enabled, const Math::Vector3& gravi
 
 void GForce::Initialize()
 {
+    _game->RequireService(typeid(IPhysicsEngine));
 }
 
 void GForce::Update()
@@ -37,7 +40,8 @@ Reflection::UUID GForce::GetUUID() const noexcept
 
 Gizmos::IGizmo* GForce::GetGizmo() const noexcept
 {
-    return Internal::GizmoOf<GForce>(this);
+    //return Internal::GizmoOf<GForce>(this);
+    return nullptr;
 }
 
 REFL_BEGIN(GForce, "G-Force", "Physics", "Enables physics and sets gravity")

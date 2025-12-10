@@ -1,14 +1,14 @@
 #include "StaticRigidbody.hpp"
-#include "../Games/Game.hpp"
-#include "../Graphics/Model3D.hpp"
-#include "../Objects/Gizmos.hpp"
+#include "../../Games/Game.hpp"
+#include "../../Graphics/Model3D.hpp"
+#include "../../Objects/Gizmos.hpp"
 #include "PhysicsEngine.hpp"
 #include <PxRigidStatic.h>
 #include <PxPhysics.h>
 #include <geometry/PxTriangleMesh.h>
 #include <geometry/PxTriangleMeshGeometry.h>
 #include <PxPhysicsAPI.h>
-#include "Content/Assets/ModelAsset.hpp"
+#include "../../Content/Assets/ModelAsset.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content::Assets;
@@ -16,6 +16,7 @@ using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Objects;
 using namespace Engine3DRadSpace::Physics;
+using namespace Engine3DRadSpace::Physics::NVPhysX;
 
 void StaticRigidbody::_generateRigidbody()
 {
@@ -30,8 +31,8 @@ void StaticRigidbody::_generateRigidbody()
 	);
 
 	physx::PxTransform transform;
-	transform.p = {Position.X, Position.Y, Position.Z};
-	transform.q = {Rotation.X, Rotation.Y, Rotation.Z, Rotation.W};
+	transform.p = {_position.X, _position.Y, _position.Z};
+	transform.q = {_rotation.X, _rotation.Y, _rotation.Z, _rotation.W};
 
 	std::vector<physx::PxTriangleMesh*> meshes;
 
@@ -100,7 +101,7 @@ void StaticRigidbody::_generateRigidbody()
 	{
 		auto meshgeometry = physx::PxTriangleMeshGeometry(
 			mesh,
-			physx::PxMeshScale(physx::PxVec3(Scale.X, Scale.Y, Scale.Z), physx::PxQuat(physx::PxIdentity))
+			physx::PxMeshScale(physx::PxVec3(_scale.X, _scale.Y, _scale.Z), physx::PxQuat(physx::PxIdentity))
 		);
 		auto shape = nvPhysics->createShape(meshgeometry, *material);
 		rigidbody->attachShape(*shape);
@@ -108,9 +109,6 @@ void StaticRigidbody::_generateRigidbody()
 
 	auto scene = static_cast<physx::PxScene*>(_physics->GetScene());
 	scene->addActor(*rigidbody);
-
-	_oldPos = Position;
-	_oldRotation = Rotation;
 }
 
 float StaticRigidbody::_getMass()
@@ -202,31 +200,12 @@ void StaticRigidbody::_setMaxAngularVelocity(const Math::Vector3 & linearVelocit
 {
 }
 
-StaticRigidbody::StaticRigidbody()
-{	
-}
-
-void StaticRigidbody::Load()
+StaticRigidbody::StaticRigidbody(
+	IPhysicsEngine* physics,
+	Graphics::Model3D* model,
+	const Math::Vector3 scale
+) : ICollider(physics)
 {
-	auto game = static_cast<Game*>(_game);
-
-	if(_path != nullptr)
-	{
-		_model = game->Content->Load<ModelAsset>(*_path)->Get();
-		_path.reset();
-	}
-	if(Model)
-	{
-		_model = static_cast<ModelAsset*>((*game->Content)[Model])->Get();
-	}
-
-	_generateRigidbody();
-}
-
-void StaticRigidbody::Load(const std::filesystem::path &path)
-{
-	auto game = static_cast<Game*>(_game);
-	_model = game->Content->Load<ModelAsset>(path)->Get();
 	_generateRigidbody();
 }
 
@@ -235,22 +214,18 @@ void StaticRigidbody::Update()
 	auto rigidbody = static_cast<physx::PxRigidStatic*>(_rigidbody.get());
 	auto tr = rigidbody->getGlobalPose();
 
-	Position = Vector3(
+	_position = Vector3(
 		tr.p.x,
 		tr.p.y,
 		tr.p.z
 	);
 	
-	Rotation = Quaternion(
+	_rotation = Quaternion(
 		tr.q.x,
 		tr.q.y,
 		tr.q.z,
 		tr.q.w
 	);
-}
-
-void StaticRigidbody::Draw3D()
-{
 }
 
 bool StaticRigidbody::ApplyForce(const Math::Vector3 &force)
@@ -320,20 +295,8 @@ void StaticRigidbody::SetRotation(const Math::Quaternion & newQuat, bool wake)
 void StaticRigidbody::SetPositionRotation(const Math::Vector3 & newPos, const Math::Vector3 & newQuat, bool wake)
 {
 	physx::PxTransform tr;
-	tr.p = {Position.X, Position.Y, Position.Z};
-	tr.q = {Rotation.X, Rotation.Y, Rotation.Z, Rotation.W};
+	tr.p = { _position.X, _position.Y, _position.Z};
+	tr.q = {_rotation.X, _rotation.Y, _rotation.Z, _rotation.W};
 
 	static_cast<physx::PxRigidStatic*>(_rigidbody.get())->setGlobalPose(tr);
-}
-
-Reflection::UUID StaticRigidbody::GetUUID() const noexcept
-{
-	// {2744F07F-05D5-4701-B7E6-1550DD763560}
-	return { 0x2744f07f, 0x5d5, 0x4701, { 0xb7, 0xe6, 0x15, 0x50, 0xdd, 0x76, 0x35, 0x60 } };
-}
-
-Gizmos::IGizmo* StaticRigidbody::GetGizmo() const noexcept
-{
-	return nullptr;
-	//return Internal::GizmoOf<StaticRigidbody>(this);
 }

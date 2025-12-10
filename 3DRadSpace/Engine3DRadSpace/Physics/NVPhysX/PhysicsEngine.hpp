@@ -1,13 +1,13 @@
 #pragma once
-#include "PhysicsSettings.hpp"
-#include "IPhysicsEngine.hpp"
+#include "../PhysicsSettings.hpp"
+#include "../IPhysicsEngine.hpp"
 
-namespace Engine3DRadSpace::Physics
+namespace Engine3DRadSpace::Physics::NVPhysX
 {
 	/// <summary>
 	/// Manages physics scene, and physics object factory.
 	/// </summary>
-	class E3DRSP_PHYSICS_EXPORT PhysicsEngine : public IPhysicsEngine
+	class E3DRSP_PHYSICS_NVPHYSX_EXPORT PhysicsEngine : public IPhysicsEngine
 	{
 		std::unique_ptr<void, std::function<void(void*)>> _allocator;
 		std::unique_ptr<void, std::function<void(void*)>> _errCallback;

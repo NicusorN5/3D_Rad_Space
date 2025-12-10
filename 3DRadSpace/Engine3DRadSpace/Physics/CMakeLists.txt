@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 3.21)
 
 project("Engine3DRadSpace.Physics")
 
-file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS "*.cpp" "*.hpp" )
-
-add_library(3DRadSpace.Physics STATIC ${SOURCE_FILES})
+add_library(3DRadSpace.Physics SHARED
+	"ICollider.cpp"
+)
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET 3DRadSpace.Physics PROPERTY CXX_STANDARD 23)
@@ -33,5 +33,4 @@ target_link_libraries(3DRadSpace.Physics PRIVATE unofficial::omniverse-physx-sdk
 
 target_link_libraries(3DRadSpace.Physics PRIVATE 3DRadSpace.Math)
 target_link_libraries(3DRadSpace.Physics PRIVATE 3DRadSpace.Logging)
-target_link_libraries(3DRadSpace.Physics PRIVATE 3DRadSpace.Objects)
 target_include_directories(3DRadSpace.Physics PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)

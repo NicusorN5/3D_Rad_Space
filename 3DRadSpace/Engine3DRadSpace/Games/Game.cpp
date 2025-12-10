@@ -5,6 +5,7 @@
 #include "../Logging/Logging.hpp"
 #include "GameFactory.hpp"
 #include "Content/Assets/Assets.hpp"
+#include "../Physics/NVPhysX/PhysicsEngine.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Audio;
@@ -23,15 +24,59 @@ void Game::_initialize()
 
 	Content = std::make_unique<Content::ContentManager>(this);
 
-	Audio = std::make_unique<AudioEngine>();
-	AddService<IAudioEngine>(Audio.get());
+	RequireService(typeid(IAudioEngine));
 
-	SpriteBatch = std::make_unique<Graphics::SpriteBatch>(Device.get());
-	PostProcesses = std::make_unique<Graphics::Rendering::PostProcessCollection>(Device.get());
+	RequireService(typeid(Graphics::SpriteBatch));
+	RequireService(typeid(PostProcessCollection));
 
 	Internal::RegisterDefaultTypes(Content.get());
 
 	_valid = true;
+}
+
+IService* Game::RequireService(const std::type_index& type)
+{
+	if (auto s = IGame::RequireService(type); s != nullptr) return s;
+
+	if (typeid(IAudioEngine) == type)
+	{
+		if(Audio) return Audio.get();
+
+		Audio = std::make_unique<AudioEngine>();
+		AddService<IAudioEngine>(Audio.get());
+		return Audio.get();
+	}
+	if (typeid(PostProcessCollection) == type)
+	{
+		if (PostProcesses) return PostProcesses.get();
+
+		PostProcesses = std::make_unique<Graphics::Rendering::PostProcessCollection>(Device.get());
+		AddService(PostProcesses.get());
+		return PostProcesses.get();
+	}
+
+	if (typeid(Graphics::SpriteBatch) == type)
+	{
+		if (SpriteBatch) return SpriteBatch.get();
+
+		SpriteBatch = std::make_unique<Graphics::SpriteBatch>(Device.get());
+		AddService(SpriteBatch.get());
+		return SpriteBatch.get();
+	}
+
+	if (typeid(Physics::IPhysicsEngine) == type)
+	{
+		if (Physics) return Physics.get();
+
+		Physics = std::make_unique<Physics::NVPhysX::PhysicsEngine>(Physics::PhysicsSettings{
+			.PhysicsEnabled = true,
+			.Gravity = 9.81f,
+			.TimeStep = 1.0f / 60.0f
+			}
+		);
+		return Physics.get();
+	}
+	return nullptr;
 }
 
 Game::Game(const std::string &title, size_t width, size_t height, bool fullscreen) :

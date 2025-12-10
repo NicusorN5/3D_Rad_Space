@@ -1,41 +1,12 @@
 #include "DynamicRigidbody.hpp"
 
 using namespace Engine3DRadSpace;
-using namespace Engine3DRadSpace::Objects;
-using namespace Engine3DRadSpace::Objects::Gizmos;
 using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Physics;
+using namespace Engine3DRadSpace::Physics::NVPhysX;
 
-void DynamicRigidbody::Update()
+DynamicRigidbody::DynamicRigidbody(IPhysicsEngine* physics) : ICollider(physics)
 {
-}
-
-void DynamicRigidbody::Load()
-{
-}
-
-void DynamicRigidbody::Load(const std::filesystem::path & path)
-{
-}
-
-Reflection::UUID DynamicRigidbody::GetUUID() const noexcept
-{
-	// {48E6C1B9-2ECA-4C54-A307-FEA05B0B03E4}
-	return {0x48e6c1b9, 0x2eca, 0x4c54, { 0xa3, 0x7, 0xfe, 0xa0, 0x5b, 0xb, 0x3, 0xe4 }};
-}
-
-IGizmo* DynamicRigidbody::GetGizmo() const noexcept
-{
-	return nullptr;
-}
-
-void DynamicRigidbody::Draw3D()
-{
-}
-
-std::optional<float> DynamicRigidbody::Intersects(const Math::Ray & r)
-{
-	return std::optional<float>();
 }
 
 float DynamicRigidbody::_getMass()
@@ -142,4 +113,14 @@ bool DynamicRigidbody::ApplyAcceleration(const Math::Vector3 & acc)
 bool DynamicRigidbody::ApplyAngularAcceleration(const Math::Vector3 & acc)
 {
 	return false;
+}
+
+void DynamicRigidbody::Update()
+{
+
+}
+
+std::optional<float> DynamicRigidbody::Intersects(const Math::Ray& r)
+{
+	return 0.0f;
 }

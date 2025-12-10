@@ -155,6 +155,22 @@ typedef bool _Bool;
 #endif
 #endif
 
+#ifndef E3DRSP_PHYSICS_NVPHYSX_EXPORT
+#if _WIN32
+#define E3DRSP_PHYSICS_NVPHYSX_EXPORT
+#else
+#define E3DRSP_PHYSICS_NVPHYSX_EXPORT
+#endif
+#endif
+
+#ifndef E3DRSP_PHYSICS_OBJ_EXPORT
+#if _WIN32
+#define E3DRSP_PHYSICS_OBJ_EXPORT
+#else
+#define E3DRSP_PHYSICS_OBJ_EXPORT
+#endif
+#endif
+
 #ifndef E3DRSP_PLUGINS_EXPORT
 #if _WIN32
 #define E3DRSP_PLUGINS_EXPORT

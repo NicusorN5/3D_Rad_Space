@@ -139,10 +139,13 @@
 #include "Native\Window.hpp"
 
 //Engine3DRadSpace::Physics
-#include "Physics\GForce.hpp"
-#include "Physics\IPhysicsObject.hpp"
-#include "Physics\PhysicsEngine.hpp"
+#include "Physics\ICollider.hpp"
+#include "Physics\IPhysicsEngine.hpp"
 #include "Physics\PhysicsSettings.hpp"
+//Engine3DRadSpace::Physics::Objects
+#include "Physics\Objects\GForce.hpp"
+#include "Physics\Objects\IPhysicsObject.hpp"
+#include "Physics\Objects\Rigidbody.hpp"
 
 //Engine3DRadSpace::Plugins
 #include "Plugins\CustomObject.hpp"

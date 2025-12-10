@@ -1,24 +1,29 @@
 #pragma once
-#include "../Objects/Skinmesh.hpp"
-#include "IPhysicsObject.hpp"
+#include "../ICollider.hpp"
+#include "../Math/Quaternion.hpp"
 
-namespace Engine3DRadSpace::Physics
+namespace Engine3DRadSpace::Graphics
+{
+	class Model3D;
+}
+
+namespace Engine3DRadSpace::Physics::NVPhysX
 {
 	/// <summary>
 	/// Triangle mesh based static rigidbody collider.
 	/// </summary>
-	class E3DRSP_PHYSICS_EXPORT StaticRigidbody: public IPhysicsObject
+	class E3DRSP_PHYSICS_OBJ_EXPORT StaticRigidbody: public ICollider
 	{
 		void _generateRigidbody();
 
 		STD_UPtrTypeless _material;
 		STD_UPtrTypeless _rigidbody;
 
-		std::unique_ptr<std::string> _path;
 		Graphics::Model3D* _model = nullptr;
 
-		Math::Vector3 _oldPos;
-		Math::Quaternion _oldRotation;
+		Math::Vector3 _position;
+		Math::Quaternion _rotation;
+		Math::Vector3 _scale;
 	protected:
 		float _getMass() override;
 		void _setMass(float mass) override;
@@ -47,22 +52,14 @@ namespace Engine3DRadSpace::Physics
 		Math::Vector3 _getMaxAngularVelocity() override;
 		void _setMaxAngularVelocity(const Math::Vector3& linearVelocity) override;
 	public:
-		StaticRigidbody();
+		StaticRigidbody(
+			IPhysicsEngine* physics,
+			Graphics::Model3D* model,
+			const Math::Vector3 scale = Math::Vector3::One()
+		);
 	
 		StaticRigidbody(StaticRigidbody&& rb) noexcept = default;
 		StaticRigidbody& operator=(StaticRigidbody&& rb) noexcept = default;
-
-		Objects::RefModel3D Model;
-
-		void SetPosition(const Math::Vector3& newPos, bool wake = false);
-		void SetRotation(const Math::Quaternion& newQuat, bool wake = false);
-		void SetPositionRotation(const Math::Vector3& newPos, const Math::Vector3& newQuat, bool wake);
-
-		void Load() override;
-		void Load(const std::filesystem::path& path) override;
-		
-		void Update() override;
-		void Draw3D() override;
 
 		bool ApplyForce(const Math::Vector3& force) override;
 		bool ApplyForce(const Math::Vector3& force, const Math::Vector3& center) override;
@@ -71,10 +68,12 @@ namespace Engine3DRadSpace::Physics
 		bool ApplyAcceleration(const Math::Vector3& acc) override;
 		bool ApplyAngularAcceleration(const Math::Vector3& acc) override;
 
-		std::optional<float> Intersects(const Math::Ray &r) override;
+		void SetPosition(const Math::Vector3& newPos, bool wake = false);
+		void SetRotation(const Math::Quaternion& newQuat, bool wake = false);
+		void SetPositionRotation(const Math::Vector3& newPos, const Math::Vector3& newQuat, bool wake);
 
-		Reflection::UUID GetUUID() const noexcept override;
-		Objects::Gizmos::IGizmo* GetGizmo() const noexcept override;
+		std::optional<float> Intersects(const Math::Ray& r) override;
+		void Update() override;
 
 		~StaticRigidbody() override = default;
 	};

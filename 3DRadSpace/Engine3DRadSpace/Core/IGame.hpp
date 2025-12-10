@@ -28,6 +28,14 @@ namespace Engine3DRadSpace
 			return static_cast<T*>(GetService(typeid(T)));
 		}
 
+		virtual IService* RequireService(const std::type_index& type);
+
+		template<typename T>
+		T* RequireService(Tag<T> dummy)
+		{
+			return RequireService(typeid(T));
+		}
+
 		virtual void Exit() = 0;
 
 		std::unordered_map<std::type_index, IService*>::iterator begin();

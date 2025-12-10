@@ -1,10 +1,12 @@
 #include "PhysicsEngine.hpp"
 #include <PxPhysicsAPI.h>
 #include <extensions/PxDefaultAllocator.h>
-#include "../Logging/Exception.hpp"
+#include "../../Logging/Exception.hpp"
+#include "../../Logging/Message.hpp"
 
 using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Physics;
+using namespace Engine3DRadSpace::Physics::NVPhysX;
 using namespace Engine3DRadSpace::Logging;
 
 static void _pxDefaultAllocatorDeleter(void* _allocator)
@@ -59,6 +61,8 @@ PhysicsEngine::PhysicsEngine(const PhysicsSettings& settings) :
 
 	_scene = physics->createScene(sceneDesc);
 	if (_scene == nullptr) throw Exception("Failed to create PxScene!");
+
+	Logging::SetLastMessage("Initialized PhysX");
 }
 
 void PhysicsEngine::SetGravity(const Math::Vector3& gravity)

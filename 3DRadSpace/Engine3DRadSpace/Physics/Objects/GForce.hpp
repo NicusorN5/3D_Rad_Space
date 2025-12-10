@@ -1,9 +1,8 @@
 #pragma once
+#include "../../Objects/IObject.hpp"
+#include "../../Reflection/Reflection.hpp"
 
-#include "../Objects/IObject.hpp"
-#include "../Reflection/Reflection.hpp"
-
-namespace Engine3DRadSpace::Objects
+namespace Engine3DRadSpace::Physics::Objects
 {
 	/// <summary>
 	/// A GForce object is a object that enables physics simulation and specifies the gravity.
@@ -11,7 +10,7 @@ namespace Engine3DRadSpace::Objects
 	/// <remarks>
 	/// You can avoid using this object, by manually initializing the physics. See the Game class.
 	/// </remarks>
-	class E3DRSP_PHYSICS_EXPORT GForce : public IObject
+	class E3DRSP_PHYSICS_OBJ_EXPORT GForce : public Engine3DRadSpace::Objects::IObject
 	{
 	public:
 		/// <summary>
@@ -57,7 +56,7 @@ namespace Engine3DRadSpace::Objects
 		/// <returns></returns>
 		Reflection::UUID GetUUID() const noexcept override;
 
-		Gizmos::IGizmo* GetGizmo() const noexcept override;
+		Engine3DRadSpace::Objects::Gizmos::IGizmo* GetGizmo() const noexcept override;
 	};
 }
 

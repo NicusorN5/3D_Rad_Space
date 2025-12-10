@@ -1,10 +1,11 @@
 #pragma once
-#include "IPhysicsObject.hpp"
+#include "../ICollider.hpp"
 
-namespace Engine3DRadSpace::Physics
+namespace Engine3DRadSpace::Physics::NVPhysX
 {
-	class E3DRSP_PHYSICS_EXPORT DynamicRigidbody : public IPhysicsObject
+	class E3DRSP_PHYSICS_OBJ_EXPORT DynamicRigidbody : public ICollider
 	{
+	protected:
 		float _getMass() override;
 		void _setMass(float mass) override;
 
@@ -32,22 +33,18 @@ namespace Engine3DRadSpace::Physics
 		Math::Vector3 _getMaxAngularVelocity() override;
 		void _setMaxAngularVelocity(const Math::Vector3 & linearVelocity) override;
 	public:
+		DynamicRigidbody(IPhysicsEngine* physics);
+
+		bool ApplyForce(const Math::Vector3& force) override;
+		bool ApplyForce(const Math::Vector3& force, const Math::Vector3& center) override;
+		bool ApplyTorque(const Math::Vector3& force) override;
+
+		bool ApplyAcceleration(const Math::Vector3& acc) override;
+		bool ApplyAngularAcceleration(const Math::Vector3& acc) override;
+
+		std::optional<float> Intersects(const Math::Ray& r) override;
 		void Update() override;
-		void Load() override;
-		void Load(const std::filesystem::path & path) override;
 
-		Reflection::UUID GetUUID() const noexcept override;
-		Objects::Gizmos::IGizmo * GetGizmo() const noexcept override;
-
-		void Draw3D() override;
-		std::optional<float> Intersects(const Math::Ray & r) override;
-
-		bool ApplyForce(const Math::Vector3 & force) override;
-		bool ApplyForce(const Math::Vector3 & force, const Math::Vector3 & center) override;
-		bool ApplyTorque(const Math::Vector3 & force) override;
-
-		bool ApplyAcceleration(const Math::Vector3 & acc) override;
-		bool ApplyAngularAcceleration(const Math::Vector3 & acc) override;
-
+		~DynamicRigidbody() override = default;
 	};
 }

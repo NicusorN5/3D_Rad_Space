@@ -8,6 +8,7 @@
 #include "FlipMode.hpp"
 #include "Font.hpp"
 #include "Effect.hpp"
+#include "../Core/IService.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {
@@ -37,7 +38,7 @@ namespace Engine3DRadSpace::Graphics
 	/// <summary>
 	/// A SpriteBatch renders 2D sprites with a specified order.
 	/// </summary>
-	class E3DRSP_GRAPHICS_EXPORT SpriteBatch
+	class E3DRSP_GRAPHICS_EXPORT SpriteBatch : public IService
 	{
 		IGraphicsDevice *_device;
 		SpriteBatchSortMode _sortingMode;
@@ -194,6 +195,6 @@ namespace Engine3DRadSpace::Graphics
 
 		void End();
 
-		~SpriteBatch() = default;
+		~SpriteBatch() override = default;
 	};
 }

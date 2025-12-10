@@ -61,6 +61,8 @@ namespace Engine3DRadSpace
 		std::unique_ptr<Audio::IAudioEngine> Audio;
 		std::unique_ptr<Graphics::Rendering::PostProcessCollection> PostProcesses;
 
+		IService* RequireService(const std::type_index& type);
+
 		double Draw_dt = 0;
 		double Update_dt = 0;
 

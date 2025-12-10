@@ -5,6 +5,7 @@ using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Objects;
 using namespace Engine3DRadSpace::Physics;
+using namespace Engine3DRadSpace::Physics::Objects;
 using namespace Engine3DRadSpace::Projects;
 
 static ObjectList *objList;
@@ -153,7 +154,7 @@ float iObjectKmh(unsigned obj_x)
 	auto obj = dynamic_cast<IPhysicsObject*>((*objList)[obj_x]);
 	if (obj != nullptr)
 	{
-		auto vel = obj->LinearVelocity.Get();
+		auto vel = obj->GetBody()->LinearVelocity.Get();
 		return vel.Length();
 	}
 	else return 0.0f;
@@ -164,7 +165,7 @@ void iObjectVelocity(unsigned obj_x, Math::Vector3& v)
 	auto obj = dynamic_cast<IPhysicsObject*>((*objList)[obj_x]);
 	if (obj != nullptr)
 	{
-		v = obj->LinearVelocity;
+		v = obj->GetBody()->LinearVelocity;
 	}
 	else v = Vector3::Zero();
 }
@@ -174,7 +175,7 @@ void iObjectVelocitySet(unsigned obj_x, Math::Vector3& v)
 	auto obj = dynamic_cast<IPhysicsObject*>((*objList)[obj_x]);
 	if (obj != nullptr)
 	{
-		obj->LinearVelocity = v;
+		obj->GetBody()->LinearVelocity = v;
 	}
 }
 
@@ -183,7 +184,7 @@ void iObjectSpin(unsigned obj_x, Math::Vector3& v)
 	auto obj = dynamic_cast<IPhysicsObject*>((*objList)[obj_x]);
 	if (obj != nullptr)
 	{
-		v = obj->AngularVelocity;
+		v = obj->GetBody()->AngularVelocity;
 	}
 	else v = Vector3::Zero();
 }
@@ -193,7 +194,7 @@ void iObjectSpinSet(unsigned obj_x, Math::Vector3& v)
 	auto obj = dynamic_cast<IPhysicsObject*>((*objList)[obj_x]);
 	if (obj != nullptr)
 	{
-		obj->AngularVelocity = v;
+		obj->GetBody()->AngularVelocity = v;
 	}
 }
 
