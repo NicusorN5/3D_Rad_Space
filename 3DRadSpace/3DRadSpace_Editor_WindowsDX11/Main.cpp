@@ -72,7 +72,7 @@ std::vector<void*> plugins;
 
 void LoadAllPlugins()
 {
-	bool r = std::filesystem::create_directories("Plugins");
+	std::filesystem::create_directories("Plugins");
 	auto dirIterator = std::filesystem::directory_iterator("Plugins");
 
 	//Count .dll files in "./Plugins"

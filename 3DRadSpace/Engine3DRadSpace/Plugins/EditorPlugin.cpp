@@ -18,5 +18,5 @@ std::expected<std::pair<PluginInfo, void*>, PluginLoadingError> Engine3DRadSpace
 
 	if(!initialize_fn()) return std::unexpected(PluginLoadingError::InitializationFunctionFailure);
 
-	return std::make_pair<PluginInfo, void*>(get_info(), (void*)(plugin));
+	return std::make_pair<PluginInfo, void*>(get_info(), static_cast<void*>(plugin));
 }
