@@ -5,7 +5,7 @@ using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Plugins;
 using namespace Engine3DRadSpace::Native;
 
-std::expected<PluginInfo, PluginLoadingError> Engine3DRadSpace::Plugins::LoadPlugin(const std::filesystem::path& pluginPath)
+std::expected<std::pair<PluginInfo, void*>, PluginLoadingError> Engine3DRadSpace::Plugins::LoadPlugin(const std::filesystem::path& pluginPath)
 {
 	auto plugin = Load_Library(pluginPath);
 	if(!plugin) return std::unexpected(PluginLoadingError::UnableToLoadPluginLibrary);
@@ -18,5 +18,5 @@ std::expected<PluginInfo, PluginLoadingError> Engine3DRadSpace::Plugins::LoadPlu
 
 	if(!initialize_fn()) return std::unexpected(PluginLoadingError::InitializationFunctionFailure);
 
-	return get_info();
+	return std::make_pair<PluginInfo, void*>(get_info(), (void*)(plugin));
 }

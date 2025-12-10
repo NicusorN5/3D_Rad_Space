@@ -26,9 +26,11 @@ inline void Engine3DRadSpace::Logging::SetLastMessage(const std::string& msg)
 inline void Engine3DRadSpace::Logging::DefaultMessageHandler(const Message &msg)
 {
 	std::fstream file("Logs.log", std::ios::app | std::ios::out | std::ios::ate); //create a file stream for writing, with append and seek end flags
-	std::println(file, "[INFO]{} Code {}", msg.Details, msg.Code);
-	std::println(file, "[INFO]{} Code {}", msg.Details, msg.Code);
-	//std::println(std::cout, "\x1B[38;5;3m [INFO]x1B[38;5;7m{} Code {}", msg.Details, msg.Code);
+	std::println(file, "{} Code {}", msg.Details, msg.Code);
+	
+#if _DEBUG
+	std::println(std::cout, "{}", msg.Details, msg.Code);
+#endif
 	file.close();
 }
 

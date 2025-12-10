@@ -36,6 +36,7 @@ target_link_libraries(3DRadSpace.Editor PRIVATE 3DRadSpace.Graphics.DirectX11)
 target_link_libraries(3DRadSpace.Editor PRIVATE 3DRadSpace.Graphics.Primitives)
 target_link_libraries(3DRadSpace.Editor PRIVATE 3DRadSpace.Graphics.Rendering)
 target_link_libraries(3DRadSpace.Editor PRIVATE 3DRadSpace.Games)
+target_link_libraries(3DRadSpace.Editor PRIVATE 3DRadSpace.Plugins)
 target_include_directories(3DRadSpace.Editor PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)
 
 #Nlohmann JSON

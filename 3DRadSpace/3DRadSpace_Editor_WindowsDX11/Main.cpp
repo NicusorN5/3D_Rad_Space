@@ -26,10 +26,16 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #pragma comment(lib, "DXGI.lib")
 #pragma comment(lib, "dxguid.lib")
 
-#include "Engine3DRadSpace/Logging/Exception.hpp"
+#include <Engine3DRadSpace/Logging/Exception.hpp>
+#include <Engine3DRadSpace/Logging/Message.hpp>
+#include <Engine3DRadSpace/Logging/Warning.hpp>
+#include <Engine3DRadSpace/Plugins/EditorPlugin.hpp>
+#include <Engine3DRadSpace/Native/LibraryLoader.hpp>
+#undef LoadLibrary
 #include "Frontend/Settings.hpp"
 #include "Editor/SkinmeshPreviewer.hpp"
 
+using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Logging;
 
 void SetWorkingDirectory()
@@ -62,6 +68,63 @@ void ReportLiveObjects()
 }
 #endif
 
+std::vector<void*> plugins;
+
+void LoadAllPlugins()
+{
+	bool r = std::filesystem::create_directories("Plugins");
+	auto dirIterator = std::filesystem::directory_iterator("Plugins");
+
+	//Count .dll files in "./Plugins"
+	unsigned numPlugins = 0;
+	for (auto const& entry : dirIterator)
+	{
+		++numPlugins;
+	}
+
+	Logging::SetLastMessage(std::format("Found {} plugins:", numPlugins));
+
+	//Load all dll files in "./Plugins"
+	for (auto const& entry : dirIterator)
+	{
+		auto file = entry.path();
+		if (file.has_extension() && file.extension() == ".dll")
+		{
+			auto p = Plugins::LoadPlugin(file);
+			std::ignore = p.and_then([](std::pair<Plugins::PluginInfo, void*> plugin) -> decltype(p)
+				{
+					auto& [info, handle] = plugin;
+					plugins.push_back(handle);
+
+					Logging::SetLastMessage(std::format("Loaded plugin {} ver {} handle {:x}", info.Name, info.Version, reinterpret_cast<intptr_t>(handle)));
+					return plugin;
+				}
+			).or_else([&file](Plugins::PluginLoadingError err) -> decltype(p)
+				{
+					std::string msg = "Unknown error";
+					switch (err)
+					{
+					case Plugins::PluginLoadingError::UnableToLoadPluginLibrary:
+						msg = "Unable to load library.";
+						break;
+					case Plugins::PluginLoadingError::NotA3DRadSpacePlugin:
+						msg = "Not a 3DRadSpace Plugin!\r\nFunction \"bool PluginMain()\" was not found!";
+						break;
+					case Plugins::PluginLoadingError::InitializationFunctionFailure:
+						msg = "Plugin initialization failed!";
+						break;
+					default:
+						break;
+					}
+
+					Logging::SetLastWarning(std::format("Failed to load plugin at {}!\r\n{}", file.string(), msg));
+					return std::unexpected(err);
+				}
+			);
+		}
+	}
+}
+
 int __stdcall WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR cmdArgs, _In_ int nShowCmd)
 {
 	UNREFERENCED_PARAMETER(hPrevInstance); //hPrevInstance was only used in 16-bit Windows applications.
@@ -90,13 +153,23 @@ int __stdcall WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 		return -1;
 
 	Settings::Load();
+	LoadAllPlugins();
 
 	EditorWindow editor(hInstance, cmdArgs);
 	editor.Run();
 
+	//unload plugins
+	for (auto plugin : plugins)
+	{
+		auto f = Native::GetFunctionFromLibrary<Plugins::PluginUnload>(plugin, "PluginUnload");
+		if (f != nullptr)
+		{
+			if (!f()) Logging::SetLastMessage(std::format("PluginUnload() returned false! Handle {:x}", reinterpret_cast<intptr_t>(plugin)));
+		}
+	}
+
 	DeinitializeGDI();
 	CoUninitialize();
-
 #if _DEBUG
 	//_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG);
 	//_CrtDumpMemoryLeaks();
