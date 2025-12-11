@@ -29,7 +29,7 @@ EditorWindow* gEditorWindow = nullptr;
 
 void EditorWindow::_saveProject(const std::filesystem::path &filename)
 {
-	if (!filename.empty())
+	if (filename.empty())
 	{
 		char filebuff[_MAX_PATH]{};
 
@@ -58,7 +58,9 @@ void EditorWindow::_saveProject(const std::filesystem::path &filename)
 void EditorWindow::_writeProject(const std::filesystem::path& fileName)
 {
 	_changesSaved = true;
+	_currentFile = fileName;
 	Serializer::SaveProject(editor->Objects.get(), editor->Content.get(), fileName);
+
 }
 
 void EditorWindow::_findUpdate()
@@ -641,6 +643,7 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 					{
 						//open project file.
 						gEditorWindow->_changesSaved = true;
+						gEditorWindow->_currentFile = std::filesystem::path(filebuff);
 
 						gEditorWindow->editor->Content->Clear();
 						SetWorkingDirectory();

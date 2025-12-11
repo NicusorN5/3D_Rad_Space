@@ -60,7 +60,7 @@ class EditorWindow
 	bool _running;
 	bool _changesSaved = true;
 
-	char _currentFile[_MAX_PATH]{};
+	std::filesystem::path _currentFile;
 	void _saveProject(const std::filesystem::path& filename = "");
 	void _writeProject(const std::filesystem::path& filename);
 	void _findUpdate();
