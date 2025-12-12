@@ -10,6 +10,7 @@ class UpdateProgressWindow
 	HWND _cancelButton;
 
 	HWND _progressBar;
+	HWND _label1;
 	int shownProgress;
 
 	static UpdateProgressWindow* gInstance;
