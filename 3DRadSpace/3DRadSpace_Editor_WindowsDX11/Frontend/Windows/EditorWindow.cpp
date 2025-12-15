@@ -646,10 +646,11 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 						gEditorWindow->_currentFile = std::filesystem::path(filebuff);
 
 						gEditorWindow->editor->Content->Clear();
+						gEditorWindow->editor->Objects->Clear();
+						SendMessageA(gEditorWindow->_listBox, TVM_DELETEITEM, 0, reinterpret_cast<LPARAM>(TVI_ROOT));
 						SetWorkingDirectory();
-						Serializer::LoadProject(gEditorWindow->editor->Objects.get(), gEditorWindow->editor->Content.get(), filebuff);
 
-						SendMessageA(gEditorWindow->_listBox, LVM_DELETEALLITEMS, 0, 0);
+						Serializer::LoadProject(gEditorWindow->editor->Objects.get(), gEditorWindow->editor->Content.get(), filebuff);
 
 						for (int i = 0; auto& instance : *(gEditorWindow->editor->Objects))
 						{
