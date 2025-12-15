@@ -26,7 +26,7 @@ if(MSVC)
 	add_compile_options(3DRadSpace.Content.Assets PRIVATE "/MP")
 
 	#enable address sanitizer if using a debug configuration
-	if(3DRadSpace.Content.Assets STREQUAL "Debug")
+	if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 		target_compile_options(3DRadSpace.Content.Assets PRIVATE "/fsanitize=address")
 	endif()
 

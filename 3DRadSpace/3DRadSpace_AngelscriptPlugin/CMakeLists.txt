@@ -22,6 +22,11 @@ if(MSVC)
 	add_compile_options(3DRadSpace.AngelScript PRIVATE "/MP")
 
 	target_compile_definitions(3DRadSpace.AngelScript PRIVATE [[E3DRSP_ANGELSCRIPT_EXPORT=__declspec(dllexport)]])
+
+	#enable address sanitizer if using a debug configuration
+	if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+		target_compile_options(3DRadSpace.Scripting PRIVATE "/fsanitize=address")
+	endif()
 endif()
 
 #Link 3DRadSpace

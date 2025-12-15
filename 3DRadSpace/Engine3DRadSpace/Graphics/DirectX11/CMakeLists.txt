@@ -40,7 +40,7 @@ if(MSVC)
 	add_compile_options(3DRadSpace.Graphics.DirectX11 PRIVATE "/MP")
 
 	#enable address sanitizer if using a debug configuration
-	if(3DRadSpace.Graphics.DirectX11 STREQUAL "Debug")
+	if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 		target_compile_options(3DRadSpace.Graphics.DirectX11 PRIVATE "/fsanitize=address")
 	endif()
 

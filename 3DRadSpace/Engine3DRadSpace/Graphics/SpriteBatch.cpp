@@ -424,7 +424,7 @@ void SpriteBatch::DrawString(Font* font, const std::string& text, const Vector2&
 	{
 		if (!font->GetCharGlyph(c).has_value()) continue;
 
-		auto&& glyph = font->GetCharGlyph(c).value();
+		auto glyph = font->GetCharGlyph(c).value();
 
 		Math::Rectangle rcChar;
 		// https://learnopengl.com/In-Practice/Text-Rendering

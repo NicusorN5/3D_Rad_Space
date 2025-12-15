@@ -16,6 +16,11 @@ if(MSVC)
 
 	# Multiprocessor build
 	add_compile_options(3DRadSpace.Tests PRIVATE "/MP")
+
+	#enable address sanitizer if using a debug configuration
+	if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+		target_compile_options(3DRadSpace.Tests PRIVATE "/fsanitize=address")
+	endif()
 endif()
 
 #Link 3DRadSpace
