@@ -68,6 +68,7 @@ SoundEffect::SoundEffect(
 	RefSound sound
 ) : IObject(name, enabled),
 	Sound(sound),
+	_sound(nullptr),
 	SE_INITIALIZE
 {
 }

@@ -12,8 +12,8 @@ namespace Engine3DRadSpace::Graphics
 
 		Math::RectangleF ScreenRectangle;
 
-		float MinDepth;
-		float MaxDepth;
+		float MinDepth = 0.0f;
+		float MaxDepth = 1.0f;
 
 		Math::Vector3 Unproject(const Math::Vector3& source, const Math::Matrix4x4& projection, const Math::Matrix4x4& view, const Math::Matrix4x4& world) const;
 	};

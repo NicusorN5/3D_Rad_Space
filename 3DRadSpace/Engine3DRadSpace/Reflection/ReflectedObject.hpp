@@ -42,6 +42,14 @@ namespace Engine3DRadSpace::Reflection
 			};
 		}
 
+		ReflectedObject(
+			const std::string& name,
+			const std::string& category,
+			const std::string& desc,
+			const std::span<IReflectedField*> obj_fields,
+			const UUID& uuid
+		);
+
 		std::string Name;
 		std::string Category;
 		std::string Description;

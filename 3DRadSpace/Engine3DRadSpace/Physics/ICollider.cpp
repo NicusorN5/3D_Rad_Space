@@ -101,7 +101,7 @@ E3DRSP_Vector3 E3DRSP_ICollider_GetAngularVelocity(E3DRSP_ICollider* collider)
 	return { v.X, v.Y, v.Z };
 }
 
-E3DRSP_PHYSICS_EXPORT void E3DRSP_ICollider_SetAngularVelocity(E3DRSP_ICollider* collider, const E3DRSP_Vector3* vel)
+void E3DRSP_ICollider_SetAngularVelocity(E3DRSP_ICollider* collider, const E3DRSP_Vector3* vel)
 {
 	reinterpret_cast<ICollider*>(collider)->AngularVelocity = Vector3(vel->X, vel->Y, vel->Z);
 }
