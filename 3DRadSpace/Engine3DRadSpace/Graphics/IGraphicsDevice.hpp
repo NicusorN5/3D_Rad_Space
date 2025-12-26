@@ -15,6 +15,7 @@
 #include "TextureAddressMode.hpp"
 #include "RasterizerFillMode.hpp"
 #include "RasterizerCullMode.hpp"
+#include "IVertexBuffer.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {
@@ -36,6 +37,8 @@ namespace Engine3DRadSpace::Graphics
 	protected:
 		IGraphicsDevice() = default;
 	public:
+		virtual std::string BackendName() const noexcept = 0;
+
 		virtual std::unique_ptr<IRasterizerState> GetRasterizerState() = 0;
 
 		virtual Math::Point Resolution() const noexcept = 0;

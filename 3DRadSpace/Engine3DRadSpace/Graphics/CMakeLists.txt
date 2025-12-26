@@ -16,7 +16,18 @@ add_library(3DRadSpace.Graphics SHARED
 	"NullShader.cpp"
 	"ShaderDesc.cpp"
 	"EffectManager.cpp"
- "ShaderVariable.cpp" "IShaderCompiler.cpp")
+	"ShaderVariable.cpp"
+	"IShaderCompiler.cpp"
+	"IShader.cpp"
+	"IGPUResource.cpp"
+	"IGPUBuffer.cpp"
+	"IVertexBuffer.cpp"
+	"IGraphicsDevice.cpp"
+	"IDepthStencilBuffer.cpp"
+	"IIndexBuffer.cpp"
+	"IDepthStencilState.cpp"
+	"IGraphicsCommandList.cpp"
+)
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET 3DRadSpace.Graphics PROPERTY CXX_STANDARD 23)

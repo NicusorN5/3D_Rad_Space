@@ -1,7 +1,11 @@
 #include "BoundingBox.hpp"
+#include "BoundingBox.h"
 #include "BoundingSphere.hpp"
+#include "BoundingSphere.h"
 #include "Math.hpp"
 #include "Ray.hpp"
+#include "Ray.h"
+#include "Vector3.h"
 
 using namespace Engine3DRadSpace::Math;
 
@@ -132,4 +136,53 @@ Vector3 BoundingBox::operator[](int i) const
 Vector3 BoundingBox::Center() const noexcept
 {
 	return Position + (Scale / 2);
+}
+
+E3DRSP_Vector3 E3DRSP_BoundingBox_Min(E3DRSP_BoundingBox* box)
+{
+	auto v = reinterpret_cast<BoundingBox*>(box)->Min();
+	return { v.X, v.Y, v.Z };
+}
+
+E3DRSP_Vector3 E3DRSP_BoundingBox_Center(E3DRSP_BoundingBox* box)
+{
+	auto v = reinterpret_cast<BoundingBox*>(box)->Center();
+	return { v.X, v.Y, v.Z };
+}
+
+E3DRSP_Vector3 E3DRSP_BoundingBox_Max(E3DRSP_BoundingBox* box)
+{
+	auto v = reinterpret_cast<BoundingBox*>(box)->Max();
+	return { v.X, v.Y, v.Z };
+}
+
+_Bool E3DRSP_BoundingBox_IntersectsBox(E3DRSP_BoundingBox *box1, const E3DRSP_BoundingBox* box2)
+{
+	return reinterpret_cast<BoundingBox*>(box1)->Intersects(*reinterpret_cast<const BoundingBox*>(box2));
+}
+
+_Bool E3DRSP_BoundingBox_IntersectsSphere(E3DRSP_BoundingBox *box, const E3DRSP_BoundingSphere* sphere)
+{
+	return reinterpret_cast<BoundingBox*>(box)->Intersects(*reinterpret_cast<const BoundingSphere*>(sphere));
+}
+
+_Bool E3DRSP_BoundingBox_IntersectsPlane(E3DRSP_BoundingBox box, const E3DRSP_BoundingPlane* plane)
+{
+	return reinterpret_cast<BoundingBox*>(&box)->Intersects(*reinterpret_cast<const BoundingPlane*>(plane));
+}
+
+_Bool E3DRSP_BoundingBox_IntersectsRay(E3DRSP_BoundingBox box, E3DRSP_Ray ray)
+{
+	return reinterpret_cast<BoundingBox*>(&box)->Intersects(*reinterpret_cast<Ray*>(&ray));
+}
+
+_Bool E3DRSP_BoundingBox_ContainsPoint(E3DRSP_BoundingBox box, E3DRSP_Vector3 point)
+{
+	return reinterpret_cast<BoundingBox*>(&box)->Contains(*reinterpret_cast<Vector3*>(&point));
+}
+
+E3DRSP_Vector3 E3DRSP_BoundingBox_GetCorner(E3DRSP_BoundingBox box, int index)
+{
+	auto v = reinterpret_cast<BoundingBox*>(&box)->operator[](index);
+	return E3DRSP_Vector3{ v.X, v.Y, v.Z };
 }

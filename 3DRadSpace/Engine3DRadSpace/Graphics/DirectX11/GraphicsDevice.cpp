@@ -181,6 +181,11 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, size_t width, size_t he
 	Logging::SetLastMessage("Created D3D11 backend");
 }
 
+std::string GraphicsDevice::BackendName() const noexcept
+{
+	return "DirectX11";
+}
+
 Math::Point GraphicsDevice::Resolution() const noexcept
 {
 	return this->_resolution;

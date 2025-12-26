@@ -17,5 +17,7 @@ namespace Engine3DRadSpace::Graphics
         /// <returns>Blend factor.</returns>
         virtual Math::Color BlendFactor() const noexcept = 0;
         virtual unsigned int SampleMask() const noexcept = 0;
+
+		~IBlendState() override = default;
     };
 }

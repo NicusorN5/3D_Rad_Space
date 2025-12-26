@@ -1,6 +1,9 @@
 #include "BoundingSphere.hpp"
+#include "BoundingSphere.h"
 #include "BoundingBox.hpp"
+#include "BoundingBox.h"
 #include "Ray.hpp"
+#include "Ray.h"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Math;
@@ -75,4 +78,24 @@ bool Engine3DRadSpace::Math::BoundingSphere::Intersects(const Ray& ray) const
 bool Engine3DRadSpace::Math::BoundingSphere::Contains(const Vector3& p) const
 {
 	return (Center - p).LengthSquared() <= Radius * Radius;
+}
+
+_Bool E3DRSP_BoundingSphere_IntersectsBox(E3DRSP_BoundingSphere* sphere, const E3DRSP_BoundingBox* box)
+{
+	return reinterpret_cast<BoundingSphere*>(sphere)->Intersects(*reinterpret_cast<const BoundingBox*>(box));
+}
+
+_Bool E3DRSP_BoundingSphere_IntersectsSphere(E3DRSP_BoundingSphere* sphere1, const E3DRSP_BoundingSphere* sphere2)
+{
+	return reinterpret_cast<BoundingSphere*>(sphere1)->Intersects(*reinterpret_cast<const BoundingSphere*>(sphere2));
+}
+
+_Bool E3DRSP_BoundingSphere_IntersectsPlane(E3DRSP_BoundingSphere* sphere, const E3DRSP_BoundingPlane* plane)
+{
+	return reinterpret_cast<BoundingSphere*>(sphere)->Intersects(*reinterpret_cast<const BoundingPlane*>(plane));
+}
+
+_Bool E3DRSP_BoundingSphere_ContainsPoint(E3DRSP_BoundingSphere* sphere, const E3DRSP_Vector3* point)
+{
+	return reinterpret_cast<BoundingSphere*>(sphere)->Contains(*reinterpret_cast<const Vector3*>(point));
 }

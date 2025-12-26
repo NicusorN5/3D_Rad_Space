@@ -30,6 +30,11 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, size_t width, size_t he
 	_screenQuad = std::make_unique<VertexBuffer>(this, nullptr, 0, 0);
 }
 
+std::string GraphicsDevice::BackendName() const noexcept
+{
+	return _backendName;
+}
+
 Math::Point GraphicsDevice::Resolution() const noexcept
 {
 	return Math::Point();

@@ -59,6 +59,8 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 
 		std::unique_ptr<GraphicsCommandList> _immediateContext;
 		std::unique_ptr<DirectX11::ShaderCompiler> _compiler;
+
+		std::string _backendName = "DirectX11";
 	public:
 		GraphicsDevice() = delete;
 		explicit GraphicsDevice(void* nativeWindowHandle, size_t width = 800, size_t height = 600);
@@ -70,6 +72,8 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		GraphicsDevice& operator=(GraphicsDevice&&) = delete;
 
 		bool EnableVSync;
+
+		std::string BackendName() const noexcept override;
 
 		/// <summary>
 		/// Returns the backbuffer width and height.

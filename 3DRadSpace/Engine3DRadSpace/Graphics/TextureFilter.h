@@ -1,0 +1,14 @@
+#pragma once
+
+enum E3DRSP_TextureFilter
+{
+	E3DRSP_TextureFilter_Anisotropic,
+	E3DRSP_TextureFilter_Linear,
+	E3DRSP_TextureFilter_LinearMipPoint,
+	E3DRSP_TextureFilter_MinLinearMagPointMipLinear,
+	E3DRSP_TextureFilter_MinLinearMagPointMipPoint,
+	E3DRSP_TextureFilter_MinPointMagLinearMipLinear,
+	E3DRSP_TextureFilter_MinPointMagLinearMipPoint,
+	E3DRSP_TextureFilter_Point,
+	E3DRSP_TextureFilter_PointMipLinear
+};

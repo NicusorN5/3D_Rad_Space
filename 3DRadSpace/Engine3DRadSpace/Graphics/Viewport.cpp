@@ -1,4 +1,5 @@
 #include "Viewport.hpp"
+#include "Viewport.h"
 #include "Math/Math.hpp"
 #include "Math/Vector3.hpp"
 
@@ -27,5 +28,22 @@ Vector3 Viewport::Unproject(const Vector3 &source, const Matrix4x4& projection, 
 		vector.Z = vector.Z / a;
 	}
 	return vector;
+}
 
+E3DRSP_Vector3 E3DRSP_Viewport_Unproject(
+	const E3DRSP_Viewport* viewport,
+	const E3DRSP_Vector3* source,
+	const E3DRSP_Matrix4x4* projection,
+	const E3DRSP_Matrix4x4* view,
+	const E3DRSP_Matrix4x4* world
+)
+{
+	Viewport vp = *reinterpret_cast<const Viewport*>(viewport);
+	Vector3 src = *reinterpret_cast<const Vector3*>(source);
+	Matrix4x4 proj = *reinterpret_cast<const Matrix4x4*>(projection);
+	Matrix4x4 v = *reinterpret_cast<const Matrix4x4*>(view);
+	Matrix4x4 w = *reinterpret_cast<const Matrix4x4*>(world);
+	
+	Vector3 result = vp.Unproject(src, proj, v, w);
+	return E3DRSP_Vector3{ result.X, result.Y, result.Z };
 }

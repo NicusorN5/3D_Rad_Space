@@ -4,6 +4,7 @@ project("Engine3DRadSpace.Core")
 
 add_library(3DRadSpace.Core STATIC
 	"IGame.cpp"
+	"IService.cpp"
 )
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
