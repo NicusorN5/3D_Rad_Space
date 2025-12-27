@@ -18,7 +18,6 @@ namespace Engine3DRadSpace::Reflection
 		unsigned int _numArgs;
 		FieldRepresentation _returnType;
 		std::vector<FieldRepresentation> _argsInfo;
-		std::string _name;
 		std::string _signature;
 
 		IReflectedFunction(const IReflectedFunction&) = default;
@@ -31,7 +30,6 @@ namespace Engine3DRadSpace::Reflection
 		unsigned int NumParameters() const noexcept;
 		const std::vector<FieldRepresentation>& ParametersInfo() const noexcept;
 		const FieldRepresentation& ReturnedTypeInfo() const noexcept ;
-		const std::string& Name() const noexcept;
 		const std::string& Signature() const noexcept;
 
 		virtual std::any Invoke(void* self, std::span<std::any> args) const = 0;

@@ -89,13 +89,13 @@ namespace Engine3DRadSpace
 		template<typename R, typename F, typename ...Args>
 		void Bind(F fn)
 		{
-			(*this).operator+=<R, F, Args...>(fn);
+			this->operator+=<R, F, Args...>(fn);
 		}
 
 		template<typename R, typename O, typename F, typename ...Args>
 		void Bind(O::F fn)
 		{
-			(*this).operator+=<R, O, F, Args...>(fn);
+			this->operator+=<R, O, F, Args...>(fn);
 		}
 
 		template<typename R, typename ...Args>
