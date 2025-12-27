@@ -85,7 +85,7 @@ E3DRSP_ReflectedObject E3DRSP_ReflectedObject_Create(
 		std::string(category),
 		std::string(description),
 		natFields,
-		*std::bit_cast<const Reflection::UUID*>(objectUUID)
+		std::bit_cast<const Reflection::UUID>(*objectUUID)
 	));
 }
 

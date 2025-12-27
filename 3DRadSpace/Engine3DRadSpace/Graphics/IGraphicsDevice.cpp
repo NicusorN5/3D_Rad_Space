@@ -115,8 +115,8 @@ E3DRSP_IDepthStencilState E3DRSP_IGraphicsDevice_CreateDepthStencilState(
 		EnableStencil,
 		ReadMask,
 		WriteMask,
-		*std::bit_cast<FaceOperation*>(&FrontFace),
-		*std::bit_cast<FaceOperation*>(&BackFace)
+		std::bit_cast<FaceOperation>(FrontFace),
+		std::bit_cast<FaceOperation>(BackFace)
 	).release();
 }
 

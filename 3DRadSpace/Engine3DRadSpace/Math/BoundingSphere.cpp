@@ -2,6 +2,8 @@
 #include "BoundingSphere.h"
 #include "BoundingBox.hpp"
 #include "BoundingBox.h"
+#include "BoundingPlane.hpp"
+#include "BoundingPlane.h"
 #include "Ray.hpp"
 #include "Ray.h"
 
@@ -82,20 +84,20 @@ bool Engine3DRadSpace::Math::BoundingSphere::Contains(const Vector3& p) const
 
 _Bool E3DRSP_BoundingSphere_IntersectsBox(E3DRSP_BoundingSphere* sphere, const E3DRSP_BoundingBox* box)
 {
-	return reinterpret_cast<BoundingSphere*>(sphere)->Intersects(*std::bit_cast<const BoundingBox*>(box));
+	return reinterpret_cast<BoundingSphere*>(sphere)->Intersects(std::bit_cast<const BoundingBox>(*box));
 }
 
 _Bool E3DRSP_BoundingSphere_IntersectsSphere(E3DRSP_BoundingSphere* sphere1, const E3DRSP_BoundingSphere* sphere2)
 {
-	return reinterpret_cast<BoundingSphere*>(sphere1)->Intersects(*std::bit_cast<const BoundingSphere*>(sphere2));
+	return reinterpret_cast<BoundingSphere*>(sphere1)->Intersects(std::bit_cast<const BoundingSphere>(*sphere2));
 }
 
 _Bool E3DRSP_BoundingSphere_IntersectsPlane(E3DRSP_BoundingSphere* sphere, const E3DRSP_BoundingPlane* plane)
 {
-	return reinterpret_cast<BoundingSphere*>(sphere)->Intersects(*std::bit_cast<const BoundingPlane*>(plane));
+	return reinterpret_cast<BoundingSphere*>(sphere)->Intersects(std::bit_cast<const BoundingPlane>(*plane));
 }
 
 _Bool E3DRSP_BoundingSphere_ContainsPoint(E3DRSP_BoundingSphere* sphere, const E3DRSP_Vector3* point)
 {
-	return reinterpret_cast<BoundingSphere*>(sphere)->Contains(*std::bit_cast<const Vector3*>(point));
+	return reinterpret_cast<BoundingSphere*>(sphere)->Contains(std::bit_cast<const Vector3>(*point));
 }

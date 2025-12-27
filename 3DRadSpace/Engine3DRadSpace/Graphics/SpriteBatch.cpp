@@ -591,9 +591,9 @@ void E3DRSP_SpriteBatch_DrawNormalized(
 {
 	static_cast<SpriteBatch*>(spriteBatch)->DrawNormalized(
 		reinterpret_cast<ITexture2D*>(texture),
-		*std::bit_cast<const Math::RectangleF*>(coords),
-		*std::bit_cast<const Math::Rectangle*>(source),
-		*std::bit_cast<const Color*>(tintColor),
+		std::bit_cast<const Math::RectangleF>(*coords),
+		std::bit_cast<const Math::Rectangle>(*source),
+		std::bit_cast<const Color>(*tintColor),
 		rotation,
 		static_cast<FlipMode>(flipMode),
 		depth
@@ -613,9 +613,9 @@ void E3DRSP_SpriteBatch_DrawNormalized2(
 {
 	static_cast<SpriteBatch*>(spriteBatch)->DrawNormalized(
 		reinterpret_cast<ITexture2D*>(texture),
-		*std::bit_cast<const Math::RectangleF*>(coords),
-		*std::bit_cast<const Math::Rectangle*>(source),
-		*std::bit_cast<const Color*>(tintColor),
+		std::bit_cast<const Math::RectangleF>(*coords),
+		std::bit_cast<const Math::Rectangle>(*source),
+		std::bit_cast<const Color>(*tintColor),
 		rotation,
 		static_cast<FlipMode>(flipMode),
 		depth
@@ -635,9 +635,9 @@ void E3DRSP_SpriteBatch_Draw(
 {
 	static_cast<SpriteBatch*>(spriteBatch)->Draw(
 		reinterpret_cast<ITexture2D*>(texture),
-		*std::bit_cast<const Math::Rectangle*>(coords),
-		*std::bit_cast<const Math::Rectangle*>(source),
-		*std::bit_cast<const Color*>(tintColor),
+		std::bit_cast<const Math::Rectangle>(*coords),
+		std::bit_cast<const Math::Rectangle>(*source),
+		std::bit_cast<const Color>(*tintColor),
 		rotation,
 		static_cast<FlipMode>(flipMode),
 		depth
@@ -656,8 +656,8 @@ void E3DRSP_SpriteBatch_Draw2(
 {
 	static_cast<SpriteBatch*>(spriteBatch)->Draw(
 		reinterpret_cast<ITexture2D*>(texture),
-		*std::bit_cast<Math::Rectangle*>(coords),
-		*std::bit_cast<Color*>(tintColor),
+		std::bit_cast<const Math::Rectangle>(*coords),
+		std::bit_cast<const Color>(*tintColor),
 		rotation,
 		static_cast<FlipMode>(flipMode),
 		depth
@@ -679,9 +679,9 @@ void E3DRSP_SpriteBatch_DrawString(
 	reinterpret_cast<SpriteBatch*>(spriteBatch)->DrawString(
 		reinterpret_cast<Font*>(font),
 		text,
-		*std::bit_cast<const Vector2*>(pos),
+		std::bit_cast<const Vector2>(*pos),
 		size,
-		*std::bit_cast<const Color*>(tintColor),
+		std::bit_cast<const Color>(*tintColor),
 		rotation,
 		static_cast<FlipMode>(flipMode),
 		depth
@@ -703,9 +703,9 @@ void E3DRSP_SpriteBatch_DrawString2(
 	reinterpret_cast<SpriteBatch*>(spriteBatch)->DrawString(
 		reinterpret_cast<Font*>(font),
 		text,
-		*std::bit_cast<const Math::Point*>(pos),
+		std::bit_cast<const Math::Point>(*pos),
 		size,
-		*std::bit_cast<const Color*>(tintColor),
+		std::bit_cast<const Color>(*tintColor),
 		rotation,
 		static_cast<FlipMode>(flipMode),
 		depth

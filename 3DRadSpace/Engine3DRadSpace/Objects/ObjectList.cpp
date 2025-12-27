@@ -6,7 +6,8 @@ using namespace Engine3DRadSpace::Objects;
 using namespace Engine3DRadSpace::Internal;
 
 ObjectList::ObjectList(IGame* owner):
-	_game(static_cast<Game*>(owner))
+	_game(static_cast<Game*>(owner)),
+	_camera(nullptr)
 {
 }
 

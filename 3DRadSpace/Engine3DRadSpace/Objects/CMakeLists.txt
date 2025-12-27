@@ -21,6 +21,7 @@ add_library(3DRadSpace.Objects STATIC
 	"IObject2D.cpp"
 	"IObject3D.cpp"
 	"ObjectList.cpp"
+	"ICamera.cpp"
 )
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)

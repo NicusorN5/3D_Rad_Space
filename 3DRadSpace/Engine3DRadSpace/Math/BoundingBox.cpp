@@ -2,6 +2,8 @@
 #include "BoundingBox.h"
 #include "BoundingSphere.hpp"
 #include "BoundingSphere.h"
+#include "BoundingPlane.hpp"
+#include "BoundingPlane.h"
 #include "Math.hpp"
 #include "Ray.hpp"
 #include "Ray.h"
@@ -158,27 +160,27 @@ E3DRSP_Vector3 E3DRSP_BoundingBox_Max(E3DRSP_BoundingBox* box)
 
 _Bool E3DRSP_BoundingBox_IntersectsBox(E3DRSP_BoundingBox *box1, const E3DRSP_BoundingBox* box2)
 {
-	return reinterpret_cast<BoundingBox*>(box1)->Intersects(*std::bit_cast<const BoundingBox*>(box2));
+	return reinterpret_cast<BoundingBox*>(box1)->Intersects(std::bit_cast<const BoundingBox>(*box2));
 }
 
 _Bool E3DRSP_BoundingBox_IntersectsSphere(E3DRSP_BoundingBox *box, const E3DRSP_BoundingSphere* sphere)
 {
-	return reinterpret_cast<BoundingBox*>(box)->Intersects(*std::bit_cast<const BoundingSphere*>(sphere));
+	return reinterpret_cast<BoundingBox*>(box)->Intersects(std::bit_cast<const BoundingSphere>(*sphere));
 }
 
 _Bool E3DRSP_BoundingBox_IntersectsPlane(E3DRSP_BoundingBox box, const E3DRSP_BoundingPlane* plane)
 {
-	return reinterpret_cast<BoundingBox*>(&box)->Intersects(*std::bit_cast<const BoundingPlane*>(plane));
+	return reinterpret_cast<BoundingBox*>(&box)->Intersects(std::bit_cast<const BoundingPlane>(*plane));
 }
 
-_Bool E3DRSP_BoundingBox_IntersectsRay(E3DRSP_BoundingBox box, E3DRSP_Ray ray)
+_Bool E3DRSP_BoundingBox_IntersectsRay(E3DRSP_BoundingBox box, const E3DRSP_Ray *ray)
 {
-	return reinterpret_cast<BoundingBox*>(&box)->Intersects(*std::bit_cast<Ray*>(&ray));
+	return reinterpret_cast<BoundingBox*>(&box)->Intersects(std::bit_cast<Ray>(*ray));
 }
 
-_Bool E3DRSP_BoundingBox_ContainsPoint(E3DRSP_BoundingBox box, E3DRSP_Vector3 point)
+_Bool E3DRSP_BoundingBox_ContainsPoint(E3DRSP_BoundingBox box, const E3DRSP_Vector3 *point)
 {
-	return reinterpret_cast<BoundingBox*>(&box)->Contains(*std::bit_cast<Vector3*>(&point));
+	return reinterpret_cast<BoundingBox*>(&box)->Contains(std::bit_cast<Vector3>(*point));
 }
 
 E3DRSP_Vector3 E3DRSP_BoundingBox_GetCorner(E3DRSP_BoundingBox box, int index)

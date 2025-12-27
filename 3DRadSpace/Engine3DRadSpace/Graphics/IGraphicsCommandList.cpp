@@ -18,7 +18,7 @@ void E3DRSP_IGraphicsCommandList_ClearRenderTarget(
 {
 	reinterpret_cast<IGraphicsCommandList*>(cmd)->ClearRenderTarget(
 		reinterpret_cast<IRenderTarget*>(rt),
-		*std::bit_cast<const Math::Color*>(clearColor)
+		std::bit_cast<const Math::Color>(*clearColor)
 	);
 }
 
@@ -34,7 +34,7 @@ void E3DRSP_IGraphicsCommandList_SetViewport(E3DRSP_IGraphicsCommandList cmd)
 
 void E3DRSP_IGraphicsCommandList_SetViewport2(E3DRSP_IGraphicsCommandList cmd, const E3DRSP_Viewport* viewport)
 {
-	reinterpret_cast<IGraphicsCommandList*>(cmd)->SetViewport(*std::bit_cast<const Viewport*>(viewport));
+	reinterpret_cast<IGraphicsCommandList*>(cmd)->SetViewport(std::bit_cast<const Viewport>(*viewport));
 }
 
 void E3DRSP_IGraphicsCommandList_SetViewports(E3DRSP_IGraphicsCommandList cmd, E3DRSP_Viewport** viewports, size_t numViewports)
@@ -43,7 +43,7 @@ void E3DRSP_IGraphicsCommandList_SetViewports(E3DRSP_IGraphicsCommandList cmd, E
 	natViewports.reserve(numViewports);
 	for (size_t i = 0; i < numViewports; i++)
 	{
-		natViewports.push_back(*std::bit_cast<Viewport*>(viewports[i]));
+		natViewports.push_back(std::bit_cast<Viewport>(*viewports[i]));
 	}
 
 	reinterpret_cast<IGraphicsCommandList*>(cmd)->SetViewports(natViewports);
@@ -52,7 +52,7 @@ void E3DRSP_IGraphicsCommandList_SetViewports(E3DRSP_IGraphicsCommandList cmd, E
 E3DRSP_Viewport E3DRSP_IGraphicsCommandList_GetViewport(E3DRSP_IGraphicsCommandList cmd)
 {
 	auto vp = reinterpret_cast<IGraphicsCommandList*>(cmd)->GetViewport();
-	return *std::bit_cast<E3DRSP_Viewport*>(&vp);
+	return std::bit_cast<E3DRSP_Viewport>(vp);
 }
 
 void E3DRSP_IGraphicsCommandList_SetRenderTarget(E3DRSP_IGraphicsCommandList cmd, E3DRSP_IRenderTarget renderTarget)
@@ -158,7 +158,7 @@ void E3DRSP_IGraphicsCommandList_SetBlendState(
 {
 	reinterpret_cast<IGraphicsCommandList*>(cmd)->SetBlendState(
 		reinterpret_cast<IBlendState*>(blendState),
-		*std::bit_cast<const Math::Color*>(blendFactor),
+		std::bit_cast<const Math::Color>(*blendFactor),
 		sampleMask
 	);
 }
@@ -184,7 +184,7 @@ void E3DRSP_IGraphicsCommandList_SaveBackBufferToFile(E3DRSP_IGraphicsCommandLis
 
 void E3DRSP_IGraphicsCommandList_ResizeBackBuffer(E3DRSP_IGraphicsCommandList cmd, const E3DRSP_Point* newResolution)
 {
-	reinterpret_cast<IGraphicsCommandList*>(cmd)->ResizeBackBuffer(*std::bit_cast<const Math::Point*>(newResolution));
+	reinterpret_cast<IGraphicsCommandList*>(cmd)->ResizeBackBuffer(std::bit_cast<const Math::Point>(*newResolution));
 }
 void E3DRSP_IGraphicsCommandList_ToggleFullScreen(E3DRSP_IGraphicsCommandList cmd)
 {

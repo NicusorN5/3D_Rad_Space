@@ -1,4 +1,5 @@
 #pragma once
+#include "ICamera.hpp"
 #include "IObject3D.hpp"
 #include "../Math/Math.hpp"
 #include "../Reflection/Reflection.hpp"
@@ -12,7 +13,7 @@ namespace Engine3DRadSpace::Objects
 	/// <remarks>
 	/// This object updates the view, and projection matrices in the Draw3D() method. You may manually set these matrices without this.
 	/// </remarks>
-	class E3DRSP_OBJECTS_EXPORT Camera : public IObject3D
+	class E3DRSP_OBJECTS_EXPORT Camera : public IObject3D, public ICamera
 	{
 	public:
 		Camera(
@@ -52,8 +53,8 @@ namespace Engine3DRadSpace::Objects
 		/// Gets the View matrix of the camera.
 		/// </summary>
 		/// <returns>View matrix</returns>
-		Math::Matrix4x4 GetViewMatrix() const noexcept;
-		Math::Matrix4x4 GetProjectionMatrix() const;
+		Math::Matrix4x4 GetViewMatrix() const noexcept override;
+		Math::Matrix4x4 GetProjectionMatrix() const override;
 
 		/// <summary>
 		/// Sets the view and projection matrices.

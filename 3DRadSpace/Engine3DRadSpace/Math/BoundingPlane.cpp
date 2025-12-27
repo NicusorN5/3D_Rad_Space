@@ -35,20 +35,20 @@ bool Engine3DRadSpace::Math::BoundingPlane::Contains(const Vector3& p) const
 
 _Bool E3DRSP_BoundingPlane_IntersectsBox(E3DRSP_BoundingPlane* plane, const E3DRSP_BoundingBox* box)
 {
-	return reinterpret_cast<BoundingPlane*>(plane)->Intersects(*std::bit_cast<const BoundingBox*>(box));
+	return reinterpret_cast<BoundingPlane*>(plane)->Intersects(std::bit_cast<const BoundingBox>(*box));
 }
 
 _Bool E3DRSP_BoundingPlane_IntersectsSphere(E3DRSP_BoundingPlane* plane, const E3DRSP_BoundingSphere* sphere)
 {
-	return reinterpret_cast<BoundingPlane*>(plane)->Intersects(*std::bit_cast<const BoundingSphere*>(sphere));
+	return reinterpret_cast<BoundingPlane*>(plane)->Intersects(std::bit_cast<const BoundingSphere>(*sphere));
 }
 
 _Bool E3DRSP_BoundingPlane_IntersectsRay(E3DRSP_BoundingPlane* plane, const E3DRSP_Ray* ray)
 {
-	return reinterpret_cast<BoundingPlane*>(plane)->Intersects(*std::bit_cast<const Ray*>(ray));
+	return reinterpret_cast<BoundingPlane*>(plane)->Intersects(std::bit_cast<const Ray>(*ray));
 }
 
 _Bool E3DRSP_BoundingPlane_ContainsPoint(E3DRSP_BoundingPlane* plane, const E3DRSP_Vector3* p)
 {
-	return reinterpret_cast<BoundingPlane*>(plane)->Contains(*std::bit_cast<const Vector3*>(p));
+	return reinterpret_cast<BoundingPlane*>(plane)->Contains(std::bit_cast<const Vector3>(*p));
 }
