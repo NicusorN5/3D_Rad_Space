@@ -4,7 +4,7 @@ project("Engine3DRadSpace.Projects")
 
 file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS "*.cpp" "*.hpp" )
 
-add_library(3DRadSpace.Projects STATIC ${SOURCE_FILES})
+add_library(3DRadSpace.Projects SHARED ${SOURCE_FILES})
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET 3DRadSpace.Projects PROPERTY CXX_STANDARD 23)
