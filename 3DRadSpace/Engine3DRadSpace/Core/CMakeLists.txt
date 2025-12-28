@@ -2,9 +2,35 @@ cmake_minimum_required(VERSION 3.21)
 
 project("Engine3DRadSpace.Core")
 
-add_library(3DRadSpace.Core STATIC
+add_library(3DRadSpace.Core SHARED
+	"AssetUUIDReader.hpp"
+	"Concepts.hpp"
+	"FixedArray.hpp"
+	"GetSet.hpp"
+	"IDrawable2D.hpp"
+	"IDrawable2D.cpp"
+	"IDrawable2D.h"
+	"IDrawable3D.hpp"
+	"IDrawable3D.cpp"
+	"IDrawable3D.h"
+	"IGame.hpp"
 	"IGame.cpp"
+	"IInitializable.hpp"
+	"IInitializable.cpp"
+	"IInitializable.h"
+	"ILoadable.hpp"
+	"ILoadable.cpp"
+	"ILoadable.h"
+	"IService.hpp"
 	"IService.cpp"
+	"IService.h"
+	"IUpdateable.hpp"
+	"IUpdateable.cpp"
+	"IUpdateable.h"
+	"Libs.hpp"
+	"Libs.h"
+	"RawSpan.h"
+	"Tag.hpp"
 )
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
