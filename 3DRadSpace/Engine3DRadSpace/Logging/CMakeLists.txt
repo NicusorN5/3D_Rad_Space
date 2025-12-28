@@ -3,9 +3,16 @@ cmake_minimum_required(VERSION 3.21)
 project("3DRadSpace.Logging")
 
 add_library(3DRadSpace.Logging SHARED 
+	"Exception.hpp"
 	"Exception.cpp"
+	"Logging.hpp"
+	"Message.hpp"
 	"Message.cpp"
+	"Message.h"
+	"ServiceBadCastException.hpp"
+	"Warning.hpp"
 	"Warning.cpp"
+	"Warning.h"
 )
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
