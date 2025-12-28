@@ -11,5 +11,5 @@ typedef struct E3DRSP_Listener
 	E3DRSP_Vector3 Directio;
 	E3DRSP_Vector3 Normal;
 
-	_Bool Enabled;
+	bool Enabled;
 } E3DRSP_Listener;

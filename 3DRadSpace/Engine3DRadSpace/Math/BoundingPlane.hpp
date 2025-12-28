@@ -10,7 +10,7 @@ namespace Engine3DRadSpace::Math
 	struct E3DRSP_MATH_EXPORT BoundingPlane
 	{
 		Vector3 Normal;
-		float D;
+		float D = 0;
 
 		bool Intersects(const BoundingBox& box) const;
 		bool Intersects(const BoundingSphere& sphere) const;

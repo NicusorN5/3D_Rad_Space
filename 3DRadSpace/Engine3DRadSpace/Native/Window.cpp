@@ -394,7 +394,7 @@ E3DRSP_Rectangle E3DRSP_Window_Rectangle(E3DRSP_Window window)
 	return r;
 }
 
-_Bool E3DRSP_Window_IsFocused(E3DRSP_Window window)
+bool E3DRSP_Window_IsFocused(E3DRSP_Window window)
 {
 	return static_cast<Window*>(window)->IsFocused();
 }

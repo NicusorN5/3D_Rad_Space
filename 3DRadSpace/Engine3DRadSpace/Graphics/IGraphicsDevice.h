@@ -46,8 +46,8 @@ extern "C"
 
 	E3DRSP_GRAPHICS_EXPORT E3DRSP_IBlendState E3DRSP_IGraphicsDevice_CreateBlendState(
 		E3DRSP_IGraphicsDevice device,
-		_Bool alphaCoverage, 
-		_Bool indepedentBlend,
+		bool alphaCoverage, 
+		bool indepedentBlend,
 		E3DRSP_RenderTargetBlendState renderTargetBlendStates[8]
 	);
 	
@@ -64,10 +64,10 @@ extern "C"
 
 	E3DRSP_GRAPHICS_EXPORT E3DRSP_IDepthStencilState E3DRSP_IGraphicsDevice_CreateDepthStencilState(
 		E3DRSP_IGraphicsDevice device,
-		_Bool EnableDepth, 
+		bool EnableDepth, 
 		E3DRSP_DepthWriteMask Mask, 
 		E3DRSP_ComparisonFunction Function,
-		_Bool EnableStencil,
+		bool EnableStencil,
 		uint8_t ReadMask,
 		uint8_t WriteMask,
 		E3DRSP_FaceOperation FrontFace,

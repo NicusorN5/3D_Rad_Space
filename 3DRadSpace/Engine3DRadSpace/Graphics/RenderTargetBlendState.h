@@ -5,7 +5,7 @@
 
 struct E3DRSP_RenderTargetBlendState
 {
-    _Bool EnableBlending;
+    bool EnableBlending;
     E3DRSP_Blend SourceBlend;
     E3DRSP_Blend DestinationBlend;
     E3DRSP_BlendOperation BlendOp;

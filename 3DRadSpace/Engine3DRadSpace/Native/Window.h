@@ -25,7 +25,7 @@ extern "C"
 	E3DRSP_Point E3DRSP_NATIVE_EXPORT E3DRSP_Window_Size(E3DRSP_Window window);
 	E3DRSP_RectangleF E3DRSP_NATIVE_EXPORT E3DRSP_Window_RectangleF(E3DRSP_Window window);
 	E3DRSP_Rectangle E3DRSP_NATIVE_EXPORT E3DRSP_Window_Rectangle(E3DRSP_Window window);
-	_Bool E3DRSP_NATIVE_EXPORT E3DRSP_Window_IsFocused(E3DRSP_Window window);
+	bool E3DRSP_NATIVE_EXPORT E3DRSP_Window_IsFocused(E3DRSP_Window window);
 	void E3DRSP_NATIVE_EXPORT E3DRSP_Window_SetMousePosition(E3DRSP_Window window, const E3DRSP_Point* p);
 	void E3DRSP_NATIVE_EXPORT E3DRSP_Window_SetTitle(E3DRSP_Window window, const char* title);
 	void E3DRSP_NATIVE_EXPORT E3DRSP_Window_Destroy(E3DRSP_Window window);

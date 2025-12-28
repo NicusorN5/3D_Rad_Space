@@ -17,7 +17,7 @@ extern "C"
 	E3DRSP_GRAPHICS_EXPORT E3DRSP_Effect E3DRSP_Effect_Create(E3DRSP_IGraphicsDevice device, E3DRSP_IShader* shaders, size_t numShaders);
 
 	E3DRSP_GRAPHICS_EXPORT int E3DRSP_Effect_SetAll(E3DRSP_Effect effect);
-	E3DRSP_GRAPHICS_EXPORT _Bool E3DRSP_Effect_Set(E3DRSP_Effect effect, int index);
+	E3DRSP_GRAPHICS_EXPORT bool E3DRSP_Effect_Set(E3DRSP_Effect effect, int index);
 
 	E3DRSP_GRAPHICS_EXPORT void E3DRSP_Effect_SetData(E3DRSP_Effect effect, void* data, size_t size, int cbufferID, int shaderID);
 	E3DRSP_GRAPHICS_EXPORT void E3DRSP_Effect_SetData2(E3DRSP_Effect effect, void* data, size_t size, int cbufferID);

@@ -642,13 +642,13 @@ float E3DRSP_SoundInstance_GetConeOuterAngle(E3DRSP_SoundInstance sndInstance)
 	return static_cast<SoundInstance*>(sndInstance)->GetConeOuterAngle();
 }
 
-_Bool E3DRSP_SoundInstance_IsLooping(E3DRSP_SoundInstance sndInstance)
+bool E3DRSP_SoundInstance_IsLooping(E3DRSP_SoundInstance sndInstance)
 {
 	if (sndInstance == nullptr) return false;
 	return static_cast<SoundInstance*>(sndInstance)->IsLooping();
 }
 
-void E3DRSP_SoundInstance_SetLooping(E3DRSP_SoundInstance sndInstance, _Bool looping)
+void E3DRSP_SoundInstance_SetLooping(E3DRSP_SoundInstance sndInstance, bool looping)
 {
 	if (sndInstance == nullptr) return;
 	static_cast<SoundInstance*>(sndInstance)->SetLooping(looping);

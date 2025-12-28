@@ -519,7 +519,7 @@ bool Engine3DRadSpace::Projects::Serializer::SaveProject(ObjectList* lst, Conten
 	return true;
 } 
 
-_Bool E3DRSP_LoadProject(
+bool E3DRSP_LoadProject(
 	E3DRSP_ObjectList* lst,
 	E3DRSP_ContentManager* content,
 	const char* projectPath
@@ -540,7 +540,7 @@ E3DRSP_IObject E3DRSP_LoadObjectFromProject(const char* path, unsigned id)
 	));
 }
 
-_Bool E3DRSP_SaveProject(E3DRSP_ObjectList* lst, E3DRSP_ContentManager* content, const char* projectPath)
+bool E3DRSP_SaveProject(E3DRSP_ObjectList* lst, E3DRSP_ContentManager* content, const char* projectPath)
 {
 	return Engine3DRadSpace::Projects::Serializer::SaveProject(
 		reinterpret_cast<Engine3DRadSpace::Objects::ObjectList*>(lst),

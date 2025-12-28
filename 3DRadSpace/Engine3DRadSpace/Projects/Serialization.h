@@ -8,7 +8,7 @@
 extern "C"
 {
 #endif
-	_Bool E3DRSP_LoadProject(
+	bool E3DRSP_LoadProject(
 		E3DRSP_ObjectList* lst,
 		E3DRSP_ContentManager* content,
 		const char* projectPath
@@ -29,7 +29,7 @@ extern "C"
 	/// <param name="content">Content manager.</param>
 	/// <param name="projectPath">File to save to.</param>
 	/// <returns>True if succeded.</returns>
-	static _Bool E3DRSP_SaveProject(E3DRSP_ObjectList* lst, E3DRSP_ContentManager* content, const char* projectPath);
+	static bool E3DRSP_SaveProject(E3DRSP_ObjectList* lst, E3DRSP_ContentManager* content, const char* projectPath);
 #ifdef __cplusplus
 }
 #endif

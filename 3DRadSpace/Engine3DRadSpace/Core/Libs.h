@@ -1,12 +1,7 @@
 #pragma once
 
 #include <stdint.h>
-
-#ifndef __cplusplus
 #include <stdbool.h>
-#else
-typedef bool _Bool;
-#endif
 
 #pragma region Library exports/imports macros
 #ifndef E3DRSP_AUDIO_EXPORT

@@ -96,7 +96,7 @@ int E3DRSP_Effect_SetAll(E3DRSP_Effect effect)
 	return reinterpret_cast<Effect*>(effect)->SetAll();
 }
 
-_Bool E3DRSP_Effect_Set(E3DRSP_Effect effect, int index)
+bool E3DRSP_Effect_Set(E3DRSP_Effect effect, int index)
 {
 	return reinterpret_cast<Effect*>(effect)->Set(index);
 }

@@ -98,10 +98,10 @@ E3DRSP_IDepthStencilBuffer E3DRSP_IGraphicsDevice_CreateDepthStencilBuffer(
 
 E3DRSP_IDepthStencilState E3DRSP_IGraphicsDevice_CreateDepthStencilState(
 	E3DRSP_IGraphicsDevice device,
-	_Bool EnableDepth,
+	bool EnableDepth,
 	E3DRSP_DepthWriteMask Mask,
 	E3DRSP_ComparisonFunction Function,
-	_Bool EnableStencil,
+	bool EnableStencil,
 	uint8_t ReadMask,
 	uint8_t WriteMask,
 	E3DRSP_FaceOperation FrontFace,

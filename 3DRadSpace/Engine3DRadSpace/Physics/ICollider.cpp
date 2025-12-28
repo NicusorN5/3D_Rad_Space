@@ -122,27 +122,27 @@ E3DRSP_IPhysicsEngine E3DRSP_ICollider_GetPhysics(const E3DRSP_ICollider* collid
 	return reinterpret_cast<const ICollider*>(collider)->GetPhysics();
 }
 
-_Bool E3DRSP_ICollider_ApplyForce(E3DRSP_ICollider* collider, const E3DRSP_Vector3* force)
+bool E3DRSP_ICollider_ApplyForce(E3DRSP_ICollider* collider, const E3DRSP_Vector3* force)
 {
 	return reinterpret_cast<ICollider*>(collider)->ApplyForce(Vector3(force->X, force->Y, force->Z));
 }
 
-_Bool E3DRSP_ICollider_ApplyForce2(E3DRSP_ICollider* collider, const E3DRSP_Vector3* force, const E3DRSP_Vector3* center)
+bool E3DRSP_ICollider_ApplyForce2(E3DRSP_ICollider* collider, const E3DRSP_Vector3* force, const E3DRSP_Vector3* center)
 {
 	return reinterpret_cast<ICollider*>(collider)->ApplyForce(Vector3(force->X, force->Y, force->Z));
 }
 
-_Bool E3DRSP_ICollider_ApplyTorque(E3DRSP_ICollider* collider, const E3DRSP_Vector3* force)
+bool E3DRSP_ICollider_ApplyTorque(E3DRSP_ICollider* collider, const E3DRSP_Vector3* force)
 {
 	return reinterpret_cast<ICollider*>(collider)->ApplyTorque(Vector3(force->X, force->Y, force->Z));
 }
 
-_Bool E3DRSP_ICollider_ApplyAcceleration(E3DRSP_ICollider* collider, E3DRSP_Vector3* acc)
+bool E3DRSP_ICollider_ApplyAcceleration(E3DRSP_ICollider* collider, E3DRSP_Vector3* acc)
 {
 	return reinterpret_cast<ICollider*>(collider)->ApplyAcceleration(Vector3(acc->X, acc->Y, acc->Z));
 }
 
-_Bool E3DRSP_ICollider_ApplyAngularAcceleration(E3DRSP_ICollider* collider, E3DRSP_Vector3* acc)
+bool E3DRSP_ICollider_ApplyAngularAcceleration(E3DRSP_ICollider* collider, E3DRSP_Vector3* acc)
 {
 	return reinterpret_cast<ICollider*>(collider)->ApplyAngularAcceleration(Vector3(acc->X, acc->Y, acc->Z));
 }

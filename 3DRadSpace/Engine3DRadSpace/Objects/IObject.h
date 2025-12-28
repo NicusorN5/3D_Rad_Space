@@ -15,13 +15,13 @@ extern "C" {
 	E3DRSP_OBJECTS_EXPORT E3DRSP_IGame E3DRSP_IObject_GetGame(E3DRSP_IObject object);
 	E3DRSP_OBJECTS_EXPORT void E3DRSP_IObject_Enable(E3DRSP_IObject object);
 	E3DRSP_OBJECTS_EXPORT void E3DRSP_IObject_Disable(E3DRSP_IObject object);
-	E3DRSP_OBJECTS_EXPORT _Bool E3DRSP_IObject_Switch(E3DRSP_IObject object);
-	E3DRSP_OBJECTS_EXPORT _Bool E3DRSP_IObject_IsEnabled(E3DRSP_IObject object);
+	E3DRSP_OBJECTS_EXPORT bool E3DRSP_IObject_Switch(E3DRSP_IObject object);
+	E3DRSP_OBJECTS_EXPORT bool E3DRSP_IObject_IsEnabled(E3DRSP_IObject object);
 
 	E3DRSP_OBJECTS_EXPORT void E3DRSP_IObject_Show(E3DRSP_IObject object);
 	E3DRSP_OBJECTS_EXPORT void E3DRSP_IObject_Hide(E3DRSP_IObject object);
-	E3DRSP_OBJECTS_EXPORT _Bool E3DRSP_IObject_SwitchVisibility(E3DRSP_IObject object);
-	E3DRSP_OBJECTS_EXPORT _Bool E3DRSP_IObject_IsVisible(E3DRSP_IObject object);
+	E3DRSP_OBJECTS_EXPORT bool E3DRSP_IObject_SwitchVisibility(E3DRSP_IObject object);
+	E3DRSP_OBJECTS_EXPORT bool E3DRSP_IObject_IsVisible(E3DRSP_IObject object);
 
 	E3DRSP_OBJECTS_EXPORT const char* E3DRSP_IObject_GetName(E3DRSP_IObject object);
 	E3DRSP_OBJECTS_EXPORT void E3DRSP_IObject_SetName(E3DRSP_IObject object, const char* name);
