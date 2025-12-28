@@ -41,6 +41,11 @@ namespace Engine3DRadSpace
 		std::unordered_map<std::type_index, IService*>::iterator begin();
 		std::unordered_map<std::type_index, IService*>::iterator end();
 
+		virtual bool WasInitialized() const noexcept = 0;
+		virtual bool WasLoaded() const noexcept = 0;
+
+		virtual void AppendScene(const std::filesystem::path& path) = 0;
+
 		virtual ~IGame() = default;
 	};
 }

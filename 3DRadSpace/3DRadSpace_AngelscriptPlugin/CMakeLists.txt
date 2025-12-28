@@ -30,7 +30,9 @@ if(MSVC)
 endif()
 
 #Link 3DRadSpace
+target_link_libraries(3DRadSpace.AngelScript PRIVATE 3DRadSpace.Logging)
 target_link_libraries(3DRadSpace.AngelScript PRIVATE 3DRadSpace.Math)
+target_link_libraries(3DRadSpace.AngelScript PRIVATE 3DRadSpace.Reflection)
 target_link_libraries(3DRadSpace.AngelScript PRIVATE 3DRadSpace.Games)
 target_link_libraries(3DRadSpace.AngelScript PRIVATE 3DRadSpace.Scripting)
 target_include_directories(3DRadSpace.AngelScript PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)

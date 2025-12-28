@@ -1,12 +1,11 @@
 #include "ObjectList.hpp"
-#include "../Games/Game.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Objects;
 using namespace Engine3DRadSpace::Internal;
 
 ObjectList::ObjectList(IGame* owner):
-	_game(static_cast<Game*>(owner)),
+	_game(owner),
 	_camera(nullptr)
 {
 }
@@ -102,7 +101,7 @@ void ObjectList::RemoveIf(std::function<bool(IObject*)> f)
 
 void ObjectList::Replace(IObject* obj, unsigned id) noexcept
 {
-	auto context = static_cast<Game*>(_objects[id].Object->GetGame());
+	auto context = static_cast<IGame*>(_objects[id].Object->GetGame());
 	_objects[id].Object.reset(obj);
 
 	_objects[id].Object->InternalInitialize(context);
@@ -171,7 +170,7 @@ void ObjectList::SetRenderingCamera(Objects::Camera* cam)
 	_camera = cam;
 }
 
-Game* ObjectList::GetGame() const noexcept
+IGame* ObjectList::GetGame() const noexcept
 {
 	return _game;
 }

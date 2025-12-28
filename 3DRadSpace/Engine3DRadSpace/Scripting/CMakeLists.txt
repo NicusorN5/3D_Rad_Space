@@ -34,6 +34,7 @@ target_link_libraries(3DRadSpace.Scripting PRIVATE 3DRadSpace.Objects.Impl)
 target_link_libraries(3DRadSpace.Scripting PRIVATE 3DRadSpace.Physics)
 target_link_libraries(3DRadSpace.Scripting PRIVATE 3DRadSpace.Physics.NVPhysX)
 target_link_libraries(3DRadSpace.Scripting PRIVATE 3DRadSpace.Physics.Objects)
+target_link_libraries(3DRadSpace.Scripting PRIVATE 3DRadSpace.Projects)
 target_link_libraries(3DRadSpace.Scripting PRIVATE 3DRadSpace.Objects.Gizmos)
 target_include_directories(3DRadSpace.Scripting PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)
 

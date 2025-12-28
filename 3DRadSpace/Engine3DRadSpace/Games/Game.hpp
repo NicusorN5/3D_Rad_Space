@@ -68,8 +68,8 @@ namespace Engine3DRadSpace
 		void RunOneFrame();
 		void Exit();
 
-		bool WasInitialized() const noexcept;
-		bool WasLoaded() const noexcept;
+		bool WasInitialized() const noexcept override;
+		bool WasLoaded() const noexcept override;
 
 		Math::Ray GetMouseRay(const Math::Vector2& mousePosition, const Math::Matrix4x4& view, const Math::Matrix4x4& projection);
 
@@ -85,7 +85,7 @@ namespace Engine3DRadSpace
 		virtual void Draw3D() override;
 		virtual void Draw2D() override;
 
-		void AppendScene(const std::filesystem::path& path);
+		void AppendScene(const std::filesystem::path& path) override;
 
 		~Game() override;
 	};

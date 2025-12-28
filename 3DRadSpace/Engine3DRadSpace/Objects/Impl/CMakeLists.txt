@@ -55,6 +55,7 @@ endif()
 
 target_link_libraries(3DRadSpace.Objects.Impl PRIVATE 3DRadSpace.Audio)
 target_link_libraries(3DRadSpace.Objects.Impl PRIVATE 3DRadSpace.Graphics)
+target_link_libraries(3DRadSpace.Objects.Impl PRIVATE 3DRadSpace.Graphics.Rendering)
 target_link_libraries(3DRadSpace.Objects.Impl PRIVATE 3DRadSpace.Content)
 target_link_libraries(3DRadSpace.Objects.Impl PRIVATE 3DRadSpace.Content.Assets)
 target_link_libraries(3DRadSpace.Objects.Impl PRIVATE 3DRadSpace.Physics)
