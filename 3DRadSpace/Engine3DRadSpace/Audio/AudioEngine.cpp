@@ -89,6 +89,9 @@ AudioEngine::~AudioEngine()
 	alcMakeContextCurrent(nullptr);
 	alcDestroyContext(context);
 	alcCloseDevice(device);
+
+	_audioDevice = nullptr;
+	_audioContext = nullptr;
 }
 
 void AudioEngine::Update() noexcept
@@ -147,12 +150,12 @@ std::optional<AudioError> AudioEngine::CheckErrors()
 	}
 }
 
-E3DRSP_AudioEngine E3DRSP_AudioEngine_Create()
+E3DRSP_IAudioEngine E3DRSP_AudioEngine_Create()
 {
 	return new AudioEngine();
 }
 
-E3DRSP_AudioEngine E3DRSP_AudioEngine_Create1(const char* deviceName)
+E3DRSP_IAudioEngine E3DRSP_AudioEngine_Create1(const char* deviceName)
 {
 	if (deviceName == nullptr) return E3DRSP_AudioEngine_Create();
 	return new AudioEngine(deviceName);
@@ -163,10 +166,10 @@ char** E3DRSP_AudioEngine_ListAudioDevices()
 	auto devices = AudioEngine::ListAudioDevices();
 
 	size_t length = devices.size();
-	char** result = new char*[length + 1];
-	if(result == nullptr) return nullptr;
+	char** result = new char* [length + 1];
+	if (result == nullptr) return nullptr;
 
-	for(size_t i = 0; i < length; ++i)
+	for (size_t i = 0; i < length; ++i)
 	{
 		size_t deviceNameLength = devices[i].length() + 1;
 
@@ -180,31 +183,4 @@ char** E3DRSP_AudioEngine_ListAudioDevices()
 	result[devices.size()] = 0; //null terminate the list of strings.
 
 	return result;
-}
-
-void E3DRSP_AudioEngine_Update(E3DRSP_AudioEngine audio)
-{
-	if (audio == nullptr) return;
-	static_cast<AudioEngine*>(audio)->Update();
-}
-
-E3DRSP_AudioError E3DRSP_AudioEngine_CheckErrors(E3DRSP_AudioEngine audio)
-{
-	if (audio == nullptr) return E3DRSP_AudioError_None;
-
-	auto err = static_cast<AudioEngine*>(audio)->CheckErrors();
-	if(!err.has_value()) return E3DRSP_AudioError_None;
-	else return static_cast<E3DRSP_AudioError>(err.value());
-}
-
-void E3DRSP_AudioEngine_SwitchAudioDevice(E3DRSP_AudioEngine audio, const char* deviceName)
-{
-	if (audio == nullptr) return;
-	static_cast<AudioEngine*>(audio)->SwitchAudioDevice(deviceName);
-}
-
-void E3DRSP_AudioEngine_Destroy(E3DRSP_AudioEngine audio)
-{
-	assert(audio != nullptr);
-	delete static_cast<AudioEngine*>(audio);
 }

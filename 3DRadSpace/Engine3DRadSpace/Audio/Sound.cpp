@@ -83,7 +83,7 @@ Sound::~Sound()
 	alDeleteBuffers( 1, &_bufferID);
 }
 
-E3DRSP_Sound E3DRSP_Sound_Create(E3DRSP_AudioEngine audio, const char* path)
+E3DRSP_Sound E3DRSP_Sound_Create(E3DRSP_IAudioEngine audio, const char* path)
 {
 	if (audio == nullptr) return nullptr;
 	if (path == nullptr) return nullptr;

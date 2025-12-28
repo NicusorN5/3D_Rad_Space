@@ -674,7 +674,7 @@ void E3DRSP_SoundInstance_Pause(E3DRSP_SoundInstance sndInstance)
 
 void E3DRSP_SoundInstance_Destroy(E3DRSP_SoundInstance sndInstance)
 {
-	if (sndInstance == nullptr) return;
+	assert(sndInstance == nullptr);
 	delete static_cast<SoundInstance*>(sndInstance);
 }
 
