@@ -1,12 +1,7 @@
 #pragma once
 
 #include <stdint.h>
-
-#ifndef __cplusplus
 #include <stdbool.h>
-#else
-typedef bool _Bool;
-#endif
 
 #pragma region Library exports/imports macros
 #ifndef E3DRSP_AUDIO_EXPORT
@@ -139,11 +134,43 @@ typedef bool _Bool;
 #endif
 #endif
 
+#ifndef E3DRSP_OBJECTS_GIZMOS_EXPORT
+#if _WIN32
+#define E3DRSP_OBJECTS_GIZMOS_EXPORT
+#else
+#define E3DRSP_OBJECTS_GIZMOS_EXPORT
+#endif
+#endif
+
+#ifndef E3DRSP_OBJECTS_IMPL_EXPORT
+#if _WIN32
+#define E3DRSP_OBJECTS_IMPL_EXPORT
+#else
+#define E3DRSP_OBJECTS_IMPL_EXPORT
+#endif
+#endif
+
 #ifndef E3DRSP_PHYSICS_EXPORT
 #if _WIN32
 #define E3DRSP_PHYSICS_EXPORT
 #else
 #define E3DRSP_PHYSICS_EXPORT
+#endif
+#endif
+
+#ifndef E3DRSP_PHYSICS_NVPHYSX_EXPORT
+#if _WIN32
+#define E3DRSP_PHYSICS_NVPHYSX_EXPORT
+#else
+#define E3DRSP_PHYSICS_NVPHYSX_EXPORT
+#endif
+#endif
+
+#ifndef E3DRSP_PHYSICS_OBJ_EXPORT
+#if _WIN32
+#define E3DRSP_PHYSICS_OBJ_EXPORT
+#else
+#define E3DRSP_PHYSICS_OBJ_EXPORT
 #endif
 #endif
 

@@ -3,7 +3,7 @@
 #include "IObject2D.hpp"
 #include "ObjectType.hpp"
 #include "../Reflection/ReflectedObject.hpp"
-#include "../Games/Game.hpp"
+#include "../Core/IGame.hpp"
 
 namespace Engine3DRadSpace::Objects
 {
@@ -40,7 +40,7 @@ namespace Engine3DRadSpace::Objects
 		};
 	private:
 		std::vector<ObjectInstance> _objects;
-		Game* _game;
+		IGame* _game;
 		Objects::Camera* _camera;
 
 		void _validate(ObjectInstance& instance);
@@ -76,7 +76,7 @@ namespace Engine3DRadSpace::Objects
 		Objects::Camera* GetRenderingCamera();
 		void SetRenderingCamera(Objects::Camera* cam);
 
-		Game* GetGame() const noexcept;
+		IGame* GetGame() const noexcept;
 
 		void Remove(unsigned id);
 		void Remove(const std::string& name);

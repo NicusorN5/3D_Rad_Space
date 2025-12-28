@@ -145,12 +145,6 @@ namespace Engine3DRadSpace::Content
 		void Reload(unsigned ref);
 
 		template<AssetType T>
-		void Reload(unsigned id);
-
-		template<AssetType T>
-		void RemoveAsset(const T *asset);
-
-		template<AssetType T>
 		T *operator[](AssetID<T> ref);
 
 		std::filesystem::path GetAssetPath(unsigned id) const noexcept;
@@ -215,15 +209,6 @@ namespace Engine3DRadSpace::Content
 			*refID = _assets.size() - 1;
 		}
 		return ptr;
-	}
-
-	template<AssetType T>
-	void ContentManager::RemoveAsset(const T* asset)
-	{
-		std::erase_if(_assets, [](std::unique_ptr<AssetEntry>& asset) -> bool
-		{
-			return (static_cast<T>(asset->Entry.get()) == asset);
-		});
 	}
 
 	template<AssetType T>

@@ -28,13 +28,13 @@ HRESULT AutoupdaterState::QueryInterface(const IID& riid, void** ppvObject)
 
 ULONG AutoupdaterState::AddRef()
 {
-	InterlockedIncrement(&_refCount);
+	_refCount++;
 	return _refCount;
 }
 
 ULONG AutoupdaterState::Release()
 {
-	ULONG refCount = InterlockedDecrement(&_refCount);
+	ULONG refCount = --_refCount;
 	if (refCount == 0)
 		delete this;
 	return refCount;
@@ -92,22 +92,27 @@ void AutoupdaterState::Create(_Outptr_ AutoupdaterState** autoUpdater)
 	*autoUpdater = new AutoupdaterState();
 }
 
-float AutoupdaterState::GetCurrentProgress() const
+float AutoupdaterState::GetCurrentProgress() const noexcept
 {
 	return static_cast<float>(_currentProgress) / static_cast<float>(_totalProgress);
 }
 
-void AutoupdaterState::Abort()
+std::pair<ULONG, ULONG> AutoupdaterState::Progress() const noexcept
+{
+	return std::make_pair(static_cast<unsigned long>(_currentProgress / 1000000), _totalProgress / 1000000);
+}
+
+void AutoupdaterState::Abort() noexcept
 {
 	_aborted = true;
 }
 
-bool AutoupdaterState::Finished() const
+bool AutoupdaterState::Finished() const noexcept
 {
 	return _isFinished;
 }
 
-bool AutoupdaterState::Initialized() const
+bool AutoupdaterState::Initialized() const noexcept
 {
 	return _isInitialized;
 }

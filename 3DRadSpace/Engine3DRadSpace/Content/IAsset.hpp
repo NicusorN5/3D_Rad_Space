@@ -17,7 +17,7 @@ namespace Engine3DRadSpace
 namespace Engine3DRadSpace::Content
 {
 	/// <summary>
-	/// Asset base type.
+	/// Asset polymorphic base type.
 	/// </summary>
 	class E3DRSP_CONTENT_EXPORT IAsset
 	{
@@ -28,7 +28,7 @@ namespace Engine3DRadSpace::Content
 		/// <returns></returns>
 		virtual Reflection::UUID GetUUID() const noexcept = 0;
 		/// <summary>
-		/// File extension used as a filter for the editor.
+		/// File extension(s) used as a filter for the editor.
 		/// </summary>
 		/// <returns></returns>
 		virtual const char* FileExtension() const noexcept = 0;

@@ -229,7 +229,7 @@ void AssetManagerDialog::_loadAssetIcons()
 
 				create_directories(dirPath);
 			}
-			else throw std::filesystem::filesystem_error("Cannot find the AppData folder", std::error_code(r, std::system_category()));
+			else return;
 
 			if (!std::filesystem::exists(imagePath))
 			{

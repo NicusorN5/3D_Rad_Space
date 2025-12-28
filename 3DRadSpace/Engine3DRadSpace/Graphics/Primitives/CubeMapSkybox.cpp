@@ -1,6 +1,6 @@
 #include "CubeMapSkybox.hpp"
 #include "Box.hpp"
-#include "../../Objects/Camera.hpp"
+#include "../../Objects/ICamera.hpp"
 #include "../IGraphicsDevice.hpp"
 #include "../IShaderCompiler.hpp"
 #include "../../Logging/Exception.hpp"

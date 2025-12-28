@@ -1,6 +1,7 @@
 #include "Serialization.hpp"
+#include "Serialization.h"
 #include "../Content/AssetID.hpp"
-#include "../Objects/Objects.hpp"
+#include "../Objects/Impl/Objects.hpp"
 #include "../Objects/ObjectList.hpp"
 #include <fstream>
 
@@ -186,17 +187,10 @@ json Engine3DRadSpace::Projects::Serializer::SerializeObject(IObject* obj)
 					break;
 				}
 				case FieldRepresentationType::Image:
+				case FieldRepresentationType::Model:
 				{
 					unsigned texture = field->GetAtOffset<unsigned>(objPtr, offset);
 					jsonField[subFieldName][str_i] = texture;
-
-					offset += sizeof(unsigned);
-					break;
-				}
-				case FieldRepresentationType::Model:
-				{
-					unsigned model = field->GetAtOffset<unsigned>(objPtr, offset);
-					jsonField[subFieldName][str_i] = model;
 
 					offset += sizeof(unsigned);
 					break;
@@ -525,3 +519,32 @@ bool Engine3DRadSpace::Projects::Serializer::SaveProject(ObjectList* lst, Conten
 	return true;
 } 
 
+bool E3DRSP_LoadProject(
+	E3DRSP_ObjectList* lst,
+	E3DRSP_ContentManager* content,
+	const char* projectPath
+)
+{
+	return Engine3DRadSpace::Projects::Serializer::LoadProject(
+		reinterpret_cast<Engine3DRadSpace::Objects::ObjectList*>(lst),
+		reinterpret_cast<Engine3DRadSpace::Content::ContentManager*>(content),
+		std::filesystem::path(projectPath)
+	);
+}
+
+E3DRSP_IObject E3DRSP_LoadObjectFromProject(const char* path, unsigned id)
+{
+	return static_cast<E3DRSP_IObject>(Engine3DRadSpace::Projects::Serializer::LoadObjectFromProject(
+		std::filesystem::path(path),
+		id
+	));
+}
+
+bool E3DRSP_SaveProject(E3DRSP_ObjectList* lst, E3DRSP_ContentManager* content, const char* projectPath)
+{
+	return Engine3DRadSpace::Projects::Serializer::SaveProject(
+		reinterpret_cast<Engine3DRadSpace::Objects::ObjectList*>(lst),
+		reinterpret_cast<Engine3DRadSpace::Content::ContentManager*>(content),
+		std::filesystem::path(projectPath)
+	);
+}

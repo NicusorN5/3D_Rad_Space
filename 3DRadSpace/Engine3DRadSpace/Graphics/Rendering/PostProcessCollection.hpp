@@ -1,13 +1,14 @@
 #pragma once
 #include "PostProcessEffect.hpp"
 #include "../IRenderTarget.hpp"
+#include "../../Core/IService.hpp"
 
 namespace Engine3DRadSpace::Graphics::Rendering
 {
 	/// <summary>
 	/// Represents multiple post processes, one applied after the other.
 	/// </summary>
-	class E3DRSP_GRAPHICS_RENDERING_EXPORT PostProcessCollection
+	class E3DRSP_GRAPHICS_RENDERING_EXPORT PostProcessCollection : public IService
 	{
 	private:
 		IGraphicsDevice* _device;
@@ -166,5 +167,7 @@ namespace Engine3DRadSpace::Graphics::Rendering
 		/// Disables all effects.
 		/// </summary>
 		void DisableAll();
+
+		~PostProcessCollection() override = default;
 	};
 }

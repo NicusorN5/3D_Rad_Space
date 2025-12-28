@@ -3,7 +3,7 @@
 #include "../Frontend/Settings.hpp"
 #include <Engine3DRadSpace/Graphics/Primitives/Box.hpp>
 #include <Engine3DRadSpace/Objects/ObjectList.hpp>
-#include <Engine3DRadSpace/Objects/Gizmos/IGizmo.hpp>
+#include <Engine3DRadSpace/Objects/IGizmo.hpp>
 #include <Engine3DRadSpace\Objects\Gizmos.hpp>
 
 RenderWindow::RenderWindow(HWND parent, HINSTANCE hInstance) :
@@ -215,7 +215,7 @@ void RenderWindow::Draw2D()
 	SpriteBatch->Begin();
 	SpriteBatch->DrawString(
 		_font.get(),
-		std::format("Mouse {} {}", cameraPos.X, cameraPos.Y),
+		std::format("Mouse {} {} FPS {}", cameraPos.X, cameraPos.Y, 1.0f / Draw_dt),
 		Point(20, 20),
 		1
 	);

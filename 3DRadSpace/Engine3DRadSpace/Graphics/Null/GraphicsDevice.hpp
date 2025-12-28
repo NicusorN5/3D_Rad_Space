@@ -18,9 +18,11 @@ namespace Engine3DRadSpace::Graphics::Null
 		std::unique_ptr<ITexture2D> _whiteBlankTexture;
 		std::unique_ptr<IGraphicsCommandList> _context;
 		std::unique_ptr<IVertexBuffer> _screenQuad;
+
+		std::string _backendName = "Null";
 	public:
 		GraphicsDevice() = delete;
-		explicit GraphicsDevice(void* nativeWindowHandle, unsigned width = 800, unsigned height = 600);
+		explicit GraphicsDevice(void* nativeWindowHandle, size_t width = 800, size_t height = 600);
 
 		GraphicsDevice(GraphicsDevice&) = delete;
 		GraphicsDevice(GraphicsDevice&&) = delete;
@@ -29,6 +31,8 @@ namespace Engine3DRadSpace::Graphics::Null
 		GraphicsDevice& operator=(GraphicsDevice&&) = delete;
 
 		bool EnableVSync;
+
+		std::string BackendName() const noexcept override;
 
 		//std::unique_ptr<IRasterizerState> GetRasterizerState() override;
 

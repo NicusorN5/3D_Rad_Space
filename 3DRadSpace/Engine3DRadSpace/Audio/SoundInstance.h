@@ -9,7 +9,7 @@ typedef void* E3DRSP_SoundInstance;
 extern "C"
 {
 #endif
-	E3DRSP_AUDIO_EXPORT E3DRSP_SoundInstance E3DRSP_SoundInstance_Create(E3DRSP_Sound sound, E3DRSP_AudioSource source);
+	E3DRSP_AUDIO_EXPORT E3DRSP_SoundInstance E3DRSP_SoundInstance_Create(E3DRSP_Sound sound, const E3DRSP_AudioSource *source);
 	E3DRSP_AUDIO_EXPORT E3DRSP_SoundInstance E3DRSP_SoundInstance_Create1(E3DRSP_Sound sound);
 
 	E3DRSP_AUDIO_EXPORT E3DRSP_AudioSource E3DRSP_SoundInstance_GetSource(E3DRSP_SoundInstance sndInstance);
@@ -44,8 +44,8 @@ extern "C"
 	E3DRSP_AUDIO_EXPORT float E3DRSP_SoundInstance_GetConeInnerAngle(E3DRSP_SoundInstance sndInstance);
 	E3DRSP_AUDIO_EXPORT float E3DRSP_SoundInstance_GetConeOuterAngle(E3DRSP_SoundInstance sndInstance);
 
-	E3DRSP_AUDIO_EXPORT _Bool E3DRSP_SoundInstance_IsLooping(E3DRSP_SoundInstance sndInstance);
-	E3DRSP_AUDIO_EXPORT void E3DRSP_SoundInstance_SetLooping(E3DRSP_SoundInstance sndInstance, _Bool looping);
+	E3DRSP_AUDIO_EXPORT bool E3DRSP_SoundInstance_IsLooping(E3DRSP_SoundInstance sndInstance);
+	E3DRSP_AUDIO_EXPORT void E3DRSP_SoundInstance_SetLooping(E3DRSP_SoundInstance sndInstance, bool looping);
 
 	E3DRSP_AUDIO_EXPORT void E3DRSP_SoundInstance_Play(E3DRSP_SoundInstance sndInstance, bool dontOverlap);
 	E3DRSP_AUDIO_EXPORT void E3DRSP_SoundInstance_Stop(E3DRSP_SoundInstance sndInstance);

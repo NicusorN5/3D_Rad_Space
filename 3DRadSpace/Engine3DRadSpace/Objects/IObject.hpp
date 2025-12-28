@@ -1,9 +1,9 @@
 #pragma once
 #include "../Math\Matrix4x4.hpp"
-#include "IInitializable.hpp"
-#include "IUpdateable.hpp"
+#include "../Core/IInitializable.hpp"
+#include "../Core/IUpdateable.hpp"
+#include "../Core/ILoadable.hpp"
 #include "../Reflection/UUID.hpp"
-#include "ILoadable.hpp"
 
 namespace Engine3DRadSpace
 {
@@ -22,7 +22,7 @@ namespace Engine3DRadSpace
 
 	namespace Objects
 	{
-		class E3DRSP_OBJECTS_EXPORT IObject : public IInitiializable, public IUpdateable, public ILoadable
+		class E3DRSP_OBJECTS_EXPORT IObject : public IInitializable, public IUpdateable, public ILoadable
 		{
 		protected:
 			IGame* _game = nullptr;

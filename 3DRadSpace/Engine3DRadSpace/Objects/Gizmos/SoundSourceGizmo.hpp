@@ -1,11 +1,11 @@
 #pragma once
 #include "Gizmo.hpp"
-#include "../SoundSource.hpp"
+#include "../Impl/SoundSource.hpp"
 
 namespace Engine3DRadSpace::Objects::Gizmos
 {
 	template<>
-	class E3DRSP_OBJECTS_EXPORT Gizmo<SoundSource> final : public IGizmo
+	class E3DRSP_OBJECTS_GIZMOS_EXPORT Gizmo<SoundSource> final : public IGizmo
 	{
 		STD_UPtrTypeless _billboard;
 		STD_UPtrTypeless _soundImage;

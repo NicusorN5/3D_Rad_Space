@@ -8,6 +8,7 @@
 #include "FlipMode.hpp"
 #include "Font.hpp"
 #include "Effect.hpp"
+#include "../Core/IService.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {
@@ -37,7 +38,7 @@ namespace Engine3DRadSpace::Graphics
 	/// <summary>
 	/// A SpriteBatch renders 2D sprites with a specified order.
 	/// </summary>
-	class E3DRSP_GRAPHICS_EXPORT SpriteBatch
+	class E3DRSP_GRAPHICS_EXPORT SpriteBatch : public IService
 	{
 		IGraphicsDevice *_device;
 		SpriteBatchSortMode _sortingMode;
@@ -136,7 +137,7 @@ namespace Engine3DRadSpace::Graphics
 			ITexture2D* texture,
 			const Math::RectangleF& coords,
 			const Math::RectangleF& source = Math::RectangleF(0.0f, 0.0f, 1.0f, 1.0f),
-			Math::Color tintColor = Math::Colors::White,
+			const Math::Color& tintColor = Math::Colors::White,
 			float rotation = 0.0f, 
 			FlipMode flipMode = FlipMode::None,
 			float depth = 0
@@ -145,8 +146,8 @@ namespace Engine3DRadSpace::Graphics
 		void DrawNormalized(
 			ITexture2D* texture,
 			const Math::RectangleF& coords,
-			const Math::Rectangle source,
-			Math::Color tintColor = Math::Colors::White,
+			const Math::Rectangle& source,
+			const Math::Color& tintColor = Math::Colors::White,
 			float rotation = 0.0f,
 			FlipMode flipMode = FlipMode::None,
 			float depth = 0
@@ -156,7 +157,7 @@ namespace Engine3DRadSpace::Graphics
 			ITexture2D* texture,
 			const Math::Rectangle& coords,
 			const Math::Rectangle& source,
-			Math::Color tintColor = Math::Colors::White,
+			const Math::Color& tintColor = Math::Colors::White,
 			float rotation = 0.0f,
 			FlipMode flipMode = FlipMode::None,
 			float depth = 0
@@ -164,7 +165,7 @@ namespace Engine3DRadSpace::Graphics
 		void Draw(
 			ITexture2D* texture, 
 			const Math::Rectangle& coords,
-			Math::Color tintColor = Math::Colors::White,
+			const Math::Color &tintColor = Math::Colors::White,
 			float rotation = 0.0f,
 			FlipMode flipMode = FlipMode::None,
 			float depth = 0
@@ -175,7 +176,7 @@ namespace Engine3DRadSpace::Graphics
 			const std::string& text, 
 			const Math::Vector2& pos,
 			float size,
-			Math::Color tintColor = Math::Colors::White,
+			const Math::Color &tintColor = Math::Colors::White,
 			float rotation = 0.0f,
 			FlipMode flipMode = FlipMode::None,
 			float depth = 0
@@ -186,7 +187,7 @@ namespace Engine3DRadSpace::Graphics
 			const std::string& text,
 			const Math::Point& pos, 
 			float size, 
-			Math::Color tintColor = Math::Colors::White, 
+			const Math::Color &tintColor = Math::Colors::White, 
 			float rotation = 0.0f,
 			FlipMode flipMode = FlipMode::None,
 			float depth = 0
@@ -194,6 +195,6 @@ namespace Engine3DRadSpace::Graphics
 
 		void End();
 
-		~SpriteBatch() = default;
+		~SpriteBatch() override = default;
 	};
 }

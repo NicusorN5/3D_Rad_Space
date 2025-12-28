@@ -3,6 +3,9 @@
 
 namespace Engine3DRadSpace::Reflection
 {
+	/// <summary>
+	/// Represents a variable of unknown type.
+	/// <summary>
 	class E3DRSP_REFLECTION_EXPORT UnknownVariable final : public IReflectedField
 	{
 	public:

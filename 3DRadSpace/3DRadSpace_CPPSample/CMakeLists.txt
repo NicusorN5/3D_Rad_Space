@@ -20,10 +20,17 @@ if(MSVC)
 	target_compile_options(3DRadSpace-empty PRIVATE "/Zi")
 	# Multiprocessor build
 	add_compile_options(3DRadSpace-empty PRIVATE "/MP")
+
+	#enable address sanitizer if using a debug configuration
+	if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+		target_compile_options(3DRadSpace-empty PRIVATE "/fsanitize=address")
+	endif()
 endif()
 
 #Link 3DRadSpace
-target_link_libraries(3DRadSpace-empty PRIVATE 3DRadSpace_Objects)
-target_link_libraries(3DRadSpace-empty PRIVATE 3DRadSpace_Graphics)
-target_link_libraries(3DRadSpace-empty PRIVATE 3DRadSpace_Games)
+target_link_libraries(3DRadSpace-empty PRIVATE 3DRadSpace.Objects)
+target_link_libraries(3DRadSpace-empty PRIVATE 3DRadSpace.Objects.Impl)
+target_link_libraries(3DRadSpace-empty PRIVATE 3DRadSpace.Graphics)
+target_link_libraries(3DRadSpace-empty PRIVATE 3DRadSpace.Games)
+target_link_libraries(3DRadSpace-empty PRIVATE 3DRadSpace.Input)
 target_include_directories(3DRadSpace-empty PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)

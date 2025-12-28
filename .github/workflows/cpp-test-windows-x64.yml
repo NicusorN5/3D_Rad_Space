@@ -22,4 +22,4 @@ jobs:
     - name: Run tests
       shell: cmd
       working-directory: ${{ github.workspace }}\build\Release\
-      run: 3DRadSpace-tests.exe
+      run: 3DRadSpace.Tests.exe

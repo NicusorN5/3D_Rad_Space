@@ -49,6 +49,8 @@ namespace Engine3DRadSpace::Graphics
 		/// <returns>i-th ModelMeshPart.</returns>
 		ModelMeshPart* operator[](unsigned i);
 
+		size_t NumMeshParts() const noexcept;
+
 		/// <summary>
 		/// Draw each ModelMeshPart.
 		/// </summary>

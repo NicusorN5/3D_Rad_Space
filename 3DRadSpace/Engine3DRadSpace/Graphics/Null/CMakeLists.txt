@@ -32,7 +32,7 @@ if(MSVC)
 	add_compile_options(3DRadSpace.Graphics.Null PRIVATE "/MP")
 
 	#enable address sanitizer if using a debug configuration
-	if(3DRadSpace.Graphics.Null STREQUAL "Debug")
+	if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 		target_compile_options(3DRadSpace.Graphics.Null PRIVATE "/fsanitize=address")
 	endif()
 
@@ -46,7 +46,7 @@ endif()
 #
 #Dependencies 
 #
-target_link_libraries(3DRadSpace.Graphics.Null PRIVATE 3DRadSpace_Core)
-target_link_libraries(3DRadSpace.Graphics.Null PRIVATE 3DRadSpace_Math)
-target_link_libraries(3DRadSpace.Graphics.Null PRIVATE 3DRadSpace_Graphics)
+target_link_libraries(3DRadSpace.Graphics.Null PRIVATE 3DRadSpace.Core)
+target_link_libraries(3DRadSpace.Graphics.Null PRIVATE 3DRadSpace.Math)
+target_link_libraries(3DRadSpace.Graphics.Null PRIVATE 3DRadSpace.Graphics)
 target_include_directories(3DRadSpace.Graphics.Null PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)

@@ -23,5 +23,5 @@ typedef struct E3DRSP_AudioSource
 	float ConeInnerAngle;
 	float ConeOuterAngle;
 
-	_Bool Looping;
+	bool Looping;
 } E3DRSP_AudioSource;

@@ -58,8 +58,8 @@ namespace Engine3DRadSpace::Plugins
 	/// Loads a plugin for the editor.
 	/// </summary>
 	/// <returns>
-	/// Plugin information if succeded, or a PluginLoadingError enum value.
+	/// Plugin information + libray handle if succeded, or a PluginLoadingError enum value.
 	/// </returns>
-	/// <param name="pluginPath"></param>
-	std::expected<PluginInfo, PluginLoadingError> E3DRSP_PLUGINS_EXPORT LoadPlugin(const std::filesystem::path& pluginPath);
+	/// <param name="pluginPath">Path to plugin library file</param>
+	std::expected<std::pair<PluginInfo, void*>, PluginLoadingError> E3DRSP_PLUGINS_EXPORT LoadPlugin(const std::filesystem::path& pluginPath);
 }

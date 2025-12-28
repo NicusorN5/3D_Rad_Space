@@ -16,7 +16,7 @@ using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Graphics::Null;
 using namespace Engine3DRadSpace::Math;
 
-GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, unsigned width, unsigned height) :
+GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, size_t width, size_t height) :
 	EnableVSync(false)
 {
 	(void)nativeWindowHandle;
@@ -28,6 +28,11 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, unsigned width, unsigne
 	_whiteBlankTexture = std::make_unique<Texture2D>(this, "");
 	_context = std::make_unique<GraphicsCommandList>(this);
 	_screenQuad = std::make_unique<VertexBuffer>(this, nullptr, 0, 0);
+}
+
+std::string GraphicsDevice::BackendName() const noexcept
+{
+	return _backendName;
 }
 
 Math::Point GraphicsDevice::Resolution() const noexcept

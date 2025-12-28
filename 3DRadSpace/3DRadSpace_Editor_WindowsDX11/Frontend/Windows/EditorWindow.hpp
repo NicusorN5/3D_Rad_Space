@@ -60,9 +60,9 @@ class EditorWindow
 	bool _running;
 	bool _changesSaved = true;
 
-	char _currentFile[_MAX_PATH]{};
-	void _saveProject(const char* fileName = nullptr);
-	void _writeProject(const char *fileName);
+	std::filesystem::path _currentFile;
+	void _saveProject(const std::filesystem::path& filename = "");
+	void _writeProject(const std::filesystem::path& filename);
 	void _findUpdate();
 
 	HTREEITEM _getSelectedListViewItem();

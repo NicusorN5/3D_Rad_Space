@@ -8,7 +8,7 @@
 #include "..\Controls\ModelControl.hpp"
 #include "..\Controls\FontControl.hpp"
 #include "..\Controls\SkyboxControl.hpp"
-#include <Engine3DRadSpace/Objects/SoundEffect.hpp>
+#include <Engine3DRadSpace/Objects/Impl/SoundEffect.hpp>
 #include "..\Controls\SoundControl.hpp"
 
 using namespace Engine3DRadSpace;

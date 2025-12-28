@@ -26,7 +26,7 @@ if(MSVC)
 	add_compile_options(3DRadSpace.Content.Assets PRIVATE "/MP")
 
 	#enable address sanitizer if using a debug configuration
-	if(3DRadSpace.Content.Assets STREQUAL "Debug")
+	if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 		target_compile_options(3DRadSpace.Content.Assets PRIVATE "/fsanitize=address")
 	endif()
 
@@ -41,11 +41,10 @@ endif()
 #Dependencies 
 #
 
-target_link_libraries(3DRadSpace.Content.Assets PRIVATE 3DRadSpace_Core)
-target_link_libraries(3DRadSpace.Content.Assets PRIVATE 3DRadSpace_Math)
-target_link_libraries(3DRadSpace.Content.Assets PRIVATE 3DRadSpace_Audio)
-target_link_libraries(3DRadSpace.Content.Assets PRIVATE 3DRadSpace_Games)
-target_link_libraries(3DRadSpace.Content.Assets PRIVATE 3DRadSpace_Graphics)
-target_link_libraries(3DRadSpace.Content.Assets PRIVATE 3DRadSpace_Graphics_Primitives)
-target_link_libraries(3DRadSpace.Content.Assets PRIVATE 3DRadSpace_Content)
+target_link_libraries(3DRadSpace.Content.Assets PRIVATE 3DRadSpace.Core)
+target_link_libraries(3DRadSpace.Content.Assets PRIVATE 3DRadSpace.Math)
+target_link_libraries(3DRadSpace.Content.Assets PRIVATE 3DRadSpace.Audio)
+target_link_libraries(3DRadSpace.Content.Assets PRIVATE 3DRadSpace.Graphics)
+target_link_libraries(3DRadSpace.Content.Assets PRIVATE 3DRadSpace.Graphics.Primitives)
+target_link_libraries(3DRadSpace.Content.Assets PRIVATE 3DRadSpace.Content)
 target_include_directories(3DRadSpace.Content.Assets PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)

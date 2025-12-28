@@ -1,6 +1,7 @@
 #include "UpdateProgressWindow.hpp"
 #include "Engine3DRadSpace/Logging/Exception.hpp"
 #include <CommCtrl.h>
+#include <format>
 using namespace Engine3DRadSpace::Logging;
 
 UpdateProgressWindow* UpdateProgressWindow::gInstance = nullptr;
@@ -66,12 +67,12 @@ UpdateProgressWindow::UpdateProgressWindow(HINSTANCE hInstance, AutoupdaterState
         nullptr
     );
 
-	HWND label1 = CreateWindowExW(
+	_label1 = CreateWindowExW(
 		0,
 		L"Static",
 		L"Downloading update...",
 		WS_VISIBLE | WS_CHILD,
-		120,
+		10,
 		10,
 		300,
 		20,
@@ -130,7 +131,7 @@ UpdateProgressWindow::UpdateProgressWindow(HINSTANCE hInstance, AutoupdaterState
 	SendMessageW(_progressBar, PBM_SETRANGE, 0, MAKELPARAM(0, 100));
 
     ShowWindow(_window, SW_NORMAL);
-    ShowWindow(label1, SW_NORMAL);
+    ShowWindow(_label1, SW_NORMAL);
     ShowWindow(label2, SW_NORMAL);
     ShowWindow(_progressBar, SW_NORMAL);
 	ShowWindow(_cancelButton, SW_NORMAL);
@@ -151,6 +152,11 @@ bool UpdateProgressWindow::Sync()
 		shownProgress = 100;
 		return true;
 	}
+
+	auto [current, progress] = _state->Progress();
+	auto text = std::format(L"Downloading update: (MB) {} Total (MB) {}", current, progress);
+
+	SetWindowTextW(_label1, text.c_str());
 
 	const int currentProgress = static_cast<int>(_state->GetCurrentProgress() * 100.f);
 	while (shownProgress < currentProgress)

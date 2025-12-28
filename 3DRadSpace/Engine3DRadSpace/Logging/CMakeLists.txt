@@ -2,10 +2,17 @@ cmake_minimum_required(VERSION 3.21)
 
 project("3DRadSpace.Logging")
 
-add_library(3DRadSpace.Logging STATIC 
+add_library(3DRadSpace.Logging SHARED 
+	"Exception.hpp"
 	"Exception.cpp"
+	"Logging.hpp"
+	"Message.hpp"
 	"Message.cpp"
+	"Message.h"
+	"ServiceBadCastException.hpp"
+	"Warning.hpp"
 	"Warning.cpp"
+	"Warning.h"
 )
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
@@ -23,7 +30,7 @@ if(MSVC)
 	add_compile_options(3DRadSpace.Logging PRIVATE "/MP")
 
 	#enable address sanitizer if using a debug configuration
-	if(3DRadSpace.Logging STREQUAL "Debug")
+	if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 		target_compile_options(3DRadSpace.Logging PRIVATE "/fsanitize=address")
 	endif()
 
@@ -37,5 +44,5 @@ endif()
 #
 #Dependencies 
 #
-target_link_libraries(3DRadSpace.Logging PRIVATE 3DRadSpace_Core)
+target_link_libraries(3DRadSpace.Logging PRIVATE 3DRadSpace.Core)
 target_include_directories(3DRadSpace.Logging PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)

@@ -584,7 +584,7 @@ void Texture2D::SetColors(Color** colors, unsigned x, unsigned y)
 	HRESULT r = _device->_context->Map(_texture.Get(), 0, D3D11_MAP_WRITE, 0, &resource);
 	if (FAILED(r)) throw Exception("Failed to map a texture!" + std::system_category().message(r));
 
-	memcpy(resource.pData, colors, sizeof(Color) * x * y);
+	memcpy_s(resource.pData, resource.DepthPitch, colors, sizeof(Color) * x * y);
 	_device->_context->Unmap(_texture.Get(), 0);
 }
 

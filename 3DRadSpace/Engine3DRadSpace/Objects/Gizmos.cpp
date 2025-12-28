@@ -6,11 +6,11 @@ using namespace Engine3DRadSpace::Objects;
 using namespace Engine3DRadSpace::Objects::Gizmos;
 using namespace Engine3DRadSpace::Reflection;
 
-std::vector<std::pair<Reflection::UUID, std::unique_ptr<IGizmo>>> _3drsp_gizmos;
+std::vector<std::pair<Reflection::UUID, std::unique_ptr<IGizmo>>> e3drsp_gizmos;
 
 IGizmo* Engine3DRadSpace::Internal::GizmoOf(const Reflection::UUID& uuid)
 {
-	for(auto& [g_uuid, gizmo] : _3drsp_gizmos)
+	for(auto& [g_uuid, gizmo] : e3drsp_gizmos)
 	{
 		if(g_uuid == uuid)
 			return gizmo.get();

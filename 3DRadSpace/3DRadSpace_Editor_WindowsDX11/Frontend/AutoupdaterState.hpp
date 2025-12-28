@@ -1,17 +1,18 @@
 #pragma once
 #include <Urlmon.h>
+#include <atomic>
+#include <utility>
 
 class AutoupdaterState : public IBindStatusCallback
 {
-	ULONG _refCount;
+	std::atomic<ULONG> _refCount;
 
-	ULONG _currentProgress;
+	std::atomic<ULONG> _currentProgress;
 	ULONG _totalProgress;
 
 	bool _isFinished;
 	bool _aborted;
 	bool _isInitialized;
-
 
 	AutoupdaterState();
 public:
@@ -42,10 +43,11 @@ public:
 	//AutoupdaterState
 	static void Create(_Outptr_ AutoupdaterState** autoUpdater);
 
-	float GetCurrentProgress() const;
-	void Abort();
-	bool Finished() const;
-	bool Initialized() const;
+	float GetCurrentProgress() const noexcept;
+	std::pair<ULONG, ULONG> Progress() const noexcept;
+	void Abort() noexcept;
+	bool Finished() const noexcept;
+	bool Initialized() const noexcept;
 
 	virtual ~AutoupdaterState() = default;
 };

@@ -205,18 +205,6 @@ Vector3& Vector3::Transform(const Quaternion& q)
 		   + 2.0f * s * Cross(u, v);
 
 	return *this = vprime;
-	
-	//Vector3 v;
-
-	//float x = 2 * (q.Y * Z - q.Z * Y);
-	//float y = 2 * (q.Z * X - q.X * Z);
-	//float z = 2 * (q.X * Y - q.Y * X);
-
-	//v.X = X + x * q.W + (q.Y * z - q.Z * y);
-	//v.Y = Y + y * q.W + (q.Z * x - q.X * z);
-	//v.Z = Z + z * q.W + (q.X * y - q.Y * x);
-
-	//return *this = v;
 }
 
 Vector3& Vector3::Transform(const Matrix4x4& m)

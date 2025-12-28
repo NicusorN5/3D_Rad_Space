@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Objects/IDrawable3D.hpp"
+#include "../../Core/IDrawable3D.hpp"
 #include "../../Math/Matrix4x4.hpp"
 #include "../ModelMeshPart.hpp"
 #include "../Effect.hpp"

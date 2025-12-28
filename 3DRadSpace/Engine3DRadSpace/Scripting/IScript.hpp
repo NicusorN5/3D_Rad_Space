@@ -1,5 +1,5 @@
 #pragma once
-#include "../Objects/IUpdateable.hpp"
+#include "../Core/IUpdateable.hpp"
 #include "../Games/Game.hpp"
 #include "../Objects/IObject.hpp"
 

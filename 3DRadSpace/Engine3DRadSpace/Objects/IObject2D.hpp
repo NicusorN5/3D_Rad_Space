@@ -1,6 +1,6 @@
 #pragma once
 #include "IObject.hpp"
-#include "IDrawable2D.hpp"
+#include "../Core/IDrawable2D.hpp"
 #include "../Math/Vector2.hpp"
 
 namespace Engine3DRadSpace::Objects

@@ -1,11 +1,11 @@
 #pragma once
 #include "Gizmo.hpp"
-#include "../Sprite.hpp"
+#include "../Impl/Sprite.hpp"
 
 namespace Engine3DRadSpace::Objects::Gizmos
 {
 	template<>
-	class E3DRSP_OBJECTS_EXPORT Gizmo<Sprite> : public IGizmo
+	class E3DRSP_OBJECTS_GIZMOS_EXPORT Gizmo<Sprite> : public IGizmo
 	{
 	public:
 		Gizmo();

@@ -3,7 +3,7 @@
 #include "Engine3DRadSpace/Graphics/IVertexBuffer.hpp"
 #include <Engine3DRadSpace\Math\Matrix4x4.hpp>
 #include <Engine3DRadSpace/Math/Vector2.hpp>
-#include <Engine3DRadSpace/Objects/Camera.hpp>
+#include <Engine3DRadSpace/Objects/Impl/Camera.hpp>
 #include <Engine3DRadSpace/Graphics/Model3D.hpp>
 #include <Engine3DRadSpace/Graphics/SpriteBatch.hpp>
 #include <Engine3DRadSpace/Graphics/Primitives/LineList.hpp>

@@ -1,4 +1,5 @@
 #include "Warning.hpp"
+#include "Warning.h"
 #include <fstream>
 #include <print>
 #include <iostream>
@@ -34,9 +35,21 @@ void Engine3DRadSpace::Logging::SetLastWarning(const std::string& warning_text)
 void Engine3DRadSpace::Logging::DefaultWarningHandler(const Warning &warning)
 {
 	std::fstream file("Warnings.log", std::ios::app | std::ios::out | std::ios::ate); //create a file stream for writing, with append and seek end flags
-	std::println(file, "[WARNING] {} Code {} Severity {}", warning.Details, warning.Code, warning.Severity);
-	std::println(file, "[WARNING] {} Code {} Severity {}", warning.Details, warning.Code, warning.Severity);
-	//std::println(std::cout, "\x1B[38;5;3m [WARNING] {}x1B[38;5;7m Code {} Severity {}", warning.Details, warning.Code, warning.Severity);
+	std::println(file, "[WARNING]{} Code {} Severity {}", warning.Details, warning.Code, warning.Severity);
+#ifdef _DEBUG
+	std::println(std::cout, "[WARNING]{} Code {} Severity {}", warning.Details, warning.Code, warning.Severity);
+#endif
 	file.close();
 }
 FuncWarningHandler Engine3DRadSpace::Logging::WarningHandler = DefaultWarningHandler;
+
+void E3DRSP_SetLastWarning(const E3DRSP_Warning* warning)
+{
+	SetLastWarning(Warning(
+		warning->Code,
+		warning->Details,
+		warning->Severity,
+		warning->Extra
+		)
+	);
+}

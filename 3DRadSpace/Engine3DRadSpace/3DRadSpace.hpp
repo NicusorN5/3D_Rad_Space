@@ -15,6 +15,11 @@
 //Engine3DRadSpace
 #include "Core/Libs.hpp"
 #include "Core/FixedArray.hpp"
+#include "Core\IDrawable2D.hpp"
+#include "Core\IDrawable3D.hpp"
+#include "Core\IInitializable.hpp"
+#include "Core\ILoadable.hpp"
+#include "Core\IUpdateable.hpp"
 
 //Engine3DRadSpace::Audio
 #include "Audio\AudioBuffer.hpp"
@@ -111,38 +116,39 @@
 #include "Math\Vector4.hpp"
 
 //Engine3DRadSpace::Objects
-#include "Objects\Camera.hpp"
-#include "Objects\Counter.hpp"
-#include "Objects\Empty.hpp"
-#include "Objects\ExitFade.hpp"
-#include "Objects\Fog.hpp"
-#include "Objects\Gizmos.hpp"
-#include "Objects\IDrawable2D.hpp"
-#include "Objects\IDrawable3D.hpp"
-#include "Objects\IInitializable.hpp"
-#include "Objects\ILoadable.hpp"
+#include "Objects\ICamera.hpp"
 #include "Objects\IObject.hpp"
 #include "Objects\IObject2D.hpp"
 #include "Objects\IObject3D.hpp"
-#include "Objects\IUpdateable.hpp"
 #include "Objects\ObjectList.hpp"
-#include "Objects\Skinmesh.hpp"
-#include "Objects\Skybox.hpp"
-#include "Objects\SkyColor.hpp"
-#include "Objects\SoundEffect.hpp"
-#include "Objects\SoundSource.hpp"
-#include "Objects\Sprite.hpp"
-#include "Objects\TextPrint.hpp"
+#include "Objects\ObjectType.hpp"
+
+//Engine3DRadSpace::Objects::Impl
+#include "Objects\Impl\Skinmesh.hpp"
+#include "Objects\Impl\Skybox.hpp"
+#include "Objects\Impl\SkyColor.hpp"
+#include "Objects\Impl\SoundEffect.hpp"
+#include "Objects\Impl\SoundSource.hpp"
+#include "Objects\Impl\Sprite.hpp"
+#include "Objects\Impl\TextPrint.hpp"
+#include "Objects\Impl\Camera.hpp"
+#include "Objects\Impl\Counter.hpp"
+#include "Objects\Impl\Empty.hpp"
+#include "Objects\Impl\ExitFade.hpp"
+#include "Objects\Impl\Fog.hpp"
 
 //Engine3DRadSpace::Native
 #include "Native\LibraryLoader.hpp"
 #include "Native\Window.hpp"
 
 //Engine3DRadSpace::Physics
-#include "Physics\GForce.hpp"
-#include "Physics\IPhysicsObject.hpp"
-#include "Physics\PhysicsEngine.hpp"
+#include "Physics\ICollider.hpp"
+#include "Physics\IPhysicsEngine.hpp"
 #include "Physics\PhysicsSettings.hpp"
+//Engine3DRadSpace::Physics::Objects
+#include "Physics\Objects\GForce.hpp"
+#include "Physics\Objects\IPhysicsObject.hpp"
+#include "Physics\Objects\Rigidbody.hpp"
 
 //Engine3DRadSpace::Plugins
 #include "Plugins\CustomObject.hpp"

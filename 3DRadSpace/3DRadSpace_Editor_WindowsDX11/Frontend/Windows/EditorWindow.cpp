@@ -10,11 +10,11 @@
 #include "SettingsWindow.hpp"
 #include "Engine3DRadSpace/Logging/Exception.hpp"
 #include <Engine3DRadSpace/Objects/ObjectList.hpp>
-#include <Engine3DRadSpace/Objects/Gizmos/IGizmo.hpp>
+#include <Engine3DRadSpace/Objects/IGizmo.hpp>
 
 #include "../AutoupdaterState.hpp"
 #include "UpdateProgressWindow.hpp"
-#include <Engine3DRadSpace\Objects\Objects.hpp>
+#include <Engine3DRadSpace\Objects\Impl\Objects.hpp>
 #include <thread>
 #include <Engine3DRadSpace\Projects\Serialization.hpp>
 
@@ -27,9 +27,9 @@ using namespace Engine3DRadSpace::Projects;
 
 EditorWindow* gEditorWindow = nullptr;
 
-void EditorWindow::_saveProject(const char* filename)
+void EditorWindow::_saveProject(const std::filesystem::path &filename)
 {
-	if (filename == nullptr || strlen(filename) == 0)
+	if (filename.empty())
 	{
 		char filebuff[_MAX_PATH]{};
 
@@ -55,11 +55,12 @@ void EditorWindow::_saveProject(const char* filename)
 	}
 }
 
-void EditorWindow::_writeProject(const char *fileName)
+void EditorWindow::_writeProject(const std::filesystem::path& fileName)
 {
 	_changesSaved = true;
+	_currentFile = fileName;
+	Serializer::SaveProject(editor->Objects.get(), editor->Content.get(), fileName);
 
-	Serializer::SaveProject(editor->Objects.get(), editor->Content.get(), std::filesystem::path(fileName));
 }
 
 void EditorWindow::_findUpdate()
@@ -642,12 +643,14 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 					{
 						//open project file.
 						gEditorWindow->_changesSaved = true;
+						gEditorWindow->_currentFile = std::filesystem::path(filebuff);
 
 						gEditorWindow->editor->Content->Clear();
+						gEditorWindow->editor->Objects->Clear();
+						SendMessageA(gEditorWindow->_listBox, TVM_DELETEITEM, 0, reinterpret_cast<LPARAM>(TVI_ROOT));
 						SetWorkingDirectory();
-						Serializer::LoadProject(gEditorWindow->editor->Objects.get(), gEditorWindow->editor->Content.get(), filebuff);
 
-						SendMessageA(gEditorWindow->_listBox, LVM_DELETEALLITEMS, 0, 0);
+						Serializer::LoadProject(gEditorWindow->editor->Objects.get(), gEditorWindow->editor->Content.get(), filebuff);
 
 						for (int i = 0; auto& instance : *(gEditorWindow->editor->Objects))
 						{

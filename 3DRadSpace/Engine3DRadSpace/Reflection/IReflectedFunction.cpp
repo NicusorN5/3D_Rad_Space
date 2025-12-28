@@ -1,4 +1,5 @@
 #include "IReflectedFunction.hpp"
+#include "IReflectedFunction.h"
 
 using namespace Engine3DRadSpace::Reflection;
 
@@ -14,7 +15,6 @@ IReflectedFunction::IReflectedFunction(
 	_numArgs(numParams),
 	_returnType(returnRepr),
 	_argsInfo(fieldInfo.begin(), fieldInfo.end()),
-	_name(name),
 	_signature(signature)
 {
 }
@@ -32,11 +32,6 @@ const std::vector<FieldRepresentation>& IReflectedFunction::ParametersInfo() con
 const FieldRepresentation& IReflectedFunction::ReturnedTypeInfo() const noexcept
 {
 	return _returnType;
-}
-
-const std::string& IReflectedFunction::Name() const noexcept
-{
-	return _name;
 }
 
 const std::string& IReflectedFunction::Signature() const noexcept
@@ -60,5 +55,23 @@ const void* IReflectedFunction::DefaultValue() const
 
 FieldRepresentation IReflectedFunction::Representation() const
 {
-	return FieldRepresentation();
+	return FieldRepresentation{ {FieldRepresentationType::Function, "" }};
+}
+
+const char* E3DRSP_IReflectedFunction_Signature(E3DRSP_IReflectedFunction func)
+{
+	auto f = reinterpret_cast<IReflectedFunction*>(func);
+	return f->Signature().c_str();
+}
+
+void E3DRSP_IReflectedFunction_Invoke(
+	E3DRSP_IReflectedFunction func,
+	void* self,
+	void* outArg,
+	void** args,
+	size_t numArgs
+)
+{
+	auto f = reinterpret_cast<IReflectedFunction*>(func);
+	f->Invoke(outArg, self, std::span<void*>(args, numArgs));
 }

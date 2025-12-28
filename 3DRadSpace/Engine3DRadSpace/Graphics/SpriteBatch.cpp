@@ -1,4 +1,5 @@
 #include "SpriteBatch.hpp"
+#include "SpriteBatch.h"
 #include "../Math/Matrix3x3.hpp"
 #include "../Math/Math.hpp"
 #include "IGraphicsCommandList.hpp"
@@ -296,7 +297,15 @@ void SpriteBatch::Begin(SpriteBatchSortMode sortingMode, std::unique_ptr<ISample
 	Begin(sortingMode);
 }
 
-void SpriteBatch::DrawNormalized(ITexture2D* texture, const Math::RectangleF& coords, const Math::RectangleF& source, Color tintColor, float rotation, FlipMode flipMode, float depth)
+void SpriteBatch::DrawNormalized(
+	ITexture2D* texture,
+	const Math::RectangleF& coords, 
+	const Math::RectangleF& source,
+	const Color& tintColor,
+	float rotation,
+	FlipMode flipMode,
+	float depth
+)
 {
 	if (texture == nullptr) return;
 
@@ -363,12 +372,28 @@ void SpriteBatch::DrawNormalized(ITexture2D* texture, const Math::RectangleF& co
 	if (_state == EndCalled) throw std::logic_error("Cannot draw textures when End() was called.");
 }
 
-void SpriteBatch::DrawNormalized(ITexture2D* texture, const Math::RectangleF& coords, const Math::Rectangle source, Color tintColor, float rotation, FlipMode flipMode, float depth)
+void SpriteBatch::DrawNormalized(
+	ITexture2D* texture,
+	const Math::RectangleF& coords,
+	const Math::Rectangle& source,
+	const Color& tintColor,
+	float rotation,
+	FlipMode flipMode,
+	float depth
+)
 {
 	DrawNormalized(texture, coords, _fullDefaultUV, tintColor, rotation, flipMode, depth);
 }
 
-void SpriteBatch::Draw(ITexture2D* texture, const Math::Rectangle& coords, const Math::Rectangle& source, Color tintColor, float rotation, FlipMode flipMode, float depth)
+void SpriteBatch::Draw(
+	ITexture2D* texture,
+	const Math::Rectangle& coords,
+	const Math::Rectangle& source,
+	const Color& tintColor,
+	float rotation,
+	FlipMode flipMode,
+	float depth
+)
 {
 	if (texture == nullptr) return;
 
@@ -391,7 +416,14 @@ void SpriteBatch::Draw(ITexture2D* texture, const Math::Rectangle& coords, const
 	DrawNormalized(texture, nCoords, nSource, tintColor, rotation, flipMode, depth);
 }
 
-void SpriteBatch::Draw(ITexture2D* texture, const Math::Rectangle& coords, Color tintColor, float rotation, FlipMode flipMode, float depth)
+void SpriteBatch::Draw(
+	ITexture2D* texture,
+	const Math::Rectangle& coords,
+	const Color &tintColor,
+	float rotation,
+	FlipMode flipMode,
+	float depth
+)
 {
 	auto screenSize = _device->Resolution();
 	RectangleF nCoords(
@@ -404,7 +436,16 @@ void SpriteBatch::Draw(ITexture2D* texture, const Math::Rectangle& coords, Color
 	DrawNormalized(texture, nCoords, _fullDefaultUV, tintColor, rotation, flipMode, depth);
 }
 
-void SpriteBatch::DrawString(Font* font, const std::string& text, const Vector2& pos, float size, Color tintColor, float rotation, FlipMode flipMode, float depth)
+void SpriteBatch::DrawString(
+	Font* font,
+	const std::string& text,
+	const Vector2& pos,
+	float size,
+	const Color &tintColor,
+	float rotation,
+	FlipMode flipMode,
+	float depth
+)
 {
 	if (font == nullptr) return;
 
@@ -424,7 +465,7 @@ void SpriteBatch::DrawString(Font* font, const std::string& text, const Vector2&
 	{
 		if (!font->GetCharGlyph(c).has_value()) continue;
 
-		auto&& glyph = font->GetCharGlyph(c).value();
+		auto glyph = font->GetCharGlyph(c).value();
 
 		Math::Rectangle rcChar;
 		// https://learnopengl.com/In-Practice/Text-Rendering
@@ -445,7 +486,16 @@ void SpriteBatch::DrawString(Font* font, const std::string& text, const Vector2&
 	_sortingMode = oldSortMode;
 }
 
-void SpriteBatch::DrawString(Font* font, const std::string& text, const Math::Point& pos, float size, Color tintColor, float rotation, FlipMode flipMode, float depth)
+void SpriteBatch::DrawString(
+	Font* font,
+	const std::string& text,
+	const Math::Point& pos,
+	float size,
+	const Color& tintColor,
+	float rotation,
+	FlipMode flipMode,
+	float depth
+)
 {
 	auto screenSize = _device->Resolution();
 	Vector2 p(
@@ -508,4 +558,166 @@ bool SpriteBatch::spriteBatchEntry::operator<(const spriteBatchEntry &b) const
 bool SpriteBatch::spriteBatchEntry::operator==(const spriteBatchEntry &b) const
 {
 	return textureID == b.textureID && flipU == b.flipU && flipV == b.flipV;
+}
+
+E3DRSP_SpriteBatch E3DRSP_SpriteBatch_Create(E3DRSP_IGraphicsDevice device)
+{
+	return new SpriteBatch(reinterpret_cast<IGraphicsDevice*>(device));
+}
+
+void E3DRSP_SpriteBatch_Begin(E3DRSP_SpriteBatch spriteBatch, E3DRSP_SpriteBatchSortMode sortingMode)
+{
+	static_cast<SpriteBatch*>(spriteBatch)->Begin(static_cast<SpriteBatchSortMode>(sortingMode));
+}
+
+//void E3DRSP_SpriteBatch_Begin2(E3DRSP_SpriteBatch spriteBatch, E3DRSP_SpriteBatchSortMode sortingMode, E3DRSP_ISamplerState* samplerState_moveable)
+//{
+//	static_cast<SpriteBatch*>(spriteBatch)->Begin(
+//		static_cast<SpriteBatchSortMode>(sortingMode), 
+//		std::make_unique<ISamplerState>(reinterpret_cast<ISamplerState*>(samplerState_moveable))
+//	);
+//}
+
+void E3DRSP_SpriteBatch_DrawNormalized(
+	E3DRSP_SpriteBatch spriteBatch,
+	E3DRSP_ITexture2D* texture,
+	const E3DRSP_RectangleF* coords,
+	const E3DRSP_RectangleF* source,
+	const E3DRSP_Color* tintColor,
+	float rotation,
+	E3DRSP_FlipMode flipMode,
+	float depth
+)
+{
+	static_cast<SpriteBatch*>(spriteBatch)->DrawNormalized(
+		reinterpret_cast<ITexture2D*>(texture),
+		std::bit_cast<const Math::RectangleF>(*coords),
+		std::bit_cast<const Math::Rectangle>(*source),
+		std::bit_cast<const Color>(*tintColor),
+		rotation,
+		static_cast<FlipMode>(flipMode),
+		depth
+	);
+}
+
+void E3DRSP_SpriteBatch_DrawNormalized2(
+	E3DRSP_SpriteBatch spriteBatch,
+	E3DRSP_ITexture2D* texture,
+	const E3DRSP_RectangleF* coords,
+	const E3DRSP_Rectangle* source,
+	const E3DRSP_Color *tintColor,
+	float rotation,
+	E3DRSP_FlipMode flipMode,
+	float depth
+)
+{
+	static_cast<SpriteBatch*>(spriteBatch)->DrawNormalized(
+		reinterpret_cast<ITexture2D*>(texture),
+		std::bit_cast<const Math::RectangleF>(*coords),
+		std::bit_cast<const Math::Rectangle>(*source),
+		std::bit_cast<const Color>(*tintColor),
+		rotation,
+		static_cast<FlipMode>(flipMode),
+		depth
+	);
+}
+
+void E3DRSP_SpriteBatch_Draw(
+	E3DRSP_SpriteBatch spriteBatch,
+	E3DRSP_ITexture2D* texture,
+	const E3DRSP_Rectangle* coords,
+	const E3DRSP_Rectangle* source,
+	const E3DRSP_Color *tintColor,
+	float rotation,
+	E3DRSP_FlipMode flipMode,
+	float depth
+)
+{
+	static_cast<SpriteBatch*>(spriteBatch)->Draw(
+		reinterpret_cast<ITexture2D*>(texture),
+		std::bit_cast<const Math::Rectangle>(*coords),
+		std::bit_cast<const Math::Rectangle>(*source),
+		std::bit_cast<const Color>(*tintColor),
+		rotation,
+		static_cast<FlipMode>(flipMode),
+		depth
+	);
+}
+
+void E3DRSP_SpriteBatch_Draw2(
+	E3DRSP_SpriteBatch spriteBatch,
+	E3DRSP_ITexture2D* texture,
+	const E3DRSP_Rectangle* coords,
+	const E3DRSP_Color* tintColor,
+	float rotation,
+	E3DRSP_FlipMode flipMode,
+	float depth
+)
+{
+	static_cast<SpriteBatch*>(spriteBatch)->Draw(
+		reinterpret_cast<ITexture2D*>(texture),
+		std::bit_cast<const Math::Rectangle>(*coords),
+		std::bit_cast<const Color>(*tintColor),
+		rotation,
+		static_cast<FlipMode>(flipMode),
+		depth
+	);
+}
+
+void E3DRSP_SpriteBatch_DrawString(
+	E3DRSP_SpriteBatch spriteBatch,
+	E3DRSP_Font* font,
+	const char* text,
+	const E3DRSP_Vector2* pos,
+	float size,
+	const E3DRSP_Color* tintColor,
+	float rotation,
+	E3DRSP_FlipMode flipMode,
+	float depth
+)
+{
+	reinterpret_cast<SpriteBatch*>(spriteBatch)->DrawString(
+		reinterpret_cast<Font*>(font),
+		text,
+		std::bit_cast<const Vector2>(*pos),
+		size,
+		std::bit_cast<const Color>(*tintColor),
+		rotation,
+		static_cast<FlipMode>(flipMode),
+		depth
+	);
+}
+
+void E3DRSP_SpriteBatch_DrawString2(
+	E3DRSP_SpriteBatch spriteBatch,
+	Font* font,
+	const char* text,
+	const E3DRSP_Point* pos,
+	float size,
+	const E3DRSP_Color *tintColor,
+	float rotation,
+	E3DRSP_FlipMode flipMode,
+	float depth
+)
+{
+	reinterpret_cast<SpriteBatch*>(spriteBatch)->DrawString(
+		reinterpret_cast<Font*>(font),
+		text,
+		std::bit_cast<const Math::Point>(*pos),
+		size,
+		std::bit_cast<const Color>(*tintColor),
+		rotation,
+		static_cast<FlipMode>(flipMode),
+		depth
+	);
+}
+
+void E3DRSP_SpriteBatch_End(E3DRSP_SpriteBatch spriteBatch)
+{
+	static_cast<SpriteBatch*>(spriteBatch)->End();
+}
+
+void E3DRSP_SpriteBatch_Destroy(E3DRSP_SpriteBatch spriteBatch)
+{
+	delete static_cast<SpriteBatch*>(spriteBatch);
 }

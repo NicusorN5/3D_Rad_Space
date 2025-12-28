@@ -3,6 +3,8 @@
 #include <Engine3DRadSpace/Content/ContentManager.hpp>
 #include "..\Controls\Dialog.hpp"
 #include "..\AssetListRenderer.hpp"
+#include <semaphore>
+#include <mutex>
 
 class AssetManagerDialog : public Dialog
 {
@@ -21,6 +23,8 @@ class AssetManagerDialog : public Dialog
 
 	Engine3DRadSpace::Reflection::UUID _assetType;
 	const char* _fileFilter = nullptr;
+
+	std::counting_semaphore<8> _imgSemaphore{ 8 };
 
 	void _createForms();
 	void _loadAssetIcons();

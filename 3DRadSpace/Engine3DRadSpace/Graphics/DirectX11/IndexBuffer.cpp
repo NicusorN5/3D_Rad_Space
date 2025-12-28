@@ -80,7 +80,7 @@ void IndexBuffer::SetData(void* data, size_t buffSize)
 	if(FAILED(r)) throw Exception("Failed to map a index buffer!");
 
 	memset(mappedBuff.pData, 0, mappedBuff.DepthPitch);
-	memcpy_s(mappedBuff.pData, buffSize, data, buffSize);
+	memcpy_s(mappedBuff.pData, mappedBuff.DepthPitch, data, buffSize);
 	_device->_context->Unmap(_indexBuffer.Get(), 0);
 }
 
