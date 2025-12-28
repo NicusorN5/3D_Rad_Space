@@ -17,16 +17,16 @@ namespace Engine3DRadSpace.Audio
         [DllImport("3DRadSpace.Audio.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_AudioEngine_ListAudioDevices")]
         private static extern IntPtr listAudioDevices();
 
-        [DllImport("3DRadSpace.Audio.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_AudioEngine_SwitchAudioDevice")]
+        [DllImport("3DRadSpace.Audio.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_IAudioEngine_SwitchAudioDevice")]
         private static extern void switchDevice(IntPtr audio, string name);
 
-        [DllImport("3DRadSpace.Audio.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_AudioEngine_Update")]
+        [DllImport("3DRadSpace.Audio.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_IAudioEngine_Update")]
         private static extern void update(IntPtr audio);
 
-        [DllImport("3DRadSpace.Audio.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_AudioEngine_CheckErrors")]
+        [DllImport("3DRadSpace.Audio.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_IAudioEngine_CheckErrors")]
         private static extern int checkErrors(IntPtr audio);
 
-        [DllImport("3DRadSpace.Audio.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_AudioEngine_Destroy")]
+        [DllImport("3DRadSpace.Audio.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_IAudioEngine_Destroy")]
         private static extern void destroy(IntPtr audio);
 
         public AudioEngine()

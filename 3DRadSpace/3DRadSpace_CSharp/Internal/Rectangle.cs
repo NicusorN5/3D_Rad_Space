@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace Engine3DRadSpace.Math
+namespace Engine3DRadSpace.Internal
 {
 	[StructLayout(LayoutKind.Sequential)]
 	public struct RectangleF
