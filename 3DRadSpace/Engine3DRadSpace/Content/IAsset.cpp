@@ -19,3 +19,9 @@ const char* E3DRSP_IAsset_FileExtension(E3DRSP_IAsset asset)
 	if (asset == nullptr) return "";
 	return static_cast<IAsset*>(asset)->FileExtension();
 }
+
+void E3DRSP_IAsset_Destroy(E3DRSP_IAsset asset)
+{
+	assert(asset != nullptr);
+	delete static_cast<IAsset*>(asset);
+}

@@ -139,5 +139,6 @@ E3DRSP_IShader* E3DRSP_Effect_GetShader(E3DRSP_Effect effect, size_t idx)
 
 void E3DRSP_Effect_Destroy(E3DRSP_Effect effect)
 {
+	assert(effect != nullptr);
 	delete reinterpret_cast<Effect*>(effect);
 }

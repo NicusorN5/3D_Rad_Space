@@ -15,19 +15,13 @@ extern "C"
 	
 	E3DRSP_GAMES_EXPORT void E3DRSP_Game_Run(E3DRSP_Game game);
 	E3DRSP_GAMES_EXPORT void E3DRSP_Game_RunOneFrame(E3DRSP_Game game);
-	E3DRSP_GAMES_EXPORT void E3DRSP_Game_Exit(E3DRSP_Game game);
 
-	E3DRSP_GAMES_EXPORT bool E3DRSP_Game_WasInitialized(E3DRSP_Game game);
-	E3DRSP_GAMES_EXPORT bool E3DRSP_Game_WasLoaded(E3DRSP_Game game);
 	E3DRSP_GAMES_EXPORT E3DRSP_Ray E3DRSP_Game_GetMouseRay(
 		E3DRSP_Game game,
 		E3DRSP_Vector2 mousePos,
 		const E3DRSP_Matrix4x4* view,
 		const E3DRSP_Matrix4x4* projection
 	);
-
-	E3DRSP_GAMES_EXPORT void E3DRSP_Game_AppendScene(E3DRSP_Game game, const char* path);
-	E3DRSP_GAMES_EXPORT void E3DRSP_Game_Destroy(E3DRSP_Game game);
 #ifdef __cplusplus
 }
 #endif

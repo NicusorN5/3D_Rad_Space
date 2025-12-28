@@ -274,24 +274,6 @@ void E3DRSP_Game_RunOneFrame(E3DRSP_Game game)
 	static_cast<Game*>(game)->RunOneFrame();
 }
 
-void E3DRSP_Game_Exit(E3DRSP_Game game)
-{
-	if (game == nullptr) return;
-	static_cast<Game*>(game)->Exit();
-}
-
-bool E3DRSP_Game_WasInitialized(E3DRSP_Game game)
-{
-	if (game == nullptr) return false;
-	return static_cast<Game*>(game)->WasInitialized();
-}
-
-bool E3DRSP_Game_WasLoaded(E3DRSP_Game game)
-{
-	if (game == nullptr) return false;
-	return static_cast<Game*>(game)->WasLoaded();
-}
-
 E3DRSP_Ray E3DRSP_Game_GetMouseRay(
 	E3DRSP_Game game,
 	E3DRSP_Vector2 mousePos,
@@ -323,16 +305,4 @@ E3DRSP_Ray E3DRSP_Game_GetMouseRay(
 		E3DRSP_Vector3{ray.Origin.X, ray.Origin.Y, ray.Origin.Z},
 		E3DRSP_Vector3{ray.Direction.X, ray.Direction.Y, ray.Direction.Z},
 	};
-}
-
-void E3DRSP_Game_AppendScene(E3DRSP_Game game, const char* path)
-{
-	if (game == nullptr) return;
-	if (path == nullptr) return;
-	static_cast<Game*>(game)->AppendScene(path);
-}
-void E3DRSP_Game_Destroy(E3DRSP_Game game)
-{
-	if (game == nullptr) return;
-	delete static_cast<Game*>(game);
 }
