@@ -10,11 +10,11 @@
 #include "SettingsWindow.hpp"
 #include "Engine3DRadSpace/Logging/Exception.hpp"
 #include <Engine3DRadSpace/Objects/ObjectList.hpp>
-#include <Engine3DRadSpace/Objects/Gizmos/IGizmo.hpp>
+#include <Engine3DRadSpace/Objects/IGizmo.hpp>
 
 #include "../AutoupdaterState.hpp"
 #include "UpdateProgressWindow.hpp"
-#include <Engine3DRadSpace\Objects\Objects.hpp>
+#include <Engine3DRadSpace\Objects\Impl\Objects.hpp>
 #include <thread>
 #include <Engine3DRadSpace\Projects\Serialization.hpp>
 

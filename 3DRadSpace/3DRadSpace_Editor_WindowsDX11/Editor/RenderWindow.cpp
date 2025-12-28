@@ -3,7 +3,7 @@
 #include "../Frontend/Settings.hpp"
 #include <Engine3DRadSpace/Graphics/Primitives/Box.hpp>
 #include <Engine3DRadSpace/Objects/ObjectList.hpp>
-#include <Engine3DRadSpace/Objects/Gizmos/IGizmo.hpp>
+#include <Engine3DRadSpace/Objects/IGizmo.hpp>
 #include <Engine3DRadSpace\Objects\Gizmos.hpp>
 
 RenderWindow::RenderWindow(HWND parent, HINSTANCE hInstance) :

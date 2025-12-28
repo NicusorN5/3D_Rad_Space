@@ -1,6 +1,6 @@
 #pragma once
 #include "Gizmo.hpp"
-#include "../Camera.hpp"
+#include "../Impl/Camera.hpp"
 
 namespace Engine3DRadSpace::Objects::Gizmos
 {

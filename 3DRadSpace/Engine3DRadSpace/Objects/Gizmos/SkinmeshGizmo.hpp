@@ -1,6 +1,6 @@
 #pragma once
 #include "Gizmo.hpp"
-#include "../Skinmesh.hpp"
+#include "../Impl/Skinmesh.hpp"
 
 namespace Engine3DRadSpace::Objects::Gizmos
 {

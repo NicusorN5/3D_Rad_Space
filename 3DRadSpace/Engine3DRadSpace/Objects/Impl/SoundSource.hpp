@@ -1,10 +1,10 @@
 #pragma once
 #include "SoundEffect.hpp"
-#include "IObject3D.hpp"
+#include "../IObject3D.hpp"
 
 namespace Engine3DRadSpace::Objects
 {
-	class E3DRSP_OBJECTS_EXPORT SoundSource : public IObject3D
+	class E3DRSP_OBJECTS_IMPL_EXPORT SoundSource : public IObject3D
 	{
 		SoundEffect _underlying;
 

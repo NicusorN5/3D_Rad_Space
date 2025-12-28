@@ -1,6 +1,6 @@
 #pragma once
 #include "Gizmo.hpp"
-#include "../SoundSource.hpp"
+#include "../Impl/SoundSource.hpp"
 
 namespace Engine3DRadSpace::Objects::Gizmos
 {

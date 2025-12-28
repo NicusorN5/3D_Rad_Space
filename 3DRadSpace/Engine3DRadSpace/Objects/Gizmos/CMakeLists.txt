@@ -3,9 +3,14 @@ cmake_minimum_required(VERSION 3.21)
 project("Engine3DRadSpace.Objects.Gizmos")
 
 add_library(3DRadSpace.Objects.Gizmos STATIC 
+	"CameraGizmo.hpp"
 	"CameraGizmo.cpp"
+	"Gizmo.hpp"
+	"SkinmeshGizmo.hpp"
 	"SkinmeshGizmo.cpp"
+	"SoundSourceGizmo.hpp"
 	"SoundSourceGizmo.cpp"
+	"SpriteGizmo.hpp"
 	"SpriteGizmo.cpp"
 )
 

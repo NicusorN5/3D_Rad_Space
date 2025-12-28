@@ -1,13 +1,13 @@
 #pragma once
-#include "IObject2D.hpp"
-#include "../Reflection/Reflection.hpp"
-#include "../Content/Assets/TextureAsset.hpp"
+#include "../IObject2D.hpp"
+#include "../../Reflection/Reflection.hpp"
+#include "../../Content/Assets/TextureAsset.hpp"
 
 namespace Engine3DRadSpace::Objects
 {
 	using RefTexture2D = Content::AssetID<Content::Assets::TextureAsset>;
 
-	class E3DRSP_OBJECTS_EXPORT Sprite : public IObject2D
+	class E3DRSP_OBJECTS_IMPL_EXPORT Sprite : public IObject2D
 	{
 		Graphics::ITexture2D *_texture;
 		std::unique_ptr<std::string> _tempResourceString;

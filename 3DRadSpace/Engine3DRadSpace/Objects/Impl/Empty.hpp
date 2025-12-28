@@ -1,13 +1,13 @@
 #pragma once
-#include "IObject3D.hpp"
-#include "..\Reflection\Reflection.hpp"
+#include "..\IObject3D.hpp"
+#include "..\..\Reflection\Reflection.hpp"
 
 namespace Engine3DRadSpace::Objects
 {
 	/// <summary>
 	/// Represents a blank object, with no behiavour. Can be used as a dummy, or plain 3D transform.
 	/// </summary>
-	class E3DRSP_OBJECTS_EXPORT Empty : public IObject3D
+	class E3DRSP_OBJECTS_IMPL_EXPORT Empty : public IObject3D
 	{
 	public:
 		Empty(

@@ -30,6 +30,7 @@ endif()
 
 target_link_libraries(3DRadSpace.Scripting PRIVATE 3DRadSpace.Games)
 target_link_libraries(3DRadSpace.Scripting PRIVATE 3DRadSpace.Objects)
+target_link_libraries(3DRadSpace.Scripting PRIVATE 3DRadSpace.Objects.Impl)
 target_link_libraries(3DRadSpace.Scripting PRIVATE 3DRadSpace.Physics)
 target_link_libraries(3DRadSpace.Scripting PRIVATE 3DRadSpace.Physics.NVPhysX)
 target_link_libraries(3DRadSpace.Scripting PRIVATE 3DRadSpace.Physics.Objects)

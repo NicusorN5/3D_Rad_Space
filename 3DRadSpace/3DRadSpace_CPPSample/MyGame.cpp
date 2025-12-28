@@ -1,6 +1,6 @@
 #include "MyGame.hpp"
-#include <Engine3DRadSpace\Objects\Skinmesh.hpp>
-#include <Engine3DRadSpace\Objects\Camera.hpp>
+#include <Engine3DRadSpace\Objects\Impl\Skinmesh.hpp>
+#include <Engine3DRadSpace\Objects\Impl\Camera.hpp>
 #include <Engine3DRadSpace\Objects\ObjectList.hpp>
 #include <Engine3DRadSpace\Math\Quaternion.hpp>
 #include <Engine3DRadSpace\Graphics\Primitives\Box.hpp>

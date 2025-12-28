@@ -1,7 +1,7 @@
 #include "Serialization.hpp"
 #include "Serialization.h"
 #include "../Content/AssetID.hpp"
-#include "../Objects/Objects.hpp"
+#include "../Objects/Impl/Objects.hpp"
 #include "../Objects/ObjectList.hpp"
 #include <fstream>
 

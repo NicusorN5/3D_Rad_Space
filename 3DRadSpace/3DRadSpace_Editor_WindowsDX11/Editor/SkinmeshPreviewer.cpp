@@ -1,6 +1,6 @@
 #include "SkinmeshPreviewer.hpp"
-#include <Engine3DRadSpace/Objects/Skinmesh.hpp>
-#include <Engine3DRadSpace/Objects/Camera.hpp>
+#include <Engine3DRadSpace/Objects/Impl/Skinmesh.hpp>
+#include <Engine3DRadSpace/Objects/Impl/Camera.hpp>
 #include "../Frontend/Settings.hpp"
 #include <Engine3DRadSpace/Objects/ObjectList.hpp>
 

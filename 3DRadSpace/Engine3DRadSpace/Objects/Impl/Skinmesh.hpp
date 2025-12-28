@@ -1,15 +1,15 @@
 #pragma once
 
-#include "IObject3D.hpp"
-#include "../Graphics/Model3D.hpp"
-#include "../Content/Assets/ModelAsset.hpp"
-#include "../Reflection/Reflection.hpp"
+#include "../IObject3D.hpp"
+#include "../../Graphics/Model3D.hpp"
+#include "../../Content/Assets/ModelAsset.hpp"
+#include "../../Reflection/Reflection.hpp"
 
 namespace Engine3DRadSpace::Objects
 {
 	using RefModel3D = Content::AssetID<Content::Assets::ModelAsset>;
 
-	class E3DRSP_OBJECTS_EXPORT Skinmesh : public IObject3D
+	class E3DRSP_OBJECTS_IMPL_EXPORT Skinmesh : public IObject3D
 	{
 		Graphics::Model3D *_model;
 		std::unique_ptr<std::string> _path;

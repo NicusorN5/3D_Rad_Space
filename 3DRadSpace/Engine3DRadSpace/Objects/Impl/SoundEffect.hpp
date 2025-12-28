@@ -1,15 +1,15 @@
 #pragma once
-#include "IObject.hpp"
-#include "../Audio/Sound.hpp"
-#include "../Audio/SoundInstance.hpp"
-#include "../Reflection/Reflection.hpp"
-#include "../Core/GetSet.hpp"
+#include "../IObject.hpp"
+#include "../../Audio/Sound.hpp"
+#include "../../Audio/SoundInstance.hpp"
+#include "../../Reflection/Reflection.hpp"
+#include "../../Core/GetSet.hpp"
 
 namespace Engine3DRadSpace::Objects
 {
 	using RefSound = Content::AssetID<Audio::Sound>;
 
-	class E3DRSP_OBJECTS_EXPORT SoundEffect : public IObject
+	class E3DRSP_OBJECTS_IMPL_EXPORT SoundEffect : public IObject
 	{
 		Audio::Sound* _sound;
 		std::unique_ptr<std::string> _path;

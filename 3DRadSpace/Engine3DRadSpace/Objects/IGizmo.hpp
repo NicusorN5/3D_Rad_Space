@@ -1,7 +1,7 @@
 #pragma once
-#include "../IObject.hpp"
-#include "../../Core/IDrawable2D.hpp"
-#include "../../Core/IDrawable3D.hpp"
+#include "IObject.hpp"
+#include "../Core/IDrawable2D.hpp"
+#include "../Core/IDrawable3D.hpp"
 
 namespace Engine3DRadSpace::Objects::Gizmos
 {

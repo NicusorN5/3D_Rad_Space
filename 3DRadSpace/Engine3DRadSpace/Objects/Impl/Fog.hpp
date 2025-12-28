@@ -1,6 +1,6 @@
 #pragma once
-#include "IObject.hpp"
-#include "..\Reflection\Reflection.hpp"
+#include "..\IObject.hpp"
+#include "..\..\Reflection\Reflection.hpp"
 
 namespace Engine3DRadSpace::Graphics::Rendering
 {
@@ -12,7 +12,7 @@ namespace Engine3DRadSpace::Objects
 	/// <summary>
 	/// This object controls the Fog effect.
 	/// </summary>
-	class E3DRSP_OBJECTS_EXPORT Fog: public IObject
+	class E3DRSP_OBJECTS_IMPL_EXPORT Fog: public IObject
 	{
 	protected:
 		::Engine3DRadSpace::Graphics::Rendering::LinearPixelFogEffect* _effect;

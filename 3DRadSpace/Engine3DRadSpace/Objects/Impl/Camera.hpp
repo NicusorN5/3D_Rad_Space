@@ -1,9 +1,9 @@
 #pragma once
-#include "ICamera.hpp"
-#include "IObject3D.hpp"
-#include "../Math/Math.hpp"
-#include "../Reflection/Reflection.hpp"
-#include "../Core/GetSet.hpp"
+#include "../ICamera.hpp"
+#include "../IObject3D.hpp"
+#include "../../Math/Math.hpp"
+#include "../../Reflection/Reflection.hpp"
+#include "../../Core/GetSet.hpp"
 
 namespace Engine3DRadSpace::Objects
 {
@@ -13,7 +13,7 @@ namespace Engine3DRadSpace::Objects
 	/// <remarks>
 	/// This object updates the view, and projection matrices in the Draw3D() method. You may manually set these matrices without this.
 	/// </remarks>
-	class E3DRSP_OBJECTS_EXPORT Camera : public IObject3D, public ICamera
+	class E3DRSP_OBJECTS_IMPL_EXPORT Camera : public IObject3D, public ICamera
 	{
 	public:
 		Camera(

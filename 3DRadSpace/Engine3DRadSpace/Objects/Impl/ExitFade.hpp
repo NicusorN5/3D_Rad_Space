@@ -1,10 +1,10 @@
 #pragma once
-#include "IObject2D.hpp"
-#include "..\Reflection\Reflection.hpp"
+#include "..\IObject2D.hpp"
+#include "..\..\Reflection\Reflection.hpp"
 
 namespace Engine3DRadSpace::Objects
 {
-	class E3DRSP_OBJECTS_EXPORT ExitFade : public IObject2D
+	class E3DRSP_OBJECTS_IMPL_EXPORT ExitFade : public IObject2D
 	{
 		float _timer = 0.0f;
 	public:

@@ -1,5 +1,5 @@
 #include "Legacy.hpp"
-#include "../Objects/Objects.hpp"
+#include "../Objects/Impl/Objects.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Math;
