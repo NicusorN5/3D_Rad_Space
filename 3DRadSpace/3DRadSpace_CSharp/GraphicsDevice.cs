@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using Engine3DRadSpace.Internal;
 
 namespace Engine3DRadSpace
 {

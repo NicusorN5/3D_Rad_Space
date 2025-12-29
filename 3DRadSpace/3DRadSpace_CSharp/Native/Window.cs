@@ -1,10 +1,11 @@
 ﻿using System.Runtime.InteropServices;
 using Engine3DRadSpace.Input;
-using Engine3DRadSpace.Math;
+using Engine3DRadSpace.Internal;
+using System;
 
 namespace Engine3DRadSpace.Native
 {
-	public class Window
+	public class Window : IDisposable
 	{
 		[DllImport("Engine3DRadSpace.Native.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_Window_Create")]
 		private static extern IntPtr window_Create(string title, uint width, uint height);
@@ -28,7 +29,7 @@ namespace Engine3DRadSpace.Native
         private static extern RectangleF window_RF(IntPtr window);
 
         [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_Window_Rectangle")]
-        private static extern RectangleF window_R(IntPtr window);
+        private static extern Rectangle window_R(IntPtr window);
 
         [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_Window_IsFocused")]
         private static extern bool window_IsFocused(IntPtr window);
@@ -43,10 +44,11 @@ namespace Engine3DRadSpace.Native
         private static extern void window_Destroy(IntPtr window);
 
         private IntPtr windowHandle;
-
+		private bool _disposed;
 		public Window(string title, uint width, uint height)
 		{
 			windowHandle = window_Create(title, width, height);
+			_disposed = false;
 		}
 
 		public IntPtr NativeHandle
@@ -86,7 +88,7 @@ namespace Engine3DRadSpace.Native
 			}
 		}
 
-		public Rectangle Rectangle
+		public Rectangle RectangleF
 		{
 			get
 			{
@@ -94,7 +96,7 @@ namespace Engine3DRadSpace.Native
 			}
 		}
 
-        public Rectangle Rectangle
+        public RectangleF Rectangle
         {
             get
             {

@@ -1,4 +1,6 @@
-﻿namespace Engine3DRadSpace.Internal
+﻿using System.Runtime.InteropServices;
+
+namespace Engine3DRadSpace.Internal
 {
     [StructLayout(LayoutKind.Sequential, Pack = sizeof(int), Size = 2 * sizeof(int))]
     public struct Point
