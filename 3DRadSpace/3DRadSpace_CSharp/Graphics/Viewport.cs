@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace Engine3DRadSpace
+namespace Engine3DRadSpace.Graphics
 {
 	[StructLayout(LayoutKind.Sequential)]
 	public struct Viewport

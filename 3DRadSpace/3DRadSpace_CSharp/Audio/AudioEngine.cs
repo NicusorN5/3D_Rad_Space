@@ -13,7 +13,6 @@ namespace Engine3DRadSpace.Audio
         [DllImport("3DRadSpace.Audio.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_AudioEngine_Create1")]
         private static extern IntPtr create1(string deviceName);
 
-        //E3DRSP_AudioEngine_ListAudioDevices
         [DllImport("3DRadSpace.Audio.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_AudioEngine_ListAudioDevices")]
         private static extern IntPtr listAudioDevices();
 
@@ -58,7 +57,8 @@ namespace Engine3DRadSpace.Audio
 
                 if (currentString != null)
                 {
-                    result.Add(Marshal.PtrToStringAnsi((IntPtr)currentString));
+                    var strPtr = Marshal.PtrToStringAnsi((IntPtr)currentString);
+                    result.Add(strPtr != null ? strPtr : "");
                     ptr += 1;
                 }
                 else

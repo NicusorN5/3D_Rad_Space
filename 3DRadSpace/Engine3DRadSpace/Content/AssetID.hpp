@@ -18,5 +18,7 @@ namespace Engine3DRadSpace::Content
 		{
 			return ID;
 		}
+
+		using Type = T;
 	};
 }

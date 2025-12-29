@@ -19,7 +19,7 @@ namespace Engine3DRadSpace
 		{
 			objects = new List<Tuple<int, object>>();
 			Window = new Window(title, width, height);
-			Device = new GraphicsDevice(Window.NativeHandle, width, height);
+			
 		}
 		public Game(string title) : this(title, 800, 600, false) {  }
 		public Game(string title, uint width, uint height) : this(title, width, height, false)
@@ -29,7 +29,7 @@ namespace Engine3DRadSpace
         }
 
 		public Window Window { get; private set; }
-		public GraphicsDevice Device { get; private set; }
+		//public GraphicsDevice Device { get; private set; }
 
 		public IntPtr InstanceHandle
 		{
