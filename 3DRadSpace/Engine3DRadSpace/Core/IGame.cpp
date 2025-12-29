@@ -48,3 +48,9 @@ void E3DRSP_IGame_AppendScene(E3DRSP_IGame game, const char* path)
 	if (game == nullptr || path == nullptr) return;
 	static_cast<IGame*>(game)->AppendScene(std::filesystem::path(path));
 }
+
+void E3DRSP_IGame_Destroy(E3DRSP_IGame game)
+{
+	assert(game != nullptr);
+	delete static_cast<IGame*>(game);
+}

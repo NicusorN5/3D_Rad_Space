@@ -3,7 +3,7 @@
 
 using namespace Engine3DRadSpace;
 
-void E3DRSP__Initialize(E3DRSP_IInitializable instance)
+void E3DRSP_IInitializable_Initialize(E3DRSP_IInitializable instance)
 {
 	if (instance == nullptr) return;
 	static_cast<IInitializable*>(instance)->Initialize();

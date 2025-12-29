@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace Engine3DRadSpace
 {
-    public abstract class IGame
+    public interface IGame
     {
-
+        public void Exit();
+        bool WasInitialized { get; }
+        bool WasLoaded { get; }
+        void AppendScene(string path);
     }
 }
