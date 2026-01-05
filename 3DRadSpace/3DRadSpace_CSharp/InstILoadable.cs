@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace Engine3DRadSpace
 {
-    public abstract class InstILoadable : ILoadable, IDisposable
+    public abstract class InstILoadable : NatPtrWrapper, ILoadable
     {
         [DllImport("3DRadSpace.Core.dll", EntryPoint = "E3DRSP_ILoadable_Load2")]
         extern static void _load(IntPtr handle);
@@ -15,13 +15,8 @@ namespace Engine3DRadSpace
         [DllImport("3DRadSpace.Core.dll", EntryPoint = "E3DRSP_ILoadable_Destroy")]
         extern static void _destroy(IntPtr handle);
 
-        protected IntPtr _handle;
-        bool _disposed;
-
-        internal InstILoadable(IntPtr handle)
+        protected InstILoadable(IntPtr handle) : base(handle, _destroy)
         {
-            _handle = handle;
-            _disposed = false;
         }
 
         public void Load()
@@ -32,30 +27,6 @@ namespace Engine3DRadSpace
         public void Load(string path)
         {
             _load2(_handle, path);
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if (!_disposed)
-            {
-                if (_handle != 0)
-                {
-                    _destroy(_handle);
-                }
-                _disposed = true;
-                _handle = IntPtr.Zero;
-            }
-        }
-
-        ~InstILoadable()
-        {
-            Dispose(false);
         }
     }
 }

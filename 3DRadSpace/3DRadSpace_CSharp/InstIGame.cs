@@ -28,7 +28,7 @@ namespace Engine3DRadSpace
         [DllImport("3DRadSpace.Core.dll", EntryPoint = "E3DRSP_IGame_Destroy")]
         private static extern void _destroy(IntPtr handle);
 
-        internal InstIGame(IntPtr handle)
+        protected InstIGame(IntPtr handle)
         {
             _game = handle;
             _disposed = false;
@@ -66,7 +66,7 @@ namespace Engine3DRadSpace
             GC.SuppressFinalize(this);
         }
 
-        private void Dispose(bool disposing)
+        protected void Dispose(bool disposing)
         {
             if (!_disposed)
             {

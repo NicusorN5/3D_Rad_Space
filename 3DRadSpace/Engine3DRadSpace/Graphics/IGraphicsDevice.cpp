@@ -1,4 +1,3 @@
-#pragma once
 #include "IGraphicsDevice.hpp"
 #include "IGraphicsDevice.h"
 #include "IDepthStencilBuffer.hpp"
@@ -21,9 +20,9 @@ E3DRSP_IRasterizerState E3DRSP_IGraphicsDevice_GetRasterizerState(E3DRSP_IGraphi
 	return rasterizerState.release();
 }
 
-const char* E3DRSP_IGraphicsDevice_GetBackendName(E3DRSP_IGraphicsDevice device)
+const char* E3DRSP_IGraphicsDevice_BackendName(E3DRSP_IGraphicsDevice device)
 {
-	return reinterpret_cast<IGraphicsDevice*>(device)->BackendName().c_str();
+	return reinterpret_cast<IGraphicsDevice*>(device)->BackendName().data();
 }
 
 E3DRSP_Point E3DRSP_IGraphicsDevice_Resolution(E3DRSP_IGraphicsDevice device)
@@ -169,9 +168,9 @@ E3DRSP_IIndexBuffer E3DRSP_IGraphicsDevice_CreateIndexBuffer(
 	return reinterpret_cast<IGraphicsDevice*>(device)->CreateIndexBuffer(std::span<unsigned>(indices, numIndices)).release();
 }
 
-E3DRSP_IIndexBuffer E3DRSP_IGraphicsDevice_CreateIndexBuffer2(E3DRSP_IGraphicsDevice device, size_t numIndices, BufferUsage usage)
+E3DRSP_IIndexBuffer E3DRSP_IGraphicsDevice_CreateIndexBuffer2(E3DRSP_IGraphicsDevice device, size_t numIndices, E3DRSP_BufferUsage usage)
 {
-	return reinterpret_cast<IGraphicsDevice*>(device)->CreateIndexBuffer(numIndices, usage).release();
+	return reinterpret_cast<IGraphicsDevice*>(device)->CreateIndexBuffer(numIndices, static_cast<BufferUsage>(usage)).release();
 }
 
 E3DRSP_IRasterizerState E3DRSP_IGraphicsDevice_CreateRasterizerState(
@@ -226,10 +225,10 @@ E3DRSP_IRenderTarget E3DRSP_IGraphicsDevice_CreateRenderTarget(
 	E3DRSP_IGraphicsDevice device,
 	size_t x,
 	size_t y,
-	PixelFormat format
+	E3DRSP_PixelFormat format
 )
 {
-	return reinterpret_cast<IGraphicsDevice*>(device)->CreateRenderTarget(x, y, format).release();
+	return reinterpret_cast<IGraphicsDevice*>(device)->CreateRenderTarget(x, y, static_cast<PixelFormat>(format)).release();
 }
 
 E3DRSP_ISamplerState E3DRSP_IGraphicsDevice_CreateSamplerState(E3DRSP_IGraphicsDevice device)
@@ -246,7 +245,7 @@ E3DRSP_ISamplerState E3DRSP_IGraphicsDevice_CreateSamplerState2(
 	float mipLODBias,
 	unsigned maxAnisotropy,
 	E3DRSP_ComparisonFunction comparisonFunc,
-	E3DRSP_Color borderColor,
+	const E3DRSP_Color* borderColor,
 	float minLOD,
 	float maxLOD
 )
@@ -256,7 +255,12 @@ E3DRSP_ISamplerState E3DRSP_IGraphicsDevice_CreateSamplerState2(
 	TextureAddressMode natAddressV = static_cast<TextureAddressMode>(addressV);
 	TextureAddressMode natAddressW = static_cast<TextureAddressMode>(addressW);
 	ComparisonFunction natComparisonFunc = static_cast<ComparisonFunction>(comparisonFunc);
-	Math::Color natBorderColor = Math::Color{ borderColor.R, borderColor.G, borderColor.B, borderColor.A };
+	Math::Color natBorderColor = Math::Color{ 
+		borderColor->R,
+		borderColor->G,
+		borderColor->B,
+		borderColor->A
+	};
 
 	return reinterpret_cast<IGraphicsDevice*>(device)->CreateSamplerState(
 		natFilter,
@@ -333,7 +337,7 @@ E3DRSP_IVertexBuffer E3DRSP_IGraphicsDevice_CreateVertexBuffer(
 	const void* data,
 	size_t structSize,
 	size_t numVertices,
-	BufferUsage usage
+	E3DRSP_BufferUsage usage
 )
 {
 	BufferUsage natUsage = static_cast<BufferUsage>(usage);

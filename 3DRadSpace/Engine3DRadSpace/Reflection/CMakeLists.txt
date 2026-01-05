@@ -5,14 +5,34 @@ project("Engine3DRadSpace.Reflection")
 file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS "*.cpp" "*.hpp" )
 
 add_library(3DRadSpace.Reflection SHARED
+	"EnumEntry.hpp"
+	"Event.hpp"
 	"Event.cpp"
+	"FieldRepresentation.hpp"
 	"FieldRepresentation.cpp"
+	"IReflectedField.hpp"
 	"IReflectedField.cpp"
+	"IReflectedField.h"
+	"IReflectedFunction.hpp"
 	"IReflectedFunction.cpp"
+	"IReflectedFunction.h"
+	"ReflectedAsset.hpp"
+	"ReflectedEnum.hpp"
 	"ReflectedEnum.cpp"
+	"ReflectedEnumField.hpp"
+	"ReflectedField.hpp"
+	"ReflectedFunction.hpp"
+	"ReflectedMemberFunction.hpp"
+	"ReflectedObject.hpp"
 	"ReflectedObject.cpp"
+	"ReflectedObject.h"
+	"Reflection.hpp"
+	"UUID.hpp"
 	"UUID.cpp"
+	"UUID.h"
+	"UnknownVariable.hpp"
 	"UnknownVariable.cpp"
+	"UnknownVariable.h"
 )
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)

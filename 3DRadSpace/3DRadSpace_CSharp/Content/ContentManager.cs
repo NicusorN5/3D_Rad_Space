@@ -27,7 +27,7 @@ namespace Engine3DRadSpace.Content
         private unsafe (IAsset, uint) _loadCall(UUID uuid, string path)
         {
             uint id;
-            var ptr = _load(_service, &uuid, path, &id);
+            var ptr = _load(_handle, &uuid, path, &id);
 
             return (new InstIAsset(ptr), id);
         }
@@ -39,17 +39,17 @@ namespace Engine3DRadSpace.Content
 
         public void Remove(uint id)
         {
-            _remove(_service, id);
+            _remove(_handle, id);
         }
 
         public void Clear()
         {
-            _clear(_service);
+            _clear(_handle);
         }
 
         public ulong Count()
         {
-            return _count(_service);
+            return _count(_handle);
         }
     }
 }

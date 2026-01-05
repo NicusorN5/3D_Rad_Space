@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace Engine3DRadSpace.Internal
+namespace Engine3DRadSpace.Math
 {
 	[StructLayout(LayoutKind.Sequential, Pack = sizeof(float), Size = 4 * sizeof(float))]
 	public struct Color

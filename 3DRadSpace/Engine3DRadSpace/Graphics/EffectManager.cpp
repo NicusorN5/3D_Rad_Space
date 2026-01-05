@@ -54,7 +54,7 @@ E3DRSP_IShader E3DRSP_EffectManager_AddShader(E3DRSP_EffectManager manager, cons
 	);
 }
 
-E3DRSP_IShader E3DRSP_EffectManager_AddEffect(E3DRSP_EffectManager manager, const char* name, E3DRSP_Effect effect_moveable)
+E3DRSP_Effect E3DRSP_EffectManager_AddEffect(E3DRSP_EffectManager manager, const char* name, E3DRSP_Effect effect_moveable)
 {
 	return static_cast<EffectManager*>(manager)->Add(
 		std::string(name), 

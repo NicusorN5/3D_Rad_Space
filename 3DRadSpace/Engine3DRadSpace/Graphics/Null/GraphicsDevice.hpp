@@ -18,8 +18,6 @@ namespace Engine3DRadSpace::Graphics::Null
 		std::unique_ptr<ITexture2D> _whiteBlankTexture;
 		std::unique_ptr<IGraphicsCommandList> _context;
 		std::unique_ptr<IVertexBuffer> _screenQuad;
-
-		std::string _backendName = "Null";
 	public:
 		GraphicsDevice() = delete;
 		explicit GraphicsDevice(void* nativeWindowHandle, size_t width = 800, size_t height = 600);
@@ -32,7 +30,7 @@ namespace Engine3DRadSpace::Graphics::Null
 
 		bool EnableVSync;
 
-		std::string BackendName() const noexcept override;
+		std::string_view BackendName() const noexcept override;
 
 		//std::unique_ptr<IRasterizerState> GetRasterizerState() override;
 
@@ -119,7 +117,7 @@ namespace Engine3DRadSpace::Graphics::Null
 			float mipLODBias,
 			unsigned maxAnisotropy,
 			ComparisonFunction comparisonFunc,
-			Math::Color borderColor,
+			const Math::Color &borderColor,
 			float minLOD,
 			float maxLOD
 		) override;

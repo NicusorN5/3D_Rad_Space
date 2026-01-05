@@ -170,12 +170,12 @@ void ShaderBase::_createConstantBuffer(size_t idxCbuffer, size_t buffSize, const
 #endif
 }
 
-std::string ShaderBase::GetEntryName()
+std::string_view ShaderBase::GetEntryName() const noexcept
 {
-	return std::string(_entry);
+	return std::string_view(_entry);
 }
 
-const char* ShaderBase::GetCompilationErrorsAndWarnings()
+const char* ShaderBase::GetCompilationErrorsAndWarnings() const noexcept
 {
 	return (_errorBlob != nullptr) ? static_cast<const char*>(_errorBlob->GetBufferPointer()) : "";
 }

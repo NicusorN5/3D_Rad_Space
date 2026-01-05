@@ -47,8 +47,8 @@ namespace Engine3DRadSpace::Graphics::Rendering
 		std::vector<Reflection::IReflectedField*> GetVariables() const override;
 		void Set(const std::string& name, const void* data, size_t dataSize) override;
 
-		std::string GetEntryName() override;
-		const char* GetCompilationErrorsAndWarnings() override;
+		std::string_view GetEntryName() const noexcept override;
+		const char* GetCompilationErrorsAndWarnings() const noexcept override;
 
 		void* GetHandle() const noexcept override;
 		IGraphicsDevice* GetGraphicsDevice() const noexcept override;

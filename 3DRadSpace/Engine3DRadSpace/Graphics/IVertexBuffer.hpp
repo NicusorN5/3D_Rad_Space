@@ -10,6 +10,6 @@ namespace Engine3DRadSpace::Graphics
 		virtual size_t StructSize() const noexcept = 0;
 		virtual size_t NumVertices() const noexcept = 0;
 
-		virtual [[nodiscard]] std::unique_ptr<IVertexBuffer> CreateStaging() = 0;
+		[[nodiscard]] virtual std::unique_ptr<IVertexBuffer> CreateStaging() = 0;
 	};
 }

@@ -2,7 +2,7 @@
 
 namespace Engine3DRadSpace::Graphics
 {
-	enum class ComparisonFunction
+	enum class ComparisonFunction : int
 	{
 		Never = 1,
 		Less,

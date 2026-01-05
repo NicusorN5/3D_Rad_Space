@@ -30,9 +30,9 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, size_t width, size_t he
 	_screenQuad = std::make_unique<VertexBuffer>(this, nullptr, 0, 0);
 }
 
-std::string GraphicsDevice::BackendName() const noexcept
+std::string_view GraphicsDevice::BackendName() const noexcept
 {
-	return _backendName;
+	return std::string_view("Null");
 }
 
 Math::Point GraphicsDevice::Resolution() const noexcept
@@ -218,7 +218,7 @@ std::unique_ptr<ISamplerState> GraphicsDevice::CreateSamplerState(
 	float mipLODBias,
 	unsigned maxAnisotropy,
 	ComparisonFunction comparisonFunc,
-	Math::Color borderColor,
+	const Math::Color &borderColor,
 	float minLOD,
 	float maxLOD
 )

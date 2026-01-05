@@ -104,12 +104,12 @@ void PostProcessEffect::Set(const std::string& name, const void* data, size_t da
 	_effect->Set(name, data, dataSize);
 }
 
-std::string PostProcessEffect::GetEntryName()
+std::string_view PostProcessEffect::GetEntryName() const noexcept
 {
 	return _effect->GetEntryName();
 }
 
-const char* PostProcessEffect::GetCompilationErrorsAndWarnings()
+const char* PostProcessEffect::GetCompilationErrorsAndWarnings() const noexcept
 {
 	return _effect->GetCompilationErrorsAndWarnings();
 }

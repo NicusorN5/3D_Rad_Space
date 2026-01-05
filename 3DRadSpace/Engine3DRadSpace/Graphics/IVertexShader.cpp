@@ -5,9 +5,9 @@
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
 
-E3DRSP_IReflectedField** E3DRSP_IVertexShader_GetInputLayout(E3DRSP_IVertexShader vertexShader, size_t* outSize)
+E3DRSP_IReflectedField* E3DRSP_IVertexShader_GetInputLayout(E3DRSP_IVertexShader vertexShader, size_t* outSize)
 {
-	if (outSize == nullptr)
+	if (outSize == nullptr || vertexShader == nullptr)
 	{
 		return nullptr;
 	}
@@ -23,7 +23,8 @@ E3DRSP_IReflectedField** E3DRSP_IVertexShader_GetInputLayout(E3DRSP_IVertexShade
 	return cLayout;
 }
 
-E3DRSP_GRAPHICS_EXPORT void E3DRSP_IVertexShader_Destroy(E3DRSP_IVertexShader vertexShader)
+void E3DRSP_IVertexShader_Destroy(E3DRSP_IVertexShader vertexShader)
 {
+	assert(vertexShader != nullptr);
 	delete reinterpret_cast<IVertexShader*>(vertexShader);
 }

@@ -9,12 +9,12 @@ void E3DRSP_IShader_SetData(E3DRSP_IShader shader, unsigned index, const void* d
 	reinterpret_cast<IShader*>(shader)->SetData(index, data, dataSize);
 }
 
-void E3DRSP_IShader_SetTexture(E3DRSP_IShader shader, unsigned index, ITexture2D* texture)
+void E3DRSP_IShader_SetTexture(E3DRSP_IShader shader, unsigned index, E3DRSP_ITexture2D texture)
 {
 	reinterpret_cast<IShader*>(shader)->SetTexture(index, reinterpret_cast<ITexture2D*>(texture));
 }
 
-void E3DRSP_IShader_SetTextures(E3DRSP_IShader shader, E3DRSP_ITexture2D** textures, size_t numTextures)
+void E3DRSP_IShader_SetTextures(E3DRSP_IShader shader, E3DRSP_ITexture2D* textures, size_t numTextures)
 {
 	std::vector<ITexture2D*> texVec;
 	texVec.reserve(numTextures);
@@ -25,23 +25,26 @@ void E3DRSP_IShader_SetTextures(E3DRSP_IShader shader, E3DRSP_ITexture2D** textu
 	reinterpret_cast<IShader*>(shader)->SetTextures(texVec);
 }
 
-void E3DRSP_IShader_SetSampler(E3DRSP_IShader shader, unsigned index, E3DRSP_ISamplerState* samplerState)
+void E3DRSP_IShader_SetSampler(E3DRSP_IShader shader, unsigned index, E3DRSP_ISamplerState samplerState)
 {
 	reinterpret_cast<IShader*>(shader)->SetSampler(index, reinterpret_cast<ISamplerState*>(samplerState));
 }
+
 void E3DRSP_IShader_SetShader(E3DRSP_IShader shader)
 {
 	reinterpret_cast<IShader*>(shader)->SetShader();
 }
 
-E3DRSP_IReflectedField** E3DRSP_IShader_GetVariables(E3DRSP_IShader shader, size_t* outSize)
+E3DRSP_IReflectedField* E3DRSP_IShader_GetVariables(E3DRSP_IShader shader, size_t* outSize)
 {
 	auto vars = reinterpret_cast<IShader*>(shader)->GetVariables();
-	*outSize = vars.size();
-	E3DRSP_IReflectedField** result = new E3DRSP_IReflectedField * [vars.size()];
-	for (size_t i = 0; i < vars.size(); i++)
+	size_t size = vars.size();
+	*outSize = size;
+	E3DRSP_IReflectedField* result = new E3DRSP_IReflectedField[size];
+
+	for (size_t i = 0; i < size; i++)
 	{
-		result[i] = reinterpret_cast<E3DRSP_IReflectedField*>(vars[i]);
+		result[i] = reinterpret_cast<E3DRSP_IReflectedField>(vars[i]);
 	}
 	return result;
 }
@@ -53,7 +56,7 @@ void E3DRSP_IShader_Set(E3DRSP_IShader shader, const char* name, const void* dat
 
 const char* E3DRSP_IShader_GetEntryName(E3DRSP_IShader shader)
 {
-	return reinterpret_cast<IShader*>(shader)->GetEntryName().c_str();
+	return reinterpret_cast<IShader*>(shader)->GetEntryName().data();
 }
 
 const char* E3DRSP_IShader_GetCompilationErrorsAndWarnings(E3DRSP_IShader shader)

@@ -2,7 +2,7 @@
 
 namespace Engine3DRadSpace.Audio
 {
-    public class AudioBuffer : IDisposable
+    public class AudioBuffer : NatPtrWrapper
     {
         [DllImport("3DRadSpace.Audio.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_AudioBuffer_Create")]
         private static extern IntPtr create(IntPtr buffer, int numChannels, int sampleRate, int bps, int format, int size);
@@ -16,19 +16,13 @@ namespace Engine3DRadSpace.Audio
         [DllImport("3DRadSpace.Audio.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_AudioBuffer_Destroy")]
         private static extern void destroy(IntPtr audioBuffer);
 
-        IntPtr _audioBuffer;
-        bool _disposed;
 
-        public AudioBuffer(IntPtr buffer, int numChannels, int sampleRate, int bps, int format, int size)
+        public AudioBuffer(IntPtr buffer, int numChannels, int sampleRate, int bps, int format, int size) : base(create(buffer, numChannels, sampleRate, bps, format, size), destroy)
         {
-            _audioBuffer = create(buffer, numChannels, sampleRate, bps, format, size);
-            _disposed = false;
         }
 
-        private AudioBuffer(IntPtr handle)
+        private AudioBuffer(IntPtr handle) : base(handle, destroy)
         {
-            _audioBuffer = handle;
-            _disposed = false;
         }
 
         public static AudioBuffer FromWAV(string path)
@@ -39,37 +33,6 @@ namespace Engine3DRadSpace.Audio
         public static AudioBuffer FromOGG(string path)
         {
             return new AudioBuffer(fromOGG(path));
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);  
-        }
-        protected virtual void Dispose(bool disposing)
-        {
-            if (_disposed)
-            {
-                return;
-            }
-
-            if(_audioBuffer != 0)
-            {
-                destroy(_audioBuffer);
-                _audioBuffer = 0;
-            }
-
-            _disposed = true;
-        }
-
-        public nint Handle
-        {
-            get => _audioBuffer;
-        }
-
-        ~AudioBuffer()
-        {
-            Dispose(false);
         }
     }
 }

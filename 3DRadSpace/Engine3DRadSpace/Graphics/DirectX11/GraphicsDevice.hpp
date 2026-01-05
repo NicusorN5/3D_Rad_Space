@@ -73,7 +73,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 
 		bool EnableVSync;
 
-		std::string BackendName() const noexcept override;
+		std::string_view BackendName() const noexcept override;
 
 		/// <summary>
 		/// Returns the backbuffer width and height.
@@ -164,7 +164,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 			float mipLODBias,
 			unsigned maxAnisotropy,
 			ComparisonFunction comparisonFunc,
-			Math::Color borderColor,
+			const Math::Color& borderColor,
 			float minLOD,
 			float maxLOD
 		) override;

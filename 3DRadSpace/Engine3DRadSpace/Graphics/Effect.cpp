@@ -111,7 +111,7 @@ void E3DRSP_Effect_SetData2(E3DRSP_Effect effect, void* data, size_t size, int c
 	reinterpret_cast<Effect*>(effect)->SetData(data, size, cbufferID);
 }
 
-void E3DRSP_Effect_SetTexture(E3DRSP_Effect effect, E3DRSP_ITexture2D* texture, int idx)
+void E3DRSP_Effect_SetTexture(E3DRSP_Effect effect, E3DRSP_ITexture2D texture, int idx)
 {
 	reinterpret_cast<Effect*>(effect)->SetTexture(reinterpret_cast<ITexture2D*>(texture), idx);
 }

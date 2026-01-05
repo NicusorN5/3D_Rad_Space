@@ -110,13 +110,13 @@ std::pair<IVertexBuffer*, IIndexBuffer*> ModelMeshPart::CreateStagingBuffers()
 }
 
 E3DRSP_ModelMeshPart E3DRSP_ModelMeshPart_Create(
-	E3DRSP_IGraphicsDevice* device,
+	E3DRSP_IGraphicsDevice device,
 	void* vertices,
 	size_t numVerts,
 	size_t structSize,
 	unsigned* indices,
 	size_t numIndices,
-	E3DRSP_Effect* shaders
+	E3DRSP_Effect shaders
 )
 {
 	return new ModelMeshPart(
@@ -130,9 +130,9 @@ E3DRSP_ModelMeshPart E3DRSP_ModelMeshPart_Create(
 }
 
 E3DRSP_ModelMeshPart E3DRSP_ModelMeshPart_Create2(
-	E3DRSP_IVertexBuffer* vertexBuffer,
-	E3DRSP_IIndexBuffer* indexBuffer,
-	E3DRSP_Effect* shaders
+	E3DRSP_IVertexBuffer vertexBuffer,
+	E3DRSP_IIndexBuffer indexBuffer,
+	E3DRSP_Effect shaders
 )
 {
 	return new ModelMeshPart(
@@ -185,7 +185,7 @@ E3DRSP_Effect E3DRSP_ModelMeshPart_GetShaders(E3DRSP_ModelMeshPart meshPart)
 	return static_cast<ModelMeshPart*>(meshPart)->GetShaders();
 }
 
-void E3DRSP_ModelMeshPart_SetShaders(E3DRSP_ModelMeshPart meshPart, E3DRSP_Effect* shaders)
+void E3DRSP_ModelMeshPart_SetShaders(E3DRSP_ModelMeshPart meshPart, E3DRSP_Effect shaders)
 {
 	static_cast<ModelMeshPart*>(meshPart)->SetShaders(reinterpret_cast<Effect*>(shaders));
 }
@@ -206,5 +206,6 @@ void E3DRSP_ModelMeshPart_SetTransform(E3DRSP_ModelMeshPart meshPart, const E3DR
 
 void E3DRSP_ModelMeshPart_Destroy(E3DRSP_ModelMeshPart meshPart)
 {
+	assert(meshPart != nullptr);
 	delete static_cast<ModelMeshPart*>(meshPart);
 }

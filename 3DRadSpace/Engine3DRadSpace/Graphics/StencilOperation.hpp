@@ -2,7 +2,7 @@
 
 namespace Engine3DRadSpace::Graphics
 {
-	enum class StencilOperation
+	enum class StencilOperation : int
 	{
 		Keep = 1,
 		Zero = 2,

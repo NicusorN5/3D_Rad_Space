@@ -129,7 +129,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		void SetData(void *data, size_t buffSize) override;
 		void EndRead() override;
 
-		virtual [[nodiscard]] std::unique_ptr<ITexture2D> CreateStaging();
+		[[nodiscard]] virtual std::unique_ptr<ITexture2D> CreateStaging();
         static Texture2D CreateStaging(Texture2D* texture);
         Texture2D Clone();
 

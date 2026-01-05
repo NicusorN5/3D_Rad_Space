@@ -5,7 +5,7 @@ using System;
 
 namespace Engine3DRadSpace.Native
 {
-	public class Window : IDisposable
+	public class Window : NatPtrWrapper
 	{
 		[DllImport("Engine3DRadSpace.Native.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_Window_Create")]
 		private static extern IntPtr window_Create(string title, uint width, uint height);
@@ -42,33 +42,28 @@ namespace Engine3DRadSpace.Native
 
         [DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_Window_Destroy")]
         private static extern void window_Destroy(IntPtr window);
-
-        private IntPtr windowHandle;
-		private bool _disposed;
-		public Window(string title, uint width, uint height)
+		public Window(string title, uint width, uint height) : base(window_Create(title, width, height), window_Destroy)
 		{
-			windowHandle = window_Create(title, width, height);
-			_disposed = false;
 		}
 
 		public IntPtr NativeHandle
 		{
 			get
 			{
-				return window_NativeHandle(windowHandle);
+				return window_NativeHandle(_handle);
 			}
 		}
 
 		public void ProcessMessages()
 		{
-			window_ProcessMessages(windowHandle);
+			window_ProcessMessages(_handle);
 		}
 
 		public Mouse MouseState
 		{
 			get
 			{
-				return window_GetMouseState(windowHandle);
+				return window_GetMouseState(_handle);
 			}
 		}
 
@@ -76,7 +71,7 @@ namespace Engine3DRadSpace.Native
 		{
 			get
 			{
-				return window_GetKbState(windowHandle);
+				return window_GetKbState(_handle);
 			}
 		}
 
@@ -84,7 +79,7 @@ namespace Engine3DRadSpace.Native
 		{
 			get
 			{
-				return window_Size(windowHandle);
+				return window_Size(_handle);
 			}
 		}
 
@@ -92,7 +87,7 @@ namespace Engine3DRadSpace.Native
 		{
 			get
 			{
-				return window_R(windowHandle);
+				return window_R(_handle);
 			}
 		}
 
@@ -100,7 +95,7 @@ namespace Engine3DRadSpace.Native
         {
             get
             {
-                return window_RF(windowHandle);
+                return window_RF(_handle);
             }
         }
 
@@ -108,42 +103,18 @@ namespace Engine3DRadSpace.Native
 		{
 			get
 			{
-				return window_IsFocused(windowHandle);
+				return window_IsFocused(_handle);
 			}
 		}
 
 		public void SetMousePosition(Point p)
 		{
-            window_SetMousePosition(windowHandle, ref p);
+            window_SetMousePosition(_handle, ref p);
 		}
 
 		public void SetTitle(string title)
 		{
-			window_SetTitle(windowHandle, title);
+			window_SetTitle(_handle, title);
 		}
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if (!_disposed)
-            {
-                if (windowHandle != 0)
-                {
-                    window_Destroy(windowHandle);
-                }
-                _disposed = true;
-                windowHandle = IntPtr.Zero;
-            }
-        }
-
-        ~Window()
-        {
-            Dispose(false);
-        }
     }
 }

@@ -133,7 +133,7 @@ extern "C"
 		float mipLODBias,
 		unsigned maxAnisotropy,
 		E3DRSP_ComparisonFunction comparisonFunc,
-		E3DRSP_Color borderColor,
+		const E3DRSP_Color* borderColor,
 		float minLOD,
 		float maxLOD
 	);

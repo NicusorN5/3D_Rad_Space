@@ -46,7 +46,7 @@ extern "C"
 		
 	E3DRSP_GRAPHICS_EXPORT void E3DRSP_SpriteBatch_DrawNormalized(
 		E3DRSP_SpriteBatch spriteBatch,
-		E3DRSP_ITexture2D* texture,
+		E3DRSP_ITexture2D texture,
 		const E3DRSP_RectangleF* coords,
 		const E3DRSP_RectangleF* source,
 		const E3DRSP_Color* tintColor,
@@ -57,7 +57,7 @@ extern "C"
 
 	E3DRSP_GRAPHICS_EXPORT void E3DRSP_SpriteBatch_DrawNormalized2(
 		E3DRSP_SpriteBatch spriteBatch,
-		E3DRSP_ITexture2D* texture,
+		E3DRSP_ITexture2D texture,
 		const E3DRSP_RectangleF* coords,
 		const E3DRSP_Rectangle* source,
 		const E3DRSP_Color* tintColor,
@@ -68,7 +68,7 @@ extern "C"
 
 	E3DRSP_GRAPHICS_EXPORT void E3DRSP_SpriteBatch_Draw(
 		E3DRSP_SpriteBatch spriteBatch,
-		E3DRSP_ITexture2D* texture,
+		E3DRSP_ITexture2D texture,
 		const E3DRSP_Rectangle* coords,
 		const E3DRSP_Rectangle* source,
 		const E3DRSP_Color* tintColor,
@@ -78,7 +78,7 @@ extern "C"
 	);
 	E3DRSP_GRAPHICS_EXPORT void E3DRSP_SpriteBatch_Draw2(
 		E3DRSP_SpriteBatch spriteBatch,
-		E3DRSP_ITexture2D* texture,
+		E3DRSP_ITexture2D texture,
 		const E3DRSP_Rectangle* coords,
 		const E3DRSP_Color* tintColor,
 		float rotation,

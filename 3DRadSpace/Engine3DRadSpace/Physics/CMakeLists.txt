@@ -3,8 +3,13 @@ cmake_minimum_required(VERSION 3.21)
 project("Engine3DRadSpace.Physics")
 
 add_library(3DRadSpace.Physics SHARED
+	"ICollider.hpp"
 	"ICollider.cpp"
+	"ICollider.h"
+	"IPhysicsEngine.hpp"
 	"IPhysicsEngine.cpp"
+	"IPhysicsEngine.h"
+	"PhysicsSettings.hpp"
 )
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)

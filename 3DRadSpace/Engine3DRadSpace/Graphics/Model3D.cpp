@@ -74,7 +74,7 @@ Model3D::Model3D(IGraphicsDevice* Device, const std::filesystem::path& path) :
 		{"DirectX12", 1},
 	};
 
-	if (backends[Device->BackendName()] == 1)
+	if (backends[std::string(Device->BackendName())] == 1)
 	{
 		steps |= aiProcess_FlipUVs | aiProcess_FlipWindingOrder;
 	}

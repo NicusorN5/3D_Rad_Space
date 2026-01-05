@@ -2,7 +2,7 @@
 
 namespace Engine3DRadSpace::Graphics
 {
-	enum class TextureFilter
+	enum class TextureFilter : unsigned char
 	{
 		Anisotropic,
 		Linear,

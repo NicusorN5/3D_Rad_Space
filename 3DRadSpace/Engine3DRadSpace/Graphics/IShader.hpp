@@ -37,8 +37,8 @@ namespace Engine3DRadSpace::Graphics
 			Set(name, &data, sizeof(T));
 		}
 
-		virtual std::string GetEntryName() = 0;
-		virtual const char* GetCompilationErrorsAndWarnings() = 0;
+		virtual std::string_view GetEntryName() const noexcept = 0;
+		virtual const char* GetCompilationErrorsAndWarnings() const noexcept = 0;
 
 		~IShader() override = default;
 	};

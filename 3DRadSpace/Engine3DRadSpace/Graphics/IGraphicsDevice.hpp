@@ -37,7 +37,7 @@ namespace Engine3DRadSpace::Graphics
 	protected:
 		IGraphicsDevice() = default;
 	public:
-		virtual std::string BackendName() const noexcept = 0;
+		virtual std::string_view BackendName() const noexcept = 0;
 
 		virtual std::unique_ptr<IRasterizerState> GetRasterizerState() = 0;
 
@@ -125,7 +125,7 @@ namespace Engine3DRadSpace::Graphics
 			float mipLODBias,
 			unsigned maxAnisotropy,
 			ComparisonFunction comparisonFunc,
-			Math::Color borderColor,
+			const Math::Color &borderColor,
 			float minLOD,
 			float maxLOD
 		) = 0;

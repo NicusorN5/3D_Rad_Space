@@ -181,9 +181,9 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, size_t width, size_t he
 	Logging::SetLastMessage("Created D3D11 backend");
 }
 
-std::string GraphicsDevice::BackendName() const noexcept
+std::string_view GraphicsDevice::BackendName() const noexcept
 {
-	return "DirectX11";
+	return std::string_view("DirectX11");
 }
 
 Math::Point GraphicsDevice::Resolution() const noexcept
@@ -408,7 +408,7 @@ std::unique_ptr<ISamplerState> GraphicsDevice::CreateSamplerState(
 	float MipLODBias,
 	unsigned MaxAnisotropy,
 	ComparisonFunction ComparisionFunction,
-	Math::Color BorderColor,
+	const Math::Color &BorderColor,
 	float MinLOD,
 	float MaxLOD
 )

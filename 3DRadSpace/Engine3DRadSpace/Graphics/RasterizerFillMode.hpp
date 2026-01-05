@@ -2,7 +2,7 @@
 
 namespace Engine3DRadSpace::Graphics
 {
-	enum class RasterizerFillMode
+	enum class RasterizerFillMode : unsigned char
 	{
 		/// <summary>
 		/// Triangles will be drawn in wireframe.

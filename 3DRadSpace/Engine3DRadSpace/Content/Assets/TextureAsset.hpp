@@ -1,5 +1,6 @@
 #pragma once
 #include "../IAsset.hpp"
+#include "../../Graphics/ITexture2D.hpp"
 
 namespace Engine3DRadSpace
 {

@@ -1,5 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 using Engine3DRadSpace.Native;
+using Engine3DRadSpace.Graphics;
 
 namespace Engine3DRadSpace
 {
@@ -19,6 +20,7 @@ namespace Engine3DRadSpace
 		{
 			objects = new List<Tuple<int, object>>();
 			Window = new Window(title, width, height);
+			Device = null;
 			
 		}
 		public Game(string title) : this(title, 800, 600, false) {  }
@@ -29,7 +31,7 @@ namespace Engine3DRadSpace
         }
 
 		public Window Window { get; private set; }
-		//public GraphicsDevice Device { get; private set; }
+		public IGraphicsDevice Device { get; private set; }
 
 		public IntPtr InstanceHandle
 		{

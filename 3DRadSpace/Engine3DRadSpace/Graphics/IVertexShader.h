@@ -7,7 +7,7 @@ typedef void* E3DRSP_IVertexShader;
 extern "C"
 {
 #endif
-	E3DRSP_GRAPHICS_EXPORT Reflection::IReflectedField** E3DRSP_IVertexShader_GetInputLayout(E3DRSP_IVertexShader vertexShader, size_t *outSize);
+	E3DRSP_GRAPHICS_EXPORT E3DRSP_IReflectedField* E3DRSP_IVertexShader_GetInputLayout(E3DRSP_IVertexShader vertexShader, size_t *outSize);
 	E3DRSP_GRAPHICS_EXPORT void E3DRSP_IVertexShader_Destroy(E3DRSP_IVertexShader vertexShader);
 #ifdef __cplusplus
 }

@@ -1,6 +1,6 @@
 ﻿namespace Engine3DRadSpace
 {
-    internal interface ILoadable
+    public interface ILoadable : IPtrWrapper
     {
         public void Load();
         public void Load(string path);

@@ -46,8 +46,8 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		ShaderBase& operator=(ShaderBase&&) noexcept = default;
 
 		void SetData(unsigned index, const void* data, size_t dataSize) override;
-		std::string GetEntryName() override;
-		const char* GetCompilationErrorsAndWarnings() override;
+		std::string_view GetEntryName() const noexcept override;
+		const char* GetCompilationErrorsAndWarnings() const noexcept override;
 
 		std::vector<Reflection::IReflectedField*> GetVariables() const override;
 		void Set(const std::string& name, const void* data, size_t dataSize) override;

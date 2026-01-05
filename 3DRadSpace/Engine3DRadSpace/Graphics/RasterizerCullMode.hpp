@@ -2,7 +2,7 @@
 
 namespace Engine3DRadSpace::Graphics
 {
-	enum class RasterizerCullMode
+	enum class RasterizerCullMode : unsigned char
 	{
 		/// <summary>
 		/// Always draw all triangles.

@@ -2,7 +2,7 @@
 
 namespace Engine3DRadSpace::Graphics
 {
-	enum class TextureAddressMode
+	enum class TextureAddressMode : unsigned char
 	{
 		Wrap = 1,
 		Mirror = 2,

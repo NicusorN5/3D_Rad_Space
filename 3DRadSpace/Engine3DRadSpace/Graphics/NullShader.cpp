@@ -52,12 +52,12 @@ void NullShader::Set(const std::string& name, const void* data, size_t dataSize)
 	(void)dataSize;
 }
 
-std::string NullShader::GetEntryName()
+std::string_view NullShader::GetEntryName() const noexcept
 {
-	return "";
+	return std::string_view("");
 }
 
-const char* NullShader::GetCompilationErrorsAndWarnings()
+const char* NullShader::GetCompilationErrorsAndWarnings() const noexcept
 {
 	return "";
 }
