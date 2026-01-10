@@ -12,6 +12,7 @@ namespace Engine3DRadSpace::Plugins
 	/// <summary>
 	/// Loads custom objects from a library handle for the editor.
 	/// </summary>
+	/// <returns>The number of custom objects loaded.</returns>
 	/// <param name="libraryHandle">HMODULE in Windows, void* in Linux</param>
-	void E3DRSP_PLUGINS_EXPORT LoadCustomObjectsFromLibHandle(void* libraryHandle);
+	size_t E3DRSP_PLUGINS_EXPORT LoadCustomObjectsFromLibHandle(void* libraryHandle);
 }

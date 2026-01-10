@@ -8,7 +8,7 @@ using namespace Engine3DRadSpace::Plugins;
 
 extern std::vector<Engine3DRadSpace::Reflection::ReflectedObject*> e3drsp_internal_objects_list;
 
-void Engine3DRadSpace::Plugins::LoadCustomObjectsFromLibHandle(void* libraryHandle)
+size_t Engine3DRadSpace::Plugins::LoadCustomObjectsFromLibHandle(void* libraryHandle)
 {
 	LoadCustomObjects loadCustomObjects = Native::GetFunctionFromLibrary<LoadCustomObjects>(libraryHandle, "LoadCustomObjects");
 	if(loadCustomObjects)
@@ -42,5 +42,7 @@ void Engine3DRadSpace::Plugins::LoadCustomObjectsFromLibHandle(void* libraryHand
 			e3drsp_internal_objects_list.push_back(object);
 			Logging::SetLastMessage(Logging::Message(1000, "Loaded custom object " + object->Name, nullptr));
 		}
+		return rawObjects.Size;
 	}
+	return 0;
 }

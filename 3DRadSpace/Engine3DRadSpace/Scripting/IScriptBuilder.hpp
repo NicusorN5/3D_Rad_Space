@@ -9,11 +9,11 @@ namespace Engine3DRadSpace::Scripting
 	protected:
 		IScriptBuilder() = default;
 	public:
-		virtual const std::string Language() const = 0;
+		virtual const char* Language() const = 0;
 		virtual bool IsAvailable() const = 0;
 
-		using CompileReturn = std::pair<IScriptInstance, CompilationResults>;
-		virtual CompileReturn Compile(const std::filesystem::path& scriptPath) = 0;
+		using CompileReturn = std::pair<IScript*, CompilationResults>;
+		virtual CompileReturn Compile(const char* scriptPath, const char* entryClass) = 0;
 
 		virtual ~IScriptBuilder() = default;
 	};

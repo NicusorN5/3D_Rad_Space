@@ -46,4 +46,5 @@ void AngelScriptObject::Update()
 
 REFL_BEGIN(AngelScriptObject, "AngelScript Script", "Scripting", "AngelScript script")
 REFL_FIELD(AngelScriptObject, std::string, ScriptPath, "Script path", "", "Path to script file")
+REFL_FIELD(AngelScriptObject, std::string, Class, "Entry classname", "", "Path to script file")
 REFL_END

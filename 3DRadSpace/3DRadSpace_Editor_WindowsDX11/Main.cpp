@@ -30,6 +30,7 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #include <Engine3DRadSpace/Logging/Message.hpp>
 #include <Engine3DRadSpace/Logging/Warning.hpp>
 #include <Engine3DRadSpace/Plugins/EditorPlugin.hpp>
+#include <Engine3DRadSpace/Plugins/CustomObject.hpp>
 #include <Engine3DRadSpace/Native/LibraryLoader.hpp>
 #undef LoadLibrary
 #include "Frontend/Settings.hpp"
@@ -102,6 +103,10 @@ void LoadAllPlugins()
 					plugins.push_back(handle);
 
 					Logging::SetLastMessage(std::format("Loaded plugin {} ver {} handle {:x}", info.Name, info.Version, reinterpret_cast<intptr_t>(handle)));
+
+					auto numLoadedObjects = Plugins::LoadCustomObjectsFromLibHandle(handle);
+					Logging::SetLastMessage(std::format("Loaded {} custom object types from plugin {}", numLoadedObjects, info.Name));
+
 					return plugin;
 				}
 			).or_else([&file](Plugins::PluginLoadingError err) -> decltype(p)
@@ -173,8 +178,8 @@ int __stdcall WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 		}
 	}
 
-	DeinitializeGDI();
 	CoUninitialize();
+	DeinitializeGDI();
 #if _DEBUG
 	//_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG);
 	//_CrtDumpMemoryLeaks();

@@ -301,9 +301,4 @@ AssetManagerDialog::AssetManagerDialog(HWND owner, HINSTANCE instance, ContentMa
 
 AssetManagerDialog::~AssetManagerDialog()
 {
-	if(_imageList != nullptr)
-	{
-		ImageList_Destroy(_imageList);
-		_imageList = nullptr;
-	}
 }

@@ -34,6 +34,7 @@ add_subdirectory(Engine3DRadSpace/Objects/Gizmos)
 add_subdirectory(Engine3DRadSpace/Native)
 add_subdirectory(Engine3DRadSpace/Projects)
 add_subdirectory(Engine3DRadSpace/Scripting)
+add_subdirectory(Engine3DRadSpace/Scripting/CSharp)
 add_subdirectory(Engine3DRadSpace/Plugins)
 add_subdirectory(Engine3DRadSpace/Games)
 

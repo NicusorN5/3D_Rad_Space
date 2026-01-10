@@ -88,7 +88,7 @@ extern "C"
 
 	E3DRSP_GRAPHICS_EXPORT void E3DRSP_SpriteBatch_DrawString(
 		E3DRSP_SpriteBatch spriteBatch,
-		E3DRSP_Font* font,
+		E3DRSP_Font font,
 		const char* text, 
 		const E3DRSP_Vector2* pos,
 		float size,
@@ -100,7 +100,7 @@ extern "C"
 
 	E3DRSP_GRAPHICS_EXPORT void E3DRSP_SpriteBatch_DrawString2(
 		E3DRSP_SpriteBatch spriteBatch,
-		E3DRSP_Font* font,
+		E3DRSP_Font font,
 		const char* text,
 		const E3DRSP_Point* pos, 
 		float size, 

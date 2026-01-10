@@ -8,22 +8,22 @@ CppScriptBuilder::CppScriptBuilder()
 
 }
 
-const std::string CppScriptBuilder::Language() const
+const char* CppScriptBuilder::Language() const
 {
 	return "C++";
 }
 
-IScriptBuilder::CompileReturn CppScriptBuilder::Compile(const std::filesystem::path& scriptPath)
+IScriptBuilder::CompileReturn CppScriptBuilder::Compile(const char* scriptPath, const char* entryClass)
 {
 	if(!std::filesystem::exists(scriptPath))
-		return std::make_pair<IScriptInstance, CompilationResults>(
+		return std::make_pair<IScript*, CompilationResults>(
 			nullptr,
 			CompilationResults
 			{
 				.Successful = false,
-				.Errors = std::format("Source file not found {}", scriptPath.string()),
+				.Errors = "Source file not found",
 				.Warnings = "",
-				.Messages = "",
+				.Messages = scriptPath,
 			});
 
 	//TODO: Invoke compiler:

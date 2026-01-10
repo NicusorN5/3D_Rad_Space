@@ -5,7 +5,7 @@
 	/// </summary>
 	public class NatPtrWrapper : IDisposable, IPtrWrapper
 	{
-		public IntPtr _handle;
+		protected IntPtr _handle;
 		protected bool _disposed;
 		Action<IntPtr> _destroy;
 

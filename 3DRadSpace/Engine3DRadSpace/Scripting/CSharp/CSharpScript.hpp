@@ -1,17 +1,20 @@
 #pragma once
-#include <Engine3DRadSpace\Objects\IObject.hpp>
-#include <Engine3DRadSpace\Reflection\Reflection.hpp>
+#include "../IScript.hpp"
+#include "../../Objects/IObject.hpp"
+#include "../../Reflection/Reflection.hpp"
+#include <nethost.h>
 
-namespace Engine3DRadSpace::Angelscript
+namespace Engine3DRadSpace::Scripting::CSharp
 {
 	/// <summary>
 	/// A script object handing a AngelScript source.
 	/// </summary>
-	class __declspec(dllexport) AngelScriptObject final : public Engine3DRadSpace::Objects::IObject
+	class __declspec(dllexport) CSharpScript final : public Engine3DRadSpace::Objects::IObject
 	{
+		
 	public:
-		AngelScriptObject(
-			const std::string& name = "AngelScript Script", 
+		CSharpScript(
+			const std::string& name = "C# Script",
 			bool enabled = true,
 			const std::string& src = ""
 		);
@@ -27,8 +30,8 @@ namespace Engine3DRadSpace::Angelscript
 		void Load(const std::filesystem::path& path) override;
 		void Update() override;
 
-		~AngelScriptObject() override = default;
+		~CSharpScript() override = default;
 	};
 }
 
-REFL_FWD(AngelScriptObject)
+REFL_FWD(CSharpScript)

@@ -21,7 +21,7 @@ namespace Engine3DRadSpace.Graphics
 		);
 
 		[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_ModelMeshPart_Create2")]
-		extern static unsafe IntPtr _create2(
+		extern static IntPtr _create2(
 			IntPtr vBuffer,
 			IntPtr iBuffer,
 			IntPtr shaders

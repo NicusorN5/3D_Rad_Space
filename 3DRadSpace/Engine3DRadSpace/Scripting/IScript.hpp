@@ -22,11 +22,6 @@ namespace Engine3DRadSpace::Scripting
 		IScript& operator=(IScript&&) = default;
 	public:
 		/// <summary>
-		/// Scripts aren't run by the ObjectList class, but by a ScriptEngine class.
-		/// </summary>
-		int Priority = 0;
-
-		/// <summary>
 		/// Called when this is added into the ScriptEngine.
 		/// </summary>
 		virtual void Start() = 0;
@@ -36,10 +31,6 @@ namespace Engine3DRadSpace::Scripting
 		/// </summary>
 		virtual void End() = 0;
 
-		auto operator<=>(const IScript&) const = default;
-
 		~IScript() = default;
 	};
-
-	using IScriptInstance = std::shared_ptr<IScript>;
 }

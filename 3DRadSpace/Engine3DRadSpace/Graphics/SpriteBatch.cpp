@@ -580,7 +580,7 @@ void E3DRSP_SpriteBatch_Begin(E3DRSP_SpriteBatch spriteBatch, E3DRSP_SpriteBatch
 
 void E3DRSP_SpriteBatch_DrawNormalized(
 	E3DRSP_SpriteBatch spriteBatch,
-	E3DRSP_ITexture2D* texture,
+	E3DRSP_ITexture2D texture,
 	const E3DRSP_RectangleF* coords,
 	const E3DRSP_RectangleF* source,
 	const E3DRSP_Color* tintColor,
@@ -602,7 +602,7 @@ void E3DRSP_SpriteBatch_DrawNormalized(
 
 void E3DRSP_SpriteBatch_DrawNormalized2(
 	E3DRSP_SpriteBatch spriteBatch,
-	E3DRSP_ITexture2D* texture,
+	E3DRSP_ITexture2D texture,
 	const E3DRSP_RectangleF* coords,
 	const E3DRSP_Rectangle* source,
 	const E3DRSP_Color *tintColor,
@@ -624,7 +624,7 @@ void E3DRSP_SpriteBatch_DrawNormalized2(
 
 void E3DRSP_SpriteBatch_Draw(
 	E3DRSP_SpriteBatch spriteBatch,
-	E3DRSP_ITexture2D* texture,
+	E3DRSP_ITexture2D texture,
 	const E3DRSP_Rectangle* coords,
 	const E3DRSP_Rectangle* source,
 	const E3DRSP_Color *tintColor,
@@ -646,7 +646,7 @@ void E3DRSP_SpriteBatch_Draw(
 
 void E3DRSP_SpriteBatch_Draw2(
 	E3DRSP_SpriteBatch spriteBatch,
-	E3DRSP_ITexture2D* texture,
+	E3DRSP_ITexture2D texture,
 	const E3DRSP_Rectangle* coords,
 	const E3DRSP_Color* tintColor,
 	float rotation,
@@ -666,7 +666,7 @@ void E3DRSP_SpriteBatch_Draw2(
 
 void E3DRSP_SpriteBatch_DrawString(
 	E3DRSP_SpriteBatch spriteBatch,
-	E3DRSP_Font* font,
+	E3DRSP_Font font,
 	const char* text,
 	const E3DRSP_Vector2* pos,
 	float size,
@@ -690,7 +690,7 @@ void E3DRSP_SpriteBatch_DrawString(
 
 void E3DRSP_SpriteBatch_DrawString2(
 	E3DRSP_SpriteBatch spriteBatch,
-	Font* font,
+	E3DRSP_Font font,
 	const char* text,
 	const E3DRSP_Point* pos,
 	float size,
@@ -701,7 +701,7 @@ void E3DRSP_SpriteBatch_DrawString2(
 )
 {
 	reinterpret_cast<SpriteBatch*>(spriteBatch)->DrawString(
-		reinterpret_cast<Font*>(font),
+		static_cast<Font*>(font),
 		text,
 		std::bit_cast<const Math::Point>(*pos),
 		size,

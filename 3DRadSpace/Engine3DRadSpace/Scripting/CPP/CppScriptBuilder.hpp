@@ -10,7 +10,7 @@ namespace Engine3DRadSpace::Scripting::CPP
 
 		// Inherited via IScriptBuilder
 		bool IsAvailable() const override;
-		const std::string Language() const override;
-		CompileReturn Compile(const std::filesystem::path& scriptPath) override;
+		const char* Language() const override;
+		CompileReturn Compile(const char* scriptPath, const char* entryClass) override;
 	};
 }

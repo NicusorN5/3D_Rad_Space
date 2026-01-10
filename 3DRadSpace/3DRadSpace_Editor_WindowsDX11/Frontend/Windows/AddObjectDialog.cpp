@@ -180,9 +180,4 @@ void AddObjectDialog::resize()
 
 AddObjectDialog::~AddObjectDialog()
 {
-	if (imageList != nullptr)
-	{
-		ImageList_Destroy(imageList);
-		imageList = nullptr;
-	}
 }

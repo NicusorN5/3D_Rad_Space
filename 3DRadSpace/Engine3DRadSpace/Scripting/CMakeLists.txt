@@ -2,9 +2,15 @@ cmake_minimum_required(VERSION 3.21)
 
 project("Engine3DRadSpace.Scripting")
 
-file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS "*.cpp" "*.hpp" )
-
-add_library(3DRadSpace.Scripting SHARED ${SOURCE_FILES})
+add_library(3DRadSpace.Scripting SHARED 
+	"CompilationResults.hpp"
+	"IScript.hpp"
+	"IScriptBuilder.hpp"
+	"Legacy.hpp"
+	"Legacy.cpp"
+	"ScriptEngine.hpp"
+	"ScriptEngine.cpp"
+)
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET 3DRadSpace.Scripting PROPERTY CXX_STANDARD 23)

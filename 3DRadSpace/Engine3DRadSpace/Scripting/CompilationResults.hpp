@@ -7,8 +7,8 @@ namespace Engine3DRadSpace::Scripting
 	{
 		bool Successful;
 
-		std::string Errors;
-		std::string Warnings;
-		std::string Messages;
+		const char* Errors;
+		const char* Warnings;
+		const char* Messages;
 	};
 }
