@@ -57,3 +57,6 @@ jobs:
       
     - name: Install LibVorbis 
       run: vcpkg install libvorbis:x64-windows-release
+
+    - name: Install nethost 
+      run: vcpkg install nethost:x64-windows-release
