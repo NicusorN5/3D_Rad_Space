@@ -1,23 +1,19 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace Engine3DRadSpace.Graphics
+namespace Engine3DRadSpace.Graphics;
+
+[StructLayout(LayoutKind.Sequential, Pack = sizeof(byte), Size = sizeof(byte))]
+public struct ShaderCompilationResult
 {
-    [StructLayout(LayoutKind.Sequential, Pack = sizeof(byte), Size = sizeof(byte))]
-    public struct ShaderCompilationResult
-    {
-        byte _succeded;
+	byte _succeded;
 
-        public ShaderCompilationResult(bool succeded)
-        {
-            _succeded = succeded ? (byte)1 : (byte)0;
-        }
+	public ShaderCompilationResult(bool succeded)
+	{
+		_succeded = succeded ? (byte)1 : (byte)0;
+	}
 
-        public bool Succeded
-        {
-            get
-            {
-                return _succeded > 0;
-            }
-        }
-    }
+	public bool Succeded
+	{
+		get => _succeded > 0;
+	}
 }

@@ -1,55 +1,54 @@
 using Engine3DRadSpace.Reflection;
 using System.Runtime.InteropServices;
 
-namespace Engine3DRadSpace.Content
+namespace Engine3DRadSpace.Content;
+
+public class ContentManager : InstIService
 {
-    public class ContentManager : InstIService
+    [DllImport("3DRadSpace.Content.dll", EntryPoint = "E3DRSP_ContentManager_Load")]
+    unsafe static extern IntPtr _load(IntPtr content, Reflection.UUID* uuid, string path, uint* id);
+
+    [DllImport("3DRadSpace.Content.dll", EntryPoint = "E3DRSP_ContentManager_Reload")]
+    static extern void _reload(IntPtr content, uint id);
+
+    [DllImport("3DRadSpace.Content.dll", EntryPoint = "E3DRSP_ContentManager_Remove")]
+    static extern void _remove(IntPtr content, uint id);
+
+    [DllImport("3DRadSpace.Content.dll", EntryPoint = "E3DRSP_ContentManager_Clear")]
+    static extern void _clear(IntPtr content);
+
+    [DllImport("3DRadSpace.Content.dll", EntryPoint = "E3DRSP_ContentManager_Clear")]
+    static extern ulong _count(IntPtr content);
+
+    internal ContentManager(IntPtr handle) : base(handle)
     {
-        [DllImport("3DRadSpace.Content.dll", EntryPoint = "E3DRSP_ContentManager_Load")]
-        unsafe static extern IntPtr _load(IntPtr content, Reflection.UUID* uuid, string path, uint* id);
+    }
 
-        [DllImport("3DRadSpace.Content.dll", EntryPoint = "E3DRSP_ContentManager_Reload")]
-        static extern void _reload(IntPtr content, uint id);
+    private unsafe (IAsset, uint) _loadCall(UUID uuid, string path)
+    {
+        uint id;
+        var ptr = _load(_handle, &uuid, path, &id);
 
-        [DllImport("3DRadSpace.Content.dll", EntryPoint = "E3DRSP_ContentManager_Remove")]
-        static extern void _remove(IntPtr content, uint id);
+        return (new InstIAsset(ptr), id);
+    }
 
-        [DllImport("3DRadSpace.Content.dll", EntryPoint = "E3DRSP_ContentManager_Clear")]
-        static extern void _clear(IntPtr content);
+    public (IAsset, uint) Load(ref UUID uuid, string path)
+    {
+        return _loadCall(uuid, path);
+    }
 
-        [DllImport("3DRadSpace.Content.dll", EntryPoint = "E3DRSP_ContentManager_Clear")]
-        static extern ulong _count(IntPtr content);
+    public void Remove(uint id)
+    {
+        _remove(_handle, id);
+    }
 
-        internal ContentManager(IntPtr handle) : base(handle)
-        {
-        }
+    public void Clear()
+    {
+        _clear(_handle);
+    }
 
-        private unsafe (IAsset, uint) _loadCall(UUID uuid, string path)
-        {
-            uint id;
-            var ptr = _load(_handle, &uuid, path, &id);
-
-            return (new InstIAsset(ptr), id);
-        }
-
-        public (IAsset, uint) Load(ref UUID uuid, string path)
-        {
-            return _loadCall(uuid, path);
-        }
-
-        public void Remove(uint id)
-        {
-            _remove(_handle, id);
-        }
-
-        public void Clear()
-        {
-            _clear(_handle);
-        }
-
-        public ulong Count()
-        {
-            return _count(_handle);
-        }
+    public ulong Count()
+    {
+        return _count(_handle);
     }
 }

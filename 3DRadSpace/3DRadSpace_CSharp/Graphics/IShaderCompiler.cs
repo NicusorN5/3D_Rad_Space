@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Engine3DRadSpace.Graphics;
 
-namespace Engine3DRadSpace.Graphics
+public interface IShaderCompiler : IPtrWrapper
 {
-    public interface IShaderCompiler : IPtrWrapper
-    {
-    }
+    public CompileOutput CompileShader(ShaderDesc shaderDescription);
+    public EffectCompileOutput CompileEffect(ShaderDesc[] descs);
 }

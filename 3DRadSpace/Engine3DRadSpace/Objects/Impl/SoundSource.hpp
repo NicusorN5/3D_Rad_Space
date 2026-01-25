@@ -72,7 +72,7 @@ namespace Engine3DRadSpace::Objects
 		);
 
 		void Draw3D() override;
-		std::optional<float> Intersects(const Math::Ray & r) override;
+		float Intersects(const Math::Ray &r) override;
 
 		Reflection::UUID GetUUID() const noexcept override;
 

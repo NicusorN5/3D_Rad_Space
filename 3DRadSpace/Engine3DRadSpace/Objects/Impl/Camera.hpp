@@ -71,7 +71,7 @@ namespace Engine3DRadSpace::Objects
 		/// </summary>
 		void ForceUpdate();
 
-		std::optional<float> Intersects(const Math::Ray &r) override;
+		float Intersects(const Math::Ray &r) override;
 		Reflection::UUID GetUUID() const noexcept override;
 		Gizmos::IGizmo* GetGizmo() const noexcept override;
 

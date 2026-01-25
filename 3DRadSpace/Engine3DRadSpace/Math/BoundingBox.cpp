@@ -110,7 +110,7 @@ bool BoundingBox::Intersects(const BoundingPlane& plane) const noexcept
 
 bool BoundingBox::Intersects(const Ray& ray) const noexcept
 {
-	return ray.Intersects(*this).has_value();
+	return !std::isnan(ray.Intersects(*this));
 }
 
 bool BoundingBox::Contains(const Vector3& p) const noexcept

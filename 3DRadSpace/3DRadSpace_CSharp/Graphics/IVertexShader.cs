@@ -1,7 +1,6 @@
-﻿namespace Engine3DRadSpace.Graphics
+﻿namespace Engine3DRadSpace.Graphics;
+
+public interface IVertexShader : IPtrWrapper
 {
-	public interface IVertexShader : IPtrWrapper
-	{
-		public Reflection.IReflectedField[] GetInputLayout();
-	}
+	public Reflection.IReflectedField[] GetInputLayout();
 }

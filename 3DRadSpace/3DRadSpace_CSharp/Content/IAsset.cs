@@ -1,10 +1,9 @@
 ﻿using Engine3DRadSpace.Reflection;
 
-namespace Engine3DRadSpace.Content
+namespace Engine3DRadSpace.Content;
+
+public interface IAsset
 {
-    public interface IAsset
-    {
-        public UUID UUID { get; }
-        public string FileExtension { get; }
-    }
+    public UUID UUID { get; }
+    public string FileExtension { get; }
 }

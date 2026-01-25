@@ -92,13 +92,13 @@ void Skinmesh::Draw3D()
 		_model->Draw(GetModelMartix() * game->View * game->Projection);
 }
 
-std::optional<float> Skinmesh::Intersects(const Ray&r)
+float Skinmesh::Intersects(const Ray&r)
 {
 	for (auto& mesh : *_model)
 	{
 		for (auto& meshPart : *mesh)
 		{
-			if(!r.Intersects(meshPart->GetBoundingSphere())) continue;
+			if(std::isnan(r.Intersects(meshPart->GetBoundingSphere()))) continue;
 
 			auto [vertex, index] = meshPart->CreateStagingBuffers();
 
@@ -122,7 +122,7 @@ std::optional<float> Skinmesh::Intersects(const Ray&r)
 				Triangle tri{ t1, t2, t3 };
 				
 				auto dst = r.Intersects(tri);
-				if(dst.has_value())
+				if(!std::isnan(dst))
 				{
 					vertex->EndRead();
 					index->EndRead();
@@ -130,11 +130,11 @@ std::optional<float> Skinmesh::Intersects(const Ray&r)
 				}
 			}
 
-			vertex->EndRead();
+		vertex->EndRead();
 			index->EndRead();
 		}
 	}
-	return std::nullopt;
+	return std::numeric_limits<float>::signaling_NaN();
 }
 
 Gizmos::IGizmo* Skinmesh::GetGizmo() const noexcept

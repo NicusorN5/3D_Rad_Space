@@ -34,6 +34,12 @@ bool PluginMain()
 
 	load_assembly_and_get_function_pointer = get_dotnet_load_assembly(fxrPath.c_str());
 
+	if (load_assembly_and_get_function_pointer == nullptr)
+	{
+		Logging::SetLastWarning("get_dotnet_load_assembly() is null!");
+		return false;
+	}
+
 	wchar_t modulePath[MAX_PATH]{};
 	GetModuleFileNameW(nullptr, modulePath, MAX_PATH);
 

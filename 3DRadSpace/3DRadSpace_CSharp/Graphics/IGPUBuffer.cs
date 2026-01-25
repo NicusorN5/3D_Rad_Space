@@ -1,9 +1,8 @@
-﻿namespace Engine3DRadSpace.Graphics
+﻿namespace Engine3DRadSpace.Graphics;
+
+public interface IGPUBuffer : IGPUResource
 {
-    public interface IGPUBuffer : IGPUResource
-    {
-        public ulong ReadData(IntPtr ppData);
-        public void SetData(IntPtr pData, ulong buffSize);
-        public void EndRead();
-    }
+	public ulong ReadData(IntPtr ppData);
+	public void SetData(IntPtr pData, ulong buffSize);
+	public void EndRead();
 }

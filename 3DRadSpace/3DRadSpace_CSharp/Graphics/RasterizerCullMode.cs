@@ -1,18 +1,17 @@
-﻿namespace Engine3DRadSpace.Graphics
+﻿namespace Engine3DRadSpace.Graphics;
+
+public enum RasterizerCullMode : byte
 {
-    public enum RasterizerCullMode : byte
-    {
-        /// <summary>
-        /// Always draw all triangles.
-        /// </summary>
-        None = 1,
-		/// <summary>
-		/// Do not draw font-facing trangles.
-		/// </summary>
-		CullFront = 2,
-		/// <summary>
-		/// Do not draw backfaces.
-		/// </summary>
-		CullBack = 3,
-	};
-}
+	/// <summary>
+	/// Always draw all triangles.
+	/// </summary>
+	None = 1,
+	/// <summary>
+	/// Do not draw font-facing trangles.
+	/// </summary>
+	CullFront = 2,
+	/// <summary>
+	/// Do not draw backfaces.
+	/// </summary>
+	CullBack = 3,
+};

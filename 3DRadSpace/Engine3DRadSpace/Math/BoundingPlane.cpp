@@ -21,7 +21,7 @@ bool BoundingPlane::Intersects(const BoundingSphere& sphere) const
 
 bool BoundingPlane::Intersects(const Ray& ray) const 
 {
-    return ray.Intersects(*this).has_value();
+    return !std::isnan(ray.Intersects(*this));
 }
 
 bool Engine3DRadSpace::Math::BoundingPlane::Contains(const Vector3& p) const

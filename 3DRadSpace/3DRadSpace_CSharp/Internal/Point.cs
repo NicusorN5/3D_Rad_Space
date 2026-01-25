@@ -1,17 +1,16 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace Engine3DRadSpace.Internal
-{
-    [StructLayout(LayoutKind.Sequential, Pack = sizeof(int), Size = 2 * sizeof(int))]
-    public struct Point
-    {
-        public int X;
-        public int Y;
+namespace Engine3DRadSpace.Internal;
 
-        public Point(int x, int y)
-        {
-            X = x;
-            Y = y;
-        }
-    }
+[StructLayout(LayoutKind.Sequential, Pack = sizeof(int), Size = 2 * sizeof(int))]
+public struct Point
+{
+	public int X;
+	public int Y;
+
+	public Point(int x, int y)
+	{
+		X = x;
+		Y = y;
+	}
 }

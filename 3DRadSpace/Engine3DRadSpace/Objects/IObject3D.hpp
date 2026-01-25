@@ -20,7 +20,7 @@ namespace Engine3DRadSpace::Objects
 		Math::Vector3 Scale;
 
 		virtual Math::Matrix4x4 GetModelMartix();
-		virtual std::optional<float> Intersects(const Math::Ray &r) = 0;
+		virtual float Intersects(const Math::Ray &r) = 0;
 
 		~IObject3D() = default;
 	};

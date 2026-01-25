@@ -1,10 +1,9 @@
-﻿namespace Engine3DRadSpace.Audio
+﻿namespace Engine3DRadSpace.Audio;
+
+public enum SoundState : byte
 {
-    public enum SoundState : byte
-    {
-        Undefined = 0,
-		Stopped,
-		Playing,
-		Paused,
-	};
-}
+	Undefined = 0,
+	Stopped,
+	Playing,
+	Paused,
+};

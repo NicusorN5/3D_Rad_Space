@@ -1,9 +1,8 @@
-﻿namespace Engine3DRadSpace.Graphics
+﻿namespace Engine3DRadSpace.Graphics;
+
+public class InstIRasterizerState : InstGPUResource, IRasterizerState
 {
-    public class InstIRasterizerState : InstGPUResource, IRasterizerState
-    {
-        public InstIRasterizerState(IntPtr handle) : base(handle) 
-        {
-        }
-    }
+	public InstIRasterizerState(IntPtr handle) : base(handle) 
+	{
+	}
 }

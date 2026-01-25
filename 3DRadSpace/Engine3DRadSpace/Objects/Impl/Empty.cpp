@@ -35,9 +35,9 @@ void Empty::Draw3D()
 {
 }
 
-std::optional<float> Empty::Intersects(const Math::Ray& r)
+float Empty::Intersects(const Math::Ray& r)
 {
-	return std::nullopt;
+	return std::numeric_limits<float>::signaling_NaN();
 }
 
 Gizmos::IGizmo* Empty::GetGizmo() const noexcept

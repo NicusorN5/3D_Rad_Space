@@ -74,7 +74,7 @@ bool Engine3DRadSpace::Math::BoundingSphere::Intersects(const BoundingPlane& pla
 
 bool Engine3DRadSpace::Math::BoundingSphere::Intersects(const Ray& ray) const
 {
-	return ray.Intersects(*this).has_value();
+	return !std::isnan(ray.Intersects(*this));
 }
  
 bool Engine3DRadSpace::Math::BoundingSphere::Contains(const Vector3& p) const

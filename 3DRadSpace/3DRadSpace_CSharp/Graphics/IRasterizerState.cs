@@ -1,6 +1,5 @@
-﻿namespace Engine3DRadSpace.Graphics
+﻿namespace Engine3DRadSpace.Graphics;
+
+public interface IRasterizerState : IPtrWrapper
 {
-    public interface IRasterizerState : IPtrWrapper
-    {
-    }
 }

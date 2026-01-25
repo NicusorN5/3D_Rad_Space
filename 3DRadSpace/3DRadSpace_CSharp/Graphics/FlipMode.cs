@@ -1,10 +1,9 @@
-﻿namespace Engine3DRadSpace.Graphics
+﻿namespace Engine3DRadSpace.Graphics;
+
+public enum FlipMode
 {
-    public enum FlipMode
-    {
-        None = 0,
-		FlipHorizontally = 0b1,
-		FlipVertically = 0b10,
-		FlipHorizontallyAndVertically = 0b11,
-    }
+	None = 0,
+	FlipHorizontally = 0b1,
+	FlipVertically = 0b10,
+	FlipHorizontallyAndVertically = 0b11,
 }

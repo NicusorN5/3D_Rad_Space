@@ -1,30 +1,29 @@
 ﻿using System.Runtime.InteropServices;
 using System.Numerics;
 
-namespace Engine3DRadSpace.Audio
+namespace Engine3DRadSpace.Audio;
+
+[StructLayout(LayoutKind.Sequential)]
+public struct AudioSource
 {
-    [StructLayout(LayoutKind.Sequential)]
-    public struct AudioSource
-    {
-        float Pitch;
+	float Pitch;
 
-        float Gain;
-        float MaxGain;
-        float MinGain;
+	float Gain;
+	float MaxGain;
+	float MinGain;
 
-        Vector3 Position;
-        Vector3 Velocity;
-        Vector3 Direction;
+	Vector3 Position;
+	Vector3 Velocity;
+	Vector3 Direction;
 
-        float MaxDistance;
-        float ReferenceDistance;
+	float MaxDistance;
+	float ReferenceDistance;
 
-        float RolloffFactor;
+	float RolloffFactor;
 
-        float ConeOuterGain;
-        float ConeInnerAngle;
-        float ConeOuterAngle;
+	float ConeOuterGain;
+	float ConeInnerAngle;
+	float ConeOuterAngle;
 
-        bool Looping;
-    }
+	byte Looping;
 }

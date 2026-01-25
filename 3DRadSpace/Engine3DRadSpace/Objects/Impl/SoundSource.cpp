@@ -233,7 +233,7 @@ void SoundSource::Draw3D()
 {
 }
 
-std::optional<float> SoundSource::Intersects(const Math::Ray & r)
+float SoundSource::Intersects(const Math::Ray & r)
 {
 	return r.Intersects(Math::BoundingSphere(Position, 1.0f));
 }

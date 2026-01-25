@@ -1,8 +1,7 @@
-﻿namespace Engine3DRadSpace.Graphics
+﻿namespace Engine3DRadSpace.Graphics;
+
+public interface IGPUResource : IPtrWrapper
 {
-    public interface IGPUResource : IPtrWrapper
-    {
-        IGraphicsDevice GraphicsDevice { get; }
-        IntPtr GPUHandle { get; }
-    }
+	IGraphicsDevice GraphicsDevice { get; }
+	IntPtr GPUHandle { get; }
 }

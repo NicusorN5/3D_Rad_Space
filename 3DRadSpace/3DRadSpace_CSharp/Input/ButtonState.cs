@@ -1,8 +1,7 @@
-﻿namespace Engine3DRadSpace.Input
+﻿namespace Engine3DRadSpace.Input;
+
+public enum ButtonState : byte
 {
-    public enum ButtonState : byte
-    {
-        Released = 0,
-        Pressed = 1
-    }
+    Released = 0,
+    Pressed = 1
 }

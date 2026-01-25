@@ -1,20 +1,19 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace Engine3DRadSpace.Graphics
+namespace Engine3DRadSpace.Graphics;
+
+[StructLayout(LayoutKind.Sequential)]
+public struct Viewport
 {
-	[StructLayout(LayoutKind.Sequential)]
-	public struct Viewport
+	public Viewport(Internal.RectangleF r, float mind, float maxd)
 	{
-		public Viewport(Internal.RectangleF r, float mind, float maxd)
-		{
-			ScreenRectangle = r;
-			MinDepth = mind;
-			MaxDepth = maxd;
-		}
-
-		public Internal.RectangleF ScreenRectangle;
-
-		public float MinDepth;
-		public float MaxDepth;
+		ScreenRectangle = r;
+		MinDepth = mind;
+		MaxDepth = maxd;
 	}
+
+	public Internal.RectangleF ScreenRectangle;
+
+	public float MinDepth;
+	public float MaxDepth;
 }

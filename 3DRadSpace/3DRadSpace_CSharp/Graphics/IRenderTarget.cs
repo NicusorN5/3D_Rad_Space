@@ -1,7 +1,6 @@
-﻿namespace Engine3DRadSpace.Graphics
+﻿namespace Engine3DRadSpace.Graphics;
+
+public interface IRenderTarget : IPtrWrapper
 {
-	public interface IRenderTarget : IPtrWrapper
-	{
-		public IntPtr RenderTargetHandle { get; }
-	}
+	public IntPtr RenderTargetHandle { get; }
 }

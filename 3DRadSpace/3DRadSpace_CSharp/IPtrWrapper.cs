@@ -1,7 +1,6 @@
-﻿namespace Engine3DRadSpace
+﻿namespace Engine3DRadSpace;
+
+public interface IPtrWrapper
 {
-    public interface IPtrWrapper
-    {
-        public IntPtr Handle { get; }
-    }
+	public IntPtr Handle { get; }
 }

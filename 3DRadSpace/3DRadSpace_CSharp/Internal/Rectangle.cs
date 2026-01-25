@@ -1,38 +1,37 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace Engine3DRadSpace.Internal
+namespace Engine3DRadSpace.Internal;
+
+[StructLayout(LayoutKind.Sequential)]
+public struct RectangleF
 {
-	[StructLayout(LayoutKind.Sequential)]
-	public struct RectangleF
-	{
-		public float X;
-		public float Y;
-		public float Width;
-		public float Height;
+	public float X;
+	public float Y;
+	public float Width;
+	public float Height;
 
-		public RectangleF(float x, float y, float w, float h)
-		{
-			X = x;
-			Y = y;
-			Width = w;
-			Height = h;
-		}
+	public RectangleF(float x, float y, float w, float h)
+	{
+		X = x;
+		Y = y;
+		Width = w;
+		Height = h;
 	}
+}
 
-	[StructLayout(LayoutKind.Sequential)]
-	public struct Rectangle
+[StructLayout(LayoutKind.Sequential)]
+public struct Rectangle
+{
+	public int X;
+	public int Y;
+	public int Width;
+	public int Height;
+
+	public Rectangle(int x, int y, int w, int h)
 	{
-		public int X;
-		public int Y;
-		public int Width;
-		public int Height;
-
-		public Rectangle(int x, int y, int w, int h)
-		{
-			X = x;
-			Y = y;
-			Width = w;
-			Height = h;
-		}
+		X = x;
+		Y = y;
+		Width = w;
+		Height = h;
 	}
 }

@@ -16,7 +16,7 @@ TEST(IntersectionTests, Ray_Triangle1)
 		Vector3(0, 1, 10),
 	};
 
-	EXPECT_FLOAT_EQ(r.Intersects(tri).value(), 10.0f);
+	EXPECT_FLOAT_EQ(r.Intersects(tri), 10.0f);
 }
 
 TEST(IntersectionTests, Ray_Triangle2)
@@ -31,7 +31,7 @@ TEST(IntersectionTests, Ray_Triangle2)
 		Vector3(0, 1, 10),
 	};
 
-	EXPECT_FALSE(r.Intersects(tri).has_value());
+	EXPECT_TRUE(std::isnan(r.Intersects(tri)));
 }
 
 TEST(IntersectionTests, Ray_Triangle3)
@@ -49,7 +49,7 @@ TEST(IntersectionTests, Ray_Triangle3)
 		Vector3(0,2,5),
 	};
 
-	EXPECT_FALSE(r.Intersects(tri).has_value());
+	EXPECT_TRUE(std::isnan(r.Intersects(tri)));
 }
 
 TEST(IntersectionTests, Ray_Sphere1)
@@ -64,7 +64,7 @@ TEST(IntersectionTests, Ray_Sphere1)
 		0.125f
 	);
 
-	EXPECT_TRUE(r.Intersects(sph));
+	EXPECT_FALSE(std::isnan(r.Intersects(sph)));
 }
 
 TEST(IntersectionTests, Ray_Sphere2)
@@ -79,5 +79,5 @@ TEST(IntersectionTests, Ray_Sphere2)
 		0.5f
 	);
 
-	EXPECT_FALSE(r.Intersects(sph));
+	EXPECT_TRUE(std::isnan(r.Intersects(sph)));
 }

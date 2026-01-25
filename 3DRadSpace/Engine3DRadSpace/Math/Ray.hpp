@@ -11,9 +11,9 @@ namespace Engine3DRadSpace::Math
 		Vector3 Origin;
 		Vector3 Direction;
 
-		std::optional<float> Intersects(const BoundingSphere &sph) const;
-		std::optional<float> Intersects(const Triangle &tri) const;
-		std::optional<float> Intersects(const BoundingBox &box) const;
-		std::optional<float> Intersects(const BoundingPlane& plane) const;
+		float Intersects(const BoundingSphere &sph) const;
+		float Intersects(const Triangle &tri) const;
+		float Intersects(const BoundingBox &box) const;
+		float Intersects(const BoundingPlane& plane) const;
 	};
 }

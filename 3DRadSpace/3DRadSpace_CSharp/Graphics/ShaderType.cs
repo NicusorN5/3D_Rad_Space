@@ -1,11 +1,10 @@
-﻿namespace Engine3DRadSpace.Graphics
+﻿namespace Engine3DRadSpace.Graphics;
+
+public enum ShaderType
 {
-    public enum ShaderType
-    {
-        Vertex,
-        Fragment,
-        Domain,
-        Geometry,
-        Hull,
-    }
+	Vertex,
+	Fragment,
+	Domain,
+	Geometry,
+	Hull,
 }

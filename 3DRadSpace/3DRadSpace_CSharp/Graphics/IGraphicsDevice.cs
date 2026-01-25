@@ -1,132 +1,131 @@
 ﻿using System.Drawing;
 
-namespace Engine3DRadSpace.Graphics
+namespace Engine3DRadSpace.Graphics;
+
+public interface IGraphicsDevice : IPtrWrapper
 {
-    public interface IGraphicsDevice : IPtrWrapper
-    {
-        public string BackendName();
+	public string BackendName();
 
-        public IRasterizerState GetRasterizerState();
+	public IRasterizerState GetRasterizerState();
 
-        public Point GetResolution();
+	public Point GetResolution();
 
-        public IRenderTarget GetBackBuffer();
-		public ITexture2D GetBackBufferTexture();
-		public IDepthStencilBuffer GetDepthBuffer();
+	public IRenderTarget GetBackBuffer();
+	public ITexture2D GetBackBufferTexture();
+	public IDepthStencilBuffer GetDepthBuffer();
 
-		public IBlendState CreateBlendState(
-            bool alphaCoverage,
-            bool indepedentBlend,
-            RenderTargetBlendState[] renderTargetBlendStates
-        );
+	public IBlendState CreateBlendState(
+		bool alphaCoverage,
+		bool indepedentBlend,
+		RenderTargetBlendState[] renderTargetBlendStates
+	);
 
-		public IBlendState CreateBlendState_Opaque();
-		public IBlendState CreateBlendState_AlphaBlend();
-		public IBlendState CreateBlendState_Additive();
-		public IBlendState CreateBlendState_NonPremultiplied();
+	public IBlendState CreateBlendState_Opaque();
+	public IBlendState CreateBlendState_AlphaBlend();
+	public IBlendState CreateBlendState_Additive();
+	public IBlendState CreateBlendState_NonPremultiplied();
 
-		public IDepthStencilBuffer CreateDepthStencilBuffer(
-            ulong x,
-            ulong y
-        );
+	public IDepthStencilBuffer CreateDepthStencilBuffer(
+		ulong x,
+		ulong y
+	);
 
-		public IDepthStencilState CreateDepthStencilState(
-            bool EnableDepth,
-            DepthWriteMask Mask,
-            ComparisonFunction Function,
-            bool EnableStencil,
-            byte ReadMask,
-            byte WriteMask,
-            FaceOperation FrontFace,
-            FaceOperation BackFace
-        );
+	public IDepthStencilState CreateDepthStencilState(
+		bool EnableDepth,
+		DepthWriteMask Mask,
+		ComparisonFunction Function,
+		bool EnableStencil,
+		byte ReadMask,
+		byte WriteMask,
+		FaceOperation FrontFace,
+		FaceOperation BackFace
+	);
 
-		public IDepthStencilState CreateDepthStencilState_DepthDefault();
-		public IDepthStencilState CreateDepthStencilState_DepthNone();
-		public IDepthStencilState CreateDepthStencilState_DepthRead();
-		public IDepthStencilState CreateDepthStencilState_DepthReverseZ();
-		public IDepthStencilState CreateDepthStencilState_DepthReadReverseZ();
+	public IDepthStencilState CreateDepthStencilState_DepthDefault();
+	public IDepthStencilState CreateDepthStencilState_DepthNone();
+	public IDepthStencilState CreateDepthStencilState_DepthRead();
+	public IDepthStencilState CreateDepthStencilState_DepthReverseZ();
+	public IDepthStencilState CreateDepthStencilState_DepthReadReverseZ();
 
-		public IShaderCompiler ShaderCompiler();
-		///<summmary
-		///Returns a 2x2 blank white texture.
-		///</summary
-		public ITexture2D WhiteBlank();
+	public IShaderCompiler ShaderCompiler();
+	///<summmary
+	///Returns a 2x2 blank white texture.
+	///</summary
+	public ITexture2D WhiteBlank();
 
-        public IVertexBuffer GetScreenQuad();
+	public IVertexBuffer GetScreenQuad();
 
-        public IIndexBuffer CreateIndexBuffer(Span<uint> indices);
-		public IIndexBuffer CreateIndexBuffer(ulong numIndices, BufferUsage usage);
+	public IIndexBuffer CreateIndexBuffer(Span<uint> indices);
+	public IIndexBuffer CreateIndexBuffer(ulong numIndices, BufferUsage usage);
 
-		public IRasterizerState CreateRasterizerState(
-            RasterizerFillMode filling = RasterizerFillMode.Solid,
-            RasterizerCullMode culling = RasterizerCullMode.CullBack,
-            bool switchFrontBack = false,
-            int depthBias = 0,
-            float depthBiasClamp = 0,
-            float slopeScaleDepthBias = 0,
-            bool depthClip = false,
-            bool scissor = false,
-            bool multisample = false,
-            bool aaLine = false
-        );
+	public IRasterizerState CreateRasterizerState(
+		RasterizerFillMode filling = RasterizerFillMode.Solid,
+		RasterizerCullMode culling = RasterizerCullMode.CullBack,
+		bool switchFrontBack = false,
+		int depthBias = 0,
+		float depthBiasClamp = 0,
+		float slopeScaleDepthBias = 0,
+		bool depthClip = false,
+		bool scissor = false,
+		bool multisample = false,
+		bool aaLine = false
+	);
 
-		public IRasterizerState CreateRasterizerState_CullNone();
-		public IRasterizerState CreateRasterizerState_CullClockwise();
-		public IRasterizerState CreateRasterizerState_CullCounterClockwise();
-		public IRasterizerState CreateRasterizerState_Wireframe();
+	public IRasterizerState CreateRasterizerState_CullNone();
+	public IRasterizerState CreateRasterizerState_CullClockwise();
+	public IRasterizerState CreateRasterizerState_CullCounterClockwise();
+	public IRasterizerState CreateRasterizerState_Wireframe();
 
-		public IRenderTarget CreateRenderTarget(
-            ulong x,
-            ulong y,
-            PixelFormat format
-        );
+	public IRenderTarget CreateRenderTarget(
+		ulong x,
+		ulong y,
+		PixelFormat format
+	);
 
-		public ISamplerState CreateSamplerState();
+	public ISamplerState CreateSamplerState();
 
-		public ISamplerState CreateSamplerState(
-            TextureFilter filter,
-            TextureAddressMode addressU,
-            TextureAddressMode addressV,
-            TextureAddressMode addressW,
-            float mipLODBias,
-            uint maxAnisotropy,
-            ComparisonFunction comparisonFunc,
-            Math.Color borderColor,
-            float minLOD,
-            float maxLOD
-        );
+	public ISamplerState CreateSamplerState(
+		TextureFilter filter,
+		TextureAddressMode addressU,
+		TextureAddressMode addressV,
+		TextureAddressMode addressW,
+		float mipLODBias,
+		uint maxAnisotropy,
+		ComparisonFunction comparisonFunc,
+		Math.Color borderColor,
+		float minLOD,
+		float maxLOD
+	);
 
-		public ISamplerState CreateSamplerState_LinearClamp();
-		public ISamplerState CreateSamplerState_LinearWrap();
+	public ISamplerState CreateSamplerState_LinearClamp();
+	public ISamplerState CreateSamplerState_LinearWrap();
 
-		public ISamplerState CreateSamplerState_PointClamp();
-		public ISamplerState CreateSamplerState_PointWrap();
+	public ISamplerState CreateSamplerState_PointClamp();
+	public ISamplerState CreateSamplerState_PointWrap();
 
-		public ISamplerState CreateSamplerState_AnisotropicClamp();
-		public ISamplerState CreateSamplerState_AnisotropicWrap();
+	public ISamplerState CreateSamplerState_AnisotropicClamp();
+	public ISamplerState CreateSamplerState_AnisotropicWrap();
 
-		public ITexture2D CreateTexture2D(
-            IntPtr data,
-            ulong x,
-            ulong y,
-            PixelFormat format,
-            BufferUsage usage
-        );
+	public ITexture2D CreateTexture2D(
+		IntPtr data,
+		ulong x,
+		ulong y,
+		PixelFormat format,
+		BufferUsage usage
+	);
 
-		public ITexture2D CreateTexture2D(string path);
+	public ITexture2D CreateTexture2D(string path);
 
-		public IVertexBuffer CreateVertexBuffer(
+	public IVertexBuffer CreateVertexBuffer(
 
-            IntPtr data,
-            ulong structSize,
-			ulong numVertices,
-            BufferUsage usage
-		);
+		IntPtr data,
+		ulong structSize,
+		ulong numVertices,
+		BufferUsage usage
+	);
 
-        public IGraphicsCommandList CreateCommandList();
-		public IGraphicsCommandList ImmediateContext();
+	public IGraphicsCommandList CreateCommandList();
+	public IGraphicsCommandList ImmediateContext();
 
-		public IntPtr NativeHandle();
-    }
+	public IntPtr NativeHandle();
 }

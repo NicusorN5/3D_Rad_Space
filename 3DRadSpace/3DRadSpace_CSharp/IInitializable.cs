@@ -1,7 +1,6 @@
-﻿namespace Engine3DRadSpace
+﻿namespace Engine3DRadSpace;
+
+public interface IInitializable : IPtrWrapper
 {
-    public interface IInitializable : IPtrWrapper
-    {
-        public void Initialize();
-    }
+	public void Initialize();
 }

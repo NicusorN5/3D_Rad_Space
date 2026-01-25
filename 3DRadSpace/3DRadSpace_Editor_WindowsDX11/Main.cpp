@@ -181,8 +181,8 @@ int __stdcall WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 	CoUninitialize();
 	DeinitializeGDI();
 #if _DEBUG
-	//_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG);
-	//_CrtDumpMemoryLeaks();
+	_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG);
+	_CrtDumpMemoryLeaks();
 #endif
 	return 0;
 }

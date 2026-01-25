@@ -1,7 +1,6 @@
-﻿namespace Engine3DRadSpace
+﻿namespace Engine3DRadSpace;
+
+public interface IUpdateable : IPtrWrapper
 {
-    public interface IUpdateable : IPtrWrapper
-    {
-        public void Update();
-    }
+	public void Update();
 }

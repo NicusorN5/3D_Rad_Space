@@ -1,8 +1,7 @@
-﻿namespace Engine3DRadSpace.Graphics
+﻿namespace Engine3DRadSpace.Graphics;
+
+public enum DepthWriteMask : byte
 {
-    public enum DepthWriteMask : byte
-    {
-        Zero = 0,
-		All = 1
-	};
-}
+	Zero = 0,
+	All = 1
+};

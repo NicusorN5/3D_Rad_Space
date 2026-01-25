@@ -42,7 +42,7 @@ load_assembly_and_get_function_pointer_fn get_dotnet_load_assembly(const char_t*
 	int rc = init_fptr(config_path, nullptr, &cxt);
 	if (rc != 0 || cxt == nullptr)
 	{
-		Logging::SetLastWarning(std::format("Init failed: {:x} ", rc));
+		Logging::SetLastWarning(std::format("get_dotnet_load_assembly Init failed: rc {:x} cxt: {:x} ", rc, reinterpret_cast<intptr_t>(cxt)));
 		close_fptr(cxt);
 		return nullptr;
 	}

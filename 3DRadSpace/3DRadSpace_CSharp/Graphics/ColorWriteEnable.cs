@@ -1,11 +1,10 @@
-﻿namespace Engine3DRadSpace.Graphics
+﻿namespace Engine3DRadSpace.Graphics;
+
+public enum ColorWriteEnable
 {
-    enum ColorWriteEnable
-    {
-        Red,
-        Greed,
-        Blue,
-        Alpha,
-        All
-    };
-}
+	Red,
+	Greed,
+	Blue,
+	Alpha,
+	All
+};

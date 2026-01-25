@@ -23,7 +23,7 @@ extern "C"
 	E3DRSP_OBJECTS_EXPORT void E3DRSP_IObject3D_SetScale(E3DRSP_IObject3D object, const E3DRSP_Vector3* scale);
 
 	E3DRSP_OBJECTS_EXPORT E3DRSP_Matrix4x4 E3DRSP_IObject3D_GetModelMatrix(E3DRSP_IObject3D object);
-	E3DRSP_OBJECTS_EXPORT float* E3DRSP_IObject3D_Intersects(E3DRSP_IObject3D object, const E3DRSP_Ray* ray);
+	E3DRSP_OBJECTS_EXPORT float E3DRSP_IObject3D_Intersects(E3DRSP_IObject3D object, const E3DRSP_Ray* ray);
 #ifdef __cplusplus
 }
 #endif

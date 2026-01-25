@@ -3,7 +3,7 @@
 
 using namespace Engine3DRadSpace::Math;
 
-std::optional<float> Ray::Intersects(const BoundingSphere &sph) const
+float Ray::Intersects(const BoundingSphere &sph) const
 {
     //https://github.com/MonoGame/MonoGame/blob/develop/MonoGame.Framework/Ray.cs
 
@@ -18,7 +18,7 @@ std::optional<float> Ray::Intersects(const BoundingSphere &sph) const
 
     float distanceAlongRay = Vector3::Dot(Direction, difference);
     // If the ray is pointing away from the sphere then we don't ever intersect
-    if(distanceAlongRay < 0) return std::nullopt;
+    if(distanceAlongRay < 0) return std::numeric_limits<float>::signaling_NaN();
 
     // Next we kinda use Pythagoras to check if we are within the bounds of the sphere
     // if x = radius of sphere
@@ -27,7 +27,7 @@ std::optional<float> Ray::Intersects(const BoundingSphere &sph) const
     // if x^2 + z^2 - y^2 < 0, we do not intersect
     float dst = sphereRadiusSquared + distanceAlongRay * distanceAlongRay - differenceLengthSquared;
     if(dst > 0) return dst;
-    else return std::nullopt;
+    else return std::numeric_limits<float>::signaling_NaN();
 
  //   //https://en.wikipedia.org/wiki/Line%E2%80%93sphere_intersection
  //   float a = Direction.Dot(Origin - sph.Center);
@@ -38,7 +38,7 @@ std::optional<float> Ray::Intersects(const BoundingSphere &sph) const
  //   if(nabla > 0) return std::min(-a - sqrtf(nabla), -a + sqrt(nabla));
 }
 
-std::optional<float> Ray::Intersects(const Triangle &tri) const
+float Ray::Intersects(const Triangle &tri) const
 {
     //https://en.wikipedia.org/wiki/M%C3%B6ller%E2%80%93Trumbore_intersection_algorithm
     constexpr float epsilon = std::numeric_limits<float>::epsilon();
@@ -53,20 +53,20 @@ std::optional<float> Ray::Intersects(const Triangle &tri) const
     a = edge1.Dot(h);
 
     if(a > -epsilon && a < epsilon)
-        return std::nullopt;    // This ray is parallel to this triangle.
+        return std::numeric_limits<float>::signaling_NaN();    // This ray is parallel to this triangle.
 
     f = 1.0f / a;
     s = Origin - vertex0;
     u = f * s.Dot(h);
 
     if(u < 0.0f || u > 1.0f)
-        return std::nullopt;
+        return std::numeric_limits<float>::signaling_NaN();
 
     q = Vector3::Cross(s, edge1);
     v = f * Direction.Dot(q);
 
     if(v < 0.0f || u + v > 1.0f)
-        return std::nullopt;
+        return std::numeric_limits<float>::signaling_NaN();
 
     // At this stage we can compute t to find out where the intersection point is on the line.
     float t = f * edge2.Dot(q);
@@ -74,10 +74,10 @@ std::optional<float> Ray::Intersects(const Triangle &tri) const
     if(t > epsilon) // ray intersection
         return t;
     else // This means that there is a line intersection but not a ray intersection.
-        return std::nullopt;
+        return std::numeric_limits<float>::signaling_NaN();
 }
 
-std::optional<float> Ray::Intersects(const BoundingBox &box) const
+float Ray::Intersects(const BoundingBox &box) const
 {
     //Branchless ray-bounding box intersection algorithm: https://tavianator.com/2022/ray_box_boundary.html
 
@@ -109,23 +109,23 @@ std::optional<float> Ray::Intersects(const BoundingBox &box) const
 
     if(tmin <= tmax)
         return tmin;
-    else return std::nullopt;
+    else return std::numeric_limits<float>::signaling_NaN();
 
 }
 
-std::optional<float> Ray::Intersects(const BoundingPlane& plane) const
+float Ray::Intersects(const BoundingPlane& plane) const
 {
     //https://stackoverflow.com/questions/23975555/how-to-do-ray-plane-intersection
     const float denom = Vector3::Dot(plane.Normal, Direction);
 
     // Prevent divide by zero:
     if (abs(denom) <= std::numeric_limits<float>::epsilon())
-        return std::nullopt;
+        return std::numeric_limits<float>::signaling_NaN();
 
     float t = -(Vector3::Dot(plane.Normal, Origin) + plane.D) / denom;
 
     if (t <= 1e-4)
-        return std::nullopt;
+        return std::numeric_limits<float>::signaling_NaN();
 
     return t;
 }

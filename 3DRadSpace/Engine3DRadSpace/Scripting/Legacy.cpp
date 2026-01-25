@@ -248,9 +248,9 @@ int iObjectScan(
 				.Direction = direction
 			}
 		);
-		if (intersection.has_value())
+		if (!std::isnan(intersection))
 		{
-			float d = intersection.value();
+			float d = intersection;
 			if (d > radius) return false;
 			else
 			{

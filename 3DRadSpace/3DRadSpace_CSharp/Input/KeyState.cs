@@ -1,8 +1,7 @@
-﻿namespace Engine3DRadSpace.Input
+﻿namespace Engine3DRadSpace.Input;
+
+public enum KeyState : byte
 {
-    public enum KeyState : byte
-    {
-        Up = 0,
-        Down = 1
-    }
+	Up = 0,
+	Down = 1
 }

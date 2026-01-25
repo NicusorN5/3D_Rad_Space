@@ -1,15 +1,14 @@
-﻿namespace Engine3DRadSpace.Graphics
+﻿namespace Engine3DRadSpace.Graphics;
+
+public enum TextureFilter : byte
 {
-    public enum TextureFilter : byte
-    {
-        Anisotropic,
-		Linear,
-		LinearMipPoint,
-		MinLinearMagPointMipLinear,
-		MinLinearMagPointMipPoint,
-		MinPointMagLinearMipLinear,
-		MinPointMagLinearMipPoint,
-		Point,
-		PointMipLinear
-    };
-}
+	Anisotropic,
+	Linear,
+	LinearMipPoint,
+	MinLinearMagPointMipLinear,
+	MinLinearMagPointMipPoint,
+	MinPointMagLinearMipLinear,
+	MinPointMagLinearMipPoint,
+	Point,
+	PointMipLinear
+};

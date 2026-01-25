@@ -6,9 +6,9 @@ using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Objects;
 
 IObject3D::IObject3D(const std::string &name, bool enabled, bool visible, const Vector3&pos, const Vector3&pivot,
-                     const Quaternion& rotation, const Vector3& scale) :
+					 const Quaternion& rotation, const Vector3& scale) :
 	IObject(name, enabled, visible),
-    Position(pos),
+	Position(pos),
 	RotationCenter(pivot),
 	Rotation(rotation),
 	Scale(scale)
@@ -44,11 +44,32 @@ void E3DRSP_IObject3D_SetRotationCenter(E3DRSP_IObject3D object, const E3DRSP_Ve
 	static_cast<IObject3D*>(object)->RotationCenter = std::bit_cast<const Vector3>(*center);
 }
 
-E3DRSP_OBJECTS_EXPORT E3DRSP_Quaternion E3DRSP_IObject3D_GetRotation(E3DRSP_IObject3D object);
-E3DRSP_OBJECTS_EXPORT void E3DRSP_IObject3D_SetRotation(E3DRSP_IObject3D object, const E3DRSP_Quaternion* rotation);
+E3DRSP_Quaternion E3DRSP_IObject3D_GetRotation(E3DRSP_IObject3D object)
+{
+	return std::bit_cast<E3DRSP_Quaternion>(static_cast<IObject3D*>(object)->Rotation);
+}
 
-E3DRSP_OBJECTS_EXPORT E3DRSP_Vector3 E3DRSP_IObject3D_GetScale(E3DRSP_IObject3D object);
-E3DRSP_OBJECTS_EXPORT void E3DRSP_IObject3D_SetScale(E3DRSP_IObject3D object, const E3DRSP_Vector3* scale);
+void E3DRSP_IObject3D_SetRotation(E3DRSP_IObject3D object, const E3DRSP_Quaternion* rotation)
+{
+	static_cast<IObject3D*>(object)->Rotation = std::bit_cast<const Quaternion>(*rotation);
+}
 
-E3DRSP_OBJECTS_EXPORT E3DRSP_Matrix4x4 E3DRSP_IObject3D_GetModelMatrix(E3DRSP_IObject3D object);
-E3DRSP_OBJECTS_EXPORT float* E3DRSP_IObject3D_Intersects(E3DRSP_IObject3D object, const E3DRSP_Ray* ray);
+E3DRSP_Vector3 E3DRSP_IObject3D_GetScale(E3DRSP_IObject3D object)
+{
+	return std::bit_cast<E3DRSP_Vector3>(static_cast<IObject3D*>(object)->Scale);
+}
+
+void E3DRSP_IObject3D_SetScale(E3DRSP_IObject3D object, const E3DRSP_Vector3* scale)
+{
+	static_cast<IObject3D*>(object)->Scale = std::bit_cast<const Vector3>(*scale);
+}
+
+E3DRSP_Matrix4x4 E3DRSP_IObject3D_GetModelMatrix(E3DRSP_IObject3D object)
+{
+	return std::bit_cast<E3DRSP_Matrix4x4>(static_cast<IObject3D*>(object)->GetModelMartix());
+}
+
+float E3DRSP_IObject3D_Intersects(E3DRSP_IObject3D object, const E3DRSP_Ray* ray)
+{
+	return static_cast<IObject3D*>(object)->Intersects(std::bit_cast<const Ray>(*ray));
+}

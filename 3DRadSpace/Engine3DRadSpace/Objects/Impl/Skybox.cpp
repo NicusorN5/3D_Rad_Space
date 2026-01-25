@@ -76,9 +76,9 @@ void Skybox::Draw3D()
 	}
 }
 
-std::optional<float> Skybox::Intersects(const Math::Ray& r)
+float Skybox::Intersects(const Math::Ray& r)
 {
-	return std::nullopt;
+	return std::numeric_limits<float>::signaling_NaN();
 }
 
 Gizmos::IGizmo* Skybox::GetGizmo() const noexcept

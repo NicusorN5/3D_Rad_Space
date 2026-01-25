@@ -1,11 +1,10 @@
-﻿namespace Engine3DRadSpace.Graphics
+﻿namespace Engine3DRadSpace.Graphics;
+
+public enum BlendOperation
 {
-    public enum BlendOperation
-    {
-        Add,
-        Substract,
-        ReverseSubstract,
-        Minimum,
-        Maximum,
-    }
+	Add,
+	Substract,
+	ReverseSubstract,
+	Minimum,
+	Maximum,
 }

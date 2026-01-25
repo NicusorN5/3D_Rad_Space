@@ -8,80 +8,51 @@ using System.Threading.Tasks;
 
 namespace Engine3DRadSpace
 {
-    internal class InstIGame : IGame, IDisposable
-    {
-        protected IntPtr _game;
-        bool _disposed;
+	public class InstIGame : NatPtrWrapper, IGame
+	{
+		[DllImport("3DRadSpace.Core.dll", EntryPoint = "E3DRSP_IGame_Exit")]
+		private static extern void _exit(IntPtr handle);
 
-        [DllImport("3DRadSpace.Core.dll", EntryPoint = "E3DRSP_IGame_Exit")]
-        private static extern void _exit(IntPtr handle);
+		[DllImport("3DRadSpace.Core.dll", EntryPoint = "E3DRSP_IGame_WasInitialized")]
+		private static extern bool _wasInitialized(IntPtr handle);
 
-        [DllImport("3DRadSpace.Core.dll", EntryPoint = "E3DRSP_IGame_WasInitialized")]
-        private static extern bool _wasInitialized(IntPtr handle);
+		[DllImport("3DRadSpace.Core.dll", EntryPoint = "E3DRSP_IGame_WasLoaded")]
+		private static extern bool _wasLoaded(IntPtr handle);
 
-        [DllImport("3DRadSpace.Core.dll", EntryPoint = "E3DRSP_IGame_WasLoaded")]
-        private static extern bool _wasLoaded(IntPtr handle);
+		[DllImport("3DRadSpace.Core.dll", EntryPoint = "E3DRSP_IGame_AppendScene", CharSet = CharSet.Ansi)]
+		private static extern bool _appendScene(IntPtr handle, string path);
 
-        [DllImport("3DRadSpace.Core.dll", EntryPoint = "E3DRSP_IGame_AppendScene", CharSet = CharSet.Ansi)]
-        private static extern bool _appendScene(IntPtr handle, string path);
+		[DllImport("3DRadSpace.Core.dll", EntryPoint = "E3DRSP_IGame_Destroy")]
+		private static extern void _destroy(IntPtr handle);
 
-        [DllImport("3DRadSpace.Core.dll", EntryPoint = "E3DRSP_IGame_Destroy")]
-        private static extern void _destroy(IntPtr handle);
+		public InstIGame(IntPtr handle) : base(handle, _destroy)
+		{
+		}
 
-        protected InstIGame(IntPtr handle)
-        {
-            _game = handle;
-            _disposed = false;
-        }
+		public void Exit()
+		{
+			_exit(_handle);
+		}
 
-        public void Exit()
-        {
-            _exit(_game);
-        }
+		public bool WasInitialized
+		{
+			get
+			{
+				return _wasInitialized(_handle);
+			}
+		}
 
-        public bool WasInitialized
-        {
-            get
-            {
-                return _wasInitialized(_game);
-            }
-        }
+		public bool WasLoaded
+		{
+			get
+			{
+				return _wasLoaded(_handle);
+			}
+		}
 
-        public bool WasLoaded
-        {
-            get
-            {
-                return _wasLoaded(_game);
-            }
-        }
-
-        public void AppendScene(string path)
-        {
-            _appendScene(_game, path);
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected void Dispose(bool disposing)
-        {
-            if (!_disposed)
-            {
-                if (_game != 0)
-                {
-                    _destroy(_game);
-                }
-                _disposed = true;
-                _game = IntPtr.Zero;
-            }
-        }
-
-        ~InstIGame()
-        {
-            Dispose(false);
-        }
-    }
+		public void AppendScene(string path)
+		{
+			_appendScene(_handle, path);
+		}
+	}
 }

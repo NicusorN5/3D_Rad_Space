@@ -1,15 +1,15 @@
 ﻿using Engine3DRadSpace.Math;
 using System.Runtime.InteropServices;
 
-namespace Engine3DRadSpace.Graphics
-{
-	public class ModelMesh : NatPtrWrapper
-	{
-		[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_ModelMesh_Create")]
-		extern static unsafe IntPtr _create(IntPtr *parts, ulong numParts);
+namespace Engine3DRadSpace.Graphics;
 
-		[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_ModelMesh_Destroy")]
-		extern static void _destroy(IntPtr modelMesh);
+public class ModelMesh : NatPtrWrapper
+{
+	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_ModelMesh_Create")]
+	extern static unsafe IntPtr _create(IntPtr *parts, ulong numParts);
+
+	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_ModelMesh_Destroy")]
+	extern static void _destroy(IntPtr modelMesh);
 
         [DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_ModelMesh_AddMeshPart")]
         extern static void _addPart(IntPtr modelMesh, IntPtr part);
@@ -30,52 +30,42 @@ namespace Engine3DRadSpace.Graphics
         extern static Math.BoundingSphere _bsph(IntPtr modelMesh);
 
         public ModelMesh(IntPtr handle) : base(handle, _destroy)
-		{
-		}
+	{
+	}
 
-		unsafe static IntPtr _callCreate(ModelMeshPart[] parts)
-		{
-			ulong numParts = (ulong)parts.Length;
+	unsafe static IntPtr _callCreate(ModelMeshPart[] parts)
+	{
+		ulong numParts = (ulong)parts.Length;
 
-			IntPtr* ppParts = stackalloc IntPtr[(int)numParts]; 
-			for(ulong i = 0; i < numParts; i++)
-			{
-				ppParts[i] = parts[i].Handle;
-			}
-			return _create(ppParts, numParts);
-		}
-
-		public ModelMesh(ModelMeshPart[] parts) : this(_callCreate(parts))
+		IntPtr* ppParts = stackalloc IntPtr[(int)numParts]; 
+		for(ulong i = 0; i < numParts; i++)
 		{
+			ppParts[i] = parts[i].Handle;
 		}
+		return _create(ppParts, numParts);
+	}
 
-		public void AddPart(ModelMeshPart part)
-		{
-			_addPart(_handle, part.Handle);
-		}
+	public ModelMesh(ModelMeshPart[] parts) : this(_callCreate(parts))
+	{
+	}
 
-		public ModelMeshPart this[uint idx]
-		{
-			get
-			{
-				return new ModelMeshPart(_at(_handle, idx));
-			}
-		}
+	public void AddPart(ModelMeshPart part)
+	{
+		_addPart(_handle, part.Handle);
+	}
 
-		public BoundingBox BoundingBox
-		{
-			get
-			{
-				return _bbox(_handle);
-			}
-		}
+	public ModelMeshPart this[uint idx]
+	{
+		get => new ModelMeshPart(_at(_handle, idx));
+	}
 
-		public BoundingSphere BoundingSphere
-		{
-			get
-			{
-				return _bsph(_handle);
-			}
-		}
+	public BoundingBox BoundingBox
+	{
+		get => _bbox(_handle);
+	}
+
+	public BoundingSphere BoundingSphere
+	{
+		get => _bsph(_handle);
 	}
 }

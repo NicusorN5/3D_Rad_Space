@@ -1,7 +1,6 @@
-﻿namespace Engine3DRadSpace
+﻿namespace Engine3DRadSpace;
+
+public interface IDrawable3D : IPtrWrapper
 {
-    public interface IDrawable3D : IPtrWrapper
-    {
-        public void Draw3D();       
-    }
+	public void Draw3D();       
 }

@@ -107,9 +107,9 @@ void RenderWindow::Update()
 			if (obj.InternalType == ObjectType::IObject3D)
 			{
 				auto dst = static_cast<IObject3D*>(obj.Object.get())->Intersects(ray);
-				if (dst.has_value())
+				if (!std::isnan(dst))
 				{
-					cursor3D = ray.Origin + (ray.Direction * dst.value());
+					cursor3D = ray.Origin + (ray.Direction * dst);
 					_selectedObject = obj.Object.get();
 					if (std::isnan(cursor3D.X) || std::isnan(cursor3D.Y) || std::isnan(cursor3D.Z))
 					{
@@ -215,7 +215,7 @@ void RenderWindow::Draw2D()
 	SpriteBatch->Begin();
 	SpriteBatch->DrawString(
 		_font.get(),
-		std::format("Mouse {} {} FPS {}", cameraPos.X, cameraPos.Y, 1.0f / Draw_dt),
+		std::format("Mouse {} {} FPS {}", cameraPos.X, cameraPos.Y, static_cast<int>(1.0f / Draw_dt)),
 		Point(20, 20),
 		1
 	);
