@@ -46,6 +46,8 @@ extern "C"
 	E3DRSP_PHYSICS_EXPORT bool E3DRSP_ICollider_ApplyAngularAcceleration(E3DRSP_ICollider* collider, E3DRSP_Vector3* acc);
 
 	E3DRSP_PHYSICS_EXPORT float E3DRSP_ICollider_Intersects(E3DRSP_ICollider* collider, const E3DRSP_Ray* r);
+
+	E3DRSP_PHYSICS_EXPORT void E3DRSP_ICollider_Destroy(E3DRSP_ICollider* collider);
 #ifdef __cplusplus
 }
 #endif

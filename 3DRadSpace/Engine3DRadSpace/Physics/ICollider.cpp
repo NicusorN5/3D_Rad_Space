@@ -159,3 +159,8 @@ float E3DRSP_ICollider_Intersects(E3DRSP_ICollider* collider, const E3DRSP_Ray* 
 
 	return dst.has_value() ? dst.value() : std::numeric_limits<float>::signaling_NaN();
 }
+
+void E3DRSP_ICollider_Destroy(E3DRSP_ICollider* collider)
+{
+	delete reinterpret_cast<ICollider*>(collider);
+}
