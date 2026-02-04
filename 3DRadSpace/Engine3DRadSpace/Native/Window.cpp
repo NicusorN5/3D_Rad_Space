@@ -51,7 +51,7 @@ LRESULT CALLBACK Engine3DRadSpace::Native::GameWndProc(HWND hwnd, UINT msg, WPAR
 		case WM_MOUSEWHEEL:
 		{
 			window->_scrollwheel(GET_WHEEL_DELTA_WPARAM(wParam));
-			break;
+			return 0;
 		}
 		case WM_MOUSEMOVE:
 		{
@@ -63,7 +63,43 @@ LRESULT CALLBACK Engine3DRadSpace::Native::GameWndProc(HWND hwnd, UINT msg, WPAR
 			bool rBtn = (bool)(wParam & MK_RBUTTON);
 
 			window->_handleMouse({ x,y }, lBtn, mBtn, rBtn);
-			break;
+			return 0;
+		}
+		case WM_LBUTTONDOWN:
+		{
+			bool left = true;
+			window->_handleMouse(&left, nullptr, nullptr);
+			return 0;
+		}
+		case WM_LBUTTONUP:
+		{
+			bool left = false;
+			window->_handleMouse(&left, nullptr, nullptr);
+			return 0;
+		}
+		case WM_RBUTTONDOWN:
+		{
+			bool right = true;
+			window->_handleMouse(nullptr, &right, nullptr);
+			return 0;
+		}
+		case WM_RBUTTONUP:
+		{
+			bool right = false;
+			window->_handleMouse(nullptr, &right, nullptr);
+			return 0;
+		}
+		case WM_MBUTTONDOWN:
+		{
+			bool middle = true;
+			window->_handleMouse(nullptr, nullptr, &middle);
+			return 0;
+		}
+		case WM_MBUTTONUP:
+		{
+			bool middle = false;
+			window->_handleMouse(nullptr, nullptr, &middle);
+			return 0;
 		}
 		case WM_CLOSE:
 		{
@@ -127,6 +163,24 @@ void Window::_handleMouse(Point pos, bool left, bool middle, bool right)
 	_mouse._leftButton = static_cast<ButtonState>(left);
 	_mouse._middleButton = static_cast<ButtonState>(middle);
 	_mouse._rightButton = static_cast<ButtonState>(right);
+}
+
+void Window::_handleMouse(bool* left, bool* middle, bool* right)
+{
+	if (left != nullptr)
+	{
+		_mouse._leftButton = static_cast<ButtonState>(*left);
+	}
+
+	if(middle != nullptr)
+	{
+		_mouse._middleButton = static_cast<ButtonState>(*middle);
+	}
+
+	if (right != nullptr)
+	{
+		_mouse._rightButton = static_cast<ButtonState>(*right);
+	}
 }
 
 void Window::_resetKeyboard()

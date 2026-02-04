@@ -101,7 +101,7 @@ float Skinmesh::Intersects(const Ray&r)
 	{
 		for (auto& meshPart : *mesh)
 		{
-			//if(std::isnan(r.Intersects(meshPart->GetBoundingSphere()))) continue; (TODO: FIX SPHERE CULLING)
+			if(std::isnan(r.Intersects(meshPart->GetBoundingBox()))) continue;
 
 			auto [vertex, index] = meshPart->CreateStagingBuffers();
 

@@ -19,6 +19,7 @@ namespace Engine3DRadSpace::Native
 		void _keyDown(uint8_t k);
 		void _scrollwheel(float dw);
 		void _handleMouse(Math::Point pos,bool left,bool middle, bool right);
+		void _handleMouse(bool* left, bool* middle, bool* right);
 		void _resetKeyboard();
 	public:
 		Window(const std::string& title, size_t width = 800, size_t height = 600);
