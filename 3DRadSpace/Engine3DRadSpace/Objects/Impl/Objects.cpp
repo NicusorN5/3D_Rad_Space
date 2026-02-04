@@ -20,12 +20,15 @@ using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Reflection;
 
 std::vector<ReflectedObject*> e3drsp_internal_objects_list;
+bool e3drsp_internal_objects_list_initialized = false;
 
 void Engine3DRadSpace::Internal::LoadDefaultObjects()
 {
-	if(e3drsp_internal_objects_list.size() != 0) return;
+	if (e3drsp_internal_objects_list_initialized) return;
 
-	e3drsp_internal_objects_list =
+	e3drsp_internal_objects_list_initialized = true;
+
+	auto ppDefaultObjects =
 	{
 		&CameraReflInstance, //Camera
 		&CounterReflInstance, //Counter
@@ -58,6 +61,8 @@ void Engine3DRadSpace::Internal::LoadDefaultObjects()
 		&SpriteReflInstance, //Sprite
 		&TextPrintReflInstance, //Textprint
 	};
+
+	e3drsp_internal_objects_list.append_range(ppDefaultObjects);
 }
 
 ReflectedObject* Engine3DRadSpace::Internal::GetReflDataFromUUID(const Reflection::UUID& uuid)
