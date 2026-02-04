@@ -48,7 +48,7 @@ namespace Engine3DRadSpace::Objects
 		void Load(const std::filesystem::path &path) override;
 
 
-		Math::Matrix4x4 GetModelMartix() override;
+		Math::Matrix4x4 GetModelMatrix() override;
 		/// <summary>
 		/// Gets the View matrix of the camera.
 		/// </summary>

@@ -255,7 +255,7 @@ Input::Keyboard& Window::GetKeyboardState()
 Point Window::Size() const noexcept
 {
 	RECT r;
-	GetWindowRect(static_cast<HWND>(_window), &r);
+	GetClientRect(static_cast<HWND>(_window), &r);
 
 	return { r.right - r.left, r.bottom - r.top };
 }

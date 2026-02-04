@@ -15,12 +15,13 @@ IObject3D::IObject3D(const std::string &name, bool enabled, bool visible, const 
 {
 }
 
-Matrix4x4 IObject3D::GetModelMartix()
+Matrix4x4 IObject3D::GetModelMatrix()
 {
 	return 
 		Matrix4x4::CreateScale(Scale) *
 		Matrix4x4::CreateTranslation(-RotationCenter) *
 		Matrix4x4::CreateFromQuaternion(Rotation) *
+		Matrix4x4::CreateTranslation(RotationCenter) *
 		Matrix4x4::CreateTranslation(Position);
 }
 
@@ -66,7 +67,7 @@ void E3DRSP_IObject3D_SetScale(E3DRSP_IObject3D object, const E3DRSP_Vector3* sc
 
 E3DRSP_Matrix4x4 E3DRSP_IObject3D_GetModelMatrix(E3DRSP_IObject3D object)
 {
-	return std::bit_cast<E3DRSP_Matrix4x4>(static_cast<IObject3D*>(object)->GetModelMartix());
+	return std::bit_cast<E3DRSP_Matrix4x4>(static_cast<IObject3D*>(object)->GetModelMatrix());
 }
 
 float E3DRSP_IObject3D_Intersects(E3DRSP_IObject3D object, const E3DRSP_Ray* ray)

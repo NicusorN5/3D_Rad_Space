@@ -89,52 +89,56 @@ void Skinmesh::Draw3D()
 	auto game = static_cast<Game*>(_game);
 
 	if(Visible && _model)
-		_model->Draw(GetModelMartix() * game->View * game->Projection);
+		_model->Draw(GetModelMatrix() * game->View * game->Projection);
 }
 
 float Skinmesh::Intersects(const Ray&r)
 {
+	Matrix4x4 modelMatrix = GetModelMatrix();
+	float closestDistance = std::numeric_limits<float>::infinity();
+	
 	for (auto& mesh : *_model)
 	{
 		for (auto& meshPart : *mesh)
 		{
-			if(std::isnan(r.Intersects(meshPart->GetBoundingSphere()))) continue;
+			//if(std::isnan(r.Intersects(meshPart->GetBoundingSphere()))) continue; (TODO: FIX SPHERE CULLING)
 
 			auto [vertex, index] = meshPart->CreateStagingBuffers();
 
 			void* vertexData = nullptr;
-			size_t numVerts = vertex->ReadData(&vertexData) / vertex->StructSize();
+			std::ignore = vertex->ReadData(&vertexData) / vertex->StructSize();
 
 			void* indexData = nullptr;
 			size_t numIndices = index->ReadData(&indexData) / sizeof(unsigned);
 
-			for (size_t i = 0; i < numIndices - 3; i += 3)
+			for (size_t i = 0; i + 2 < numIndices; i += 3)
 			{
 				auto readVector = [&vertex, &vertexData](size_t index) -> Vector3
 				{
 					return *reinterpret_cast<Vector3*>((static_cast<std::byte*>(vertexData)) + (vertex->StructSize() * index));
 				};
 				//Assuming VS_POSITION3 is the first element.
-				Vector3 t1 = readVector(static_cast<unsigned*>(indexData)[i]);
-				Vector3 t2 = readVector(static_cast<unsigned*>(indexData)[i+1]);
-				Vector3 t3 = readVector(static_cast<unsigned*>(indexData)[i+2]);
+				Vector3 t1 = Vector3::Transform(readVector(static_cast<unsigned*>(indexData)[i]), modelMatrix);
+				Vector3 t2 = Vector3::Transform(readVector(static_cast<unsigned*>(indexData)[i+1]), modelMatrix);
+				Vector3 t3 = Vector3::Transform(readVector(static_cast<unsigned*>(indexData)[i+2]), modelMatrix);
 
 				Triangle tri{ t1, t2, t3 };
 				
 				auto dst = r.Intersects(tri);
-				if(!std::isnan(dst))
+				if(!std::isnan(dst) && dst > 0.0f && dst < closestDistance)
 				{
-					vertex->EndRead();
-					index->EndRead();
-					return dst;
+					closestDistance = dst;
 				}
 			}
 
-		vertex->EndRead();
+			vertex->EndRead();
 			index->EndRead();
 		}
 	}
-	return std::numeric_limits<float>::signaling_NaN();
+	
+	return (closestDistance < std::numeric_limits<float>::infinity()) 
+		? closestDistance 
+		: std::numeric_limits<float>::signaling_NaN();
 }
 
 Gizmos::IGizmo* Skinmesh::GetGizmo() const noexcept

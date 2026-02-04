@@ -360,9 +360,9 @@ Matrix4x4 Matrix4x4::operator+(const Matrix4x4 &m) const noexcept
 {
 	return Matrix4x4(
 		M11 + m.M11, M12 + m.M12, M13 + m.M13, M14 + m.M14,	
-		M21 + m.M21, M22 + m.M22, M13 + m.M13, M14 + m.M14,	
-		M31 + m.M31, M32 + m.M32, M13 + m.M13, M14 + m.M14,	
-		M41 + m.M41, M42 + m.M42, M13 + m.M13, M14 + m.M14	
+		M21 + m.M21, M22 + m.M22, M23 + m.M23, M24 + m.M24,	
+		M31 + m.M31, M32 + m.M32, M33 + m.M33, M34 + m.M34,	
+		M41 + m.M41, M42 + m.M42, M43 + m.M43, M44 + m.M44	
 	);
 }
 
@@ -395,9 +395,9 @@ Matrix4x4 Matrix4x4::operator-(const Matrix4x4 &m) const noexcept
 {
 	return Matrix4x4(
 		M11 - m.M11, M12 - m.M12, M13 - m.M13, M14 - m.M14,
-		M21 - m.M21, M22 - m.M22, M13 - m.M13, M14 - m.M14,
-		M31 - m.M31, M32 - m.M32, M13 - m.M13, M14 - m.M14,
-		M41 - m.M41, M42 - m.M42, M13 - m.M13, M14 - m.M14
+		M21 - m.M21, M22 - m.M22, M23 - m.M23, M24 - m.M24,
+		M31 - m.M31, M32 - m.M32, M33 - m.M33, M34 - m.M34,
+		M41 - m.M41, M42 - m.M42, M43 - m.M43, M44 - m.M44
 	);
 }
 
@@ -432,7 +432,7 @@ Matrix4x4 Matrix4x4::operator*(const Matrix4x4& m) const noexcept
 	r.M11 = M11 * m.M11 + M12 * m.M21 + M13 * m.M31 + M14 * m.M41;
 	r.M12 = M11 * m.M12 + M12 * m.M22 + M13 * m.M32 + M14 * m.M42;
 	r.M13 = M11 * m.M13 + M12 * m.M23 + M13 * m.M33 + M14 * m.M43;
-	r.M14 = M11 * m.M14 + M12 * m.M24 + M13 * m.M34 + M14 * m.M11;
+	r.M14 = M11 * m.M14 + M12 * m.M24 + M13 * m.M34 + M14 * m.M44;
 
 	r.M21 = M21 * m.M11 + M22 * m.M21 + M23 * m.M31 + M24 * m.M41;
 	r.M22 = M21 * m.M12 + M22 * m.M22 + M23 * m.M32 + M24 * m.M42;
@@ -463,25 +463,28 @@ Matrix4x4& Matrix4x4::operator*=(const Matrix4x4& m) noexcept
 	return *this;
 	*/
 	
-	this->M11 = M11 * m.M11 + M12 * m.M21 + M13 * m.M31 + M14 * m.M41;
-	this->M12 = M11 * m.M12 + M12 * m.M22 + M13 * m.M32 + M14 * m.M42;
-	this->M13 = M11 * m.M13 + M12 * m.M23 + M13 * m.M33 + M14 * m.M43;
-	this->M14 = M11 * m.M14 + M12 * m.M24 + M13 * m.M34 + M14 * m.M11;
+	
+	Matrix4x4 copy(*this);
+	
+	this->M11 = copy.M11 * m.M11 + copy.M12 * m.M21 + copy.M13 * m.M31 + copy.M14 * m.M41;
+	this->M12 = copy.M11 * m.M12 + copy.M12 * m.M22 + copy.M13 * m.M32 + copy.M14 * m.M42;
+	this->M13 = copy.M11 * m.M13 + copy.M12 * m.M23 + copy.M13 * m.M33 + copy.M14 * m.M43;
+	this->M14 = copy.M11 * m.M14 + copy.M12 * m.M24 + copy.M13 * m.M34 + copy.M14 * m.M44;
 
-	this->M21 = M21 * m.M11 + M22 * m.M21 + M23 * m.M31 + M24 * m.M41;
-	this->M22 = M21 * m.M12 + M22 * m.M22 + M23 * m.M32 + M24 * m.M42;
-	this->M23 = M21 * m.M13 + M22 * m.M23 + M23 * m.M33 + M24 * m.M43;
-	this->M24 = M21 * m.M14 + M22 * m.M24 + M23 * m.M34 + M24 * m.M44;
+	this->M21 = copy.M21 * m.M11 + copy.M22 * m.M21 + copy.M23 * m.M31 + copy.M24 * m.M41;
+	this->M22 = copy.M21 * m.M12 + copy.M22 * m.M22 + copy.M23 * m.M32 + copy.M24 * m.M42;
+	this->M23 = copy.M21 * m.M13 + copy.M22 * m.M23 + copy.M23 * m.M33 + copy.M24 * m.M43;
+	this->M24 = copy.M21 * m.M14 + copy.M22 * m.M24 + copy.M23 * m.M34 + copy.M24 * m.M44;
 
-	this->M31 = M31 * m.M11 + M32 * m.M21 + M33 * m.M31 + M34 * m.M41;
-	this->M32 = M31 * m.M12 + M32 * m.M22 + M33 * m.M32 + M34 * m.M42;
-	this->M33 = M31 * m.M13 + M32 * m.M23 + M33 * m.M33 + M34 * m.M43;
-	this->M34 = M31 * m.M14 + M32 * m.M24 + M33 * m.M34 + M34 * m.M44;
+	this->M31 = copy.M31 * m.M11 + copy.M32 * m.M21 + copy.M33 * m.M31 + copy.M34 * m.M41;
+	this->M32 = copy.M31 * m.M12 + copy.M32 * m.M22 + copy.M33 * m.M32 + copy.M34 * m.M42;
+	this->M33 = copy.M31 * m.M13 + copy.M32 * m.M23 + copy.M33 * m.M33 + copy.M34 * m.M43;
+	this->M34 = copy.M31 * m.M14 + copy.M32 * m.M24 + copy.M33 * m.M34 + copy.M34 * m.M44;
 
-	this->M41 = M41 * m.M11 + M42 * m.M21 + M43 * m.M31 + M44 * m.M41;
-	this->M42 = M41 * m.M12 + M42 * m.M22 + M43 * m.M32 + M44 * m.M42;
-	this->M43 = M41 * m.M13 + M42 * m.M23 + M43 * m.M33 + M44 * m.M43;
-	this->M44 = M41 * m.M14 + M42 * m.M24 + M43 * m.M34 + M44 * m.M44;
+	this->M41 = copy.M41 * m.M11 + copy.M42 * m.M21 + copy.M43 * m.M31 + copy.M44 * m.M41;
+	this->M42 = copy.M41 * m.M12 + copy.M42 * m.M22 + copy.M43 * m.M32 + copy.M44 * m.M42;
+	this->M43 = copy.M41 * m.M13 + copy.M42 * m.M23 + copy.M43 * m.M33 + copy.M44 * m.M43;
+	this->M44 = copy.M41 * m.M14 + copy.M42 * m.M24 + copy.M43 * m.M34 + copy.M44 * m.M44;
 	return *this;
 }
 
@@ -692,7 +695,7 @@ float Matrix4x4::Determinant() const noexcept
 	float det1 = Matrix3x3{
 		M22, M23, M24,
 		M32, M33, M34,
-		M42, M34, M44
+		M42, M43, M44
 	}.Determinant();
 
 	float det2 = Matrix3x3{
@@ -704,7 +707,7 @@ float Matrix4x4::Determinant() const noexcept
 	float det3 = Matrix3x3{
 		M21, M22, M24,
 		M31, M32, M34,
-		M41, M32, M44
+		M41, M42, M44
 	}.Determinant();
 
 	float det4 = Matrix3x3{

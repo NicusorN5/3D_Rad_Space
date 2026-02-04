@@ -98,32 +98,54 @@ void RenderWindow::Update()
 		);
 	}
 
-	if (Mouse.RightButton() == ButtonState::Pressed)
+	static bool rightButtonWasPressed = false;
+	if (Mouse.RightButton() == ButtonState::Pressed && !rightButtonWasPressed)
 	{
-		auto ray = GetMouseRay(Mouse.Position(), View, Projection);
+		auto mousePos = Mouse.Position();
+		
+		auto viewport = Device->ImmediateContext()->GetViewport();
+		auto windowSize = Window->Size();
+		
+		// Scale mouse coordinates from window space to viewport space
+		float scaleX = viewport.ScreenRectangle.Width / static_cast<float>(windowSize.X);
+		float scaleY = viewport.ScreenRectangle.Height / static_cast<float>(windowSize.Y);
+		Point scaledMousePos = Point(
+			static_cast<int>(mousePos.X * scaleX),
+			static_cast<int>(mousePos.Y * scaleY)
+		);
+		
+		auto ray = GetMouseRay(scaledMousePos, View, Projection);
+
+		float closestDistance = std::numeric_limits<float>::infinity();
+		Vector3 closestIntersection = cursor3D;
+		IObject* closestObject = _selectedObject;
 
 		for (auto& obj : *Objects)
 		{
 			if (obj.InternalType == ObjectType::IObject3D)
 			{
 				auto dst = static_cast<IObject3D*>(obj.Object.get())->Intersects(ray);
-				if (!std::isnan(dst))
+				// Only consider intersections in front of the camera (positive distance)
+				// and closer than previous hits
+				if (!std::isnan(dst) && dst > 0.0f && dst < closestDistance)
 				{
-					cursor3D = ray.Origin + (ray.Direction * dst);
-					_selectedObject = obj.Object.get();
-					if (std::isnan(cursor3D.X) || std::isnan(cursor3D.Y) || std::isnan(cursor3D.Z))
-					{
-						cursor3D = Vector3::Zero();
-					}
+					closestDistance = dst;
+					closestIntersection = ray.Origin + (ray.Direction * dst);
+					closestObject = obj.Object.get();
 				}
 			}
+		}
+
+		if (closestDistance < std::numeric_limits<float>::infinity())
+		{
+			cursor3D = closestIntersection;
+			_selectedObject = closestObject;
 		}
 
 		_requestedPicking = true;
 		_pickingCoords = Mouse.Position();
 	}
-	//else _keyboardTest = false;
-
+	rightButtonWasPressed = (Mouse.RightButton() == ButtonState::Pressed);
 	
 	if(Keyboard.IsKeyDown(Key::Space))
 	{
@@ -179,28 +201,6 @@ void RenderWindow::Draw3D()
 
 	//Main rendering pass
 	drawAllObjects();	
-
-	//Picking pass
-	/*
-	if(_requestedPicking)
-	{
-		this->_picking->Begin();
-		drawAllObjects();
-		this->_picking->End();
-
-		auto id = this->_picking->Pick(this->_pickingCoords);
-		if(id.has_value())
-		{
-			auto selection = Objects->operator[](id.value());
-			_selectedObject = selection;
-			this->cursor3D = static_cast<IObject3D*>(selection)->Position;
-		}
-	}
-	*/
-
-	//billboard->View = this->View;
-	//billboard->Projection = this->Projection;
-	//billboard->Draw3D();
 }
 
 void RenderWindow::SelectObject(IObject* obj)

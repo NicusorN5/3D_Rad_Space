@@ -1,7 +1,4 @@
 #include "CameraGizmo.hpp"
-#include "../../Graphics/Model3D.hpp"
-#include "../../Graphics/IRenderTarget.hpp"
-#include "../../Graphics/IDepthStencilBuffer.hpp"
 #include "../../Graphics/IGraphicsDevice.hpp"
 #include "../../Graphics/IGraphicsCommandList.hpp"
 #include "../../Games/Game.hpp"
@@ -24,45 +21,24 @@ void Gizmo<Camera>::Load()
 
 	if(_cameraModel == nullptr)
 	{
-		_cameraModel = std::unique_ptr<void, std::function<void(void*)>>(
-			new Model3D(device, "Data\\Models\\Camera.x"),
-			[](void* model)
-			{
-				delete static_cast<Model3D*>(model);
-			}
-		);
+		_cameraModel = std::make_unique<Model3D>(device, "Data\\Models\\Camera.x");
 	}
 
 	auto res = device->Resolution() / 4.0f;
 
 	if(_cameraPreview == nullptr)
 	{
-		_cameraPreview = std::unique_ptr<void, std::function<void(void*)>>(device->CreateRenderTarget(res.X, res.Y, PixelFormat::R32G32B32A32_Float).release(),
-			[](void* rt)
-			{
-				delete static_cast<IRenderTarget*>(rt);
-			}
-		);
+		_cameraPreview = device->CreateRenderTarget(res.X, res.Y, PixelFormat::R32G32B32A32_Float);
 	}
 
 	if(_cameraPreviewDepth == nullptr)
 	{
-		_cameraPreviewDepth = std::unique_ptr<void, std::function<void(void*)>>(device->CreateDepthStencilBuffer(res.X, res.Y).release(),
-			[](void* depth)
-			{
-				delete static_cast<IDepthStencilBuffer*>(depth);
-			}
-		);
+		_cameraPreviewDepth = device->CreateDepthStencilBuffer(res.X, res.Y);
 	}
 
 	if(_font == nullptr)
 	{
-		_font = std::unique_ptr<void, std::function<void(void*)>>(new Font(device, "Data\\Fonts\\Arial.ttf"),
-			[](void* font)
-			{
-				delete static_cast<Font*>(font);
-			}
-		);
+		_font = std::make_unique<Font>(device, "Data\\Fonts\\Arial.ttf");
 	}
 
 	_wasLoaded = true;
@@ -85,7 +61,7 @@ void Gizmo<Camera>::Draw3D()
 	auto view = game->View;
 	auto proj = game->Projection;
 
-	cameraModel->Draw(camera->GetModelMartix() * view * proj);
+	cameraModel->Draw(camera->GetModelMatrix() * view * proj);
 }
 
 void Gizmo<Camera>::Draw2D()
@@ -107,7 +83,7 @@ void Gizmo<Camera>::Draw2D()
 		game->Projection = camera->GetProjectionMatrix();
 		game->Objects->SetRenderingCamera(camera);
 
-		auto cameraPreview = static_cast<ITexture2D*>(_cameraPreview.get());
+		auto cameraPreview = dynamic_cast<ITexture2D*>(_cameraPreview.get());
 		auto cameraRT = static_cast<IRenderTarget*>(_cameraPreview.get());
 		auto cameraPreviewDepth = static_cast<IDepthStencilBuffer*>(_cameraPreviewDepth.get());
 

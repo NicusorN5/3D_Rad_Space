@@ -88,7 +88,7 @@ void Camera::ForceUpdate()
 	game->Projection = GetProjectionMatrix();
 }
 
-Matrix4x4 Camera::GetModelMartix()
+Matrix4x4 Camera::GetModelMatrix()
 {
 	return Matrix4x4::CreateFromQuaternion(Rotation) * Matrix4x4::CreateTranslation(Position);
 }
@@ -143,7 +143,7 @@ REFL_BEGIN(Camera,"Camera","Camera objects","Perspective camera")
 	REFL_FIELD(Camera, float, NearPlaneDistance, "Near plane distance", 0.01f, "Minimum drawing distance")
 	REFL_FIELD(Camera, float, FarPlaneDistance, "Far plane distance", 500.f, "Maximum drawing distance")
 	REFL_METHOD(Camera, void, &Camera::Enable, "Enable")
-	REFL_METHOD(Camera, Matrix4x4, &Camera::GetModelMartix, "Get World Matrix")
+	REFL_METHOD(Camera, Matrix4x4, &Camera::GetModelMatrix, "Get World Matrix")
 	REFL_METHOD(Camera, Matrix4x4, &Camera::GetViewMatrix, "Get View Matrix")
 	REFL_METHOD(Camera, Matrix4x4, &Camera::GetProjectionMatrix, "Get Projection Matrix")
 REFL_END

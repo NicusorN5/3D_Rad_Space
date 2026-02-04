@@ -96,7 +96,7 @@ void Gizmo<Skinmesh>::Draw3D()
 
 			skinmesh->GetModel()->DrawEffect(
 				_highlightEffect,
-				skinmesh->GetModelMartix() * game->View * game->Projection
+				skinmesh->GetModelMatrix() * game->View * game->Projection
 			);
 
 			cmd->SetRenderTargetAndDepth(nullptr, nullptr);
