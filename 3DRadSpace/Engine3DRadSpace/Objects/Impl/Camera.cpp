@@ -93,9 +93,11 @@ Matrix4x4 Camera::GetModelMatrix()
 	return Matrix4x4::CreateFromQuaternion(Rotation) * Matrix4x4::CreateTranslation(Position);
 }
 
-float Camera::Intersects(const Ray&r)
+float Camera::Intersects(const Ray &r)
 {
-	return r.Intersects(BoundingSphere(Position, 1.5f));
+	if(!std::isnan(r.Intersects(BoundingSphere(Position, 1.5f))))
+		return (r.Origin - Position).Length();
+	else return std::numeric_limits<float>::signaling_NaN();
 }
 
 Engine3DRadSpace::Reflection::UUID Camera::GetUUID() const noexcept

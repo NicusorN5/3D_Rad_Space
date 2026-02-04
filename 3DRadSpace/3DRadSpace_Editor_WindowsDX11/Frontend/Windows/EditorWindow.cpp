@@ -831,6 +831,7 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 					auto objID = gEditorWindow->_getSelectedObjectID();
 					if(objID.second.has_value())
 					{
+						gEditorWindow->SelectObject(std::nullopt);
 						gEditorWindow->editor->Objects->Remove(objID.second.value());
 
 						HTREEITEM deletedItem = objID.first;
@@ -857,6 +858,9 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 					}
 					break;
 				}
+				case CMD_DeselectObject:
+					gEditorWindow->SelectObject(std::nullopt);
+					break;
 				default: break;
 			}
 			break;
@@ -919,6 +923,7 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 						if(objectMenu == nullptr) throw std::exception("Failed to create a popup menu!");
 						
 						AppendMenuA(objectMenu, MF_STRING, CMD_EditObject, "Edit object");
+						AppendMenuA(objectMenu, MF_STRING, CMD_DeselectObject, "Deselect object");
 						AppendMenuA(objectMenu, MF_STRING, CMD_DeleteObject, "Delete object");
 						
 						POINT mousePos;

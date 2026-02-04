@@ -11,6 +11,14 @@ namespace Engine3DRadSpace::Math
 		Vector3 Origin;
 		Vector3 Direction;
 
+		/// <summary>
+		/// Checks if this ray intersects with the given bounding sphere.
+		/// </summary>
+		/// <param name="sph">Bounding sphere.</param>
+		/// <returns>Closest intersection point.</returns>
+		/// <remarks>
+		/// this.Direction but must be normalized.
+		/// </remarks>
 		float Intersects(const BoundingSphere &sph) const;
 		float Intersects(const Triangle &tri) const;
 		float Intersects(const BoundingBox &box) const;

@@ -239,7 +239,7 @@ Quaternion Quaternion::operator*(const Quaternion& q) const noexcept
 	r.W = W * q.W - X * q.X - Y * q.Y - Z * q.Z;  // 1
 	r.X = W * q.X + X * q.W + Y * q.Z - Z * q.Y;  // i
 	r.Y = W * q.Y - X * q.Z + Y * q.W + Z * q.X;  // j
-	r.Z = W * q.Z + X * q.Y - Y * q.Z + Z * q.W;  // k
+	r.Z = W * q.Z + X * q.Y - Y * q.X + Z * q.W;  // k
 
 	return r;
 }

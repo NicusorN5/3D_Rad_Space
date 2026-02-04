@@ -1,3 +1,4 @@
+using Engine3DRadSpace.Objects;
 namespace Engine3DRadSpace.Scripting;
 
 /// <summary>
@@ -7,11 +8,11 @@ namespace Engine3DRadSpace.Scripting;
 /// </summary>
 public interface IScript : IUpdateable
 {
-    /// <summary>
-    /// Gets the object that this script is attached to.
-    /// Provides access to delta time, graphics device, and other engine resources.
-    /// </summary>
-    IObject? Object { get; }
+	/// <summary>
+	/// Gets the object that this script is attached to.
+	/// Provides access to delta time, graphics device, and other engine resources.
+	/// </summary>
+	IObject? Object { get; }
 
 	/// <summary>
 	/// Called when this script is added to the ScriptEngine.
@@ -23,7 +24,3 @@ public interface IScript : IUpdateable
 	/// </summary>
 	void End();
 }
-
-
-
-

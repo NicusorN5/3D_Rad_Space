@@ -42,6 +42,7 @@ constexpr int CMD_SwitchPropertyGrid = 529;
 
 constexpr int CMD_EditObject = 530;
 constexpr int CMD_DeleteObject = 531;
+constexpr int CMD_DeselectObject = 532;
 
 constexpr int CMD_OpenIDE = 258;
 constexpr int CMD_Switch2D3D = 259;

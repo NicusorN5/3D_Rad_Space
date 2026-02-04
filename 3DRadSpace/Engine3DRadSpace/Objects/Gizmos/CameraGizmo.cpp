@@ -58,10 +58,14 @@ void Gizmo<Camera>::Draw3D()
 	
 	auto game = static_cast<Game*>(Object->GetGame());
 
+	auto model = Matrix4x4::CreateFromQuaternion(
+		camera->Rotation * Quaternion::FromYawPitchRoll(std::numbers::pi_v<float>, 0, 0)
+	) * Matrix4x4::CreateTranslation(camera->Position);
+
 	auto view = game->View;
 	auto proj = game->Projection;
 
-	cameraModel->Draw(camera->GetModelMatrix() * view * proj);
+	cameraModel->Draw(model * view * proj);
 }
 
 void Gizmo<Camera>::Draw2D()

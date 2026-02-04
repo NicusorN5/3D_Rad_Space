@@ -19,7 +19,6 @@ Vector3 Viewport::Unproject(const Vector3 &source, const Matrix4x4& projection, 
 
 	Vector3 vector = Vector3::Transform(s, matrix);
 	float a = (((s.X * matrix.M14) + (s.Y * matrix.M24)) + (s.Z * matrix.M34)) + matrix.M44;
-	//float a = (((source.X * matrix.M41) + (source.Y * matrix.M42)) + (source.Z * matrix.M43)) + matrix.M44;
 	
 	if (!Math::WithinEpsilon(a, 1.0f))
 	{
