@@ -31,7 +31,7 @@ Matrix4x4 CilindricalBillboard::_mvp() const noexcept
 	Vector3 up = cam_pos + y_axis;
 	Vector3 right = cam_pos + x_axis;
 
-	auto model = Matrix4x4::CreateCilindricalBillboard(Position, cam_pos, up, fwd, Axis, std::nullopt);
+	auto model = Matrix4x4::CreateCylindricalBillboard(Position, cam_pos, up, fwd, Axis, std::nullopt);
 	return model * View * Projection;
 }
 

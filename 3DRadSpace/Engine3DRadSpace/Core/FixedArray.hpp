@@ -5,7 +5,7 @@ namespace Engine3DRadSpace
 {
 	/// <summary>
 	/// "Fixed size array". Represents an array of type T that can be allocated one single time. Unlike std::array, the size can be defined at runtime, and not compile time.
-	/// Compared to <c>std::unique_ptr&lt;T[]&gt;</c>, iterators are supported.
+	/// Compared to <c>std::unique_ptr</c>, iterators are supported.
 	/// </summary>
 	/// <typeparam name="T">Type of the array. Must be default initializable.</typeparam>
 	template<std::default_initializable T>
@@ -55,7 +55,7 @@ namespace Engine3DRadSpace
 		{
 			return _data[i];
 		}
-		
+
 		/// <summary>
 		/// Returns a copy of the i-th element.
 		/// </summary>
@@ -90,7 +90,7 @@ namespace Engine3DRadSpace
 			pointer _ptr;
 
 		public:
-			explicit Iterator(pointer ptr) : _ptr(ptr) { }
+			explicit Iterator(pointer ptr) : _ptr(ptr) {}
 
 			reference operator*() const
 			{
@@ -133,7 +133,7 @@ namespace Engine3DRadSpace
 				return *this;
 			}
 
-			bool operator ==( const Iterator& i) const noexcept = default;
+			bool operator ==(const Iterator& i) const noexcept = default;
 			bool operator !=(const Iterator& i) const noexcept = default;
 		};
 

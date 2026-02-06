@@ -32,7 +32,7 @@ namespace Engine3DRadSpace::Math
 		Matrix3x3 operator+(const Matrix3x3& m) const noexcept;
 		Matrix3x3& operator+=(const Matrix3x3& m) noexcept;
 
-		Matrix3x3& operator-() noexcept;
+		Matrix3x3 operator-() const noexcept;
 		Matrix3x3 operator-(const Matrix3x3& m) const noexcept;
 		Matrix3x3& operator-=(const Matrix3x3& m) noexcept;
 
@@ -46,6 +46,6 @@ namespace Engine3DRadSpace::Math
 		Matrix3x3& operator/=(float s);
 	};
 
-	Matrix3x3 operator *(float s, const Matrix3x3& m) noexcept;
-	Matrix3x3 operator /(float s, const Matrix3x3& m);
+	Matrix3x3 E3DRSP_MATH_EXPORT operator *(float s, const Matrix3x3& m) noexcept;
+	Matrix3x3 E3DRSP_MATH_EXPORT operator /(float s, const Matrix3x3& m);
 }

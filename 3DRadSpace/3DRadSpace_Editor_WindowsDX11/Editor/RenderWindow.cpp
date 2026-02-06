@@ -125,8 +125,7 @@ void RenderWindow::Update()
 			if (obj.InternalType == ObjectType::IObject3D)
 			{
 				auto dst = static_cast<IObject3D*>(obj.Object.get())->Intersects(ray);
-				// Only consider intersections in front of the camera (positive distance)
-				// and closer than previous hits
+
 				if (!std::isnan(dst) && dst > 0.0f && dst < closestDistance)
 				{
 					closestDistance = dst;
@@ -141,9 +140,6 @@ void RenderWindow::Update()
 			cursor3D = closestIntersection;
 			_selectedObject = closestObject;
 		}
-
-		_requestedPicking = true;
-		_pickingCoords = Mouse.Position();
 	}
 	rightButtonWasPressed = (Mouse.RightButton() == ButtonState::Pressed);
 	
@@ -154,8 +150,6 @@ void RenderWindow::Update()
 	else _keyboardTest = false;
 	
 	Quaternion m = Quaternion::FromYawPitchRoll(cameraPos.X, cameraPos.Y, 0);
-	//auto m = Matrix4x4::CreateRotationX(-cameraPos.Y) * Matrix4x4::CreateRotationY(-cameraPos.X);
-	//auto m = Matrix4x4::CreateRotationYawPitchRoll(-cameraPos.Y, -cameraPos.X, 0);
 	Camera.Position = cursor3D + Vector3::UnitZ().Transform(m) * (zoom + 5);
 	Camera.LookAt = cursor3D;
 }

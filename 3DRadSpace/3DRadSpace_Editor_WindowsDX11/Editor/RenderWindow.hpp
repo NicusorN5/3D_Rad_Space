@@ -46,8 +46,6 @@ class RenderWindow : public Engine3DRadSpace::Game
 
 	std::unique_ptr<Font> _font;
 
-	bool _requestedPicking = false;
-	Math::Point _pickingCoords;
 	IObject* _selectedObject = nullptr;
 
 	std::unique_ptr<ITexture2D> sob;

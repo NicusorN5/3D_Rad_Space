@@ -43,17 +43,17 @@ namespace Engine3DRadSpace::Math
 		static Matrix4x4 CreateOrthographicProjection(const Point &screenSize, float npd, float fpd);
 
 		static Matrix4x4 CreateSphericalBillboard(const Vector3 &objectPos,const Vector3 &cameraPos,const Vector3 &cameraUp,const Vector3 &cameraForward);
-		static Matrix4x4 CreateCilindricalBillboard(const Vector3& objectPos, const Vector3& cameraPos, const Vector3& cameraUp, const Vector3& cameraForward, const Vector3& axis, std::optional<Vector3> objectForward);
+		static Matrix4x4 CreateCylindricalBillboard(const Vector3& objectPos, const Vector3& cameraPos, const Vector3& cameraUp, const Vector3& cameraForward, const Vector3& axis, std::optional<Vector3> objectForward);
 
 		///Element-wise product.
 		static Matrix4x4 Hadamard(const Matrix4x4& a, const Matrix4x4& b);
 		Matrix4x4& Hadamard(const Matrix4x4& m);
 
 		Matrix4x4 operator +(const Matrix4x4& m) const noexcept;
-		Matrix4x4 operator +=(const Matrix4x4& m) noexcept;
+		Matrix4x4& operator +=(const Matrix4x4& m) noexcept;
 
 		Matrix4x4 operator -(const Matrix4x4& m) const noexcept;
-		Matrix4x4 operator -=(const Matrix4x4& m) noexcept;
+		Matrix4x4& operator -=(const Matrix4x4& m) noexcept;
 
 		Matrix4x4 operator *(const Matrix4x4& m) const noexcept;
 		Matrix4x4& operator *=(const Matrix4x4& m) noexcept;

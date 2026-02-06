@@ -152,17 +152,6 @@ Matrix4x4 Matrix4x4::CreateLookAtView(const Vector3 &pos,const Vector3 &look_at,
 
 Matrix4x4 Matrix4x4::CreatePerspectiveProjection(float aspectRatio, float FOV, float npd, float fpd)
 {	
-	/*
-	auto m = DirectX::XMMatrixPerspectiveFovRH(FOV, aspectRatio, npd, fpd);
-
-	return Matrix4x4(
-		m.r[0].m128_f32[0], m.r[0].m128_f32[1], m.r[0].m128_f32[2], m.r[0].m128_f32[3],
-		m.r[1].m128_f32[0], m.r[1].m128_f32[1], m.r[1].m128_f32[2], m.r[1].m128_f32[3],
-		m.r[2].m128_f32[0], m.r[2].m128_f32[1], m.r[2].m128_f32[2], m.r[2].m128_f32[3],
-		m.r[3].m128_f32[0], m.r[3].m128_f32[1], m.r[3].m128_f32[2], m.r[3].m128_f32[3]
-	);
-	*/
-	
 	float h = 1.0f / tan(FOV * 0.5f);
 	float w = h / aspectRatio;
 	float a = fpd / (npd - fpd);
@@ -230,7 +219,7 @@ Matrix4x4 Matrix4x4::CreateSphericalBillboard(const Vector3 &objectPos,const Vec
 	return r;
 }
 
-Matrix4x4 Matrix4x4::CreateCilindricalBillboard(const Vector3& objectPos, const Vector3& cameraPos, const Vector3& cameraUp, const Vector3& cameraForward, const Vector3& axis, std::optional<Vector3> objectForward)
+Matrix4x4 Matrix4x4::CreateCylindricalBillboard(const Vector3& objectPos, const Vector3& cameraPos, const Vector3& cameraUp, const Vector3& cameraForward, const Vector3& axis, std::optional<Vector3> objectForward)
 {
 	Matrix4x4 result;
 
@@ -366,7 +355,7 @@ Matrix4x4 Matrix4x4::operator+(const Matrix4x4 &m) const noexcept
 	);
 }
 
-Matrix4x4 Matrix4x4::operator+=(const Matrix4x4 &m) noexcept
+Matrix4x4& Matrix4x4::operator+=(const Matrix4x4 &m) noexcept
 {
 	M11 += m.M11;
 	M12 += m.M12;
@@ -401,7 +390,7 @@ Matrix4x4 Matrix4x4::operator-(const Matrix4x4 &m) const noexcept
 	);
 }
 
-Matrix4x4 Matrix4x4::operator-=(const Matrix4x4 &m) noexcept
+Matrix4x4& Matrix4x4::operator-=(const Matrix4x4 &m) noexcept
 {
 	M11 -= m.M11;
 	M12 -= m.M12;
@@ -453,17 +442,6 @@ Matrix4x4 Matrix4x4::operator*(const Matrix4x4& m) const noexcept
 
 Matrix4x4& Matrix4x4::operator*=(const Matrix4x4& m) noexcept
 {
-	/*
-	auto m1 = DirectX::XMMATRIX(reinterpret_cast<float*>(this));
-	auto m2 = DirectX::XMMATRIX(reinterpret_cast<float*>(const_cast<Matrix4x4*>(&m)));
-
-	auto r = DirectX::XMMatrixMultiply(m1, m2);
-
-	memcpy(this, &r, sizeof(Matrix4x4));
-	return *this;
-	*/
-	
-	
 	Matrix4x4 copy(*this);
 	
 	this->M11 = copy.M11 * m.M11 + copy.M12 * m.M21 + copy.M13 * m.M31 + copy.M14 * m.M41;
@@ -716,7 +694,7 @@ float Matrix4x4::Determinant() const noexcept
 		M41, M42, M43
 	}.Determinant();
 
-	return M11 * det1 - M12 * det2 + M13 * det3 + M14 * det4;
+	return M11 * det1 - M12 * det2 + M13 * det3 - M14 * det4;
 }
 
 Vector3 Matrix4x4::Forward() const noexcept
@@ -782,26 +760,10 @@ Matrix4x4 Engine3DRadSpace::Math::operator*(float scalar, const Matrix4x4& m) no
 
 Matrix4x4 Engine3DRadSpace::Math::operator/(float f, const Matrix4x4& m)
 {
-	Matrix4x4 r(m);
-	r.M11 /= f;
-	r.M12 /= f;
-	r.M13 /= f;
-	r.M14 /= f;
-
-	r.M21 /= f;
-	r.M22 /= f;
-	r.M23 /= f;
-	r.M24 /= f;
-
-	r.M31 /= f;
-	r.M32 /= f;
-	r.M33 /= f;
-	r.M34 /= f;
-
-	r.M41 /= f;
-	r.M42 /= f;
-	r.M43 /= f;
-	r.M44 /= f;
-
-	return r;
+	return Matrix4x4(
+		f / m.M11, f / m.M12, f / m.M13, f / m.M14,
+		f / m.M21, f / m.M22, f / m.M23, f / m.M24,
+		f / m.M31, f / m.M32, f / m.M33, f / m.M34,
+		f / m.M41, f / m.M42, f / m.M43, f / m.M44
+	);
 }

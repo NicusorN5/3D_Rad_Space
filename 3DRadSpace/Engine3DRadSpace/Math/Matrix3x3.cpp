@@ -143,28 +143,20 @@ Matrix3x3& Matrix3x3::operator+=(const Matrix3x3& m) noexcept
 	return *this;
 }
 
-Matrix3x3& Matrix3x3::operator-() noexcept
+Matrix3x3 Matrix3x3::operator-() const noexcept
 {
-	M11 *= -1;
-	M12 *= -1;
-	M13 *= -1;
-
-	M21 *= -1;
-	M22 *= -1;
-	M23 *= -1;
-
-	M31 *= -1;
-	M32 *= -1;
-	M33 *= -1;
-
-	return *this;
+	return Matrix3x3{
+		-M11, -M12, -M13,
+		-M21, -M22, -M23,
+		-M31, -M32, -M33
+	};
 }
 
 Matrix3x3 Matrix3x3::operator-(const Matrix3x3& m) const noexcept
 {
 	return Matrix3x3{
 		M11 - m.M11, M12 - m.M12, M13 - m.M13,
-		M21 - m.M21, M22 - m.M12, M23 - m.M23,
+		M21 - m.M21, M22 - m.M22, M23 - m.M23,
 		M31 - m.M31, M32 - m.M32, M33 - m.M33
 	};
 }
