@@ -2,7 +2,6 @@
 #include "ShaderCompilationError.hpp"
 #include "GraphicsDevice.hpp"
 #include "SamplerState.hpp"
-#include "../Core/FixedArray.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
@@ -68,7 +67,7 @@ void GeometryShader::SetTexture(unsigned index, ITexture2D *texture)
 
 void GeometryShader::SetTextures(std::span<ITexture2D*> textures)
 {
-	FixedArray<ID3D11ShaderResourceView*> views(textures.size());
+	std::vector<ID3D11ShaderResourceView*> views(textures.size());
 
 	for (size_t i = 0; i < std::min(textures.size(), size_t(D3D11_COMMONSHADER_INPUT_RESOURCE_REGISTER_COUNT)); i++)
 	{

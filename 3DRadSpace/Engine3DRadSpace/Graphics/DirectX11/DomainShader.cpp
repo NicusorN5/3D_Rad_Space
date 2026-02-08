@@ -2,7 +2,6 @@
 #include "ShaderCompilationError.hpp"
 #include "GraphicsDevice.hpp"
 #include "SamplerState.hpp"
-#include "../Core/FixedArray.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;

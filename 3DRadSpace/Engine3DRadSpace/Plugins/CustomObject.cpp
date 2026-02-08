@@ -1,7 +1,6 @@
 #include "CustomObject.hpp"
 #include "../Logging/Logging.hpp"
 #include "../Native/LibraryLoader.hpp"
-#include "../Core/FixedArray.hpp"
 #include "../Reflection/ReflectedObject.hpp"
 
 using namespace Engine3DRadSpace::Plugins;
@@ -15,7 +14,7 @@ size_t Engine3DRadSpace::Plugins::LoadCustomObjectsFromLibHandle(void* libraryHa
 	{
 		auto rawObjects = loadCustomObjects();
 
-		FixedArray<Reflection::ReflectedObject*> objects(rawObjects.Size);
+		std::vector<Reflection::ReflectedObject*> objects(rawObjects.Size);
 		for (auto i = 0u; i < rawObjects.Size; i++)
 		{
 			objects[i] = static_cast<Reflection::ReflectedObject*>(rawObjects.Ptr) + i;

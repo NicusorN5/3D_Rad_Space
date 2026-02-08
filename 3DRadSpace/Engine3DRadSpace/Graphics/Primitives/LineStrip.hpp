@@ -17,7 +17,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		/// </summary>
 		/// <param name="device">Graphics device.</param>
 		/// <param name="points">List of points.</param>
-		LineStrip(IGraphicsDevice *device, std::span<VertexPositionColor> points);
+		LineStrip(IGraphicsDevice *device, const std::vector<VertexPositionColor> &points);
 
 		LineStrip(const LineStrip &) = delete;
 		LineStrip(LineStrip &&) noexcept = default;

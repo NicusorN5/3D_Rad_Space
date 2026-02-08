@@ -18,7 +18,7 @@ void LineList::_restoreRasterizer()
 	_device->ImmediateContext()->SetRasterizerState(_oldRasterizerState.get());
 }
 
-LineList::LineList(IGraphicsDevice* device, std::span<VertexPositionColor> points) :
+LineList::LineList(IGraphicsDevice* device, const std::vector<VertexPositionColor> &points) :
 	IPrimitive(device)
 {
 	_vertices = _device->CreateVertexBuffer<VertexPositionColor>(points, BufferUsage::ReadOnlyGPU_WriteOnlyCPU);

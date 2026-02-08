@@ -11,11 +11,13 @@ Circle::Circle(IGraphicsDevice* device, float radius, Color color, unsigned reso
 {
 }
 
-[[nodiscard]] FixedArray<VertexPositionColor> Circle::CreateCircleVertices(float radius, unsigned resolution, Color color)
+[[nodiscard]] std::vector<VertexPositionColor> Circle::CreateCircleVertices(float radius, unsigned resolution, Color color)
 {
+	assert(resolution >= 2);
+
 	resolution = std::max(resolution, 3u); //create a circle from a minimum of three points.
 
-	FixedArray<VertexPositionColor> vertices(resolution);
+	std::vector<VertexPositionColor> vertices(resolution);
 
 	float dp = 2 * std::numbers::pi_v<float> / resolution ; //delta phi
 	unsigned i = 0;

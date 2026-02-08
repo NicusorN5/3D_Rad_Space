@@ -28,7 +28,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		/// </summary>
 		/// <param name="device">Graphics device.</param>
 		/// <param name="points">List of points.</param>
-		LineList(IGraphicsDevice *device, std::span<VertexPositionColor> points);
+		LineList(IGraphicsDevice *device, const std::vector<VertexPositionColor> &points);
 
 		LineList(const LineList &) = delete;
 		LineList(LineList &&) noexcept = default;

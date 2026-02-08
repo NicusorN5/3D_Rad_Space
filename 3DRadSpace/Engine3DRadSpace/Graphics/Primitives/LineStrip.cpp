@@ -5,7 +5,7 @@ using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Graphics::Primitives;
 using namespace Engine3DRadSpace::Math;
 
-LineStrip::LineStrip(IGraphicsDevice* device, std::span<VertexPositionColor> points) :
+LineStrip::LineStrip(IGraphicsDevice* device, const std::vector<VertexPositionColor> &points) :
 	LineList(device, points)
 {
 }

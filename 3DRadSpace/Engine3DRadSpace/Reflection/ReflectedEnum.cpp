@@ -10,7 +10,7 @@ const std::string Engine3DRadSpace::Reflection::ReflectedEnum::EnumName() const 
 
 const size_t ReflectedEnum::NumberOfEntries() const noexcept
 {
-	return _entries.Size() - 1;
+	return _entries.size() - 1;
 }
 
 const EnumEntry ReflectedEnum::operator[](unsigned entryId) const noexcept
@@ -23,12 +23,12 @@ const size_t Engine3DRadSpace::Reflection::ReflectedEnum::TypeHashCode() const n
 	return _typeHash;
 }
 
-FixedArray<EnumEntry>::Iterator ReflectedEnum::begin()
+std::vector<EnumEntry>::iterator ReflectedEnum::begin()
 {
 	return _entries.begin();
 }
 
-FixedArray<EnumEntry>::Iterator ReflectedEnum::end()
+std::vector<EnumEntry>::iterator ReflectedEnum::end()
 {
 	return std::prev(_entries.end());
 }

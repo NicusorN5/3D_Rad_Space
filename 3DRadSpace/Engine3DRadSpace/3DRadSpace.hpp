@@ -14,7 +14,6 @@
 
 //Engine3DRadSpace
 #include "Core/Libs.hpp"
-#include "Core/FixedArray.hpp"
 #include "Core\IDrawable2D.hpp"
 #include "Core\IDrawable3D.hpp"
 #include "Core\IInitializable.hpp"

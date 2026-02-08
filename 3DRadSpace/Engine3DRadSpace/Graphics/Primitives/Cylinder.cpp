@@ -10,9 +10,9 @@ Cylinder::Cylinder(IGraphicsDevice *device, float radius, float height, float te
 {
 }
 
-[[nodiscard]] FixedArray<VertexPositionColor> Cylinder::CreateCylinderVertices(float radius, float height, unsigned resolution, Color color)
+[[nodiscard]] std::vector<VertexPositionColor> Cylinder::CreateCylinderVertices(float radius, float height, unsigned resolution, Color color)
 {
-	auto r = FixedArray<VertexPositionColor>(resolution * 2 + 2);
+	auto r = std::vector<VertexPositionColor>(resolution * 2 + 2);
 
 	float top = height / 2;
 	float bottom = -height / 2;
@@ -31,9 +31,9 @@ Cylinder::Cylinder(IGraphicsDevice *device, float radius, float height, float te
 	return r;
 }
 
-[[nodiscard]] FixedArray<unsigned> Engine3DRadSpace::Graphics::Primitives::Cylinder::CreateCylinderIndices(unsigned resolution)
+[[nodiscard]] std::vector<unsigned> Engine3DRadSpace::Graphics::Primitives::Cylinder::CreateCylinderIndices(unsigned resolution)
 {
-	auto r = FixedArray<unsigned>(resolution * 12);
+	auto r = std::vector<unsigned>(resolution * 12);
 
 	//generate top faces.
 	auto add_triangle = [&r](size_t pos, std::span<unsigned,3> i)

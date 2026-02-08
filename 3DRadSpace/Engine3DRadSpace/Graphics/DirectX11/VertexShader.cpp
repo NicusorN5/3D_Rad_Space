@@ -2,7 +2,6 @@
 #include "../Logging/Logging.hpp"
 #include "GraphicsDevice.hpp"
 #include "SamplerState.hpp"
-#include "../Core/FixedArray.hpp"
 #include "../Reflection/ReflectedField.hpp"
 #include "../Math/Point3.hpp"
 #include "../Math/Point4.hpp"
@@ -214,7 +213,7 @@ void VertexShader::SetTexture(unsigned index, ITexture2D *texture)
 
 void VertexShader::SetTextures(std::span<ITexture2D*> textures)
 {
-	FixedArray<ID3D11ShaderResourceView*> views(textures.size());
+	std::vector<ID3D11ShaderResourceView*> views(textures.size());
 
 	for (size_t i = 0; i < textures.size() && i < D3D11_COMMONSHADER_INPUT_RESOURCE_REGISTER_COUNT; i++)
 	{
