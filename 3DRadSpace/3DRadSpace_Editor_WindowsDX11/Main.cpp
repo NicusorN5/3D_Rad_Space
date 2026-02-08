@@ -32,6 +32,7 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #include <Engine3DRadSpace/Plugins/EditorPlugin.hpp>
 #include <Engine3DRadSpace/Plugins/CustomObject.hpp>
 #include <Engine3DRadSpace/Native/LibraryLoader.hpp>
+#include <Engine3DRadSpace/Objects/Gizmos.hpp>
 #undef LoadLibrary
 #include "Frontend/Settings.hpp"
 #include "Editor/SkinmeshPreviewer.hpp"
@@ -177,6 +178,8 @@ int __stdcall WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 			if (!f()) Logging::SetLastMessage(std::format("PluginUnload() returned false! Handle {:x}", reinterpret_cast<intptr_t>(plugin)));
 		}
 	}
+	
+	Internal::UnloadGizmos();
 
 	CoUninitialize();
 	DeinitializeGDI();

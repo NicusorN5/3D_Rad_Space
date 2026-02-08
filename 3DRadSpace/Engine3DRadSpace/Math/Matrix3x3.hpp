@@ -4,6 +4,7 @@
 namespace Engine3DRadSpace::Math
 {
 	struct Vector2;
+	struct Quaternion;
 	struct E3DRSP_MATH_EXPORT Matrix3x3
 	{
 		float M11, M12, M13;
@@ -20,6 +21,12 @@ namespace Engine3DRadSpace::Math
 		static Matrix3x3 CreateScale(const Vector2 &s);
 		static Matrix3x3 CreateRotation2D(float theta);
 		static Matrix3x3 Create2DSkewing(const Vector2& skewing);
+
+		static Matrix3x3 CreateRotationX(float alpha);
+		static Matrix3x3 CreateRotationY(float beta);
+		static Matrix3x3 CreateRotationZ(float gamma);
+
+		static Matrix3x3 CreateFromQuaternion(const Quaternion& q);
 
 		float Trace() const noexcept;
 		float Determinant() const noexcept;

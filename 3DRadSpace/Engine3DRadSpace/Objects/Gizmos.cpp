@@ -17,3 +17,8 @@ IGizmo* Engine3DRadSpace::Internal::GizmoOf(const Reflection::UUID& uuid)
 	}
 	return nullptr;
 }
+
+void Engine3DRadSpace::Internal::UnloadGizmos()
+{
+	e3drsp_gizmos.clear();
+}

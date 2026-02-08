@@ -62,7 +62,7 @@ void Engine3DRadSpace::Internal::LoadDefaultObjects()
 		&TextPrintReflInstance, //Textprint
 	};
 
-	e3drsp_internal_objects_list.append_range(ppDefaultObjects);
+	e3drsp_internal_objects_list.insert_range(e3drsp_internal_objects_list.begin(), ppDefaultObjects);
 }
 
 ReflectedObject* Engine3DRadSpace::Internal::GetReflDataFromUUID(const Reflection::UUID& uuid)

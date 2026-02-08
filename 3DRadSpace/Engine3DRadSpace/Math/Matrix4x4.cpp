@@ -92,33 +92,14 @@ Matrix4x4 Matrix4x4::CreateRotationZ(float theta)
 
 Matrix4x4 Matrix4x4::CreateFromQuaternion(const Quaternion& q)
 {
-	//https://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToMatrix/index.htm
-	float sqw = q.W * q.W;
-	float sqx = q.X * q.X;
-	float sqy = q.Y * q.Y;
-	float sqz = q.Z * q.Z;
+	Matrix3x3 qm = Matrix3x3::CreateFromQuaternion(q);
 
-	Matrix4x4 r;
-
-	r.M11 = (sqx - sqy - sqz + sqw);
-	r.M22 = (-sqx + sqy - sqz + sqw);
-	r.M33 = (-sqx - sqy + sqz + sqw);
-
-	float tmp1 = q.X * q.Y;
-	float tmp2 = q.Z * q.W;
-	r.M21 = 2.0f * (tmp1 + tmp2);
-	r.M12 = 2.0f * (tmp1 - tmp2);
-
-	tmp1 = q.X * q.Z;
-	tmp2 = q.Y * q.W;
-	r.M31 = 2.0f * (tmp1 - tmp2);
-	r.M13 = 2.0f * (tmp1 + tmp2);
-	tmp1 = q.Y * q.Z;
-	tmp2 = q.X * q.W;
-	r.M32 = 2.0f * (tmp1 + tmp2);
-	r.M23 = 2.0f * (tmp1 - tmp2);
-
-	return r;
+	return Matrix4x4(
+		qm.M11, qm.M12, qm.M13, 0.0f,
+		qm.M21, qm.M22, qm.M23, 0.0f,
+		qm.M31, qm.M32, qm.M33, 0.0f,
+		0.0f,   0.0f,   0.0f,   1.0f
+	);
 }
 
 Matrix4x4 Matrix4x4::CreateRotationYawPitchRoll(float yaw, float pitch, float roll)
@@ -128,16 +109,6 @@ Matrix4x4 Matrix4x4::CreateRotationYawPitchRoll(float yaw, float pitch, float ro
 
 Matrix4x4 Matrix4x4::CreateLookAtView(const Vector3 &pos,const Vector3 &look_at,const Vector3 &up_dir)
 {
-	/*
-	auto m = DirectX::XMMatrixLookAtRH({ pos.X, pos.Y, pos.Z }, { look_at.X, look_at.Y, look_at.Z }, { up_dir.X, up_dir.Y, up_dir.Z });
-
-	return Matrix4x4(
-		m.r[0].m128_f32[0], m.r[0].m128_f32[1], m.r[0].m128_f32[2], m.r[0].m128_f32[3],
-		m.r[1].m128_f32[0], m.r[1].m128_f32[1], m.r[1].m128_f32[2], m.r[1].m128_f32[3],
-		m.r[2].m128_f32[0], m.r[2].m128_f32[1], m.r[2].m128_f32[2], m.r[2].m128_f32[3],
-		m.r[3].m128_f32[0], m.r[3].m128_f32[1], m.r[3].m128_f32[2], m.r[3].m128_f32[3]
-	);
-	*/
 	const Vector3 forward = (pos - look_at).Normalize();
 	const Vector3 right = Vector3::Cross(up_dir, forward).Normalize();
 	const Vector3 up = Vector3::Cross(forward, right);

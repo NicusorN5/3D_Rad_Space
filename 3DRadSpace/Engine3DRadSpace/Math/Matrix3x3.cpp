@@ -1,5 +1,6 @@
 #include "Matrix3x3.hpp"
 #include "Vector2.hpp"
+#include "Quaternion.hpp"
 
 using namespace Engine3DRadSpace::Math;
 
@@ -51,6 +52,64 @@ Matrix3x3 Matrix3x3::Create2DSkewing(const Vector2& skewing)
 		skewing.Y, 1, 0,
 		0, 0, 1
 	);
+}
+
+Matrix3x3 Matrix3x3::CreateRotationX(float alpha)
+{
+	return Matrix3x3(
+		1, 0, 0,
+		0, cos(alpha), -sin(alpha),
+		0, sin(alpha), cos(alpha)
+	);
+}
+
+Matrix3x3 Matrix3x3::CreateRotationY(float beta)
+{
+	return Matrix3x3(
+		cos(beta), 0, sin(beta),
+		0, 1, 0,
+		-sin(beta), 0, cos(beta)
+	);
+}
+
+Matrix3x3 Matrix3x3::CreateRotationZ(float gamma)
+{
+	return Matrix3x3(
+		cos(gamma), -sin(gamma), 0,
+		sin(gamma), cos(gamma), 0,
+		0, 0, 1
+	);
+}
+
+Matrix3x3 Matrix3x3::CreateFromQuaternion(const Quaternion& q)
+{
+	//https://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToMatrix/index.htm
+	float sqw = q.W * q.W;
+	float sqx = q.X * q.X;
+	float sqy = q.Y * q.Y;
+	float sqz = q.Z * q.Z;
+
+	Matrix3x3 r;
+
+	r.M11 = (sqx - sqy - sqz + sqw);
+	r.M22 = (-sqx + sqy - sqz + sqw);
+	r.M33 = (-sqx - sqy + sqz + sqw);
+
+	float tmp1 = q.X * q.Y;
+	float tmp2 = q.Z * q.W;
+	r.M21 = 2.0f * (tmp1 + tmp2);
+	r.M12 = 2.0f * (tmp1 - tmp2);
+
+	tmp1 = q.X * q.Z;
+	tmp2 = q.Y * q.W;
+	r.M31 = 2.0f * (tmp1 - tmp2);
+	r.M13 = 2.0f * (tmp1 + tmp2);
+	tmp1 = q.Y * q.Z;
+	tmp2 = q.X * q.W;
+	r.M32 = 2.0f * (tmp1 + tmp2);
+	r.M23 = 2.0f * (tmp1 - tmp2);
+
+	return r;
 }
 
 float Matrix3x3::Trace() const noexcept

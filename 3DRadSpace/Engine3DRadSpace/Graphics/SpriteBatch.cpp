@@ -109,11 +109,12 @@ void SpriteBatch::_prepareGraphicsDevice()
 	_spriteShader->SetSampler(_samplerState.get(), 0);
 
 //#ifdef Dx11
-//	_device->_context->RSGetState(&_oldRasterizerState);
 //	_device->_context->OMGetBlendState(&_oldBlendState, _oldBlendFactor, &_oldSampleMask);
 //	_device->_context->OMGetDepthStencilState(&_oldStencilState, &_oldStencilRef);
 //#endif
 	auto cmd = _device->ImmediateContext();
+
+	_oldRasterizerState = _device->GetRasterizerState();
 
 	cmd->SetRasterizerState(_rasterizerState.get());
 	cmd->SetTopology(VertexTopology::TriangleList);
@@ -233,8 +234,9 @@ void SpriteBatch::_drawAllEntries()
 
 void SpriteBatch::_restoreGraphicsDevice()
 {
+	auto cmd = _device->ImmediateContext();
+	cmd->SetRasterizerState(_oldRasterizerState.get());
 //#ifdef Dx11
-//	_device->_context->RSSetState(_oldRasterizerState.Get());
 //	_device->_context->OMSetBlendState(_oldBlendState.Get(), _oldBlendFactor, _oldSampleMask);
 //	_device->_context->OMSetDepthStencilState(_oldStencilState.Get(), _oldStencilRef);
 //#endif
@@ -453,8 +455,6 @@ void SpriteBatch::DrawString(
 	auto oldSortMode = _sortingMode;
 	auto screenSize = _device->Resolution();
 
-	//accLen = 0 at i = 0.
-	//accLen increases with the advance of the current letter per iteration.
 	int x = static_cast<int>(pos.X * screenSize.X);
 	int y = static_cast<int>(pos.Y * screenSize.Y);
 

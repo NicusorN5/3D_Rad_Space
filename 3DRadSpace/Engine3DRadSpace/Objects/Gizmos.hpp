@@ -27,4 +27,6 @@ namespace Engine3DRadSpace::Internal
 
 		return result;
 	}
+
+	void UnloadGizmos();
 }

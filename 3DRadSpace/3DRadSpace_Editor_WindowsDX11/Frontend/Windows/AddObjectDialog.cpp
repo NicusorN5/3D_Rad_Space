@@ -107,6 +107,7 @@ IObject* AddObjectDialog::ShowDialog()
 {
 	return reinterpret_cast<IObject*>(Dialog::ShowDialog(static_cast<void *>(this)));
 }
+
 struct objectItem
 {
 	LPCWSTR image;

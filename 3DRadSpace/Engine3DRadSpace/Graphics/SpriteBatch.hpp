@@ -104,9 +104,9 @@ namespace Engine3DRadSpace::Graphics
 		void _drawAllEntries();
 		void _restoreGraphicsDevice();
 
-		IRasterizerState* _oldRasterizerState;
+		std::unique_ptr<IRasterizerState> _oldRasterizerState;
 
-		IBlendState* _oldBlendState;
+		std::unique_ptr<IBlendState> _oldBlendState;
 		float _oldBlendFactor[4];
 		unsigned _oldSampleMask;
 
