@@ -19,6 +19,17 @@ void NullShader::SetData(unsigned index, const void *data, size_t dataSize)
 	(void)dataSize;
 }
 
+void NullShader::SetTexture(unsigned index, ITexture1D* texture)
+{
+	(void)index;
+	(void)texture;
+}
+
+void NullShader::SetTextures(std::span<ITexture1D*> textures)
+{
+	(void)textures;
+}
+
 void NullShader::SetTexture(unsigned index, ITexture2D *texture)
 {
 	(void)index;

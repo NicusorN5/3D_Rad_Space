@@ -113,7 +113,7 @@ void* IndexBuffer::GetHandle() const noexcept
 	D3D11_BUFFER_DESC stagingIndexBufferDesc;
 	_indexBuffer->GetDesc(&stagingIndexBufferDesc);
 	stagingIndexBufferDesc.Usage = D3D11_USAGE_STAGING;
-	stagingIndexBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+	stagingIndexBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ | D3D11_CPU_ACCESS_WRITE;
 	stagingIndexBufferDesc.BindFlags = 0;
 
 	Microsoft::WRL::ComPtr<ID3D11Buffer> stagingIndexBuffer;

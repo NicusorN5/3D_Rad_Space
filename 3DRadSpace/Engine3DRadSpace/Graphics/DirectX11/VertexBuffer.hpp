@@ -32,15 +32,6 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 			BufferUsage usage = BufferUsage::ReadOnlyGPU
 		);
 
-		//template<VertexDecl V>
-		//VertexBuffer(
-		//	GraphicsDevice* device,
-		//	std::span<V> vertices,
-		//	BufferUsage usage = BufferUsage::ReadOnlyGPU
-		//) : VertexBuffer(device, &vertices[0], sizeof(V), vertices.size())
-		//{
-		//}
-
 		VertexBuffer(VertexBuffer &) = delete;
 		VertexBuffer(VertexBuffer &&) noexcept = default;
 

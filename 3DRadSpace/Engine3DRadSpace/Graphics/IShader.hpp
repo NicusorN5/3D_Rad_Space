@@ -5,6 +5,7 @@
 
 namespace Engine3DRadSpace::Graphics
 {
+	class ITexture1D;
 	class ITexture2D;
 	class ISamplerState;
 
@@ -23,8 +24,13 @@ namespace Engine3DRadSpace::Graphics
 		/// Sets an entire uniform buffer to the shader.
 		/// </summary>
 		virtual void SetData(unsigned index, const void *data, size_t dataSize) = 0;
+
+		virtual void SetTexture(unsigned index, ITexture1D* texture) = 0;
+		virtual void SetTextures(std::span<ITexture1D*> textures) = 0;
+
 		virtual void SetTexture(unsigned index, ITexture2D *texture) = 0;
 		virtual void SetTextures(std::span<ITexture2D*> textures) = 0;
+
 		virtual void SetSampler(unsigned index, ISamplerState *samplerState) = 0;
 		virtual void SetShader() = 0;
 

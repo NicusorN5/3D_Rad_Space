@@ -3,6 +3,7 @@
 #include "IDepthStencilBuffer.hpp"
 #include "IDepthStencilState.hpp"
 #include "IGraphicsCommandList.hpp"
+#include "ITexture1D.hpp"
 #include "ITexture2D.hpp"
 #include "IVertexBuffer.hpp"
 #include "IBlendState.hpp"
@@ -304,6 +305,31 @@ E3DRSP_ISamplerState E3DRSP_IGraphicsDevice_CreateSamplerState_AnisotropicClamp(
 E3DRSP_ISamplerState E3DRSP_IGraphicsDevice_CreateSamplerState_AnisotropicWrap(E3DRSP_IGraphicsDevice device)
 {
 	return reinterpret_cast<IGraphicsDevice*>(device)->CreateSamplerState_AnisotropicWrap().release();
+}
+
+E3DRSP_ITexture1D E3DRSP_IGraphicsDevice_CreateTexture1D(
+	E3DRSP_IGraphicsDevice device,
+	size_t numElements,
+	E3DRSP_PixelFormat format
+)
+{
+	PixelFormat natFormat = static_cast<PixelFormat>(format);
+
+	return reinterpret_cast<IGraphicsDevice*>(device)->CreateTexture1D(
+		numElements,
+		natFormat
+	).release();
+}
+
+E3DRSP_GRAPHICS_EXPORT E3DRSP_ITexture1D E3DRSP_IGraphicsDevice_CreateTexture1DCol(
+	E3DRSP_IGraphicsDevice device,
+	E3DRSP_Color* data,
+	size_t numElements
+)
+{
+	return reinterpret_cast<IGraphicsDevice*>(device)->CreateTexture1D(
+		std::span<Math::Color>(reinterpret_cast<Math::Color*>(data), numElements)
+	).release();
 }
 
 E3DRSP_ITexture2D E3DRSP_IGraphicsDevice_CreateTexture2D(

@@ -48,8 +48,12 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		VertexShader &operator=(VertexShader&) = delete;
 		VertexShader &operator=(VertexShader&&) noexcept = delete;
 
+		void SetTexture(unsigned index, ITexture1D *texture) override;
+		void SetTextures(std::span<ITexture1D*> textures) override;
+
 		void SetTexture(unsigned index, ITexture2D *texture) override;
 		void SetTextures(std::span<ITexture2D*> textures) override;
+
 		void SetSampler(unsigned index, ISamplerState *samplerState) override;
 		void SetShader() override;
 		

@@ -10,6 +10,7 @@
 #include "ShaderCompiler.hpp"
 #include "SamplerState.hpp"
 #include "DeferredCommandList.hpp"
+#include "Texture1D.hpp"
 
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "dxgi.lib")
@@ -461,6 +462,19 @@ std::unique_ptr<ISamplerState> GraphicsDevice::CreateSamplerState_AnisotropicWra
 std::unique_ptr<ITexture2D> GraphicsDevice::CreateTexture2D(const std::filesystem::path& path)
 {
 	return std::make_unique<Texture2D>(this, path);
+}
+
+std::unique_ptr<ITexture1D> GraphicsDevice::CreateTexture1D(
+	size_t numElements,
+	PixelFormat format
+)
+{
+	return std::make_unique<Texture1D>(this, numElements, format);
+}
+
+std::unique_ptr<ITexture1D> GraphicsDevice::CreateTexture1D(std::span<Math::Color> colors)
+{
+	return std::make_unique<Texture1D>(this, colors);
 }
 
 std::unique_ptr<ITexture2D> GraphicsDevice::CreateTexture2D(

@@ -15,6 +15,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 	class VertexBuffer;
 	class IndexBuffer;
 
+	class Texture1D;
 	class Texture2D;
 	class RenderTarget;
 	class DepthStencilBuffer;
@@ -178,6 +179,13 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		virtual std::unique_ptr<ISamplerState> CreateSamplerState_AnisotropicClamp() override;
 		virtual std::unique_ptr<ISamplerState> CreateSamplerState_AnisotropicWrap() override;
 
+		virtual std::unique_ptr<ITexture1D> CreateTexture1D(
+			size_t numElements,
+			PixelFormat format
+		) override;
+
+		virtual std::unique_ptr<ITexture1D> CreateTexture1D(std::span<Math::Color> colors) override;
+
 		virtual std::unique_ptr<ITexture2D> CreateTexture2D(
 			void* data,
 			size_t x,
@@ -206,6 +214,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 
 		friend class VertexBuffer;
 		friend class IndexBuffer;
+		friend class Texture1D;
 		friend class Texture2D;
 		friend class RenderTarget;
 		friend class RasterizerState;

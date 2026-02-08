@@ -2,6 +2,7 @@
 #include "ShaderCompilationError.hpp"
 #include "GraphicsDevice.hpp"
 #include "SamplerState.hpp"
+#include "Texture1D.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
@@ -63,6 +64,28 @@ void HullShader::SetTexture(unsigned index, ITexture2D *texture)
 
 	auto dxTexture2D = static_cast<Texture2D*>(texture);
 	_device->_context->HSSetShaderResources(index, 1, dxTexture2D->_resourceView.GetAddressOf());
+}
+
+void HullShader::SetTexture(unsigned index, ITexture1D* texture)
+{
+	if(texture == nullptr)
+		return;
+
+	auto dxTexture = static_cast<Texture1D*>(texture);
+	_device->_context->HSSetShaderResources(index, 1, dxTexture->_shaderResourceView.GetAddressOf());
+}
+
+void HullShader::SetTextures(std::span<ITexture1D*> textures)
+{
+	std::unique_ptr<ID3D11ShaderResourceView* []> srvs = std::make_unique<ID3D11ShaderResourceView * []>(textures.size());
+	auto len = textures.size();
+
+	for(decltype(len) i = 0; i < len; i++)
+	{
+		srvs[i] = static_cast<Texture1D*>(textures[i])->_shaderResourceView.Get();
+	}
+
+	_device->_context->HSSetShaderResources(0, len, srvs.get());
 }
 
 void HullShader::SetTextures(std::span<ITexture2D*> textures)

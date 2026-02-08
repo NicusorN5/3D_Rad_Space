@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using Engine3DRadSpace.Math;
+using System.Drawing;
 
 namespace Engine3DRadSpace.Graphics;
 
@@ -105,6 +106,10 @@ public interface IGraphicsDevice : IPtrWrapper
 
 	public ISamplerState CreateSamplerState_AnisotropicClamp();
 	public ISamplerState CreateSamplerState_AnisotropicWrap();
+
+
+	public ITexture1D CreateTexture1D(ulong size, BufferUsage usage);
+	public ITexture1D CreateTexture1D(Span<Math.Color> colors);
 
 	public ITexture2D CreateTexture2D(
 		IntPtr data,

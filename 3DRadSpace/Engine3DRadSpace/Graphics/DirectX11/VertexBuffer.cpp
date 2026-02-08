@@ -122,7 +122,7 @@ std::unique_ptr<IVertexBuffer> VertexBuffer::CreateStaging()
 	desc.ByteWidth = UINT(_structSize * _numVerts);
 	desc.Usage = D3D11_USAGE_STAGING;
 	desc.BindFlags = 0;
-	desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+	desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ | D3D11_CPU_ACCESS_WRITE;
 	desc.MiscFlags = 0;
 	desc.StructureByteStride = UINT(_structSize);
 

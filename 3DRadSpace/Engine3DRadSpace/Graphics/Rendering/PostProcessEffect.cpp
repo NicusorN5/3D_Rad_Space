@@ -56,6 +56,16 @@ void PostProcessEffect::Apply()
 	_effect->SetShader();
 }
 
+void PostProcessEffect::SetTexture(unsigned index, ITexture1D* texture)
+{
+	_effect->SetTexture(index, texture);
+}
+
+void PostProcessEffect::SetTextures(std::span<ITexture1D*> textures)
+{
+	_effect->SetTextures(textures);
+}
+
 void PostProcessEffect::SetTexture(unsigned index, ITexture2D* texture)
 {
 	_effect->SetTexture(index, texture);

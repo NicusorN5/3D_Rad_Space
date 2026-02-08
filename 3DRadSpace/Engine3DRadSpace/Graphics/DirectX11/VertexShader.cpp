@@ -8,6 +8,7 @@
 #include "../Math/UPoint.hpp"
 #include "../Math/UPoint3.hpp"
 #include "../Math/UPoint4.hpp"
+#include "Texture1D.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Logging;
@@ -200,6 +201,28 @@ VertexShader::VertexShader(GraphicsDevice*Device, const std::filesystem::path &p
 	_compileShaderFromFile(path.string().c_str(), _determineTarget(fl));
 	_createShader();
 	_generateInputLayout();
+}
+
+void VertexShader::SetTexture(unsigned index, ITexture1D* texture)
+{
+	if(texture == nullptr)
+		return;
+
+	auto dxTexture = static_cast<Texture1D*>(texture);
+	_device->_context->VSSetShaderResources(index, 1, dxTexture->_shaderResourceView.GetAddressOf());
+}
+
+void VertexShader::SetTextures(std::span<ITexture1D*> textures)
+{
+	std::unique_ptr<ID3D11ShaderResourceView* []> srvs = std::make_unique<ID3D11ShaderResourceView * []>(textures.size());
+	auto len = textures.size();
+
+	for(decltype(len) i = 0; i < len; i++)
+	{
+		srvs[i] = static_cast<Texture1D*>(textures[i])->_shaderResourceView.Get();
+	}
+
+	_device->_context->VSSetShaderResources(0, len, srvs.get());
 }
 
 void VertexShader::SetTexture(unsigned index, ITexture2D *texture)

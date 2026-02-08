@@ -3,17 +3,31 @@ cmake_minimum_required(VERSION 3.21)
 project("3DRadSpace.Graphics.Null")
 
 add_library(3DRadSpace.Graphics.Null STATIC 
+	"BlendState.hpp"
 	"BlendState.cpp"
+	"DepthStencilBuffer.hpp"
 	"DepthStencilBuffer.cpp"
+	"DepthStencilState.hpp"
 	"DepthStencilState.cpp"
+	"GraphicsDevice.hpp"
 	"GraphicsDevice.cpp"
+	"IndexBuffer.hpp"
 	"IndexBuffer.cpp"
+	"RasterizerState.hpp"
 	"RasterizerState.cpp"
+	"RenderTarget.hpp"
 	"RenderTarget.cpp"
+	"SamplerState.hpp"
 	"SamplerState.cpp"
+	"Texture1D.hpp"
+	"Texture1D.cpp"
+	"Texture2D.hpp"
 	"Texture2D.cpp"
+	"VertexBuffer.hpp"
 	"VertexBuffer.cpp"
+	"ShaderCompiler.hpp"
 	"ShaderCompiler.cpp"
+	"GraphicsCommandList.hpp"
 	"GraphicsCommandList.cpp"
 )
 

@@ -2,6 +2,7 @@
 #include "ShaderCompilationError.hpp"
 #include "GraphicsDevice.hpp"
 #include "SamplerState.hpp"
+#include "Texture1D.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
@@ -54,6 +55,29 @@ DomainShader::DomainShader(GraphicsDevice *device, const std::filesystem::path &
 {
 	_compileShaderFromFile(path.string().c_str(), _determineTarget(fs));
 	_createShader();
+}
+
+
+void DomainShader::SetTexture(unsigned index, ITexture1D* texture)
+{
+	if(texture == nullptr)
+		return;
+
+	auto dxTexture = static_cast<Texture1D*>(texture);
+	_device->_context->DSSetShaderResources(index, 1, dxTexture->_shaderResourceView.GetAddressOf());
+}
+
+void DomainShader::SetTextures(std::span<ITexture1D*> textures)
+{
+	std::unique_ptr<ID3D11ShaderResourceView* []> srvs = std::make_unique<ID3D11ShaderResourceView*[]>(textures.size());
+	auto len = textures.size();
+
+	for(decltype(len) i = 0; i < len; i++)
+	{
+		srvs[i] = static_cast<Texture1D*>(textures[i])->_shaderResourceView.Get();
+	}
+
+	_device->_context->DSSetShaderResources(0, len, srvs.get());
 }
 
 void DomainShader::SetTexture(unsigned index, ITexture2D *texture)

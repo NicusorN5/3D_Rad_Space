@@ -24,16 +24,13 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		void _debugInfoRT();
 
 	protected:
-        explicit Texture2D(GraphicsDevice* device, Microsoft::WRL::ComPtr<ID3D11Texture2D>&& texture, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>&& resource);
-        explicit Texture2D(GraphicsDevice* device, std::monostate dummy, Microsoft::WRL::ComPtr<ID3D11Texture2D>&& texture);
+		explicit Texture2D(GraphicsDevice* device, Microsoft::WRL::ComPtr<ID3D11Texture2D>&& texture, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>&& resource);
+		explicit Texture2D(GraphicsDevice* device, std::monostate dummy, Microsoft::WRL::ComPtr<ID3D11Texture2D>&& texture);
 
 		Microsoft::WRL::ComPtr<ID3D11Texture2D> _texture;
 		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> _resourceView;
 		GraphicsDevice *_device;
 		PixelFormat _format;
-
-        DXGI_FORMAT _getTextureFormat(PixelFormat format);
-		PixelFormat _getTextureFormatFromDX(DXGI_FORMAT format);
 
 		void _retrieveSize();
 
@@ -130,8 +127,8 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		void EndRead() override;
 
 		[[nodiscard]] virtual std::unique_ptr<ITexture2D> CreateStaging();
-        static Texture2D CreateStaging(Texture2D* texture);
-        Texture2D Clone();
+		static Texture2D CreateStaging(Texture2D* texture);
+		Texture2D Clone();
 
 		std::pair<void*,size_t> BeginRead(unsigned resourceID = 0);
 		void EndRead(unsigned resourceID = 0);

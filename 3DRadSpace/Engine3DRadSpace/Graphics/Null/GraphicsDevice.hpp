@@ -131,6 +131,13 @@ namespace Engine3DRadSpace::Graphics::Null
 		std::unique_ptr<ISamplerState> CreateSamplerState_AnisotropicClamp() override;
 		std::unique_ptr<ISamplerState> CreateSamplerState_AnisotropicWrap() override;
 
+		virtual std::unique_ptr<ITexture1D> CreateTexture1D(
+			size_t numElements,
+			PixelFormat format
+		) override;
+
+		virtual std::unique_ptr<ITexture1D> CreateTexture1D(std::span<Math::Color> colors) override;
+
 		std::unique_ptr<ITexture2D> CreateTexture2D(
 			void* data,
 			size_t x,

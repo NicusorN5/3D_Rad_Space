@@ -17,6 +17,7 @@
 #include "RasterizerCullMode.h"
 
 typedef void* E3DRSP_IGraphicsDevice;
+typedef void* E3DRSP_ITexture1D;
 typedef void* E3DRSP_ITexture2D;
 typedef void* E3DRSP_IRenderTarget;
 typedef void* E3DRSP_IDepthStencilBuffer;
@@ -146,6 +147,18 @@ extern "C"
 
 	E3DRSP_GRAPHICS_EXPORT E3DRSP_ISamplerState E3DRSP_IGraphicsDevice_CreateSamplerState_AnisotropicClamp(E3DRSP_IGraphicsDevice device);
 	E3DRSP_GRAPHICS_EXPORT E3DRSP_ISamplerState E3DRSP_IGraphicsDevice_CreateSamplerState_AnisotropicWrap(E3DRSP_IGraphicsDevice device);
+
+	E3DRSP_GRAPHICS_EXPORT E3DRSP_ITexture1D E3DRSP_IGraphicsDevice_CreateTexture1D(
+		E3DRSP_IGraphicsDevice device,
+		size_t numElements,
+		E3DRSP_PixelFormat format
+	);
+
+	E3DRSP_GRAPHICS_EXPORT E3DRSP_ITexture1D E3DRSP_IGraphicsDevice_CreateTexture1DCol(
+		E3DRSP_IGraphicsDevice device,
+		E3DRSP_Color* data,
+		size_t numElements
+	);
 
 	E3DRSP_GRAPHICS_EXPORT E3DRSP_ITexture2D E3DRSP_IGraphicsDevice_CreateTexture2D(
 		E3DRSP_IGraphicsDevice device,

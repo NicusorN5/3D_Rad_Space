@@ -171,6 +171,12 @@ public class InstIGraphicsDevice : NatPtrWrapper, IGraphicsDevice
 	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateSamplerState_AnisotropicWrap")]
 	extern static IntPtr _createSamplerState_AnisotropicWrap(IntPtr handle);
 
+	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateTexture1D")]
+	extern static IntPtr _createTexture1D(IntPtr handle, ulong size, BufferUsage usage);
+
+	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateTexture1DCol")]
+	unsafe extern static IntPtr _createTexture1D(IntPtr handle, Math.Color *colors, ulong numColors);
+
 	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateTexture2D")]
 	extern static IntPtr _createTexture2D(
 		IntPtr handle,
@@ -408,7 +414,20 @@ public class InstIGraphicsDevice : NatPtrWrapper, IGraphicsDevice
 		return new InstISamplerState(_createSamplerState_PointWrap(_handle));
 	}
 
-	public ITexture2D CreateTexture2D(nint data, ulong x, ulong y, PixelFormat format, BufferUsage usage)
+	public ITexture1D CreateTexture1D(ulong size, BufferUsage usage)
+	{
+		return new InstITexture1D(_createTexture1D(_handle, size, usage));
+    }
+
+	public unsafe ITexture1D CreateTexture1D(Span<Math.Color> colors)
+	{
+        fixed (Math.Color* pColors = colors)
+        {
+            return new InstITexture1D(_createTexture1D(_handle, pColors, (ulong)colors.Length));
+        }
+    }
+
+    public ITexture2D CreateTexture2D(nint data, ulong x, ulong y, PixelFormat format, BufferUsage usage)
 	{
 		return new InstITexture2D(_createTexture2D(_handle, data, x, y, format, usage));
 	}

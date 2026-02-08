@@ -19,6 +19,7 @@
 
 namespace Engine3DRadSpace::Graphics
 {
+	class ITexture1D;
 	class ITexture2D;
 	class IRenderTarget;
 	class IDepthStencilBuffer;
@@ -138,6 +139,13 @@ namespace Engine3DRadSpace::Graphics
 
 		virtual std::unique_ptr<ISamplerState> CreateSamplerState_AnisotropicClamp() = 0;
 		virtual std::unique_ptr<ISamplerState> CreateSamplerState_AnisotropicWrap() = 0;
+
+		virtual std::unique_ptr<ITexture1D> CreateTexture1D(
+			size_t numElements,
+			PixelFormat format
+		) = 0;
+
+		virtual std::unique_ptr<ITexture1D> CreateTexture1D(std::span<Math::Color> colors) = 0;
 
 		virtual std::unique_ptr<ITexture2D> CreateTexture2D(
 			void* data,

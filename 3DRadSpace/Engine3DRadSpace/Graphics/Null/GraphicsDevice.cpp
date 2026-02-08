@@ -4,12 +4,14 @@
 #include "DepthStencilBuffer.hpp"
 #include "DepthStencilState.hpp"
 #include "ShaderCompiler.hpp"
+#include "Texture1D.hpp"
 #include "Texture2D.hpp"
 #include "IndexBuffer.hpp"
 #include "VertexBuffer.hpp"
 #include "RenderTarget.hpp"
 #include "SamplerState.hpp"
 #include "GraphicsCommandList.hpp"
+
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
@@ -266,6 +268,19 @@ std::unique_ptr<ISamplerState> GraphicsDevice::CreateSamplerState_AnisotropicCla
 std::unique_ptr<ISamplerState> GraphicsDevice::CreateSamplerState_AnisotropicWrap()
 {
 	return std::make_unique<SamplerState>(this);
+}
+
+std::unique_ptr<ITexture1D> GraphicsDevice::CreateTexture1D(
+	size_t numElements,
+	PixelFormat format
+)
+{
+	return std::make_unique<Texture1D>(this, numElements, format);
+}
+
+std::unique_ptr<ITexture1D> GraphicsDevice::CreateTexture1D(std::span<Math::Color> colors)
+{
+	return std::make_unique<Texture1D>(this, colors);
 }
 
 std::unique_ptr<ITexture2D> GraphicsDevice::CreateTexture2D(
