@@ -3,6 +3,7 @@
 #include "GraphicsDevice.hpp"
 #include "SamplerState.hpp"
 #include "Texture1D.hpp"
+#include "TextureCube.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
@@ -97,6 +98,28 @@ void DomainShader::SetTextures(std::span<ITexture2D*> textures)
 	for (decltype(len) i = 0; i < len; i++)
 	{
 		srvs[i] = static_cast<Texture2D*>(textures[i])->_resourceView.Get();
+	}
+
+	_device->_context->DSSetShaderResources(0, len, srvs.get());
+}
+
+void DomainShader::SetTexture(unsigned index, ITextureCube* texture)
+{
+	if(texture == nullptr)
+		return;
+
+	auto dxTexture = static_cast<TextureCube*>(texture);
+	_device->_context->DSSetShaderResources(index, 1, dxTexture->_resourceView.GetAddressOf());
+}
+
+void DomainShader::SetTextures(std::span<ITextureCube*> textures)
+{
+	std::unique_ptr<ID3D11ShaderResourceView* []> srvs = std::make_unique<ID3D11ShaderResourceView * []>(textures.size());
+	auto len = textures.size();
+
+	for(decltype(len) i = 0; i < len; i++)
+	{
+		srvs[i] = static_cast<TextureCube*>(textures[i])->_resourceView.Get();
 	}
 
 	_device->_context->DSSetShaderResources(0, len, srvs.get());

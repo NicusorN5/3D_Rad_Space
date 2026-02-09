@@ -11,6 +11,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 {
 	class DepthStencilBuffer;
 	class GraphicsDevice;
+	class TextureCube;
 	/// <summary>
 	/// Represents a 2D texture.
 	/// <remarks>
@@ -146,6 +147,8 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		friend class DomainShader;
 		friend class GeometryShader;
 		friend class DepthStencilBuffer;
+
+		friend class TextureCube;
 	};
 }
 

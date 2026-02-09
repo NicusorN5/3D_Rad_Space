@@ -3,6 +3,7 @@
 #include "GraphicsDevice.hpp"
 #include "SamplerState.hpp"
 #include "Texture1D.hpp"
+#include "TextureCube.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
@@ -57,15 +58,6 @@ HullShader::HullShader(GraphicsDevice *device, const std::filesystem::path &path
 	_createShader();
 }
 
-void HullShader::SetTexture(unsigned index, ITexture2D *texture)
-{
-	if(texture == nullptr)
-		return;
-
-	auto dxTexture2D = static_cast<Texture2D*>(texture);
-	_device->_context->HSSetShaderResources(index, 1, dxTexture2D->_resourceView.GetAddressOf());
-}
-
 void HullShader::SetTexture(unsigned index, ITexture1D* texture)
 {
 	if(texture == nullptr)
@@ -88,13 +80,44 @@ void HullShader::SetTextures(std::span<ITexture1D*> textures)
 	_device->_context->HSSetShaderResources(0, len, srvs.get());
 }
 
+void HullShader::SetTexture(unsigned index, ITexture2D* texture)
+{
+	if(texture == nullptr)
+		return;
+
+	auto dxTexture2D = static_cast<Texture2D*>(texture);
+	_device->_context->HSSetShaderResources(index, 1, dxTexture2D->_resourceView.GetAddressOf());
+}
+
 void HullShader::SetTextures(std::span<ITexture2D*> textures)
 {
 	std::vector<ID3D11ShaderResourceView*> views(textures.size());
 
 	for (size_t i = 0; i < textures.size() && i < D3D11_COMMONSHADER_INPUT_RESOURCE_REGISTER_COUNT; i++)
 	{
-		views[i] = static_cast<ID3D11ShaderResourceView*>(textures[i]->GetHandle());
+		views[i] = static_cast<Texture2D*>(textures[i])->_resourceView.Get();
+	}
+
+	_device->_context->HSSetShaderResources(0, textures.size(), &views[0]);
+}
+
+
+void HullShader::SetTexture(unsigned index, ITextureCube* texture)
+{
+	if(texture == nullptr)
+		return;
+
+	auto dxTexture2D = static_cast<TextureCube*>(texture);
+	_device->_context->HSSetShaderResources(index, 1, dxTexture2D->_resourceView.GetAddressOf());
+}
+
+void HullShader::SetTextures(std::span<ITextureCube*> textures)
+{
+	std::vector<ID3D11ShaderResourceView*> views(textures.size());
+
+	for (size_t i = 0; i < textures.size() && i < D3D11_COMMONSHADER_INPUT_RESOURCE_REGISTER_COUNT; i++)
+	{
+		views[i] = static_cast<TextureCube*>(textures[i])->_resourceView.Get();
 	}
 
 	_device->_context->HSSetShaderResources(0, textures.size(), &views[0]);

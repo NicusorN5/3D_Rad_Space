@@ -25,6 +25,9 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		void SetTexture(unsigned index, ITexture2D *texture) override;
 		void SetTextures(std::span<ITexture2D*> textures) override;
 
+		void SetTexture(unsigned index, ITextureCube* texture) override;
+		void SetTextures(std::span<ITextureCube*> textures) override;
+
 		void SetSampler(unsigned index, ISamplerState *samplerState) override;
 		void SetShader() override;
 		void* GetHandle() const noexcept override;

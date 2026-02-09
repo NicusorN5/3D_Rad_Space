@@ -11,6 +11,7 @@
 #include "SamplerState.hpp"
 #include "DeferredCommandList.hpp"
 #include "Texture1D.hpp"
+#include "TextureCube.hpp"
 
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "dxgi.lib")
@@ -486,6 +487,16 @@ std::unique_ptr<ITexture2D> GraphicsDevice::CreateTexture2D(
 )
 {
 	return std::make_unique<Texture2D>(this, data, x, y, format, usage);
+}
+
+std::unique_ptr<ITextureCube> GraphicsDevice::CreateTextureCube(std::array<ITexture2D*, 6> faces)
+{
+	return std::make_unique<TextureCube>(this, faces);
+}
+
+std::unique_ptr<ITextureCube> GraphicsDevice::CreateTextureCube(const std::filesystem::path& path)
+{
+	return std::make_unique<TextureCube>(this, path);
 }
 
 std::unique_ptr<IVertexBuffer> GraphicsDevice::CreateVertexBuffer(

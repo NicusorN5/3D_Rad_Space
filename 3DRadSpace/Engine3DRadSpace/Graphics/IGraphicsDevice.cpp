@@ -5,6 +5,7 @@
 #include "IGraphicsCommandList.hpp"
 #include "ITexture1D.hpp"
 #include "ITexture2D.hpp"
+#include "ITextureCube.hpp"
 #include "IVertexBuffer.hpp"
 #include "IBlendState.hpp"
 #include "IRasterizerState.hpp"
@@ -356,6 +357,26 @@ E3DRSP_ITexture2D E3DRSP_IGraphicsDevice_CreateTexture2D(
 E3DRSP_ITexture2D E3DRSP_IGraphicsDevice_CreateTexture2DFromFile(E3DRSP_IGraphicsDevice device, const char* path)
 {
 	return reinterpret_cast<IGraphicsDevice*>(device)->CreateTexture2D(std::filesystem::path(path)).release();
+}
+
+E3DRSP_ITextureCube E3DRSP_IGraphicsDevice_CreateTextureCube(E3DRSP_IGraphicsDevice device, E3DRSP_ITexture2D cubeMap[6])
+{
+	return static_cast<IGraphicsDevice*>(device)->CreateTextureCube(
+		std::array<ITexture2D*, 6>
+		{
+			static_cast<ITexture2D*>(cubeMap[0]),
+			static_cast<ITexture2D*>(cubeMap[1]),
+			static_cast<ITexture2D*>(cubeMap[2]),
+			static_cast<ITexture2D*>(cubeMap[3]),
+			static_cast<ITexture2D*>(cubeMap[4]),
+			static_cast<ITexture2D*>(cubeMap[5])
+		}
+	).release();
+}
+
+E3DRSP_ITextureCube E3DRSP_IGraphicsDevice_CreateTextureCubeFromFile(E3DRSP_IGraphicsDevice device, const char* path)
+{
+	return static_cast<IGraphicsDevice*>(device)->CreateTextureCube(std::filesystem::path(path)).release();
 }
 
 E3DRSP_IVertexBuffer E3DRSP_IGraphicsDevice_CreateVertexBuffer(

@@ -3,6 +3,7 @@
 #include "GraphicsDevice.hpp"
 #include "SamplerState.hpp"
 #include "Texture1D.hpp"
+#include "TextureCube.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
@@ -95,6 +96,27 @@ void GeometryShader::SetTextures(std::span<ITexture2D*> textures)
 	for (size_t i = 0; i < std::min(textures.size(), size_t(D3D11_COMMONSHADER_INPUT_RESOURCE_REGISTER_COUNT)); i++)
 	{
 		views[i] = static_cast<ID3D11ShaderResourceView*>(textures[i]->GetHandle());
+	}
+
+	_device->_context->GSSetShaderResources(0, textures.size(), &views[0]);
+}
+
+void GeometryShader::SetTexture(unsigned index, ITextureCube *texture)
+{
+	if(texture == nullptr)
+		return;
+
+	auto dxTexture = static_cast<TextureCube*>(texture);
+	_device->_context->GSSetShaderResources(index, 1, dxTexture->_resourceView.GetAddressOf());
+}
+
+void GeometryShader::SetTextures(std::span<ITextureCube*> textures)
+{
+	std::vector<ID3D11ShaderResourceView*> views(textures.size());
+
+	for (size_t i = 0; i < std::min(textures.size(), size_t(D3D11_COMMONSHADER_INPUT_RESOURCE_REGISTER_COUNT)); i++)
+	{
+		views[i] = static_cast<TextureCube*>(textures[i])->_resourceView.Get();
 	}
 
 	_device->_context->GSSetShaderResources(0, textures.size(), &views[0]);

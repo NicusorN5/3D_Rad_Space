@@ -41,6 +41,17 @@ void NullShader::SetTextures(std::span<ITexture2D*> textures)
 	(void)textures;
 }
 
+void NullShader::SetTexture(unsigned index, ITextureCube* texture)
+{
+	(void)index;
+	(void)texture;
+}
+
+void NullShader::SetTextures(std::span<ITextureCube*> textures)
+{
+	(void)textures;
+}
+
 void NullShader::SetSampler(unsigned index, ISamplerState *samplerState)
 {
 	(void)index;

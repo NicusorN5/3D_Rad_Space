@@ -76,6 +76,16 @@ void PostProcessEffect::SetTextures(std::span<ITexture2D*> textures)
 	_effect->SetTextures(textures);
 }
 
+void PostProcessEffect::SetTexture(unsigned index, ITextureCube* texture)
+{
+	_effect->SetTexture(index, texture);
+}
+
+void PostProcessEffect::SetTextures(std::span<ITextureCube*> textures)
+{
+	_effect->SetTextures(textures);
+}
+
 void PostProcessEffect::SetSampler(unsigned index, ISamplerState* sampler)
 {
 	_effect->SetSampler(index, sampler);

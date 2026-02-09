@@ -21,6 +21,7 @@ namespace Engine3DRadSpace::Graphics
 {
 	class ITexture1D;
 	class ITexture2D;
+	class ITextureCube;
 	class IRenderTarget;
 	class IDepthStencilBuffer;
 	class IVertexBuffer;
@@ -163,6 +164,9 @@ namespace Engine3DRadSpace::Graphics
 			size_t numVertices,
 			BufferUsage usage
 		) = 0;
+
+		virtual std::unique_ptr<ITextureCube> CreateTextureCube(const std::filesystem::path& path) = 0;
+		virtual std::unique_ptr<ITextureCube> CreateTextureCube(std::array<ITexture2D*, 6> cubeMap) = 0;
 
 		template<VertexDecl V>
 		std::unique_ptr<IVertexBuffer> CreateVertexBuffer(std::span<const V> vertices, BufferUsage usage)

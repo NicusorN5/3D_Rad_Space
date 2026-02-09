@@ -286,11 +286,8 @@ Texture2D Texture2D::CreateStaging(Texture2D* texture)
 	D3D11_TEXTURE2D_DESC desc{};
 	texture->_texture->GetDesc(&desc);
 
-	//Keep a copy of the original texture desc.
-	D3D11_TEXTURE2D_DESC resizedTextureDesc = desc;
-
 	desc.Usage = D3D11_USAGE_STAGING;
-	desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+	desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ | D3D11_CPU_ACCESS_WRITE;
 	desc.BindFlags = 0;
 	desc.MipLevels = 0;
 	desc.MiscFlags = 0;

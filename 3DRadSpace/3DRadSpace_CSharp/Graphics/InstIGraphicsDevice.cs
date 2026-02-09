@@ -190,6 +190,12 @@ public class InstIGraphicsDevice : NatPtrWrapper, IGraphicsDevice
 	[DllImport("3DRadSpace.Graphics.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_IGraphicsDevice_CreateTexture2DFromFile")]
 	extern static IntPtr _createTexture2D(IntPtr handle, string path);
 
+	[DllImport("3DRadSpace.Graphics.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_IGraphicsDevice_CreateTextureCube")]
+	extern static unsafe IntPtr _createTextureCube(IntPtr handle, IntPtr* textureCubeArray);
+
+	[DllImport("3DRadSpace.Graphics.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_IGraphicsDevice_CreateTextureCubeFromFile")]
+	extern static IntPtr _createTextureCube(IntPtr handle, string path);
+
 
 	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateVertexBuffer")]
 	extern static IntPtr _createVertexBuffer(
@@ -417,17 +423,17 @@ public class InstIGraphicsDevice : NatPtrWrapper, IGraphicsDevice
 	public ITexture1D CreateTexture1D(ulong size, BufferUsage usage)
 	{
 		return new InstITexture1D(_createTexture1D(_handle, size, usage));
-    }
+	}
 
 	public unsafe ITexture1D CreateTexture1D(Span<Math.Color> colors)
 	{
-        fixed (Math.Color* pColors = colors)
-        {
-            return new InstITexture1D(_createTexture1D(_handle, pColors, (ulong)colors.Length));
-        }
-    }
+		fixed (Math.Color* pColors = colors)
+		{
+			return new InstITexture1D(_createTexture1D(_handle, pColors, (ulong)colors.Length));
+		}
+	}
 
-    public ITexture2D CreateTexture2D(nint data, ulong x, ulong y, PixelFormat format, BufferUsage usage)
+	public ITexture2D CreateTexture2D(nint data, ulong x, ulong y, PixelFormat format, BufferUsage usage)
 	{
 		return new InstITexture2D(_createTexture2D(_handle, data, x, y, format, usage));
 	}
@@ -437,7 +443,23 @@ public class InstIGraphicsDevice : NatPtrWrapper, IGraphicsDevice
 		return new InstITexture2D(_createTexture2D(_handle, path));
 	}
 
-	public IVertexBuffer CreateVertexBuffer(nint data, ulong structSize, ulong numVertices, BufferUsage usage)
+	public unsafe ITextureCube CreateTextureCube(ITexture2D[] cubeMap)
+	{
+		IntPtr* pTextures = stackalloc IntPtr[6];
+		for (int i = 0; i < 6; i++)
+		{
+			pTextures[i] = cubeMap[i].Handle;
+		}
+
+		return new InstITextureCube(_createTextureCube(_handle, pTextures));
+	}
+
+	public ITextureCube CreateTextureCube(string path)
+	{
+		return new InstITextureCube(_createTextureCube(_handle, path));
+    }
+
+    public IVertexBuffer CreateVertexBuffer(nint data, ulong structSize, ulong numVertices, BufferUsage usage)
 	{
 		return new InstIVertexBuffer(_createVertexBuffer(_handle, data, structSize, numVertices, usage));
 	}

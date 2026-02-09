@@ -6,6 +6,7 @@
 #include "ShaderCompiler.hpp"
 #include "Texture1D.hpp"
 #include "Texture2D.hpp"
+#include "TextureCube.hpp"
 #include "IndexBuffer.hpp"
 #include "VertexBuffer.hpp"
 #include "RenderTarget.hpp"
@@ -297,6 +298,16 @@ std::unique_ptr<ITexture2D> GraphicsDevice::CreateTexture2D(
 std::unique_ptr<ITexture2D> GraphicsDevice::CreateTexture2D(const std::filesystem::path& path)
 {
 	return std::make_unique<Texture2D>(this, path);
+}
+
+std::unique_ptr<ITextureCube> GraphicsDevice::CreateTextureCube(std::array<ITexture2D*, 6> faces)
+{
+	return std::make_unique<TextureCube>(this, faces);
+}
+
+std::unique_ptr<ITextureCube> GraphicsDevice::CreateTextureCube(const std::filesystem::path& path)
+{
+	return std::make_unique<TextureCube>(this, path);
 }
 
 std::unique_ptr<IVertexBuffer> GraphicsDevice::CreateVertexBuffer(

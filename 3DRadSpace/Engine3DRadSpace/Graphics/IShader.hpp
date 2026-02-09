@@ -7,6 +7,7 @@ namespace Engine3DRadSpace::Graphics
 {
 	class ITexture1D;
 	class ITexture2D;
+	class ITextureCube;
 	class ISamplerState;
 
 	class E3DRSP_GRAPHICS_EXPORT IShader : public IGPUResource
@@ -30,6 +31,9 @@ namespace Engine3DRadSpace::Graphics
 
 		virtual void SetTexture(unsigned index, ITexture2D *texture) = 0;
 		virtual void SetTextures(std::span<ITexture2D*> textures) = 0;
+
+		virtual void SetTexture(unsigned index, ITextureCube *texture) = 0;
+		virtual void SetTextures(std::span<ITextureCube*> textures) = 0;
 
 		virtual void SetSampler(unsigned index, ISamplerState *samplerState) = 0;
 		virtual void SetShader() = 0;

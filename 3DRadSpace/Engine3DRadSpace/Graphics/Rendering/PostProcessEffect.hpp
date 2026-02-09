@@ -44,6 +44,9 @@ namespace Engine3DRadSpace::Graphics::Rendering
 		void SetTexture(unsigned index, ITexture2D* texture) override;
 		void SetTextures(std::span<ITexture2D*> textures) override;
 
+		void SetTexture(unsigned index, ITextureCube* texture) override;
+		void SetTextures(std::span<ITextureCube*> textures) override;
+
 		void SetSampler(unsigned index, ISamplerState* sampler) override;
 		void SetData(unsigned index, const void* data, size_t size) override;
 		void SetShader() override;
