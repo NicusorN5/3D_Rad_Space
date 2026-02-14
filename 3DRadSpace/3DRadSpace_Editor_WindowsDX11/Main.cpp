@@ -103,7 +103,7 @@ void LoadAllPlugins()
 					auto& [info, handle] = plugin;
 					plugins.push_back(handle);
 
-					Logging::SetLastMessage(std::format("Loaded plugin {} ver {} handle {:x}", info.Name, info.Version, reinterpret_cast<intptr_t>(handle)));
+					Logging::SetLastMessage(std::format("Loaded plugin {} ver {} handle 0x{:x}", info.Name, info.Version, reinterpret_cast<intptr_t>(handle)));
 
 					auto numLoadedObjects = Plugins::LoadCustomObjectsFromLibHandle(handle);
 					Logging::SetLastMessage(std::format("Loaded {} custom object types from plugin {}", numLoadedObjects, info.Name));

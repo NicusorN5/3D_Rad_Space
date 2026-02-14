@@ -181,6 +181,7 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, size_t width, size_t he
 	);
 
 	Logging::SetLastMessage("Created D3D11 backend");
+	Logging::SetLastMessage(std::format("Backbuffer {} {} fullscreen {} Nat Window Handle 0x{:x}", width, height, _fullscreen, reinterpret_cast<intptr_t>(nativeWindowHandle)));
 }
 
 std::string_view GraphicsDevice::BackendName() const noexcept

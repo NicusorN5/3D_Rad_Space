@@ -11,15 +11,27 @@ hostfxr_initialize_for_runtime_config_fn init_fptr;
 hostfxr_get_runtime_delegate_fn get_delegate_fptr;
 hostfxr_close_fn close_fptr;
 
+extern string_t fxrPath;
+
+constexpr auto csharpAssemblyPath = STR("Plugins\\CSharp\\3DRadSpace_CSharp.dll");
+
 bool load_hostfxr()
 {
-	string_t fxrPath;
+	if(!std::filesystem::exists(csharpAssemblyPath))
+	{
+		Logging::SetLastWarning("C# Assembly is not found. It should be located at \"<root>\\Plugins\\CSharp\\3DRadSpace_CSharp.dll\"");
+		return false;
+	}
 
+	get_hostfxr_parameters params(sizeof(get_hostfxr_parameters), csharpAssemblyPath, nullptr);
+
+	//1st call to get bufferSize
 	size_t bufferSize = 0;
-	get_hostfxr_path(nullptr, &bufferSize, nullptr);
+	get_hostfxr_path(nullptr, &bufferSize, &params);
 
+	//Actual call
 	std::unique_ptr<char_t[]> fxrPathBuffer = std::make_unique<char_t[]>(bufferSize);
-	int rc = get_hostfxr_path(fxrPathBuffer.get(), &bufferSize, nullptr);
+	int rc = get_hostfxr_path(fxrPathBuffer.get(), &bufferSize, &params);
 	if (rc != 0)
 		return false;
 

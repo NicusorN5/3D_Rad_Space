@@ -140,14 +140,6 @@ CubeMapSkybox::CubeMapSkybox(std::nullptr_t)
 {
 }
 
-//void CubeMapSkybox::SetTransformFromCamera(const Camera& camera)
-//{
-//	float s = camera.FarPlaneDistance * 0.5f;
-//	Model = Matrix4x4::CreateScale(Vector3(s, s, s)) * Matrix4x4::CreateTranslation(camera.Position);
-//	View = camera.GetViewMatrix();
-//	Projection = camera.GetProjectionMatrix();
-//}
-
 void CubeMapSkybox::Draw3D()
 {
 	for(std::size_t i = 0; i < _faces.size(); i++)
