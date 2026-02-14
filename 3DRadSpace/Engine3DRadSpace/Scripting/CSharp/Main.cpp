@@ -3,6 +3,7 @@
 #include "../../Core/RawSpan.h"
 #include "../../Logging/Message.hpp"
 #include "../../Logging/Warning.hpp"
+#include "../../Logging/Exception.hpp"
 #include "../../Plugins/EditorPlugin.hpp"
 #include "../../Native/LibraryLoader.hpp"
 
@@ -26,6 +27,60 @@ extern load_assembly_and_get_function_pointer_fn load_assembly_and_get_function_
 
 constexpr auto runtimeConfigPath = STR("Plugins\\CSharp\\3DRadSpace_CSharp.runtimeconfig.json");
 
+typedef void (*CsCompiler_InitializeFn)();
+
+template<typename Fn>
+auto CallCSFunction(
+	const char_t* static_class_and_assembly_name,
+	const char_t* fnName
+) -> std::invoke_result_t<Fn>
+{
+	Fn fn;
+
+	int r = load_assembly_and_get_function_pointer(
+		csharpAssemblyPath,
+		static_class_and_assembly_name,
+		fnName,
+		UNMANAGEDCALLERSONLY_METHOD,
+		nullptr,
+		reinterpret_cast<void**>(&fn)
+	);
+
+	if(r != 0 || fn == nullptr)
+	{
+		throw Logging::Exception(std::format("{} fn is NULL!", typeid(Fn).name()));
+	}
+
+	return fn();
+}
+
+template<typename Fn, typename ...Args>
+auto CallCSFunction(
+	const char_t *static_class_and_assembly_name,
+	const char_t *fnName,
+	Args&& ...args
+) -> std::invoke_result_t<Fn>
+{
+	Fn fn;
+
+	int r = load_assembly_and_get_function_pointer(
+		csharpAssemblyPath,
+		static_class_and_assembly_name,
+		fnName,
+		UNMANAGEDCALLERSONLY_METHOD,
+		nullptr,
+		reinterpret_cast<void**>(&fn)
+	);
+
+	if(r != 0 || fn == nullptr)
+	{
+		Logging::SetLastWarning(std::format("load_assembly_and_get_function_pointer(RTTI {}) failed: rc {:x}", typeid(Fn).name(), r));
+		return false;
+	}
+
+	fn(std::forward<Args&&>(args)...);
+}
+
 bool PluginMain()
 {
 	if (!load_hostfxr())
@@ -48,22 +103,7 @@ bool PluginMain()
 		return false;
 	}
 
-	wchar_t modulePath[MAX_PATH]{};
-	GetModuleFileNameW(nullptr, modulePath, MAX_PATH);
-
-	wchar_t host_path[MAX_PATH]{};
-#if _WINDOWS
-	auto size = GetFullPathNameW(modulePath, sizeof(modulePath) / sizeof(char_t), host_path, nullptr);
-	assert(size != 0);
-#else
-	auto resolved = realpath(argv[0], host_path);
-	assert(resolved != nullptr);
-#endif
-
-	string_t root_path = host_path;
-	auto pos = root_path.find_last_of('\\');
-	assert(pos != string_t::npos);
-	root_path = root_path.substr(0, pos + 1);
+	CallCSFunction<CsCompiler_InitializeFn>(STR("Engine3DRadSpace.Internal.CsCompiler, 3DRadSpace_CSharp"), STR("Initialize"));
 
 	return true;
 }

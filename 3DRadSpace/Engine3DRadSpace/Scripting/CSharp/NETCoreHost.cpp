@@ -13,8 +13,6 @@ hostfxr_close_fn close_fptr;
 
 extern string_t fxrPath;
 
-constexpr auto csharpAssemblyPath = STR("Plugins\\CSharp\\3DRadSpace_CSharp.dll");
-
 bool load_hostfxr()
 {
 	if(!std::filesystem::exists(csharpAssemblyPath))
