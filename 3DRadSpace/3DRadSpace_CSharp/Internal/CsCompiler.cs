@@ -102,9 +102,6 @@ public static class CsCompiler
 	[UnmanagedCallersOnly]
 	public static void Initialize()
 	{
-		//Message test = new Message("Hello from C#!!", 420, 0);
-		//Logging.Message.SetLastMessage(ref test);
-
 		InitializeManaged();
 	}
 

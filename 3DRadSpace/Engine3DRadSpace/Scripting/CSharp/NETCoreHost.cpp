@@ -17,7 +17,7 @@ bool load_hostfxr()
 {
 	if(!std::filesystem::exists(csharpAssemblyPath))
 	{
-		Logging::SetLastWarning("C# Assembly is not found. It should be located at \"<root>\\Plugins\\CSharp\\3DRadSpace_CSharp.dll\"");
+		Logging::SetLastWarning("C# Assembly is not found. It should be located at \"<root>\\3DRadSpace_CSharp.dll\"");
 		return false;
 	}
 

@@ -8,7 +8,7 @@ using string_t = std::basic_string<char_t>;
 
 #define STR(s) L ## s
 
-constexpr auto csharpAssemblyPath = STR("Plugins\\CSharp\\3DRadSpace_CSharp.dll");
+constexpr auto csharpAssemblyPath = STR("3DRadSpace_CSharp.dll");
 
 bool load_hostfxr();
 load_assembly_and_get_function_pointer_fn get_dotnet_load_assembly(const char_t* config_path);

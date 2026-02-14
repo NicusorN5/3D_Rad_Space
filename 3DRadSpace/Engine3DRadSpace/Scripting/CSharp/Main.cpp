@@ -25,7 +25,7 @@ extern "C"
 string_t fxrPath;
 extern load_assembly_and_get_function_pointer_fn load_assembly_and_get_function_pointer;
 
-constexpr auto runtimeConfigPath = STR("Plugins\\CSharp\\3DRadSpace_CSharp.runtimeconfig.json");
+constexpr auto runtimeConfigPath = STR("3DRadSpace_CSharp.runtimeconfig.json");
 
 typedef void (*CsCompiler_InitializeFn)();
 
@@ -91,7 +91,7 @@ bool PluginMain()
 
 	if(!std::filesystem::exists(runtimeConfigPath))
 	{
-		Logging::SetLastWarning("C# Runtime config is not found. It should be located at \"<root>\\Plugins\\CSharp\\3DRadSpace_CSharp.runtimeconfig.json\"");
+		Logging::SetLastWarning("C# Runtime config is not found. It should be located at \"<root>\\3DRadSpace_CSharp.runtimeconfig.json\"");
 		return false;
 	}
 
