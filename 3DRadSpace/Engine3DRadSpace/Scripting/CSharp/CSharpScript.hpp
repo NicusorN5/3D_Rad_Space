@@ -2,7 +2,6 @@
 #include "../IScript.hpp"
 #include "../../Objects/IObject.hpp"
 #include "../../Reflection/Reflection.hpp"
-#include <nethost.h>
 
 namespace Engine3DRadSpace::Scripting::CSharp
 {
@@ -11,7 +10,8 @@ namespace Engine3DRadSpace::Scripting::CSharp
 	/// </summary>
 	class __declspec(dllexport) CSharpScript final : public Engine3DRadSpace::Objects::IObject
 	{
-		
+		int _id = -1;
+		bool _initialized = false;
 	public:
 		CSharpScript(
 			const std::string& name = "C# Script",
@@ -30,7 +30,10 @@ namespace Engine3DRadSpace::Scripting::CSharp
 		void Load(const std::filesystem::path& path) override;
 		void Update() override;
 
-		~CSharpScript() override = default;
+		int GetID() const noexcept;
+		bool WasInitialized() const noexcept;
+
+		~CSharpScript() override;
 	};
 }
 

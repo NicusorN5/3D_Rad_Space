@@ -58,7 +58,8 @@ void SkinmeshPreviewer::Update()
 			std::numbers::pi_v<float> / 2.0f - std::numeric_limits<float>::epsilon()
 		);
 	}
-	Quaternion q = Quaternion::FromYawPitchRoll(-_camCoords.Y, 0, 0)* Quaternion::FromYawPitchRoll(0, -_camCoords.X, 0);
+
+	Quaternion q = Quaternion::FromYawPitchRoll(_camCoords.X, _camCoords.Y, 0);
 	_camera->Position = _zoom * Vector3::UnitZ().Transform(q);
 }
 

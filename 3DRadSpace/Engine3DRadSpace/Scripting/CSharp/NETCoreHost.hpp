@@ -8,6 +8,12 @@ using string_t = std::basic_string<char_t>;
 
 #define STR(s) L ## s
 
+typedef void (*CsCompiler_InitializeFn)();
+
+typedef int (*ScriptManager_LoadScript)(const char* scriptPath, const char* fnName);
+typedef bool (*ScriptManager_UpdateScript)(int scriptID);
+typedef void (*ScriptManager_UnloadScript)(int scriptID);
+
 constexpr auto csharpAssemblyPath = STR("3DRadSpace_CSharp.dll");
 
 bool load_hostfxr();

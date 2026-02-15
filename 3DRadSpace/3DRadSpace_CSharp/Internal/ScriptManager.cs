@@ -6,7 +6,6 @@ namespace Engine3DRadSpace.Internal;
 
 /// <summary>
 /// Manages compiled scripts and provides entry points for the native C++ host.
-/// This class is designed to be called from C++ via nethost function pointers.
 /// </summary>
 public static class ScriptManager
 {
@@ -15,11 +14,10 @@ public static class ScriptManager
 
 	/// <summary>
 	/// Compiles a C# script from a file and returns a script handle.
-	/// Entry point callable from C++ via nethost.
 	/// </summary>
 	/// <param name="scriptPath">Path to the .cs script file.</param>
 	/// <param name="className">Fully qualified class name to instantiate.</param>
-	/// <returns>Script handle ID, or -1 on failure. On failure, check Logging::GetLastWarning() from C++.</returns>
+	/// <returns>Script ID, or -1 on failure.</returns>
 	[UnmanagedCallersOnly]
 	public static int LoadScript(IntPtr scriptPath, IntPtr className)
 	{
@@ -88,9 +86,9 @@ public static class ScriptManager
 	}
 
 	/// <summary>
-	/// Updates a loaded script. Entry point callable from C++ via nethost.
+	/// Updates a loaded script.
 	/// </summary>
-	/// <param name="scriptId">Handle ID of the script to update.</param>
+	/// <param name="scriptId">ID of the script to update.</param>
 	/// <returns>1 on success, 0 on failure.</returns>
 	[UnmanagedCallersOnly]
 	public static byte UpdateScript(int scriptId)
@@ -110,34 +108,30 @@ public static class ScriptManager
 	}
 
 	/// <summary>
-	/// Unloads a script and frees its resources. Entry point callable from C++ via nethost.
+	/// Unloads a script and frees its resources.
 	/// </summary>
-	/// <param name="scriptId">Handle ID of the script to unload.</param>
-	/// <returns>1 on success, 0 on failure.</returns>
+	/// <param name="scriptId">ID of the script to unload.</param>
 	[UnmanagedCallersOnly]
-	public static byte UnloadScript(int scriptId)
+	public static void UnloadScript(int scriptId)
 	{
 		try
 		{
 			if (!_loadedScripts.TryGetValue(scriptId, out var scriptInstance))
-				return 0;
+				return;
 
 			scriptInstance.ScriptInterface?.End();
 			scriptInstance.CompilationResult.Unload();
 			_loadedScripts.Remove(scriptId);
-
-			return 1;
 		}
 		catch
 		{
-			return 0;
 		}
 	}
 
 	/// <summary>
-	/// Invokes a method on a loaded script. Entry point callable from C++ via nethost.
+	/// Invokes a method on a loaded script.
 	/// </summary>
-	/// <param name="scriptId">Handle ID of the script.</param>
+	/// <param name="scriptId">ID of the script.</param>
 	/// <param name="methodName">Name of the method to invoke.</param>
 	/// <returns>1 on success, 0 on failure.</returns>
 	[UnmanagedCallersOnly]

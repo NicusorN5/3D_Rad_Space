@@ -140,6 +140,7 @@ std::unique_ptr<ITextureCube> TextureCube::CreateStaging()
 	_device->_context->CopyResource(stagingTexture.Get(), _texture.Get());
 
 	auto texture = TextureCube(_device, &desc, std::move(stagingTexture));
+	return std::make_unique<TextureCube>(std::move(texture));
 }
 
 void* TextureCube::GetHandle() const noexcept

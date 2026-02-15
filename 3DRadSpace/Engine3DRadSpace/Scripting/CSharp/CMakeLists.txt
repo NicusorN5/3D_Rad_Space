@@ -4,9 +4,7 @@ project("Engine3DRadSpace.Scripting.CSharp")
 
 add_library(3DRadSpace.Scripting.CSharp SHARED 
 	"CSharpScript.hpp"
-	"CSharpScript.cpp"
-	"CSharpScriptInstance.hpp"
-	"CSharpScriptInstance.cpp"
+	"CSharpScript.cpp"	
 	"Main.cpp"
 	"NETCOREHost.hpp"
 	"NETCOREHost.cpp"

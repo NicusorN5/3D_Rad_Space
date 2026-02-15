@@ -27,7 +27,9 @@ extern load_assembly_and_get_function_pointer_fn load_assembly_and_get_function_
 
 constexpr auto runtimeConfigPath = STR("3DRadSpace_CSharp.runtimeconfig.json");
 
-typedef void (*CsCompiler_InitializeFn)();
+ScriptManager_LoadScript csmgr_loadScript;
+ScriptManager_UpdateScript csmgr_updateScript;
+ScriptManager_UnloadScript csmgr_unloadScript;
 
 template<typename Fn>
 auto CallCSFunction(
@@ -81,6 +83,23 @@ auto CallCSFunction(
 	fn(std::forward<Args&&>(args)...);
 }
 
+template<typename Fn>
+Fn LoadCSFunction(const char_t* static_class_and_assembly_name, const char_t* fnName)
+{
+	Fn fn;
+
+	int r = load_assembly_and_get_function_pointer(
+		csharpAssemblyPath,
+		static_class_and_assembly_name,
+		fnName,
+		UNMANAGEDCALLERSONLY_METHOD,
+		nullptr,
+		reinterpret_cast<void**>(&fn)
+	);
+
+	return fn;
+}
+
 bool PluginMain()
 {
 	if (!load_hostfxr())
@@ -104,6 +123,9 @@ bool PluginMain()
 	}
 
 	CallCSFunction<CsCompiler_InitializeFn>(STR("Engine3DRadSpace.Internal.CsCompiler, 3DRadSpace_CSharp"), STR("Initialize"));
+	csmgr_loadScript = LoadCSFunction<ScriptManager_LoadScript>(STR("Engine3DRadSpace.Internal.ScriptManager, 3DRadSpace_CSharp"), STR("LoadScript"));
+	csmgr_updateScript = LoadCSFunction<ScriptManager_UpdateScript>(STR("Engine3DRadSpace.Internal.ScriptManager, 3DRadSpace_CSharp"), STR("UpdateScript"));
+	csmgr_unloadScript = LoadCSFunction<ScriptManager_UnloadScript>(STR("Engine3DRadSpace.Internal.ScriptManager, 3DRadSpace_CSharp"), STR("UnloadScript"));
 
 	return true;
 }

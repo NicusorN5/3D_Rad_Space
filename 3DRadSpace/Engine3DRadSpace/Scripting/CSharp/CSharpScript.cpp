@@ -1,8 +1,14 @@
 #include "CSharpScript.hpp"
+#include "NETCoreHost.hpp"
+#include "../../Logging/Exception.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Scripting;
 using namespace Engine3DRadSpace::Scripting::CSharp;
+
+extern ScriptManager_LoadScript csmgr_loadScript;
+extern ScriptManager_UpdateScript csmgr_updateScript;
+extern ScriptManager_UnloadScript csmgr_unloadScript;
 
 CSharpScript::CSharpScript(
 	const std::string& name,
@@ -25,19 +31,47 @@ Objects::Gizmos::IGizmo* CSharpScript::GetGizmo() const noexcept
 
 void CSharpScript::Initialize()
 {
+	//If csmgr_loadScript is null, that also means the rest of the other fptrs aren't initialized, so one single check is enough.
+	if(csmgr_loadScript == nullptr) throw Logging::Exception("Script manager is improperly initialized!");
 
+	_id = csmgr_loadScript(ScriptPath.c_str(), Class.c_str());
+	_initialized = (_id == -1);
 }
 
 void CSharpScript::Load()
 {
+	csmgr_updateScript(_id);
 }
 
 void CSharpScript::Load(const std::filesystem::path& path)
 {
+	ScriptPath = path.string();
+	Initialize();
+	Load();
 }
 
 void CSharpScript::Update()
 {
+	csmgr_updateScript(_id);
+}
+
+int CSharpScript::GetID() const noexcept
+{
+	return _id;
+}
+
+bool CSharpScript::WasInitialized() const noexcept
+{
+	return _initialized;
+}
+
+CSharpScript::~CSharpScript()
+{
+	//This check is necessary, as an object is created when this object type is being reflected.
+	if(csmgr_unloadScript && _id != -1)
+	{
+		csmgr_unloadScript(_id);
+	}
 }
 
 REFL_BEGIN(CSharpScript, "C# Script", "Scripting", "AngelScript script")
