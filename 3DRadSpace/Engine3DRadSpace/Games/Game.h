@@ -11,7 +11,7 @@ typedef void* E3DRSP_Game;
 extern "C"
 {
 #endif
-	E3DRSP_GAMES_EXPORT E3DRSP_Game E3DRSP_Game_Create(const char* title, size_t width, size_t height, bool fullscreen);
+	E3DRSP_GAMES_EXPORT E3DRSP_Game E3DRSP_Game_Create(const char* title, size_t width, size_t height);
 	
 	E3DRSP_GAMES_EXPORT void E3DRSP_Game_Run(E3DRSP_Game game);
 	E3DRSP_GAMES_EXPORT void E3DRSP_Game_RunOneFrame(E3DRSP_Game game);

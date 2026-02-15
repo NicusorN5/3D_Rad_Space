@@ -324,35 +324,38 @@ void GraphicsCommandList::SetBlendState(IBlendState* blendState, const Color& bl
 
 void GraphicsCommandList::ResizeBackBuffer(const Math::Point& newResolution)
 {
-	_context->ClearState();
+	UnbindRenderTargetAndDepth();
+	_device->_context->Flush();
+	_device->_context->ClearState();
+	_device->_backbufferRT.reset();
+
 	HRESULT r = _device->_swapChain->ResizeBuffers(0, newResolution.X, newResolution.Y, DXGI_FORMAT_UNKNOWN, 0);
 	if (FAILED(r))
 	{
 		throw std::exception("Failed to resize buffers!");
 	}
 
-	r = _device->_swapChain->GetBuffer(0, IID_PPV_ARGS(_device->_backbufferRT->_texture.GetAddressOf()));
-	if (FAILED(r)) throw std::exception("Failed to get the back buffer texture!");
+	_device->_createBackBuffer();
 }
 
 void GraphicsCommandList::ToggleFullScreen()
 {
+	UnbindRenderTargetAndDepth();
+	_device->_context->Flush();
+	_device->_context->ClearState();
+	_device->_backbufferRT.reset();
+
 	HRESULT r = _device->_swapChain->SetFullscreenState(
 		_device->_fullscreen = !_device->_fullscreen,
 		nullptr
 	);
+	if(FAILED(r)) throw Exception("SetFullscreenState failed!");
 
-	switch (r)
-	{
-	case S_OK:
-		return;
-	case DXGI_ERROR_NOT_CURRENTLY_AVAILABLE:
-		return;
-	case DXGI_STATUS_MODE_CHANGE_IN_PROGRESS:
-		return;
-	default:
-		throw Exception(std::format("Failure toggling to fullscreen - HRESULT : {:x}", r));
-	}
+	auto s = _device->_resolution;
+	r = _device->_swapChain->ResizeBuffers(0, s.X, s.Y, DXGI_FORMAT_UNKNOWN, 0);
+	if(FAILED(r)) throw Exception(std::format("ResizeBuffers failed: {:x}", r));
+
+	_device->_createBackBuffer();
 }
 
 void* GraphicsCommandList::GetHandle() const noexcept

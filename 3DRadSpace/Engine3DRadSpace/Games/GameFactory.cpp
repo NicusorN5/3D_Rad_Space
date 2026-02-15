@@ -51,11 +51,11 @@ void GameFactory::RegisterDevice(const std::string& name, FnCreateGraphicsDevice
 	_deviceCtors.insert(std::make_pair(name, fn));
 }
 
-void GameFactory::Begin(const std::string& title, size_t width, size_t height, bool fullscreen)
+void GameFactory::Begin(const std::string& title, size_t width, size_t height)
 {
 	if (_game) return;
 	
-	_game = std::make_unique<Game>(title, width, height, fullscreen);
+	_game = std::make_unique<Game>(title, width, height);
 }
 
 void GameFactory::Begin(Native::Window&& window)

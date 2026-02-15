@@ -32,15 +32,25 @@ LRESULT CALLBACK Engine3DRadSpace::Native::GameWndProc(HWND hwnd, UINT msg, WPAR
 			break;
 		}
 		case WM_SYSKEYDOWN:
+		{
+			window->_keyDown(static_cast<uint8_t>(wParam));
+			window->_keyDown(VK_LMENU);
+			return 0;
+		}
 		case WM_KEYDOWN:
 		{
 			window->_keyDown(static_cast<uint8_t>(wParam));
 			return 0;
 		}
 		case WM_KEYUP:
+		{
+			window->_keyUp(static_cast<uint8_t>(wParam));
+			return 0;
+		}
 		case WM_SYSKEYUP:
 		{
 			window->_keyUp(static_cast<uint8_t>(wParam));
+			window->_keyUp(VK_LMENU);
 			return 0;
 		}
 		case WM_KILLFOCUS:

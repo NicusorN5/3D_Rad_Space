@@ -13,7 +13,8 @@ namespace Engine3DRadSpace::Graphics
 		SelectGPU_Performance = 1 << 2,
 		SelectGPU_Integrated = 1 << 3,
 		SelectGPU_Software = 1 << 4,
-		SelectGPU_Default = 1 << 5
+		SelectGPU_Default = 1 << 5,
+		Fullscreen = 1 << 6
 	};
 
 	constexpr GraphicsDeviceCreationOptions operator|(GraphicsDeviceCreationOptions a, GraphicsDeviceCreationOptions b)

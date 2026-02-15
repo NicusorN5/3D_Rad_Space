@@ -8,5 +8,6 @@ enum E3DRSP_GraphicsDeviceCreationOptions
 	E3DRSP_GDCO_SelectGPU_Performance = 1 << 2,
 	E3DRSP_GDCO_SelectGPU_Integrated = 1 << 3,
 	E3DRSP_GDCO_SelectGPU_Software = 1 << 4,
-	E3DRSP_GDCO_SelectGPU_Default = 1 << 5
+	E3DRSP_GDCO_SelectGPU_Default = 1 << 5,
+	E3DRSP_GDCO_Fullscreen = 1 << 6
 };

@@ -64,6 +64,8 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		std::unique_ptr<DirectX11::ShaderCompiler> _compiler;
 
 		std::string _backendName = "DirectX11";
+
+		void _createBackBuffer();
 	public:
 		GraphicsDevice() = delete;
 		explicit GraphicsDevice(void* nativeWindowHandle, size_t width = 800, size_t height = 600, GraphicsDeviceCreationOptions opt = GraphicsDeviceCreationOptions::Unspecified);

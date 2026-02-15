@@ -16,7 +16,7 @@ public class Game : InstIGame
 	[DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "?Run@Game@Engine3DRadSpace@@QEAAXXZ")]
 	static extern private void _runGame(IntPtr gameHandle);
 
-	public Game(string title, uint width, uint height, bool fullscreen) : base(IntPtr.Zero)
+	public Game(string title, uint width, uint height) : base(IntPtr.Zero)
 	{
 		objects = new List<Tuple<int, object>>();
 		Window = new Window(title, width, height);

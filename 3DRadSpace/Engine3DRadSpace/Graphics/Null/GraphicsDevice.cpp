@@ -19,12 +19,13 @@ using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Graphics::Null;
 using namespace Engine3DRadSpace::Math;
 
-GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, size_t width, size_t height) :
+GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, size_t width, size_t height, GraphicsDeviceCreationOptions opt) :
 	EnableVSync(false)
 {
 	(void)nativeWindowHandle;
 	(void)width;
 	(void)height;
+	(void)opt;
 
 	_depthStencilBuffer = std::make_unique<DepthStencilBuffer>(this);
 	_compiler = std::make_unique<Null::ShaderCompiler>(this);

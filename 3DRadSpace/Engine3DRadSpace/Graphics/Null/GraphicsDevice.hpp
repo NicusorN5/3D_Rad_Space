@@ -2,6 +2,7 @@
 #include "../IGraphicsDevice.hpp"
 #include "../../Math/Color.hpp"
 #include "../Viewport.hpp"
+#include "../GraphicsDeviceCreationOptions.hpp"
 
 namespace Engine3DRadSpace::Graphics::Null
 {
@@ -20,7 +21,7 @@ namespace Engine3DRadSpace::Graphics::Null
 		std::unique_ptr<IVertexBuffer> _screenQuad;
 	public:
 		GraphicsDevice() = delete;
-		explicit GraphicsDevice(void* nativeWindowHandle, size_t width = 800, size_t height = 600);
+		explicit GraphicsDevice(void* nativeWindowHandle, size_t width = 800, size_t height = 600, GraphicsDeviceCreationOptions opt = GraphicsDeviceCreationOptions::Unspecified);
 
 		GraphicsDevice(GraphicsDevice&) = delete;
 		GraphicsDevice(GraphicsDevice&&) = delete;

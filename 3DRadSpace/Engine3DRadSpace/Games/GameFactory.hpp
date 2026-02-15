@@ -38,7 +38,7 @@ namespace Engine3DRadSpace
 
 		static void RegisterDevice(const std::string& name, FnCreateGraphicsDevice fn);
 
-		void Begin(const std::string& title, size_t width, size_t height, bool fullscreen);
+		void Begin(const std::string& title, size_t width, size_t height);
 		void Begin(Native::Window&& window);
 
 		void AddService(std::unique_ptr<IService>&& service);

@@ -44,11 +44,20 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, size_t width, size_t he
 	swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R16G16B16A16_FLOAT;
 	swapChainDesc.BufferDesc.RefreshRate = { 1,60 }; // 1/60
 	swapChainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_STRETCHED;
-	swapChainDesc.Windowed = true;
+	
+	//If not fullscreen:
+	if((opt & GraphicsDeviceCreationOptions::Fullscreen) != GraphicsDeviceCreationOptions::Fullscreen)
+	{
+		swapChainDesc.Windowed = true;
+		opt &= ~GraphicsDeviceCreationOptions::Fullscreen;
+	}
+	else swapChainDesc.Windowed = false;
+
 	swapChainDesc.SampleDesc = { 1, 0 }; //count, quality
 	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT | DXGI_USAGE_SHADER_INPUT ;
 	swapChainDesc.OutputWindow = static_cast<HWND>(nativeWindowHandle);
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
+	swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 
 	UINT flags = 0;
 
@@ -67,6 +76,7 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, size_t width, size_t he
 	if((opt & GraphicsDeviceCreationOptions::Singlethreaded) == GraphicsDeviceCreationOptions::Singlethreaded)
 	{
 		flags |= D3D11_CREATE_DEVICE_SINGLETHREADED;
+		opt &= ~GraphicsDeviceCreationOptions::Singlethreaded;
 	}
 
 	//Enumerate GPUs
@@ -141,6 +151,7 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, size_t width, size_t he
 
 	Logging::SetLastMessage(std::format("Selected GPU adapter {} Mem {}", bestAdapterName, bestVideoMemory));
 
+	//DirectX11 Device creation.
 	r = D3D11CreateDeviceAndSwapChain(
 		bestAdapter.Get(),
 		bestAdapter == nullptr ? D3D_DRIVER_TYPE_HARDWARE : D3D_DRIVER_TYPE_UNKNOWN,
@@ -175,40 +186,7 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, size_t width, size_t he
 
 		if(FAILED(r)) throw Exception("D3D11CreateDeviceAndSwapChain failure!");
 	}
-	else // Keep rtTexture, srv, rtv in a local scope
-	{
-		Microsoft::WRL::ComPtr<ID3D11Texture2D> rtTexture;
-		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> srv;
-		Microsoft::WRL::ComPtr<ID3D11RenderTargetView> rtv;
-
-		//assign texture to main render target.
-		
-		r = _swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), static_cast<void**>(&rtTexture));
-		if (FAILED(r)) throw Exception("Failed to get the back buffer texture!");
-
-		//Create shader resource view for back buffer
-		D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-		srvDesc.Format = DXGI_FORMAT_R16G16B16A16_FLOAT;
-		srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-		srvDesc.Texture2D.MipLevels = -1;
-		srvDesc.Texture2D.MostDetailedMip = 0;
-
-		r = _device->CreateShaderResourceView(rtTexture.Get(), &srvDesc, &srv);
-		if (FAILED(r)) throw Exception("Failed to create shader resource view for the back buffer!");
-
-		//assign render target view
-		r = _device->CreateRenderTargetView(rtTexture.Get(), nullptr, &rtv);
-		if (FAILED(r)) throw Exception("Failed to create the main render target!");
-
-		_backbufferRT.reset(
-			new RenderTarget(this,
-				std::move(rtTexture),
-				std::move(srv),
-				std::move(rtv)
-			)
-		);
-		_backbufferRT->_retrieveSize();
-	}
+	else _createBackBuffer();
 
 	_stencilBuffer = std::make_unique<DepthStencilBuffer>(this);
 	_stencilState = std::make_unique<DepthStencilState>(this);
@@ -271,6 +249,7 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, size_t width, size_t he
 	const char renderTargetBackBufferName[] = "GraphicsDevice::_backBufferRT::_renderTarget";
 	_backbufferRT->_renderTarget->SetPrivateData(WKPDID_D3DDebugObjectName, sizeof(renderTargetBackBufferName) - 1, renderTargetBackBufferName);
 #endif
+
 	_immediateContext = std::make_unique<GraphicsCommandList>(this);
 	_compiler = std::make_unique<DirectX11::ShaderCompiler>(this);
 
@@ -289,6 +268,41 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, size_t width, size_t he
 
 	Logging::SetLastMessage("Created D3D11 backend");
 	Logging::SetLastMessage(std::format("Backbuffer {} {} fullscreen {} Nat Window Handle 0x{:x}", width, height, _fullscreen, reinterpret_cast<intptr_t>(nativeWindowHandle)));
+}
+
+void GraphicsDevice::_createBackBuffer()
+{
+	Microsoft::WRL::ComPtr<ID3D11Texture2D> rtTexture;
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> srv;
+	Microsoft::WRL::ComPtr<ID3D11RenderTargetView> rtv;
+
+	//assign texture to main render target.
+
+	HRESULT r = _swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), static_cast<void**>(&rtTexture));
+	if(FAILED(r)) throw Exception("Failed to get the back buffer texture!");
+
+	//Create shader resource view for back buffer
+	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+	srvDesc.Format = DXGI_FORMAT_R16G16B16A16_FLOAT;
+	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	srvDesc.Texture2D.MipLevels = -1;
+	srvDesc.Texture2D.MostDetailedMip = 0;
+
+	r = _device->CreateShaderResourceView(rtTexture.Get(), &srvDesc, &srv);
+	if(FAILED(r)) throw Exception("Failed to create shader resource view for the back buffer!");
+
+	//assign render target view
+	r = _device->CreateRenderTargetView(rtTexture.Get(), nullptr, &rtv);
+	if(FAILED(r)) throw Exception("Failed to create the main render target!");
+
+	_backbufferRT.reset(
+		new RenderTarget(this,
+			std::move(rtTexture),
+			std::move(srv),
+			std::move(rtv)
+		)
+	);
+	_backbufferRT->_retrieveSize();
 }
 
 std::string_view GraphicsDevice::BackendName() const noexcept
@@ -318,6 +332,7 @@ IDepthStencilBuffer& GraphicsDevice::GetDepthBuffer()
 
 GraphicsDevice::~GraphicsDevice()
 {
+	_swapChain->SetFullscreenState(false, nullptr);
 //
 //		UNCOMMENT THE COMMENT BLOCK BELOW IF THERE ARE DIRECTX OBJECTS LEAKING! 
 //

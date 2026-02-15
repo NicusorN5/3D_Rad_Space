@@ -22,6 +22,7 @@ MyGame::MyGame() : Game("3DRadSpace Empty", 800, 600)
 void MyGame::Initialize()
 {
 	Game::Initialize();
+	Device->ImmediateContext()->ToggleFullScreen();
 
 	this->ClearColor = Colors::CornflowerBlue;
 

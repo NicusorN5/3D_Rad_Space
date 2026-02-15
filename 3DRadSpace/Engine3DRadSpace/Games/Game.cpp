@@ -79,7 +79,7 @@ IService* Game::RequireService(const std::type_index& type)
 	return nullptr;
 }
 
-Game::Game(const std::string &title, size_t width, size_t height, bool fullscreen) :
+Game::Game(const std::string &title, size_t width, size_t height) :
 	Window(std::make_unique<Native::Window>(title, width, height)),
 	Objects(std::make_unique<ObjectList>(this)),
 	Keyboard(Window->GetKeyboardState()),
@@ -112,6 +112,12 @@ void Game::Run()
 
 	while (_running && Window->NativeHandle() != nullptr)
 	{	
+		if(Keyboard.IsKeyDown(Key::F4) && Keyboard.IsKeyDown(Key::LeftAlt))
+		{
+			Exit();
+			break;
+		}
+
 		Window->ProcessMessages();
 		RunOneFrame();
 	}
@@ -256,10 +262,10 @@ Ray Game::GetMouseRay(const Vector2 &mousePosition, const Matrix4x4 &view, const
 	};
 }
 
-E3DRSP_Game E3DRSP_Game_Create(const char* title, size_t width, size_t height, bool fullscreen)
+E3DRSP_Game E3DRSP_Game_Create(const char* title, size_t width, size_t height)
 {
 	if (title == nullptr) title = "";
-	return new Game(title, width, height, fullscreen);
+	return new Game(title, width, height);
 }
 
 void E3DRSP_Game_Run(E3DRSP_Game game)

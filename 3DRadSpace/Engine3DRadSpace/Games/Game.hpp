@@ -31,7 +31,7 @@ namespace Engine3DRadSpace
 		void _initialize();
 		void _loadScene();
 	public:
-		Game(const std::string &title, size_t width = 800, size_t height = 600, bool fullscreen = false);
+		Game(const std::string &title, size_t width = 800, size_t height = 600);
 		Game(Native::Window&& window);
 
 		Game(Game&) = delete;
