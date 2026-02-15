@@ -22,6 +22,9 @@
 #include <dxgi.h>
 #include <dxgi1_3.h>
 
+#undef min
+#undef max
+
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Graphics::DirectX11;
@@ -51,8 +54,45 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, size_t width, size_t he
 	UINT flags = 0;
 #endif
 
-	HRESULT r = D3D11CreateDeviceAndSwapChain(
-		nullptr,
+	//Enumerate GPUs
+	Microsoft::WRL::ComPtr<IDXGIFactory> factory;
+	HRESULT r = CreateDXGIFactory(__uuidof(IDXGIFactory), &factory);
+	if(FAILED(r)) throw Exception("Failed to create DXGI Factory!");
+
+	Microsoft::WRL::ComPtr<IDXGIAdapter> adapter;
+
+	IDXGIAdapter* bestAdapter = nullptr;
+	size_t bestVideoMemory = std::numeric_limits<size_t>::min();
+	std::string bestAdapterName;
+
+	//Find the most capable adapter
+	DXGI_ADAPTER_DESC adapterDesc{};
+	for(UINT idxAdapter = 0; ; idxAdapter++)
+	{
+		r = factory->EnumAdapters(idxAdapter, &adapter);
+		if(FAILED(r)) break;
+
+		adapter->GetDesc(&adapterDesc);
+		auto memory = adapterDesc.DedicatedVideoMemory /= (1024 * 1024); // bytes -> MB
+
+		auto adapterName = std::string(
+			adapterDesc.Description,
+			adapterDesc.Description + lstrlenW(adapterDesc.Description)
+		);
+
+		Logging::SetLastMessage(std::format("GPU Adapter {} Memory {} MB", adapterName, memory));
+
+		if(memory > bestVideoMemory)
+		{
+			bestAdapterName = adapterName;
+			bestVideoMemory = memory;
+		}
+	}
+
+	Logging::SetLastMessage(std::format("Selected GPU adapter {} Mem {}", bestAdapterName, bestVideoMemory));
+
+	 r = D3D11CreateDeviceAndSwapChain(
+		bestAdapter,
 		D3D_DRIVER_TYPE_HARDWARE,
 		nullptr,
 		flags,

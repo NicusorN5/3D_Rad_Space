@@ -15,4 +15,6 @@ namespace Engine3DRadSpace::Plugins
 	/// <returns>The number of custom objects loaded.</returns>
 	/// <param name="libraryHandle">HMODULE in Windows, void* in Linux</param>
 	size_t E3DRSP_PLUGINS_EXPORT LoadCustomObjectsFromLibHandle(void* libraryHandle);
+
+
 }
