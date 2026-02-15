@@ -31,10 +31,12 @@ using namespace Engine3DRadSpace::Graphics::DirectX11;
 using namespace Engine3DRadSpace::Logging;
 using namespace Engine3DRadSpace::Math;
 
-GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, size_t width, size_t height) :
+GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, size_t width, size_t height, GraphicsDeviceCreationOptions opt) :
 	EnableVSync(true),
 	_resolution(width, height)
 {
+	Logging::SetLastMessage("Creating DirectX11::GraphicsDevice");
+
 	DXGI_SWAP_CHAIN_DESC swapChainDesc{};
 	swapChainDesc.BufferCount = 2;
 	swapChainDesc.BufferDesc.Width = width;
@@ -48,11 +50,24 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, size_t width, size_t he
 	swapChainDesc.OutputWindow = static_cast<HWND>(nativeWindowHandle);
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
 
-#if _DEBUG
-	UINT flags = D3D11_CREATE_DEVICE_DEBUG;
-#else
 	UINT flags = 0;
-#endif
+
+	//Set debug flag
+#ifdef _DEBUG
+	opt |= GraphicsDeviceCreationOptions::Debug;
+#endif // _DEBUG
+
+	if((opt & GraphicsDeviceCreationOptions::Debug) == GraphicsDeviceCreationOptions::Debug)
+	{
+		flags |= D3D11_CREATE_DEVICE_DEBUG;
+		opt &= ~GraphicsDeviceCreationOptions::Debug;
+	}
+
+	//Set singlethreaded flag
+	if((opt & GraphicsDeviceCreationOptions::Singlethreaded) == GraphicsDeviceCreationOptions::Singlethreaded)
+	{
+		flags |= D3D11_CREATE_DEVICE_SINGLETHREADED;
+	}
 
 	//Enumerate GPUs
 	Microsoft::WRL::ComPtr<IDXGIFactory> factory;
@@ -61,11 +76,15 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, size_t width, size_t he
 
 	Microsoft::WRL::ComPtr<IDXGIAdapter> adapter;
 
-	IDXGIAdapter* bestAdapter = nullptr;
-	size_t bestVideoMemory = std::numeric_limits<size_t>::min();
+	bool selectPerformance = (opt & GraphicsDeviceCreationOptions::SelectGPU_Performance) == GraphicsDeviceCreationOptions::SelectGPU_Performance;
+	bool selectIntegrated = (opt & GraphicsDeviceCreationOptions::SelectGPU_Integrated) == GraphicsDeviceCreationOptions::SelectGPU_Integrated;
+
+	Microsoft::WRL::ComPtr<IDXGIAdapter> bestAdapter;
+	size_t bestVideoMemory = selectPerformance ? std::numeric_limits<size_t>::min() : (selectIntegrated ? std::numeric_limits<size_t>::max() : 0);
+
 	std::string bestAdapterName;
 
-	//Find the most capable adapter
+	//Find adapter by specified criteria
 	DXGI_ADAPTER_DESC adapterDesc{};
 	for(UINT idxAdapter = 0; ; idxAdapter++)
 	{
@@ -80,20 +99,51 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, size_t width, size_t he
 			adapterDesc.Description + lstrlenW(adapterDesc.Description)
 		);
 
-		Logging::SetLastMessage(std::format("GPU Adapter {} Memory {} MB", adapterName, memory));
-
-		if(memory > bestVideoMemory)
+		auto updateAdapter = [&]()
 		{
 			bestAdapterName = adapterName;
 			bestVideoMemory = memory;
+			bestAdapter = adapter;
+		};
+
+		Logging::SetLastMessage(std::format("GPU Adapter {} Memory {} MB", adapterName, memory));
+		
+		if(memory == 0)
+		{
+			if((opt & GraphicsDeviceCreationOptions::SelectGPU_Software) == GraphicsDeviceCreationOptions::SelectGPU_Software)
+			{
+				updateAdapter();
+				break;
+			}
+			else continue;
+		}
+
+		//If default, just select the first enumerated device.
+		if(opt == GraphicsDeviceCreationOptions::Unspecified ||
+		  (opt & GraphicsDeviceCreationOptions::SelectGPU_Default) == GraphicsDeviceCreationOptions::SelectGPU_Default)
+		{
+			updateAdapter();
+			break;
+		};
+
+		//If performance, select the adapter with the most video memory.
+		if(selectPerformance && memory > bestVideoMemory)
+		{
+			updateAdapter();
+		}
+
+		//If dedicated, select the first adapter that is not integrated or software.
+		if(selectIntegrated && memory < bestVideoMemory)
+		{
+			updateAdapter();
 		}
 	}
 
 	Logging::SetLastMessage(std::format("Selected GPU adapter {} Mem {}", bestAdapterName, bestVideoMemory));
 
-	 r = D3D11CreateDeviceAndSwapChain(
-		bestAdapter,
-		D3D_DRIVER_TYPE_HARDWARE,
+	r = D3D11CreateDeviceAndSwapChain(
+		bestAdapter.Get(),
+		bestAdapter == nullptr ? D3D_DRIVER_TYPE_HARDWARE : D3D_DRIVER_TYPE_UNKNOWN,
 		nullptr,
 		flags,
 		nullptr,
@@ -105,8 +155,27 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, size_t width, size_t he
 		nullptr,
 		&_context
 	);
-	if (FAILED(r)) throw Exception("D3D11CreateDeviceAndSwapChain failed!");
-	else
+	if(FAILED(r))
+	{
+		Logging::SetLastWarning("Failed to create device with specified criteria. Creating default device");
+		r = D3D11CreateDeviceAndSwapChain(
+			nullptr,
+			D3D_DRIVER_TYPE_HARDWARE,
+			nullptr,
+			flags,
+			nullptr,
+			0,
+			D3D11_SDK_VERSION,
+			&swapChainDesc,
+			&_swapChain,
+			&_device,
+			nullptr,
+			&_context
+		);
+
+		if(FAILED(r)) throw Exception("D3D11CreateDeviceAndSwapChain failure!");
+	}
+	else // Keep rtTexture, srv, rtv in a local scope
 	{
 		Microsoft::WRL::ComPtr<ID3D11Texture2D> rtTexture;
 		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> srv;
@@ -116,8 +185,6 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, size_t width, size_t he
 		
 		r = _swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), static_cast<void**>(&rtTexture));
 		if (FAILED(r)) throw Exception("Failed to get the back buffer texture!");
-
-		//_backbufferRT->_texture->Release();
 
 		//Create shader resource view for back buffer
 		D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};

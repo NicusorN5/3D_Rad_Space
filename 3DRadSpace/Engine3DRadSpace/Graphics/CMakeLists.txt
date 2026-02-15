@@ -29,6 +29,8 @@ add_library(3DRadSpace.Graphics SHARED
 	"Font.h"
 	"Glyph.hpp"
 	"Glyph.h"
+	"GraphicsDeviceCreationOptions.hpp"
+	"GraphicsDeviceCreationOptions.h"
 	"IBlendState.hpp"
 	"IBlendState.cpp"
 	"IBlendState.h"

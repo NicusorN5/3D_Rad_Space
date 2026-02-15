@@ -9,6 +9,7 @@
 #include "DepthStencilBuffer.hpp"
 #include "BlendState.hpp"
 #include "../IGraphicsDevice.hpp"
+#include "../GraphicsDeviceCreationOptions.hpp"
 
 namespace Engine3DRadSpace::Graphics::DirectX11
 {
@@ -65,7 +66,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		std::string _backendName = "DirectX11";
 	public:
 		GraphicsDevice() = delete;
-		explicit GraphicsDevice(void* nativeWindowHandle, size_t width = 800, size_t height = 600);
+		explicit GraphicsDevice(void* nativeWindowHandle, size_t width = 800, size_t height = 600, GraphicsDeviceCreationOptions opt = GraphicsDeviceCreationOptions::Unspecified);
 
 		GraphicsDevice(GraphicsDevice&) = delete;
 		GraphicsDevice(GraphicsDevice&&) = delete;
