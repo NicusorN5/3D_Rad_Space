@@ -1,32 +1,42 @@
 cbuffer Data : register(b0)
 {
-    row_major matrix matWorldViewProj; // MVP transformation
+	row_major matrix matWorldViewProj; // MVP transformation
 }
 
-Texture2D TextureModel : register(t0);
-SamplerState TextureSampler : register(s0);
+TextureCube CubeMapTexture : register(t0);
+SamplerState CubeMapSampler
+{
+	Texture = <CubeMapTexture>;
+	AddressU = CLAMP;
+	AddressV = CLAMP;
+
+	AddressW = CLAMP;
+	BorderColor = float4(1, 1, 1, 1);
+
+	Filter = LINEAR;
+};
 
 struct VertexIn
 {
 	float3 Position : POSITION;
-	float2 UV : TEXCOORD;
 };
 
 struct VertexOut
 {
 	float4 Position : SV_POSITION;
-	float2 UV: TEXCOORD;
+	float3 UVW : TEXCOORD0;
 };
 
 VertexOut VS_Main(VertexIn v)
 {
-	VertexOut r;
-	r.Position = mul(float4(v.Position.xyz,1), matWorldViewProj);
-	r.UV = v.UV;
-	return r;
+	VertexOut output;
+	output.Position = mul(float4(v.Position, 1.0f), matWorldViewProj);
+	output.Position.z = output.Position.w;
+	output.UVW = v.Position;
+	return output;
 }
 
 float4 PS_Main(VertexOut v) : SV_TARGET
 {
-	return TextureModel.Sample(TextureSampler, v.UV);
+	return CubeMapTexture.Sample(CubeMapSampler, normalize(v.UVW));
 }

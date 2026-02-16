@@ -1,6 +1,6 @@
 #pragma once
-#include "../ModelMeshPart.hpp"
-#include "../../Core/IDrawable3D.hpp"
+#include "IPrimitive.hpp"
+#include "../ITextureCube.hpp"
 
 namespace Engine3DRadSpace::Objects
 {
@@ -20,9 +20,12 @@ namespace Engine3DRadSpace::Graphics::Primitives
 	/// <remarks>
 	/// This doesn't inherit IPrimitive - since this renders a textured mesh.
 	/// </remarks>
-	class E3DRSP_GRAPHICS_PRIMITIVES_EXPORT CubeMapSkybox final : public IDrawable3D
+	class E3DRSP_GRAPHICS_PRIMITIVES_EXPORT CubeMapSkybox final : public IPrimitive
 	{
-		std::array<std::unique_ptr<ModelMeshPart>, 6> _faces;
+		std::unique_ptr<ITextureCube> _texture;
+
+		void _compileShader(IShaderCompiler* compiler);
+		void _create();
 
 		CubeMapSkybox(std::nullptr_t);
 	public:
@@ -53,18 +56,8 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		CubeMapSkybox(CubeMapSkybox&&) noexcept = default;
 		CubeMapSkybox& operator=(CubeMapSkybox&&) noexcept = default;
 
-		/// <summary>
-		/// Model/world transform for this primitive. Usually only made of scale and translation(camera position). 
-		/// </summary>
-		Math::Matrix4x4 Model = Math::Matrix4x4();
-		/// <summary>
-		/// Camera view matrix.
-		/// </summary>
-		Math::Matrix4x4 View = Math::Matrix4x4();
-		/// <summary>
-		/// Camera projection matrix.
-		/// </summary>
-		Math::Matrix4x4 Projection = Math::Matrix4x4();
+		static std::array<VertexPosition, 8> CreateVertices();
+		static std::array<unsigned, 36> CreateIndices();
 
 		void Draw3D() override;
 		

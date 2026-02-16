@@ -1,6 +1,7 @@
 #pragma once
 #include "../IShader.hpp"
 #include "DirectX11.h"
+#include "../../Reflection/IReflectedField.hpp"
 
 namespace Engine3DRadSpace::Graphics::DirectX11
 {

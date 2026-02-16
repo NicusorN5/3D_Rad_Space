@@ -2,9 +2,14 @@
 #include "../IShaderCompiler.hpp"
 
 using namespace Engine3DRadSpace;
-using namespace Engine3DRadSpace::Content;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Graphics::Primitives;
+
+IPrimitive::IPrimitive(IGraphicsDevice* device, std::nullptr_t nullShader) :
+    _device(device),
+    _shader(nullptr)
+{
+}
 
 IPrimitive::IPrimitive(IGraphicsDevice* device) :
 	_device(device),

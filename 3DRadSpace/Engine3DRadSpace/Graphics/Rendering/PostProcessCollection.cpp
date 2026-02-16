@@ -1,5 +1,8 @@
 #include "PostProcessCollection.hpp"
 #include "../IDepthStencilBuffer.hpp"
+#include "../IGraphicsDevice.hpp"
+#include "../IGraphicsCommandList.hpp"
+#include "../ITexture2D.hpp"
 
 using namespace Engine3DRadSpace::Graphics::Rendering;
 

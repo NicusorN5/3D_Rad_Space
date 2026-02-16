@@ -10,8 +10,9 @@ namespace Engine3DRadSpace::Math
 		Vector4(float x = 0.0f, float y = 0.0f, float z = 0.0f, float w = 0.0f) : X(x), Y(y), Z(z), W(w) {};
 		Vector4(Vector3 v) : X(v.X), Y(v.Y), Z(v.Z), W(1) {};
 
+		static Vector4 Zero();
 		static Vector4 UnitX();
-		 Vector4 UnitY();
+		static Vector4 UnitY();
 		static Vector4 UnitZ();
 		static Vector4 UnitW();
 		static Vector4 One();

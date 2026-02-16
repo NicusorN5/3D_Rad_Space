@@ -68,10 +68,12 @@ void Skybox::Draw3D()
 	{
 		auto camera = game->Objects->GetRenderingCamera();
 
-		float s = camera->FarPlaneDistance * 0.5f;
-		(*_skybox)->Model = Matrix4x4::CreateScale(Vector3(s, s, s)) * Matrix4x4::CreateTranslation(camera->Position);
-		(*_skybox)->View = camera->GetViewMatrix();
-		(*_skybox)->Projection = camera->GetProjectionMatrix();
+		auto viewMatrix = camera->GetViewMatrix();
+		viewMatrix.M41 = 0;
+		viewMatrix.M42 = 0;
+		viewMatrix.M43 = 0;
+
+		(*_skybox)->Transform = viewMatrix * camera->GetProjectionMatrix();
 		(*_skybox)->Draw3D();
 	}
 }

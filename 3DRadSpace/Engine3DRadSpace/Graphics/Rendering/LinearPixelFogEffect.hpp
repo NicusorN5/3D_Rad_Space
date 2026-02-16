@@ -1,5 +1,6 @@
 #pragma once
 #include "PostProcessEffect.hpp"
+#include "../../Math/Color.hpp"
 
 namespace Engine3DRadSpace::Graphics::Rendering
 {

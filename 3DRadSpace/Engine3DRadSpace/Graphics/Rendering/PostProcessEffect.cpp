@@ -1,5 +1,6 @@
 #include "PostProcessEffect.hpp"
 #include "../IGraphicsDevice.hpp"
+#include "../IGraphicsCommandList.hpp"
 #include "../IShaderCompiler.hpp"
 
 using namespace Engine3DRadSpace;

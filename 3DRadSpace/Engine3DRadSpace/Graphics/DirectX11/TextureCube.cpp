@@ -27,15 +27,15 @@ TextureCube::TextureCube(GraphicsDevice *device, std::array<ITexture2D*, 6> cube
 {
 	std::array<ID3D11Texture2D*, 6> textures;
 
-	D3D11_TEXTURE2D_DESC desc;
-	textures[0]->GetDesc(&desc);
-	desc.ArraySize = 6;
-	desc.MiscFlags |= D3D11_RESOURCE_MISC_TEXTURECUBE;
-
 	for(size_t i = 0; i < 6; i++)
 	{
 		textures[i] = static_cast<Texture2D*>(cubeMap[i])->_texture.Get();
 	}
+
+	D3D11_TEXTURE2D_DESC desc;
+	textures[0]->GetDesc(&desc);
+	desc.ArraySize = 6;
+	desc.MiscFlags |= D3D11_RESOURCE_MISC_TEXTURECUBE;
 
 	UINT mipCount = desc.MipLevels;
 
@@ -79,7 +79,7 @@ TextureCube::TextureCube(GraphicsDevice* device, D3D11_TEXTURE2D_DESC* desc, Mic
 void TextureCube::_createSRV()
 {
 	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-	srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURECUBE;
 	srvDesc.TextureCube.MipLevels = -1;
 	srvDesc.TextureCube.MostDetailedMip = 0;

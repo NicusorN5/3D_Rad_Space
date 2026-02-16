@@ -1,7 +1,6 @@
 #pragma once
-#include "IGPUBuffer.hpp"
+#include "IGPUResource.hpp"
 #include "../Math/UPoint.hpp"
-#include "ITexture2D.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {

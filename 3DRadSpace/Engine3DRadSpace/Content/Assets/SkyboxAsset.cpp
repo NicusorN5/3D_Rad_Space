@@ -56,8 +56,7 @@ CubeMapSkybox SkyboxAsset::_loadCubeMap(Graphics::IGraphicsDevice* device, const
 	}
 	else if(path.extension() == ".dds")
 	{
-		//TODO: Implement DDS loading
-		throw AssetLoadingError(Tag<SkyboxAsset>{}, path, "DDS loading not implemented");
+		return CubeMapSkybox(device, path);
 	}
 	else
 	{

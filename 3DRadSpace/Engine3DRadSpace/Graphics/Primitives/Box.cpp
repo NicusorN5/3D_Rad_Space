@@ -2,7 +2,6 @@
 #include "../IShaderCompiler.hpp"
 
 using namespace Engine3DRadSpace;
-using namespace Engine3DRadSpace::Content;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Graphics::Primitives;
 using namespace Engine3DRadSpace::Math;
@@ -82,14 +81,4 @@ void Box::SetColor(const Color&color)
 
     auto verts = CreateVertices(_box, color);
     _vertices->SetData<VertexPositionColor>(verts);
-}
-
-IVertexBuffer* Box::GetVertexBuffer() const noexcept
-{
-    return _vertices.get();
-}
-
-IIndexBuffer* Box::GetIndexBuffer() const noexcept
-{
-    return _indices.get();
 }

@@ -3,6 +3,11 @@
 
 using namespace Engine3DRadSpace::Math;
 
+Vector4 Vector4::Zero()
+{
+	return {0, 0, 0, 0};
+}
+
 Vector4 Vector4::UnitX()
 {
     return { 1,0,0,0 };

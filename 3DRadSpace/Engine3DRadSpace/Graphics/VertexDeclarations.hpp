@@ -1,6 +1,7 @@
 #pragma once
 #include "../Math/Vector2.hpp"
 #include "../Math/Vector3.hpp"
+#include "../Math/Vector4.hpp"
 #include "../Math/Color.hpp"
 
 namespace Engine3DRadSpace::Graphics
@@ -95,6 +96,9 @@ namespace Engine3DRadSpace::Graphics
 
 	template <typename V>
 	concept VertexDecl = requires(V v)
+	{
+		v.Position = Math::Vector4::Zero();
+	} || requires(V v)
 	{
 		v.Position = Math::Vector3::Zero();
 	} || requires(V v)

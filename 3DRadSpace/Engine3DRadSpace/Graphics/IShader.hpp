@@ -1,7 +1,11 @@
 #pragma once
 #include "ShaderFeatureLevel.hpp"
 #include "IGPUResource.hpp"
-#include "../Reflection/IReflectedField.hpp"
+
+namespace Engine3DRadSpace::Reflection
+{
+	class IReflectedField;
+}
 
 namespace Engine3DRadSpace::Graphics
 {

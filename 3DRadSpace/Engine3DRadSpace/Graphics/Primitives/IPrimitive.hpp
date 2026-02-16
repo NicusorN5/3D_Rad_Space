@@ -17,9 +17,13 @@ namespace Engine3DRadSpace::Graphics::Primitives
 	class E3DRSP_GRAPHICS_PRIMITIVES_EXPORT IPrimitive : public IDrawable3D
 	{
 	protected:
+		IPrimitive(IGraphicsDevice* device, std::nullptr_t nullShader);
 		IPrimitive(IGraphicsDevice* device);
 
-		IGraphicsDevice*_device;
+		IPrimitive(IPrimitive&&) noexcept = default;
+		IPrimitive& operator=(IPrimitive&&) noexcept = default;
+
+		IGraphicsDevice* _device;
 		std::unique_ptr<IVertexBuffer> _vertices;
 		std::unique_ptr<IIndexBuffer> _indices;
 
@@ -42,6 +46,6 @@ namespace Engine3DRadSpace::Graphics::Primitives
 
 		void Draw3D() override;
 
-		virtual ~IPrimitive() = default;
+		~IPrimitive() override = default;
 	};
 }

@@ -67,16 +67,5 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		/// </summary>
 		/// <param name="color">New color</param>
 		void SetColor(const Math::Color& color);
-
-		/// <summary>
-		/// Gets the internal vertex buffer.
-		/// </summary>
-		/// <returns>Box vertex buffer</returns>
-		IVertexBuffer* GetVertexBuffer() const noexcept;
-		/// <summary>
-		/// Gets the internal index buffer.
-		/// </summary>
-		/// <returns>Index buffer.</returns>
-		IIndexBuffer* GetIndexBuffer() const noexcept;
 	};
 }
