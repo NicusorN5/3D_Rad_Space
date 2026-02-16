@@ -68,7 +68,12 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		void _createBackBuffer();
 	public:
 		GraphicsDevice() = delete;
-		explicit GraphicsDevice(void* nativeWindowHandle, size_t width = 800, size_t height = 600, GraphicsDeviceCreationOptions opt = GraphicsDeviceCreationOptions::Unspecified);
+		explicit GraphicsDevice(
+			void* nativeWindowHandle,
+			size_t width = 800, 
+			size_t height = 600,
+			GraphicsDeviceCreationOptions opt = GraphicsDeviceCreationOptions::Unspecified
+		);
 
 		GraphicsDevice(GraphicsDevice&) = delete;
 		GraphicsDevice(GraphicsDevice&&) = delete;

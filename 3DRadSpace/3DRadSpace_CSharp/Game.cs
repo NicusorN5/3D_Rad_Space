@@ -16,20 +16,14 @@ public class Game : InstIGame
 	[DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "?Run@Game@Engine3DRadSpace@@QEAAXXZ")]
 	static extern private void _runGame(IntPtr gameHandle);
 
-	public Game(string title, uint width, uint height) : base(IntPtr.Zero)
+	public Game(string title, uint width = 800, uint height = 600) : base(IntPtr.Zero)
 	{
+		_gameHandle = _createGameFromWindow();
 		objects = new List<Tuple<int, object>>();
 		Window = new Window(title, width, height);
 		Device = null;
-		
-	}
-	public Game(string title) : this(title, 800, 600, false) {  }
-	public Game(string title, uint width, uint height) : this(title, width, height, false)
-	{
-		//TODO: Actually use Game(string, uint, uint), not Game(Window&&) !
-		_gameHandle = _createGameFromWindow();
-	}
 
+	}
 	public Window Window { get; private set; }
 	public IGraphicsDevice Device { get; private set; }
 

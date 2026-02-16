@@ -25,7 +25,7 @@ public:
 };
 
 TriangleTest::TriangleTest():
-	Game("Triangle Test", 800, 600, false),
+	Game("Triangle Test", 800, 600),
 	_triangleShader(nullptr)
 {
 
