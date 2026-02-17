@@ -2,7 +2,7 @@
 
 namespace Engine3DRadSpace.Graphics;
 
-public interface ITexture2D : IGPUBuffer
+public interface ITexture2D : IGPUMultiBuffer
 {
 	public Point Size { get; }
 	public uint Width { get; }

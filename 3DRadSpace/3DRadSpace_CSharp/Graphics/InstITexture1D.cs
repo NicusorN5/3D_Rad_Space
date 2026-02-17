@@ -2,7 +2,7 @@
 
 namespace Engine3DRadSpace.Graphics
 {
-	public class InstITexture1D : InstGPUBuffer, ITexture1D 
+	public class InstITexture1D : InstGPUMultiBuffer, ITexture1D 
 	{
 		[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_ITexture1D_Size")]
 		extern static long _size(IntPtr texture);

@@ -1,4 +1,5 @@
 #include "Texture2D.hpp"
+#include "GraphicsDevice.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
@@ -50,10 +51,12 @@ unsigned Texture2D::Width() const noexcept
 {
 	return 0;
 }
+
 unsigned Texture2D::Height() const noexcept
 {
 	return 0;
 }
+
 Math::Point Texture2D::Size() const noexcept
 {
 	return Math::Point(0, 0);
@@ -64,25 +67,9 @@ Math::Point Texture2D::Size() const noexcept
 	return std::unique_ptr<ITexture2D>();
 }
 
-Texture2D Texture2D::CreateStaging(Texture2D* texture)
-{
-	(void)texture;
-	return Texture2D(nullptr, "");
-}
 Texture2D Texture2D::Clone()
 {
 	return Texture2D(nullptr, "");
-}
-
-std::pair<void*, size_t> Texture2D::BeginRead(unsigned resourceID)
-{
-	(void)resourceID;
-	return std::make_pair<void*, size_t>(nullptr, 0);
-}
-
-void Texture2D::EndRead(unsigned resourceID)
-{
-	(void)resourceID;
 }
 
 void* Texture2D::GetHandle() const noexcept
@@ -94,21 +81,24 @@ IGraphicsDevice* Texture2D::GetGraphicsDevice() const noexcept
 	return nullptr;
 }
 
-size_t Texture2D::ReadData(void **data)
+size_t Texture2D::ReadData(size_t subResource, void **data)
 {
+	(void)subResource;
+
 	if(data != nullptr) *data = nullptr;
 	return 0;
 }
 
-void Texture2D::SetData(void *data, size_t buffSize)
+void Texture2D::SetData(size_t subResource, void *data, size_t buffSize)
 {
+	(void)subResource;
 	(void)data;
 	(void)buffSize;
 }
 
-void Texture2D::EndRead()
+void Texture2D::EndRead(size_t subResource)
 {
-
+	(void)subResource;
 }
 
 void* Texture2D::GetViewHandle() const noexcept

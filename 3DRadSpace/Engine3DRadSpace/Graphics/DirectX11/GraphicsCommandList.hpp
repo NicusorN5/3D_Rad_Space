@@ -130,6 +130,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		void ToggleFullScreen() override;
 
 		void Copy(IGPUBuffer* dest, IGPUBuffer* src) override;
+		void Copy(IGPUMultiBuffer* dest, IGPUMultiBuffer* src) override;
 
 		void* GetHandle() const noexcept override;
 		IGraphicsDevice* GetGraphicsDevice() const noexcept override;

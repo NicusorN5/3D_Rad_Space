@@ -154,6 +154,12 @@ void GraphicsCommandList::Copy(IGPUBuffer* dest, IGPUBuffer* src)
 	(void)src;
 }
 
+void GraphicsCommandList::Copy(IGPUMultiBuffer* dest, IGPUMultiBuffer* src)
+{
+	(void)dest;
+	(void)src;
+}
+
 void* GraphicsCommandList::GetHandle() const noexcept
 {
 	return nullptr;

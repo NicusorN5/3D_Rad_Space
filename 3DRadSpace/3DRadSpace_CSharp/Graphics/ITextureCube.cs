@@ -2,7 +2,7 @@
 
 namespace Engine3DRadSpace.Graphics;
 
-public interface ITextureCube : IGPUResource
+public interface ITextureCube : IGPUMultiBuffer
 {
 	public Point Size { get; }
 	public uint Width { get; }

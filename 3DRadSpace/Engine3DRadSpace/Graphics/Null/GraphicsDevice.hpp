@@ -152,6 +152,8 @@ namespace Engine3DRadSpace::Graphics::Null
 		std::unique_ptr<ITextureCube> CreateTextureCube(std::array<ITexture2D*, 6> cubeMap) override;
 		std::unique_ptr<ITextureCube> CreateTextureCube(const std::filesystem::path &path) override;
 
+		std::unique_ptr<ITexture3D> CreateTexture3D(std::span<ITexture2D*> textures) override;
+
 		std::unique_ptr<IVertexBuffer> CreateVertexBuffer(
 			const void* data,
 			size_t structSize,

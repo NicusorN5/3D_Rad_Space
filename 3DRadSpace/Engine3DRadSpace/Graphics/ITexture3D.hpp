@@ -1,10 +1,10 @@
 #pragma once
-#include "IGPUBuffer.hpp"
+#include "IGPUMultiBuffer.hpp"
 #include "../Math/UPoint3.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {
-	class E3DRSP_GRAPHICS_EXPORT ITexture3D : public IGPUBuffer
+	class E3DRSP_GRAPHICS_EXPORT ITexture3D : public IGPUMultiBuffer
 	{
 	public:
 		virtual Math::UPoint3 Size() const noexcept = 0;

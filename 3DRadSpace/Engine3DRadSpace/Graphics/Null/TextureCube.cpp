@@ -41,6 +41,26 @@ std::unique_ptr<ITextureCube> TextureCube::CreateStaging()
 	return std::make_unique<TextureCube>(nullptr, std::filesystem::path());
 }
 
+size_t TextureCube::ReadData(size_t subResource, void** data)
+{
+	(void)subResource;
+	(void)data;
+
+	return 0;
+}
+
+void TextureCube::SetData(size_t subResource, void* data, size_t buffSize)
+{
+	(void)subResource;
+	(void)data;
+	(void)buffSize;
+}
+
+void TextureCube::EndRead(size_t subResource)
+{
+	(void)subResource;
+}
+
 void* TextureCube::GetHandle() const noexcept
 {
 	return nullptr;

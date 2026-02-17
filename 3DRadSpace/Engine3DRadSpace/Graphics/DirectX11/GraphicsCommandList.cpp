@@ -6,6 +6,7 @@
 #include "../IShader.hpp"
 #include "VertexBuffer.hpp"
 #include "IndexBuffer.hpp"
+#include "IGPUResource.hpp"
 
 #include <directxtk/ScreenGrab.h>
 #include <wincodec.h>
@@ -371,6 +372,16 @@ IGraphicsDevice* GraphicsCommandList::GetGraphicsDevice() const noexcept
 void GraphicsCommandList::Copy(IGPUBuffer* dest, IGPUBuffer* src)
 {
 	if (dest == nullptr || src == nullptr) return;
+
+	auto rscDest = static_cast<ID3D11Resource*>(dest->GetHandle());
+	auto rscSrc = static_cast<ID3D11Resource*>(src->GetHandle());
+
+	_context->CopyResource(rscDest, rscSrc);
+}
+
+void GraphicsCommandList::Copy(IGPUMultiBuffer* dest, IGPUMultiBuffer* src)
+{
+	if(dest == nullptr || src == nullptr) return;
 
 	auto rscDest = dynamic_cast<Texture2D*>(dest)->_texture.Get();
 	auto rscSrc = dynamic_cast<Texture2D*>(src)->_texture.Get();

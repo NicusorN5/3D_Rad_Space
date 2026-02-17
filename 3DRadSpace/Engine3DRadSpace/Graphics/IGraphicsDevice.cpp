@@ -5,6 +5,7 @@
 #include "IGraphicsCommandList.hpp"
 #include "ITexture1D.hpp"
 #include "ITexture2D.hpp"
+#include "ITexture3D.hpp"
 #include "ITextureCube.hpp"
 #include "IVertexBuffer.hpp"
 #include "IBlendState.hpp"
@@ -382,6 +383,11 @@ E3DRSP_ITextureCube E3DRSP_IGraphicsDevice_CreateTextureCube(E3DRSP_IGraphicsDev
 E3DRSP_ITextureCube E3DRSP_IGraphicsDevice_CreateTextureCubeFromFile(E3DRSP_IGraphicsDevice device, const char* path)
 {
 	return static_cast<IGraphicsDevice*>(device)->CreateTextureCube(std::filesystem::path(path)).release();
+}
+
+E3DRSP_ITexture3D E3DRSP_IGraphicsDevice_CreateTexture3D(E3DRSP_IGraphicsDevice device, E3DRSP_ITexture2D* textures, size_t numTextures)
+{
+	return static_cast<IGraphicsDevice*>(device)->CreateTexture3D(std::span<ITexture2D*>(reinterpret_cast<ITexture2D**>(textures), numTextures)).release();
 }
 
 E3DRSP_IVertexBuffer E3DRSP_IGraphicsDevice_CreateVertexBuffer(

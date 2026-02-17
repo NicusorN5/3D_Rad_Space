@@ -32,20 +32,23 @@ void* Texture1D::GetViewHandle() const noexcept
 	return std::make_unique<Texture1D>(nullptr, 0, PixelFormat::Unknown);
 }
 
-size_t Texture1D::ReadData(void** data)
+size_t Texture1D::ReadData(size_t subresource, void** data)
 {
+	(void)subresource;
 	(void)data;
 	return 0;
 }
 
-void Texture1D::SetData(void* data, size_t buffSize)
+void Texture1D::SetData(size_t subresource, void* data, size_t buffSize)
 {
+	(void)subresource;
 	(void)data;
 	(void)buffSize;
 }
 
-void Texture1D::EndRead()
+void Texture1D::EndRead(size_t subresource)
 {
+	(void)subresource;
 }
 
 void* Texture1D::GetHandle() const noexcept

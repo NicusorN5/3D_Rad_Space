@@ -6,6 +6,7 @@
 #include "ShaderCompiler.hpp"
 #include "Texture1D.hpp"
 #include "Texture2D.hpp"
+#include "Texture3D.hpp"
 #include "TextureCube.hpp"
 #include "IndexBuffer.hpp"
 #include "VertexBuffer.hpp"
@@ -314,6 +315,14 @@ std::unique_ptr<ITextureCube> GraphicsDevice::CreateTextureCube(std::array<IText
 std::unique_ptr<ITextureCube> GraphicsDevice::CreateTextureCube(const std::filesystem::path& path)
 {
 	return std::make_unique<TextureCube>(this, path);
+}
+
+std::unique_ptr<ITexture3D> GraphicsDevice::CreateTexture3D(std::span<ITexture2D*> textures)
+{
+	return std::make_unique<Texture3D>(this, std::span<Texture2D*>(
+		reinterpret_cast<Texture2D**>(*textures.data()),
+		textures.size())
+	);
 }
 
 std::unique_ptr<IVertexBuffer> GraphicsDevice::CreateVertexBuffer(

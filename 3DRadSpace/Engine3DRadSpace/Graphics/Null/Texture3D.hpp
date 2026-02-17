@@ -1,28 +1,31 @@
 #pragma once
-#include "../ITextureCube.hpp"
-#include "../ITexture2D.hpp"
+#include "Texture2D.hpp"
+#include "../ITexture3D.hpp"
 
 namespace Engine3DRadSpace::Graphics::Null
 {
-	class GraphicsDevice;
-	class TextureCube : public ITextureCube
+	class E3DRSP_GRAPHICS_EXPORT Texture3D : public ITexture3D
 	{
+		Texture3D();
+		GraphicsDevice* _device;
 	public:
-		TextureCube(GraphicsDevice* device, const std::filesystem::path& filePath);
-		TextureCube(GraphicsDevice* device, std::array<ITexture2D*, 6> cubeMap);
+		Texture3D(GraphicsDevice* device, std::span<Texture2D*> textures);
 
-		Math::UPoint Size() const noexcept override;
+		Math::UPoint3 Size() const noexcept override;
+
 		unsigned Width() const noexcept override;
 		unsigned Height() const noexcept override;
+		unsigned Depth() const noexcept override;
 
 		void* GetViewHandle() const noexcept override;
-		std::unique_ptr<ITextureCube> CreateStaging() override;
 
 		size_t ReadData(size_t subResource, void** data) override;
 		void SetData(size_t subResource, void* data, size_t buffSize) override;
-		void EndRead(size_t subResource)  override;
+		void EndRead(size_t subResource) override;
 
 		void* GetHandle() const noexcept override;
 		IGraphicsDevice* GetGraphicsDevice() const noexcept override;
+
+		[[nodiscard]] std::unique_ptr<ITexture3D> CreateStaging() override;
 	};
 }

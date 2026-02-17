@@ -19,6 +19,7 @@
 typedef void* E3DRSP_IGraphicsDevice;
 typedef void* E3DRSP_ITexture1D;
 typedef void* E3DRSP_ITexture2D;
+typedef void* E3DRSP_ITexture3D;
 typedef void* E3DRSP_ITextureCube;
 typedef void* E3DRSP_IRenderTarget;
 typedef void* E3DRSP_IDepthStencilBuffer;
@@ -175,6 +176,8 @@ extern "C"
 
 	E3DRSP_GRAPHICS_EXPORT E3DRSP_ITextureCube E3DRSP_IGraphicsDevice_CreateTextureCube(E3DRSP_IGraphicsDevice device, E3DRSP_ITexture2D cubeMap[6]);
 	E3DRSP_GRAPHICS_EXPORT E3DRSP_ITextureCube E3DRSP_IGraphicsDevice_CreateTextureCubeFromFile(E3DRSP_IGraphicsDevice device, const char* path);
+
+	E3DRSP_GRAPHICS_EXPORT E3DRSP_ITexture3D E3DRSP_IGraphicsDevice_CreateTexture3D(E3DRSP_IGraphicsDevice device, E3DRSP_ITexture2D* textures, size_t numTextures);
 
 	E3DRSP_GRAPHICS_EXPORT E3DRSP_IVertexBuffer E3DRSP_IGraphicsDevice_CreateVertexBuffer(
 		E3DRSP_IGraphicsDevice device,

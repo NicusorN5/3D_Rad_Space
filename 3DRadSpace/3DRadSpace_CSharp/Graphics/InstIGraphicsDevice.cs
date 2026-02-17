@@ -199,8 +199,10 @@ public class InstIGraphicsDevice : NatPtrWrapper, IGraphicsDevice
 	[DllImport("3DRadSpace.Graphics.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_IGraphicsDevice_CreateTextureCubeFromFile")]
 	extern static IntPtr _createTextureCube(IntPtr handle, string path);
 
+    [DllImport("3DRadSpace.Graphics.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_IGraphicsDevice_CreateTexture3D")]
+    extern static unsafe IntPtr _createTexture3D(IntPtr handle, IntPtr* ppTextures, ulong numTextures);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateVertexBuffer")]
+    [DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateVertexBuffer")]
 	extern static IntPtr _createVertexBuffer(
 		IntPtr handle,
 		IntPtr data,
@@ -455,6 +457,19 @@ public class InstIGraphicsDevice : NatPtrWrapper, IGraphicsDevice
 		}
 
 		return new InstITextureCube(_createTextureCube(_handle, pTextures));
+	}
+
+	public unsafe ITexture3D CreateTexture3D(ITexture3D[] textures)
+	{
+		int numTextures = textures.Length;
+
+		IntPtr* pTextures = stackalloc IntPtr[numTextures];
+		for(int i =0; i < numTextures; i++)
+		{
+			pTextures[i] = textures[i].Handle;
+		}
+
+		return new InstITexture3D(_createTexture3D(_handle, pTextures, (ulong)numTextures));
 	}
 
 	public ITextureCube CreateTextureCube(string path)

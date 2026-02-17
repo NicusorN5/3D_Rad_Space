@@ -1,9 +1,9 @@
 #pragma once
-#include "IGPUBuffer.hpp"
+#include "IGPUMultiBuffer.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {
-	class E3DRSP_GRAPHICS_EXPORT ITexture1D : public IGPUBuffer
+	class E3DRSP_GRAPHICS_EXPORT ITexture1D : public IGPUMultiBuffer
 	{
 	public:
 		virtual size_t Length() const noexcept = 0;

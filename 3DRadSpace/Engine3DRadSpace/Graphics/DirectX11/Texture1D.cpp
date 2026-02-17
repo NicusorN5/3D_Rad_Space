@@ -105,31 +105,31 @@ std::unique_ptr<ITexture1D> Texture1D::CreateStaging()
 	return std::make_unique<Texture1D>(Texture1D(_device, &desc, std::move(stagingTexture)));
 }
 
-size_t Texture1D::ReadData(void** data)
+size_t Texture1D::ReadData(size_t subResource, void** data)
 {
 	if(data == nullptr) return 0;
 
 	D3D11_MAPPED_SUBRESOURCE mappedResource{};
-	HRESULT r = _device->_context->Map(_texture.Get(), 0, D3D11_MAP_READ, 0, &mappedResource);
+	HRESULT r = _device->_context->Map(_texture.Get(), subResource, D3D11_MAP_READ, 0, &mappedResource);
 	if(SUCCEEDED(r)) return mappedResource.RowPitch;
 	else return 0;
 }
 
-void Texture1D::SetData(void* data, size_t buffSize)
+void Texture1D::SetData(size_t subResource, void* data, size_t buffSize)
 {
 	if(data == nullptr) return;
 
 	D3D11_MAPPED_SUBRESOURCE mappedResource{};
-	HRESULT r = _device->_context->Map(_texture.Get(), 0, D3D11_MAP_WRITE, 0, &mappedResource);
+	HRESULT r = _device->_context->Map(_texture.Get(), subResource, D3D11_MAP_WRITE, 0, &mappedResource);
 	if(FAILED(r)) throw Exception("Failed to map a texture!" + std::system_category().message(r));
 	
 	memcpy(mappedResource.pData, data, buffSize);
 	_device->_context->Unmap(_texture.Get(), 0);
 }
 
-void Texture1D::EndRead()
+void Texture1D::EndRead(size_t subResource)
 {
-	_device->_context->Unmap(_texture.Get(), 0);
+	_device->_context->Unmap(_texture.Get(), subResource);
 }
 
 void* Texture1D::GetHandle() const noexcept

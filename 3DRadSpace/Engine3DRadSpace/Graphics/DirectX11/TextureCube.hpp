@@ -45,6 +45,10 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		void* GetViewHandle() const noexcept override;
 		std::unique_ptr<ITextureCube> CreateStaging() override;
 
+		size_t ReadData(size_t subResource, void** data) override;
+		void SetData(size_t subResource, void* data, size_t buffSize) override;
+		void EndRead(size_t subResource)  override;
+
 		void* GetHandle() const noexcept override;
 		IGraphicsDevice* GetGraphicsDevice() const noexcept override;
 

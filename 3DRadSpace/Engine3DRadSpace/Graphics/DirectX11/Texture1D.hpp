@@ -33,9 +33,9 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		void* GetViewHandle() const noexcept override;
 		[[nodiscard]] std::unique_ptr<ITexture1D> CreateStaging() override;
 
-		size_t ReadData(void** data) override;
-		void SetData(void* data, size_t buffSize) override;
-		void EndRead() override;
+		size_t ReadData(size_t subResource, void** data) override;
+		void SetData(size_t subResource, void* data, size_t buffSize) override;
+		void EndRead(size_t subResource) override;
 
 		void* GetHandle() const noexcept override;
 		IGraphicsDevice* GetGraphicsDevice() const noexcept override;

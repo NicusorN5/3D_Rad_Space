@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Engine3DRadSpace.Graphics;
 
-public class InstITextureCube : InstGPUResource, ITextureCube
+public class InstITextureCube : InstGPUMultiBuffer, ITextureCube
 {
 	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_ITextureCube_Size")]
 	extern static Internal.Point _size(IntPtr texture);

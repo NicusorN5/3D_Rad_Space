@@ -13,12 +13,11 @@ TextureCube::TextureCube(GraphicsDevice *device, const std::filesystem::path &fi
 	HRESULT r = DirectX::CreateDDSTextureFromFile(
 		_device->_device.Get(),
 		filePath.c_str(),
-		nullptr,
-		_resourceView.ReleaseAndGetAddressOf()
+		reinterpret_cast<ID3D11Resource**>(_texture.GetAddressOf()),
+		&_resourceView
 	);
 	if(FAILED(r)) throw std::exception("Failed to load the cube texture from the specified file!");
 
-	_createSRV();
 	_setDebugInfo();
 }
 
@@ -78,15 +77,9 @@ TextureCube::TextureCube(GraphicsDevice* device, D3D11_TEXTURE2D_DESC* desc, Mic
 
 void TextureCube::_createSRV()
 {
-	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-	srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
-	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURECUBE;
-	srvDesc.TextureCube.MipLevels = -1;
-	srvDesc.TextureCube.MostDetailedMip = 0;
-
 	HRESULT r = _device->_device->CreateShaderResourceView(
 		_texture.Get(),
-		&srvDesc,
+		nullptr,
 		_resourceView.ReleaseAndGetAddressOf()
 	);
 	if(FAILED(r)) throw std::exception("Failed to create shader resource view for the cube texture!");
@@ -141,6 +134,66 @@ std::unique_ptr<ITextureCube> TextureCube::CreateStaging()
 
 	auto texture = TextureCube(_device, &desc, std::move(stagingTexture));
 	return std::make_unique<TextureCube>(std::move(texture));
+}
+
+size_t TextureCube::ReadData(size_t subResource, void** data)
+{
+	if(data == nullptr)
+	{
+		return 0;
+	}
+
+	D3D11_MAPPED_SUBRESOURCE res;
+	HRESULT r = _device->_context->Map(_texture.Get(), subResource, D3D11_MAP_READ, 0, &res);
+	if(FAILED(r))
+	{
+		*data = nullptr;
+		return 0;
+	}
+
+	D3D11_TEXTURE2D_DESC desc;
+	_texture->GetDesc(&desc);
+
+	auto mipLevel = subResource % desc.MipLevels;
+	auto mipHeight = std::max(1u, _size.Y >> mipLevel);
+
+	*data = res.pData;
+	return res.RowPitch * mipHeight;
+}
+
+void TextureCube::SetData(size_t subResource, void* data, size_t buffSize)
+{
+	if(!data || buffSize == 0)
+		return;
+
+	D3D11_MAPPED_SUBRESOURCE res;
+	HRESULT r = _device->_context->Map(_texture.Get(), subResource, D3D11_MAP_WRITE, 0, &res);
+	if(FAILED(r)) return;
+
+	D3D11_TEXTURE2D_DESC desc;
+	_texture->GetDesc(&desc);
+
+	const UINT mipLevel = subResource % desc.MipLevels;
+	const UINT mipHeight = std::max(1u, desc.Height >> mipLevel);
+
+	const size_t srcRowSize = buffSize / mipHeight;
+
+	const uint8_t* src = static_cast<const uint8_t*>(data);
+	uint8_t* dst = static_cast<uint8_t*>(res.pData);
+
+	for(UINT y = 0; y < mipHeight; ++y)
+	{
+		memcpy(dst + y * res.RowPitch,
+			   src + y * srcRowSize,
+			   srcRowSize);
+	}
+
+	_device->_context->Unmap(_texture.Get(), subResource);
+}
+
+void TextureCube::EndRead(size_t subResource)
+{
+	_device->_context->Unmap(_texture.Get(), subResource);
 }
 
 void* TextureCube::GetHandle() const noexcept

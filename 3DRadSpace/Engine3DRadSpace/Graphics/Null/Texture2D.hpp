@@ -48,18 +48,14 @@ namespace Engine3DRadSpace::Graphics::Null
 
 		[[nodiscard]] std::unique_ptr<ITexture2D> CreateStaging() override;
 
-		static Texture2D CreateStaging(Texture2D* texture);
 		Texture2D Clone();
-
-		std::pair<void*, size_t> BeginRead(unsigned resourceID = 0);
-		void EndRead(unsigned resourceID = 0);
 
 		virtual void* GetHandle() const noexcept override;
 		virtual IGraphicsDevice* GetGraphicsDevice() const noexcept override;
 
-		size_t ReadData(void **data) override;
-		void SetData(void *data, size_t buffSize) override;
-		void EndRead() override;
+		size_t ReadData(size_t subResource, void **data) override;
+		void SetData(size_t subResource, void *data, size_t buffSize) override;
+		void EndRead(size_t subResoucre) override;
 
 		void* GetViewHandle() const noexcept override;
 

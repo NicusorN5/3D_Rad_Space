@@ -57,6 +57,7 @@ namespace Engine3DRadSpace::Graphics::Null
 		virtual void ToggleFullScreen() override;
 
 		virtual void Copy(IGPUBuffer* dest, IGPUBuffer* src) override;
+		virtual void Copy(IGPUMultiBuffer* dest, IGPUMultiBuffer* src) override;
 
 		void* GetHandle() const noexcept override;
 		IGraphicsDevice* GetGraphicsDevice() const noexcept override;

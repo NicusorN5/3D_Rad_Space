@@ -26,7 +26,8 @@ using namespace Engine3DRadSpace::Math;
 Texture2D::Texture2D(GraphicsDevice* device) :
 	_device(device),
 	_width(0),
-	_height(0)
+	_height(0),
+	_format(PixelFormat::Unknown)
 {
 }
 
@@ -281,30 +282,21 @@ void Texture2D::SetColors(Color** colors, unsigned x, unsigned y)
 	_device->_context->Unmap(_texture.Get(), 0);
 }
 
-Texture2D Texture2D::CreateStaging(Texture2D* texture)
+std::unique_ptr<ITexture2D> Texture2D::CreateStaging()
 {
 	D3D11_TEXTURE2D_DESC desc{};
-	texture->_texture->GetDesc(&desc);
+	_texture->GetDesc(&desc);
 
 	desc.Usage = D3D11_USAGE_STAGING;
 	desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ | D3D11_CPU_ACCESS_WRITE;
-	desc.BindFlags = 0;
-	desc.MipLevels = 0;
-	desc.MiscFlags = 0;
 
 	Microsoft::WRL::ComPtr<ID3D11Texture2D> stagingTexture;
-	HRESULT r = texture->_device->_device->CreateTexture2D(&desc, nullptr, &stagingTexture);
-	if (FAILED(r)) throw Exception("Failed to create a staging texture!" + std::system_category().message(r));
+	HRESULT r = _device->_device->CreateTexture2D(&desc, nullptr, &stagingTexture);
+	if(FAILED(r)) throw Exception("Failed to create a staging texture!" + std::system_category().message(r));
 
-	texture->_device->_context->CopyResource(stagingTexture.Get(), texture->_texture.Get());
+	_device->_context->CopyResource(stagingTexture.Get(), _texture.Get());
 
-	return Texture2D(texture->_device, std::monostate(), std::move(stagingTexture));
-}
-
-std::unique_ptr<ITexture2D> Texture2D::CreateStaging()
-{
-	auto staging = this->CreateStaging(this);
-	return std::make_unique<Texture2D>(std::move(staging));
+	return std::make_unique<Texture2D>(std::move(Texture2D(_device, std::monostate(), std::move(stagingTexture))));
 }
 
 void Texture2D::SaveToFile(const std::filesystem::path& path)
@@ -347,18 +339,14 @@ Texture2D Texture2D::Clone()
 	return Texture2D(_device, std::move(copy), std::move(srv));
 }
 
-std::pair<void*, size_t> Texture2D::BeginRead(unsigned resourceID)
+PixelFormat Texture2D::Format() const noexcept
 {
-	D3D11_MAPPED_SUBRESOURCE mappedResource;
-
-	HRESULT r = _device->_context->Map(_texture.Get(), resourceID, D3D11_MAP_READ, 0, &mappedResource);
-	if(SUCCEEDED(r)) return { mappedResource.pData, mappedResource.RowPitch * _height };
-	else return { nullptr, 0 };
+	return _format;
 }
 
-void Texture2D::EndRead(unsigned resourceID)
+void Texture2D::EndRead(size_t resourceID)
 {
-	_device->_context->Unmap(_texture.Get(), 0);
+	_device->_context->Unmap(_texture.Get(), resourceID);
 }
 
 void* Texture2D::GetHandle() const noexcept
@@ -371,15 +359,27 @@ IGraphicsDevice* Texture2D::GetGraphicsDevice() const noexcept
 	return _device;
 }
 
-size_t Texture2D::ReadData(void **data)
+size_t Texture2D::ReadData(size_t subResource, void **data)
 {
-	auto [ptr, s] = BeginRead(0);
+	assert(data != nullptr);
+	if(data == nullptr) return 0;
 
-	*data = ptr;
-	return s;
+	D3D11_MAPPED_SUBRESOURCE mappedResource;
+
+	HRESULT r = _device->_context->Map(_texture.Get(), subResource, D3D11_MAP_READ, 0, &mappedResource);
+	if(SUCCEEDED(r))
+	{
+		*data = mappedResource.pData;
+		return mappedResource.RowPitch * _height;
+	}
+	else
+	{
+		*data = nullptr;
+		return 0;
+	}
 }
 
-void Texture2D::SetData(void *data, size_t buffSize)
+void Texture2D::SetData(size_t subResource, void *data, size_t buffSize)
 {
 	D3D11_MAPPED_SUBRESOURCE resource;
 
@@ -388,11 +388,6 @@ void Texture2D::SetData(void *data, size_t buffSize)
 
 	memcpy_s(resource.pData, buffSize, data, buffSize);
 	_device->_context->Unmap(_texture.Get(), 0);
-}
-
-void Texture2D::EndRead()
-{
-	EndRead(0);
 }
 
 void* Texture2D::GetViewHandle() const noexcept

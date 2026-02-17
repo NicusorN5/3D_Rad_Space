@@ -1,5 +1,5 @@
 #pragma once
-#include "IGPUResource.hpp"
+#include "IGPUMultiBuffer.hpp"
 #include "../Math/UPoint.hpp"
 
 namespace Engine3DRadSpace::Graphics
@@ -7,7 +7,7 @@ namespace Engine3DRadSpace::Graphics
 	/// <summary>
 	/// Represents an cubemap made of 6 2D textures.
 	/// </summary>
-	class E3DRSP_GRAPHICS_EXPORT ITextureCube : public IGPUResource
+	class E3DRSP_GRAPHICS_EXPORT ITextureCube : public IGPUMultiBuffer
 	{
 	public:
 		virtual Math::UPoint Size() const noexcept = 0;

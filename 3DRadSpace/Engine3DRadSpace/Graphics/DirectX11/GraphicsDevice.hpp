@@ -18,6 +18,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 
 	class Texture1D;
 	class Texture2D;
+	class Texture3D;
 	class TextureCube;
 	class RenderTarget;
 	class DepthStencilBuffer;
@@ -217,6 +218,8 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		virtual std::unique_ptr<ITextureCube> CreateTextureCube(std::array<ITexture2D*, 6> faces) override;
 		virtual std::unique_ptr<ITextureCube> CreateTextureCube(const std::filesystem::path& path) override;
 
+		virtual std::unique_ptr<ITexture3D> CreateTexture3D(std::span<ITexture2D*> textures) override;
+
 		virtual std::unique_ptr<IGraphicsCommandList> CreateCommandList() override;
 		virtual IGraphicsCommandList* ImmediateContext() override;
 
@@ -230,6 +233,7 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		friend class IndexBuffer;
 		friend class Texture1D;
 		friend class Texture2D;
+		friend class Texture3D;
 		friend class TextureCube;
 		friend class RenderTarget;
 		friend class RasterizerState;

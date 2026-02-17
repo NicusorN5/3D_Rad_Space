@@ -33,6 +33,8 @@ add_library(3DRadSpace.Graphics.DirectX11 STATIC
 	"Texture1D.cpp"
 	"Texture2D.hpp"
 	"Texture2D.cpp"
+	"Texture3D.hpp"
+	"Texture3D.cpp"
 	"TextureCube.hpp"
 	"TextureCube.cpp"
 	"VertexBuffer.hpp"
