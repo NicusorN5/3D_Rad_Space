@@ -16,6 +16,11 @@
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
 
+E3DRSP_IDepthStencilState E3DRSP_IGraphicsDevice_GetDepthStencilState(E3DRSP_IGraphicsDevice device)
+{
+	return static_cast<IGraphicsDevice*>(device)->GetDepthStencilState().release();
+}
+
 E3DRSP_IRasterizerState E3DRSP_IGraphicsDevice_GetRasterizerState(E3DRSP_IGraphicsDevice device)
 {
 	auto rasterizerState = reinterpret_cast<IGraphicsDevice*>(device)->GetRasterizerState();

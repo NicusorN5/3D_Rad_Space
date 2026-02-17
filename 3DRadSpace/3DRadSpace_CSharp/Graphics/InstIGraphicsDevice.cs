@@ -11,7 +11,10 @@ public class InstIGraphicsDevice : NatPtrWrapper, IGraphicsDevice
 	[DllImport("3DRadSpace.Graphics.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_IGraphicsDevice_BackendName")]
 	extern static string _backendName(IntPtr handle);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_GetRasterizerState")]
+    [DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_GetDepthStencilState")]
+    extern static IntPtr _getdepthStencilState(IntPtr handle);
+
+    [DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_GetRasterizerState")]
 	extern static IntPtr _getRasterizerState(IntPtr handle);
 
 	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_Resolution")]
@@ -477,6 +480,11 @@ public class InstIGraphicsDevice : NatPtrWrapper, IGraphicsDevice
 	public IDepthStencilBuffer GetDepthBuffer()
 	{
 		return new InstIDepthStencilBuffer(_getDepthBuffer(_handle));
+	}
+
+	public IDepthStencilState GetDepthStencilState()
+	{
+		return new InstIDepthStencilState(_getdepthStencilState(_handle));
 	}
 
 	public IRasterizerState GetRasterizerState()

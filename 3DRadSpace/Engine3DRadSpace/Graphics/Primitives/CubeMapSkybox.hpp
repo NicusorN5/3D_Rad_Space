@@ -1,6 +1,7 @@
 #pragma once
 #include "IPrimitive.hpp"
 #include "../ITextureCube.hpp"
+#include "../IDepthStencilState.hpp"
 
 namespace Engine3DRadSpace::Objects
 {
@@ -23,6 +24,8 @@ namespace Engine3DRadSpace::Graphics::Primitives
 	class E3DRSP_GRAPHICS_PRIMITIVES_EXPORT CubeMapSkybox final : public IPrimitive
 	{
 		std::unique_ptr<ITextureCube> _texture;
+		std::unique_ptr<IDepthStencilState> _oldDepthState;
+		std::unique_ptr<IDepthStencilState> _depthState;
 
 		void _compileShader(IShaderCompiler* compiler);
 		void _create();

@@ -7,6 +7,7 @@ public interface IGraphicsDevice : IPtrWrapper
 {
 	public string BackendName();
 
+	public IDepthStencilState GetDepthStencilState();
 	public IRasterizerState GetRasterizerState();
 
 	public Point GetResolution();

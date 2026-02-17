@@ -7,7 +7,7 @@ namespace Engine3DRadSpace::Graphics::Rendering
 	/// <summary>
 	/// Represents a rendering pipeline that allows multiple rendering effects.
 	/// </summary>
-	class E3DRSP_GRAPHICS_RENDERING_EXPORT IRenderer
+	class E3DRSP_GRAPHICS_RENDERING_EXPORT IRenderer : IService
 	{
 	protected:
 		IGraphicsDevice* _device;
@@ -35,7 +35,7 @@ namespace Engine3DRadSpace::Graphics::Rendering
 		/// </summary>
 		/// <param name="vertices">Vertices</param>
 		/// <param name="indices">Incides</param>
-		virtual void Draw(IVertexBuffer* vertices, IIndexBuffer* indices);
+		virtual void Draw(IVertexBuffer* vertices, IIndexBuffer* indices, Effect* effect);
 		/// <summary>
 		/// Restores the previous states, and depending on the effect, draws all submited meshes. (Unless meshes are not batched).
 		/// </summary>

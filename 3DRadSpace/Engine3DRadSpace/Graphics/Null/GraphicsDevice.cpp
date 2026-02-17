@@ -54,6 +54,11 @@ ITexture2D* GraphicsDevice::GetBackBufferTexture()
 	return nullptr;
 }
 
+std::unique_ptr<IDepthStencilState> GraphicsDevice::GetDepthStencilState()
+{
+	return std::make_unique<DepthStencilState>(this);
+}
+
 std::unique_ptr<IRasterizerState> GraphicsDevice::GetRasterizerState()
 {
 	return std::make_unique<RasterizerState>(this);

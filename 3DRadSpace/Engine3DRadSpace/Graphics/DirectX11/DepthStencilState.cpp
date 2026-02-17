@@ -15,7 +15,8 @@ void DepthStencilState::_debugInfo()
 }
 
 DepthStencilState::DepthStencilState(GraphicsDevice *device) :
-    _device(device)
+    _device(device),
+    _stencilRef(0)
 {
     CD3D11_DEPTH_STENCIL_DESC dsDesc(D3D11_DEFAULT);
 
@@ -23,32 +24,43 @@ DepthStencilState::DepthStencilState(GraphicsDevice *device) :
     if (FAILED(r)) throw Exception("Failed to create a depth stencil state");
 }
 
-DepthStencilState::DepthStencilState(GraphicsDevice* device, std::monostate cpy)
+DepthStencilState::DepthStencilState(GraphicsDevice* device, std::monostate cpy):
+    _device(device)
 {
     device->_context->OMGetDepthStencilState(&_state, &_stencilRef);
 }
 
-DepthStencilState::DepthStencilState(GraphicsDevice *device, bool EnableDepth, DepthWriteMask Mask, ComparisonFunction Function, bool EnableStencil, 
-    uint8_t ReadMask, uint8_t WriteMask, FaceOperation FrontFace, FaceOperation BackFace)
+DepthStencilState::DepthStencilState(
+    GraphicsDevice *device, 
+    bool EnableDepth,
+    DepthWriteMask Mask,
+    ComparisonFunction Function,
+    bool EnableStencil, 
+    uint8_t ReadMask,
+    uint8_t WriteMask, 
+    FaceOperation FrontFace, 
+    FaceOperation BackFace
+): _device(device),
+   _stencilRef(0)
 {
     D3D11_DEPTH_STENCIL_DESC dsDesc;
     dsDesc.DepthEnable = EnableDepth;
-    dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK(WriteMask); //REFACTORING-NOTE: don't use initialization, may prefer a switch-case.
-    dsDesc.DepthFunc = D3D11_COMPARISON_FUNC(Function);
+    dsDesc.DepthWriteMask = static_cast<D3D11_DEPTH_WRITE_MASK>(Mask); //REFACTORING-NOTE: don't use initialization, may prefer a switch-case.
+    dsDesc.DepthFunc = static_cast<D3D11_COMPARISON_FUNC>(Function);
 
     dsDesc.StencilEnable = EnableStencil;
     dsDesc.StencilReadMask = ReadMask;
     dsDesc.StencilWriteMask = WriteMask;
 
-    dsDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP(FrontFace.StencilFail);
-    dsDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP(FrontFace.DepthFail);
-    dsDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP(FrontFace.PassOp);
-    dsDesc.FrontFace.StencilFunc = D3D11_COMPARISON_FUNC(FrontFace.Function);
+    dsDesc.FrontFace.StencilFailOp = static_cast<D3D11_STENCIL_OP>(FrontFace.StencilFail);
+    dsDesc.FrontFace.StencilDepthFailOp = static_cast<D3D11_STENCIL_OP>(FrontFace.DepthFail);
+    dsDesc.FrontFace.StencilPassOp = static_cast<D3D11_STENCIL_OP>(FrontFace.PassOp);
+    dsDesc.FrontFace.StencilFunc = static_cast<D3D11_COMPARISON_FUNC>(FrontFace.Function);
 
-    dsDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP(BackFace.StencilFail);
-    dsDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP(BackFace.DepthFail);
-    dsDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP(BackFace.PassOp);
-    dsDesc.BackFace.StencilFunc = D3D11_COMPARISON_FUNC(BackFace.Function);
+    dsDesc.BackFace.StencilFailOp = static_cast<D3D11_STENCIL_OP>(BackFace.StencilFail);
+    dsDesc.BackFace.StencilDepthFailOp = static_cast<D3D11_STENCIL_OP>(BackFace.DepthFail);
+    dsDesc.BackFace.StencilPassOp = static_cast<D3D11_STENCIL_OP>(BackFace.PassOp);
+    dsDesc.BackFace.StencilFunc = static_cast<D3D11_COMPARISON_FUNC>(BackFace.Function);
 
     HRESULT r = device->_device->CreateDepthStencilState(&dsDesc, _state.GetAddressOf());
     if (FAILED(r)) throw Exception("Failed to create a depth stencil state");
@@ -194,4 +206,9 @@ DepthStencilState DepthStencilState::DepthReadReverseZ(GraphicsDevice *device)
 IGraphicsDevice* DepthStencilState::GetGraphicsDevice() const noexcept
 {
     return _device;
+}
+
+DepthStencilState DepthStencilState::GetCurrent(GraphicsDevice* device)
+{
+    return DepthStencilState(device, std::monostate{});
 }

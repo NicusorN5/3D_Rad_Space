@@ -38,6 +38,7 @@ extern "C"
 #endif
 	E3DRSP_GRAPHICS_EXPORT const char* E3DRSP_IGraphicsDevice_BackendName(E3DRSP_IGraphicsDevice device);
 
+	E3DRSP_GRAPHICS_EXPORT E3DRSP_IDepthStencilState E3DRSP_IGraphicsDevice_GetDepthStencilState(E3DRSP_IGraphicsDevice device);
 	E3DRSP_GRAPHICS_EXPORT E3DRSP_IRasterizerState E3DRSP_IGraphicsDevice_GetRasterizerState(E3DRSP_IGraphicsDevice device);
 
 	E3DRSP_GRAPHICS_EXPORT E3DRSP_Point E3DRSP_IGraphicsDevice_Resolution(E3DRSP_IGraphicsDevice device);

@@ -56,6 +56,25 @@ void CubeMapSkybox::_create()
 
 	auto indices = CreateIndices();
 	_indices = _device->CreateIndexBuffer(indices);
+
+	auto defaultFaceOp = FaceOperation
+	{
+		StencilOperation::Keep,
+		StencilOperation::Keep,
+		StencilOperation::Keep,
+		ComparisonFunction::Always
+	};
+
+	_depthState = _device->CreateDepthStencilState(
+		true,
+		DepthWriteMask::All,
+		ComparisonFunction::LessEqual,
+		false,
+		0xFF,
+		0xFF,
+		defaultFaceOp,
+		defaultFaceOp
+	);
 }
 
 CubeMapSkybox::CubeMapSkybox(IGraphicsDevice* device, const std::filesystem::path& dds) : IPrimitive(device, nullptr)
@@ -117,15 +136,13 @@ std::array<unsigned, 36> CubeMapSkybox::CreateIndices()
 
 void CubeMapSkybox::Draw3D()
 {
-	//_device->ImmediateContext()->UnbindDepthBuffer();
+	auto cmd = _device->ImmediateContext();
+	_oldDepthState = _device->GetDepthStencilState();
 
-	_device->CreateDepthStencilState()
-
-	_device->ImmediateContext()->SetDepthStencilState();
+	cmd->SetDepthStencilState(_depthState.get(), 1);
 
 	_shader->operator[](1)->SetTexture(0u, _texture.get());
-
 	IPrimitive::Draw3D();
 
-	//_device->ImmediateContext()->SetDepthStencilBuffer(nullptr);
+	cmd->SetDepthStencilState(_oldDepthState.get(), _oldDepthState->StencilRef());
 }

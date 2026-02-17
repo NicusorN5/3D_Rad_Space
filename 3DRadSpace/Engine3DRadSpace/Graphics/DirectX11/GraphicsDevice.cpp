@@ -458,6 +458,11 @@ std::unique_ptr<IIndexBuffer> GraphicsDevice::CreateIndexBuffer(size_t numIndice
 	return std::make_unique<IndexBuffer>(this, numIndices, usage);
 }
 
+std::unique_ptr<IDepthStencilState> GraphicsDevice::GetDepthStencilState()
+{
+	return std::make_unique<DepthStencilState>(std::move(DepthStencilState::GetCurrent(this)));
+}
+
 std::unique_ptr<IRasterizerState> GraphicsDevice::GetRasterizerState()
 {
 	return std::make_unique<RasterizerState>(this);

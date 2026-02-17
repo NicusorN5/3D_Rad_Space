@@ -45,6 +45,8 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		static DepthStencilState DepthReverseZ(GraphicsDevice *device);
 		static DepthStencilState DepthReadReverseZ(GraphicsDevice *device);
 
+		static DepthStencilState GetCurrent(GraphicsDevice* device);
+
 		~DepthStencilState() = default;
 
 		friend class GraphicsDevice;

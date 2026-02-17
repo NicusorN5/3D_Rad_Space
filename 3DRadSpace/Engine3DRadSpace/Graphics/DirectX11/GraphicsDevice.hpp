@@ -94,6 +94,8 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		IRenderTarget* GetBackBuffer() override;
 		ITexture2D *GetBackBufferTexture() override;
 		IDepthStencilBuffer& GetDepthBuffer() override;
+
+		std::unique_ptr<IDepthStencilState> GetDepthStencilState() override;
 		std::unique_ptr<IRasterizerState> GetRasterizerState() override;
 
 		//Graphics::PixelFormat BackBufferFormat() const noexcept;

@@ -33,14 +33,14 @@ namespace Engine3DRadSpace::Graphics::Null
 
 		std::string_view BackendName() const noexcept override;
 
-		//std::unique_ptr<IRasterizerState> GetRasterizerState() override;
+		std::unique_ptr<IDepthStencilState> GetDepthStencilState() override;
+		std::unique_ptr<IRasterizerState> GetRasterizerState() override;
 
 		Math::Point Resolution() const noexcept override;
 
 		IRenderTarget* GetBackBuffer() override;
 		ITexture2D *GetBackBufferTexture() override;
 		IDepthStencilBuffer& GetDepthBuffer() override;
-		std::unique_ptr<IRasterizerState> GetRasterizerState() override;
 
 		std::unique_ptr<IBlendState> CreateBlendState(
 			bool alphaCoverage, 
