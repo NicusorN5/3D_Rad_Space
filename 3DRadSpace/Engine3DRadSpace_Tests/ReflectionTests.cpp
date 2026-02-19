@@ -15,9 +15,12 @@ public:
 	TestObject() : IObject3D("Test object"), 
 		Integer(5),
 		Float(1.0f), 
-		TestKey(Key::Space)
+		TestKey(Key::Space),
+		OptValue(33)
 	{
 	}
+
+	std::optional<int> OptValue;
 
 	// Inherited via IObject
 	void Initialize() override
@@ -96,6 +99,7 @@ REFL_BEGIN(TestObject, "Test Object", "Tests", "Dummy test object")
 	REFL_FIELD(TestObject, RectangleF, Rectangle2, "Test rectangle 2", RectangleF(5, 4, 3, 2), "float rectangle")
 	REFL_FIELD(TestObject, Vector4, Vector, "Vector4", Vector4(0, 0, 0, 1), "Test vector4")
 	REFL_FIELD(TestObject, Key, TestKey, "Test key", Key::ESC, "Dummy test key")
+	REFL_FIELD(TestObject, std::optional<int>, OptValue, "Optional int", 55, "Optional test")
 	REFL_METHOD(TestObject, int, &TestObject::MyMethod, "Test method", int, int)
 	REFL_METHOD(TestObject, void, &TestObject::Method, "Method")
 	REFL_FUNCTION(int, MyFunction, "Test function", int, int)

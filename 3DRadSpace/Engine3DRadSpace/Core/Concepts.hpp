@@ -13,3 +13,6 @@ concept arithmetic = unsigned_integer<N> || signed_integer<N> || std::floating_p
 
 template<typename T>
 concept primitive = std::integral<T> || std::floating_point<T>;
+
+template<typename E>
+concept c_enum = std::is_enum_v<E>;

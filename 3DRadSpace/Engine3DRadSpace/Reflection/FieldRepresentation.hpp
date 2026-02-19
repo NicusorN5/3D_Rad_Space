@@ -63,64 +63,220 @@ namespace Engine3DRadSpace::Reflection
 		Custom,
 	};
 
-	using FieldRepresentation = std::vector<std::pair<FieldRepresentationType, std::string>>;
+	class FieldRepresentation
+	{
+	public:
+		struct FieldRepresentationPair
+		{
+			FieldRepresentationType Type;
+			std::string Name;
+		};
 
-	template<typename T> FieldRepresentation GetFieldRepresentation() = delete; //Only default and useer-written allow GetFieldRepresentation() specializations.
+		using ListFieldRepresentations = std::vector<FieldRepresentationPair>;
+	protected:
+		ListFieldRepresentations _values;
+	public:
+		FieldRepresentation(std::initializer_list<FieldRepresentationPair> pairs) noexcept : _values(pairs)
+		{
+		}
 
-	//GetFieldRepresentation() specializations
-	template<> E3DRSP_REFLECTION_EXPORT FieldRepresentation GetFieldRepresentation<void>();
-	template<> E3DRSP_REFLECTION_EXPORT FieldRepresentation GetFieldRepresentation<bool>();
-	template<signed_integer T> FieldRepresentation GetFieldRepresentation() { return { {FieldRepresentationType::Integer,""} }; }
-	template<unsigned_integer T> FieldRepresentation GetFieldRepresentation() { return { {FieldRepresentationType::Unsigned,""} }; }
-	template<std::floating_point T> FieldRepresentation GetFieldRepresentation() { return { { FieldRepresentationType::Float,""} }; }
-	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<std::string>();
+		FieldRepresentation(const ListFieldRepresentations& pairs) noexcept : _values(pairs)
+		{
+		}
 
-	template<Content::AssetType T>
-	using AssetIDType = Content::AssetID<T>;
+		ListFieldRepresentations operator()() const noexcept
+		{
+			return _values;
+		}
 
-	template<AssetIDType T>
-	FieldRepresentation GetFieldRepresentation() { return { {FieldRepresentationType::Custom,""} }; }
+		ListFieldRepresentations::iterator begin() noexcept
+		{
+			return _values.begin();
+		}
 
-	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Content::AssetID<Content::Assets::TextureAsset>>();
-	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Content::AssetID<Content::Assets::ModelAsset>>();
-	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Content::AssetID<Content::Assets::FontAsset>>();
-	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Content::AssetID<Content::Assets::SkyboxAsset>>();
-	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Content::AssetID<Audio::Sound>>();
+		ListFieldRepresentations::const_iterator begin() const noexcept
+		{
+			return _values.begin();
+		}
 
-	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Input::Key>();
+		ListFieldRepresentations::iterator end() noexcept
+		{
+			return _values.end();
+		}
 
-	//FieldRepresentationType() specializations for mathematical types
-	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Math::Vector2>();
-	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Math::Vector3>();
-	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Math::Vector4>();
-	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Math::Quaternion>();
-	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Math::Color>();
-	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Math::Rectangle>();
-	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Math::RectangleF>();
+		ListFieldRepresentations::const_iterator end() const noexcept
+		{
+			return _values.cend();
+		}
 
-	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Math::Matrix4x4>();
+		FieldRepresentationPair operator[](size_t idx) const
+		{
+			return _values[idx];
+		}
 
-	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Math::Point>();
-	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Math::Point3>();
-	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Math::Point4>();
-
-	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Math::UPoint>();
-	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Math::UPoint3>();
-	template<> FieldRepresentation E3DRSP_REFLECTION_EXPORT GetFieldRepresentation<Math::UPoint4>();
-
-	//template<typename F> requires std::is_function_v<F> || std::is_member_function_pointer_v<F>
-	//FieldRepresentation GetFieldRepresentation() { return { {FieldRepresentationType::Function,""} };}
-
-	//template<template<typename, typename, auto, auto> typename GetSetType, typename T, typename C, auto G, auto S> 
-	//FieldRepresentation GetFieldRepresentation()
-	//requires std::is_same_v<GetSet<T, C, G, S>, GetSetType<T, C, G, S>>
-	//{
-	//	return GetFieldRepresentation<T>();
-	//}
+		size_t Size() const noexcept
+		{
+			return _values.size();
+		}
+	};
 
 	template<typename T>
-	concept ReflectableType = requires
+	class FieldRepresentationInstance : FieldRepresentation
 	{
-		GetFieldRepresentation<T>();
 	};
+
+#define E3DRSP_DEFINE_FLDREPR(T, LstFieldPairs) \
+	template<> \
+	class FieldRepresentationInstance<T> : public FieldRepresentation \
+	{ \
+		public: \
+			using Type = T;\
+			FieldRepresentationInstance() : FieldRepresentation(ListFieldRepresentations LstFieldPairs ) {}\
+	};
+
+#define E3DRSP_DEFINE_FLDREPR_T(Specialization, LstFieldPairs) \
+	template<Specialization T> \
+	class FieldRepresentationInstance<T> : public FieldRepresentation \
+	{ \
+		public: \
+			using Type = T;\
+			FieldRepresentationInstance() : FieldRepresentation(ListFieldRepresentations LstFieldPairs ) {}\
+	};
+
+	E3DRSP_DEFINE_FLDREPR(void, ({{FieldRepresentationType::Unknown, ""}}));
+	E3DRSP_DEFINE_FLDREPR(bool, ({{FieldRepresentationType::Boolean,""}}));
+	E3DRSP_DEFINE_FLDREPR_T(signed_integer, ({{FieldRepresentationType::Integer,""}}));
+	E3DRSP_DEFINE_FLDREPR_T(unsigned_integer, ({{FieldRepresentationType::Unsigned,""}}));
+	E3DRSP_DEFINE_FLDREPR_T(std::floating_point, ({{FieldRepresentationType::Float, ""}}));
+	E3DRSP_DEFINE_FLDREPR(std::string, ({{FieldRepresentationType::String, ""}}));
+
+	E3DRSP_DEFINE_FLDREPR(Content::AssetID<Content::Assets::TextureAsset>, ({{FieldRepresentationType::Image, ""}}));
+	E3DRSP_DEFINE_FLDREPR(Content::AssetID<Content::Assets::ModelAsset>, ({{FieldRepresentationType::Model, ""}}));
+	E3DRSP_DEFINE_FLDREPR(Content::AssetID<Content::Assets::FontAsset>, ({{FieldRepresentationType::Font, ""}}));
+	E3DRSP_DEFINE_FLDREPR(Content::AssetID<Content::Assets::SkyboxAsset>, ({{FieldRepresentationType::Skybox, ""}}));
+	E3DRSP_DEFINE_FLDREPR(Content::AssetID<Audio::Sound>, ({{FieldRepresentationType::Sound, ""}}));
+	E3DRSP_DEFINE_FLDREPR(Input::Key, ({{FieldRepresentationType::Key}}));
+
+	//E3DRSP_DEFINE_FLDREPR_T(c_enum, ({{FieldRepresentationType::Enum}}));
+
+	//FieldRepresentationType() specializations for mathematical types
+	E3DRSP_DEFINE_FLDREPR(Math::Vector2, ({
+		{FieldRepresentationType::Float, "X"},
+		{FieldRepresentationType::Float, "Y"}
+	}));
+
+	E3DRSP_DEFINE_FLDREPR(Math::Vector3, ({
+		{FieldRepresentationType::Float, "X"},
+		{FieldRepresentationType::Float, "Y"},
+		{FieldRepresentationType::Float, "Z"}
+	}));
+
+	E3DRSP_DEFINE_FLDREPR(Math::Vector4, ({
+		{FieldRepresentationType::Float, "X"},
+		{FieldRepresentationType::Float, "Y"},
+		{FieldRepresentationType::Float, "Z"},
+		{FieldRepresentationType::Float, "W"}
+	}));
+
+	E3DRSP_DEFINE_FLDREPR(Math::Quaternion, ({{FieldRepresentationType::Quaternion, ""}}));
+	E3DRSP_DEFINE_FLDREPR(Math::Color, ({{FieldRepresentationType::Color, ""}}));
+
+	E3DRSP_DEFINE_FLDREPR(Math::Rectangle, ({
+		{FieldRepresentationType::Integer, "X"},
+		{FieldRepresentationType::Integer, "Y"},
+		{FieldRepresentationType::Integer, "Width"},
+		{FieldRepresentationType::Integer, "Height"}
+	}));
+
+	E3DRSP_DEFINE_FLDREPR(Math::RectangleF, ({
+		{FieldRepresentationType::Float, "X"},
+		{FieldRepresentationType::Float, "Y"},
+		{FieldRepresentationType::Float, "Width"},
+		{FieldRepresentationType::Float, "Height"}
+	}));
+
+	E3DRSP_DEFINE_FLDREPR(Math::Matrix3x3, ({
+		{FieldRepresentationType::Float, "M11"},
+		{FieldRepresentationType::Float, "M12"},
+		{FieldRepresentationType::Float, "M13"},
+
+		{FieldRepresentationType::Float, "M21"},
+		{FieldRepresentationType::Float, "M22"},
+		{FieldRepresentationType::Float, "M23"},
+
+		{FieldRepresentationType::Float, "M31"},
+		{FieldRepresentationType::Float, "M32"},
+		{FieldRepresentationType::Float, "M33"}
+	}));
+
+	E3DRSP_DEFINE_FLDREPR(Math::Matrix4x4, ({
+		{FieldRepresentationType::Float, "M11"},
+		{FieldRepresentationType::Float, "M12"},
+		{FieldRepresentationType::Float, "M13"},
+		{FieldRepresentationType::Float, "M14"},
+
+		{FieldRepresentationType::Float, "M21"},
+		{FieldRepresentationType::Float, "M22"},
+		{FieldRepresentationType::Float, "M23"},
+		{FieldRepresentationType::Float, "M24"},
+
+		{FieldRepresentationType::Float, "M31"},
+		{FieldRepresentationType::Float, "M32"},
+		{FieldRepresentationType::Float, "M33"},
+		{FieldRepresentationType::Float, "M34"},
+
+		{FieldRepresentationType::Float, "M41"},
+		{FieldRepresentationType::Float, "M42"},
+		{FieldRepresentationType::Float, "M43"},
+		{FieldRepresentationType::Float, "M44"}
+	}));
+
+	E3DRSP_DEFINE_FLDREPR(Math::Point, ({
+		{FieldRepresentationType::Integer, "X"},
+		{FieldRepresentationType::Integer, "Y"}
+	}));
+
+	E3DRSP_DEFINE_FLDREPR(Math::UPoint, ({
+		{FieldRepresentationType::Unsigned, "X"},
+		{FieldRepresentationType::Unsigned, "Y"}
+	}));
+
+	E3DRSP_DEFINE_FLDREPR(Math::Point3, ({
+		{FieldRepresentationType::Integer, "X"},
+		{FieldRepresentationType::Integer, "Y"},
+		{FieldRepresentationType::Integer, "Z"}
+	}));
+
+	E3DRSP_DEFINE_FLDREPR(Math::UPoint3, ({
+		{FieldRepresentationType::Unsigned, "X"},
+		{FieldRepresentationType::Unsigned, "Y"},
+		{FieldRepresentationType::Unsigned, "Z"}
+	}));
+
+
+	E3DRSP_DEFINE_FLDREPR(Math::Point4, ({
+		{FieldRepresentationType::Integer, "X"},
+		{FieldRepresentationType::Integer, "Y"},
+		{FieldRepresentationType::Integer, "Z"},
+		{FieldRepresentationType::Integer, "W"}
+	}));
+
+	E3DRSP_DEFINE_FLDREPR(Math::UPoint4, ({
+		{FieldRepresentationType::Unsigned, "X"},
+		{FieldRepresentationType::Unsigned, "Y"},
+		{FieldRepresentationType::Unsigned, "Z"},
+		{FieldRepresentationType::Unsigned, "W"}
+	}));
+
+	template<typename T>
+	concept ReflectableType = std::is_same_v<typename FieldRepresentationInstance<T>::Type, T>;
+
+	template<ReflectableType T>
+	FieldRepresentation::ListFieldRepresentations GetFieldRepresentation()
+	{
+		return FieldRepresentationInstance<T>()();
+	}
 }
+
+#undef E3DRSP_DEFINE_FLDREPR
+#undef E3DRSP_DEFINE_FLDREPR_T

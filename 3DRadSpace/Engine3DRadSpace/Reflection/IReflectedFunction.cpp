@@ -55,7 +55,7 @@ const void* IReflectedFunction::DefaultValue() const
 
 FieldRepresentation IReflectedFunction::Representation() const
 {
-	return FieldRepresentation{ {FieldRepresentationType::Function, "" }};
+	return { {FieldRepresentationType::Function, "" }};
 }
 
 const char* E3DRSP_IReflectedFunction_Signature(E3DRSP_IReflectedFunction func)

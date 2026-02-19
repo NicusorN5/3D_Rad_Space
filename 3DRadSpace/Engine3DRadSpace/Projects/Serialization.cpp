@@ -68,10 +68,10 @@ json Engine3DRadSpace::Projects::Serializer::SerializeObject(IObject* obj)
 		auto repr = field->Representation();
 		for (int i = 0; auto &[reprType, sFieldName] : repr)
 		{
-			std::string subFieldName = !sFieldName.empty() ? sFieldName : "f";
+			auto subFieldName = !sFieldName.empty() ? sFieldName : "f";
 
 			auto str_i = std::to_string(i);
-			size_t numSubFields = field->TypeSize() / field->Representation().size();
+			size_t numSubFields = field->TypeSize() / field->Representation().Size();
 			switch (reprType)
 			{
 				case FieldRepresentationType::Boolean:
@@ -254,7 +254,7 @@ json Engine3DRadSpace::Projects::Serializer::SerializeObject(IObject* obj)
 
 		for (int i = 0; auto & [reprType, sFieldName] : repr)
 		{
-			std::string subFieldName = !sFieldName.empty() ? sFieldName : "f";
+			auto subFieldName = !sFieldName.empty() ? sFieldName : "f";
 
 			auto& jsonField = j[field->FieldName()][subFieldName][std::to_string(i)];
 
@@ -270,7 +270,7 @@ json Engine3DRadSpace::Projects::Serializer::SerializeObject(IObject* obj)
 				}
 				case FieldRepresentationType::Integer:
 				{
-					switch (structSize / field->Representation().size())
+					switch (structSize / field->Representation().Size())
 					{
 						case sizeof(int8_t) :
 						{
@@ -311,7 +311,7 @@ json Engine3DRadSpace::Projects::Serializer::SerializeObject(IObject* obj)
 				}
 				case FieldRepresentationType::Unsigned:
 				{
-					switch (structSize / field->Representation().size())
+					switch (structSize / field->Representation().Size())
 					{
 						case sizeof(uint8_t) :
 						{
@@ -348,7 +348,7 @@ json Engine3DRadSpace::Projects::Serializer::SerializeObject(IObject* obj)
 				}
 				case FieldRepresentationType::Float:
 				{
-					switch (structSize / field->Representation().size())
+					switch (structSize / field->Representation().Size())
 					{
 						case sizeof(float) :
 						{

@@ -117,10 +117,10 @@ void EditObjectDialog::createForms()
 		int px = x;
 		int inc_y = 0;
 
-		bool createGroup = field->Representation().size() > 1;
+		bool createGroup = field->Representation().Size() > 1;
 
 		//create a group if the field is a quaternion.
-		if(createGroup == false) createGroup = field->Representation()[0].first == FieldRepresentationType::Quaternion;
+		if(createGroup == false) createGroup = field->Representation()[0].Type == FieldRepresentationType::Quaternion;
 
 		//Measure the length of fieldName, in pixels. DPI isn't considered.
 		SIZE fieldNameSize;
@@ -151,22 +151,22 @@ void EditObjectDialog::createForms()
 		}
 
 		auto representations = field->Representation();
-		for (int j = 0, fOffset = 0; j < representations.size(); j++)
+		for (int j = 0, fOffset = 0; j < representations.Size(); j++)
 		{
 			auto& repr = *(representations.begin() + j);
-			std::string fieldName = repr.second.empty() ? field->FieldName() : repr.second;
+			auto fieldName = repr.Name.empty() ? field->FieldName() : repr.Name;
 
 			//creates a Static control (aka Label)
-			auto createLabel = [&](const std::string &text, int &size_x) -> HWND
+			auto createLabel = [&](const std::string_view &text, int &size_x) -> HWND
 			{
 				SIZE size;
-				GetTextExtentPointA(hdc, text.c_str(), int(text.length()), &size);
+				GetTextExtentPointA(hdc, text.data(), int(text.length()), &size);
 				
 				size_x = size.cx;
 				return CreateWindowExA(
 					0,
 					"Static",
-					text.c_str(),
+					text.data(),
 					WS_VISIBLE | WS_CHILD,
 					px,
 					y,
@@ -207,7 +207,7 @@ void EditObjectDialog::createForms()
 			//Value of the field, either from the object that's being edited, or a default value.
 			const void* valuePtr = object != nullptr ? field->Get(object) : field->DefaultValue();
 
-			switch (repr.first)
+			switch (repr.Type)
 			{
 			case FieldRepresentationType::Boolean:
 			{
@@ -217,7 +217,7 @@ void EditObjectDialog::createForms()
 				HWND checkBox = CreateWindowExA(
 					0,
 					"Button",
-					fieldName.c_str(),
+					fieldName.data(),
 					BS_AUTOCHECKBOX | WS_VISIBLE | WS_CHILD,
 					px,
 					y,
@@ -248,7 +248,7 @@ void EditObjectDialog::createForms()
 
 				//Get signed numeric value.
 				int64_t value = 0;
-				switch (field->TypeSize() / field->Representation().size())
+				switch (field->TypeSize() / field->Representation().Size())
 				{
 					case sizeof(int8_t) :
 						value = *reinterpret_cast<const int8_t*>(reinterpret_cast<const char*>(valuePtr) + fOffset );
@@ -284,7 +284,7 @@ void EditObjectDialog::createForms()
 
 				//Get unsigned value.
 				uint64_t value = 0;
-				switch (field->TypeSize() / field->Representation().size())
+				switch (field->TypeSize() / field->Representation().Size())
 				{
 					case sizeof(uint8_t) :
 						value = *reinterpret_cast<const uint8_t *>(static_cast<const char *>(valuePtr) + fOffset);
@@ -319,7 +319,7 @@ void EditObjectDialog::createForms()
 				px += sx + 5;
 
 				double value = 0;
-				switch (field->TypeSize() / field->Representation().size())
+				switch (field->TypeSize() / field->Representation().Size())
 				{
 					case sizeof(float) :
 						value = *reinterpret_cast<const float *>(static_cast<const std::byte*>(valuePtr) + fOffset);
@@ -388,7 +388,7 @@ void EditObjectDialog::createForms()
 			{
 				auto value = *static_cast<const AssetID<Assets::TextureAsset>*>(valuePtr);
 				
-				TextureControl *ctrl = new TextureControl(window, hInstance, _content, value, fieldName, x, y);
+				TextureControl *ctrl = new TextureControl(window, hInstance, _content, value, fieldName.data(), x, y);
 				windows.push_back(ctrl);
 
 				setMax(inc_y, ctrl->AccY() + 5 + textboxHeight);
@@ -399,7 +399,7 @@ void EditObjectDialog::createForms()
 			{
 				auto value = *static_cast<const AssetID<ModelAsset>*>(valuePtr);
 
-				ModelControl* ctrl = new ModelControl(window, hInstance, _content, value, fieldName, x, y);
+				ModelControl* ctrl = new ModelControl(window, hInstance, _content, value, fieldName.data(), x, y);
 				windows.push_back(ctrl);
 
 				setMax(inc_y, ctrl->AccY() + 5 + textboxHeight);
@@ -410,7 +410,7 @@ void EditObjectDialog::createForms()
 			{
 				auto value = *static_cast<const AssetID<FontAsset>*>(valuePtr);
 
-				FontControl* ctrl = new FontControl(window, hInstance, _content, value, fieldName, x, y);
+				FontControl* ctrl = new FontControl(window, hInstance, _content, value, fieldName.data(), x, y);
 				windows.push_back(ctrl);
 
 				setMax(inc_y, ctrl->AccY() + 5 + textboxHeight);
@@ -479,7 +479,7 @@ void EditObjectDialog::createForms()
 			{
 				auto value = *static_cast<const AssetID<SkyboxAsset>*>(valuePtr);
 				
-				SkyboxControl *ctrl = new SkyboxControl(window, hInstance, _content, value, fieldName, x, y);
+				SkyboxControl *ctrl = new SkyboxControl(window, hInstance, _content, value, fieldName.data(), x, y);
 				windows.push_back(ctrl);
 
 				setMax(inc_y, ctrl->AccY() + 5 + textboxHeight);
@@ -490,7 +490,7 @@ void EditObjectDialog::createForms()
 			{
 				auto value = *static_cast<const AssetID<Sound>*>(valuePtr);
 
-				SoundControl *ctrl = new SoundControl(window, hInstance, _content, value, fieldName, x, y);
+				SoundControl *ctrl = new SoundControl(window, hInstance, _content, value, fieldName.data(), x, y);
 				windows.push_back(ctrl);
 
 				setMax(inc_y, ctrl->AccY() + 5 + textboxHeight);
@@ -592,7 +592,7 @@ void EditObjectDialog::setObject()
 
 		for(auto &repr : field->Representation())
 		{
-			switch(repr.first)
+			switch(repr.Type)
 			{
 				case FieldRepresentationType::Boolean:
 				{
@@ -606,7 +606,7 @@ void EditObjectDialog::setObject()
 				}
 				case FieldRepresentationType::Integer:
 				{
-					switch(structSize / field->Representation().size())
+					switch(structSize / field->Representation().Size())
 					{
 						case sizeof(int8_t) :
 						{
@@ -650,7 +650,7 @@ void EditObjectDialog::setObject()
 					auto numericTextbox = static_cast<NumericTextbox *>(std::get<IControl *>(windows[i++]));
 					GetWindowTextA(*numericTextbox, text, 255);
 
-					switch(structSize / field->Representation().size())
+					switch(structSize / field->Representation().Size())
 					{
 						case sizeof(uint8_t) :
 						{
@@ -690,7 +690,7 @@ void EditObjectDialog::setObject()
 					auto numericTextbox = static_cast<NumericTextbox *>(std::get<IControl *>(windows[i++]));
 					GetWindowTextA(*numericTextbox, text, 255);
 
-					switch(structSize / field->Representation().size())
+					switch(structSize / field->Representation().Size())
 					{
 						case sizeof(float) :
 						{
