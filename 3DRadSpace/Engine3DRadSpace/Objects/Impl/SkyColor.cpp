@@ -1,4 +1,5 @@
 #include "SkyColor.hpp"
+#include "SkyColor.h"
 #include "../Games/Game.hpp"
 #include "Gizmos.hpp"
 
@@ -50,3 +51,18 @@ REFL_BEGIN(SkyColor,"SkyColor", "Rendering", "Sets the backbuffer clear color")
 	REFL_FIELD(SkyColor, bool, Enabled, "Enabled", true, "Does the backround color get set every frame?")
 	REFL_FIELD(SkyColor, Color, Colour, "Color", Colors::Black, "Back buffer clear color")
 REFL_END
+
+E3DRSP_SkyColor E3DRSP_SkyColor_Create()
+{
+	return new SkyColor();
+}
+
+E3DRSP_Color E3DRSP_SkyColor_Get(E3DRSP_SkyColor skyColor)
+{
+	return std::bit_cast<E3DRSP_Color>(static_cast<SkyColor*>(skyColor)->Colour);
+}
+
+void E3DRSP_SkyColor_Set(E3DRSP_SkyColor skyColor, const E3DRSP_Color* color)
+{
+	static_cast<SkyColor*>(skyColor)->Colour = std::bit_cast<Math::Color>(*color);
+}

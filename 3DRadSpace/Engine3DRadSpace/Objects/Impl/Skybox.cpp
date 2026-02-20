@@ -1,4 +1,5 @@
 #include "Skybox.hpp"
+#include "Skybox.h"
 #include "../Games/Game.hpp"
 #include "ObjectList.hpp"
 #include "Camera.hpp"
@@ -93,3 +94,18 @@ REFL_BEGIN(Skybox, "Skybox", "3D Objects", "3D sky box")
 	REFL_FIELD(Skybox, bool, Visible, "Visible", true, "Is the object visible")
 	REFL_FIELD(Skybox, RefSkybox, SkyboxID, "Skybox ID", 0, "ID of the skybox asset")
 REFL_END
+
+E3DRSP_Skybox E3DRSP_Skybox_Create()
+{
+	return new Skybox();
+}
+
+unsigned E3DRSP_Skybox_Get(E3DRSP_Skybox skybox)
+{
+	return static_cast<Skybox*>(skybox)->SkyboxID;
+}
+
+void E3DRSP_Skybox_Set(E3DRSP_Skybox skybox, unsigned skyboxID)
+{
+	static_cast<Skybox*>(skybox)->SkyboxID = skyboxID;
+}

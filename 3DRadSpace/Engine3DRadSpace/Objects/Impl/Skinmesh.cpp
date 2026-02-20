@@ -1,4 +1,5 @@
 #include "Skinmesh.hpp"
+#include "Skinmesh.h"
 #include "../Games/Game.hpp"
 #include "Gizmos/SkinmeshGizmo.hpp"
 #include "Gizmos.hpp"
@@ -155,3 +156,18 @@ REFL_BEGIN(Skinmesh, "Skinmesh", "3D Objects", "3D model")
 	REFL_FIELD(Skinmesh, Vector3, RotationCenter, "Rotation Center", Vector3::Zero(), "The rotation pivot")
 	REFL_FIELD(Skinmesh, Vector3, Scale, "Scale", Vector3::One(), "The skinmesh scale")
 REFL_END
+
+E3DRSP_Skinmesh E3DRSP_Skinmesh_Create()
+{
+	return new Skinmesh();
+}
+
+unsigned E3DRSP_Skinmesh_GetModel(E3DRSP_Skinmesh skinmesh)
+{
+	return static_cast<Skinmesh*>(skinmesh)->Model.ID;
+}
+
+void E3DRSP_Skinmesh_SetModel(E3DRSP_Skinmesh skinmesh, unsigned modelID)
+{
+	static_cast<Skinmesh*>(skinmesh)->Model.ID = modelID;
+}

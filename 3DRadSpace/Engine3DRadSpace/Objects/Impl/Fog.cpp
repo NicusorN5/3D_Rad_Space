@@ -1,4 +1,5 @@
 #include "Fog.hpp"
+#include "Fog.h"
 #include "../../Games/Game.hpp"
 #include "../../Graphics/Rendering/LinearPixelFogEffect.hpp"
 #include "../../Math/Vector3.hpp"
@@ -76,3 +77,38 @@ REFL_BEGIN(Fog, "Fog", "Post effects", "Post process linear fog")
 	REFL_FIELD(Fog, float, FogEnd, "Fog End (m)", 200.0f, "Fog end distance(meters)")
 	REFL_FIELD(Fog, Color, FogColor, "Fog Color", Colors::White, "Fog color")
 REFL_END
+
+E3DRSP_Fog E3DRSP_Fog_Create()
+{
+	return new Fog();
+}
+
+float E3DRSP_Fog_GetFogBegin(E3DRSP_Fog fog)
+{
+	return static_cast<Fog*>(fog)->FogBegin;
+}
+
+void E3DRSP_Fog_SetFogBegin(E3DRSP_Fog fog, float fogBegin)
+{
+	static_cast<Fog*>(fog)->FogBegin = fogBegin;
+}
+
+float E3DRSP_Fog_GetFogEnd(E3DRSP_Fog fog)
+{
+	return static_cast<Fog*>(fog)->FogEnd;
+}
+
+void E3DRSP_Fog_SetFogEnd(E3DRSP_Fog fog, float fogEnd)
+{
+	static_cast<Fog*>(fog)->FogEnd = fogEnd;
+}
+
+E3DRSP_Color E3DRSP_Fog_GetFogColor(E3DRSP_Fog fog)
+{
+	return std::bit_cast<E3DRSP_Color>(static_cast<Fog*>(fog)->FogColor);
+}
+
+void E3DRSP_Fog_SetFogColor(E3DRSP_Fog fog, const E3DRSP_Color* fogCplor)
+{
+	static_cast<Fog*>(fog)->FogColor = std::bit_cast<Math::Color>(*fogCplor);
+}

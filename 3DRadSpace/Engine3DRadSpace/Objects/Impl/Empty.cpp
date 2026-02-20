@@ -1,4 +1,5 @@
 #include "Empty.hpp"
+#include "Empty.h"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Math;
@@ -52,3 +53,8 @@ REFL_BEGIN(Empty, "Empty", "Physics", "Represents a point")
 	REFL_FIELD(Empty, Vector3, RotationCenter, "Rotation Center", Vector3::Zero(), "Rotation center/pivot")
 	REFL_FIELD(Empty, Vector3, Scale, "Scale", Vector3::One(), "Object scale. 1 = original size")
 REFL_END
+
+E3DRSP_Empty E3DRSP_Empty_Create()
+{
+	return new Empty();
+}
