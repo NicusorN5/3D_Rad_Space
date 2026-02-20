@@ -37,8 +37,10 @@ add_library(3DRadSpace.Objects.Impl STATIC
 	"SoundSource.h"
 	"Sprite.hpp"
 	"Sprite.cpp"
+	"Sprite.h"
 	"TextPrint.hpp"
 	"TextPrint.cpp"
+	"TextPrint.h"
 )
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)

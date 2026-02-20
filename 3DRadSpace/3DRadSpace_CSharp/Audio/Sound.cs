@@ -19,6 +19,12 @@ public class Sound : IDisposable
         _disposed = false;
     }
 
+    public Sound(IntPtr ptrSound)
+    {
+        _sound = ptrSound;
+        _disposed = false;
+    }
+
     public nint Handle
     {
         get => _sound;

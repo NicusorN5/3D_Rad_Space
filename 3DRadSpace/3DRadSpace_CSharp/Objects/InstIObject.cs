@@ -3,48 +3,48 @@ using System.Runtime.InteropServices;
 
 namespace Engine3DRadSpace.Objects;
 
-internal class InstIObject : InstIUpdateable, IObject
+public class InstIObject : InstIUpdateable, IObject
 {
-	[DllImport("Engine3DRadSpace.dll", EntryPoint = "E3DRSP_IObject_GetUUID")]
+	[DllImport("3DRadSpace.dll", EntryPoint = "E3DRSP_IObject_GetUUID")]
 	extern static Reflection.UUID _getUUID(IntPtr obj);
 
-	[DllImport("Engine3DRadSpace.dll", EntryPoint = "E3DRSP_IObject_GetGizmo")]
+	[DllImport("3DRadSpace.dll", EntryPoint = "E3DRSP_IObject_GetGizmo")]
 	extern static IntPtr _getGizmo(IntPtr obj);
 
-	[DllImport("Engine3DRadSpace.dll", EntryPoint = "E3DRSP_IObject_GetGraphicsDeviceHandle")]
+	[DllImport("3DRadSpace.dll", EntryPoint = "E3DRSP_IObject_GetGraphicsDeviceHandle")]
 	extern static IntPtr _getGDevice(IntPtr obj);
 
-	[DllImport("Engine3DRadSpace.dll", EntryPoint = "E3DRSP_IObject_GetGame")]
+	[DllImport("3DRadSpace.dll", EntryPoint = "E3DRSP_IObject_GetGame")]
 	extern static IntPtr _getGame(IntPtr obj);
 
-	[DllImport("Engine3DRadSpace.dll", EntryPoint = "E3DRSP_IObject_Enable")]
+	[DllImport("3DRadSpace.dll", EntryPoint = "E3DRSP_IObject_Enable")]
 	extern static void _enable(IntPtr obj);
 
-	[DllImport("Engine3DRadSpace.dll", EntryPoint = "E3DRSP_IObject_Disable")]
+	[DllImport("3DRadSpace.dll", EntryPoint = "E3DRSP_IObject_Disable")]
 	extern static void _disable(IntPtr obj);
 
-	[DllImport("Engine3DRadSpace.dll", EntryPoint = "E3DRSP_IObject_Switch")]
+	[DllImport("3DRadSpace.dll", EntryPoint = "E3DRSP_IObject_Switch")]
 	extern static byte _switch(IntPtr obj);
 
-	[DllImport("Engine3DRadSpace.dll", EntryPoint = "E3DRSP_IObject_IsEnabled")]
+	[DllImport("3DRadSpace.dll", EntryPoint = "E3DRSP_IObject_IsEnabled")]
 	extern static byte _isEnabled(IntPtr obj);
 
-	[DllImport("Engine3DRadSpace.dll", EntryPoint = "E3DRSP_IObject_Show")]
+	[DllImport("3DRadSpace.dll", EntryPoint = "E3DRSP_IObject_Show")]
 	extern static void _show(IntPtr obj);
 
-	[DllImport("Engine3DRadSpace.dll", EntryPoint = "E3DRSP_IObject_Hide")]
+	[DllImport("3DRadSpace.dll", EntryPoint = "E3DRSP_IObject_Hide")]
 	extern static void _hide(IntPtr obj);
 
-	[DllImport("Engine3DRadSpace.dll", EntryPoint = "E3DRSP_IObject_SwitchVisibility")]
+	[DllImport("3DRadSpace.dll", EntryPoint = "E3DRSP_IObject_SwitchVisibility")]
 	extern static byte _switchVisibility(IntPtr obj);
 
-	[DllImport("Engine3DRadSpace.dll", EntryPoint = "E3DRSP_IObject_IsVisible")]
+	[DllImport("3DRadSpace.dll", EntryPoint = "E3DRSP_IObject_IsVisible")]
 	extern static byte _isVisible(IntPtr obj);
 
-	[DllImport("Engine3DRadSpace.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_IObject_GetName")]
+	[DllImport("3DRadSpace.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_IObject_GetName")]
 	extern static string _getName(IntPtr obj);
 
-	[DllImport("Engine3DRadSpace.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_IObject_SetName")]
+	[DllImport("3DRadSpace.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_IObject_SetName")]
 	extern static void _setName(IntPtr obj, string name);
 
 	InstIInitializable _initializable;

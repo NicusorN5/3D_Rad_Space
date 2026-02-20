@@ -10,10 +10,10 @@ public class Game : InstIGame
 
 	protected List<Tuple<int, object>> objects;
 
-	[DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "??0Game@Engine3DRadSpace@@QEAA@$$QEAVWindow@1@@Z")]
+	[DllImport("3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "??0Game@Engine3DRadSpace@@QEAA@$$QEAVWindow@1@@Z")]
 	static extern private IntPtr _createGameFromWindow();
 
-	[DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "?Run@Game@Engine3DRadSpace@@QEAAXXZ")]
+	[DllImport("3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "?Run@Game@Engine3DRadSpace@@QEAAXXZ")]
 	static extern private void _runGame(IntPtr gameHandle);
 
 	public Game(string title, uint width = 800, uint height = 600) : base(IntPtr.Zero)

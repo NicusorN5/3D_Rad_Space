@@ -4,25 +4,25 @@ namespace Engine3DRadSpace.Objects;
 
 public class ObjectList : NatPtrWrapper
 {
-	[DllImport("Engine3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_ObjectList_Create")]
+	[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_ObjectList_Create")]
 	extern static IntPtr _create(IntPtr game);
 
-	[DllImport("Engine3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_ObjectList_Add")]
+	[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_ObjectList_Add")]
 	extern static uint _add(IntPtr list, IntPtr obj);
 
-	[DllImport("Engine3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_ObjectList_FindByID")]
+	[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_ObjectList_FindByID")]
 	extern static IntPtr _findByID(IntPtr list, uint id);
 
-	[DllImport("Engine3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_ObjectList_FindByName", CharSet = CharSet.Ansi)]
+	[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_ObjectList_FindByName", CharSet = CharSet.Ansi)]
 	extern static IntPtr _findByName(IntPtr list, string name);
 
-	[DllImport("Engine3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_ObjectList_RemoveByID")]
+	[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_ObjectList_RemoveByID")]
 	extern static void _removeByID(IntPtr list, uint id);
 
-	[DllImport("Engine3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_ObjectList_RemoveByName", CharSet = CharSet.Ansi)]
+	[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_ObjectList_RemoveByName", CharSet = CharSet.Ansi)]
 	extern static void _removeByName(IntPtr list, string name);
 
-	[DllImport("Engine3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_ObjectList_Destroy")]
+	[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_ObjectList_Destroy")]
 	extern static void _destroy(IntPtr list);
 
 	public uint Add(IntPtr obj)

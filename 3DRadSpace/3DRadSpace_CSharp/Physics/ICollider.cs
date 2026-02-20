@@ -6,87 +6,87 @@ namespace Engine3DRadSpace.Physics;
 
 public class ICollider : NatPtrWrapper
 {
-	[DllImport("Engine3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_GetMass")]
+	[DllImport("3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_GetMass")]
 	private static extern float _getMass(IntPtr collider);
 
-	[DllImport("Engine3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_SetMass")]
+	[DllImport("3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_SetMass")]
 	private static extern void _setMass(IntPtr collider, float mass);
 
-	[DllImport("Engine3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_GetLinearDamping")]
+	[DllImport("3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_GetLinearDamping")]
 	private static extern float _getLinearDamping(IntPtr collider);
 
-	[DllImport("Engine3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_SetLinearDamping")]
+	[DllImport("3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_SetLinearDamping")]
 	private static extern void _setLinearDamping(IntPtr collider, float linearDamping);
 
-	[DllImport("Engine3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_GetAngularDamping")]
+	[DllImport("3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_GetAngularDamping")]
 	private static extern float _getAngularDamping(IntPtr collider);
 
-	[DllImport("Engine3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_SetAngularDamping")]
+	[DllImport("3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_SetAngularDamping")]
 	private static extern void _setAngularDamping(IntPtr collider, float angularDamping);
 
-	[DllImport("Engine3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_GetStaticFriction")]
+	[DllImport("3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_GetStaticFriction")]
 	private static extern float _getStaticFriction(IntPtr collider);
 
-	[DllImport("Engine3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_SetStaticFriction")]
+	[DllImport("3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_SetStaticFriction")]
 	private static extern void _setStaticFriction(IntPtr collider, float staticFriction);
 
-	[DllImport("Engine3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_GetDynamicFriction")]
+	[DllImport("3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_GetDynamicFriction")]
 	private static extern float _getDynamicFriction(IntPtr collider);
 
-	[DllImport("Engine3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_SetDynamicFriction")]
+	[DllImport("3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_SetDynamicFriction")]
 	private static extern void _setDynamicFriction(IntPtr collider, float dynFriction);
 
-	[DllImport("Engine3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_GetRestitution")]
+	[DllImport("3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_GetRestitution")]
 	private static extern float _getRestitution(IntPtr collider);
 
-	[DllImport("Engine3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_SetRestitution")]
+	[DllImport("3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_SetRestitution")]
 	private static extern void _setRestitution(IntPtr collider, float restitution);
 
-	[DllImport("Engine3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_GetLinearVelocity")]
+	[DllImport("3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_GetLinearVelocity")]
 	private static extern Vector3 _getLinearVelocity(IntPtr collider);
 
-	[DllImport("Engine3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_SetLinearVelocity")]
+	[DllImport("3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_SetLinearVelocity")]
 	private static extern void _setLinearVelocity(IntPtr collider, ref Vector3 vel);
 
-	[DllImport("Engine3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_GetAngularVelocity")]
+	[DllImport("3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_GetAngularVelocity")]
 	private static extern Vector3 _getAngularVelocity(IntPtr collider);
 
-	[DllImport("Engine3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_SetAngularVelocity")]
+	[DllImport("3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_SetAngularVelocity")]
 	private static extern void _setAngularVelocity(IntPtr collider, ref Vector3 vel);
 
-	[DllImport("Engine3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_GetMaxAngularVelocity")]
+	[DllImport("3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_GetMaxAngularVelocity")]
 	private static extern Vector3 _getMaxAngularVelocity(IntPtr collider);
 
-	[DllImport("Engine3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_SetMaxAngularVelocity")]
+	[DllImport("3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_SetMaxAngularVelocity")]
 	private static extern void _setMaxAngularVelocity(IntPtr collider, ref Vector3 vel);
 
-	[DllImport("Engine3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_GetPhysics")]
+	[DllImport("3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_GetPhysics")]
 	private static extern IntPtr _getPhysics(IntPtr collider);
 
-	[DllImport("Engine3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_ApplyForce")]
+	[DllImport("3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_ApplyForce")]
 	[return: MarshalAs(UnmanagedType.I1)]
 	private static extern bool _applyForce(IntPtr collider, ref Vector3 force);
 
-	[DllImport("Engine3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_ApplyForce2")]
+	[DllImport("3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_ApplyForce2")]
 	[return: MarshalAs(UnmanagedType.I1)]
 	private static extern bool _applyForce2(IntPtr collider, ref Vector3 force, ref Vector3 center);
 
-	[DllImport("Engine3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_ApplyTorque")]
+	[DllImport("3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_ApplyTorque")]
 	[return: MarshalAs(UnmanagedType.I1)]
 	private static extern bool _applyTorque(IntPtr collider, ref Vector3 force);
 
-	[DllImport("Engine3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_ApplyAcceleration")]
+	[DllImport("3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_ApplyAcceleration")]
 	[return: MarshalAs(UnmanagedType.I1)]
 	private static extern bool _applyAcceleration(IntPtr collider, ref Vector3 acc);
 
-	[DllImport("Engine3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_ApplyAngularAcceleration")]
+	[DllImport("3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_ApplyAngularAcceleration")]
 	[return: MarshalAs(UnmanagedType.I1)]
 	private static extern bool _applyAngularAcceleration(IntPtr collider, ref Vector3 acc);
 
-	[DllImport("Engine3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_Intersects")]
+	[DllImport("3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_Intersects")]
 	private static extern float _intersects(IntPtr collider, ref Ray r);
 
-	[DllImport("Engine3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_Destroy")]
+	[DllImport("3DRadSpace.Physics.dll", EntryPoint = "E3DRSP_ICollider_Destroy")]
 	private static extern void _destroy(IntPtr collider);
 
 	public float Mass

@@ -6,40 +6,40 @@ namespace Engine3DRadSpace.Native;
 
 public class Window : NatPtrWrapper
 {
-	[DllImport("Engine3DRadSpace.Native.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_Window_Create")]
+	[DllImport("3DRadSpace.Native.dll", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_Window_Create")]
 	private static extern IntPtr window_Create(string title, uint width, uint height);
 
-	[DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_Window_NativeHandle")]
+	[DllImport("3DRadSpace.Native.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_Window_NativeHandle")]
 	private static extern IntPtr window_NativeHandle(IntPtr window);
 
-	[DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_Window_ProcessMessages")]
+	[DllImport("3DRadSpace.Native.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_Window_ProcessMessages")]
 	private static extern void window_ProcessMessages(IntPtr window);
 
-	[DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_Window_GetMouseState")]
+	[DllImport("3DRadSpace.Native.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_Window_GetMouseState")]
 	private static extern Mouse window_GetMouseState(IntPtr window);
 
-	[DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_Window_GetKeyboardState")]
+	[DllImport("3DRadSpace.Native.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_Window_GetKeyboardState")]
 	private static extern Keyboard window_GetKbState(IntPtr window);
 
-	[DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_Window_Size")]
+	[DllImport("3DRadSpace.Native.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_Window_Size")]
 	private static extern Point window_Size(IntPtr window);
 
-	[DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_Window_RectangleF")]
+	[DllImport("3DRadSpace.Native.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_Window_RectangleF")]
 	private static extern RectangleF window_RF(IntPtr window);
 
-	[DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_Window_Rectangle")]
+	[DllImport("3DRadSpace.Native.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_Window_Rectangle")]
 	private static extern Rectangle window_R(IntPtr window);
 
-	[DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_Window_IsFocused")]
+	[DllImport("3DRadSpace.Native.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_Window_IsFocused")]
 	private static extern bool window_IsFocused(IntPtr window);
 
-	[DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_Window_SetMousePosition")]
+	[DllImport("3DRadSpace.Native.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_Window_SetMousePosition")]
 	private static extern void window_SetMousePosition(IntPtr window, ref Point p);
 
-	[DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_Window_SetTitle")]
+	[DllImport("3DRadSpace.Native.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_Window_SetTitle")]
 	private static extern bool window_SetTitle(IntPtr window, string title);
 
-	[DllImport("Engine3DRadSpace.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_Window_Destroy")]
+	[DllImport("3DRadSpace.Native.dll", CallingConvention = CallingConvention.Cdecl, EntryPoint = "E3DRSP_Window_Destroy")]
 	private static extern void window_Destroy(IntPtr window);
 	public Window(string title, uint width, uint height) : base(window_Create(title, width, height), window_Destroy)
 	{

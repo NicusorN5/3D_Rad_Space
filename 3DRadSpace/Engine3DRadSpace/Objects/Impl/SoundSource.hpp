@@ -92,7 +92,7 @@ namespace Engine3DRadSpace::Objects
 		GetSet<float, SoundSource, &SoundSource::_getPitch, &SoundSource::_setPitch> Pitch;
 		GetSet<bool, SoundSource, &SoundSource::_getLooping, &SoundSource::_setLooping> Looping;
 
-		GetSet<Math::Vector3, SoundSource, &_setVelocity, &_getVelocity> Velocity;
+		GetSet<Math::Vector3, SoundSource, &_getVelocity, &_setVelocity> Velocity;
 		GetSet<Math::Vector3, SoundSource, &_getDirection, &_setDirection> Direction;
 
 		GetSet<float, SoundSource, &_getMaxDistance, &_setMaxDistance> MaxDistance;
@@ -102,6 +102,7 @@ namespace Engine3DRadSpace::Objects
 		GetSet<float, SoundSource, &_getConeOuterAngle, &_setConeOuterAngle> ConeOuterAngle;
 		GetSet<float, SoundSource, &_getConeOuterGain, &_setConeOuterGain> ConeOuterGain;
 		
+		Audio::Sound* GetSound() const noexcept;
 		Audio::SoundInstance* GetInstance() const noexcept;
 
 		~SoundSource() = default;

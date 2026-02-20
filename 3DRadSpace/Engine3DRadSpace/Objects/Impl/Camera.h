@@ -1,5 +1,6 @@
 #pragma once
 #include "../IObject3D.h"
+#include "../ICamera.hpp"
 
 typedef void* E3DRSP_Camera;
 

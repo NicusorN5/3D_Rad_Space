@@ -4,31 +4,31 @@ namespace Engine3DRadSpace.Objects;
 
 public class InstIGizmo : InstIUpdateable, IGizmo
 {
-	[DllImport("Engine3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_IGizmo_GetObject")]
+	[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_IGizmo_GetObject")]
 	static extern IntPtr _getObject(IntPtr gizmoHandle);
-	[DllImport("Engine3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_IGizmo_SetObject")]
+	[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_IGizmo_SetObject")]
 	static extern IntPtr _setObject(IntPtr gizmoHandle, IntPtr obj);
 
-	[DllImport("Engine3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_IGizmo_IsSelected")]
+	[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_IGizmo_IsSelected")]
 	static extern byte _isSelected(IntPtr gizmoHandle);
 
-	[DllImport("Engine3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_IGizmo_SetSelection")]
+	[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_IGizmo_SetSelection")]
 	static extern void _select(IntPtr gizmoHandle, byte selection);
 
-	[DllImport("Engine3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_IGizmo_Is3DRenderingAllowed")]
+	[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_IGizmo_Is3DRenderingAllowed")]
 	static extern byte _3d(IntPtr gizmoHandle);
-	[DllImport("Engine3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_IGizmo_Set3DRenderingAllowed")]
+	[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_IGizmo_Set3DRenderingAllowed")]
 	static extern byte _3d(IntPtr gizmoHandle, byte allow3D);
 
-	[DllImport("Engine3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_IGizmo_Is2DRenderingAllowed")]
+	[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_IGizmo_Is2DRenderingAllowed")]
 	static extern byte _2d(IntPtr gizmoHandle);
-	[DllImport("Engine3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_IGizmo_Set2DRenderingAllowed")]
+	[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_IGizmo_Set2DRenderingAllowed")]
 	static extern byte _2d(IntPtr gizmoHandle, byte allow3D);
 
-	[DllImport("Engine3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_IGizmo_IsUpdatingAllowed")]
+	[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_IGizmo_IsUpdatingAllowed")]
 	static extern byte _update(IntPtr gizmoHandle);
 
-	[DllImport("Engine3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_IGizmo_SetUpdatingAllowed")]
+	[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_IGizmo_SetUpdatingAllowed")]
 	static extern byte _update(IntPtr gizmoHandle, byte allow3D);
 
 	public InstIGizmo(IntPtr handle) : base(handle)
