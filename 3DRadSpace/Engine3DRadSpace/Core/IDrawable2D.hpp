@@ -3,7 +3,7 @@
 
 namespace Engine3DRadSpace
 {
-	class E3DRSP_OBJECTS_EXPORT IDrawable2D
+	class E3DRSP_CORE_EXPORT IDrawable2D
 	{
 	public:
 		virtual void Draw2D() = 0;

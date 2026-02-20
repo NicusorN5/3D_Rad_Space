@@ -154,6 +154,10 @@ void EditObjectDialog::createForms()
 		for (int j = 0, fOffset = 0; j < representations.Size(); j++)
 		{
 			auto& repr = *(representations.begin() + j);
+
+			if(repr.Type == FieldRepresentationType::Unknown) continue;
+			if(repr.Type == FieldRepresentationType::Function) continue;
+
 			auto fieldName = repr.Name.empty() ? field->FieldName() : repr.Name;
 
 			//creates a Static control (aka Label)

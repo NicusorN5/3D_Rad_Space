@@ -3,7 +3,7 @@
 
 namespace Engine3DRadSpace
 {
-	class E3DRSP_OBJECTS_EXPORT IUpdateable
+	class E3DRSP_CORE_EXPORT IUpdateable
 	{
 	public:
 		virtual void Update() = 0;

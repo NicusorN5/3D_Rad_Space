@@ -1,5 +1,6 @@
 #include "Objects.hpp"
 #include "../Reflection/Reflection.hpp"
+#include "../../Logging/Exception.hpp"
 
 //Forward declarations of object reflection data
 REFL_FWD(Camera)
@@ -67,6 +68,8 @@ void Engine3DRadSpace::Internal::LoadDefaultObjects()
 
 ReflectedObject* Engine3DRadSpace::Internal::GetReflDataFromUUID(const Reflection::UUID& uuid)
 {
+	if(e3drsp_internal_objects_list.empty()) throw Logging::Exception("LoadDefaultObjects() must be called first!");
+
 	for(auto &refl : e3drsp_internal_objects_list)
 	{
 		if(uuid == refl->ObjectUUID)

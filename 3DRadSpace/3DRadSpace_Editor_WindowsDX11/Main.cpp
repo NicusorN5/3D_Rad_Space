@@ -33,6 +33,7 @@ processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #include <Engine3DRadSpace/Plugins/CustomObject.hpp>
 #include <Engine3DRadSpace/Native/LibraryLoader.hpp>
 #include <Engine3DRadSpace/Objects/Gizmos.hpp>
+#include <Engine3DRadSpace/Objects/Impl/Objects.hpp>
 #undef LoadLibrary
 #include "Frontend/Settings.hpp"
 #include "Editor/SkinmeshPreviewer.hpp"
@@ -163,6 +164,7 @@ int __stdcall WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 	if (FAILED(CoInitializeEx(nullptr, COINIT::COINIT_MULTITHREADED)))
 		return -1;
 
+	Internal::LoadDefaultObjects();
 	Settings::Load();
 	LoadAllPlugins();
 

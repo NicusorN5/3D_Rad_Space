@@ -656,6 +656,13 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 						{
 							auto object = instance.Object.get();
 
+							auto gizmo = object->GetGizmo();
+							if(gizmo != nullptr)
+							{
+								gizmo->Object = object;
+								gizmo->Load();
+							}
+
 							TVITEMA item{};
 							item.mask = TVIF_TEXT | TVIF_PARAM;
 							item.pszText = const_cast<char*>(object->Name.c_str());

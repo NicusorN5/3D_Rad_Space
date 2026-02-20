@@ -68,6 +68,9 @@ json Engine3DRadSpace::Projects::Serializer::SerializeObject(IObject* obj)
 		auto repr = field->Representation();
 		for (int i = 0; auto &[reprType, sFieldName] : repr)
 		{
+			if(reprType == FieldRepresentationType::Unknown) continue;
+			if(reprType == FieldRepresentationType::Function) continue;
+
 			auto subFieldName = !sFieldName.empty() ? sFieldName : "f";
 
 			auto str_i = std::to_string(i);
@@ -188,6 +191,7 @@ json Engine3DRadSpace::Projects::Serializer::SerializeObject(IObject* obj)
 				}
 				case FieldRepresentationType::Image:
 				case FieldRepresentationType::Model:
+				case FieldRepresentationType::Skybox:
 				{
 					unsigned texture = field->GetAtOffset<unsigned>(objPtr, offset);
 					jsonField[subFieldName][str_i] = texture;
@@ -254,9 +258,12 @@ json Engine3DRadSpace::Projects::Serializer::SerializeObject(IObject* obj)
 
 		for (int i = 0; auto & [reprType, sFieldName] : repr)
 		{
+			if(reprType == FieldRepresentationType::Unknown) continue;
+			if(reprType == FieldRepresentationType::Function) continue;
+
 			auto subFieldName = !sFieldName.empty() ? sFieldName : "f";
 
-			auto& jsonField = j[field->FieldName()][subFieldName][std::to_string(i)];
+			auto jsonField = j[field->FieldName()][subFieldName][std::to_string(i)];
 
 			switch (reprType)
 			{
@@ -395,6 +402,7 @@ json Engine3DRadSpace::Projects::Serializer::SerializeObject(IObject* obj)
 				}
 				case FieldRepresentationType::Image:
 				case FieldRepresentationType::Model:
+				case FieldRepresentationType::Skybox:
 				{
 					unsigned value = jsonField.get<unsigned>();
 

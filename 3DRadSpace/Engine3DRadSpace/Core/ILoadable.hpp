@@ -3,7 +3,7 @@
 
 namespace Engine3DRadSpace
 {
-	class E3DRSP_OBJECTS_EXPORT ILoadable
+	class E3DRSP_CORE_EXPORT ILoadable
 	{
 	public:
 		/// <summary>

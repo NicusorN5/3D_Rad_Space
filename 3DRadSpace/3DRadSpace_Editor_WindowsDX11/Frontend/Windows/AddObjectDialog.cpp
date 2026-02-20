@@ -134,8 +134,6 @@ void AddObjectDialog::createForms()
 	std::vector<std::pair<std::string, objectItem>> objects;
 	std::unordered_map<std::string, int> categories;
 
-	Internal::LoadDefaultObjects();
-
 	//populate the dictionaries
 	for ( int i = IDB_PNG1, j = 0, k = 1 ; i <= IDB_PNG24 && j < Objects.size(); i++, j++, k++)
 	{

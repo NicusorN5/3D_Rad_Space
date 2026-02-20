@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.21)
 
 project("Engine3DRadSpace.Objects")
 
-add_library(3DRadSpace.Objects STATIC 
+add_library(3DRadSpace.Objects SHARED 
 	"Gizmos.hpp"
 	"Gizmos.cpp"
 	"ICamera.hpp"
@@ -47,6 +47,8 @@ if(MSVC)
 	target_compile_definitions(3DRadSpace.Objects PRIVATE [[E3DRSP_OBJECTS_EXPORT=__declspec(dllexport)]])
 endif()
 
+target_link_libraries(3DRadSpace.Objects PRIVATE 3DRadSpace.Core)
+target_link_libraries(3DRadSpace.Objects PRIVATE 3DRadSpace.Math)
 target_link_libraries(3DRadSpace.Objects PRIVATE 3DRadSpace.Audio)
 target_link_libraries(3DRadSpace.Objects PRIVATE 3DRadSpace.Graphics)
 target_link_libraries(3DRadSpace.Objects PRIVATE 3DRadSpace.Content)

@@ -31,6 +31,7 @@ if(MSVC)
 endif()
 
 target_link_libraries(3DRadSpace.Scripting.CSharp PRIVATE 3DRadSpace.Core)
+target_link_libraries(3DRadSpace.Scripting.CSharp PRIVATE 3DRadSpace.Reflection)
 target_link_libraries(3DRadSpace.Scripting.CSharp PRIVATE 3DRadSpace.Math)
 target_link_libraries(3DRadSpace.Scripting.CSharp PRIVATE 3DRadSpace.Logging)
 target_link_libraries(3DRadSpace.Scripting.CSharp PRIVATE 3DRadSpace.Native)

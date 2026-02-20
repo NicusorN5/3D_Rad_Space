@@ -6,7 +6,7 @@ extern E3DRSP_OBJECTS_EXPORT std::vector<std::pair<Engine3DRadSpace::Reflection:
 
 namespace Engine3DRadSpace::Internal
 {
-	Objects::Gizmos::IGizmo* GizmoOf(const Reflection::UUID& uuid);
+	E3DRSP_OBJECTS_EXPORT Objects::Gizmos::IGizmo* GizmoOf(const Reflection::UUID& uuid);
 
 	template<Reflection::ReflectableObject O>
 	Objects::Gizmos::IGizmo* GizmoOf(const O* object)
@@ -28,5 +28,5 @@ namespace Engine3DRadSpace::Internal
 		return result;
 	}
 
-	void UnloadGizmos();
+	E3DRSP_OBJECTS_EXPORT void UnloadGizmos();
 }

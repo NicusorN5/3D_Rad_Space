@@ -32,6 +32,7 @@ endif()
 #Link 3DRadSpace
 target_link_libraries(3DRadSpace.Editor PRIVATE 3DRadSpace.Objects)
 target_link_libraries(3DRadSpace.Editor PRIVATE 3DRadSpace.Objects.Impl)
+target_link_libraries(3DRadSpace.Editor PRIVATE 3DRadSpace.Objects.Gizmos)
 target_link_libraries(3DRadSpace.Editor PRIVATE 3DRadSpace.Graphics)
 target_link_libraries(3DRadSpace.Editor PRIVATE 3DRadSpace.Graphics.DirectX11)
 target_link_libraries(3DRadSpace.Editor PRIVATE 3DRadSpace.Graphics.Primitives)
