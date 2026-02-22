@@ -9,7 +9,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 	class E3DRSP_GRAPHICS_PRIMITIVES_EXPORT Cylinder: public IPrimitive
 	{
 	public:
-		Cylinder(IGraphicsDevice* device, float radius = 1.0f, float height = 1.0f, float tessellation = 64, Math::Color color = Math::Colors::White);
+		Cylinder(IGraphicsDevice* device, float radius = 1.0f, float height = 1.0f, unsigned tessellation = 64u, Math::Color color = Math::Colors::White);
 
 		[[nodiscard]] static std::vector<VertexPositionColor> CreateCylinderVertices(
 			float radius,
@@ -18,6 +18,8 @@ namespace Engine3DRadSpace::Graphics::Primitives
 			Math::Color color
 		);
 
-		void Draw3D() override;
+		[[nodiscard]] static std::vector<unsigned> CreateCylinderIndices(unsigned resolution);
+
+		~Cylinder() override = default;
 	};
 }

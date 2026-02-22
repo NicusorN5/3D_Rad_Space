@@ -7,6 +7,8 @@ using namespace Engine3DRadSpace::Math;
 
 Cone::Cone(IGraphicsDevice* device, float radius, float height, unsigned resolution, const Math::Color& color) : IPrimitive(device)
 {
+	resolution = std::max(3u, resolution);
+
 	_vertices = device->CreateVertexBuffer<VertexPositionColor>(CreateConeVertices(radius, height, resolution, color), BufferUsage::ReadOnlyGPU_WriteOnlyCPU);
 
 	auto ind = CreateConeIndices(resolution);
@@ -15,8 +17,6 @@ Cone::Cone(IGraphicsDevice* device, float radius, float height, unsigned resolut
 
 [[nodiscard]] std::vector<VertexPositionColor> Cone::CreateConeVertices(float radius, float height, unsigned resolution, const Math::Color& color)
 {
-	resolution = std::max(2u, resolution);
-
 	std::vector<VertexPositionColor> triangles;
 	triangles.reserve(resolution + 2);
 
