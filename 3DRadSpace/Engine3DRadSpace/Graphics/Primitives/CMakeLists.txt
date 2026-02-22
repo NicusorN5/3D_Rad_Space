@@ -11,6 +11,8 @@ add_library(3DRadSpace.Graphics.Primitives STATIC
 	"CilindricalBillboard.cpp"
 	"Circle.hpp"
 	"Circle.cpp"
+	"Cone.hpp"
+	"Cone.cpp"
 	"CubeMapSkybox.hpp"
 	"CubeMapSkybox.cpp"
 	"Cylinder.hpp"

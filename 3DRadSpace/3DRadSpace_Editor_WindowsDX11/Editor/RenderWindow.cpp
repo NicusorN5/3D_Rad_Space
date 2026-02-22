@@ -55,7 +55,7 @@ void RenderWindow::Initialize()
 	Camera.LookMode = Camera::CameraMode::UseLookAtCoordinates;
 	Camera.FarPlaneDistance = 1000.0f;
 
-	disk = std::make_unique<Disk>(Device.get(), 2, 64u, Colors::White);
+	cone = std::make_unique<Cone>(Device.get(), 1, 4, 64u, Colors::White);
 }
 
 void RenderWindow::Load()
@@ -195,9 +195,9 @@ void RenderWindow::Draw3D()
 	//Main rendering pass
 	drawAllObjects();	
 
-	disk->View = View;
-	disk->Projection = Projection;
-	disk->Draw3D();
+	cone->View = View;
+	cone->Projection = Projection;
+	cone->Draw3D();
 }
 
 void RenderWindow::SelectObject(IObject* obj)
