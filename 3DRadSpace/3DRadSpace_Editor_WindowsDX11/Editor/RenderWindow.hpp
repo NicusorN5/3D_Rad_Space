@@ -10,6 +10,7 @@
 #include <Engine3DRadSpace/Graphics/Primitives/Arrow.hpp>
 #include <Engine3DRadSpace/Graphics/Font.hpp>
 #include <Engine3DRadSpace/Graphics/Primitives/SphericalBillboard.hpp>
+#include <Engine3DRadSpace/Graphics/Primitives/Disk.hpp>
 
 //Despite using namespaces are ill-advised to be used in headers, this header is not meant to be included in other files.
 using namespace Engine3DRadSpace;
@@ -38,9 +39,7 @@ class RenderWindow : public Engine3DRadSpace::Game
 	float zoom = 5.0f;
 	float timer = 0;
 
-	//std::unique_ptr<SamplerState> samplerState;
-
-	//std::unique_ptr<PickingRenderTargetRender> _picking;
+	std::unique_ptr<Disk> disk;
 
 	bool _keyboardTest = false;
 

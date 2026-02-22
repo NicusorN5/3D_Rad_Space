@@ -15,6 +15,8 @@ add_library(3DRadSpace.Graphics.Primitives STATIC
 	"CubeMapSkybox.cpp"
 	"Cylinder.hpp"
 	"Cylinder.cpp"
+	"Disk.hpp"
+	"Disk.cpp"
 	"IPrimitive.hpp"
 	"IPrimitive.cpp"
 	"LineList.hpp"

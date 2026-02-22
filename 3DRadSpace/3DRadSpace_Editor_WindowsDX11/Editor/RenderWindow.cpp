@@ -38,14 +38,14 @@ void RenderWindow::Initialize()
 	constexpr int halfNumLines = 25;
 
 	std::vector<VertexPositionColor> dLines;
-	for (int i = -halfNumLines; i <= halfNumLines; i++)
+	for(int i = -halfNumLines; i <= halfNumLines; i++)
 	{
-		if (i == 0) continue;
-		dLines.push_back(VertexPositionColor{ Vector3(float(i),0,halfNumLines), Colors::Gray });
-		dLines.push_back(VertexPositionColor{ Vector3(float(i),0,-halfNumLines), Colors::Gray });
+		if(i == 0) continue;
+		dLines.push_back(VertexPositionColor{Vector3(float(i),0,halfNumLines), Colors::Gray});
+		dLines.push_back(VertexPositionColor{Vector3(float(i),0,-halfNumLines), Colors::Gray});
 
-		dLines.push_back(VertexPositionColor{ Vector3(halfNumLines, 0, float(i)), Colors::Gray });
-		dLines.push_back(VertexPositionColor{ Vector3(-halfNumLines, 0, float(i)), Colors::Gray });
+		dLines.push_back(VertexPositionColor{Vector3(halfNumLines, 0, float(i)), Colors::Gray});
+		dLines.push_back(VertexPositionColor{Vector3(-halfNumLines, 0, float(i)), Colors::Gray});
 	}
 
 	axis = std::make_unique<Primitives::LineList>(Device.get(), axisLines);
@@ -54,6 +54,8 @@ void RenderWindow::Initialize()
 	Camera.InternalInitialize(this);
 	Camera.LookMode = Camera::CameraMode::UseLookAtCoordinates;
 	Camera.FarPlaneDistance = 1000.0f;
+
+	disk = std::make_unique<Disk>(Device.get(), 2, 64u, Colors::White);
 }
 
 void RenderWindow::Load()
@@ -192,6 +194,10 @@ void RenderWindow::Draw3D()
 
 	//Main rendering pass
 	drawAllObjects();	
+
+	disk->View = View;
+	disk->Projection = Projection;
+	disk->Draw3D();
 }
 
 void RenderWindow::SelectObject(IObject* obj)
