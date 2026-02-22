@@ -26,5 +26,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		LineStrip &operator=(LineStrip &&) noexcept = default;
 
 		void Draw3D() override;
+
+		~LineStrip() override = default;
 	};
 }

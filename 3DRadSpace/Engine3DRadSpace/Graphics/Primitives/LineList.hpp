@@ -46,5 +46,7 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		/// Draws this primitive shape.
 		/// </summary>
 		virtual void Draw3D() override;
+
+		~LineList() override = default;
 	};
 }

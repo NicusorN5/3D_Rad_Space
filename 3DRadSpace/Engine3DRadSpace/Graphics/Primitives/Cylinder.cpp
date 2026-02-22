@@ -5,89 +5,78 @@ using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Graphics::Primitives;
 using namespace Engine3DRadSpace::Math;
 
-Cylinder::Cylinder(IGraphicsDevice *device, float radius, float height, float tessellation) :
+Cylinder::Cylinder(IGraphicsDevice *device, float radius, float height, float tessellation, Color color) :
 	IPrimitive(device)
 {
+	auto verts = CreateCylinderVertices(radius, height, tessellation, color);
+	this->_vertices = device->CreateVertexBuffer<VertexPositionColor>(verts, BufferUsage::ReadOnlyGPU_WriteOnlyCPU);
 }
 
 [[nodiscard]] std::vector<VertexPositionColor> Cylinder::CreateCylinderVertices(float radius, float height, unsigned resolution, Color color)
 {
-	auto r = std::vector<VertexPositionColor>(resolution * 2 + 2);
+	resolution = std::min(2u, resolution);
+
+	auto r = std::vector<VertexPositionColor>(resolution * 3 + 7);
 
 	float top = height / 2;
 	float bottom = -height / 2;
 
-	r[0] = VertexPositionColor(Vector3(0, top, 0), color);
-	
-	float dp = 2 * std::numbers::pi_v<float> / resolution;
+	//Top ring
+	auto topCenter = VertexPositionColor(Vector3(0, top, 0), color);
+	r[0] = topCenter;
 
-	for(unsigned i = 0; i < resolution ; i++)
+	float dtheta = 2 * std::numbers::pi_v<float> / resolution;
+	
+	r.push_back(topCenter);
+
+	for(unsigned i = 0; i < resolution; i += 2)
 	{
-		float angle = (2 * std::numbers::pi_v<float>) * i / resolution;
-		r[i + 2] = VertexPositionColor(Vector3(radius * std::cos(angle), top, radius * std::sin(angle)), color);
-		r[resolution + i + 2] = VertexPositionColor(Vector3(radius * std::cos(angle), top, radius * std::sin(angle)), color);
+		auto theta = dtheta * i;
+		r.emplace_back(Vector3(radius * cosf(theta), top, radius * sinf(theta)), color);
+		++i; theta = dtheta * i;
+		r.emplace_back(Vector3(radius * cosf(theta), top, radius * sinf(theta)), color);
+		r.push_back(topCenter);
 	}
+
+	r.emplace_back(Vector3(0, top, 0), color); //Finish top ring
+	r.emplace_back(Vector3(0, bottom, 0), color); //Begin middle quads
+
+	for(unsigned i = 1; i < resolution; i ++)
+	{
+		auto theta = dtheta * i;
+		r.emplace_back(Vector3(radius * cosf(theta), top, radius * sinf(theta)), color);
+		r.emplace_back(Vector3(radius * cosf(theta), bottom, radius * sinf(theta)), color);
+	}
+
+	r.emplace_back(Vector3(0, top, 0), color); 
+	r.emplace_back(Vector3(0, bottom, 0), color);
+
+	//Bottom ring
+	r.emplace_back(Vector3(0, bottom, 0), color);
+	//r.emplace_back(Vector3(radius, bottom, 0), color); // cos(0) = 1, sin(0) = 0
+	for(unsigned i = 0; i < resolution; i += 2)
+	{
+		auto theta = dtheta * i;
+		r.emplace_back(Vector3(radius * cosf(theta), bottom, radius * sinf(theta)), color);
+		++i; theta = dtheta * i;
+		r.emplace_back(Vector3(radius * cosf(theta), bottom, radius * sinf(theta)), color);
+		r.emplace_back(Vector3(0, bottom, 0), color);
+	}
+
+	r.emplace_back(Vector3(radius, bottom, 0), color); //Finish bottom ring
 
 	return r;
 }
 
-[[nodiscard]] std::vector<unsigned> Engine3DRadSpace::Graphics::Primitives::Cylinder::CreateCylinderIndices(unsigned resolution)
+void Cylinder::Draw3D()
 {
-	auto r = std::vector<unsigned>(resolution * 12);
+	auto mvp = _mvp();
 
-	//generate top faces.
-	auto add_triangle = [&r](size_t pos, std::span<unsigned,3> i)
-	{
-		r[pos] = i[0];
-		r[pos + 1] = i[1];
-		r[pos + 2] = i[2];
-	};
+	_shader->SetAll();
+	_shader->operator[](0)->SetData(0, &mvp, sizeof(mvp));
 
-	auto vi = 0u;
+	auto cmd = _device->ImmediateContext();
 
-	for(auto vi = 0u, i = 0u; vi < 3 * (resolution - 1); vi += 3, ++i)
-	{
-		std::array<unsigned, 3> top_triangle = {
-			0,
-			i + 2,
-			i + 3 
-		};
-		add_triangle(vi, top_triangle);
-	}
-
-	std::array<unsigned, 3> last_top_triangle = {
-		0,
-		resolution + 1,
-		2
-	};
-	add_triangle(vi, last_top_triangle);
-
-	//generate middle faces.
-
-	auto add_quad = [&r](size_t pos, std::span<unsigned, 4> i)
-	{
-		r[pos] = i[0];
-		r[pos + 1] = i[1];
-		r[pos + 2] = i[2];
-		r[pos + 3] = i[3];
-	};
-
-	for(auto vi = 3 * resolution, i = 0u; vi < 6 * (resolution - 1); vi += 4, ++i)
-	{
-		std::array<unsigned, 4> quad = {
-			i + 2,
-			i + 3,
-			resolution + i + 3,
-			resolution + i + 2
-		};
-		add_quad(vi, quad);
-	}
-
-	//add last quad
-
-	std::array<unsigned, 4> last_quad = {
-
-	};
-
-	return r;
+	cmd->SetTopology(VertexTopology::TriangleStrip);
+	cmd->DrawVertexBufferWithindices(_vertices.get(), _indices.get());
 }

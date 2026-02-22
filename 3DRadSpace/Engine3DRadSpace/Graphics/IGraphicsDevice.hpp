@@ -183,6 +183,12 @@ namespace Engine3DRadSpace::Graphics
 		}
 
 		template<VertexDecl V>
+		std::unique_ptr<IVertexBuffer> CreateVertexBuffer(std::span<V> vertices, BufferUsage usage)
+		{
+			return CreateVertexBuffer(const_cast<const V*>(&vertices[0]), sizeof(V), vertices.size(), usage);
+		}
+
+		template<VertexDecl V>
 		std::unique_ptr<IVertexBuffer> CreateVertexBuffer(size_t numVertices, BufferUsage usage)
 		{
 			return CreateVertexBuffer(nullptr, sizeof(V), numVertices, usage);

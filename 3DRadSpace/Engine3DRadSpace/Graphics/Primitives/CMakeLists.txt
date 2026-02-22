@@ -3,17 +3,29 @@ cmake_minimum_required(VERSION 3.21)
 project("3DRadSpace.Graphics.Primitives")
 
 add_library(3DRadSpace.Graphics.Primitives STATIC 
+	"Arrow.hpp"
 	"Arrow.cpp"
+	"Box.hpp"
 	"Box.cpp"
+	"CilindricalBillboard.hpp"
 	"CilindricalBillboard.cpp"
+	"Circle.hpp"
 	"Circle.cpp"
+	"CubeMapSkybox.hpp"
 	"CubeMapSkybox.cpp"
+	"Cylinder.hpp"
 	"Cylinder.cpp"
+	"IPrimitive.hpp"
 	"IPrimitive.cpp"
+	"LineList.hpp"
 	"LineList.cpp"
+	"LineStrip.hpp"
 	"LineStrip.cpp"
+	"Plane.hpp"
 	"Plane.cpp"
+	"Sphere.hpp"
 	"Sphere.cpp"
+	"SphericalBillboard.hpp"
 	"SphericalBillboard.cpp"
 )
 

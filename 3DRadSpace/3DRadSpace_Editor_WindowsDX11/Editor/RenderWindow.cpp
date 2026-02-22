@@ -1,7 +1,6 @@
 #include "RenderWindow.hpp"
 #include <Engine3DRadSpace/Graphics/Font.hpp>
 #include "../Frontend/Settings.hpp"
-#include <Engine3DRadSpace/Graphics/Primitives/Box.hpp>
 #include <Engine3DRadSpace/Objects/ObjectList.hpp>
 #include <Engine3DRadSpace/Objects/IGizmo.hpp>
 #include <Engine3DRadSpace\Objects\Gizmos.hpp>
@@ -55,8 +54,6 @@ void RenderWindow::Initialize()
 	Camera.InternalInitialize(this);
 	Camera.LookMode = Camera::CameraMode::UseLookAtCoordinates;
 	Camera.FarPlaneDistance = 1000.0f;
-
-	//_picking = std::make_unique<PickingRenderTargetRender>(Device.get());
 }
 
 void RenderWindow::Load()
@@ -206,15 +203,15 @@ void RenderWindow::Draw2D()
 {
 	this->ClearColor = Color(0, 0, 0, 1);
 
-	SpriteBatch->Begin();
-	SpriteBatch->DrawString(
-		_font.get(),
-		std::format("Mouse {} {} FPS {}", cameraPos.X, cameraPos.Y, static_cast<int>(1.0f / Draw_dt)),
-		Point(20, 20),
-		1
-	);
+	//SpriteBatch->Begin();
+	//SpriteBatch->DrawString(
+	//	_font.get(),
+	//	std::format("Mouse {} {} FPS {}", cameraPos.X, cameraPos.Y, static_cast<int>(1.0f / Draw_dt)),
+	//	Point(20, 20),
+	//	1
+	//);
 
-	SpriteBatch->End();
+	//SpriteBatch->End();
 
 	for(auto& obj : *Objects)
 	{

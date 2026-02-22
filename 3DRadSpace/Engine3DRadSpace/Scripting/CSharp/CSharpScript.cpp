@@ -40,7 +40,7 @@ void CSharpScript::Initialize()
 
 void CSharpScript::Load()
 {
-	csmgr_updateScript(_id);
+	Load(ScriptPath);
 }
 
 void CSharpScript::Load(const std::filesystem::path& path)
