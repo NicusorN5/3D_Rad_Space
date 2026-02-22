@@ -30,6 +30,14 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		Sphere &operator=(const Sphere &) = delete;
 		Sphere &operator=(Sphere &&) noexcept = default;
 
+		[[nodiscard]] std::vector<VertexPositionColor> CreateSphereVertices(
+			float radius,
+			unsigned resolution,
+			const Math::Color& color
+		);
+
+		[[nodiscard]] std::vector<unsigned> CreateSphereIndices(unsigned resolution);
+
 		float GetRadius() const noexcept;
 	};
 }

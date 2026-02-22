@@ -55,7 +55,7 @@ void RenderWindow::Initialize()
 	Camera.LookMode = Camera::CameraMode::UseLookAtCoordinates;
 	Camera.FarPlaneDistance = 1000.0f;
 
-	cylinder = std::make_unique<Cylinder>(Device.get(), 1, 4, 64u, Colors::White);
+	sphere = std::make_unique<Sphere>(Device.get(), 5.0f, Colors::LightRed, 64u);
 }
 
 void RenderWindow::Load()
@@ -195,9 +195,9 @@ void RenderWindow::Draw3D()
 	//Main rendering pass
 	drawAllObjects();	
 
-	cylinder->View = View;
-	cylinder->Projection = Projection;
-	cylinder->Draw3D();
+	sphere->View = View;
+	sphere->Projection = Projection;
+	sphere->Draw3D();
 }
 
 void RenderWindow::SelectObject(IObject* obj)
