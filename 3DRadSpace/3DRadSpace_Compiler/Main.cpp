@@ -160,8 +160,8 @@ auto startProject(std::filesystem::path& outDir, const std::string& projectName)
 
 	//PROCESS_INFORMATION pi{};
 
-	auto exePath = (outDir / std::format("x64/Debug/{}.exe", projectName)).string();
-	auto runningFolder = (outDir / "x64/Debug/").string();
+	auto exePath = (outDir / std::format("x64/Release/{}.exe", projectName)).string();
+	auto runningFolder = (outDir / "x64/Release/").string();
 	//auto r = CreateProcessA(
 	//	exePath.c_str(),
 	//	nullptr,

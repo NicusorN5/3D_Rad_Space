@@ -34,7 +34,6 @@ namespace Engine3DRadSpace::Objects
 			ObjectInstance(O&& obj);
 
 			template<>
-
 			ObjectInstance(std::unique_ptr<IObject> &&obj);
 
 			ObjectInstance& operator=(const ObjectInstance&) = delete;

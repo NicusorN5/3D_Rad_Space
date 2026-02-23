@@ -8,26 +8,24 @@ static bool generate_main_cpp(const ProjectInfo& info)
 
 	if(std::filesystem::exists(main_cpp_path)) return true;
 
-	//std::string main =
-	//	"#include \"MyGame.hpp\"\n"
-	//	"#include <Windows.h>\n"
-	//	"#include <Engine3DRadSpace\\Graphics\\Shaders\\ShaderManager.hpp>\n\n"
-	//	"int main()\n"
-	//	"{\n"
-	//	"MyGame game;\n"
-	//	"game.Run();\n\n"
-	//	"Engine3DRadSpace::Graphics::Shaders::ShaderManager::ReleaseAll();\n"
-	//	"return 0;\n"
-	//	"}\n";
-
-	std::string main =
-		"#include <iostream>\n"
+	std::string main = std::format(
+		"#include <Engine3DRadSpace/Games/Game.hpp>\n"
+		"\n"
+		"	class MyGame : public Engine3DRadSpace::Game\n"
+		"{{\n"
+		"public:\n"
+		"	MyGame() : Game(\"{}\") {{}}\n"
+		"	~MyGame() override = default;\n"
+		"}};\n"
+		"\n"
 		"int main()\n"
-		"{\n"
-		"	std::cout << \"Hello World\\n\";\n"
-		"	return 0;\n"
-		"}"
-		;
+		"{{\n"
+		"	MyGame game;\n"
+		"	game.ClearColor = Engine3DRadSpace::Math::Colors::Red;\n"
+		"	game.Run();\n"
+		"}}",
+		info.Name
+	);
 
 	std::ofstream mainFile(main_cpp_path);
 	if(!mainFile.is_open())
@@ -201,7 +199,7 @@ bool GenerateProject(const ProjectInfo &info, std::vector<std::filesystem::path>
 			"			<AdditionalDependencies>{3} %(AdditionalDependencies) </AdditionalDependencies>\n"
 			"		</Link>\n"
 			"		<PostBuildEvent>\n"
-			"			<Command>xcopy / y / d \"{1}\\*.dll\" \"$(TargetDir)\"</Command>\n"
+			"			<Command>xcopy /y /d \"{1}\\*.dll\" \"$(TargetDir)\"</Command>\n"
 			"		</PostBuildEvent>\n"
 			"	</ItemDefinitionGroup>\n"
 			"	<ItemDefinitionGroup Condition = \"'$(Configuration)|$(Platform)'=='Release|x64'\">\n"
@@ -214,7 +212,7 @@ bool GenerateProject(const ProjectInfo &info, std::vector<std::filesystem::path>
 			"			<AdditionalLibraryDirectories>{2}; %(AdditionalLibraryDirectories) </AdditionalLibraryDirectories>\n"
 			"		</Link>\n"
 			"		<PostBuildEvent>\n"
-			"			<Command>xcopy / y / d \"{2}\\*.dll\" \"$(TargetDir)\"</Command>\n"
+			"			<Command>xcopy /y /d \"{2}\\*.dll\" \"$(TargetDir)\"</Command>\n"
 			"		</PostBuildEvent>\n"
 			"	</ItemDefinitionGroup>\n"
 			"	<Import Project = \"$(VCTargetsPath)\\Microsoft.Cpp.props\"/>\n"
