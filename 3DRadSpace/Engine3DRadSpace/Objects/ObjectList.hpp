@@ -1,4 +1,5 @@
 #pragma once
+#include "ICamera.hpp"
 #include "IObject3D.hpp"
 #include "IObject2D.hpp"
 #include "ObjectType.hpp"
@@ -24,7 +25,7 @@ namespace Engine3DRadSpace::Objects
 			ObjectInstance(IObject* obj);
 
 			ObjectInstance(const ObjectInstance& copy) = delete;
-			ObjectInstance(ObjectInstance&&) = default;
+			ObjectInstance(ObjectInstance&&) noexcept = default;
 
 			template<GameObject O>
 			ObjectInstance(std::unique_ptr<O>&& obj);
@@ -37,11 +38,13 @@ namespace Engine3DRadSpace::Objects
 
 			ObjectInstance& operator=(const ObjectInstance&) = delete;
 			ObjectInstance& operator=(ObjectInstance&&) noexcept = default;
+
+			IObject* operator->() const noexcept;
 		};
 	private:
 		std::vector<ObjectInstance> _objects;
 		IGame* _game;
-		Objects::Camera* _camera;
+		Objects::ICamera* _camera;
 
 		void _validate(ObjectInstance& instance);
 		void _validate(IObject* instance);
@@ -73,8 +76,8 @@ namespace Engine3DRadSpace::Objects
 		template<GameObject O>
 		O* Find(unsigned i = 0) const;
 
-		Objects::Camera* GetRenderingCamera();
-		void SetRenderingCamera(Objects::Camera* cam);
+		ICamera* GetRenderingCamera() const noexcept;
+		void SetRenderingCamera(ICamera* cam) noexcept;
 
 		IGame* GetGame() const noexcept;
 
@@ -94,7 +97,12 @@ namespace Engine3DRadSpace::Objects
 		std::vector<ObjectInstance>::iterator begin();
 		std::vector<ObjectInstance>::iterator end();
 
-		friend class Objects::Camera;
+		std::vector<ObjectInstance>::const_iterator begin() const;
+		std::vector<ObjectInstance>::const_iterator end() const;
+
+		friend class Camera;
+
+		~ObjectList() override = default;
 	};
 
 	template<GameObject O>
@@ -108,7 +116,8 @@ namespace Engine3DRadSpace::Objects
 	template<GameObject O>
 	inline ObjectList::ObjectInstance::ObjectInstance(O&& obj)
 	{
-		Object.reset(new O(std::move(obj)));
+		using ObjT = std::decay_t<O>;
+		Object.reset(new ObjT(std::forward<O>(obj)));
 
 		InternalType = ObjectType::IObject;
 		if constexpr (std::is_base_of_v<IObject2D, O>) InternalType = ObjectType::IObject2D;
@@ -127,7 +136,7 @@ namespace Engine3DRadSpace::Objects
 	inline std::pair<O*, unsigned> ObjectList::AddNew(O&& object)
 	{
 		auto index = _objects.size() - 1;
-		auto& obj = _objects.emplace_back(std::move(object));
+		auto& obj = _objects.emplace_back(std::forward<O>(object));
 		_validate(obj);
 		return std::make_pair(static_cast<O*>(obj.Object.get()), unsigned(index));
 	}

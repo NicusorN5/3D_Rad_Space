@@ -138,6 +138,16 @@ std::vector<ObjectList::ObjectInstance>::iterator ObjectList::end()
 	return _objects.end();
 }
 
+std::vector<ObjectList::ObjectInstance>::const_iterator ObjectList::begin() const
+{
+	return _objects.begin();
+}
+
+std::vector<ObjectList::ObjectInstance>::const_iterator ObjectList::end() const
+{
+	return _objects.end();
+}
+
 template<>
 ObjectList::ObjectInstance::ObjectInstance(std::unique_ptr<IObject>&& obj) : 
 	Object(std::move(obj))
@@ -160,12 +170,17 @@ ObjectList::ObjectInstance::ObjectInstance(IObject* obj)
 	else if (dynamic_cast<IObject3D*>(ptr) != nullptr)  InternalType = ObjectType::IObject3D;
 }
 
-Objects::Camera* ObjectList::GetRenderingCamera()
+IObject* ObjectList::ObjectInstance::operator->() const noexcept
 {
-	return this->_camera;
+	return Object.get();
 }
 
-void ObjectList::SetRenderingCamera(Objects::Camera* cam)
+ICamera* ObjectList::GetRenderingCamera() const noexcept
+{
+	return _camera;
+}
+
+void ObjectList::SetRenderingCamera(ICamera* cam) noexcept
 {
 	_camera = cam;
 }

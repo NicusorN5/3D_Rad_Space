@@ -1,5 +1,6 @@
 #include "IObject.hpp"
 #include "IObject.h"
+#include "ObjectList.hpp"
 #include "../Games/Game.hpp"
 
 using namespace Engine3DRadSpace;
@@ -9,6 +10,7 @@ using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Objects;
 
 IObject::IObject(const std::string &name, bool enabled, bool visible) :
+	_parent(nullptr),
 	Name(name),
 	Enabled(enabled),
 	Visible(visible)
@@ -61,6 +63,37 @@ bool IObject::SwitchVisibility()
 {
 	Visible = !Visible;
 	return Visible;
+}
+
+IObject* IObject::operator[](size_t idxChild) const
+{
+	return Children[idxChild];
+}
+
+IObject* IObject::GetParent() const noexcept
+{
+	return _parent;
+}
+
+void IObject::SetParent(IObject* currentOwner, IObject* newParent) noexcept
+{
+	if(_parent == nullptr)
+	{
+		_parent = newParent;
+		return;
+	}
+
+	if(currentOwner == this->_parent)
+	{
+		this->_parent = newParent;
+		currentOwner->_parent = nullptr;
+		return;
+	}
+}
+
+bool IObject::HasParent() const noexcept
+{
+	return _parent != nullptr;
 }
 
 IObject::~IObject()

@@ -23,7 +23,7 @@ static bool generate_main_cpp(const ProjectInfo& info)
 	std::ofstream mainFile(main_cpp_path);
 	if(!mainFile.is_open())
 	{
-		std::println("[FATAL] Failed to create main.cpp file.");
+		std::println("[ERROR] Failed to create main.cpp file.");
 		return false;
 	}
 	mainFile << main;
@@ -68,7 +68,7 @@ std::filesystem::path CopySourceFile(
 	{
 		auto strFilename = filename.string();
 
-		std::println("[FATAL] Failed to copy file {}", strFilename);
+		std::println("[ERROR] Failed to copy file {}", strFilename);
 		throw std::exception(strFilename.c_str());
 	}
 
@@ -167,7 +167,7 @@ bool GenerateProject(const ProjectInfo &info, std::vector<std::filesystem::path>
 		std::ofstream vcprojFile(vcproj_path);
 		if(!vcprojFile.is_open())
 		{
-			std::println("[FATAL] Failed to create MSVC project file.");
+			std::println("[ERROR] Failed to create MSVC project file.");
 			return false;
 		}
 		vcprojFile << vcproj;

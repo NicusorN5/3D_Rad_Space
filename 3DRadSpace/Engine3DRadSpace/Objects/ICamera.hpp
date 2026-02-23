@@ -10,7 +10,24 @@ namespace Engine3DRadSpace::Objects
 	/// </summary>
 	class E3DRSP_OBJECTS_EXPORT ICamera
 	{
+	protected:
+		ICamera(
+			const Math::Vector3& normal,
+			const Math::Vector3& lookAt,
+			float aspectRatio,
+			float fov,
+			float npd,
+			float fpd
+		);
 	public:
+		Math::Vector3 Normal;
+		Math::Vector3 LookAt;
+
+		float AspectRatio;
+		float FieldOfView;
+		float NearPlaneDistance;
+		float FarPlaneDistance;
+
 		virtual Math::Matrix4x4 GetViewMatrix() const noexcept = 0;
 		virtual Math::Matrix4x4 GetProjectionMatrix() const = 0;
 

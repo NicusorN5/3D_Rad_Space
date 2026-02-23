@@ -28,12 +28,8 @@ namespace Engine3DRadSpace::Objects
 			float fpd = 500.0f
 		);
 
-		Math::Vector3 Normal;
-
-		float AspectRatio;
-		float FieldOfView;
-		float NearPlaneDistance;
-		float FarPlaneDistance;
+		//Camera(Camera&&) noexcept = default;
+		//Camera& operator=(Camera&&) noexcept = default;
 
 		enum class CameraMode
 		{
@@ -41,12 +37,9 @@ namespace Engine3DRadSpace::Objects
 			UseLookAtCoordinates,
 		} LookMode;
 
-		Math::Vector3 LookAt;
-
 		void Initialize() override;
 		void Load() override;
 		void Load(const std::filesystem::path &path) override;
-
 
 		Math::Matrix4x4 GetModelMatrix() override;
 		/// <summary>

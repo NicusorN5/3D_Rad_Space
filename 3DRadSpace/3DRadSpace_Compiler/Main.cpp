@@ -253,7 +253,7 @@ auto main(int argc, char** argv) -> int
 				}
 				else
 				{
-					std::println("[FATAL] No compiler found.");
+					std::println("[STOP] No compiler found.");
 					return 0;
 				}
 				break;
@@ -304,7 +304,7 @@ auto main(int argc, char** argv) -> int
 
 	if(files.empty())
 	{
-		std::println("[FATAL] No files provided.");
+		std::println("[STOP] No files provided.");
 		return 0;
 	}
 
@@ -395,7 +395,7 @@ generate:
 			Clang_Build(info, compiler->Path);
 			break;
 		default:
-			std::println("[FATAL] Unknown compiler type.");
+			std::println("[STOP] Unknown compiler type.");
 			return -1;
 	}
 

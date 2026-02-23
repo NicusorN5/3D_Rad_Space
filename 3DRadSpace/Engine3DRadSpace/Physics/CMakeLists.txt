@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.21)
 project("Engine3DRadSpace.Physics")
 
 add_library(3DRadSpace.Physics SHARED
+	"Collider.hpp"
 	"ICollider.hpp"
 	"ICollider.cpp"
 	"ICollider.h"

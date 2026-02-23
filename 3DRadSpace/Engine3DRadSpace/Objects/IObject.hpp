@@ -4,6 +4,7 @@
 #include "../Core/IUpdateable.hpp"
 #include "../Core/ILoadable.hpp"
 #include "../Reflection/UUID.hpp"
+#include "../Core/IService.hpp"
 
 namespace Engine3DRadSpace
 {
@@ -22,11 +23,15 @@ namespace Engine3DRadSpace
 
 	namespace Objects
 	{
+		class ObjectList;
+
 		class E3DRSP_OBJECTS_EXPORT IObject : public IInitializable, public IUpdateable, public ILoadable
 		{
 		protected:
 			IGame* _game = nullptr;
 			Graphics::IGraphicsDevice* _device = nullptr;
+
+			IObject* _parent;
 			/// <summary>
 			/// Default constructor used for reflection. Objects created with this constructor are initially invalid, until internalInitialize() is called.
 			/// </summary>
@@ -36,9 +41,14 @@ namespace Engine3DRadSpace
 			/// <param name="visible"></param>
 			explicit IObject(const std::string& name = "Empty", bool enabled = false, bool visible = false);
 		public:
+			//IObject(IObject&&) noexcept = default;
+			//IObject& operator=(IObject&&) noexcept = default;
+
 			std::string Name;
 			bool Enabled;
 			bool Visible;
+
+			std::vector<IObject*> Children;
 
 			/// <summary>
 			/// Called by ObjectsList to set the _game Game instance. If there are objects manually managed, this MUST be called before Initialize or EditorInitialize.
@@ -51,6 +61,12 @@ namespace Engine3DRadSpace
 
 			Graphics::IGraphicsDevice* GetGraphicsDeviceHandle() const noexcept;
 			IGame* GetGame() const noexcept;
+
+			IObject* operator[](size_t idxChild) const;
+			IObject* GetParent() const noexcept;
+			void SetParent(IObject* currentOwner, IObject* newParent) noexcept;
+
+			bool HasParent() const noexcept;
 
 			///Getters and setters for events and visual scripting
 

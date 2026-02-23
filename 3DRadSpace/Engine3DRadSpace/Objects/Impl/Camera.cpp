@@ -26,12 +26,7 @@ Camera::Camera(
 	float fpd
 ):
 	IObject3D(name, visible, true, pos, Vector3::Zero(), Quaternion::FromVectorToVector(look_at, up), Vector3::One()),
-	Normal(up),
-	AspectRatio(aspectRatio),
-	FieldOfView(fov),
-	FarPlaneDistance(fpd),
-	NearPlaneDistance(npd),
-	LookAt( pos + Vector3::Transform(Vector3::Forward(), Quaternion::FromVectorToVector(look_at, up))),
+	ICamera(up, pos + Vector3::Transform(Vector3::Forward(), Quaternion::FromVectorToVector(look_at, up)), aspectRatio, fov, npd, fpd),
 	LookMode(CameraMode::UseRotation)
 {
 }
