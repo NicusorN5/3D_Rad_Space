@@ -185,6 +185,8 @@ void SaveCompilerCache(const Compiler& compiler)
 			std::println("[ERROR] Unknown compiler type when saving compiler cache.");
 			return;
 	}
+
+	cache << j;
 }
 
 void Compiler::Print()

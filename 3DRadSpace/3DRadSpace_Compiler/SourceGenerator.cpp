@@ -93,6 +93,8 @@ bool GenerateProject(const ProjectInfo &info, std::vector<std::filesystem::path>
 
 	std::filesystem::path vcproj_path = info.Output / (info.Name + ".vcxproj");
 
+	if(std::filesystem::exists(vcproj_path)) return true;
+
 	std::vector<std::filesystem::path> srcFiles;
 	std::vector<std::filesystem::path> headers;
 	std::vector<std::filesystem::path> resFiles;

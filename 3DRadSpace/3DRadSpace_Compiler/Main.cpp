@@ -28,7 +28,10 @@ std::unordered_map<std::string, int> dict =
 	{"/p", 5},
 	{"--name",6},
 	{"-n",6},
-	{"/n",6}
+	{"/n",6},
+	{"--erase", 7},
+	{"-e", 7},
+	{"/e", 7}
 	//{"--debug", 6},
 	//{"-d", 6},
 	//{"/d", 6}
@@ -74,14 +77,13 @@ auto LoadCompilerCache() -> std::optional<Compiler>
 	std::println("Found cached envoirement settings...");
 
 	nlohmann::json j;
+	cache >> j;
 
 	if(j.empty())
 	{
 		std::println("Cached compiler settings were erased.");
 		return std::nullopt;
 	}
-
-	cache >> j;
 
 	std::filesystem::path devenv = j["devenv"].get<std::string>();
 	if(!devenv.empty())
@@ -172,7 +174,7 @@ auto startProject(std::filesystem::path& outDir, const std::string& projectName)
 	//	&si,
 	//	&pi
 	//);
-	
+
 	return reinterpret_cast<INT_PTR>(ShellExecuteA(
 		nullptr,
 		"open",
@@ -196,6 +198,7 @@ auto main(int argc, char** argv) -> int
 
 	bool wasOutputSpecified = false;
 	bool playProject = false;
+	bool rebuild = false;
 
 	ProjectInfo info;
 	info.Name = "MyGame";
@@ -258,10 +261,8 @@ auto main(int argc, char** argv) -> int
 				break;
 			}
 			case 5:
-			{
 				playProject = true;
 				break;
-			}
 			case 6:
 			{
 				if(i + 1 < argc)
@@ -276,6 +277,9 @@ auto main(int argc, char** argv) -> int
 				}
 				break;
 			}
+			case 7:
+				rebuild = true;
+				break;
 			default:
 				if(!std::filesystem::exists(argv[i]))
 				{
@@ -297,7 +301,7 @@ auto main(int argc, char** argv) -> int
 		std::println("[INFO] Output folder not specified. Using current directory.");
 		outputFolder = std::filesystem::current_path() / info.Name;
 
-		if(std::filesystem::exists(outputFolder))
+		if(std::filesystem::exists(outputFolder) && rebuild)
 		{
 			try
 			{

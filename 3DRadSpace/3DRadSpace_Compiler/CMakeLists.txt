@@ -28,10 +28,6 @@ if(MSVC)
 	endif()
 endif()
 
-#Link 3DRadSpace
-#target_link_libraries(3DRadSpace.Compiler PRIVATE 3DRadSpace)
-#target_include_directories(3DRadSpace.Compiler PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)
-
 #Nlohmann JSON
 find_package(nlohmann_json CONFIG REQUIRED)
 target_link_libraries(3DRadSpace.Compiler PRIVATE nlohmann_json::nlohmann_json)
