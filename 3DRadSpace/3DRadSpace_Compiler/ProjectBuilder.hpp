@@ -2,6 +2,6 @@
 #include "Headers.hpp"
 #include "ProjectInfo.hpp"
 
-void MSVC_Build(const ProjectInfo& project, const std::filesystem::path& compilerPath);
-void Clang_Build(const ProjectInfo& project, const std::filesystem::path& compilerPath);
-void GCC_Build(const ProjectInfo& project, const std::filesystem::path& compilerPath);
+bool MSVC_Build(const ProjectInfo& project, const std::filesystem::path& compilerPath);
+bool Clang_Build(const ProjectInfo& project, const std::filesystem::path& compilerPath);
+bool GCC_Build(const ProjectInfo& project, const std::filesystem::path& compilerPath);

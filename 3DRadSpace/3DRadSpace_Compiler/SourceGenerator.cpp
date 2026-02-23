@@ -8,17 +8,26 @@ static bool generate_main_cpp(const ProjectInfo& info)
 
 	if(std::filesystem::exists(main_cpp_path)) return true;
 
+	//std::string main =
+	//	"#include \"MyGame.hpp\"\n"
+	//	"#include <Windows.h>\n"
+	//	"#include <Engine3DRadSpace\\Graphics\\Shaders\\ShaderManager.hpp>\n\n"
+	//	"int main()\n"
+	//	"{\n"
+	//	"MyGame game;\n"
+	//	"game.Run();\n\n"
+	//	"Engine3DRadSpace::Graphics::Shaders::ShaderManager::ReleaseAll();\n"
+	//	"return 0;\n"
+	//	"}\n";
+
 	std::string main =
-		"#include \"MyGame.hpp\"\n"
-		"#include <Windows.h>\n"
-		"#include <Engine3DRadSpace\\Graphics\\Shaders\\ShaderManager.hpp>\n\n"
+		"#include <iostream>\n"
 		"int main()\n"
 		"{\n"
-		"MyGame game;\n"
-		"game.Run();\n\n"
-		"Engine3DRadSpace::Graphics::Shaders::ShaderManager::ReleaseAll();\n"
-		"return 0;\n"
-		"}\n";
+		"	std::cout << \"Hello World\\n\";\n"
+		"	return 0;"
+		"}"
+		;
 
 	std::ofstream mainFile(main_cpp_path);
 	if(!mainFile.is_open())
@@ -125,19 +134,19 @@ bool GenerateProject(const ProjectInfo &info, std::vector<std::filesystem::path>
 			"<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
 			"<Project DefaultTargets=\"Build\" ToolsVersion=\"17.0\" xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\">\n"
 			"<ItemGroup Label=\"ProjectConfigurations\">\n"
-			"	<ProjectConfiguration Include=\"Debug|Win64\">\n"
+			"	<ProjectConfiguration Include=\"Debug|x64\">\n"
 			"		<Configuration>Debug</Configuration>\n"
-			"		<Platform>Win32</Platform>\n"
+			"		<Platform>x64</Platform>\n"
 			"	</ProjectConfiguration>\n"
-			"		<ProjectConfiguration Include=\"Release | Win64\">\n"
+			"		<ProjectConfiguration Include=\"Release|x64\">\n"
 			"			<Configuration>Release</Configuration>\n"
-			"			<Platform>Win32</Platform>\n"
+			"			<Platform>x64</Platform>\n"
 			"		</ProjectConfiguration>\n"
 			"	</ItemGroup>\n"
 			"	<Import Project=\"$(VCTargetsPath)\\Microsoft.Cpp.default.props\" />\n"
 			"	<PropertyGroup>\n"
 			"		<ConfigurationType>Application</ConfigurationType>\n"
-			"		<PlatformToolset>v143</PlatformToolset>\n"
+			"		<PlatformToolset>v145</PlatformToolset>\n"
 			"	</PropertyGroup>\n"
 			"	<PropertyGroup>\n"
 			"		<PreferredToolArchitecture>x64</PreferredToolArchitecture>\n"

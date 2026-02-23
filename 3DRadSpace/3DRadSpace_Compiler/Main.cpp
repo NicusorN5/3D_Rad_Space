@@ -144,7 +144,7 @@ auto LoadCompilerCache() -> std::optional<Compiler>
 	return std::nullopt;
 }
 
-auto startProject(std::filesystem::path& outDir)
+auto startProject(std::filesystem::path& outDir, const std::string& projectName)
 {
 #ifdef _WIN32
 	//SECURITY_ATTRIBUTES sa;
@@ -158,8 +158,8 @@ auto startProject(std::filesystem::path& outDir)
 
 	//PROCESS_INFORMATION pi{};
 
-	auto exePath = (outDir / "x64/Release/app.exe").string();
-	auto runningFolder = (outDir / "x64/Release/").string();
+	auto exePath = (outDir / std::format("x64/Debug/{}.exe", projectName)).string();
+	auto runningFolder = (outDir / "x64/Debug/").string();
 	//auto r = CreateProcessA(
 	//	exePath.c_str(),
 	//	nullptr,
@@ -180,7 +180,7 @@ auto startProject(std::filesystem::path& outDir)
 		"",
 		runningFolder.c_str(),
 		SW_MAXIMIZE
-	)) == 0;
+	)) > 32;
 #endif
 #ifdef _LINUX
 
@@ -227,7 +227,6 @@ auto main(int argc, char** argv) -> int
 				//std::println("Use: 3DRadSpaceCompiler.exe -d <output folder>");
 				return 0;
 			case 2:
-				std::println("Version: v0.1.0-Alpha");
 				return 0;
 			case 3:
 				if(i + 1 < argc)
@@ -260,22 +259,7 @@ auto main(int argc, char** argv) -> int
 			}
 			case 5:
 			{
-				if(wasOutputSpecified)
-				{
-					playProject = true;
-				}
-				else if(i + 1 < argc)
-				{
-					outputFolder = std::filesystem::path(argv[i + 1]);
-					std::println("[INFO] Running project in {}...", outputFolder.string());
-					startProject(outputFolder);
-
-					i += 1;
-				}
-				else
-				{
-					std::println("[WARNING] {} must specify project folder.", argv[i]);
-				}
+				playProject = true;
 				break;
 			}
 			case 6:
@@ -315,8 +299,16 @@ auto main(int argc, char** argv) -> int
 
 		if(std::filesystem::exists(outputFolder))
 		{
-			//Erase folder with all of its contents.
-			std::filesystem::remove_all(outputFolder);
+			try
+			{
+				//Erase folder with all of its contents.
+				std::filesystem::remove_all(outputFolder);
+			}
+			catch(const std::filesystem::filesystem_error& err)
+			{
+				std::print("[ERROR] {}", err.what());
+				return err.code().value();
+			}
 		}
 		//Recreate folder
 		std::filesystem::create_directory(outputFolder);
@@ -383,16 +375,22 @@ generate:
 //Build
 	std::println("[4/{}] Building project...", numSteps);
 
+	auto printBuildMsg = [](bool r, const char* name)
+	{
+		if(r == 0) std::println("[SUCCESS]Finished building.");
+		else std::println("[ERROR] Failed to build project with {}.", name);
+	};
+
 	switch(compiler->CompilerType)
 	{
 		case Compiler::Type::MSVC:
-			MSVC_Build(info, compiler->Path);
+			printBuildMsg(MSVC_Build(info, compiler->Path), "MSVC");
 			break;
 		case Compiler::Type::GCC:
-			GCC_Build(info, compiler->Path);
+			printBuildMsg(GCC_Build(info, compiler->Path), "GCC");
 			break;
 		case Compiler::Type::Clang:
-			Clang_Build(info, compiler->Path);
+			printBuildMsg(Clang_Build(info, compiler->Path), "Clang");
 			break;
 		default:
 			std::println("[STOP] Unknown compiler type.");
@@ -402,14 +400,15 @@ generate:
 	if(playProject)
 	{
 		std::println("[5/{}] Starting project...", numSteps);
-		if(startProject(outputFolder) == false)
+		if(startProject(outputFolder, info.Name) == false)
 		{
 			std::println("[ERROR] Failed to start the project...");
 			std::println("[ERROR] This could be because of compilation errors.");
+			return -2;
 		}
 	}
 
-	std::println("[SUCCESS] Done.");
+	std::println("Finished.");
 
 	return 0;
 }

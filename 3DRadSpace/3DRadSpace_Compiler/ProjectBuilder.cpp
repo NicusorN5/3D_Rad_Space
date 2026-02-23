@@ -1,28 +1,22 @@
 #include "ProjectBuilder.hpp"
 
-void MSVC_Build(const ProjectInfo& project, const std::filesystem::path& compilerPath)
+bool MSVC_Build(const ProjectInfo& project, const std::filesystem::path& compilerPath)
 {
-	auto projectPath = project.Output / (project.Name + ".vcproj");
+	auto projectPath = project.Output / (project.Name + ".vcxproj");
 
-	std::string command = "\"\"" + compilerPath.string() + "\" \"" + projectPath.string() + "\" /Build\"";
+	std::string command = "\"\"" + compilerPath.string() + "\" \"" + (std::filesystem::canonical(projectPath).string()) + "\" /Build\"";
 
 	int r = std::system(command.c_str());
-	if(r != 0)
-	{
-		std::println("[ERROR] Failed to build project with MSVC.");
-	}
-	else
-	{
-		std::println("[SUCCESS]Finished building.");
-	}
+
+	return r;
 }
 
-void Clang_Build(const ProjectInfo& project, const std::filesystem::path& compilerPath)
+bool Clang_Build(const ProjectInfo& project, const std::filesystem::path& compilerPath)
 {
-
+	return false;
 }
 
-void GCC_Build(const ProjectInfo& project, const std::filesystem::path& compilerPath)
+bool GCC_Build(const ProjectInfo& project, const std::filesystem::path& compilerPath)
 {
-
+	return false;
 }
