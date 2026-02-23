@@ -25,7 +25,7 @@ static bool generate_main_cpp(const ProjectInfo& info)
 		"int main()\n"
 		"{\n"
 		"	std::cout << \"Hello World\\n\";\n"
-		"	return 0;"
+		"	return 0;\n"
 		"}"
 		;
 
@@ -132,7 +132,41 @@ bool GenerateProject(const ProjectInfo &info, std::vector<std::filesystem::path>
 	{
 		std::println("[INFO] Generating MSVC project...");
 
-		std::string vcproj =
+		//Generate a blank 3DRadSpace application:
+		// {0} = Headers location
+		// {1} = Debug binaries location (dll+lib)
+		// {2} = Release binaries location
+		// {3} = lib filenames
+
+		auto pathHeaders = std::filesystem::canonical(".\\\\Include\\").string();
+		auto pathDebugBin = std::filesystem::canonical(".\\\\Bin\\Windows-x64\\Debug\\").string();
+		auto pathReleaseBin = std::filesystem::canonical(".\\\\Bin\\Windows-x64\\Release\\").string();
+
+		std::string libraries =
+			"3DRadSpace.Core.lib;"
+			"3DRadSpace.Math.lib;"
+			"3DRadSpace.Audio.lib;"
+			"3DRadSpace.Content.lib;"
+			"3DRadSpace.Content.Assets.lib;"
+			"3DRadSpace.Games.lib;"
+			"3DRadSpace.Graphics.lib;"
+			"3DRadSpace.Graphics.DirectX11.lib;"
+			"3DRadSpace.Graphics.Null.lib;"
+			"3DRadSpace.Graphics.Primitives.lib;"
+			"3DRadSpace.Graphics.Rendering.lib;"
+			"3DRadSpace.Input.lib;"
+			"3DRadSpace.Logging.lib;"
+			"3DRadSpace.Native.lib;"
+			"3DRadSpace.Objects.lib;"
+			"3DRadSpace.Objects.Impl.lib;"
+			"3DRadSpace.Physics.lib;"
+			"3DRadSpace.Physics.NVPhysX.lib;"
+			"3DRadSpace.Physics.Objects.lib;"
+			"3DRadSpace.Projects.lib;"
+			"3DRadSpace.Reflection.lib;"
+			"3DRadSpace.Scripting.lib;";
+
+		std::string vcproj = std::format((
 			"<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
 			"<Project DefaultTargets=\"Build\" ToolsVersion=\"17.0\" xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\">\n"
 			"<ItemGroup Label=\"ProjectConfigurations\">\n"
@@ -140,12 +174,16 @@ bool GenerateProject(const ProjectInfo &info, std::vector<std::filesystem::path>
 			"		<Configuration>Debug</Configuration>\n"
 			"		<Platform>x64</Platform>\n"
 			"	</ProjectConfiguration>\n"
-			"		<ProjectConfiguration Include=\"Release|x64\">\n"
-			"			<Configuration>Release</Configuration>\n"
-			"			<Platform>x64</Platform>\n"
-			"		</ProjectConfiguration>\n"
-			"	</ItemGroup>\n"
-			"	<Import Project=\"$(VCTargetsPath)\\Microsoft.Cpp.default.props\" />\n"
+			"	<ProjectConfiguration Include=\"Release|x64\">\n"
+			"		<Configuration>Release</Configuration>\n"
+			"		<Platform>x64</Platform>\n"
+			"	</ProjectConfiguration>\n"
+			"</ItemGroup>\n"
+			"	<PropertyGroup Label = \"Globals\" >\n"
+			"		<ProjectGuid>{{F9609F33-AFCC-FE4D-8919-BC1CD1A400E1}}</ProjectGuid>\n"
+			"		<WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>\n"
+			"	</PropertyGroup>\n"
+			"	<Import Project = \"$(VCTargetsPath)\\Microsoft.Cpp.default.props\"/>\n"
 			"	<PropertyGroup>\n"
 			"		<ConfigurationType>Application</ConfigurationType>\n"
 			"		<PlatformToolset>v145</PlatformToolset>\n"
@@ -153,8 +191,39 @@ bool GenerateProject(const ProjectInfo &info, std::vector<std::filesystem::path>
 			"	<PropertyGroup>\n"
 			"		<PreferredToolArchitecture>x64</PreferredToolArchitecture>\n"
 			"	</PropertyGroup>\n"
-			"  <Import Project=\"$(VCTargetsPath)\\Microsoft.Cpp.props\" />\n"
-			"  <ItemGroup>\n";
+			"	<ItemDefinitionGroup Condition = \"'$(Configuration)|$(Platform)'=='Debug|x64'\">\n"
+			"		<ClCompile>\n"
+			"			<AdditionalIncludeDirectories>{0}; %(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>\n"
+			"			<LanguageStandard>stdcpplatest</LanguageStandard>\n"
+			"		</ClCompile>\n"
+			"		<Link>\n"
+			"			<AdditionalLibraryDirectories>{1}; %(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>\n"
+			"			<AdditionalDependencies>{3} %(AdditionalDependencies) </AdditionalDependencies>\n"
+			"		</Link>\n"
+			"		<PostBuildEvent>\n"
+			"			<Command>xcopy / y / d \"{1}\\*.dll\" \"$(TargetDir)\"</Command>\n"
+			"		</PostBuildEvent>\n"
+			"	</ItemDefinitionGroup>\n"
+			"	<ItemDefinitionGroup Condition = \"'$(Configuration)|$(Platform)'=='Release|x64'\">\n"
+			"		<ClCompile>\n"
+			"			<AdditionalIncludeDirectories>{0}\\; %(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>\n"
+			"			<LanguageStandard>stdcpplatest</LanguageStandard>\n"
+			"		</ClCompile>\n"
+			"		<Link>\n"
+			"			<AdditionalDependencies>{3} %(AdditionalDependencies)</AdditionalDependencies>\n"
+			"			<AdditionalLibraryDirectories>{2}; %(AdditionalLibraryDirectories) </AdditionalLibraryDirectories>\n"
+			"		</Link>\n"
+			"		<PostBuildEvent>\n"
+			"			<Command>xcopy / y / d \"{2}\\*.dll\" \"$(TargetDir)\"</Command>\n"
+			"		</PostBuildEvent>\n"
+			"	</ItemDefinitionGroup>\n"
+			"	<Import Project = \"$(VCTargetsPath)\\Microsoft.Cpp.props\"/>\n"
+			"	<ItemGroup>\n"),
+			pathHeaders,
+			pathDebugBin,
+			pathReleaseBin,
+			libraries
+		);
 
 		for(auto& file : srcFiles)
 		{
