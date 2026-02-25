@@ -715,7 +715,22 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 					break;
 				case CMD_PlayProject:
 				case ACC_PLAY_PROJECT:
+				{
+					gEditorWindow->_saveProject(gEditorWindow->_currentFile);
+					SetWorkingDirectory();
+
+					auto cmd = std::format("-p -e {}", gEditorWindow->_currentFile.string());
+					auto r = reinterpret_cast<INT_PTR>(ShellExecuteA(
+						nullptr,
+						"open",
+						"3DRadSpace.Compiler.exe",
+						cmd.c_str(),
+						nullptr,
+						SW_NORMAL
+					));
+					if(r < 32) MessageBoxA(gEditorWindow->_mainWindow, "Project compile failed!", "Cannot play project!", MB_ICONERROR);
 					break;
+				}
 				case CMD_BuildProject:
 				case ACC_BUILD_PROJECT:
 					break;

@@ -29,9 +29,12 @@ std::unordered_map<std::string, int> dict =
 	{"--name",6},
 	{"-n",6},
 	{"/n",6},
-	{"--erase", 7},
-	{"-e", 7},
-	{"/e", 7}
+	{"--clean", 7},
+	{"-c", 7},
+	{"/c", 7},
+	{"-e", 8},
+	{"/e",8},
+	{"--entry", 8}
 	//{"--debug", 6},
 	//{"-d", 6},
 	//{"/d", 6}
@@ -209,22 +212,21 @@ auto main(int argc, char** argv) -> int
 		switch(dict[argv[i]])
 		{
 			case 1:
-				std::println("Tool that invokes a C++ compiler (Windows MSVC) and generates a game from project and source files.");
+				std::println("Tool that invokes a C++ compiler and generates a game from project and source files.");
 				std::println("Arguments");
 				std::println("Help : -h --help or /?");
 				std::println("Version : -v --version or /v");
 				std::println("Output: -o <output folder> or --output <output folder> or /o <output folder>");
 				std::println("Check compiler: --compiler, --checkcompiler or -c or /c");
 				std::println("Reset compiler cache: --reset or -r or /r");
+				std::println("Clean build: --clean or -c or /c ");
 				std::println("Run project after build: --play or -p or /p ");
 				std::println("Project name: --name <name> or -n <name> or /n <name>");
+				std::println("Playtest single scene: --test <3drsp filename> or -t <filename> or /t <filename>");
 				//std::println("To attach a debugger: --debug or -d or /d");
 				std::println("");
 				std::println("To build a 3DRadSpace project:");
 				std::println("Use: 3DRadSpaceCompiler.exe -o <output folder> <source files> [-p] [-n <project name>]");
-				std::println("");
-				std::println("To play a 3DRadSpace project without building:");
-				std::println("Use: 3DRadSpaceCompiler.exe -p <output folder>");
 				//std::println("");
 				//std::println("To play and attach a debugger:");
 				//std::println("Use: 3DRadSpaceCompiler.exe -d <output folder>");
@@ -267,18 +269,27 @@ auto main(int argc, char** argv) -> int
 			{
 				if(i + 1 < argc)
 				{
-					info.Name = std::string(argv[i + 1]);
-					i += 1;
+					info.Name = std::string(argv[++i]);
 				}
 				else
 				{
 					info.Name = "MyGame";
-					std::println("[INFO] {} must specify project name. Using \"MyGame\" as default.", argv[i]);
+					std::println("[INFO] {} must specify project name. Using \"MyGame\" as default.", argv[i-1]);
 				}
 				break;
 			}
 			case 7:
 				rebuild = true;
+				break;
+			case 8:
+				if(i + 1 < argc)
+				{
+					info.EntryProject = std::filesystem::path(argv[++i]);
+				}
+				else
+				{
+					std::println("[STOP] {} Must specify filename.", argv[i - 1]);
+				}
 				break;
 			default:
 				if(!std::filesystem::exists(argv[i]))
@@ -290,10 +301,10 @@ auto main(int argc, char** argv) -> int
 		}
 	}
 
-	if(files.empty())
+	if(files.empty() && info.EntryProject.empty())
 	{
 		std::println("[STOP] No files provided.");
-		return 0;
+		return -1;
 	}
 
 	if(!info.Output.empty())
@@ -307,6 +318,7 @@ auto main(int argc, char** argv) -> int
 			{
 				//Erase folder with all of its contents.
 				std::filesystem::remove_all(outputFolder);
+				return 0;
 			}
 			catch(const std::filesystem::filesystem_error& err)
 			{
@@ -317,11 +329,17 @@ auto main(int argc, char** argv) -> int
 		//Recreate folder
 		std::filesystem::create_directory(outputFolder);
 	}
+	else if(rebuild)
+	{
+		std::println("[STOP]Must specify folder.");
+		return -1;
+	}
 
 	int numSteps = 4;
 	if(playProject) numSteps += 1;
 
 	std::println("3DRadSpace Compiler v0.1.0a");
+	
 	std::println("[1/{}] Checking project files:", numSteps);
 	for(auto& file : files)
 	{
@@ -399,6 +417,27 @@ generate:
 		default:
 			std::println("[STOP] Unknown compiler type.");
 			return -1;
+	}
+
+	//TODO Parse project files, actually copy only necessary assets.
+	std::println("Copying Assets folder.");
+	try
+	{
+		auto fnCopy = [](const std::filesystem::path& to)
+		{
+			std::filesystem::copy(
+				".\\\\Data\\",
+				to,
+				std::filesystem::copy_options::overwrite_existing | std::filesystem::copy_options::recursive
+			);
+		};
+
+		fnCopy(std::filesystem::canonical(info.Output) / "Data");
+		fnCopy(std::filesystem::canonical(info.Output) / "x64" / "Release" / "Data");
+	}
+	catch(const std::filesystem::filesystem_error& e)
+	{
+		std::println("Copying assets failed {}", e.what());
 	}
 
 	if(playProject)

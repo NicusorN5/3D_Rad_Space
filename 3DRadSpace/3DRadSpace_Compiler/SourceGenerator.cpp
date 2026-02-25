@@ -1,4 +1,5 @@
 #include "SourceGenerator.hpp"
+#include <Windows.h>
 
 extern std::unordered_map<std::string, int> file_type;
 
@@ -8,24 +9,66 @@ static bool generate_main_cpp(const ProjectInfo& info)
 
 	if(std::filesystem::exists(main_cpp_path)) return true;
 
-	std::string main = std::format(
-		"#include <Engine3DRadSpace/Games/Game.hpp>\n"
-		"\n"
-		"	class MyGame : public Engine3DRadSpace::Game\n"
-		"{{\n"
-		"public:\n"
-		"	MyGame() : Game(\"{}\") {{}}\n"
-		"	~MyGame() override = default;\n"
-		"}};\n"
-		"\n"
-		"int main()\n"
-		"{{\n"
-		"	MyGame game;\n"
-		"	game.ClearColor = Engine3DRadSpace::Math::Colors::Red;\n"
-		"	game.Run();\n"
-		"}}",
-		info.Name
-	);
+	std::string main;
+
+	auto escapePathString = [](const std::string& str) -> const std::string
+	{
+		std::string r;
+
+		for(auto chr : str)
+		{
+			if(chr == '\\') r.push_back('\\');
+			r.push_back(chr);
+		}
+
+		return r;
+	};
+
+	if(std::filesystem::exists(info.EntryProject))
+	{
+		main = std::format(
+			"#include <Engine3DRadSpace/Games/Game.hpp>\n"
+			"\n"
+			"class MyGame : public Engine3DRadSpace::Game\n"
+			"{{\n"
+			"public:\n"
+			"	MyGame() : Game(\"{}\") \n"
+			"	{{\n"
+			"		AppendScene(\"{}\");\n"
+			"	}}\n"
+			"	~MyGame() override = default;\n"
+			"}};\n"
+			"\n"
+			"int main()\n"
+			"{{\n"
+			"	MyGame game;\n"
+			"	game.Run();\n"
+			"}}",
+			info.Name,
+			escapePathString(info.EntryProject.string())
+		);
+	}
+	else
+	{
+		main = std::format(
+			"#include <Engine3DRadSpace/Games/Game.hpp>\n"
+			"\n"
+			"	class MyGame : public Engine3DRadSpace::Game\n"
+			"{{\n"
+			"public:\n"
+			"	MyGame() : Game(\"{}\") {{}}\n"
+			"	~MyGame() override = default;\n"
+			"}};\n"
+			"\n"
+			"int main()\n"
+			"{{\n"
+			"	MyGame game;\n"
+			"	game.ClearColor = Engine3DRadSpace::Math::Colors::Red;\n"
+			"	game.Run();\n"
+			"}}",
+			info.Name
+		);
+	}
 
 	std::ofstream mainFile(main_cpp_path);
 	if(!mainFile.is_open())
