@@ -13,6 +13,8 @@ add_library(3DRadSpace.Objects.Impl STATIC
 	"Counter.hpp"
 	"Counter.cpp"
 	"Counter.h"
+	"Cylinder.hpp"
+	"Cylinder.cpp"
 	"Empty.hpp"
 	"Empty.cpp"
 	"Empty.h"

@@ -68,7 +68,7 @@ REFL_BEGIN(Sphere, "Sphere", "3D Primitives", "3D box")
 	REFL_FIELD(Sphere, std::string, Name, "Name", "Sphere", "Object's name")
 	REFL_FIELD(Sphere, bool, Visible, "Visible", true, "Is the object visible?")
 	REFL_FIELD(Sphere, Vector3, Position, "Position", Vector3::Zero(), "Object's position in world space")
-	REFL_FIELD(Sphere, float, Radius, "Scale", 1.0f, "Scale")
+	REFL_FIELD(Sphere, float, Radius, "Radius", 1.0f, "Radius")
 	REFL_FIELD(Sphere, Color, Colour, "Color", Colors::White, "Color")
 	REFL_FIELD(Sphere, unsigned, Resolution, "Resolution", 64, "Sphere model tesselation")
 REFL_END
