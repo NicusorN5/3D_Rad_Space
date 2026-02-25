@@ -8,7 +8,7 @@ using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Objects;
 
-Sphere::Sphere() : IObject3D("Box", false, true, Vector3::Zero())
+Sphere::Sphere() : IObject3D("Sphere", false, true, Vector3::Zero())
 {
 }
 
@@ -46,6 +46,11 @@ void Sphere::Draw3D()
 float Sphere::Intersects(const Math::Ray& r)
 {
 	return r.Intersects(BoundingSphere(Position, Radius));
+}
+
+Math::Matrix4x4 Sphere::GetModelMatrix()
+{
+	return Matrix4x4::CreateScale({Radius, Radius, Radius}) * Matrix4x4::CreateTranslation(Position);
 }
 
 Gizmos::IGizmo* Sphere::GetGizmo() const noexcept

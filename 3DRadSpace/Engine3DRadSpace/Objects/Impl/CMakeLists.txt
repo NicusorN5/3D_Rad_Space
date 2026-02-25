@@ -8,6 +8,8 @@ add_library(3DRadSpace.Objects.Impl STATIC
 	"Camera.hpp"
 	"Camera.cpp"
 	"Camera.h"
+	"Cone.hpp"
+	"Cone.cpp"
 	"Counter.hpp"
 	"Counter.cpp"
 	"Counter.h"
