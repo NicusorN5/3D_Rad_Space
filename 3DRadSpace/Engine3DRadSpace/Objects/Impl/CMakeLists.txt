@@ -40,6 +40,8 @@ add_library(3DRadSpace.Objects.Impl STATIC
 	"Sprite.hpp"
 	"Sprite.cpp"
 	"Sprite.h"
+	"Sphere.hpp"
+	"Sphere.cpp"
 	"TextPrint.hpp"
 	"TextPrint.cpp"
 	"TextPrint.h"
