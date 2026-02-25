@@ -54,8 +54,6 @@ void RenderWindow::Initialize()
 	Camera.InternalInitialize(this);
 	Camera.LookMode = Camera::CameraMode::UseLookAtCoordinates;
 	Camera.FarPlaneDistance = 1000.0f;
-
-	sphere = std::make_unique<Sphere>(Device.get(), 5.0f, Colors::LightRed, 64u);
 }
 
 void RenderWindow::Load()
@@ -194,10 +192,6 @@ void RenderWindow::Draw3D()
 
 	//Main rendering pass
 	drawAllObjects();	
-
-	sphere->View = View;
-	sphere->Projection = Projection;
-	sphere->Draw3D();
 }
 
 void RenderWindow::SelectObject(IObject* obj)

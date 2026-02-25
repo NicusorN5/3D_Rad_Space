@@ -1,5 +1,5 @@
 #pragma once
-#include "IGizmo.hpp"
+#include "../IGizmo.hpp"
 #include "../../Reflection/ReflectedObject.hpp" 
 #include "../IObject2D.hpp"
 #include "../IObject3D.hpp"

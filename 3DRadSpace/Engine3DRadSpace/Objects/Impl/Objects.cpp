@@ -16,6 +16,7 @@ REFL_FWD(ExitFade)
 REFL_FWD(Skybox)
 REFL_FWD(SoundEffect)
 REFL_FWD(SoundSource)
+REFL_FWD(Box)
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Reflection;
@@ -61,6 +62,7 @@ void Engine3DRadSpace::Internal::LoadDefaultObjects()
 		*/
 		&SpriteReflInstance, //Sprite
 		&TextPrintReflInstance, //Textprint
+		&BoxReflInstance
 	};
 
 	e3drsp_internal_objects_list.insert_range(e3drsp_internal_objects_list.begin(), ppDefaultObjects);

@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 3.21)
 project("Engine3DRadSpace.Objects.Impl")
 
 add_library(3DRadSpace.Objects.Impl STATIC 
+	"Box.hpp"
+	"Box.cpp"
 	"Camera.hpp"
 	"Camera.cpp"
 	"Camera.h"
