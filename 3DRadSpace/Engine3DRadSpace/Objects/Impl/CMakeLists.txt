@@ -49,7 +49,7 @@ add_library(3DRadSpace.Objects.Impl STATIC
 	"TextPrint.hpp"
 	"TextPrint.cpp"
 	"TextPrint.h"
-)
+ "Box.h" "Cone.h" "Cylinder.h" "Sphere.h")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET 3DRadSpace.Objects.Impl PROPERTY CXX_STANDARD 23)

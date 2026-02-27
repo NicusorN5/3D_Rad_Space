@@ -1,4 +1,5 @@
 #include "Cone.hpp"
+#include "Cone.h"
 #include "../../Core/IGame.hpp"
 #include "../../Games/Game.hpp"
 #include "../Gizmos.hpp"
@@ -8,7 +9,10 @@ using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Objects;
 
-Cone::Cone() : IObject3D("Cone", false, true, Vector3::Zero())
+Cone::Cone() : IObject3D("Cone", false, true, Vector3::Zero()),
+	Radius(1.0f),
+	Height(1.0f),
+	Resolution(64u)
 {
 }
 
@@ -73,3 +77,48 @@ REFL_BEGIN(Cone, "Cone", "3D Primitives", "3D box")
 	REFL_FIELD(Cone, Color, Colour, "Color", Colors::White, "Color")
 	REFL_FIELD(Cone, unsigned, Resolution, "Resolution", 64, "Sphere model tesselation")
 REFL_END
+
+E3DRSP_OCone E3DRSP_OCone_Create()
+{
+	return new Cone();
+}
+
+E3DRSP_Color E3DRSP_OCone_GetColor(E3DRSP_OCone cone)
+{
+	return std::bit_cast<E3DRSP_Color>(static_cast<Cone*>(cone)->Colour);
+}
+
+void E3DRSP_OCone_SetColor(E3DRSP_OCone cone, const E3DRSP_Color* color)
+{
+	static_cast<Cone*>(cone)->Colour = std::bit_cast<Color>(*color);
+}
+
+float E3DRSP_OCone_GetRadius(E3DRSP_OCone cone)
+{
+	return static_cast<Cone*>(cone)->Radius;
+}
+
+void E3DRSP_OCone_SetRadius(E3DRSP_OCone cone, float radius)
+{
+	static_cast<Cone*>(cone)->Radius = radius;
+}
+
+float E3DRSP_OCone_GetHeight(E3DRSP_OCone cone)
+{
+	return static_cast<Cone*>(cone)->Height;
+}
+
+void E3DRSP_OCone_SetHeight(E3DRSP_OCone cone, float height)
+{
+	static_cast<Cone*>(cone)->Height = height;
+}
+
+unsigned E3DRSP_OCone_GetResolution(E3DRSP_OCone cone)
+{
+	return static_cast<Cone*>(cone)->Resolution;
+}
+
+void E3DRSP_OCone_SetResolution(E3DRSP_OCone cone, unsigned resolution)
+{
+	static_cast<Cone*>(cone)->Resolution = resolution;
+}
