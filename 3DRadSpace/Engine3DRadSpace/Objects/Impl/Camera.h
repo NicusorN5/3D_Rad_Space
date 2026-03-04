@@ -4,12 +4,6 @@
 
 typedef void* E3DRSP_Camera;
 
-enum E3DRSP_Camera_LookMode
-{
-	E3DRSP_Camera_LookMode_UseRotation,
-	E3DRSP_Camera_LookMode_UseLookatCoordinates
-};
-
 #ifdef __cplusplus
 extern "C"
 {
@@ -30,9 +24,6 @@ extern "C"
 
 	E3DRSP_OBJECTS_IMPL_EXPORT float E3DRSP_Camera_GetFPD(E3DRSP_Camera camera);
 	E3DRSP_OBJECTS_IMPL_EXPORT void E3DRSP_Camera_SetFPD(E3DRSP_Camera camera, float farPlaneDistance);
-
-	E3DRSP_OBJECTS_IMPL_EXPORT E3DRSP_Camera_LookMode E3DRSP_Camera_GetLookMode(E3DRSP_Camera camera);
-	E3DRSP_OBJECTS_IMPL_EXPORT void E3DRSP_Camera_SetLookMode(E3DRSP_Camera camera, E3DRSP_Camera_LookMode lookMode);
 
 	E3DRSP_OBJECTS_IMPL_EXPORT E3DRSP_Vector3 E3DRSP_Camera_GetLookAt(E3DRSP_Camera camera);
 	E3DRSP_OBJECTS_IMPL_EXPORT void E3DRSP_Camera_SetLookAt(E3DRSP_Camera camera, const E3DRSP_Vector3* vector);

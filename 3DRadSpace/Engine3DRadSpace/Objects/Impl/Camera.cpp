@@ -18,34 +18,21 @@ Camera::Camera(
 	const std::string& name,
 	bool visible,
 	const Vector3 &pos, 
-	const Vector3 &look_at, 
+	const Quaternion &rotation,
 	const Vector3 &up,
 	float aspectRatio,
 	float fov, 
 	float npd, 
 	float fpd
 ):
-	IObject3D(name, visible, true, pos, Vector3::Zero(), Quaternion::FromVectorToVector(look_at, up), Vector3::One()),
-	ICamera(up, pos + Vector3::Transform(Vector3::Forward(), Quaternion::FromVectorToVector(look_at, up)), aspectRatio, fov, npd, fpd),
-	LookMode(CameraMode::UseRotation)
+	IObject3D(name, visible, true, pos, Vector3::Zero(), rotation, Vector3::One()),
+	ICamera(up, aspectRatio, fov, npd, fpd)
 {
 }
 
 Matrix4x4 Camera::GetViewMatrix() const noexcept
 {
-	Vector3 focus(0, 0, 0);
-	switch (this->LookMode)
-	{
-	case CameraMode::UseRotation:
-		focus = Position + Vector3::Forward().Transform(Rotation);
-		break;
-	case CameraMode::UseLookAtCoordinates:
-		focus = this->LookAt;
-		break;
-	default:
-		std::unreachable();
-	}
-
+	Vector3 focus = Position + Vector3::Forward().Transform(Rotation);
 	return Matrix4x4::CreateLookAtView(Position, focus, Normal);
 }
 
@@ -118,6 +105,11 @@ void Camera::Load()
 
 void Camera::Load(const std::filesystem::path& path)
 {
+}
+
+void Camera::SetLookAt(const Math::Vector3& lookAt)
+{
+	Rotation = Quaternion::BetweenVectors(Position, lookAt);
 }
 
 Camera::~Camera()
@@ -200,22 +192,7 @@ void E3DRSP_Camera_SetFPD(E3DRSP_Camera camera, float farPlaneDistance)
 	static_cast<Camera*>(camera)->FarPlaneDistance = farPlaneDistance;
 }
 
-E3DRSP_Camera_LookMode E3DRSP_Camera_GetLookMode(E3DRSP_Camera camera)
-{
-	return static_cast<E3DRSP_Camera_LookMode>(static_cast<Camera*>(camera)->LookMode);
-}
-
-void E3DRSP_Camera_SetLookMode(E3DRSP_Camera camera, E3DRSP_Camera_LookMode lookMode)
-{
-	static_cast<Camera*>(camera)->LookMode = static_cast<Camera::CameraMode>(lookMode);
-}
-
-E3DRSP_Vector3 E3DRSP_Camera_GetLookAt(E3DRSP_Camera camera)
-{
-	return std::bit_cast<E3DRSP_Vector3>(static_cast<Camera*>(camera)->LookAt);
-}
-
 void E3DRSP_Camera_SetLookAt(E3DRSP_Camera camera, const E3DRSP_Vector3* vector)
 {
-	static_cast<Camera*>(camera)->LookAt = {vector->X, vector->Y, vector->Z};
+	static_cast<Camera*>(camera)->SetLookAt(std::bit_cast<Vector3>(*vector));
 }

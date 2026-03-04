@@ -38,23 +38,8 @@ namespace Engine3DRadSpace.Objects
 		[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_Camera_SetFPD")]
 		extern static void _setFPD(IntPtr camera, float fpd);
 
-		[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_Camera_GetLookMode")]
-		extern static LookMode _getLookMode(IntPtr camera);
-
-		[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_Camera_SetLookMode")]
-		extern static void _setLookMode(IntPtr camera, LookMode lookMode);
-
-		[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_Camera_GetLookAt")]
-		extern static Vector3 _getLookAt(IntPtr camera);
-
 		[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_Camera_SetLookAt")]
 		extern static unsafe void _setLookAt(IntPtr camera, Vector3* lookAt);
-
-		public enum LookMode
-		{
-			UseRotation,
-			UseLookAtCoordinates
-		}
 
 		private InstICamera _icamera;
 
@@ -97,17 +82,9 @@ namespace Engine3DRadSpace.Objects
 			get => _getFPD(_handle);
 			set => _setFPD(_handle, value);
 		}
-
-		public LookMode CameraMode
+		public unsafe void SetLookAt(Vector3 value)
 		{
-			get => _getLookMode(_handle);
-			set => _setLookMode(_handle, value);
-		}
-
-		public unsafe Vector3 LookAt
-		{
-			get => _getLookAt(_handle);
-			set => _setLookAt(_handle, &value);
+			_setLookAt(_handle, &value);
 		}
 
 		public Matrix4x4 GetViewMatrix()

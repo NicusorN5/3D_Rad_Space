@@ -27,6 +27,43 @@ using namespace Engine3DRadSpace::Projects;
 
 EditorWindow* gEditorWindow = nullptr;
 
+void EditorWindow::_openProject(const std::filesystem::path& filename)
+{
+	_changesSaved = true;
+	_currentFile = filename;
+
+	editor->Content->Clear();
+	editor->Objects->Clear();
+	SendMessageA(_listBox, TVM_DELETEITEM, 0, reinterpret_cast<LPARAM>(TVI_ROOT));
+
+	Serializer::LoadProject(editor->Objects.get(), gEditorWindow->editor->Content.get(), filename);
+
+	for(int i = 0; auto& instance : *(editor->Objects))
+	{
+		auto object = instance.Object.get();
+
+		auto gizmo = object->GetGizmo();
+		if(gizmo != nullptr)
+		{
+			gizmo->Object = object;
+			gizmo->Load();
+		}
+
+		TVITEMA item{};
+		item.mask = TVIF_TEXT | TVIF_PARAM;
+		item.pszText = const_cast<char*>(object->Name.c_str());
+		item.cChildren = 0;
+		item.lParam = i;
+
+		TVINSERTSTRUCTA insertStruct{};
+		insertStruct.item = item;
+
+		SendMessageA(_listBox, TVM_INSERTITEMA, 0, reinterpret_cast<LPARAM>(&insertStruct));
+
+		++i;
+	}
+}
+
 void EditorWindow::_saveProject(const std::filesystem::path &filename)
 {
 	if (filename.empty())
@@ -60,7 +97,6 @@ void EditorWindow::_writeProject(const std::filesystem::path& fileName)
 	_changesSaved = true;
 	_currentFile = fileName;
 	Serializer::SaveProject(editor->Objects.get(), editor->Content.get(), fileName);
-
 }
 
 void EditorWindow::_findUpdate()
@@ -215,8 +251,7 @@ void EditorWindow::_parseCmdArgs(const std::string &cmdArgs)
 
 		if(std::filesystem::exists(path))
 		{
-			//open project
-			//MessageBoxA(_mainWindow, (std::string("Opened project \r\n") + path).c_str(), "Test", MB_ICONINFORMATION | MB_OK);
+			_openProject(path);
 		}
 		else
 		{
@@ -641,41 +676,8 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 					if(GetOpenFileNameA(&ofn))
 					{
-						//open project file.
-						gEditorWindow->_changesSaved = true;
-						gEditorWindow->_currentFile = std::filesystem::path(filebuff);
-
-						gEditorWindow->editor->Content->Clear();
-						gEditorWindow->editor->Objects->Clear();
-						SendMessageA(gEditorWindow->_listBox, TVM_DELETEITEM, 0, reinterpret_cast<LPARAM>(TVI_ROOT));
 						SetWorkingDirectory();
-
-						Serializer::LoadProject(gEditorWindow->editor->Objects.get(), gEditorWindow->editor->Content.get(), filebuff);
-
-						for (int i = 0; auto& instance : *(gEditorWindow->editor->Objects))
-						{
-							auto object = instance.Object.get();
-
-							auto gizmo = object->GetGizmo();
-							if(gizmo != nullptr)
-							{
-								gizmo->Object = object;
-								gizmo->Load();
-							}
-
-							TVITEMA item{};
-							item.mask = TVIF_TEXT | TVIF_PARAM;
-							item.pszText = const_cast<char*>(object->Name.c_str());
-							item.cChildren = 0;
-							item.lParam = i;
-
-							TVINSERTSTRUCTA insertStruct{};
-							insertStruct.item = item;
-
-							SendMessageA(gEditorWindow->_listBox, TVM_INSERTITEMA, 0, reinterpret_cast<LPARAM>(&insertStruct));
-
-							++i;
-						}
+						gEditorWindow->_openProject(ofn.lpstrFile);
 					}
 					else if(GetLastError() != 0)
 						MessageBoxA(gEditorWindow->_mainWindow, std::format("Error trying to create the open file dialog box! : {}", GetLastError()).c_str(), "Test", MB_OK | MB_ICONWARNING);

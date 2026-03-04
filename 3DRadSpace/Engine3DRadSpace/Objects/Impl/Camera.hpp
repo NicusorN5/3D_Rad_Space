@@ -20,7 +20,7 @@ namespace Engine3DRadSpace::Objects
 			const std::string& name = "Camera",
 			bool visible = true,
 			const Math::Vector3 &pos = Math::Vector3::Zero(),
-			const Math::Vector3 &look_at = Math::Vector3::UnitZ(),
+			const Math::Quaternion& rotation = Math::Quaternion(),
 			const Math::Vector3 &up = Math::Vector3::UnitY(),
 			float aspectRatio = 4.0f / 3.0f, 
 			float fov = Math::ToRadians(65.0f), 
@@ -30,12 +30,6 @@ namespace Engine3DRadSpace::Objects
 
 		//Camera(Camera&&) noexcept = default;
 		//Camera& operator=(Camera&&) noexcept = default;
-
-		enum class CameraMode
-		{
-			UseRotation,
-			UseLookAtCoordinates,
-		} LookMode;
 
 		void Initialize() override;
 		void Load() override;
@@ -63,6 +57,8 @@ namespace Engine3DRadSpace::Objects
 		/// Same as both Draw3D() and Update() as if the camera is enabled.
 		/// </summary>
 		void ForceUpdate();
+
+		void SetLookAt(const Math::Vector3& lookAt);
 
 		float Intersects(const Math::Ray &r) override;
 		Reflection::UUID GetUUID() const noexcept override;

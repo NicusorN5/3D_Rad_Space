@@ -13,7 +13,6 @@ namespace Engine3DRadSpace::Objects
 	protected:
 		ICamera(
 			const Math::Vector3& normal,
-			const Math::Vector3& lookAt,
 			float aspectRatio,
 			float fov,
 			float npd,
@@ -21,7 +20,6 @@ namespace Engine3DRadSpace::Objects
 		);
 	public:
 		Math::Vector3 Normal;
-		Math::Vector3 LookAt;
 
 		float AspectRatio;
 		float FieldOfView;

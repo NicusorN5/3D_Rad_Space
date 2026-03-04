@@ -6,14 +6,12 @@ using namespace Engine3DRadSpace::Objects;
 
 ICamera::ICamera(
 	const Math::Vector3& normal,
-	const Math::Vector3& lookAt,
 	float aspectRatio,
 	float fov,
 	float npd,
 	float fpd
 ) :
 	Normal(normal),
-	LookAt(lookAt),
 	AspectRatio(aspectRatio),
 	FieldOfView(fov),
 	NearPlaneDistance(npd),

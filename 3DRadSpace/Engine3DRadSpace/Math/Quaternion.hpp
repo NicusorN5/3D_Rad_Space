@@ -18,12 +18,17 @@ namespace Engine3DRadSpace::Math
 		static Quaternion FromYawPitchRoll(float yaw, float pitch, float roll);
 		static Quaternion FromAxisAngle(const Vector3& axis, float angle);
 		static Quaternion FromMatrix(const Matrix4x4& m);
-		static Quaternion FromVectorToVector(const Vector3& a, const Vector3& b);
+		static Quaternion BetweenVectors(const Vector3& a, const Vector3& b);
+		static Quaternion Slerp(const Quaternion& a, const Quaternion& b, float t);
 
 		float Length() const noexcept;
 		float LengthSquared() const noexcept;
 		Quaternion& Normalize();
 		Quaternion& Conjugate() noexcept;
+		/// <summary>
+		/// Creates an inverse Quaternion
+		/// </summary>
+		/// <returns></returns>
 		Quaternion& Inverse();
 
 		float Dot(const Quaternion& q) const noexcept;

@@ -34,9 +34,7 @@ SkinmeshPreviewer::SkinmeshPreviewer(const std::filesystem::path &meshPath):
 	_zoom = _initialZoom = _skinmesh->GetModel()->GetBoundingSphere().Radius * 2.0f;
 
 	_camera->InternalInitialize(this);
-	_camera->LookAt = Vector3::Zero();
-
-	_camera->LookMode = Camera::CameraMode::UseLookAtCoordinates;
+	_camera->SetLookAt(Vector3::Zero());
 }
 
 void SkinmeshPreviewer::Update()

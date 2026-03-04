@@ -77,7 +77,7 @@ Quaternion Quaternion::FromMatrix(const Matrix4x4& m)
 	return q;
 }
 
-Quaternion Quaternion::FromVectorToVector(const Vector3& a, const Vector3& b)
+Quaternion Quaternion::BetweenVectors(const Vector3& a, const Vector3& b)
 {
 	Quaternion q;
 	Vector3 c = Vector3::Cross(a, b);
@@ -88,6 +88,40 @@ Quaternion Quaternion::FromVectorToVector(const Vector3& a, const Vector3& b)
 	q.W = 1 + Vector3::Dot(a, b);
 
 	return q.Normalize();
+}
+
+Quaternion Quaternion::Slerp(const Quaternion& a, const Quaternion& b, float t)
+{
+	//https://github.com/dotnet/dotnet/blob/b0f34d51fccc69fd334253924abd8d6853fad7aa/src/runtime/src/libraries/System.Private.CoreLib/src/System/Numerics/Quaternion.cs#L391C13-L417C60
+	const float SlerpEpsilon = 1e-6f;
+
+	float cosOmega = Dot(a, b);
+	float sign = 1.0f;
+
+	if(cosOmega < 0.0f)
+	{
+		cosOmega = -cosOmega;
+		sign = -1.0f;
+	}
+
+	float s1, s2;
+
+	if(cosOmega > (1.0f - SlerpEpsilon)) [[unlikely]]
+	{
+		// Too close, do straight linear interpolation.
+		s1 = 1.0f - t;
+		s2 = t * sign;
+	}
+	else [[likely]]
+	{
+		float omega = acosf(cosOmega);
+		float invSinOmega = 1 / sinf(omega);
+
+		s1 = sinf((1.0f - t) * omega) * invSinOmega;
+		s2 = sinf(t * omega) * invSinOmega * sign;
+	}
+
+	return (a * s1) + (b * s2);
 }
 
 float Quaternion::Length() const noexcept

@@ -52,7 +52,6 @@ void RenderWindow::Initialize()
 	grid = std::make_unique<Primitives::LineList>(Device.get(), dLines);
 
 	Camera.InternalInitialize(this);
-	Camera.LookMode = Camera::CameraMode::UseLookAtCoordinates;
 	Camera.FarPlaneDistance = 1000.0f;
 }
 
@@ -146,9 +145,8 @@ void RenderWindow::Update()
 	}
 	else _keyboardTest = false;
 	
-	Quaternion m = Quaternion::FromYawPitchRoll(cameraPos.X, cameraPos.Y, 0);
-	Camera.Position = cursor3D + Vector3::UnitZ().Transform(m) * (zoom + 5);
-	Camera.LookAt = cursor3D;
+	Camera.Rotation = Quaternion::FromYawPitchRoll(cameraPos.X, cameraPos.Y, 0);
+	Camera.Position = cursor3D + Vector3::UnitZ().Transform(Camera.Rotation) * (zoom + 5);
 }
 
 void RenderWindow::Draw3D()

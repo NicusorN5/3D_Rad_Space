@@ -11,7 +11,6 @@ using namespace Engine3DRadSpace::Objects;
 
 FreeCam::FreeCam() : Camera("FreeCam")
 {
-	LookMode = CameraMode::UseRotation;
 }
 
 void FreeCam::Update()
