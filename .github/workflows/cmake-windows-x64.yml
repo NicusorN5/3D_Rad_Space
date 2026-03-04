@@ -32,8 +32,8 @@ jobs:
       with:
           path: build
           key: cmake-build-${{ runner.os }}-${{ hashFiles('**/CMakeLists.txt', '**/*.h', '**/*.hpp', '**/*.cpp') }}
-          restore-keys: cmake-build-${{ runner.os }}-
-          compression: zip
+          restore-keys: |
+            cmake-build-${{ runner.os }}-
 
     - name: Configure CMake
       # I know hardcoded file paths is stupid, I need to find an other solution.
