@@ -66,12 +66,10 @@ Old releases can be found [here](https://github.com/3DRadSpace/3D_Rad_Space/rele
 
 4.) Compile the solution (Ctrl+Shift+B or F5) with any desired configuration (`x64-Debug`/`x64-Release`).
 
-5.) If there are "failed to compile shaders" errors when debugging, copy "Data" from `<root>/3DRadSpace/` to `<root>/3DRadSpace/out/build/x64-Debug` (or x64-Release).
-
 Notices: 
 
 - Only x64-Windows is supported. No support for x86 is planned. 
-- Linux support is planned, but will be implemented much later.
+- Native Linux support is eventually planned, but will be implemented much later.
 
 # License 
  This project uses a MIT license.

@@ -13,20 +13,8 @@ namespace Engine3DRadSpace::Physics::Objects
 	{
 	protected:
 		IPhysicsEngine* _physics;
-
-		IPhysicsObject();
 		IPhysicsObject(IPhysicsEngine* physics);
 	public:
-		IPhysicsEngine* GetPhysics() const noexcept;
-		virtual ICollider* GetBody() const noexcept = 0;
-
-		virtual bool ApplyForce(const Math::Vector3& force) = 0;
-		virtual bool ApplyForce(const Math::Vector3& force, const Math::Vector3& center) = 0;
-		virtual bool ApplyTorque(const Math::Vector3& force) = 0;
-
-		virtual bool ApplyAcceleration(const Math::Vector3& acc) = 0;
-		virtual bool ApplyAngularAcceleration(const Math::Vector3& acc) = 0;
-
 		void Initialize() override;
 
 		virtual ~IPhysicsObject() = default;

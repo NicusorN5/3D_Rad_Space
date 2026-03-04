@@ -20,6 +20,7 @@ REFL_FWD(Box)
 REFL_FWD(Sphere)
 REFL_FWD(Cone)
 REFL_FWD(Cylinder)
+REFL_FWD(FreeCam)
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Reflection;
@@ -68,7 +69,8 @@ void Engine3DRadSpace::Internal::LoadDefaultObjects()
 		&BoxReflInstance,
 		&SphereReflInstance,
 		&ConeReflInstance,
-		&CylinderReflInstance
+		&CylinderReflInstance,
+		&FreeCamReflInstance
 	};
 
 	e3drsp_internal_objects_list.insert_range(e3drsp_internal_objects_list.begin(), ppDefaultObjects);

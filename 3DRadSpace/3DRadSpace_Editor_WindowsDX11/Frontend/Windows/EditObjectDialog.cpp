@@ -436,7 +436,7 @@ void EditObjectDialog::createForms()
 					px,
 					y,
 					75,
-					25,
+					textboxHeight,
 					window,
 					nullptr,
 					hInstance,
@@ -447,7 +447,8 @@ void EditObjectDialog::createForms()
 				windows.push_back(hotkey);
 
 				auto key = static_cast<const Input::Key*>(valuePtr);
-				SendMessageA(hotkey, HKM_SETHOTKEY, static_cast<WPARAM>(LOBYTE(key)), 0);
+				SendMessageA(hotkey, HKM_SETRULES, HKCOMB_NONE, 0);
+				SendMessageA(hotkey, HKM_SETHOTKEY, MAKEWORD(static_cast<BYTE>(*key), 0), 0);
 
 				setMax(inc_y, textboxHeight + 5);
 				break;

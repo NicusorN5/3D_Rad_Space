@@ -5,7 +5,7 @@ using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Physics;
 using namespace Engine3DRadSpace::Physics::NVPhysX;
 
-DynamicRigidbody::DynamicRigidbody(IPhysicsEngine* physics) : ICollider(physics)
+DynamicRigidbody::DynamicRigidbody(IPhysicsEngine* physics) : IDynamicCollider(physics)
 {
 }
 

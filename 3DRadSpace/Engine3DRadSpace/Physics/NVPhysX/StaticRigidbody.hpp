@@ -1,5 +1,5 @@
 #pragma once
-#include "../ICollider.hpp"
+#include "../IStaticCollider.hpp"
 #include "../Math/Quaternion.hpp"
 
 namespace Engine3DRadSpace::Graphics
@@ -12,7 +12,7 @@ namespace Engine3DRadSpace::Physics::NVPhysX
 	/// <summary>
 	/// Triangle mesh based static rigidbody collider.
 	/// </summary>
-	class E3DRSP_PHYSICS_OBJ_EXPORT StaticRigidbody: public ICollider
+	class E3DRSP_PHYSICS_OBJ_EXPORT StaticRigidbody: public IStaticCollider
 	{
 		void _generateRigidbody();
 
@@ -31,9 +31,6 @@ namespace Engine3DRadSpace::Physics::NVPhysX
 		float _getLinearDamping() override;
 		void _setLinearDamping(float linearDamping) override;
 
-		float _getAngularDamping() override;
-		void _setAngularDamping(float angularDamping) override;
-
 		float _getStaticFriction() override;
 		void _setStaticFriction(float friction) override;
 
@@ -42,15 +39,6 @@ namespace Engine3DRadSpace::Physics::NVPhysX
 
 		float _getRestitution() override;;
 		void _setRestitution(float restitution) override;
-
-		Math::Vector3 _getLinearVelocity() override;
-		void _setLinearVelocity(const Math::Vector3& linearVelocity) override;
-
-		Math::Vector3 _getAngularVelocity() override;
-		void _setAngularVelocity(const Math::Vector3& linearVelocity) override;
-
-		Math::Vector3 _getMaxAngularVelocity() override;
-		void _setMaxAngularVelocity(const Math::Vector3& linearVelocity) override;
 	public:
 		StaticRigidbody(
 			IPhysicsEngine* physics,
@@ -60,13 +48,6 @@ namespace Engine3DRadSpace::Physics::NVPhysX
 	
 		StaticRigidbody(StaticRigidbody&& rb) noexcept = default;
 		StaticRigidbody& operator=(StaticRigidbody&& rb) noexcept = default;
-
-		bool ApplyForce(const Math::Vector3& force) override;
-		bool ApplyForce(const Math::Vector3& force, const Math::Vector3& center) override;
-		bool ApplyTorque(const Math::Vector3& force) override;
-
-		bool ApplyAcceleration(const Math::Vector3& acc) override;
-		bool ApplyAngularAcceleration(const Math::Vector3& acc) override;
 
 		void SetPosition(const Math::Vector3& newPos, bool wake = false);
 		void SetRotation(const Math::Quaternion& newQuat, bool wake = false);

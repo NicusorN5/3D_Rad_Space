@@ -63,6 +63,11 @@ namespace Engine3DRadSpace.Objects
 			_icamera = new InstICamera(Handle);
 		}
 
+		public Camera(IntPtr instance) : base(instance)
+		{
+			_icamera = new InstICamera(Handle);
+		}
+
 		public unsafe Vector3 Normal
 		{
 			get => _getNormal(_handle);

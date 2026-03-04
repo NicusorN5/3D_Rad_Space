@@ -7,9 +7,13 @@ add_library(3DRadSpace.Physics SHARED
 	"ICollider.hpp"
 	"ICollider.cpp"
 	"ICollider.h"
+	"IDynamicCollider.hpp"
+	"IDynamicCollider.cpp"
 	"IPhysicsEngine.hpp"
 	"IPhysicsEngine.cpp"
 	"IPhysicsEngine.h"
+	"IStaticCollider.hpp"
+	"IStaticCollider.cpp"
 	"PhysicsSettings.hpp"
 )
 

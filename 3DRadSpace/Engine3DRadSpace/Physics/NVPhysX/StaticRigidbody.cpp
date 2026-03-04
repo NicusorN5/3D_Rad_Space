@@ -131,15 +131,6 @@ void StaticRigidbody::_setLinearDamping(float linearDamping)
 	_linearDamping = linearDamping;
 }
 
-float StaticRigidbody::_getAngularDamping()
-{
-	return 0.0;
-}
-
-void StaticRigidbody::_setAngularDamping(float angularDamping)
-{
-}
-
 float StaticRigidbody::_getStaticFriction()
 {
 	return _staticFriction;
@@ -173,38 +164,11 @@ void StaticRigidbody::_setRestitution(float restitution)
 	_restitution = restitution;
 }
 
-Math::Vector3 StaticRigidbody::_getLinearVelocity()
-{
-	return Math::Vector3::Zero();
-}
-
-void StaticRigidbody::_setLinearVelocity(const Math::Vector3 & linearVelocity)
-{
-}
-
-Math::Vector3 StaticRigidbody::_getAngularVelocity()
-{
-	return Math::Vector3::Zero();
-}
-
-void StaticRigidbody::_setAngularVelocity(const Math::Vector3 & linearVelocity)
-{
-}
-
-Math::Vector3 StaticRigidbody::_getMaxAngularVelocity()
-{
-	return Math::Vector3::Zero();
-}
-
-void StaticRigidbody::_setMaxAngularVelocity(const Math::Vector3 & linearVelocity)
-{
-}
-
 StaticRigidbody::StaticRigidbody(
 	IPhysicsEngine* physics,
 	Graphics::Model3D* model,
 	const Math::Vector3 scale
-) : ICollider(physics)
+) : IStaticCollider(physics)
 {
 	_generateRigidbody();
 }
@@ -226,31 +190,6 @@ void StaticRigidbody::Update()
 		tr.q.z,
 		tr.q.w
 	);
-}
-
-bool StaticRigidbody::ApplyForce(const Math::Vector3 &force)
-{
-	return false;
-}
-
-bool StaticRigidbody::ApplyForce(const Math::Vector3 &force, const Math::Vector3 &center)
-{
-	return false;
-}
-
-bool StaticRigidbody::ApplyTorque(const Math::Vector3 &force)
-{
-	return false;
-}
-
-bool StaticRigidbody::ApplyAcceleration(const Math::Vector3 &acc)
-{
-	return false;
-}
-
-bool StaticRigidbody::ApplyAngularAcceleration(const Math::Vector3 &acc)
-{
-	return false;
 }
 
 std::optional<float> StaticRigidbody::Intersects(const Math::Ray &r)

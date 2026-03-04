@@ -5,16 +5,19 @@ project("Engine3DRadSpace.Objects.Impl")
 add_library(3DRadSpace.Objects.Impl STATIC 
 	"Box.hpp"
 	"Box.cpp"
+	"Box.h"
 	"Camera.hpp"
 	"Camera.cpp"
 	"Camera.h"
 	"Cone.hpp"
 	"Cone.cpp"
+	"Cone.h"
 	"Counter.hpp"
 	"Counter.cpp"
 	"Counter.h"
 	"Cylinder.hpp"
 	"Cylinder.cpp"
+	"Cylinder.h"
 	"Empty.hpp"
 	"Empty.cpp"
 	"Empty.h"
@@ -24,6 +27,9 @@ add_library(3DRadSpace.Objects.Impl STATIC
 	"Fog.hpp"
 	"Fog.cpp"
 	"Fog.h"
+	"FreeCam.hpp"
+	"FreeCam.cpp"
+	"FreeCam.h"
 	"Objects.hpp"
 	"Objects.cpp"
 	"Skinmesh.hpp"
@@ -46,10 +52,11 @@ add_library(3DRadSpace.Objects.Impl STATIC
 	"Sprite.h"
 	"Sphere.hpp"
 	"Sphere.cpp"
+	"Sphere.h"
 	"TextPrint.hpp"
 	"TextPrint.cpp"
 	"TextPrint.h"
- "Box.h" "Cone.h" "Cylinder.h" "Sphere.h")
+ )
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET 3DRadSpace.Objects.Impl PROPERTY CXX_STANDARD 23)
@@ -78,9 +85,11 @@ target_link_libraries(3DRadSpace.Objects.Impl PRIVATE 3DRadSpace.Graphics)
 target_link_libraries(3DRadSpace.Objects.Impl PRIVATE 3DRadSpace.Graphics.Rendering)
 target_link_libraries(3DRadSpace.Objects.Impl PRIVATE 3DRadSpace.Content)
 target_link_libraries(3DRadSpace.Objects.Impl PRIVATE 3DRadSpace.Content.Assets)
+target_link_libraries(3DRadSpace.Objects.Impl PRIVATE 3DRadSpace.Input)
 target_link_libraries(3DRadSpace.Objects.Impl PRIVATE 3DRadSpace.Physics)
 target_link_libraries(3DRadSpace.Objects.Impl PRIVATE 3DRadSpace.Physics.NVPhysX)
 target_link_libraries(3DRadSpace.Objects.Impl PRIVATE 3DRadSpace.Physics.Objects)
 target_link_libraries(3DRadSpace.Objects.Impl PRIVATE 3DRadSpace.Reflection)
+target_link_libraries(3DRadSpace.Objects.Impl PRIVATE 3DRadSpace.Native)
 target_link_libraries(3DRadSpace.Objects.Impl PRIVATE 3DRadSpace.Objects.Gizmos)
 target_include_directories(3DRadSpace.Objects.Impl PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../)

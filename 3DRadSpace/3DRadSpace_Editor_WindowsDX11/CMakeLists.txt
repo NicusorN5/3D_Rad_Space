@@ -48,4 +48,12 @@ find_package(nlohmann_json CONFIG REQUIRED)
 target_link_libraries(3DRadSpace.Editor PRIVATE nlohmann_json::nlohmann_json)
 
 #Copy assets
-#file(COPY ../Data DESTINATION ${CMAKE_BINARY_DIR})
+add_custom_target(e3drsp_copy_assets ALL
+	COMMAND ${CMAKE_COMMAND} -E copy_directory
+			${CMAKE_SOURCE_DIR}/Data
+			${CMAKE_BINARY_DIR}/Data
+)
+
+add_dependencies(3DRadSpace.Editor e3drsp_copy_assets)
+
+#TODO: Copy binaries for the project generator.

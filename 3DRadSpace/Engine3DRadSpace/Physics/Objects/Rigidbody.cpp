@@ -6,12 +6,6 @@ using namespace Engine3DRadSpace::Objects;
 using namespace Engine3DRadSpace::Physics;
 using namespace Engine3DRadSpace::Physics::Objects;
 
-Rigidbody::Rigidbody() :
-	_dynamic(false)
-{
-
-}
-
 //Rigidbody::Rigidbody(StaticRigidbody&& staticRb) :
 //	_rigidbody(std::move(staticRb)),
 //	_dynamic(false)

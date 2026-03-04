@@ -1,9 +1,9 @@
 #pragma once
-#include "../ICollider.hpp"
+#include "../IDynamicCollider.hpp"
 
 namespace Engine3DRadSpace::Physics::NVPhysX
 {
-	class E3DRSP_PHYSICS_OBJ_EXPORT DynamicRigidbody : public ICollider
+	class E3DRSP_PHYSICS_OBJ_EXPORT DynamicRigidbody : public IDynamicCollider
 	{
 	protected:
 		float _getMass() override;

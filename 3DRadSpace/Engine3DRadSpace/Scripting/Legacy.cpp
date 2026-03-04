@@ -154,8 +154,9 @@ float iObjectKmh(unsigned obj_x)
 	auto obj = dynamic_cast<IPhysicsObject*>((*objList)[obj_x]);
 	if (obj != nullptr)
 	{
-		auto vel = obj->GetBody()->LinearVelocity.Get();
-		return vel.Length();
+		//auto vel = obj->GetBody()->LinearVelocity.Get();
+		//return vel.Length();
+		return 0.0f;
 	}
 	else return 0.0f;
 }
@@ -165,7 +166,7 @@ void iObjectVelocity(unsigned obj_x, Math::Vector3& v)
 	auto obj = dynamic_cast<IPhysicsObject*>((*objList)[obj_x]);
 	if (obj != nullptr)
 	{
-		v = obj->GetBody()->LinearVelocity;
+		//v = obj->GetBody()->LinearVelocity;
 	}
 	else v = Vector3::Zero();
 }
@@ -175,7 +176,7 @@ void iObjectVelocitySet(unsigned obj_x, Math::Vector3& v)
 	auto obj = dynamic_cast<IPhysicsObject*>((*objList)[obj_x]);
 	if (obj != nullptr)
 	{
-		obj->GetBody()->LinearVelocity = v;
+		//obj->GetBody()->LinearVelocity = v;
 	}
 }
 
@@ -184,7 +185,7 @@ void iObjectSpin(unsigned obj_x, Math::Vector3& v)
 	auto obj = dynamic_cast<IPhysicsObject*>((*objList)[obj_x]);
 	if (obj != nullptr)
 	{
-		v = obj->GetBody()->AngularVelocity;
+		//v = obj->GetBody()->AngularVelocity;
 	}
 	else v = Vector3::Zero();
 }
@@ -194,20 +195,20 @@ void iObjectSpinSet(unsigned obj_x, Math::Vector3& v)
 	auto obj = dynamic_cast<IPhysicsObject*>((*objList)[obj_x]);
 	if (obj != nullptr)
 	{
-		obj->GetBody()->AngularVelocity = v;
+		//obj->GetBody()->AngularVelocity = v;
 	}
 }
 
 void iObjectTorqueApply(unsigned obj_x, Math::Vector3& v)
 {
 	auto obj = dynamic_cast<IPhysicsObject*>((*objList)[obj_x]);
-	if (obj != nullptr) obj->ApplyTorque(v);
+	//if (obj != nullptr) obj->ApplyTorque(v);
 }
 
 void iObjectAngularAccelerationApply(unsigned obj_x, Math::Vector3& v)
 {
 	auto obj = dynamic_cast<IPhysicsObject*>((*objList)[obj_x]);
-	if(obj != nullptr) obj->ApplyAngularAcceleration(v);
+	//if(obj != nullptr) obj->ApplyAngularAcceleration(v);
 }
 
 void iObjectForceApply(unsigned ojb_x, Math::Vector3 f, Math::Vector3* p)
@@ -215,15 +216,15 @@ void iObjectForceApply(unsigned ojb_x, Math::Vector3 f, Math::Vector3* p)
 	auto obj = dynamic_cast<IPhysicsObject*>((*objList)[ojb_x]);
 	if(obj != nullptr)
 	{
-		if(p != nullptr) obj->ApplyForce(f, *p);
-		else obj->ApplyForce(f);
+		//if(p != nullptr) obj->ApplyForce(f, *p);
+		//else obj->ApplyForce(f);
 	}
 }
 
 void iObjectAccelerationApply(unsigned obj_x, const Math::Vector3& acc)
 {
 	auto obj = dynamic_cast<IPhysicsObject*>((*objList)[obj_x]);
-	if(obj != nullptr) obj->ApplyAcceleration(acc);
+	//if(obj != nullptr) obj->ApplyAcceleration(acc);
 }
 
 void iObjectDampingApply(unsigned obj_x, Math::Vector3& v, bool is_rotation, bool local_axis)
