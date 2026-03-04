@@ -27,6 +27,14 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Cache CMake Build
+      uses: actions/cache@v3
+      with:
+          path: build
+          key: cmake-build-${{ runner.os }}-${{ hashFiles('**/CMakeLists.txt', '**/*.h', '**/*.hpp', '**/*.cpp') }}
+          restore-keys: |
+            cmake-build-${{ runner.os }}-
+
     - name: Configure CMake
       # I know hardcoded file paths is stupid, I need to find an other solution.
       run: >
