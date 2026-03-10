@@ -365,8 +365,8 @@ void Window::SetMousePosition(const Point& p)
 	POINT mp = { p.X, p.Y };
 	MapWindowPoints(static_cast<HWND>(_window), nullptr, &mp, 1);
 
-	_mouse._position = { mp.x, mp.y };
-	BOOL r = SetCursorPos(_mouse._position.X, _mouse._position.Y);
+	_mouse._position = p;
+	BOOL r = SetCursorPos(mp.x, mp.y);
 	if (!r)
 	{
 		throw std::system_error(
@@ -447,14 +447,14 @@ E3DRSP_Point E3DRSP_Window_Size(E3DRSP_Window window)
 E3DRSP_RectangleF E3DRSP_Window_RectangleF(E3DRSP_Window window)
 {
 	auto rectangle = static_cast<Window*>(window)->RectangleF();
-	E3DRSP_RectangleF r = { r.X, r.Y, r.Width, r.Height };
+	E3DRSP_RectangleF r = { rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height };
 	return r;
 }
 
 E3DRSP_Rectangle E3DRSP_Window_Rectangle(E3DRSP_Window window)
 {
 	auto rectangle = static_cast<Window*>(window)->Rectangle();
-	E3DRSP_Rectangle r = { r.X, r.Y, r.Width, r.Height };
+	E3DRSP_Rectangle r = {rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height };
 	return r;
 }
 

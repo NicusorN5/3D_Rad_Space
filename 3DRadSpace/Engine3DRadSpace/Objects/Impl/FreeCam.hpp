@@ -23,11 +23,11 @@ namespace Engine3DRadSpace::Objects
 		Input::Key Elevate = Input::Key::Q;
 		Input::Key Descend = Input::Key::E;
 
+		Math::Vector3 ForwardDir() const noexcept;
+
 		void Update() override;
 
 		Reflection::UUID GetUUID() const noexcept override;
 		Objects::Gizmos::IGizmo* GetGizmo() const noexcept override;
-
-		Math::Vector3 ForwardDir() const noexcept;
 	};
 }

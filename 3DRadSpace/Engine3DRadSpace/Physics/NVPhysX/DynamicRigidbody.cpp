@@ -115,7 +115,7 @@ bool DynamicRigidbody::ApplyAngularAcceleration(const Math::Vector3 & acc)
 	return false;
 }
 
-void DynamicRigidbody::Update()
+void DynamicRigidbody::UpdateTransform()
 {
 
 }

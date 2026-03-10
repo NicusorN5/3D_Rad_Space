@@ -27,6 +27,7 @@ namespace Engine3DRadSpace
 		bool _wasLoaded = false;
 
 		std::optional<std::filesystem::path> _newScene;
+		std::chrono::time_point<std::chrono::high_resolution_clock> _lastFrameTime{};
 
 		void _initialize();
 		void _loadScene();

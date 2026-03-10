@@ -102,7 +102,7 @@ Vector3 Vector3::operator+(const Vector3& v) const
 Vector3& Vector3::operator-=(const Vector3& v)
 {
 	this->X -= v.X;
-	this->Y -= v.Z;
+	this->Y -= v.Y;
 	this->Z -= v.Z;
 	return *this;
 }

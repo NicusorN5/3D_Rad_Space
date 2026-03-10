@@ -83,8 +83,7 @@ void RenderWindow::Update()
 		Point mousePos = Mouse.Position();
 		Window->SetMousePosition(screenCenter);
 
-		mouseDelta = (Vector2)(screenCenter - mousePos) * float(Update_dt);
-		//mouseDelta.Y = 0;
+		mouseDelta = (Vector2)(screenCenter - mousePos) * float(Update_dt) / 100.0f;
 		cameraPos -= mouseDelta * Settings::CameraSensitivity.Value;
 
 		cameraPos.Y = std::clamp<float>(

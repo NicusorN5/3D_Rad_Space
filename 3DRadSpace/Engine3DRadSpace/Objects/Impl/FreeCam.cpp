@@ -45,8 +45,8 @@ void FreeCam::Update()
 	if(kb.IsKeyDown(Left)) mv -= right;
 	if(kb.IsKeyDown(Right)) mv += right;
 
-	if(kb.IsKeyDown(Elevate)) mv.Y += 1;
-	if(kb.IsKeyDown(Descend)) mv.Y -= 1;
+	if(kb.IsKeyDown(Elevate)) mv += Normal;
+	if(kb.IsKeyDown(Descend)) mv -= Normal;
 
 	if(mv.LengthSquared() > 0) mv.Normalize();
 

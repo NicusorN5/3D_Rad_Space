@@ -71,6 +71,8 @@ class EditorWindow
 	std::pair<HTREEITEM, std::optional<unsigned>> _getSelectedObjectID();
 
 	void _parseCmdArgs(const std::string & cmdArgs);
+
+	std::chrono::time_point<std::chrono::high_resolution_clock> _lastFrameTime{};
 public:
 	EditorWindow(HINSTANCE hInstance, const std::string &cmdArgs);
 

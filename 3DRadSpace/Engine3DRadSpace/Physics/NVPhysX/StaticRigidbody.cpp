@@ -118,6 +118,8 @@ float StaticRigidbody::_getMass()
 
 void StaticRigidbody::_setMass(float mass)
 {
+	_mass = mass;
+	//static_cast<physx::PxRigidStatic*>(_rigidbody.get());
 }
 
 float StaticRigidbody::_getLinearDamping()
@@ -173,7 +175,7 @@ StaticRigidbody::StaticRigidbody(
 	_generateRigidbody();
 }
 
-void StaticRigidbody::Update()
+void StaticRigidbody::UpdateTransform()
 {
 	auto rigidbody = static_cast<physx::PxRigidStatic*>(_rigidbody.get());
 	auto tr = rigidbody->getGlobalPose();

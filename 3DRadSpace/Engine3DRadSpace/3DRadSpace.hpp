@@ -147,7 +147,6 @@
 //Engine3DRadSpace::Physics::Objects
 #include "Physics\Objects\GForce.hpp"
 #include "Physics\Objects\IPhysicsObject.hpp"
-#include "Physics\Objects\Rigidbody.hpp"
 
 //Engine3DRadSpace::Plugins
 #include "Plugins\CustomObject.hpp"

@@ -54,7 +54,7 @@ namespace Engine3DRadSpace::Physics::NVPhysX
 		void SetPositionRotation(const Math::Vector3& newPos, const Math::Vector3& newQuat, bool wake);
 
 		std::optional<float> Intersects(const Math::Ray& r) override;
-		void Update() override;
+		void UpdateTransform() override;
 
 		~StaticRigidbody() override = default;
 	};

@@ -8,7 +8,7 @@ namespace Engine3DRadSpace::Physics
 {
 	class IPhysicsEngine;
 
-	class E3DRSP_PHYSICS_EXPORT ICollider : public IUpdateable
+	class E3DRSP_PHYSICS_EXPORT ICollider
 	{
 	protected:
 		IPhysicsEngine* _physics;
@@ -24,6 +24,7 @@ namespace Engine3DRadSpace::Physics
 		IPhysicsEngine* GetPhysics() const noexcept;
 
 		virtual std::optional<float> Intersects(const Math::Ray& r) = 0;
+		virtual void UpdateTransform() = 0;
 
 		virtual ~ICollider() = default;
 	};

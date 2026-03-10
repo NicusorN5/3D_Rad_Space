@@ -54,6 +54,8 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, size_t width, size_t he
 	}
 	else swapChainDesc.Windowed = false;
 
+	bool disallowAltEnter = (opt & GraphicsDeviceCreationOptions::NoAltEnter) == GraphicsDeviceCreationOptions::NoAltEnter;
+
 	swapChainDesc.SampleDesc = { 1, 0 }; //count, quality
 	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT | DXGI_USAGE_SHADER_INPUT ;
 	swapChainDesc.OutputWindow = static_cast<HWND>(nativeWindowHandle);
@@ -187,7 +189,21 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, size_t width, size_t he
 
 		if(FAILED(r)) throw Exception("D3D11CreateDeviceAndSwapChain failure!");
 	}
-	else _createBackBuffer();
+	_createBackBuffer();
+
+	if(disallowAltEnter)
+	{
+		Microsoft::WRL::ComPtr<IDXGIDevice> dxgiDevice;
+		_device->QueryInterface(__uuidof(IDXGIDevice), reinterpret_cast<void**>(dxgiDevice.GetAddressOf()));
+
+		Microsoft::WRL::ComPtr<IDXGIAdapter> dxgiAdapter;
+		dxgiDevice->GetParent(__uuidof(IDXGIAdapter), reinterpret_cast<void**>(dxgiAdapter.GetAddressOf()));
+
+		Microsoft::WRL::ComPtr<IDXGIFactory> dxgiFactory;
+		dxgiAdapter->GetParent(__uuidof(IDXGIFactory), reinterpret_cast<void**>(dxgiFactory.GetAddressOf()));
+
+		dxgiFactory->MakeWindowAssociation(static_cast<HWND>(nativeWindowHandle), DXGI_MWA_NO_WINDOW_CHANGES);
+	}
 
 	_stencilBuffer = std::make_unique<DepthStencilBuffer>(this);
 	_stencilState = std::make_unique<DepthStencilState>(this);

@@ -43,7 +43,7 @@ namespace Engine3DRadSpace::Physics::NVPhysX
 		bool ApplyAngularAcceleration(const Math::Vector3& acc) override;
 
 		std::optional<float> Intersects(const Math::Ray& r) override;
-		void Update() override;
+		void UpdateTransform() override;
 
 		~DynamicRigidbody() override = default;
 	};

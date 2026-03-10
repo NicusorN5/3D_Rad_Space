@@ -125,15 +125,17 @@ void Game::Run()
 
 void Game::RunOneFrame()
 {
-	auto ts_u1 = std::chrono::high_resolution_clock::now();
+	auto now = std::chrono::high_resolution_clock::now();
+	if (_lastFrameTime.time_since_epoch().count() != 0)
+	{
+		std::chrono::duration<double> frameDiff = now - _lastFrameTime;
+		Update_dt = frameDiff.count();
+	}
+	_lastFrameTime = now;
 
 	PostProcesses->DisableAll(); //to be re-enabled by the objects
 	Audio->Update();
 	Update();
-	auto ts_u2 = std::chrono::high_resolution_clock::now();
-
-	std::chrono::duration<double> uDiff = ts_u2 - ts_u1;
-	Update_dt = uDiff.count();
 
 	auto ts_d1 = std::chrono::high_resolution_clock::now();
 
