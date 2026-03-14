@@ -93,8 +93,12 @@ void RenderWindow::Update()
 		);
 	}
 
-	static bool rightButtonWasPressed = false;
-	if (Mouse.RightButton() == ButtonState::Pressed && !rightButtonWasPressed)
+	static bool rightButtonPrevPressed = false;
+	static bool middleButtonPrevPressed = false; 
+
+	bool middleBtn = Mouse.MiddleButton() == ButtonState::Pressed && !middleButtonPrevPressed;
+
+	if ((Mouse.RightButton() == ButtonState::Pressed && !rightButtonPrevPressed) || middleBtn)	
 	{
 		auto mousePos = Mouse.Position();
 		
@@ -132,12 +136,14 @@ void RenderWindow::Update()
 
 		if (closestDistance < std::numeric_limits<float>::infinity())
 		{
-			cursor3D = closestIntersection;
+			if(!middleBtn) cursor3D = closestIntersection;
+			else cursor3D = static_cast<IObject3D*>(closestObject)->Position;
 			_selectedObject = closestObject;
 		}
 	}
-	rightButtonWasPressed = (Mouse.RightButton() == ButtonState::Pressed);
-	
+	rightButtonPrevPressed = (Mouse.RightButton() == ButtonState::Pressed);
+	middleButtonPrevPressed = (Mouse.MiddleButton() == ButtonState::Pressed);
+
 	if(Keyboard.IsKeyDown(Key::Space))
 	{
 		_keyboardTest = true;
@@ -162,10 +168,6 @@ void RenderWindow::Draw3D()
 		grid->View = View;
 		grid->Projection = Projection;
 		grid->Draw3D();
-	}
-
-	if (_keyboardTest)
-	{
 	}
 
 	auto drawAllObjects = [this]()

@@ -15,6 +15,8 @@ FreeCam::FreeCam() : Camera("FreeCam")
 
 void FreeCam::Update()
 {
+	if(Enabled) return;
+
 	auto game = static_cast<Game*>(_game);
 	float dt = game->Update_dt;
 
@@ -69,6 +71,12 @@ Objects::Gizmos::IGizmo* FreeCam::GetGizmo() const noexcept
 Math::Vector3 FreeCam::ForwardDir() const noexcept
 {
 	return _fwd;
+}
+
+void FreeCam::SetCameraRotation(const Vector2& camCoords) noexcept
+{
+	_camCoords = camCoords;
+	Rotation = Quaternion::FromYawPitchRoll(_camCoords.X, _camCoords.Y, 0);
 }
 
 REFL_BEGIN(FreeCam, "FreeCam", "Camera objects", "Perspective camera")

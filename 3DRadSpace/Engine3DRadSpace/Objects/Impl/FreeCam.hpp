@@ -24,6 +24,7 @@ namespace Engine3DRadSpace::Objects
 		Input::Key Descend = Input::Key::E;
 
 		Math::Vector3 ForwardDir() const noexcept;
+		void SetCameraRotation(const Math::Vector2& camCoords) noexcept;
 
 		void Update() override;
 

@@ -90,25 +90,25 @@ LRESULT CALLBACK Engine3DRadSpace::Native::GameWndProc(HWND hwnd, UINT msg, WPAR
 		case WM_RBUTTONDOWN:
 		{
 			bool right = true;
-			window->_handleMouse(nullptr, &right, nullptr);
+			window->_handleMouse(nullptr, nullptr, &right);
 			return 0;
 		}
 		case WM_RBUTTONUP:
 		{
 			bool right = false;
-			window->_handleMouse(nullptr, &right, nullptr);
+			window->_handleMouse(nullptr, nullptr, &right);
 			return 0;
 		}
 		case WM_MBUTTONDOWN:
 		{
 			bool middle = true;
-			window->_handleMouse(nullptr, nullptr, &middle);
+			window->_handleMouse(nullptr, &middle, nullptr);
 			return 0;
 		}
 		case WM_MBUTTONUP:
 		{
 			bool middle = false;
-			window->_handleMouse(nullptr, nullptr, &middle);
+			window->_handleMouse(nullptr, &middle, nullptr);
 			return 0;
 		}
 		case WM_CLOSE:
