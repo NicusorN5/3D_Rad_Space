@@ -51,8 +51,8 @@ namespace Engine3DRadSpace::Graphics
 
 		virtual Math::Point Resolution() const noexcept = 0;
 
-		virtual IRenderTarget* GetBackBuffer() = 0;
-		virtual ITexture2D *GetBackBufferTexture() = 0;
+		virtual IRenderTarget* GetBackBuffer() const noexcept = 0;
+		virtual ITexture2D *GetBackBufferTexture() const noexcept = 0;
 		virtual IDepthStencilBuffer& GetDepthBuffer() = 0;
 
 		virtual std::unique_ptr<IBlendState> CreateBlendState(

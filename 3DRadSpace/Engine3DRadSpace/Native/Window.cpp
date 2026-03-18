@@ -122,7 +122,7 @@ LRESULT CALLBACK Engine3DRadSpace::Native::GameWndProc(HWND hwnd, UINT msg, WPAR
 }
 #endif
 
-void Engine3DRadSpace::Native::Window::_keyUp(uint8_t k)
+void Window::_keyUp(uint8_t k)
 {
 	switch (k)
 	{

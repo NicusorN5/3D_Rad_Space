@@ -92,8 +92,8 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		/// <returns></returns>
 		Math::Point Resolution() const noexcept override;
 
-		IRenderTarget* GetBackBuffer() override;
-		ITexture2D *GetBackBufferTexture() override;
+		IRenderTarget* GetBackBuffer() const noexcept override;
+		ITexture2D *GetBackBufferTexture() const noexcept override;
 		IDepthStencilBuffer& GetDepthBuffer() override;
 
 		std::unique_ptr<IDepthStencilState> GetDepthStencilState() override;

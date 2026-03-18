@@ -9,8 +9,8 @@ namespace Engine3DRadSpace
 	{
 		std::vector<std::unique_ptr<Reflection::IReflectedFunction>> _fns;
 		std::type_index _returnType;
-		bool _empty;
 		void* _object;
+		bool _empty;
 
 		void _reset();
 
@@ -118,6 +118,7 @@ namespace Engine3DRadSpace
 
 		void InvokeAllReturnless(std::span<std::span<std::any>> allArgs);
 		void InvokeAllReturnless(std::span<std::span<void*>> allArgs);
+		void InvokeAllReturnless();
 
 		void Unbind(void* fnPtr);
 		void UnbindAll();

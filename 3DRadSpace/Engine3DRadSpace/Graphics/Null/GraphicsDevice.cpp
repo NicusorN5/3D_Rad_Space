@@ -45,12 +45,12 @@ Math::Point GraphicsDevice::Resolution() const noexcept
 	return Math::Point();
 }
 
-IRenderTarget* GraphicsDevice::GetBackBuffer()
+IRenderTarget* GraphicsDevice::GetBackBuffer() const noexcept
 {
 	return nullptr;
 }
 
-ITexture2D* GraphicsDevice::GetBackBufferTexture()
+ITexture2D* GraphicsDevice::GetBackBufferTexture() const noexcept
 {
 	return nullptr;
 }

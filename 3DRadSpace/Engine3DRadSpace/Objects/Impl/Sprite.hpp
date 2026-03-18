@@ -2,6 +2,7 @@
 #include "../IObject2D.hpp"
 #include "../../Reflection/Reflection.hpp"
 #include "../../Content/Assets/TextureAsset.hpp"
+#include "../../Reflection/Event.hpp"
 
 namespace Engine3DRadSpace::Objects
 {
@@ -9,8 +10,12 @@ namespace Engine3DRadSpace::Objects
 
 	class E3DRSP_OBJECTS_IMPL_EXPORT Sprite : public IObject2D
 	{
-		Graphics::ITexture2D *_texture;
 		std::unique_ptr<std::string> _tempResourceString;
+		void _initEvents();
+	protected:
+		Graphics::ITexture2D* _texture;
+		bool _hover;
+		bool _click;
 	public:
 		Sprite();
 		Sprite(
@@ -48,6 +53,14 @@ namespace Engine3DRadSpace::Objects
 		Graphics::ITexture2D *GetSpriteImage();
 
 		Math::Color TintColor;
+		Math::RectangleF UVCoordinates = Math::RectangleF(0, 0, 1, 1);
+
+		Event OnClick;
+		Event OnMouseEnter;
+		Event OnMouseLeave;
+
+		bool IsHovered() const noexcept;
+		bool IsClicked() const noexcept;
 
 		void Initialize() override;
 		void Load() override;

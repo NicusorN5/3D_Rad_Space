@@ -332,12 +332,12 @@ Math::Point GraphicsDevice::Resolution() const noexcept
 	return this->_resolution;
 }
 
-IRenderTarget* GraphicsDevice::GetBackBuffer()
+IRenderTarget* GraphicsDevice::GetBackBuffer() const noexcept
 {
 	return _backbufferRT.get();
 }
 
-Graphics::ITexture2D* GraphicsDevice::GetBackBufferTexture()
+Graphics::ITexture2D* GraphicsDevice::GetBackBufferTexture() const noexcept
 {
 	return dynamic_cast<Texture2D*>(this->_backbufferRT.get());
 }

@@ -33,6 +33,8 @@ namespace Engine3DRadSpace
 			Point BottomRight() const;
 			Point Center() const;
 
+			bool Contains(Point p) const noexcept;
+
 			int Area() const noexcept;
 
 			bool operator ==(const Rectangle& r) const = default;
@@ -66,6 +68,8 @@ namespace Engine3DRadSpace
 			Vector2 BottomLeft() const;
 			Vector2 BottomRight() const;
 			Vector2 Center() const;
+
+			bool Contains(Vector2 p) const noexcept;
 
 			float Area() const noexcept;
 

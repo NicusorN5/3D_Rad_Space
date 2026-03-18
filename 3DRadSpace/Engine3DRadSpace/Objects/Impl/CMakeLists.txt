@@ -6,6 +6,9 @@ add_library(3DRadSpace.Objects.Impl STATIC
 	"Box.hpp"
 	"Box.cpp"
 	"Box.h"
+	"Button.hpp"
+	"Button.cpp"
+	"Button.h"
 	"Camera.hpp"
 	"Camera.cpp"
 	"Camera.h"
@@ -56,7 +59,7 @@ add_library(3DRadSpace.Objects.Impl STATIC
 	"TextPrint.hpp"
 	"TextPrint.cpp"
 	"TextPrint.h"
- )
+)
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET 3DRadSpace.Objects.Impl PROPERTY CXX_STANDARD 23)

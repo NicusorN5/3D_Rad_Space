@@ -34,6 +34,14 @@ void Event::InvokeAllReturnless(std::span<std::span<std::any>> args)
 	}
 }
 
+void Event::InvokeAllReturnless()
+{
+	for(auto&& fn : _fns)
+	{
+		std::ignore = fn->Invoke(_object, std::span<std::any>{});
+	}
+}
+
 void Event::Unbind(void* fnPtr)
 {
 	std::erase_if(_fns, 

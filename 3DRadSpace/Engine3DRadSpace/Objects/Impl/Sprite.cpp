@@ -3,6 +3,7 @@
 #include "../Games/Game.hpp"
 #include "Gizmos.hpp"
 #include "Gizmos/SpriteGizmo.hpp"
+#include "../../Math/Math.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content::Assets;
@@ -20,17 +21,41 @@ Sprite::Sprite() :
 	TintColor(Colors::Black),
 	_texture(nullptr)
 {
+	_initEvents();
 }
 
-Sprite::Sprite(const std::string &name, bool visible, const std::string &path, const Vector2& pos, const Vector2& scale, float depth, const Vector2& pivot,
-	float rotation, bool flipU, bool flipV, const Color& tintColor) :
+Sprite::Sprite(
+	const std::string &name,
+	bool visible,
+	const std::string &path, 
+	const Vector2& pos,
+	const Vector2& scale, 
+	float depth, 
+	const Vector2& pivot,
+	float rotation, 
+	bool flipU, 
+	bool flipV, 
+	const Color& tintColor
+) :
 	Sprite(name, visible, RefTexture2D(0), pos, scale, depth, pivot, rotation, flipU, flipV, tintColor)
 {
 	_tempResourceString = std::make_unique<std::string>(path);
+	_initEvents();
 }
 
-Sprite::Sprite(const std::string &name, bool visible, RefTexture2D resource, const Vector2 &pos, const Vector2 &scale, float depth, const Vector2 &pivot,
-               float rotation, bool flipU, bool flipV, const Color &tintColor) :
+Sprite::Sprite(
+	const std::string &name, 
+	bool visible, 
+	RefTexture2D resource, 
+	const Vector2 &pos, 
+	const Vector2 &scale,
+	float depth, 
+	const Vector2 &pivot,
+	float rotation, 
+	bool flipU,
+	bool flipV,
+	const Color &tintColor
+) :
 	IObject2D(name, visible, visible, Vector2(pos.X, pos.Y), scale, rotation, pivot, depth),
 	FlipU(flipU),
 	FlipV(flipV),
@@ -38,6 +63,14 @@ Sprite::Sprite(const std::string &name, bool visible, RefTexture2D resource, con
 	TintColor(tintColor),
 	_texture(nullptr)
 {
+	_initEvents();
+}
+
+void Sprite::_initEvents()
+{
+	OnClick.SetObject(this);
+	OnMouseEnter.SetObject(this);
+	OnMouseLeave.SetObject(this);
 }
 
 ITexture2D* Sprite::GetSpriteImage()
@@ -70,14 +103,56 @@ void Sprite::Load(const std::filesystem::path &path)
 
 void Sprite::Update()
 {
+	if(!Enabled) return;
+
+	auto game = static_cast<Game*>(_game);
+	auto mousePosNorm = static_cast<Vector2>(game->Mouse.Position());
+	auto wndSize = static_cast<Vector2>(game->Window->Size());
+
+	auto normMousePos = Vector2(mousePosNorm.X / wndSize.X, mousePosNorm.Y / wndSize.Y);
+	auto spriteRect = RectangleF(Position.X, Position.Y, Scale.X, Scale.Y);
+
+	if(spriteRect.Contains(normMousePos))
+	{
+		if(!_hover)
+		{
+			OnMouseEnter.InvokeAllReturnless();
+			_hover = true;
+		}
+
+		if(game->Mouse.LeftButton() == ButtonState::Pressed && !_click)
+		{
+			OnClick.InvokeAllReturnless();
+			_click = true;
+		}
+		else _click = false;
+	}
+	else
+	{
+		if(_hover)
+		{
+			OnMouseLeave.InvokeAllReturnless();
+			_hover = false;
+		}
+	}
 }
 
 void Sprite::Draw2D()
 {
+	if(Visible) return;
+
 	FlipMode flip = (FlipU ? FlipMode::FlipHorizontally : FlipMode::None) | (FlipV ? FlipMode::FlipVertically : FlipMode::None);
 	
 	auto game = static_cast<Game*>(_game);
-	game->SpriteBatch->DrawNormalized(_texture, RectangleF(Position.X, Position.Y, Scale.X, Scale.Y), Engine3DRadSpace::Math::RectangleF(0,0,1,1), TintColor, Rotation, flip, Depth);
+	game->SpriteBatch->DrawNormalized(
+		_texture, 
+		RectangleF(Position.X, Position.Y, Scale.X, Scale.Y),
+		UVCoordinates, 
+		TintColor,
+		Rotation,
+		flip,
+		Depth
+	);
 }
 
 Reflection::UUID Sprite::GetUUID() const noexcept
@@ -89,6 +164,16 @@ Reflection::UUID Sprite::GetUUID() const noexcept
 Gizmos::IGizmo* Sprite::GetGizmo() const noexcept
 {
 	return Internal::GizmoOf<Sprite>(this);
+}
+
+bool Sprite::IsHovered() const noexcept
+{
+	return _hover;
+}
+
+bool Sprite::IsClicked() const noexcept
+{
+	return _click;
 }
 
 REFL_BEGIN(Sprite, "Sprite", "2D Objects", "A single drawable image")

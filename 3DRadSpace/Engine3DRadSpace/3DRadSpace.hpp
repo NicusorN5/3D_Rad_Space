@@ -19,6 +19,7 @@
 #include "Core\IInitializable.hpp"
 #include "Core\ILoadable.hpp"
 #include "Core\IUpdateable.hpp"
+#include "Core\IGame.hpp"
 
 //Engine3DRadSpace::Audio
 #include "Audio\AudioBuffer.hpp"
