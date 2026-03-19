@@ -18,7 +18,7 @@ namespace Engine3DRadSpace::Objects::Gizmos
 
 		bool _wasLoaded = false;
 	public:
-		Gizmo() = default;
+		Gizmo();
 
 		void Load() override;
 		void Load(const std::filesystem::path& path) override;

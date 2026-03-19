@@ -51,6 +51,7 @@ namespace Engine3DRadSpace::Objects
 
 		RefTexture2D Image;
 		Graphics::ITexture2D *GetSpriteImage();
+		void SetSpriteImage(Graphics::ITexture2D* texture);
 
 		Math::Color TintColor;
 		Math::RectangleF UVCoordinates = Math::RectangleF(0, 0, 1, 1);
@@ -61,6 +62,7 @@ namespace Engine3DRadSpace::Objects
 
 		bool IsHovered() const noexcept;
 		bool IsClicked() const noexcept;
+		void ResetInputState() noexcept;
 
 		void Initialize() override;
 		void Load() override;

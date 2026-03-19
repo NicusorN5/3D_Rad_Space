@@ -90,7 +90,8 @@ void Gizmo<Skinmesh>::Draw3D()
 
 			auto game = static_cast<Game*>(skinmesh->GetGame());
 			
-			//highlight_effect->SetColor(Color(1.0f, 0.5f, 0.0f, 0.5f));
+			auto highlightColor = Color(1.0f, 0.5f, 0.0f, 0.5f);
+			_highlightEffect->SetData<Color>(&highlightColor, 1);
 
 			cmd->UnbindDepthBuffer();
 

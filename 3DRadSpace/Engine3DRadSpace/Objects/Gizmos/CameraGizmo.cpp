@@ -12,6 +12,12 @@ using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Objects;
 using namespace Engine3DRadSpace::Objects::Gizmos;
 
+Gizmo<Camera>::Gizmo()
+{
+	AllowScaling = false;
+	Allow2DRendering = false;
+}
+
 void Gizmo<Camera>::Load()
 {
 	if(Object == nullptr) return;

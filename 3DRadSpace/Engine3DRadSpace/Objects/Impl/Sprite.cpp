@@ -78,6 +78,12 @@ ITexture2D* Sprite::GetSpriteImage()
 	return _texture;
 }
 
+void Sprite::SetSpriteImage(Graphics::ITexture2D* texture)
+{
+	_texture = texture;
+	Image = 0;
+}
+
 void Sprite::Initialize()
 {
 }
@@ -125,7 +131,7 @@ void Sprite::Update()
 			OnClick.InvokeAllReturnless();
 			_click = true;
 		}
-		else _click = false;
+		else if(game->Mouse.LeftButton() == ButtonState::Released) _click = false;
 	}
 	else
 	{
@@ -133,13 +139,14 @@ void Sprite::Update()
 		{
 			OnMouseLeave.InvokeAllReturnless();
 			_hover = false;
+			_click = false;
 		}
 	}
 }
 
 void Sprite::Draw2D()
 {
-	if(Visible) return;
+	if(!Visible) return;
 
 	FlipMode flip = (FlipU ? FlipMode::FlipHorizontally : FlipMode::None) | (FlipV ? FlipMode::FlipVertically : FlipMode::None);
 	
@@ -174,6 +181,12 @@ bool Sprite::IsHovered() const noexcept
 bool Sprite::IsClicked() const noexcept
 {
 	return _click;
+}
+
+void Sprite::ResetInputState() noexcept
+{
+	_hover = false;
+	_click = false;
 }
 
 REFL_BEGIN(Sprite, "Sprite", "2D Objects", "A single drawable image")

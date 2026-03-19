@@ -40,7 +40,12 @@ void Button::Update()
 			TintColor = ClickTintColor;
 			_click = true;
 		}
-		else _click = false;
+		else if(game->Mouse.LeftButton() == ButtonState::Released)
+		{
+			_click = false;
+			UVCoordinates = HoverTextureRect;
+			TintColor = HoverTintColor;
+		}
 	}
 	else
 	{
@@ -48,6 +53,7 @@ void Button::Update()
 		{
 			OnMouseLeave.InvokeAllReturnless();
 			_hover = false;
+			_click = false;
 		
 			UVCoordinates = IdleTextureRect;
 			TintColor = IdleClickColor;

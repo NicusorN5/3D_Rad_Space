@@ -25,6 +25,26 @@ Setting<bool> Settings::ShowGrid
 	.Value = true
 };
 
+Setting<float> Settings::GizmoSensitivity =
+{
+	.Name = "Gizmo sensitivity",
+	.Min = 0.1f,
+	.Value = 1.0f,
+	.Max = 20.0f
+};
+
+template<typename Fn, typename ...Args>
+void try_emptycatch(Fn&& fn, Args&& ...args)
+{
+	try
+	{
+		fn(std::forward<Args>(args)...);
+	}
+	catch(...)
+	{
+	}
+}
+
 void Settings::Load()
 {
 	nlohmann::json settings;
@@ -47,18 +67,21 @@ void Settings::Load()
 		return;
 	}
 
-	CameraSensitivity.Value = settings["Editor"]["CameraSensitivity"].get<float>();
-	StartupUpdate.Value = settings["Updates"]["StartupUpdate"].get<bool>();
-	ShowGrid.Value = settings["Editor"]["ShowGrid"].get<bool>();
+	try_emptycatch([&]() {CameraSensitivity.Value = settings["Editor"]["CameraSensitivity"].get<float>(); });
+	try_emptycatch([&]() {StartupUpdate.Value = settings["Updates"]["StartupUpdate"].get<bool>(); });
+	try_emptycatch([&]() {ShowGrid.Value = settings["Editor"]["ShowGrid"].get<bool>(); });
+	try_emptycatch([&]() {GizmoSensitivity.Value = settings["Editor"]["GizmoSensitivity"].get<float>(); });
 }
 
 void Settings::Save()
 {
 	//Saves the settings into a json file.
 	nlohmann::json jsonSettings;
+
 	jsonSettings["Editor"]["CameraSensitivity"] = CameraSensitivity.Value;
 	jsonSettings["Updates"]["StartupUpdate"] = StartupUpdate.Value;
 	jsonSettings["Editor"]["ShowGrid"] = ShowGrid.Value;
+	jsonSettings["Editor"]["GizmoSensitivity"] = GizmoSensitivity.Value;
 
 	std::ofstream jsonFile(GetAppDataFolder() + "Settings.json");
 	jsonFile << std::setw(4) << jsonSettings;

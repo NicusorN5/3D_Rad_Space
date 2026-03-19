@@ -7,6 +7,7 @@ using namespace Engine3DRadSpace::Objects::Gizmos;
 
 Gizmo<Sprite>::Gizmo()
 {
+	Allow3DRendering = false;
 }
 
 void Gizmo<Sprite>::Load()

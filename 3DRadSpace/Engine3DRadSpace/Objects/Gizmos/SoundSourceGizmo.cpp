@@ -10,6 +10,9 @@ using namespace Engine3DRadSpace::Objects::Gizmos;
 
 Gizmo<SoundSource>::Gizmo()
 {
+	Allow2DRendering = false;
+	AllowRotating = false;
+	AllowScaling = false;
 }
 
 void Gizmo<SoundSource>::Load()

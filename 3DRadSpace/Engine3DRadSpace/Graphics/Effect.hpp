@@ -60,7 +60,7 @@ namespace Engine3DRadSpace::Graphics
 		template<typename T>
 		void SetData(T* data, int cbufferID)
 		{
-			SetData(data, sizeof(T), cbufferID);
+			SetData(static_cast<void*>(data), sizeof(T), cbufferID);
 		}
 
 		void SetTexture(ITexture2D* texture, int idx) noexcept;

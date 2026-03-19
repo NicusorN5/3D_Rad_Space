@@ -1,15 +1,13 @@
 #pragma once
 #include "Engine3DRadSpace/Games/Game.hpp"
 #include "Engine3DRadSpace/Graphics/IVertexBuffer.hpp"
-#include <Engine3DRadSpace\Math\Matrix4x4.hpp>
-#include <Engine3DRadSpace/Math/Vector2.hpp>
+#include <Engine3DRadSpace/Objects/Impl/Button.hpp>
 #include <Engine3DRadSpace/Objects/Impl/Camera.hpp>
 #include <Engine3DRadSpace/Graphics/Model3D.hpp>
 #include <Engine3DRadSpace/Graphics/SpriteBatch.hpp>
 #include <Engine3DRadSpace/Graphics/Primitives/LineList.hpp>
 #include <Engine3DRadSpace/Graphics/Primitives/Arrow.hpp>
 #include <Engine3DRadSpace/Graphics/Font.hpp>
-#include <Engine3DRadSpace/Graphics/Primitives/SphericalBillboard.hpp>
 
 //Despite using namespaces are ill-advised to be used in headers, this header is not meant to be included in other files.
 using namespace Engine3DRadSpace;
@@ -38,15 +36,36 @@ class RenderWindow : public Engine3DRadSpace::Game
 	float zoom = 5.0f;
 	float timer = 0;
 
-	bool _keyboardTest = false;
-
 	std::unique_ptr<Font> _font;
 
 	IObject* _selectedObject = nullptr;
 
-	std::unique_ptr<ITexture2D> sob;
-	std::unique_ptr<CilindricalBillboard> billboard;
+	std::unique_ptr<ITexture2D> _btnSpritesheet;
+	//std::unique_ptr<CilindricalBillboard> billboard;
 
+	Button btnMvX;
+	Button btnMvY;
+	Button btnMvZ;
+
+	Button btnRtX;
+	Button btnRtY;
+	Button btnRtZ;
+
+	Button btnScX;
+	Button btnScY;
+	Button btnScZ;
+
+	/// <summary>
+	/// Helper function. Calls specified function fn on the specified buttons depending on whenever g allows 2D or 3D rendering.
+	/// </summary>
+	/// <param name="g">Object gizmo.</param>
+	/// <param name="btns">Array of buttons, usually btn[]X, btn[]Y, btn[]Z</param>
+	/// <param name="fn">Function, usually Draw2D(), or Update().</param>
+	/// <param name="allow2D">Flag value that limits what what buttons are affected when Allow2DRendering is true.</param>
+	void _gizmoFn(Gizmos::IGizmo* g, std::array<Button*, 3> btns, void (Button::* fn)(), uint8_t allow2D = 0b11);
+	void _controlCamera();
+	void _picking();
+	void _gizmoButtons();
 public:
 	RenderWindow(HWND parent, HINSTANCE hInstance);
 

@@ -30,6 +30,7 @@ public:
 	static Setting<float> CameraSensitivity;
 	static Setting<bool> StartupUpdate;
 	static Setting<bool> ShowGrid;
+	static Setting<float> GizmoSensitivity;
 
 	static void Load();
 	static void Save();

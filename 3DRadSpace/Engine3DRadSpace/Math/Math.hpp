@@ -18,11 +18,18 @@ namespace Engine3DRadSpace::Math
 	constexpr double E3DRSP_MATH_EXPORT CatmullRom(double value1, double value2, double value3, double value4, double amount);
 	constexpr double E3DRSP_MATH_EXPORT Hermite(double value1, double tangent1, double value2, double tangent2, double amount);
 
-	//Axis aglined check for one single axis.
+	//Axis aligned check for one single axis.
 	constexpr bool E3DRSP_MATH_EXPORT AABB(float p1, float w1, float p2, float w2);
+	//Axis aligned check for one single axis.
 	constexpr bool E3DRSP_MATH_EXPORT AABB(double p1, double w1, double p2, double w2);
 
 	constexpr double E3DRSP_MATH_EXPORT SmoothStep(double value1, double value2, double amount);
+
+	/// <summary>
+	/// Rectified Linear Unit. Activation function usually used in neural networks, but it is a shortcut to max(0, x).
+	/// </summary>
+	/// <param name="x">Input.</param>
+	/// <returns>If x > 0 otherwise 0.</returns>
 	constexpr double E3DRSP_MATH_EXPORT ReLU(double x);
 
 	constexpr bool E3DRSP_MATH_EXPORT WithinEpsilon(float a, float b);

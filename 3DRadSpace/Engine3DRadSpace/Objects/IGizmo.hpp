@@ -19,6 +19,10 @@ namespace Engine3DRadSpace::Objects::Gizmos
 		bool Allow2DRendering = true;
 		bool AllowUpdating = false;
 
+		bool AllowTranslating = true;
+		bool AllowRotating = true;
+		bool AllowScaling = true;
+
 		virtual ~IGizmo() = default;
 	};
 }
