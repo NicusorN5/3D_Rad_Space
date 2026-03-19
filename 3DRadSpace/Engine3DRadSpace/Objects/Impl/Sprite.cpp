@@ -18,7 +18,7 @@ Sprite::Sprite() :
 	FlipU(false),
 	FlipV(false),
 	Image(0),
-	TintColor(Colors::Black),
+	TintColor(Colors::White),
 	_texture(nullptr)
 {
 	_initEvents();

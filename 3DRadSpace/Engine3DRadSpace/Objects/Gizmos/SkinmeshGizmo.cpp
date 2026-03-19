@@ -79,6 +79,8 @@ void Gizmo<Skinmesh>::Draw3D()
 
 		if(Selected)
 		{
+			if(skinmesh->GetModel() == nullptr) return;
+
 			auto device = skinmesh->GetGraphicsDeviceHandle();		
 			auto oldRasterizerState = device->GetRasterizerState();
 			auto wireframe = static_cast<IRasterizerState*>(_wireframe_RasterizerState.get());

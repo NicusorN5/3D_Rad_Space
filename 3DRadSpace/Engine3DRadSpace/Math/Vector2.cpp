@@ -181,7 +181,7 @@ Vector2 Vector2::Rotate(const Vector2 &v, float theta)
 Vector2& Vector2::Hadamard(const Vector2& v)
 {
     X *= v.X;
-    Y += v.Y;
+    Y *= v.Y;
     return *this;
 }
 

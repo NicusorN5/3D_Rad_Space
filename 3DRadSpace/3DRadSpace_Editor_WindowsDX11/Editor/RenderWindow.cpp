@@ -139,7 +139,7 @@ void RenderWindow::Load()
 
 	//3rd column
 	setButtonImage(
-		&btnScY,
+		&btnScZ,
 		_btnSpritesheet.get(),
 		RectangleF(btnSize * 8, 0.0f, btnSize, btnSize),
 		RectangleF(0.0f, 0.5f, 0.25f, 0.25f)
@@ -247,6 +247,8 @@ void RenderWindow::_gizmoButtons()
 			if(btn->IsClicked())
 			{
 				auto btnCenter = btn->Position + (btn->Scale / 2.0f);
+				btnCenter.Hadamard(Vector2(Window->Size()));
+
 				this->Window->SetMousePosition(Point(
 					static_cast<int>(btnCenter.X),
 					static_cast<int>(btnCenter.Y)
@@ -281,6 +283,7 @@ void RenderWindow::_gizmoButtons()
 			float rx = handleGizmoBtn(&btnRtX, 0);
 			float ry = handleGizmoBtn(&btnRtY, 0);
 			float rz = handleGizmoBtn(&btnRtZ, 0);
+			obj3d->Rotation *= Quaternion::FromYawPitchRoll(ry, rx, rz);
 
 			obj3d->Scale.X = handleGizmoBtn2(&btnScX, clampScale, obj3d->Scale.X);
 			obj3d->Scale.Y = handleGizmoBtn2(&btnScY, clampScale, obj3d->Scale.Y);
@@ -419,6 +422,9 @@ void RenderWindow::Draw2D()
 	if(_selectedObject != nullptr)
 	{
 		auto gizmo = _selectedObject->GetGizmo();
+
+		[[unlikely]]
+		if(gizmo == nullptr) return;
 		
 		if(gizmo->AllowTranslating) _gizmoFn(gizmo, {&btnMvX, &btnMvY, &btnMvZ}, &Button::Draw2D, 0b11);
 		if(gizmo->AllowRotating) _gizmoFn(gizmo, {&btnRtX, &btnRtY, &btnRtZ}, &Button::Draw2D, 0b100);

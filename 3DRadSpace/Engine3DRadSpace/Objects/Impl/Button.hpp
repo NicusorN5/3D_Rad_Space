@@ -14,14 +14,14 @@ namespace Engine3DRadSpace::Objects
 	public:
 		Button();
 
-		Math::RectangleF IdleTextureRect;
-		Math::Color IdleClickColor;
+		Math::RectangleF IdleTextureRect = Math::RectangleF(0, 0, 1, 1);
+		Math::Color IdleClickColor = Math::Colors::White;
 
-		Math::RectangleF HoverTextureRect;
-		Math::Color HoverTintColor;
+		Math::RectangleF HoverTextureRect = Math::RectangleF(0, 0, 1, 1);
+		Math::Color HoverTintColor = Math::Colors::White;
 
-		Math::RectangleF ClickTextureRect;
-		Math::Color ClickTintColor;
+		Math::RectangleF ClickTextureRect = Math::RectangleF(0, 0, 1, 1);
+		Math::Color ClickTintColor = Math::Colors::White;
 
 		void Update() override;
 
