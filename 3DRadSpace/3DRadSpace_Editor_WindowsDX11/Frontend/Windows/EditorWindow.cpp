@@ -478,7 +478,7 @@ EditorWindow::EditorWindow(HINSTANCE hInstance,const std::string &cmdArgs) :
 		0,
 		WC_TREEVIEWA,
 		"",
-		TVS_CHECKBOXES | WS_CHILD | WS_VISIBLE | WS_BORDER,
+		WS_CHILD | WS_VISIBLE | WS_BORDER,
 		0,
 		0, 
 		150,

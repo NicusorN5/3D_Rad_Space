@@ -247,7 +247,9 @@ void RenderWindow::_gizmoButtons()
 			if(btn->IsClicked())
 			{
 				auto btnCenter = btn->Position + (btn->Scale / 2.0f);
-				btnCenter.Hadamard(Vector2(Window->Size()));
+				btnCenter.Hadamard(static_cast<Vector2>(Window->Size()));
+
+				OutputDebugStringA(std::format("Button clicked: {} {}. Mouse pos: {} {}\n", btnCenter.X, btnCenter.Y, Mouse.Position().X, Mouse.Position().Y).c_str());
 
 				this->Window->SetMousePosition(Point(
 					static_cast<int>(btnCenter.X),
@@ -255,7 +257,7 @@ void RenderWindow::_gizmoButtons()
 				));
 
 				auto deltaM = (Vector2)(btnCenter - (Vector2)Mouse.Position()) * float(Update_dt);
-				return num + deltaM.X * Settings::GizmoSensitivity.Value; //deltaY coordinate is discarded
+				return num + (deltaM.X * Settings::GizmoSensitivity.Value); //deltaY coordinate is discarded
 			}
 			return num;
 		};

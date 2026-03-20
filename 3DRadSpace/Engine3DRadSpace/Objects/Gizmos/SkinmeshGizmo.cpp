@@ -16,6 +16,8 @@ using namespace Engine3DRadSpace::Objects::Gizmos;
 Gizmo<Skinmesh>::Gizmo() :
 	_highlightEffect(nullptr)
 {
+	Allow3DRendering = true;
+	Allow2DRendering = false;
 }
 
 void Gizmo<Skinmesh>::Load()
