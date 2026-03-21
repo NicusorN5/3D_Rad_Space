@@ -246,11 +246,12 @@ void RenderWindow::_gizmoButtons()
 		//handles each gizmo button when selected
 		auto handleGizmoBtn = [this](Button* btn, float num) -> float
 		{
-			if(btn->IsClicked())
-			{
-				if(this->_selectedTransformButton != btn && this->_selectedTransformButton != nullptr) return num;
+			if(btn->IsClicked() && _selectedTransformButton == nullptr)
+				_selectedTransformButton = btn;
 
-				this->_selectedTransformButton = btn;
+			if(_selectedTransformButton == btn)
+			{
+				_selectedTransformButton = btn;
 
 				auto btnCenter = btn->Position + (btn->Scale / 2.0f);
 				auto mousePos = static_cast<Vector2>(Mouse.Position());
@@ -310,11 +311,6 @@ void RenderWindow::_gizmoButtons()
 
 			obj2D->Scale.X = handleGizmoBtn2(&btnScX, clampScale, obj2D->Scale.X);
 			obj2D->Scale.Y = handleGizmoBtn2(&btnScY, clampScale, obj2D->Scale.Y);
-		}
-
-		if(_selectedTransformButton != nullptr && !_selectedTransformButton->IsClicked())
-		{
-			_selectedTransformButton = nullptr;
 		}
 	}
 }
