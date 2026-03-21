@@ -232,6 +232,8 @@ void RenderWindow::_gizmoButtons()
 		[[unlikely]]
 		if(gizmo == nullptr) return;
 
+		if(Mouse.LeftButton() != ButtonState::Pressed) _selectedTransformButton = nullptr;
+
 		if(gizmo->AllowTranslating) _gizmoFn(gizmo, {&btnMvX, &btnMvY, &btnMvZ}, &Button::Update, 0b11);
 		else _gizmoFn(gizmo, {&btnMvX, &btnMvY, &btnMvZ}, &Button::ResetInputState, 0b111);
 
@@ -241,20 +243,22 @@ void RenderWindow::_gizmoButtons()
 		if(gizmo->AllowScaling) _gizmoFn(gizmo, {&btnScX, &btnScY, &btnScZ}, &Button::Update, 0b11);
 		else _gizmoFn(gizmo, {&btnScX, &btnScY, &btnScZ}, &Button::ResetInputState, 0b111);
 
-		//handle each gizmo button when selected
+		//handles each gizmo button when selected
 		auto handleGizmoBtn = [this](Button* btn, float num) -> float
 		{
 			if(btn->IsClicked())
 			{
+				if(this->_selectedTransformButton != btn && this->_selectedTransformButton != nullptr) return num;
+
+				this->_selectedTransformButton = btn;
+
 				auto btnCenter = btn->Position + (btn->Scale / 2.0f);
 				auto mousePos = static_cast<Vector2>(Mouse.Position());
 				btnCenter.Hadamard(static_cast<Vector2>(Window->Size()));
 
-				//remove floating point remainder (mismatch between SetMousePosition and deltaM)
+				//remove floating point remainder (fix mismatch between SetMousePosition and deltaM)
 				btnCenter.X = std::trunc(btnCenter.X);
 				btnCenter.Y = std::trunc(btnCenter.Y);
-
-				OutputDebugStringA(std::format("Button clicked: {} {}. Mouse pos: {} {}\n", btnCenter.X, btnCenter.Y, mousePos.X, mousePos.Y).c_str());
 
 				this->Window->SetMousePosition(Point(
 					static_cast<int>(btnCenter.X),
@@ -291,6 +295,7 @@ void RenderWindow::_gizmoButtons()
 			float ry = handleGizmoBtn(&btnRtY, 0);
 			float rz = handleGizmoBtn(&btnRtZ, 0);
 			obj3d->Rotation *= Quaternion::FromYawPitchRoll(ry, rx, rz);
+			obj3d->Rotation.Normalize();
 
 			obj3d->Scale.X = handleGizmoBtn2(&btnScX, clampScale, obj3d->Scale.X);
 			obj3d->Scale.Y = handleGizmoBtn2(&btnScY, clampScale, obj3d->Scale.Y);
@@ -305,6 +310,11 @@ void RenderWindow::_gizmoButtons()
 
 			obj2D->Scale.X = handleGizmoBtn2(&btnScX, clampScale, obj2D->Scale.X);
 			obj2D->Scale.Y = handleGizmoBtn2(&btnScY, clampScale, obj2D->Scale.Y);
+		}
+
+		if(_selectedTransformButton != nullptr && !_selectedTransformButton->IsClicked())
+		{
+			_selectedTransformButton = nullptr;
 		}
 	}
 }

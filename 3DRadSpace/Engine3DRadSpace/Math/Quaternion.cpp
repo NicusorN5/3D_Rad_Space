@@ -284,7 +284,7 @@ Quaternion& Quaternion::operator*=(const Quaternion &q) noexcept
 	cpy.W = W * q.W - X * q.X - Y * q.Y - Z * q.Z;
 	cpy.X = W * q.X + X * q.W + Y * q.Z - Z * q.Y;
 	cpy.Y = W * q.Y - X * q.Z + Y * q.W + Z * q.X;
-	cpy.Z = W * q.Z + X * q.Y - Y * q.Z + Z * q.W;
+	cpy.Z = W * q.Z + X * q.Y - Y * q.X + Z * q.W;
 
 	return *this = cpy;
 }

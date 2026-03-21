@@ -55,6 +55,8 @@ class RenderWindow : public Engine3DRadSpace::Game
 	Button btnScY;
 	Button btnScZ;
 
+	Button* _selectedTransformButton = nullptr;
+
 	/// <summary>
 	/// Helper function. Calls specified function fn on the specified buttons depending on whenever g allows 2D or 3D rendering.
 	/// </summary>
