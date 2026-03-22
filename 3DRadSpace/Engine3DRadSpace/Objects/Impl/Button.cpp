@@ -8,9 +8,10 @@ using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Objects;
 
 Button::Button() :
-	Sprite("Button", true, RefTexture2D(0), Vector2(0,0), Vector2(1,1), 0, Vector2(0.5f, 0.5f), 0, false, false, IdleClickColor)
+	Sprite("Button", true, RefTexture2D(0), Vector2(0,0), Vector2(1,1), 0, Vector2(0.5f, 0.5f), 0, false, false, Colors::White)
 {
 	UVCoordinates = IdleTextureRect;
+	TintColor = IdleClickColor;
 }
 
 void Button::Update()

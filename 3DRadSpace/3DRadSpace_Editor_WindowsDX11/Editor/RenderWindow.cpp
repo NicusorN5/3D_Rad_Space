@@ -244,7 +244,7 @@ void RenderWindow::_gizmoButtons()
 		else _gizmoFn(gizmo, {&btnScX, &btnScY, &btnScZ}, &Button::ResetInputState, 0b111);
 
 		//handles each gizmo button when selected
-		auto handleGizmoBtn = [this](Button* btn, float num) -> float
+		auto handleGizmoBtn = [this](Button* btn, float num, float sgn) -> float
 		{
 			if(btn->IsClicked() && _selectedTransformButton == nullptr)
 				_selectedTransformButton = btn;
@@ -267,14 +267,14 @@ void RenderWindow::_gizmoButtons()
 				));
 
 				auto deltaM = (btnCenter - mousePos) * float(Update_dt);
-				return num + ((deltaM.X - deltaM.Y) * Settings::GizmoSensitivity.Value);
+				return num + ((deltaM.X - deltaM.Y) * Settings::GizmoSensitivity.Value * sgn);
 			}
 			return num;
 		};
 
-		auto handleGizmoBtn2 = [this, handleGizmoBtn](Button* btn, float (*fn)(float), float num) -> float
+		auto handleGizmoBtn2 = [this, handleGizmoBtn](Button* btn, float (*fn)(float), float num, float sgn) -> float
 		{
-			return fn(handleGizmoBtn(btn, num));
+			return fn(handleGizmoBtn(btn, num, sgn));
 		};
 
 		auto clampScale = [](float num) -> float
@@ -284,33 +284,33 @@ void RenderWindow::_gizmoButtons()
 
 		if(auto obj3d = dynamic_cast<IObject3D*>(_selectedObject); obj3d != nullptr)
 		{
-			float dx = handleGizmoBtn(&btnMvX, 0);
-			float dy = handleGizmoBtn(&btnMvY, 0);
-			float dz = handleGizmoBtn(&btnMvZ, 0);
+			float dx = handleGizmoBtn(&btnMvX, 0, -1);
+			float dy = handleGizmoBtn(&btnMvY, 0, -1);
+			float dz = handleGizmoBtn(&btnMvZ, 0, -1);
 			auto dp = Vector3(dx, dy, dz);
 
 			obj3d->Position += dp;
 			cursor3D += dp;
 
-			float rx = handleGizmoBtn(&btnRtX, 0);
-			float ry = handleGizmoBtn(&btnRtY, 0);
-			float rz = handleGizmoBtn(&btnRtZ, 0);
+			float rx = handleGizmoBtn(&btnRtX, 0, 1);
+			float ry = handleGizmoBtn(&btnRtY, 0, 1);
+			float rz = handleGizmoBtn(&btnRtZ, 0, 1);
 			obj3d->Rotation *= Quaternion::FromYawPitchRoll(ry, rx, rz);
 			obj3d->Rotation.Normalize();
 
-			obj3d->Scale.X = handleGizmoBtn2(&btnScX, clampScale, obj3d->Scale.X);
-			obj3d->Scale.Y = handleGizmoBtn2(&btnScY, clampScale, obj3d->Scale.Y);
-			obj3d->Scale.Z = handleGizmoBtn2(&btnScZ, clampScale, obj3d->Scale.Z);
+			obj3d->Scale.X = handleGizmoBtn2(&btnScX, clampScale, obj3d->Scale.X, -1);
+			obj3d->Scale.Y = handleGizmoBtn2(&btnScY, clampScale, obj3d->Scale.Y, -1);
+			obj3d->Scale.Z = handleGizmoBtn2(&btnScZ, clampScale, obj3d->Scale.Z, -1);
 		}
 		else if(auto obj2D = dynamic_cast<IObject2D*>(_selectedObject); obj2D != nullptr)
 		{
-			obj2D->Position.X = handleGizmoBtn(&btnMvX, obj2D->Position.X);
-			obj2D->Position.Y = handleGizmoBtn(&btnMvY, obj2D->Position.Y);
+			obj2D->Position.X = handleGizmoBtn(&btnMvX, obj2D->Position.X, -1);
+			obj2D->Position.Y = handleGizmoBtn(&btnMvY, obj2D->Position.Y, -1);
 
-			obj2D->Rotation = handleGizmoBtn(&btnRtZ, obj2D->Rotation);
+			obj2D->Rotation = handleGizmoBtn(&btnRtZ, obj2D->Rotation, 1);
 
-			obj2D->Scale.X = handleGizmoBtn2(&btnScX, clampScale, obj2D->Scale.X);
-			obj2D->Scale.Y = handleGizmoBtn2(&btnScY, clampScale, obj2D->Scale.Y);
+			obj2D->Scale.X = handleGizmoBtn2(&btnScX, clampScale, obj2D->Scale.X, -1);
+			obj2D->Scale.Y = handleGizmoBtn2(&btnScY, clampScale, obj2D->Scale.Y, -1);
 		}
 	}
 }

@@ -172,15 +172,18 @@ void AssetManagerDialog::_createForms()
 
 	auto _assetListY = 20 + textSize.cy;
 
+	RECT wndSize{};
+	GetClientRect(window, &wndSize);
+
 	_assetList = CreateWindowExA(
 		0,
 		"SysListView32",
 		"",
-		WS_VISIBLE | WS_CHILD,
-		0,
+		WS_VISIBLE | WS_CHILD | WS_BORDER,
+		10,
 		_assetListY,
-		400,
-		400 - _assetListY,
+		wndSize.right - wndSize.left - 20,
+		wndSize.bottom - wndSize.top - _assetListY - 10,
 		window,
 		nullptr,
 		hInstance,
