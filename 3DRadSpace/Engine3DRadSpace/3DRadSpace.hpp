@@ -4,7 +4,6 @@
 /// Not to be included inside the engine itself [2].
 /// [1] - Except:
 /// - Headers from Internal, they're only meant to be used by the engine itself.
-/// - Reflection headers, the refelction component is meant to be used by the editor that's written in C++.
 /// - Legacy header, it exports C functions to the AngelScript interface.
 ///   Including it would also cause a circular depedency, since Legacy.hpp includes this header.
 /// [2] - As already specified, this is meant for projects that use the engine as a framework.

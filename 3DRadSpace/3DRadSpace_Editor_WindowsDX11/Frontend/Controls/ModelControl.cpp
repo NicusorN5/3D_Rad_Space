@@ -108,14 +108,20 @@ void ModelControl::HandleClick(HWND clickedHandle)
 	}
 	if (clickedHandle == _previewButton)
 	{
-		if (AssetReference != 0 && _previwer == nullptr)
+		if (AssetReference != 0)
 		{
-			_previwer = std::make_unique<SkinmeshPreviewer>(std::filesystem::path(_content->GetAssetPath(AssetReference).string()));
-			
-			std::thread previewThread([](SkinmeshPreviewer* preview)
+			std::thread previewThread([this](const std::filesystem::path &path)
 			{
-				preview->Run();
-			}, _previwer.get());
+				if(!_previewOpen)
+				{
+					_previewOpen = true;
+					auto previewer = SkinmeshPreviewer(path);
+					previewer.Run();
+
+					_previewOpen = false;
+				}
+				else ::MessageBeep(MB_ICONASTERISK);
+			}, std::filesystem::path(_content->GetAssetPath(AssetReference).string()));
 			previewThread.detach();
 		}
 	}

@@ -20,6 +20,25 @@ namespace Engine3DRadSpace
 			assert(instance != nullptr);
 		}
 
+		GetSet(const GetSet&) noexcept = delete;
+
+		GetSet(GetSet&& cls) noexcept
+		{
+			_class = cls._class;
+			cls._class = nullptr;
+		}
+
+		GetSet& operator=(const GetSet&) noexcept = delete;
+		GetSet& operator=(GetSet&& cls) noexcept
+		{
+			if (this != &cls)
+			{
+				_class = cls._class;
+				cls._class = nullptr;
+			}
+			return *this;
+		}
+
 		GetSet(C* instance, const T& defaultValue) : GetSet(instance)
 		{
 			Set(defaultValue);

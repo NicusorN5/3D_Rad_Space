@@ -151,6 +151,8 @@ void RenderWindow::_controlCamera()
 	zoom = Mouse.ScrollWheel();
 	if(zoom < -4.0f) zoom = -4.0f;
 
+	static bool released = true;
+
 	if(Mouse.LeftButton() == ButtonState::Pressed && IsFocused())
 	{
 		Point screenCenter = Window->Size() / 2;
@@ -165,6 +167,17 @@ void RenderWindow::_controlCamera()
 			-std::numbers::pi_v<float> / 2.f + std::numeric_limits<float>::epsilon(),
 			std::numbers::pi_v<float> / 2.f - std::numeric_limits<float>::epsilon()
 		);
+
+		Window->MouseVisible = false;
+		released = false;
+	}
+	else
+	{
+		if(!released)
+		{
+			released = true;
+			Window->MouseVisible = true;
+		}
 	}
 }
 
@@ -232,7 +245,14 @@ void RenderWindow::_gizmoButtons()
 		[[unlikely]]
 		if(gizmo == nullptr) return;
 
-		if(Mouse.LeftButton() != ButtonState::Pressed) _selectedTransformButton = nullptr;
+		static bool lastClickFrame = false;
+		static bool firstClickFrame = false;
+
+		if(Mouse.LeftButton() != ButtonState::Pressed)
+		{
+			_selectedTransformButton = nullptr;
+			lastClickFrame = true;
+		}
 
 		if(gizmo->AllowTranslating) _gizmoFn(gizmo, {&btnMvX, &btnMvY, &btnMvZ}, &Button::Update, 0b11);
 		else _gizmoFn(gizmo, {&btnMvX, &btnMvY, &btnMvZ}, &Button::ResetInputState, 0b111);
@@ -247,7 +267,11 @@ void RenderWindow::_gizmoButtons()
 		auto handleGizmoBtn = [this](Button* btn, float num, float sgn) -> float
 		{
 			if(btn->IsClicked() && _selectedTransformButton == nullptr)
+			{
 				_selectedTransformButton = btn;
+				firstClickFrame = true;
+				lastClickFrame = false;
+			}
 
 			if(_selectedTransformButton == btn)
 			{
@@ -311,6 +335,18 @@ void RenderWindow::_gizmoButtons()
 
 			obj2D->Scale.X = handleGizmoBtn2(&btnScX, clampScale, obj2D->Scale.X, -1);
 			obj2D->Scale.Y = handleGizmoBtn2(&btnScY, clampScale, obj2D->Scale.Y, -1);
+		}
+
+		if(firstClickFrame)
+		{
+			Window->MouseVisible = false;
+			firstClickFrame = false;
+		}
+
+		if(lastClickFrame)
+		{
+			lastClickFrame = false;
+			Window->MouseVisible = true;
 		}
 	}
 }

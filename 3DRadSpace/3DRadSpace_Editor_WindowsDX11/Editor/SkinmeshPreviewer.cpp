@@ -15,30 +15,27 @@ SkinmeshPreviewer::SkinmeshPreviewer(const std::filesystem::path &meshPath):
 		cosf(std::numbers::pi_v<float> / 6), //30 degrees = pi/6 radians
 		sinf(std::numbers::pi_v<float> / 6)
 	),
-	_skinmesh(std::make_unique<Skinmesh>("", true, meshPath)),
-	_camera(std::make_unique<Camera>(""))
+	_zoom(0),
+	_initialZoom(0)
 {
-	//_basicShader.reset(new BasicTextured(Device.get()));
+	auto [skinmesh, _] = this->Objects->AddNew<Skinmesh>("", true, meshPath);
+	_skinmesh = skinmesh;
 
-	_skinmesh->InternalInitialize(this);
+	auto [camera, _1] = this->Objects->AddNew<Camera>("", true);
+	camera->SetLookAt(Vector3::Zero());
+	_camera = camera;
+}
+
+void SkinmeshPreviewer::Load()
+{
 	_skinmesh->Load();
-
-	for (auto& meshPart : *_skinmesh->GetModel())
-	{
-		for (auto& modelMeshPart : *meshPart)
-		{
-			//modelMeshPart->SetShaders(_basicShader);
-		}
-	}
-
 	_zoom = _initialZoom = _skinmesh->GetModel()->GetBoundingSphere().Radius * 2.0f;
-
-	_camera->InternalInitialize(this);
-	_camera->SetLookAt(Vector3::Zero());
 }
 
 void SkinmeshPreviewer::Update()
 {
+	static bool released = true;
+
 	_zoom = _initialZoom - Mouse.ScrollWheel();
 	if(Mouse.LeftButton() == ButtonState::Pressed && Window->IsFocused())
 	{
@@ -55,14 +52,19 @@ void SkinmeshPreviewer::Update()
 			-std::numbers::pi_v<float> / 2.0f + std::numeric_limits<float>::epsilon(),
 			std::numbers::pi_v<float> / 2.0f - std::numeric_limits<float>::epsilon()
 		);
+
+		Window->MouseVisible = false;
+		released = false;
+	}
+	else
+	{
+		if(!released)
+		{
+			released = true;
+			Window->MouseVisible = true;
+		}
 	}
 
 	_camera->Rotation = Quaternion::FromYawPitchRoll(_camCoords.X, _camCoords.Y, 0);
 	_camera->Position = _zoom * Vector3::UnitZ().Transform(_camera->Rotation);
-}
-
-void SkinmeshPreviewer::Draw3D()
-{
-	_camera->Draw3D();
-	_skinmesh->Draw3D();
 }

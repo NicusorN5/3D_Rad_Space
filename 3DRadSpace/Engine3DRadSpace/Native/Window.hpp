@@ -2,6 +2,7 @@
 #include "../Graphics/IGraphicsDevice.hpp"
 #include "../Input/Mouse.hpp"
 #include "../Input/Keyboard.hpp"
+#include "../Core/GetSet.hpp"
 
 namespace Engine3DRadSpace::Native
 {
@@ -21,6 +22,9 @@ namespace Engine3DRadSpace::Native
 		void _handleMouse(Math::Point pos,bool left,bool middle, bool right);
 		void _handleMouse(bool* left, bool* middle, bool* right);
 		void _resetKeyboard();
+
+		bool _mouseVisible();
+		void _setMouseVisibility(bool visible);
 	public:
 		Window(const std::string& title, size_t width = 800, size_t height = 600);
 		//Used for the Windows editor frontend.
@@ -54,6 +58,8 @@ namespace Engine3DRadSpace::Native
 		/// </summary>
 		/// <param name="title">Title string.</param>
 		void SetTitle(const std::string& title);
+
+		GetSet<bool, Window, &_mouseVisible, &_setMouseVisibility> MouseVisible;
 
 		~Window();
 

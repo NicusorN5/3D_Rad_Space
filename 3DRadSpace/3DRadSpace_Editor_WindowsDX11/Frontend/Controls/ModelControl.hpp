@@ -9,7 +9,8 @@ class ModelControl : public AssetControl
 	HWND _pictureBox = nullptr;
 	HWND _previewButton = nullptr;
 	HBITMAP _image = nullptr;
-	std::unique_ptr<SkinmeshPreviewer> _previwer = nullptr;
+
+	std::atomic<bool> _previewOpen = false;
 public:
 	ModelControl(
 		HWND owner,

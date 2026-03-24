@@ -198,7 +198,8 @@ void Window::_resetKeyboard()
 	_keyboard._erase();
 }
 
-Window::Window(const std::string &title, size_t width, size_t height)
+Window::Window(const std::string &title, size_t width, size_t height) :
+	MouseVisible(this)
 {
 #ifdef _WIN32
 	WNDCLASSA wndclass{};
@@ -230,7 +231,8 @@ Window::Window(const std::string &title, size_t width, size_t height)
 #endif
 }
 
-Window::Window(void* hInstance,void* parentWindow)
+Window::Window(void* hInstance,void* parentWindow) :
+	MouseVisible(this)
 {
 #ifdef _WIN32
 	WNDCLASSA wndclass{};
@@ -266,7 +268,8 @@ Window::Window(void* hInstance,void* parentWindow)
 }
 
 Window::Window(Window &&wnd) noexcept:
-	_window(wnd._window)
+	_window(wnd._window),
+	MouseVisible(this)
 #ifdef _WIN32
 	,_hInstance(wnd._hInstance)
 #endif
@@ -281,7 +284,11 @@ Window::Window(Window &&wnd) noexcept:
 Window& Window::operator=(Window &&wnd) noexcept
 {
 	_window = wnd._window;
+	_hInstance = wnd._hInstance;
+	MouseVisible = std::move(wnd.MouseVisible);
+
 	wnd._window = nullptr;
+	wnd._hInstance = nullptr;
 
 #ifdef _WIN32
 	SetWindowLongPtrA(static_cast<HWND>(this->_window), GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
@@ -381,6 +388,26 @@ void Window::SetTitle(const std::string& title)
 {
 #ifdef _WIN32
 	SetWindowTextA(static_cast<HWND>(_window), title.c_str());
+#endif
+}
+
+bool Window::_mouseVisible()
+{
+#ifdef _WIN32
+	CURSORINFO ci;
+	ci.cbSize = sizeof(CURSORINFO);
+
+	GetCursorInfo(&ci);
+	return (ci.flags & CURSOR_SHOWING) == CURSOR_SHOWING;
+#endif
+	return true;
+}
+
+void Window::_setMouseVisibility(bool visible)
+{
+	if(_mouseVisible() == visible) return;
+#ifdef _WIN32
+	ShowCursor(static_cast<BOOL>(visible));
 #endif
 }
 
