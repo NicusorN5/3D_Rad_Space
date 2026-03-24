@@ -57,8 +57,8 @@ void SkinmeshPreviewer::Update()
 		);
 	}
 
-	Quaternion q = Quaternion::FromYawPitchRoll(_camCoords.X, _camCoords.Y, 0);
-	_camera->Position = _zoom * Vector3::UnitZ().Transform(q);
+	_camera->Rotation = Quaternion::FromYawPitchRoll(_camCoords.X, _camCoords.Y, 0);
+	_camera->Position = _zoom * Vector3::UnitZ().Transform(_camera->Rotation);
 }
 
 void SkinmeshPreviewer::Draw3D()

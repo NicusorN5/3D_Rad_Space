@@ -11,70 +11,83 @@ void InitializeGDI()
 
 HBITMAP loadImgResource(const wchar_t* pName, const wchar_t* pType, HMODULE hInst)
 {
-    HBITMAP result = nullptr;
+	HBITMAP result = nullptr;
 
-    HRSRC hResource = FindResourceW(hInst, pName, pType);
-    if(!hResource)
-        return nullptr;
+	HRSRC hResource = FindResourceW(hInst, pName, pType);
+	if(!hResource)
+		return nullptr;
 
-    DWORD imgSize = SizeofResource(hInst, hResource);
-    if(!imgSize)
-        return nullptr;
+	DWORD imgSize = SizeofResource(hInst, hResource);
+	if(!imgSize)
+		return nullptr;
 
-    HGLOBAL resource = LoadResource(hInst, hResource);
-    if(resource == nullptr)
-        return nullptr;
-    const void* pResourceData = LockResource(resource);
-    if(!pResourceData)
-        return nullptr;
+	HGLOBAL resource = LoadResource(hInst, hResource);
+	if(resource == nullptr)
+		return nullptr;
+	const void* pResourceData = LockResource(resource);
+	if(!pResourceData)
+		return nullptr;
 
-    HANDLE m_hBuffer = GlobalAlloc(GMEM_MOVEABLE, imgSize);
-    if(m_hBuffer)
-    {
-        void* pBuffer = GlobalLock(m_hBuffer);
-        if(pBuffer)
-        {
-            memcpy_s(pBuffer, imgSize, pResourceData, imgSize);
-            IStream* pStream = NULL;
-            if(CreateStreamOnHGlobal(m_hBuffer, FALSE, &pStream) == S_OK)
-            {
-                Gdiplus::Bitmap* m_pBitmap = Gdiplus::Bitmap::FromStream(pStream);
-                pStream->Release();
-                if(m_pBitmap)
-                {
-                    if(m_pBitmap->GetLastStatus() == Gdiplus::Ok)
-                    {
-                        m_pBitmap->GetHBITMAP(0, &result);
-                        delete m_pBitmap;
-                    }
-                }
-            }
-            GlobalUnlock(m_hBuffer);
-        }
-        GlobalFree(m_hBuffer);
-    }
-    return result;
+	HANDLE m_hBuffer = GlobalAlloc(GMEM_MOVEABLE, imgSize);
+	if(m_hBuffer)
+	{
+		void* pBuffer = GlobalLock(m_hBuffer);
+		if(pBuffer)
+		{
+			memcpy_s(pBuffer, imgSize, pResourceData, imgSize);
+			IStream* pStream = NULL;
+			if(CreateStreamOnHGlobal(m_hBuffer, FALSE, &pStream) == S_OK)
+			{
+				Gdiplus::Bitmap* m_pBitmap = Gdiplus::Bitmap::FromStream(pStream);
+				pStream->Release();
+				if(m_pBitmap)
+				{
+					if(m_pBitmap->GetLastStatus() == Gdiplus::Ok)
+					{
+						m_pBitmap->GetHBITMAP(0, &result);
+						delete m_pBitmap;
+					}
+				}
+			}
+			GlobalUnlock(m_hBuffer);
+		}
+		GlobalFree(m_hBuffer);
+	}
+	return result;
 }
 
 HBITMAP loadImgResource(WORD resNum, LPWSTR pType)
 {
-    return loadImgResource(MAKEINTRESOURCE(resNum), pType, GetModuleHandle(0));//hInst);
+	return loadImgResource(MAKEINTRESOURCE(resNum), pType, GetModuleHandle(0));//hInst);
 }
 
 std::wstring ConvertToWideString(const std::string &str);
 
 HBITMAP loadImageFromFile(const std::string &path, unsigned &w, unsigned &h)
 {
-    std::wstring wPath = ConvertToWideString(path);
+	std::wstring wPath = ConvertToWideString(path);
 
-    HBITMAP r = nullptr;
-    Gdiplus::Bitmap *image = Gdiplus::Bitmap::FromFile(wPath.c_str());
-    if(image == nullptr) return nullptr;
+	HBITMAP r = nullptr;
+	Gdiplus::Bitmap *image = Gdiplus::Bitmap::FromFile(wPath.c_str());
+	if(image == nullptr) return nullptr;
 
-    image->GetHBITMAP(Gdiplus::Color(255, 255, 255), &r);
-    w = image->GetWidth();
-    h = image->GetHeight();
-    return r;
+	image->GetHBITMAP(Gdiplus::Color(255, 255, 255), &r);
+	w = image->GetWidth();
+	h = image->GetHeight();
+
+	Gdiplus::Bitmap convert(w, h, PixelFormat32bppARGB);
+	{
+		Gdiplus::Graphics g(&convert);
+		g.DrawImage(image, 0, 0, w, h);
+	}
+	delete image;
+
+	if(convert.GetHBITMAP(Gdiplus::Color(255, 255, 255), &r) != Gdiplus::Ok)
+	{
+		return nullptr;
+	}
+
+	return r;
 }
 
 void DeinitializeGDI()

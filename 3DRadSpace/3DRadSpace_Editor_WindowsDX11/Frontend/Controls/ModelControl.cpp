@@ -1,8 +1,21 @@
 #include "ModelControl.hpp"
 #include "..\GDIFuncs.hpp"
+#include "..\HelperFunctions.hpp"
 #include "TextureControl.hpp"
 #include "..\Windows\AssetManagerDialog.hpp"
 #include "../../Editor/SkinmeshPreviewer.hpp"
+#include <shlobj_core.h>
+
+static std::string GetThumbnailPath(const std::filesystem::path& assetPath)
+{
+	char appdataPath[_MAX_PATH] = {};
+	if (SUCCEEDED(SHGetFolderPathA(nullptr, CSIDL_APPDATA, nullptr, 0, appdataPath)))
+	{
+		auto relPath = assetPath.lexically_relative(GetExecutablePath());
+		return std::string(appdataPath) + R"(\3DRadSpace\AssetImages\)" + relPath.string() + ".png";
+	}
+	return {};
+}
 
 ModelControl::ModelControl(
 	HWND owner,
@@ -34,8 +47,13 @@ ModelControl::ModelControl(
 	unsigned imageWidth;
 	unsigned imageHeight;
 	if (AssetReference != 0)
-		_image = loadImageFromFile(content->GetAssetPath(AssetReference).string().c_str(), imageWidth, imageHeight);
-	else
+	{
+		auto thumbnailPath = GetThumbnailPath(content->GetAssetPath(AssetReference));
+		if (!thumbnailPath.empty())
+			_image = loadImageFromFile(thumbnailPath, imageWidth, imageHeight);
+	}
+
+	if (_image == nullptr)
 		_image = loadImageFromFile("Data\\NoAsset.png", imageWidth, imageHeight);
 
 	SetImage(_pictureBox,_image, imageWidth, imageHeight);
@@ -78,7 +96,13 @@ void ModelControl::HandleClick(HWND clickedHandle)
 		if (AssetReference != 0)
 		{
 			unsigned w, h;
-			_image = loadImageFromFile(_content->GetAssetPath(AssetReference).string(), w, h);
+			auto thumbnailPath = GetThumbnailPath(_content->GetAssetPath(AssetReference));
+			if (!thumbnailPath.empty())
+				_image = loadImageFromFile(thumbnailPath, w, h);
+
+			if (_image == nullptr)
+				_image = loadImageFromFile("Data\\NoAsset.png", w, h);
+
 			SetImage(_pictureBox, _image, w, h);
 		}
 	}

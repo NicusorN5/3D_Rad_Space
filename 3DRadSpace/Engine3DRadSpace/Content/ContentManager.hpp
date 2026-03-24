@@ -36,7 +36,7 @@ namespace Engine3DRadSpace::Content
 				Entry(std::move(asset)),
 				Path(path),
 				Type(Entry->GetUUID()),
-				RTTI(typeid(Entry.get())),
+				RTTI(typeid(*Entry.get())),
 				Name(std::filesystem::path(path).stem().string())
 			{
 			}

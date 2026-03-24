@@ -214,8 +214,8 @@ void AssetManagerDialog::_loadAssetIcons()
 			std::string imagePath;
 			//Find %appdata%
 			char appdataPath[_MAX_PATH] = {};
+			
 			HRESULT r;
-
 			if (SUCCEEDED(r = SHGetFolderPathA(nullptr, CSIDL_APPDATA, nullptr, 0, appdataPath)))
 			{
 				auto assetPath = std::filesystem::path(asset.Path).lexically_relative(GetExecutablePath());
@@ -262,7 +262,6 @@ void AssetManagerDialog::_loadAssetIcons()
 				default:
 					break;
 				}
-				
 			}
 
 			unsigned w, h;
@@ -274,14 +273,32 @@ void AssetManagerDialog::_loadAssetIcons()
 			if (image == nullptr)
 				throw std::exception("default image not found!");
 
-			ImageList_Add(_imageList, image, nullptr);
+			//resize image to 64x64 using GDI
+			HDC screenDC = GetDC(nullptr);
+			HDC srcDC = CreateCompatibleDC(screenDC);
+			HDC dstDC = CreateCompatibleDC(screenDC);
+			HBITMAP resized = CreateCompatibleBitmap(screenDC, 64, 64);
+
+			HGDIOBJ oldSrc = SelectObject(srcDC, image);
+			HGDIOBJ oldDst = SelectObject(dstDC, resized);
+			SetStretchBltMode(dstDC, HALFTONE);
+			StretchBlt(dstDC, 0, 0, 64, 64, srcDC, 0, 0, w, h, SRCCOPY);
+
+			SelectObject(srcDC, oldSrc);
+			SelectObject(dstDC, oldDst);
+			DeleteDC(srcDC);
+			DeleteDC(dstDC);
+			ReleaseDC(nullptr, screenDC);
 			DeleteObject(image);
+
+			int imgIdx = ImageList_AddMasked(_imageList, resized, RGB(255, 255, 255));
+			DeleteObject(resized);
 
 			LVITEMA item{};
 			item.lParam = asset.ID;
 			item.pszText = const_cast<char*>(asset.Name.c_str());
 			item.cchTextMax = int(asset.Name.length());
-			item.iImage = int(asset.ID - 1);
+			item.iImage = imgIdx;
 			item.mask = LVIF_TEXT | LVIF_PARAM | LVIF_IMAGE;
 
 			SendMessageA(_assetList, LVM_INSERTITEMA, 0, reinterpret_cast<LPARAM>(&item)); //add item first, then load image next

@@ -13,8 +13,7 @@ template<> bool AssetRenderer(IGraphicsDevice *device, const std::string &imageP
 {
 	if(device && texture)
 	{
-		//texture->SaveToFile(imagePath);
-		//CopyFileA()
+		texture->Get()->SaveToFile(imagePath);
 		return true;
 	}
 	else return false;
@@ -40,11 +39,11 @@ template<> bool AssetRenderer(IGraphicsDevice *device, const std::string &imageP
 			model->Draw(
 				Matrix4x4() *
 				Matrix4x4::CreateLookAtView(
-					boundingSphere.Center + ((boundingSphere.Radius + 2) *
+					boundingSphere.Center + ((boundingSphere.Radius + 0.5f) *
 						Vector3(
-							float(cos(std::numbers::pi / 4)),
+							float(cos(-std::numbers::pi / 4)),
 							0,
-							float(sin(std::numbers::pi / 4))
+							float(sin(-std::numbers::pi / 4))
 						)),
 					Vector3::Zero(),
 					Vector3::UnitY()
