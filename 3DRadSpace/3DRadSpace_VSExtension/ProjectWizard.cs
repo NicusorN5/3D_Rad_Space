@@ -54,17 +54,20 @@ namespace _3DRadSpace_VSExtension
 					{
 						string editorFilePath = Path.Combine(folderBrowserDialog.SelectedPath, "3DRadSpace.Editor.exe");
 
-                        if (!File.Exists(editorFilePath))
+						if (!File.Exists(editorFilePath))
 						{
 							DialogResult r = MessageBox.Show("The selected folder isn't an 3DRadSpace installation path", "Invalid path", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
 							if (r == DialogResult.Cancel)
 							{
 								folderBrowserDialog.Dispose();
 								throw new WizardCancelledException("The installation folder was not selected", new FileNotFoundException("", editorFilePath));
-							}	
+							}
+
+							continue;
 						}
 
 						options.InstallPath = folderBrowserDialog.SelectedPath;
+						options.SaveSettingsToStorage();
 
 						folderBrowserDialog.Dispose();
 						break;
