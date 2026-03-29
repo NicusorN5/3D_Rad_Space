@@ -39,5 +39,7 @@ option(3DRadSpace.Tests "Build unit tests" ON)
 find_package(GTest CONFIG REQUIRED)
 target_link_libraries(3DRadSpace.Tests PRIVATE GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main)
 
+add_dependencies(3DRadSpace.Tests e3drsp_copy_assets)
+
 include(GoogleTest)
 gtest_discover_tests(3DRadSpace.Tests)
