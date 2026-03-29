@@ -39,6 +39,8 @@ namespace Engine3DRadSpace
 		class SkyboxAsset;
 		class ShaderAsset;
 	}
+
+	class Event;
 }
 namespace Engine3DRadSpace::Reflection
 {
@@ -60,6 +62,7 @@ namespace Engine3DRadSpace::Reflection
 		Skybox,
 		Sound,
 		Function,
+		Event,
 		Custom,
 	};
 
@@ -156,6 +159,7 @@ namespace Engine3DRadSpace::Reflection
 	E3DRSP_DEFINE_FLDREPR(Content::AssetID<Content::Assets::SkyboxAsset>, ({{FieldRepresentationType::Skybox, ""}}));
 	E3DRSP_DEFINE_FLDREPR(Content::AssetID<Audio::Sound>, ({{FieldRepresentationType::Sound, ""}}));
 	E3DRSP_DEFINE_FLDREPR(Input::Key, ({{FieldRepresentationType::Key}}));
+	E3DRSP_DEFINE_FLDREPR(Event, ({{FieldRepresentationType::Event}}));
 
 	//E3DRSP_DEFINE_FLDREPR_T(c_enum, ({{FieldRepresentationType::Enum}}));
 

@@ -1,0 +1,102 @@
+#include "EventControl.hpp"
+#include <thread>
+
+EventControl::EventControl(
+	HWND owner, 
+	HINSTANCE hInstance, 
+	int x,
+	int y, 
+	Engine3DRadSpace::Event* event
+) : IControl(owner, hInstance)
+{
+	HDC hdc = GetDC(owner);
+
+	SIZE textSize;
+	GetTextExtentPoint32A(hdc, "Events", strlen("Events"), &textSize);
+
+	_groupBox = CreateWindowExA(0,
+		"BUTTON",
+		"Events",
+		WS_CHILD | WS_VISIBLE | BS_GROUPBOX,
+		x, y, 300, 400,
+		owner,
+		NULL,
+		hInstance,
+		NULL
+	);
+
+	SIZE sgnTextSize;
+	GetTextExtentPoint32A(hdc, "+", 1, &sgnTextSize);
+
+	window = CreateWindowExA(0,
+		"ListBox",
+		"",
+		WS_VISIBLE | WS_CHILD | LBS_NOTIFY,
+		x + 10,
+		y + textSize.cy + 10,
+		260 - sgnTextSize.cx,
+		480,
+		owner,
+		nullptr,
+		hInstance,
+		nullptr
+	);
+
+	auto btnPosX = x + 10 + 260 - sgnTextSize.cx;
+
+	_btnAddCall = CreateWindowExA(0,
+		"Button",
+		"+",
+		WS_VISIBLE | WS_CHILD,
+		btnPosX,
+		y + textSize.cy + 10,
+		textSize.cx + 5,
+		textSize.cy + 5,
+		owner,
+		nullptr,
+		hInstance,
+		nullptr
+	);
+
+	_btnRemoveCall = CreateWindowExA(0,
+		"Button",
+		"-",
+		WS_VISIBLE | WS_CHILD,
+		btnPosX,
+		y + textSize.cy + 10 + sgnTextSize.cy + 5,
+		textSize.cx + 5,
+		textSize.cy + 5,
+		owner,
+		nullptr,
+		hInstance,
+		nullptr
+	);
+
+	_cx = 300;
+	_cy = 400;
+}
+
+void EventControl::HandleClick(HWND clickedWindow)
+{
+	if(clickedWindow == _btnAddCall)
+	{
+		std::thread openFnFinderWindow([](){
+
+		});
+	}
+
+	if(clickedWindow == _btnRemoveCall)
+	{
+
+	}
+}
+
+int EventControl::AccX() const noexcept
+{
+	return _cx;
+}
+
+int EventControl::AccY() const noexcept
+{
+	return _cy;
+}
