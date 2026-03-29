@@ -72,6 +72,7 @@ void ReportLiveObjects()
 #endif
 
 std::vector<void*> plugins;
+std::vector<Plugins::PluginInfo> pluginInfos;
 
 void LoadAllPlugins()
 {
@@ -101,6 +102,8 @@ void LoadAllPlugins()
 			auto p = Plugins::LoadPlugin(file);
 			std::ignore = p.and_then([](std::pair<Plugins::PluginInfo, void*> plugin) -> decltype(p)
 				{
+					pluginInfos.push_back(plugin.first);
+
 					auto& [info, handle] = plugin;
 					plugins.push_back(handle);
 

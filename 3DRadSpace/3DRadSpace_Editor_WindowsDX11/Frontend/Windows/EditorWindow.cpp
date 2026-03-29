@@ -17,6 +17,7 @@
 #include <Engine3DRadSpace\Objects\Impl\Objects.hpp>
 #include <thread>
 #include <Engine3DRadSpace\Projects\Serialization.hpp>
+#include "PluginsWindow.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Internal;
@@ -26,6 +27,8 @@ using namespace Engine3DRadSpace::Objects;
 using namespace Engine3DRadSpace::Projects;
 
 EditorWindow* gEditorWindow = nullptr;
+
+extern std::vector<Plugins::PluginInfo> pluginInfos;
 
 void EditorWindow::_openProject(const std::filesystem::path& filename)
 {
@@ -384,6 +387,7 @@ EditorWindow::EditorWindow(HINSTANCE hInstance,const std::string &cmdArgs) :
 
 	AppendMenuA(optionsMenu, MF_STRING, CMD_Preferences, "Preferences");
 	AppendMenuA(optionsMenu, MF_STRING, CMD_Update, "Search for updates");
+	AppendMenuA(optionsMenu, MF_STRING, CMD_Plugins, "Plugins");
 
 	HMENU helpMenu = CreateMenu();
 	if(helpMenu == nullptr)
@@ -803,6 +807,12 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				case CMD_Update:
 				{
 					gEditorWindow->_findUpdate();
+					break;
+				}
+				case CMD_Plugins:
+				{
+					PluginsWindow wnd(gEditorWindow->_mainWindow, gEditorWindow->_hInstance);
+					wnd.ShowDialog();
 					break;
 				}
 				case CMD_About:

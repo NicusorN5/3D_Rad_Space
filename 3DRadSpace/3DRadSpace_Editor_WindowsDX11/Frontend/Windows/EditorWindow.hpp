@@ -31,19 +31,19 @@ constexpr int CMD_ResetCursor = 521;
 
 constexpr int CMD_Preferences = 522;
 constexpr int CMD_Update = 523;
+constexpr int CMD_Plugins = 524;
 
-constexpr int CMD_About = 524;
-constexpr int CMD_Documentation = 525;
-constexpr int CMD_Homepage = 526;
-constexpr int CMD_Github = 527;
+constexpr int CMD_About = 525;
+constexpr int CMD_Documentation = 526;
+constexpr int CMD_Homepage = 527;
+constexpr int CMD_Github = 528;
 
-constexpr int CMD_SwitchObjectList = 528;
-constexpr int CMD_SwitchPropertyGrid = 529;
+constexpr int CMD_SwitchObjectList = 529;
+constexpr int CMD_SwitchPropertyGrid = 530;
 
-constexpr int CMD_EditObject = 530;
-constexpr int CMD_DeleteObject = 531;
-constexpr int CMD_DeselectObject = 532;
-
+constexpr int CMD_EditObject = 531;
+constexpr int CMD_DeleteObject = 532;
+constexpr int CMD_DeselectObject = 533;
 constexpr int CMD_OpenIDE = 258;
 constexpr int CMD_Switch2D3D = 259;
 
