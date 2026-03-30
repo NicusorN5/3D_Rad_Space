@@ -6,6 +6,7 @@
 #include "GeometryShader.hpp"
 #include "HullShader.hpp"
 #include "ShaderBase.hpp"
+#include "../../Logging/Warning.hpp"
 #include "../../Logging/Exception.hpp"
 
 using namespace Engine3DRadSpace;
@@ -201,7 +202,7 @@ ShaderCompiler::CompileOutput ShaderCompiler::Compile(const ShaderDesc* desc)
 			}
 			case ShaderType::Geometry:
 			{
-				make_shader_SourceDesc.template operator()<DirectX11::FragmentShader>(ptr, _device, sourceDesc);
+				make_shader_SourceDesc.template operator()<DirectX11::GeometryShader>(ptr, _device, sourceDesc);
 				break;
 			}
 			case ShaderType::Hull:
@@ -236,6 +237,7 @@ ShaderCompiler::CompileOutput ShaderCompiler::Compile(const ShaderDesc* desc)
 	}
 	catch (const Exception& e)
 	{
+		Logging::SetLastWarning(e.What());
 		return return_fail(e.what());
 	}
 }

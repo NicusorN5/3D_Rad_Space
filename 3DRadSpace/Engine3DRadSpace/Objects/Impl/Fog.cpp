@@ -34,7 +34,7 @@ void Fog::Load()
 void Fog::Initialize()
 {
 	auto game = static_cast<Game*>(_game);
-	_effect = &game->PostProcesses->Add<LinearPixelFogEffect>(game->Device.get());
+	_effect = &game->PostProcesses->Add<LinearPixelFogEffect>();
 	Update();
 }
 

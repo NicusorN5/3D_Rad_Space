@@ -52,7 +52,7 @@ void PostProcessCollection::EnableAll()
 {
 	for(auto& effect : _effects)
 	{
-		effect->Enabled = false;
+		effect->Enabled = true;
 	}
 }
 

@@ -133,7 +133,7 @@ void Game::RunOneFrame()
 	}
 	_lastFrameTime = now;
 
-	PostProcesses->DisableAll(); //to be re-enabled by the objects
+	//PostProcesses->DisableAll(); //to be re-enabled by the objects
 	Audio->Update();
 	Update();
 

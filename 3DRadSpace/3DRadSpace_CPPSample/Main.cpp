@@ -1,26 +1,43 @@
-//#include "MyGame.hpp"
-#include "Engine3DRadSpace/Games/Game.hpp"
-#include <Windows.h>
+#include <Engine3DRadSpace/Games/Game.hpp>
+#include <Engine3DRadSpace/Graphics/Rendering/PostProcessEffect.hpp>
+#include <Engine3DRadSpace/Graphics/Rendering/LinearPixelFogEffect.hpp>
+
+using namespace Engine3DRadSpace;
+using namespace Engine3DRadSpace::Graphics;
+using namespace Engine3DRadSpace::Graphics::Rendering;
+
+ShaderDescFile mandelbrotShaderDescFile("MandelbrotEffect.hlsl", "Mandelbrot_PixelShader", ShaderType::Fragment, ShaderFeatureLevel::DX_V5);
+
+class MandelbrotEffect : public PostProcessEffect
+{
+public:
+	MandelbrotEffect(IGraphicsDevice* device) : PostProcessEffect(device, mandelbrotShaderDescFile) 
+	{
+		Enabled = true;
+		NotDepthAware = true;
+	}
+	~MandelbrotEffect() override = default;
+};
 
 class MyGame : public Engine3DRadSpace::Game
 {
 public:
-	MyGame() : Game("MyGame", 800, 600)
+	MyGame() : Game("MyGame")
 	{
-		AppendScene("C:\\Users\\ms_ep\\Desktop\\rsgrgsg.3drsp");
 	}
+
+	void Load() override
+	{
+		Game::Load();
+
+		PostProcesses->Add<MandelbrotEffect>();
+	}
+
 	~MyGame() override = default;
 };
 
-int WinMain(
-	_In_ HINSTANCE hInstance,
-	_In_opt_ HINSTANCE hPrevInstance,
-	_In_ LPSTR lpCmdLine,
-	_In_ int nShowCmd
-)
+int main()
 {
 	MyGame game;
 	game.Run();
-
-	return 0;
 }
