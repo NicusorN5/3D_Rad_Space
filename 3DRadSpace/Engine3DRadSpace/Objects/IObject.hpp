@@ -5,6 +5,7 @@
 #include "../Core/ILoadable.hpp"
 #include "../Reflection/UUID.hpp"
 #include "../Core/IService.hpp"
+#include "ObjectCollection.hpp"
 
 namespace Engine3DRadSpace
 {
@@ -48,7 +49,7 @@ namespace Engine3DRadSpace
 			bool Enabled;
 			bool Visible;
 
-			std::vector<IObject*> Children;
+			ObjectCollection Children;
 
 			/// <summary>
 			/// Called by ObjectsList to set the _game Game instance. If there are objects manually managed, this MUST be called before Initialize or EditorInitialize.

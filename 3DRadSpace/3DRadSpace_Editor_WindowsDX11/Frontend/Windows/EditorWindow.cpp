@@ -835,7 +835,7 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 					auto objID = gEditorWindow->_getSelectedObjectID();
 					if(objID.second.has_value())
 					{
-						IObject *obj = gEditorWindow->editor->Objects->Find(objID.second.value());
+						IObject *obj = gEditorWindow->editor->Objects->operator[](objID.second.value());
 
 						EditObjectDialog eod(
 							gEditorWindow->_mainWindow,

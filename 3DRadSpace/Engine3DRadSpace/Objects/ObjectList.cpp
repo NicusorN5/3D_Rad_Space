@@ -55,11 +55,6 @@ unsigned ObjectList::Add(IObject* obj)
 	return unsigned(_objects.size() - 1);
 }
 
-IObject* ObjectList::Find(unsigned id) const
-{
-	return _objects[id].Object.get();
-}
-
 IObject* ObjectList::Find(const std::string& name) const noexcept
 {
 	for (auto& [object, id] : _objects)

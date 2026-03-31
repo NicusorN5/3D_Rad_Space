@@ -175,3 +175,8 @@ void E3DRSP_IObject_SetName(E3DRSP_IObject object, const char* name)
 {
 	static_cast<IObject*>(object)->Name = std::string(name);
 }
+
+void* E3DRSP_IObject_Children(E3DRSP_IObject object)
+{
+	return static_cast<void*>(&static_cast<IObject*>(object)->Children);
+}

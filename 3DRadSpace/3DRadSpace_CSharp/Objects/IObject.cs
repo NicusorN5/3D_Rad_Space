@@ -20,4 +20,5 @@ public interface IObject : IInitializable, IUpdateable, ILoadable
 	IGame Game { get; }
 	IGraphicsDevice GraphicsDevice { get; }
 	IGizmo Gizmo { get; }
+	ObjectCollection Children { get; }
 }

@@ -64,7 +64,6 @@ namespace Engine3DRadSpace::Objects
 
 		unsigned Add(IObject* obj);
 
-		IObject* Find(unsigned id) const;
 		IObject* Find(const std::string& name) const noexcept;
 
 		/// <summary>
@@ -87,8 +86,16 @@ namespace Engine3DRadSpace::Objects
 
 		void RemoveIf(std::function<bool(IObject*)> f);
 
+		/// <summary>
+		/// Replaces the object at the specified index with the given object. The new object will be initialized with the same game context as the old one.
+		/// </summary>
+		/// <param name="obj">New object</param>
+		/// <param name="id">Index of the object to replace</param>
 		void Replace(IObject* obj, unsigned id) noexcept;
 
+		/// <summary>
+		/// Empties the object list. All objects will be removed and their memory will be freed.
+		/// </summary>
 		void Clear() noexcept;
 
 		IObject* operator[](size_t i) const;

@@ -25,6 +25,8 @@ extern "C" {
 
 	E3DRSP_OBJECTS_EXPORT const char* E3DRSP_IObject_GetName(E3DRSP_IObject object);
 	E3DRSP_OBJECTS_EXPORT void E3DRSP_IObject_SetName(E3DRSP_IObject object, const char* name);
+
+	E3DRSP_OBJECTS_EXPORT void* E3DRSP_IObject_Children(E3DRSP_IObject object);
 #ifdef __cplusplus
 }
 #endif

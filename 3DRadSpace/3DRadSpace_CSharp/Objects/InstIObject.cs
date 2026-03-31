@@ -47,13 +47,18 @@ public class InstIObject : InstIUpdateable, IObject
 	[DllImport("3DRadSpace.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_IObject_SetName")]
 	extern static void _setName(IntPtr obj, string name);
 
+	[DllImport("3DRadSpace.dll", EntryPoint = "E3DRSP_IObject_Children")]
+	extern static IntPtr _getChildren(IntPtr obj);
+
 	InstIInitializable _initializable;
 	InstILoadable _loadable;
+	ObjectCollection _children;
 
 	public InstIObject(IntPtr handle) : base(handle)
 	{
 		_initializable = new InstIInitializable(handle);
 		_loadable = new InstILoadable(handle);
+		_children = new ObjectCollection(_getChildren(handle));
 	}
 
 	public string Name
@@ -143,6 +148,11 @@ public class InstIObject : InstIUpdateable, IObject
 	public void Load(string path)
 	{
 		_loadable.Load(path);
+	}
+
+	public ObjectCollection Children
+	{
+		get => _children;
 	}
 
 	public override void Dispose()
