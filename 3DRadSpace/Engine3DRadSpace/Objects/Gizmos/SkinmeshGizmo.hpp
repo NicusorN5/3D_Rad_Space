@@ -9,6 +9,7 @@ namespace Engine3DRadSpace::Objects::Gizmos
 	{
 		bool _wasLoaded = false;
 		std::unique_ptr<Graphics::IRasterizerState> _wireframe_RasterizerState;
+		std::unique_ptr<Graphics::IDepthStencilState> _depthStencilState;
 		Graphics::Effect* _highlightEffect;
 	public:
 		Gizmo();

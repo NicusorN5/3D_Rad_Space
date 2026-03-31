@@ -387,8 +387,12 @@ EditorWindow::EditorWindow(HINSTANCE hInstance,const std::string &cmdArgs) :
 
 	AppendMenuA(optionsMenu, MF_STRING, CMD_Preferences, "Preferences");
 	AppendMenuA(optionsMenu, MF_STRING, CMD_Update, "Search for updates");
-	AppendMenuA(optionsMenu, MF_STRING, CMD_Plugins, "Plugins");
 
+	if(!pluginInfos.empty())
+	{
+		AppendMenuA(optionsMenu, MF_STRING, CMD_Plugins, "Plugins");
+	}
+		
 	HMENU helpMenu = CreateMenu();
 	if(helpMenu == nullptr)
 		throw Exception("Failed to create the help menu!");

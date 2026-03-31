@@ -29,17 +29,17 @@ Fog::Fog(
 
 void Fog::Load()
 {
+	auto game = static_cast<Game*>(_game);
+	_effect = &game->PostProcesses->Add<LinearPixelFogEffect>(true);
 }
 
 void Fog::Initialize()
 {
-	auto game = static_cast<Game*>(_game);
-	_effect = &game->PostProcesses->Add<LinearPixelFogEffect>();
-	Update();
 }
 
 void Fog::Load(const std::filesystem::path& path)
 {
+	Load();
 }
 
 void Fog::Update()
@@ -65,9 +65,16 @@ Reflection::UUID Fog::GetUUID() const noexcept
 Gizmos::IGizmo* Fog::GetGizmo() const noexcept
 {
 	auto gizmo = Internal::GizmoOf<Fog>(this);
-	gizmo->AllowUpdating = true;
 
 	return gizmo;
+}
+
+Fog::~Fog()
+{
+	if(_effect != nullptr)
+	{
+		_effect->Enabled = false;
+	}
 }
 
 REFL_BEGIN(Fog, "Fog", "Post effects", "Post process linear fog")

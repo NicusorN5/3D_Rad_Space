@@ -34,6 +34,30 @@ void Gizmo<Skinmesh>::Load()
 		_wireframe_RasterizerState = device->CreateRasterizerState_Wireframe();
 	}
 
+	if(_depthStencilState == nullptr)
+	{
+		_depthStencilState = device->CreateDepthStencilState(
+			true,
+			DepthWriteMask::All,
+			ComparisonFunction::LessEqual,
+			false,
+			1,
+			1,
+			FaceOperation{
+				.StencilFail = StencilOperation::Keep,
+				.DepthFail = StencilOperation::Keep,
+				.PassOp = StencilOperation::Keep,
+				.Function = ComparisonFunction::Always,
+			},
+			FaceOperation{
+				.StencilFail = StencilOperation::Keep,
+				.DepthFail = StencilOperation::Keep,
+				.PassOp = StencilOperation::Keep,
+				.Function = ComparisonFunction::Always,
+			}
+		);
+	}
+
 	if (this->_highlightEffect == nullptr)
 	{
 		constexpr const char* highlightMeshPath = "Data//Shaders//HighlightMesh.hlsl";
@@ -85,27 +109,27 @@ void Gizmo<Skinmesh>::Draw3D()
 
 			auto device = skinmesh->GetGraphicsDeviceHandle();		
 			auto oldRasterizerState = device->GetRasterizerState();
+			auto oldDepthState = device->GetDepthStencilState();
 			auto wireframe = static_cast<IRasterizerState*>(_wireframe_RasterizerState.get());
 			auto cmd = device->ImmediateContext();
 
+			//cmd->UnbindDepthBuffer();
 			cmd->SetRasterizerState(wireframe);
-
-			skinmesh->Draw3D();
+			cmd->SetDepthStencilState(_depthStencilState.get(), 0);
 
 			auto game = static_cast<Game*>(skinmesh->GetGame());
 			
-			auto highlightColor = Color(1.0f, 0.5f, 0.0f, 0.5f);
+			auto highlightColor = Color(1.0f, 0.5f, 0.0f, 1.0f);
 			_highlightEffect->SetData<Color>(&highlightColor, 1);
-
-			cmd->UnbindDepthBuffer();
 
 			skinmesh->GetModel()->DrawEffect(
 				_highlightEffect,
 				skinmesh->GetModelMatrix() * game->View * game->Projection
 			);
 
-			cmd->SetRenderTargetAndDepth(nullptr, nullptr);
+			//cmd->SetRenderTargetAndDepth(nullptr, nullptr);
 			cmd->SetRasterizerState(oldRasterizerState.get());
+			cmd->SetDepthStencilState(oldDepthState.get(), 0);
 		}
 	}
 }

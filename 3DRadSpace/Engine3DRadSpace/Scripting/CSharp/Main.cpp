@@ -143,9 +143,9 @@ PluginInfo LoadPluginInfo()
 		.Version = "0.1.0 Alpha",
 		.Author = "3DRadSpace",
 
-		.Description = "Hello world",
+		.Description = "Support for C# scripting in 3DRadSpace through C# Script objects",
 		.Homepage = "3dradspace.github.io",
-		.IconFilename = "3DRadSpace.png"
+		.IconFilename = "CSharp.png"
 	};
 }
 
