@@ -31,11 +31,13 @@ Objects::Gizmos::IGizmo* CSharpScript::GetGizmo() const noexcept
 
 void CSharpScript::Initialize()
 {
+	if(_initialized) return;
+
 	//If csmgr_loadScript is null, that also means the rest of the other fptrs aren't initialized, so one single check is enough.
 	if(csmgr_loadScript == nullptr) throw Logging::Exception("Script manager is improperly initialized!");
 
-	_id = csmgr_loadScript(ScriptPath.c_str(), Class.c_str());
-	_initialized = (_id == -1);
+	_id = csmgr_loadScript(ScriptPath.c_str(), Class.c_str(), this);
+	_initialized = (_id != -1);
 }
 
 void CSharpScript::Load()
@@ -47,7 +49,6 @@ void CSharpScript::Load(const std::filesystem::path& path)
 {
 	ScriptPath = path.string();
 	Initialize();
-	Load();
 }
 
 void CSharpScript::Update()

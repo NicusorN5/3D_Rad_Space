@@ -1,5 +1,6 @@
 using System.Runtime.InteropServices;
 using Engine3DRadSpace.Logging;
+using Engine3DRadSpace.Objects;
 using Engine3DRadSpace.Scripting;
 
 namespace Engine3DRadSpace.Internal;
@@ -19,7 +20,7 @@ public static class ScriptManager
 	/// <param name="className">Fully qualified class name to instantiate.</param>
 	/// <returns>Script ID, or -1 on failure.</returns>
 	[UnmanagedCallersOnly]
-	public static int LoadScript(IntPtr scriptPath, IntPtr className)
+	public static int LoadScript(IntPtr scriptPath, IntPtr className, IntPtr ownerObject)
 	{
 		try
 		{
@@ -67,13 +68,14 @@ public static class ScriptManager
 				Id = scriptId,
 				Instance = instance,
 				CompilationResult = result,
-				ScriptInterface = instance as IScript
+				ScriptInterface = instance as Script
 			};
 
 			// Call Start if the script implements IScript
 			if (_loadedScripts[scriptId].ScriptInterface != null)
 			{
-				_loadedScripts[scriptId].ScriptInterface!.Start();
+				(_loadedScripts[scriptId].ScriptInterface as Script).Object = new InstIObject(ownerObject);
+                _loadedScripts[scriptId].ScriptInterface!.Start();
 			}
 
 			return scriptId;
@@ -101,8 +103,9 @@ public static class ScriptManager
 			scriptInstance.ScriptInterface?.Update();
 			return 1;
 		}
-		catch
+		catch(Exception ex)
 		{
+			SetWarning($"Exception in UpdateScript: {ex.Message}");
 			return 0;
 		}
 	}

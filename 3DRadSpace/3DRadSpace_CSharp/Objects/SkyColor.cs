@@ -18,6 +18,10 @@ namespace Engine3DRadSpace.Objects
 		{
 		}
 
+		public SkyColor(IntPtr instance) : base(instance)
+		{
+		}
+
 		public unsafe Color Color
 		{
 			get => _get(_handle);

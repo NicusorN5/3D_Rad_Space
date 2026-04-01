@@ -30,6 +30,7 @@ if(MSVC)
 endif()
 
 #Link 3DRadSpace
+target_link_libraries(3DRadSpace.Editor PRIVATE 3DRadSpace.Logging)
 target_link_libraries(3DRadSpace.Editor PRIVATE 3DRadSpace.Objects)
 target_link_libraries(3DRadSpace.Editor PRIVATE 3DRadSpace.Objects.Impl)
 target_link_libraries(3DRadSpace.Editor PRIVATE 3DRadSpace.Objects.Gizmos)

@@ -62,14 +62,16 @@ void E3DRSP_ObjectCollection_Add(E3DRSP_ObjectCollection collection, E3DRSP_IObj
 	static_cast<ObjectCollection*>(collection)->Add(static_cast<IObject*>(object));
 }
 
-void E3DRSP_ObjectCollection_Remove(E3DRSP_ObjectCollection collection, E3DRSP_IObject* object)
+void E3DRSP_ObjectCollection_Remove(E3DRSP_ObjectCollection collection, E3DRSP_IObject object)
 {
-	static_cast<ObjectCollection*>(collection)->Remove(static_cast<IObject*>(*object));
+	static_cast<ObjectCollection*>(collection)->Remove(static_cast<IObject*>(object));
 }
+
 void E3DRSP_ObjectCollection_RemoveID(E3DRSP_ObjectCollection collection, size_t index)
 {
 	static_cast<ObjectCollection*>(collection)->Remove(index);
 }
+
 E3DRSP_IObject E3DRSP_ObjectCollection_At(E3DRSP_ObjectCollection collection, size_t index)
 {
 	return static_cast<E3DRSP_IObject>(static_cast<ObjectCollection*>(collection)->operator[](index));

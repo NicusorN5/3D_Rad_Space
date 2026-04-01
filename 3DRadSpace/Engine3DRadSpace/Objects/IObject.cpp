@@ -96,6 +96,11 @@ bool IObject::HasParent() const noexcept
 	return _parent != nullptr;
 }
 
+size_t IObject::GetChildrenCount() const noexcept
+{
+	return Children.Count();
+}
+
 IObject::~IObject()
 {
 }
@@ -179,4 +184,24 @@ void E3DRSP_IObject_SetName(E3DRSP_IObject object, const char* name)
 void* E3DRSP_IObject_Children(E3DRSP_IObject object)
 {
 	return static_cast<void*>(&static_cast<IObject*>(object)->Children);
+}
+
+E3DRSP_IObject E3DRSP_IObject_GetChild(E3DRSP_IObject object, size_t idxChild)
+{
+	return static_cast<E3DRSP_IObject>(static_cast<IObject*>(object)->operator[](idxChild));
+}
+
+size_t E3DRSP_IObject_GetChildrenCount(E3DRSP_IObject object)
+{
+	return static_cast<IObject*>(object)->GetChildrenCount();
+}
+
+E3DRSP_IObject E3DRSP_IObject_GetParent(E3DRSP_IObject object)
+{
+	return static_cast<E3DRSP_IObject>(static_cast<IObject*>(object)->GetParent());
+}
+
+void E3DRSP_IObject_SetParent(E3DRSP_IObject object, E3DRSP_IObject currentOwner, E3DRSP_IObject newParent)
+{
+	static_cast<IObject*>(object)->SetParent(static_cast<IObject*>(currentOwner), static_cast<IObject*>(newParent));
 }

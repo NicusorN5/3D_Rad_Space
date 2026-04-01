@@ -10,7 +10,7 @@ using string_t = std::basic_string<char_t>;
 
 typedef void (*CsCompiler_InitializeFn)();
 
-typedef int (*ScriptManager_LoadScript)(const char* scriptPath, const char* fnName);
+typedef int (*ScriptManager_LoadScript)(const char* scriptPath, const char* fnName, const void* ownerObject);
 typedef bool (*ScriptManager_UpdateScript)(int scriptID);
 typedef void (*ScriptManager_UnloadScript)(int scriptID);
 

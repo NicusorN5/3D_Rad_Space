@@ -27,6 +27,11 @@ extern "C" {
 	E3DRSP_OBJECTS_EXPORT void E3DRSP_IObject_SetName(E3DRSP_IObject object, const char* name);
 
 	E3DRSP_OBJECTS_EXPORT void* E3DRSP_IObject_Children(E3DRSP_IObject object);
+	E3DRSP_OBJECTS_EXPORT E3DRSP_IObject E3DRSP_IObject_GetChild(E3DRSP_IObject object, size_t idxChild);
+	E3DRSP_OBJECTS_EXPORT size_t E3DRSP_IObject_GetChildrenCount(E3DRSP_IObject object);
+
+	E3DRSP_OBJECTS_EXPORT E3DRSP_IObject E3DRSP_IObject_GetParent(E3DRSP_IObject object);
+	E3DRSP_OBJECTS_EXPORT void E3DRSP_IObject_SetParent(E3DRSP_IObject object, E3DRSP_IObject currentOwner, E3DRSP_IObject newParent);
 #ifdef __cplusplus
 }
 #endif

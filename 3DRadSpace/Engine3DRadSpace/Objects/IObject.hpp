@@ -68,6 +68,7 @@ namespace Engine3DRadSpace
 			void SetParent(IObject* currentOwner, IObject* newParent) noexcept;
 
 			bool HasParent() const noexcept;
+			size_t GetChildrenCount() const noexcept;
 
 			///Getters and setters for events and visual scripting
 

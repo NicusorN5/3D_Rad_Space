@@ -15,15 +15,16 @@ namespace Engine3DRadSpace.Objects
 		[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_ObjectCollection_Create")]
 		extern static IntPtr _create();
 
-		[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_ObjectCollection_Destroy")]
-		extern static void _destroy(IntPtr collection);
+		//[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_ObjectCollection_Destroy")]
+		//extern static void _destroy(IntPtr collection);
+		static void _destroy(IntPtr dummy) { }
 
 		[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_ObjectCollection_Add")]
 		extern static void _add(IntPtr collection, IntPtr item);
 
 		public void Add(IObject item)
 		{
-			_add(Handle, item.Handle);
+			_add(Handle, (item as InstIObject)?.Handle ?? IntPtr.Zero);
 		}
 
 		[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_ObjectCollection_Clear")]
@@ -57,7 +58,7 @@ namespace Engine3DRadSpace.Objects
 
 		public bool Remove(IObject item)
 		{
-			_remove(Handle, item.Handle);
+			_remove(Handle, (item as InstIObject)?.Handle ?? IntPtr.Zero);
 			return true;
 		}
 
@@ -74,7 +75,7 @@ namespace Engine3DRadSpace.Objects
 		[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_ObjectCollection_At")]
 		extern static IntPtr _at(IntPtr collection, int idx);
 
-		IObject this[int idx]
+		public IObject this[int idx]
 		{
 			get
 			{

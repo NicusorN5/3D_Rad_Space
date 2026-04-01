@@ -4,6 +4,7 @@ using System.Runtime.Loader;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
+using System.Text;
 
 namespace Engine3DRadSpace.Internal;
 
@@ -147,7 +148,7 @@ public static class CsCompiler
 			{
 				// Parse the source code
 				var syntaxTree = sourceFilePath != null
-					? CSharpSyntaxTree.ParseText(source, path: sourceFilePath)
+					? CSharpSyntaxTree.ParseText(source, path: sourceFilePath, encoding: Encoding.UTF8)
 					: CSharpSyntaxTree.ParseText(source);
 
 				// Get references to required assemblies
@@ -183,6 +184,19 @@ public static class CsCompiler
 
 				EmitResult result = compilation.Emit(ms, pdbMs, options: emitOptions);
 
+				// Diagnostic logging
+				Console.WriteLine($"[CsCompiler] Source length: {source.Length}");
+				Console.WriteLine($"[CsCompiler] Emit success: {result.Success}");
+				Console.WriteLine($"[CsCompiler] Emit stream size: {ms.Length} bytes");
+				foreach (var diag in result.Diagnostics)
+					Console.WriteLine($"[CsCompiler] Diag: {diag.Severity} {diag.Id}: {diag.GetMessage()}");
+
+				// Also log the syntax tree declarations
+				var root = syntaxTree.GetRoot();
+				Console.WriteLine($"[CsCompiler] Syntax tree members: {root.ChildNodes().Count()}");
+				foreach (var node in root.ChildNodes())
+					Console.WriteLine($"[CsCompiler] Node: {node.Kind()} - {node.ToString()[..System.Math.Min(80, node.ToString().Length)]}");
+
 				if (!result.Success)
 				{
 					// Compilation failed - collect errors and warnings
@@ -207,8 +221,19 @@ public static class CsCompiler
 				// Compilation succeeded - load the assembly
 				ms.Seek(0, SeekOrigin.Begin);
 				pdbMs.Seek(0, SeekOrigin.Begin);
-				
+			
 				var assemblyLoadContext = new AssemblyLoadContext($"ScriptContext_{assemblyName}", isCollectible: true);
+
+				assemblyLoadContext.Resolving += (context, name) =>
+				{
+					foreach (var loaded in AppDomain.CurrentDomain.GetAssemblies())
+					{
+						if (loaded.GetName().Name == name.Name)
+							return loaded;
+					}
+					return null;
+				};
+
 				var assembly = assemblyLoadContext.LoadFromStream(ms, pdbMs);
 
 				var warnings2 = result.Diagnostics
@@ -339,12 +364,16 @@ public static class CsCompiler
 		/// <returns>An instance of the specified type.</returns>
 		public object? CreateInstance(string typeName, params object?[]? constructorArgs)
 		{
+			Console.WriteLine("test");
+
 			if (!Success || Assembly == null)
 			{
 				throw new InvalidOperationException("Cannot create instance from failed compilation.");
 			}
 
-			var type = Assembly.GetType(typeName);
+			Assembly.DefinedTypes.ToList().ForEach(t => Console.WriteLine($"Defined type: {t.FullName}"));
+
+            var type = Assembly.GetType(typeName);
 			if (type == null)
 			{
 				throw new InvalidOperationException($"Type '{typeName}' not found in compiled assembly.");

@@ -54,7 +54,7 @@ public class NatPtrWrapper : IDisposable, IPtrWrapper
 		{
 			if (_handle != 0)
 			{
-				_destroy(_handle);
+				//_destroy(_handle);
 			}
 			_disposed = true;
 			_handle = IntPtr.Zero;
