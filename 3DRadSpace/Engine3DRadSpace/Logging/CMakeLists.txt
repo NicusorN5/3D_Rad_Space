@@ -8,11 +8,11 @@ add_library(3DRadSpace.Logging SHARED
 	"Logging.hpp"
 	"Message.hpp"
 	"Message.cpp"
-	"Message.h"
+	"../FFI/Logging/Message.h"
 	"ServiceBadCastException.hpp"
 	"Warning.hpp"
 	"Warning.cpp"
-	"Warning.h"
+	"../FFI/Logging/Warning.h"
 )
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)

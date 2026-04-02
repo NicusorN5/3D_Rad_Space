@@ -1,5 +1,4 @@
 #include "Warning.hpp"
-#include "Warning.h"
 #include <fstream>
 #include <print>
 #include <iostream>
@@ -41,15 +40,5 @@ void Engine3DRadSpace::Logging::DefaultWarningHandler(const Warning &warning)
 #endif
 	file.close();
 }
-FuncWarningHandler Engine3DRadSpace::Logging::WarningHandler = DefaultWarningHandler;
 
-void E3DRSP_SetLastWarning(const E3DRSP_Warning* warning)
-{
-	SetLastWarning(Warning(
-		warning->Code,
-		warning->Details,
-		warning->Severity,
-		warning->Extra
-		)
-	);
-}
+FuncWarningHandler Engine3DRadSpace::Logging::WarningHandler = DefaultWarningHandler;
