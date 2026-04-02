@@ -1,6 +1,7 @@
 #include "Cone.h"
 #include "../../../Objects/Impl/Cone.hpp"
 
+using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Objects;
 
 E3DRSP_OCone E3DRSP_OCone_Create()

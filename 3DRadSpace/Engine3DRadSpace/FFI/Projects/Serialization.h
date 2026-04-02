@@ -2,7 +2,6 @@
 #include "../Content/ContentManager.h"
 #include "../Objects/IObject.h"
 #include "../Objects/ObjectList.h"
-#include "../Games/Game.h"
 
 #ifdef __cplusplus
 extern "C"

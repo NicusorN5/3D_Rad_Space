@@ -33,15 +33,20 @@ add_library(3DRadSpace.Graphics SHARED
 	"ISamplerState.hpp"
 	"IShader.hpp"
 	"IShaderCompiler.hpp"
+	"IShaderCompiler.cpp"
 	"ITexture1D.hpp"
 	"ITexture2D.hpp"
 	"ITexture3D.hpp"
 	"ITextureCube.hpp"
 	"IVertexBuffer.hpp"
 	"ModelMesh.hpp"
+	"ModelMesh.cpp"
 	"ModelMeshPart.hpp"
+	"ModelMeshPart.cpp"
 	"Model3D.hpp"
+	"Model3D.cpp"
 	"NullShader.hpp"
+	"NullShader.cpp"
 	"PixelFormat.hpp"
 	"RasterizerCullMode.hpp"
 	"RasterizerFillMode.hpp"
@@ -75,9 +80,9 @@ if(MSVC)
 	#Fix C4530
 	target_compile_options(3DRadSpace.Graphics PRIVATE "/EHsc")
 	# Create separate pdb debug info files
-	add_compile_options(3DRadSpace.Graphics PRIVATE "/Zi")
+	target_compile_options(3DRadSpace.Graphics PRIVATE "/Zi")
 	# Multiprocessor build
-	add_compile_options(3DRadSpace.Graphics PRIVATE "/MP")
+	target_compile_options(3DRadSpace.Graphics PRIVATE "/MP")
 
 	#enable address sanitizer if using a debug configuration
 	if(CMAKE_BUILD_TYPE STREQUAL "Debug")

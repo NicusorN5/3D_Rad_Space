@@ -4,11 +4,6 @@
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
 
-IShaderCompiler::IShaderCompiler()
-{
-	_manager = std::make_unique<EffectManager>();
-}
-
 E3DRSP_CompileOutput E3DRSP_IShaderCompiler_Compile(E3DRSP_IShaderCompiler compiler, const E3DRSP_ShaderDesc desc)
 {
 	auto result = static_cast<IShaderCompiler*>(compiler)->Compile(reinterpret_cast<ShaderDesc*>(desc));

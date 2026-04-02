@@ -2,7 +2,7 @@
 #include <Engine3DRadSpace\Plugins\CustomObject.hpp>
 #include "AngelScriptObject.hpp"
 #include "AngelscriptWrapper.hpp"
-#include <Engine3DRadSpace/Core/RawSpan.h>
+#include <Engine3DRadSpace/FFI/Core/RawSpan.h>
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Angelscript;

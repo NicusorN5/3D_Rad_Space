@@ -15,7 +15,7 @@ if(MSVC)
 	target_compile_options(3DRadSpace.Tests PRIVATE "/Zi")
 
 	# Multiprocessor build
-	add_compile_options(3DRadSpace.Tests PRIVATE "/MP")
+	target_compile_options(3DRadSpace.Tests PRIVATE "/MP")
 
 	#enable address sanitizer if using a debug configuration
 	if(CMAKE_BUILD_TYPE STREQUAL "Debug")
@@ -42,4 +42,7 @@ target_link_libraries(3DRadSpace.Tests PRIVATE GTest::gtest GTest::gtest_main GT
 add_dependencies(3DRadSpace.Tests e3drsp_copy_assets)
 
 include(GoogleTest)
-gtest_discover_tests(3DRadSpace.Tests)
+gtest_discover_tests(3DRadSpace.Tests
+	WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+	DISCOVERY_MODE PRE_TEST
+)

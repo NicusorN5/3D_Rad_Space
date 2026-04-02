@@ -1,6 +1,7 @@
 #include "SoundSource.h"
 #include "../../../Objects/Impl/SoundSource.hpp"
 
+using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Objects;
 
 E3DRSP_SoundSource E3DRSP_SoundSource_Create()

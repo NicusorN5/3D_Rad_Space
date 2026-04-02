@@ -1,6 +1,7 @@
 #include "Sphere.h"
 #include "../../../Objects/Impl/Sphere.hpp"
 
+using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Objects;
 
 E3DRSP_OSphere E3DRSP_OSphere_Create()

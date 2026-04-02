@@ -6,15 +6,19 @@ add_library(3DRadSpace.Objects SHARED
 	"Gizmos.hpp"
 	"Gizmos.cpp"
 	"ICamera.hpp"
+	"ICamera.cpp"
 	"IGizmo.hpp"
 	"IObject.hpp"
+	"IObject.cpp"
 	"IObject2D.hpp"
+	"IObject2D.cpp"
 	"IObject3D.hpp"
+	"IObject3D.cpp"
 	"ObjectCollection.hpp"
 	"ObjectCollection.cpp"
 	"ObjectList.hpp"
 	"ObjectList.cpp"
- "IObject.cpp" "IObject2D.cpp" "IObject3D.cpp" "ICamera.cpp")
+)
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET 3DRadSpace.Objects PROPERTY CXX_STANDARD 23)
