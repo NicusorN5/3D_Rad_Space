@@ -1,5 +1,4 @@
 #include "ICollider.hpp"
-#include "ICollider.h"
 #include "IPhysicsEngine.hpp"
 
 using namespace Engine3DRadSpace::Math;

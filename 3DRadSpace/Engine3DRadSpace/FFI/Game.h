@@ -1,9 +1,9 @@
 #pragma once
 #include "../Core/Libs.h"
-#include "../Math/Ray.h"
-#include "../Math/Vector2.h"
-#include "../Math/Vector3.h"
-#include "../Math/Matrix4x4.h"
+#include "Math/Ray.h"
+#include "Math/Vector2.h"
+#include "Math/Vector3.h"
+#include "Math/Matrix4x4.h"
 
 typedef void* E3DRSP_Game;
 
