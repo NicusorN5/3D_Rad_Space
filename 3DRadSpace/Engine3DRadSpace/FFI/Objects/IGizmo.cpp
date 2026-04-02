@@ -1,4 +1,4 @@
-#include "IGizmo.hpp"
+#include "../../Objects/IGizmo.hpp"
 #include "IGizmo.h"
 
 using namespace Engine3DRadSpace;
