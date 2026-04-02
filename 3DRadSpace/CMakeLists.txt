@@ -37,6 +37,7 @@ add_subdirectory(Engine3DRadSpace/Scripting)
 add_subdirectory(Engine3DRadSpace/Scripting/CSharp)
 add_subdirectory(Engine3DRadSpace/Plugins)
 add_subdirectory(Engine3DRadSpace/Games)
+add_subdirectory(Engine3DRadSpace/FFI)
 
 add_subdirectory(3DRadSpace_Editor_WindowsDX11)
 add_subdirectory(3DRadSpace_Compiler)

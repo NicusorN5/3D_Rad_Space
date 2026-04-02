@@ -1,5 +1,4 @@
 #include "Sound.hpp"
-#include "Sound.h"
 #include "../Core/AssetUUIDReader.hpp"
 #include "../Logging/Exception.hpp"
 #include <al.h>
@@ -81,17 +80,4 @@ std::type_index Sound::InitializationService() const noexcept
 Sound::~Sound()
 {
 	alDeleteBuffers( 1, &_bufferID);
-}
-
-E3DRSP_Sound E3DRSP_Sound_Create(E3DRSP_IAudioEngine audio, const char* path)
-{
-	if (audio == nullptr) return nullptr;
-	if (path == nullptr) return nullptr;
-	return new Sound(static_cast<AudioEngine*>(audio), path);
-}
-
-void E3DRSP_Sound_Destroy(E3DRSP_Sound audio)
-{
-	assert(audio != nullptr);
-	delete static_cast<Sound*>(audio);
 }
