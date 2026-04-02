@@ -6,10 +6,7 @@ add_library(3DRadSpace.Content SHARED
 	"AssetID.hpp"
 	"ContentManager.hpp"
 	"ContentManager.cpp"
-	"ContentManager.h"
 	"IAsset.hpp"
-	"IAsset.cpp"
-	"IAsset.h"
 )
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)

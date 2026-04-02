@@ -1,6 +1,6 @@
 #pragma once
 #include "../Reflection/UUID.h"
-#include "../Core/Libs.h"
+#include "../../Core/Libs.h"
 
 typedef void* E3DRSP_IAsset;
 

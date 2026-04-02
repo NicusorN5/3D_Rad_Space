@@ -1,4 +1,4 @@
-#include "IAsset.hpp"
+#include "../../Content/IAsset.hpp"
 #include "IAsset.h"
 
 using namespace Engine3DRadSpace;

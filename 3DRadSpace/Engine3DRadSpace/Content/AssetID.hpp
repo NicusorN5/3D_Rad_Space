@@ -4,7 +4,7 @@
 namespace Engine3DRadSpace::Content
 {
 	/// <summary>
-	/// Numerical identified of an asset, paired with a template type.
+	/// Unsigned numerical identifier of an asset, paired with a template type.
 	/// </summary>
 	/// <typeparam name="T">T must be a AssetType - must inherit IAsset and be constructible from a factory class and a path.</typeparam>
 	template<AssetType T>
