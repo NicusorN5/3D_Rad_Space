@@ -1,5 +1,4 @@
 #pragma once
-#include "../Core/Libs.h"
 #include "Vector3.h"
 
 typedef struct E3DRSP_BoundingBox

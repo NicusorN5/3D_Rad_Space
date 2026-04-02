@@ -1,5 +1,4 @@
 #include "UnknownVariable.hpp"
-#include "UnknownVariable.h"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Reflection;
@@ -33,14 +32,4 @@ const void* UnknownVariable::DefaultValue() const
 FieldRepresentation UnknownVariable::Representation() const
 {
 	return { {FieldRepresentationType::Unknown, ""} };
-}
-
-E3DRSP_IReflectedField E3DRSP_UnknownVariable_Create(
-	size_t offset,
-	size_t size,
-	const char* name,
-	const char* desc
-)
-{
-	return new UnknownVariable(offset, size, name, desc);
 }

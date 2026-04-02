@@ -1,6 +1,6 @@
 #include "../../Graphics/IDepthStencilBuffer.hpp"
 #include "IDepthStencilBuffer.h"
-#include "ITexture2D.hpp"
+#include "../../Graphics/ITexture2D.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;

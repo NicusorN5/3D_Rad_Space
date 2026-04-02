@@ -1,4 +1,5 @@
 #include "ContentManager.h"
+#include "../../Content/ContentManager.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content;

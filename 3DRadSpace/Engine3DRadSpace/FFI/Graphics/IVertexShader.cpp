@@ -5,7 +5,7 @@
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
 
-E3DRSP_IReflectedField* E3DRSP_IVertexShader_GetInputLayout(E3DRSP_IVertexShader vertexShader, size_t* outSize)
+E3DRSP_IReflectedField E3DRSP_IVertexShader_GetInputLayout(E3DRSP_IVertexShader vertexShader, size_t* outSize)
 {
 	if (outSize == nullptr || vertexShader == nullptr)
 	{

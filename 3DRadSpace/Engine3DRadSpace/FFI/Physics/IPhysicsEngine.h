@@ -1,5 +1,5 @@
 #pragma once
-#include "../Core/Libs.h"
+#include "../../Core/Libs.h"
 
 typedef void* E3DRSP_IPhysicsEngine;
 
@@ -7,8 +7,8 @@ typedef void* E3DRSP_IPhysicsEngine;
 extern "C"
 {
 #endif
-	E3DRSP_PHYSICS_EXPORT void E3DRSP_IPhysicsEngine_Simulate(E3DRSP_IPhysicsEngine *physics, float dt);
-	E3DRSP_PHYSICS_EXPORT void* E3DRSP_IPhysicsEngine_GetScene(E3DRSP_IPhysicsEngine *physics);
+	E3DRSP_FFI_EXPORT void E3DRSP_IPhysicsEngine_Simulate(E3DRSP_IPhysicsEngine *physics, float dt);
+	E3DRSP_FFI_EXPORT void* E3DRSP_IPhysicsEngine_GetScene(E3DRSP_IPhysicsEngine *physics);
 #ifdef __cplusplus
 }
 #endif

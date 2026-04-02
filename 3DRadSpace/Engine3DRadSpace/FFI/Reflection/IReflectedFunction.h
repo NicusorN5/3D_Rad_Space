@@ -7,8 +7,8 @@ typedef void* E3DRSP_IReflectedFunction;
 extern "C"
 {
 #endif
-	E3DRSP_REFLECTION_EXPORT const char* E3DRSP_IReflectedFunction_Signature(E3DRSP_IReflectedFunction func);
-	E3DRSP_REFLECTION_EXPORT void E3DRSP_IReflectedFunction_Invoke(
+	E3DRSP_FFI_EXPORT const char* E3DRSP_IReflectedFunction_Signature(E3DRSP_IReflectedFunction func);
+	E3DRSP_FFI_EXPORT void E3DRSP_IReflectedFunction_Invoke(
 		E3DRSP_IReflectedFunction func,
 		void* self,
 		void* outArg,

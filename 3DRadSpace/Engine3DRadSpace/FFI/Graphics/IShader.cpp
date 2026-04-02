@@ -1,6 +1,5 @@
 #include "../../Graphics/IShader.hpp"
 #include "IShader.h"
-#include "../Reflection/IReflectedField.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
