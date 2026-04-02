@@ -5,22 +5,22 @@ namespace Engine3DRadSpace.Graphics;
 
 public class InstITexture2D : InstGPUMultiBuffer, ITexture2D
 {
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_ITexture2D_Size")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ITexture2D_Size")]
 	extern static Internal.Point _size(IntPtr texture);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_ITexture2D_Width")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ITexture2D_Width")]
 	extern static uint _w(IntPtr texture);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_ITexture2D_Height")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ITexture2D_Height")]
 	extern static uint _h(IntPtr texture);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_ITexture2D_GetViewHandle")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ITexture2D_GetViewHandle")]
 	extern static IntPtr _viewHandle(IntPtr texture);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_ITexture2D_CreateStaging")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ITexture2D_CreateStaging")]
 	extern static IntPtr _createStaging(IntPtr texture);
 
-	[DllImport("3DRadSpace.Graphics.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_ITexture2D_SaveToFile")]
+	[DllImport("3DRadSpace.FFI.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_ITexture2D_SaveToFile")]
 	extern static IntPtr _save(IntPtr texture, string path);
 
 	public InstITexture2D(IntPtr handle) : base(handle)

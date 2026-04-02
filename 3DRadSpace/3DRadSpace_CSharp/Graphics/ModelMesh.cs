@@ -5,28 +5,28 @@ namespace Engine3DRadSpace.Graphics;
 
 public class ModelMesh : NatPtrWrapper
 {
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_ModelMesh_Create")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ModelMesh_Create")]
 	extern static unsafe IntPtr _create(IntPtr *parts, ulong numParts);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_ModelMesh_Destroy")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ModelMesh_Destroy")]
 	extern static void _destroy(IntPtr modelMesh);
 
-        [DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_ModelMesh_AddMeshPart")]
+        [DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ModelMesh_AddMeshPart")]
         extern static void _addPart(IntPtr modelMesh, IntPtr part);
 
-        [DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_ModelMesh_GetMeshPart")]
+        [DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ModelMesh_GetMeshPart")]
         extern static IntPtr _at(IntPtr modelMesh, uint idx);
 
-        [DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_ModelMesh_NumMeshParts")]
+        [DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ModelMesh_NumMeshParts")]
         extern static ulong _count(IntPtr modelMesh);
 
-        [DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_ModelMesh_Draw")]
+        [DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ModelMesh_Draw")]
         extern static void _draw(IntPtr modelMesh);
 
-        [DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_ModelMesh_GetBoundingBox")]
+        [DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ModelMesh_GetBoundingBox")]
         extern static Math.BoundingBox _bbox(IntPtr modelMesh);
 
-        [DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_ModelMesh_GetBoundingSphere")]
+        [DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ModelMesh_GetBoundingSphere")]
         extern static Math.BoundingSphere _bsph(IntPtr modelMesh);
 
         public ModelMesh(IntPtr handle) : base(handle, _destroy)

@@ -10,19 +10,19 @@ namespace Engine3DRadSpace
 {
 	public class InstIGame : NatPtrWrapper, IGame
 	{
-		[DllImport("3DRadSpace.Core.dll", EntryPoint = "E3DRSP_IGame_Exit")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGame_Exit")]
 		private static extern void _exit(IntPtr handle);
 
-		[DllImport("3DRadSpace.Core.dll", EntryPoint = "E3DRSP_IGame_WasInitialized")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGame_WasInitialized")]
 		private static extern bool _wasInitialized(IntPtr handle);
 
-		[DllImport("3DRadSpace.Core.dll", EntryPoint = "E3DRSP_IGame_WasLoaded")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGame_WasLoaded")]
 		private static extern bool _wasLoaded(IntPtr handle);
 
-		[DllImport("3DRadSpace.Core.dll", EntryPoint = "E3DRSP_IGame_AppendScene", CharSet = CharSet.Ansi)]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGame_AppendScene", CharSet = CharSet.Ansi)]
 		private static extern bool _appendScene(IntPtr handle, string path);
 
-		[DllImport("3DRadSpace.Core.dll", EntryPoint = "E3DRSP_IGame_Destroy")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGame_Destroy")]
 		private static extern void _destroy(IntPtr handle);
 
 		public InstIGame(IntPtr handle) : base(handle, _destroy)

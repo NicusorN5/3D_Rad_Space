@@ -5,31 +5,31 @@ namespace Engine3DRadSpace.Objects
 {
     public class Cone : InstIObject3D
     {
-        [DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_OCone_Create")]
+        [DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_OCone_Create")]
         extern static IntPtr _create();
 
-        [DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_OCone_GetColor")]
+        [DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_OCone_GetColor")]
         extern static Color _getColor(IntPtr cone);
 
-        [DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_OCone_SetColor")]
+        [DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_OCone_SetColor")]
         extern static unsafe void _setColor(IntPtr cone, Color* color);
 
-        [DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_OCone_GetRadius")]
+        [DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_OCone_GetRadius")]
         extern static float _getRadius(IntPtr cone);
 
-        [DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_OCone_SetRadius")]
+        [DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_OCone_SetRadius")]
         extern static void _setRadius(IntPtr cone, float radius);
 
-        [DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_OCone_GetHeight")]
+        [DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_OCone_GetHeight")]
         extern static float _getHeight(IntPtr cone);
 
-        [DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_OCone_SetHeight")]
+        [DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_OCone_SetHeight")]
         extern static void _setHeight(IntPtr cone, float height);
 
-        [DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_OCone_GetResolution")]
+        [DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_OCone_GetResolution")]
         extern static uint _getResolution(IntPtr cone);
 
-        [DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_OCone_SetResolution")]
+        [DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_OCone_SetResolution")]
         extern static void _setResolution(IntPtr cone, uint resolution);
 
         public Cone() : base(_create())

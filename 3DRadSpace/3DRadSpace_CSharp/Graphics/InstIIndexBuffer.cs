@@ -4,13 +4,13 @@ namespace Engine3DRadSpace.Graphics;
 
 public class InstIIndexBuffer : InstGPUBuffer, IIndexBuffer
 {
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IIndexBuffer_Set")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IIndexBuffer_Set")]
 	extern static IntPtr _set(IntPtr buffer, uint index);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IIndexBuffer_NumIndices")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IIndexBuffer_NumIndices")]
 	extern static uint _num(IntPtr buffer);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IIndexBuffer_NumIndices")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IIndexBuffer_NumIndices")]
 	extern static IntPtr _staging(IntPtr buffer);
 
 	public InstIIndexBuffer(IntPtr handle) : base(handle) 

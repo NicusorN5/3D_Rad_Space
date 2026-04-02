@@ -5,61 +5,61 @@ namespace Engine3DRadSpace.Objects;
 
 public class InstIObject : InstIUpdateable, IObject
 {
-	[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_IObject_GetUUID")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IObject_GetUUID")]
 	extern static Reflection.UUID _getUUID(IntPtr obj);
 
-	[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_IObject_GetGizmo")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IObject_GetGizmo")]
 	extern static IntPtr _getGizmo(IntPtr obj);
 
-	[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_IObject_GetGraphicsDeviceHandle")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IObject_GetGraphicsDeviceHandle")]
 	extern static IntPtr _getGDevice(IntPtr obj);
 
-	[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_IObject_GetGame")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IObject_GetGame")]
 	extern static IntPtr _getGame(IntPtr obj);
 
-	[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_IObject_Enable")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IObject_Enable")]
 	extern static void _enable(IntPtr obj);
 
-	[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_IObject_Disable")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IObject_Disable")]
 	extern static void _disable(IntPtr obj);
 
-	[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_IObject_Switch")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IObject_Switch")]
 	extern static byte _switch(IntPtr obj);
 
-	[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_IObject_IsEnabled")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IObject_IsEnabled")]
 	extern static byte _isEnabled(IntPtr obj);
 
-	[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_IObject_Show")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IObject_Show")]
 	extern static void _show(IntPtr obj);
 
-	[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_IObject_Hide")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IObject_Hide")]
 	extern static void _hide(IntPtr obj);
 
-	[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_IObject_SwitchVisibility")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IObject_SwitchVisibility")]
 	extern static byte _switchVisibility(IntPtr obj);
 
-	[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_IObject_IsVisible")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IObject_IsVisible")]
 	extern static byte _isVisible(IntPtr obj);
 
-	[DllImport("3DRadSpace.Objects.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_IObject_GetName")]
+	[DllImport("3DRadSpace.FFI.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_IObject_GetName")]
 	extern static string _getName(IntPtr obj);
 
-	[DllImport("3DRadSpace.Objects.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_IObject_SetName")]
+	[DllImport("3DRadSpace.FFI.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_IObject_SetName")]
 	extern static void _setName(IntPtr obj, string name);
 
-	[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_IObject_Children")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IObject_Children")]
 	extern static IntPtr _getChildren(IntPtr obj);
 
-	[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_IObject_GetChild")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IObject_GetChild")]
 	extern static IntPtr _getChild(IntPtr obj, UIntPtr idxChild);
 
-	[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_IObject_GetChildrenCount")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IObject_GetChildrenCount")]
 	extern static UIntPtr _getChildrenCount(IntPtr obj);
 
-	[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_IObject_GetParent")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IObject_GetParent")]
 	extern static IntPtr _getParent(IntPtr obj);
 
-	[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_IObject_SetParent")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IObject_SetParent")]
 	extern static void _setParent(IntPtr obj, IntPtr currentOwner, IntPtr newParent);
 
 	InstIInitializable _initializable;

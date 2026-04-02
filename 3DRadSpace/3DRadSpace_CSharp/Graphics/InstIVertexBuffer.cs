@@ -4,16 +4,16 @@ namespace Engine3DRadSpace.Graphics;
 
 public class InstIVertexBuffer : InstGPUBuffer, IVertexBuffer
 {
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IVertexBuffer_TotalSize")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IVertexBuffer_TotalSize")]
 	extern static ulong _totalSize(IntPtr vbuff);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IVertexBuffer_StructSize")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IVertexBuffer_StructSize")]
 	extern static ulong _structSize(IntPtr vbuff);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IVertexBuffer_NumVertices")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IVertexBuffer_NumVertices")]
 	extern static ulong _numVerts(IntPtr vbuff);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IVertexBuffer_CreateStaging")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IVertexBuffer_CreateStaging")]
 	extern static IntPtr _createStaging(IntPtr vbuff);
 
 	public InstIVertexBuffer(IntPtr handle) : base(handle)

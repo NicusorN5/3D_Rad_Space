@@ -4,13 +4,13 @@ namespace Engine3DRadSpace.Graphics;
 
 public class InstIShaderCompiler : NatPtrWrapper, IShaderCompiler
 {
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IShaderCompiler_Destroy")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IShaderCompiler_Destroy")]
 	extern static void _destroy(IntPtr compiler);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IShaderCompiler_Compile")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IShaderCompiler_Compile")]
 	extern static CompileOutput _compileShader(IntPtr compiler, IntPtr desc);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IShaderCompiler_CompileEffect")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IShaderCompiler_CompileEffect")]
 	extern static EffectCompileOutput _compileEffect(IntPtr compiler, IntPtr ppDescs, ulong numDescs);
 
 	public InstIShaderCompiler(IntPtr handle) : base(handle, _destroy)

@@ -5,37 +5,37 @@ namespace Engine3DRadSpace.Objects
 {
 	public class SoundEffect : InstIObject
 	{
-		[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_SoundEffect_Create")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_SoundEffect_Create")]
 		extern static IntPtr _create();
 
-		[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_SoundEffect_GetSoundID")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_SoundEffect_GetSoundID")]
 		extern static uint _getSoundID(IntPtr soundEffect);
 
-		[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_SoundEffect_SetSoundID")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_SoundEffect_SetSoundID")]
 		extern static void _setSoundID(IntPtr soundEffect, uint soundID);
 
-		[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_SoundEffect_GetSound")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_SoundEffect_GetSound")]
 		extern static IntPtr _getSound(IntPtr soundEffect);
 
-		[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_SoundEffect_GetSoundInstance")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_SoundEffect_GetSoundInstance")]
 		extern static IntPtr _getSoundInstance(IntPtr soundEffect);
 
-		[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_SoundEffect_GetVolume")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_SoundEffect_GetVolume")]
 		extern static float _getVolume(IntPtr soundEffect);
 
-		[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_SoundEffect_SetVolume")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_SoundEffect_SetVolume")]
 		extern static float _setVolume(IntPtr soundEffect, float volume);
 
-		[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_SoundEffect_GetPitch")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_SoundEffect_GetPitch")]
 		extern static float _getPitch(IntPtr soundEffect);
 
-		[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_SoundEffect_SetPitch")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_SoundEffect_SetPitch")]
 		extern static float _setPitch(IntPtr soundEffect, float pitch);
 
-		[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_SoundEffect_IsLooping")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_SoundEffect_IsLooping")]
 		extern static byte _looping(IntPtr soundEffect);
 
-		[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_SoundEffect_SetLooping")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_SoundEffect_SetLooping")]
 		extern static void _looping(IntPtr soundEffect, byte looping);
 
 		public SoundEffect() : base(_create())

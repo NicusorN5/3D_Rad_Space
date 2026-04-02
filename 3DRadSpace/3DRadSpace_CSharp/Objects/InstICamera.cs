@@ -5,13 +5,13 @@ namespace Engine3DRadSpace.Objects;
 
 public class InstICamera : NatPtrWrapper, ICamera
 {
-	[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_ICamera_GetViewMatrix")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ICamera_GetViewMatrix")]
 	extern static Matrix4x4 _view(IntPtr icamera);
 
-	[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_ICamera_GetProjectionMatrix")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ICamera_GetProjectionMatrix")]
 	extern static Matrix4x4 _proj(IntPtr icamera);
 
-	[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_ICamera_Destroy")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ICamera_Destroy")]
 	extern static void _destroy(IntPtr icamera);
 
 	public InstICamera(IntPtr natPtr) : base(natPtr, _destroy)

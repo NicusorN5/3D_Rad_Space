@@ -4,22 +4,22 @@ namespace Engine3DRadSpace.Graphics;
 
 public class EffectManager : NatPtrWrapper
 {
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_EffectManager_Create")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_EffectManager_Create")]
 	extern static IntPtr _create();
 
-	[DllImport("3DRadSpace.Graphics.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_EffectManager_AddShader")]
+	[DllImport("3DRadSpace.FFI.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_EffectManager_AddShader")]
 	extern static IntPtr _addShader(IntPtr manager, string name, IntPtr shader);
 
-	[DllImport("3DRadSpace.Graphics.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_EffectManager_AddEffect")]
+	[DllImport("3DRadSpace.FFI.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_EffectManager_AddEffect")]
 	extern static IntPtr _addEffect(IntPtr manager, string name, IntPtr effect);
 
-	[DllImport("3DRadSpace.Graphics.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_EffectManager_GetEffect")]
+	[DllImport("3DRadSpace.FFI.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_EffectManager_GetEffect")]
 	extern static IntPtr _getEffect(IntPtr manager, string name);
 
-	[DllImport("3DRadSpace.Graphics.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_EffectManager_GetShader")]
+	[DllImport("3DRadSpace.FFI.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_EffectManager_GetShader")]
 	extern static IntPtr _getShader(IntPtr manager, string name);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_EffectManager_Destroy")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_EffectManager_Destroy")]
 	extern static void _destroy(IntPtr manager);
 
 	public EffectManager() : base(_create(), _destroy)

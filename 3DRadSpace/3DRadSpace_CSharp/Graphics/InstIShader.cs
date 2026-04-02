@@ -5,34 +5,34 @@ namespace Engine3DRadSpace.Graphics;
 
 public class InstIShader : NatPtrWrapper, IShader
 {
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IShader_Destroy")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IShader_Destroy")]
 	extern static void _destroy(IntPtr shader);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IShader_SetData")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IShader_SetData")]
 	extern static void _setData(IntPtr shader, uint index, IntPtr data, ulong dataSize);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IShader_SetTexture")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IShader_SetTexture")]
 	extern static void _setTexture(IntPtr shader, uint index, IntPtr texture);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IShader_SetTextures")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IShader_SetTextures")]
 	extern static void _setTextures(IntPtr shader, IntPtr ppTextures, ulong numTextures);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IShader_SetSampler")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IShader_SetSampler")]
 	extern static void _setSampler(IntPtr shader, uint index, IntPtr sampler);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IShader_SetShader")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IShader_SetShader")]
 	extern static void _set(IntPtr shader);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IShader_GetVariables")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IShader_GetVariables")]
 	extern unsafe static IntPtr _variables(IntPtr shader, ulong *outSize);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IShader_Set")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IShader_Set")]
 	extern unsafe static IntPtr _setVariable(IntPtr shader, string name, IntPtr data, ulong dataSize);
 
-	[DllImport("3DRadSpace.Graphics.dll", CharSet = CharSet.Ansi,  EntryPoint = "E3DRSP_IShader_GetEntryName")]
+	[DllImport("3DRadSpace.FFI.dll", CharSet = CharSet.Ansi,  EntryPoint = "E3DRSP_IShader_GetEntryName")]
 	extern unsafe static string _entryName(IntPtr shader);
 
-	[DllImport("3DRadSpace.Graphics.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_IShader_GetCompilationErrorsAndWarnings")]
+	[DllImport("3DRadSpace.FFI.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_IShader_GetCompilationErrorsAndWarnings")]
 	extern unsafe static string _log(IntPtr shader);
 
 	public InstIShader(IntPtr handle) : base(handle, _destroy)
