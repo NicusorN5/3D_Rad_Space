@@ -1,6 +1,6 @@
 #pragma once
 #include "../Math/Vector3.h"
-#include "../Core/Libs.h"
+#include "../../Core/Libs.h"
 
 typedef struct E3DRSP_AudioSource
 {

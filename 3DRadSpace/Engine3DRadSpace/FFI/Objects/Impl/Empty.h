@@ -7,7 +7,7 @@ typedef void* E3DRSP_Empty;
 extern "C"
 {
 #endif
-	E3DRSP_OBJECTS_IMPL_EXPORT E3DRSP_Empty E3DRSP_Empty_Create();
+	E3DRSP_FFI_EXPORT E3DRSP_Empty E3DRSP_Empty_Create();
 #ifdef __cplusplus
 }
 #endif

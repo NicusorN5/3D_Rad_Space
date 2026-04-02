@@ -1,6 +1,6 @@
 #include "CSharpScript.hpp"
 #include "NETCoreHost.hpp"
-#include "../../Core/RawSpan.h"
+#include "../../FFI/Core/RawSpan.h"
 #include "../../Logging/Message.hpp"
 #include "../../Logging/Warning.hpp"
 #include "../../Logging/Exception.hpp"

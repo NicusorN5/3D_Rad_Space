@@ -1,5 +1,4 @@
 #include "SoundSource.hpp"
-#include "SoundSource.h"
 #include "Gizmos.hpp"
 #include "Gizmos/SoundSourceGizmo.hpp"
 

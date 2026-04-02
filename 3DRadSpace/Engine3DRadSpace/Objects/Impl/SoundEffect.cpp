@@ -1,5 +1,4 @@
 #include "SoundEffect.hpp"
-#include "SoundEffect.h"
 #include "../Games/Game.hpp"
 #include "../Content/ContentManager.hpp"
 #include "SoundSource.hpp"
