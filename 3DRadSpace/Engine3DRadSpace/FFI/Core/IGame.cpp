@@ -1,4 +1,4 @@
-#include "IGame.hpp"
+#include "../../Core/IGame.hpp"
 #include "IGame.h"
 
 using namespace Engine3DRadSpace;

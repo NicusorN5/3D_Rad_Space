@@ -1,5 +1,5 @@
 #pragma once
-#include "Libs.h"
+#include "../../Core/Libs.h"
 
 typedef void* E3DRSP_IInitializable;
 

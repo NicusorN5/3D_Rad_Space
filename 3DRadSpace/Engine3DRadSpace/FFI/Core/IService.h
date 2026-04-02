@@ -1,5 +1,5 @@
 #pragma once
-#include "Libs.h"
+#include "../../Core/Libs.h"
 
 typedef void* E3DRSP_IService;
 
@@ -7,7 +7,7 @@ typedef void* E3DRSP_IService;
 extern "C"
 {
 #endif
-	E3DRSP_CORE_EXPORT void E3DRSP_IService_Destroy(E3DRSP_IService* service);
+	E3DRSP_FFI_EXPORT void E3DRSP_IService_Destroy(E3DRSP_IService* service);
 #ifdef __cplusplus
 }
 #endif
