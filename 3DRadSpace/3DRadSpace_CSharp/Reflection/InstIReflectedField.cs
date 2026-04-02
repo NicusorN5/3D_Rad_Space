@@ -4,31 +4,31 @@ namespace Engine3DRadSpace.Reflection;
 
 internal class InstIReflectedField : NatPtrWrapper, IReflectedField
 {
-	[DllImport("3DRadSpace.Reflection.dll", EntryPoint = "E3DRSP_IReflectedField_Destroy")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IReflectedField_Destroy")]
 	extern static void _destroy(IntPtr instance);
 
-	[DllImport("3DRadSpace.Reflection.dll", EntryPoint = "E3DRSP_IReflectedField_TypeHash")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IReflectedField_TypeHash")]
 	extern static ulong _hash(IntPtr instance);
 
-	[DllImport("3DRadSpace.Reflection.dll",CharSet = CharSet.Ansi,  EntryPoint = "E3DRSP_IReflectedField_FieldName")]
+	[DllImport("3DRadSpace.FFI.dll",CharSet = CharSet.Ansi,  EntryPoint = "E3DRSP_IReflectedField_FieldName")]
 	extern static string _name(IntPtr instance);
 
-	[DllImport("3DRadSpace.Reflection.dll",CharSet = CharSet.Ansi,  EntryPoint = "E3DRSP_IReflectedField_FieldDesc")]
+	[DllImport("3DRadSpace.FFI.dll",CharSet = CharSet.Ansi,  EntryPoint = "E3DRSP_IReflectedField_FieldDesc")]
 	extern static string _desc(IntPtr instance);
 
-	[DllImport("3DRadSpace.Reflection.dll", EntryPoint = "E3DRSP_IReflectedField_TypeSize")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IReflectedField_TypeSize")]
 	extern static ulong _size(IntPtr instance);
 
-	[DllImport("3DRadSpace.Reflection.dll", EntryPoint = "E3DRSP_IReflectedField_FieldOffset")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IReflectedField_FieldOffset")]
 	extern static ulong _offset(IntPtr instance);
 
-	[DllImport("3DRadSpace.Reflection.dll", EntryPoint = "E3DRSP_IReflectedField_Get")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IReflectedField_Get")]
 	extern static IntPtr _get(IntPtr instance, IntPtr objectPtr);
 
-	[DllImport("3DRadSpace.Reflection.dll", EntryPoint = "E3DRSP_IReflectedField_Set")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IReflectedField_Set")]
 	extern static void _set(IntPtr instance, IntPtr objectPtr, IntPtr value);
 
-	[DllImport("3DRadSpace.Reflection.dll", EntryPoint = "E3DRSP_IReflectedField_DefaultValue")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IReflectedField_DefaultValue")]
 	extern static IntPtr _default(IntPtr instance);
 
 	public InstIReflectedField(IntPtr ptr) : base(ptr, _destroy)

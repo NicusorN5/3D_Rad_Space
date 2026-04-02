@@ -5,31 +5,31 @@ namespace Engine3DRadSpace.Graphics;
 
 public class InstIGraphicsDevice : NatPtrWrapper, IGraphicsDevice
 {
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_Destroy")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_Destroy")]
 	extern static void _destroy(IntPtr handle);
 
-	[DllImport("3DRadSpace.Graphics.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_IGraphicsDevice_BackendName")]
+	[DllImport("3DRadSpace.FFI.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_IGraphicsDevice_BackendName")]
 	extern static string _backendName(IntPtr handle);
 
-    [DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_GetDepthStencilState")]
+    [DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_GetDepthStencilState")]
     extern static IntPtr _getdepthStencilState(IntPtr handle);
 
-    [DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_GetRasterizerState")]
+    [DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_GetRasterizerState")]
 	extern static IntPtr _getRasterizerState(IntPtr handle);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_Resolution")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_Resolution")]
 	extern static Internal.Point _resolution(IntPtr handle);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_GetBackBuffer")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_GetBackBuffer")]
 	extern static IntPtr _getbackBuffer(IntPtr handle);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_GetDepthBuffer")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_GetDepthBuffer")]
 	extern static IntPtr _getDepthBuffer(IntPtr handle);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateBlendState")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateBlendState")]
 	extern static IntPtr _createBlendState(IntPtr handle);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateBlendState")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateBlendState")]
 	extern static IntPtr _createBlendState(
 		IntPtr handle,
 		byte bAlphaCoverage, 
@@ -45,22 +45,22 @@ public class InstIGraphicsDevice : NatPtrWrapper, IGraphicsDevice
 	);
 
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateBlendState_Opaque")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateBlendState_Opaque")]
 	extern static IntPtr _createBlendStateOpaque(IntPtr handle);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateBlendState_AlphaBlend")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateBlendState_AlphaBlend")]
 	extern static IntPtr _createBlendStateAlphaBlend(IntPtr handle);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateBlendState_Additive")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateBlendState_Additive")]
 	extern static IntPtr _createBlendStateAdditive(IntPtr handle);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateBlendState_NonPremultiplied")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateBlendState_NonPremultiplied")]
 	extern static IntPtr _createBlendStateNonPremultiplied(IntPtr handle);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateDepthStencilBuffer")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateDepthStencilBuffer")]
 	extern static IntPtr _createDepthStencilBuffer(IntPtr handle, ulong x, ulong y);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateDepthStencilState")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateDepthStencilState")]
 	extern static IntPtr _createDepthStencilState(
 		IntPtr handle,
 		byte enableDepth,
@@ -73,37 +73,37 @@ public class InstIGraphicsDevice : NatPtrWrapper, IGraphicsDevice
 		FaceOperation backFace
 	);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateDepthStencilState_DepthDefault")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateDepthStencilState_DepthDefault")]
 	extern static IntPtr _createDepthStencilState_depthDefault(IntPtr handle);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateDepthStencilState_DepthNone")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateDepthStencilState_DepthNone")]
 	extern static IntPtr _createDepthStencilState_depthNone(IntPtr handle);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateDepthStencilState_DepthRead")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateDepthStencilState_DepthRead")]
 	extern static IntPtr _createDepthStencilState_depthRead(IntPtr handle);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateDepthStencilState_DepthReverseZ")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateDepthStencilState_DepthReverseZ")]
 	extern static IntPtr _createDepthStencilState_depthReverseZ(IntPtr handle);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateDepthStencilState_DepthReadReverseZ")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateDepthStencilState_DepthReadReverseZ")]
 	extern static IntPtr _createDepthStencilState_depthReadReverseZ(IntPtr handle);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_ShaderCompiler")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_ShaderCompiler")]
 	extern static IntPtr _shaderCompiler(IntPtr handle);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_WhiteBlank")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_WhiteBlank")]
 	extern static IntPtr _whiteTexture(IntPtr handle);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_GetScreenQuad")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_GetScreenQuad")]
 	extern static IntPtr _screenQuad(IntPtr handle);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateIndexBuffer")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateIndexBuffer")]
 	extern static IntPtr _createIndexBuffer(IntPtr handle, IntPtr indices, ulong numIndices);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateIndexBuffer2")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateIndexBuffer2")]
 	extern static IntPtr _createIndexBuffer2(IntPtr handle, ulong numIndices, BufferUsage bufferUsage);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateRasterizerState")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateRasterizerState")]
 	extern static IntPtr _createRasterizerState(
 		IntPtr handle,
 		RasterizerFillMode filling,
@@ -118,19 +118,19 @@ public class InstIGraphicsDevice : NatPtrWrapper, IGraphicsDevice
 		byte aaLine
 	);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateRasterizerState_CullNone")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateRasterizerState_CullNone")]
 	extern static IntPtr _createRasterizerState_cullNone(IntPtr handle);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateRasterizerState_CullClockwise")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateRasterizerState_CullClockwise")]
 	extern static IntPtr _createRasterizerState_cullCW(IntPtr handle);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateRasterizerState_CullCounterClockwise")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateRasterizerState_CullCounterClockwise")]
 	extern static IntPtr _createRasterizerState_cullCCW(IntPtr handle);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateRasterizerState_Wireframe")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateRasterizerState_Wireframe")]
 	extern static IntPtr _createRasterizerState_wireframe(IntPtr handle);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateRenderTarget")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateRenderTarget")]
 	extern static IntPtr _createRT(
 		IntPtr handle,
 		ulong x,
@@ -138,10 +138,10 @@ public class InstIGraphicsDevice : NatPtrWrapper, IGraphicsDevice
 		PixelFormat format
 	);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateSamplerState")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateSamplerState")]
 	extern static IntPtr _createSamplerState(IntPtr handle);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateSamplerState2")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateSamplerState2")]
 	extern static IntPtr _createSamplerState2(
 		IntPtr handle,
 		TextureFilter filter,
@@ -156,31 +156,31 @@ public class InstIGraphicsDevice : NatPtrWrapper, IGraphicsDevice
 		float maxLOD
 	);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateSamplerState_LinearClamp")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateSamplerState_LinearClamp")]
 	extern static IntPtr _createSamplerState_LinearClamp(IntPtr handle);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateSamplerState_LinearWrap")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateSamplerState_LinearWrap")]
 	extern static IntPtr _createSamplerState_LinearWrap(IntPtr handle);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateSamplerState_PointClamp")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateSamplerState_PointClamp")]
 	extern static IntPtr _createSamplerState_PointClamp(IntPtr handle);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateSamplerState_PointWrap")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateSamplerState_PointWrap")]
 	extern static IntPtr _createSamplerState_PointWrap(IntPtr handle);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateSamplerState_AnisotropicClamp")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateSamplerState_AnisotropicClamp")]
 	extern static IntPtr _createSamplerState_AnisotropicClamp(IntPtr handle);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateSamplerState_AnisotropicWrap")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateSamplerState_AnisotropicWrap")]
 	extern static IntPtr _createSamplerState_AnisotropicWrap(IntPtr handle);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateTexture1D")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateTexture1D")]
 	extern static IntPtr _createTexture1D(IntPtr handle, ulong size, BufferUsage usage);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateTexture1DCol")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateTexture1DCol")]
 	unsafe extern static IntPtr _createTexture1D(IntPtr handle, Math.Color *colors, ulong numColors);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateTexture2D")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateTexture2D")]
 	extern static IntPtr _createTexture2D(
 		IntPtr handle,
 		IntPtr data,
@@ -190,19 +190,19 @@ public class InstIGraphicsDevice : NatPtrWrapper, IGraphicsDevice
 		BufferUsage usage
 	);
 
-	[DllImport("3DRadSpace.Graphics.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_IGraphicsDevice_CreateTexture2DFromFile")]
+	[DllImport("3DRadSpace.FFI.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_IGraphicsDevice_CreateTexture2DFromFile")]
 	extern static IntPtr _createTexture2D(IntPtr handle, string path);
 
-	[DllImport("3DRadSpace.Graphics.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_IGraphicsDevice_CreateTextureCube")]
+	[DllImport("3DRadSpace.FFI.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_IGraphicsDevice_CreateTextureCube")]
 	extern static unsafe IntPtr _createTextureCube(IntPtr handle, IntPtr* textureCubeArray);
 
-	[DllImport("3DRadSpace.Graphics.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_IGraphicsDevice_CreateTextureCubeFromFile")]
+	[DllImport("3DRadSpace.FFI.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_IGraphicsDevice_CreateTextureCubeFromFile")]
 	extern static IntPtr _createTextureCube(IntPtr handle, string path);
 
-    [DllImport("3DRadSpace.Graphics.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_IGraphicsDevice_CreateTexture3D")]
+    [DllImport("3DRadSpace.FFI.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_IGraphicsDevice_CreateTexture3D")]
     extern static unsafe IntPtr _createTexture3D(IntPtr handle, IntPtr* ppTextures, ulong numTextures);
 
-    [DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateVertexBuffer")]
+    [DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateVertexBuffer")]
 	extern static IntPtr _createVertexBuffer(
 		IntPtr handle,
 		IntPtr data,
@@ -211,13 +211,13 @@ public class InstIGraphicsDevice : NatPtrWrapper, IGraphicsDevice
 		BufferUsage usage
 	);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateCommandList")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_CreateCommandList")]
 	extern static IntPtr _createCommandList(IntPtr handle);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_ImmediateContext")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_ImmediateContext")]
 	extern static IntPtr _immediateContext(IntPtr handle);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsDevice_NativeHandle")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsDevice_NativeHandle")]
 	extern static IntPtr _nativeHandle(IntPtr handle);
 
 	public InstIGraphicsDevice(IntPtr handle) : base(handle, _destroy)

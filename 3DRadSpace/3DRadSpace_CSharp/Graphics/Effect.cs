@@ -4,37 +4,37 @@ namespace Engine3DRadSpace.Graphics;
 
 public class Effect : NatPtrWrapper
 {
-	[DllImport("3DRadSpace.Graphics.Dll", EntryPoint = "E3DRSP_Effect_Create")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Effect_Create")]
 	extern static IntPtr _create(IntPtr device, IntPtr ppShaders, ulong numShaders);
 
-	[DllImport("3DRadSpace.Graphics.Dll", EntryPoint = "E3DRSP_Effect_SetAll")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Effect_SetAll")]
 	extern static void _setAll(IntPtr effect);
 
-	[DllImport("3DRadSpace.Graphics.Dll", EntryPoint = "E3DRSP_Effect_Set")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Effect_Set")]
 	extern static void _set(IntPtr effect, int idx);
 
-	[DllImport("3DRadSpace.Graphics.Dll", EntryPoint = "E3DRSP_Effect_SetData")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Effect_SetData")]
 	extern static void _setData(IntPtr effect, IntPtr data, ulong dataSize, int cBufferID, int shaderID);
 
-	[DllImport("3DRadSpace.Graphics.Dll", EntryPoint = "E3DRSP_Effect_SetData2")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Effect_SetData2")]
 	extern static void _setData2(IntPtr effect, IntPtr data, ulong dataSize, int cBufferID);
 
-	[DllImport("3DRadSpace.Graphics.Dll", EntryPoint = "E3DRSP_Effect_SetTexture")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Effect_SetTexture")]
 	extern static void _setTex(IntPtr effect, IntPtr texture, int idTexture);
 
-	[DllImport("3DRadSpace.Graphics.Dll", EntryPoint = "E3DRSP_Effect_SetTexture2")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Effect_SetTexture2")]
 	extern static void _setText2(IntPtr effect, IntPtr texture, int idTexture, int shaderID);
 
-	[DllImport("3DRadSpace.Graphics.Dll", EntryPoint = "E3DRSP_Effect_SetSampler")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Effect_SetSampler")]
 	extern static void _setSamp(IntPtr effect, IntPtr sampler, int idTexture);
 
-	[DllImport("3DRadSpace.Graphics.Dll", EntryPoint = "E3DRSP_Effect_SetSampler2")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Effect_SetSampler2")]
 	extern static void _setSamp2(IntPtr effect, IntPtr sampler, int idTexture, int shaderID);
 
-	[DllImport("3DRadSpace.Graphics.Dll", EntryPoint = "E3DRSP_Effect_GetShader")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Effect_GetShader")]
 	extern static IntPtr _getShader(IntPtr effect, int id);
 
-	[DllImport("3DRadSpace.Graphics.Dll", EntryPoint = "E3DRSP_Effect_Destroy")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Effect_Destroy")]
 	extern static void _destroy(IntPtr effect);
 
 	static unsafe IntPtr _createInstance(IGraphicsDevice device, IShader[] shaders, int numShaders)

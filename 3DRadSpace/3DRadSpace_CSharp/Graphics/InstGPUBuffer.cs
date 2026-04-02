@@ -4,13 +4,13 @@ namespace Engine3DRadSpace.Graphics;
 
 public class InstGPUBuffer : InstGPUResource, IGPUBuffer
 {
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGPUBuffer_ReadData")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGPUBuffer_ReadData")]
 	extern static ulong _read(IntPtr res, IntPtr ppData);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGPUBuffer_SetData")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGPUBuffer_SetData")]
 	extern static void _write(IntPtr res, IntPtr pData, ulong buffSize);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGPUBuffer_EndRead")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGPUBuffer_EndRead")]
 	extern static void _end(IntPtr res);
 
 	public InstGPUBuffer(IntPtr handle) : base(handle)

@@ -6,43 +6,43 @@ namespace Engine3DRadSpace.Graphics;
 
 public class Model3D : NatPtrWrapper
 {
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "EDRSP_Model3D_Create")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "EDRSP_Model3D_Create")]
 	extern static IntPtr _create(IntPtr device, string path);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "EDRSP_Model3D_Draw")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "EDRSP_Model3D_Draw")]
 	extern static void _draw(IntPtr model);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "EDRSP_Model3D_Draw2")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "EDRSP_Model3D_Draw2")]
 	extern static unsafe void _draw(IntPtr model, Matrix4x4 *mat);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "EDRSP_Model3D_DrawEffect2")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "EDRSP_Model3D_DrawEffect2")]
 	extern static void _draw(IntPtr model, IntPtr effect);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "EDRSP_Model3D_DrawEffect2")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "EDRSP_Model3D_DrawEffect2")]
 	extern static unsafe void _draw(IntPtr model, IntPtr effect, Matrix4x4 *mat);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "EDRSP_Model3D_NumMeshes")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "EDRSP_Model3D_NumMeshes")]
 	extern static ulong _num(IntPtr model);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "EDRSP_Model3D_GetMesh")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "EDRSP_Model3D_GetMesh")]
 	extern static IntPtr _at(IntPtr model, ulong idx);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "EDRSP_Model3D_GetBoundingBox")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "EDRSP_Model3D_GetBoundingBox")]
 	extern static BoundingBox _bbox(IntPtr model);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "EDRSP_Model3D_GetBoundingSphere")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "EDRSP_Model3D_GetBoundingSphere")]
 	extern static BoundingSphere _bsph(IntPtr model);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "EDRSP_Model3D_SetShader")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "EDRSP_Model3D_SetShader")]
 	extern static void _setShader(IntPtr model, IntPtr shader);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "EDRSP_Model3D_SetShaders")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "EDRSP_Model3D_SetShaders")]
 	extern static unsafe void _setShader(IntPtr model, IntPtr* shaders, ulong numShaders);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "EDRSP_Model3D_Destroy")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "EDRSP_Model3D_Destroy")]
 	extern static unsafe void _setTransform(IntPtr model, Matrix4x4* mat);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "EDRSP_Model3D_Destroy")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "EDRSP_Model3D_Destroy")]
 	extern static void _destroy(IntPtr model);
 
 	public Model3D(IntPtr handle) : base(handle, _destroy)

@@ -4,34 +4,34 @@ namespace Engine3DRadSpace.Objects
 {
 	public class Counter : InstIObject
 	{
-		[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_Counter_Create")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Counter_Create")]
 		extern static IntPtr _create();
 
-		[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_Counter_GetValue")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Counter_GetValue")]
 		extern static double _getValue(IntPtr counter);
 
-		[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_Counter_SetValue")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Counter_SetValue")]
 		extern static void _setValue(IntPtr counter, double value);
 
-		[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_Counter_GetValue")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Counter_GetValue")]
 		extern static double _getIncrement(IntPtr counter);
 
-		[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_Counter_SetValue")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Counter_SetValue")]
 		extern static void _setIncrement(IntPtr counter, double value);
 
-		[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_Counter_IsLoadingFromFile")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Counter_IsLoadingFromFile")]
 		extern static byte _isFromFile(IntPtr counter);
 
-		[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_Counter_SetLoadingFromFile")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Counter_SetLoadingFromFile")]
 		extern static void _setLoadingFromFile(IntPtr counter, byte loadingFromFile);
 
-		[DllImport("3DRadSpace.Objects.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_Counter_SetLoadingFromFile")]
+		[DllImport("3DRadSpace.FFI.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_Counter_SetLoadingFromFile")]
 		extern static string _getFile(IntPtr counter);
 
-		[DllImport("3DRadSpace.Objects.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_Counter_IsLoadingFromFile")]
+		[DllImport("3DRadSpace.FFI.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_Counter_IsLoadingFromFile")]
 		extern static void _setFile(IntPtr counter, string file);
 
-		[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_Counter_Save")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Counter_Save")]
 		extern static void _save(IntPtr counter);
 
 		public Counter() : base(_create())

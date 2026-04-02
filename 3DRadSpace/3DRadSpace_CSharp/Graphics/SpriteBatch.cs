@@ -25,13 +25,13 @@ public enum SpriteBatchSortMode
 
 public class SpriteBatch : NatPtrWrapper
 {
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_SpriteBatch_Create")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_SpriteBatch_Create")]
 	extern static IntPtr _create(IntPtr graphicsDevice);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_SpriteBatch_Begin")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_SpriteBatch_Begin")]
 	extern static void _begin(IntPtr spriteBatch, SpriteBatchSortMode mode);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_SpriteBatch_DrawNormalized")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_SpriteBatch_DrawNormalized")]
 	extern static unsafe void _drawNorm(
 		IntPtr spriteBatch,
 		IntPtr texture, 
@@ -43,7 +43,7 @@ public class SpriteBatch : NatPtrWrapper
 		float depth
 	);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_SpriteBatch_DrawNormalized2")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_SpriteBatch_DrawNormalized2")]
 	extern static unsafe void _drawNorm2(
 		IntPtr spriteBatch,
 		IntPtr texture, 
@@ -55,7 +55,7 @@ public class SpriteBatch : NatPtrWrapper
 		float depth
 	);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_SpriteBatch_Draw")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_SpriteBatch_Draw")]
 	extern static unsafe void _draw(
 		IntPtr spriteBatch,
 		IntPtr texture, 
@@ -67,7 +67,7 @@ public class SpriteBatch : NatPtrWrapper
 		float depth
 	);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_SpriteBatch_Draw2")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_SpriteBatch_Draw2")]
 	extern static unsafe void _draw(
 		IntPtr spriteBatch,
 		IntPtr texture, 
@@ -78,7 +78,7 @@ public class SpriteBatch : NatPtrWrapper
 		float depth
 	);
 
-	[DllImport("3DRadSpace.Graphics.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_SpriteBatch_DrawString")]
+	[DllImport("3DRadSpace.FFI.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_SpriteBatch_DrawString")]
 	extern static unsafe void _drawString(
 		IntPtr spriteBatch,
 		IntPtr font, 
@@ -91,7 +91,7 @@ public class SpriteBatch : NatPtrWrapper
 		float depth
 	);
 
-	[DllImport("3DRadSpace.Graphics.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_SpriteBatch_DrawString2")]
+	[DllImport("3DRadSpace.FFI.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_SpriteBatch_DrawString2")]
 	extern static unsafe void _drawString(
 		IntPtr spriteBatch,
 		IntPtr font,
@@ -104,10 +104,10 @@ public class SpriteBatch : NatPtrWrapper
 		float depth
 	);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_SpriteBatch_End")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_SpriteBatch_End")]
 	extern static void _end(IntPtr spriteBatch);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_SpriteBatch_Destroy")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_SpriteBatch_Destroy")]
 	extern static void _destroy(IntPtr spriteBatch);
 
 	public SpriteBatch(IntPtr handle) : base(handle, _destroy)

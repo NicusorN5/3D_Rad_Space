@@ -6,34 +6,34 @@ namespace Engine3DRadSpace.Objects
 {
 	public class Sprite : InstIObject2D
 	{
-		[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_Sprite_Create")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Sprite_Create")]
 		extern static IntPtr _create();
 
-		[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_Sprite_GetFlipU")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Sprite_GetFlipU")]
 		extern static byte _getFlipU(IntPtr sprite);
 
-		[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_Sprite_SetFlipU")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Sprite_SetFlipU")]
 		extern static void _setFlipU(IntPtr sprite, byte flipU);
 
-		[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_Sprite_GetFlipV")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Sprite_GetFlipV")]
 		extern static byte _getFlipV(IntPtr sprite);
 
-		[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_Sprite_SetFlipV")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Sprite_SetFlipV")]
 		extern static byte _setFlipV(IntPtr sprite, byte flipV);
 
-		[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_Sprite_GetTextureID")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Sprite_GetTextureID")]
 		extern static uint _getTextureID(IntPtr sprite);
 
-		[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_Sprite_SetTextureID")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Sprite_SetTextureID")]
 		extern static void _setTextureID(IntPtr sprite, uint id);
 
-		[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_Sprite_GetTexture")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Sprite_GetTexture")]
 		extern static IntPtr _getTexture(IntPtr sprite);
 
-		[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_Sprite_GetTintColor")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Sprite_GetTintColor")]
 		extern static Color _getColor(IntPtr sprite);
 
-		[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_Sprite_SetTintColor")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Sprite_SetTintColor")]
 		extern static unsafe void _setColor(IntPtr sprite, Color* color);
 
 		public Sprite() : base(_create())

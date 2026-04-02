@@ -5,19 +5,19 @@ namespace Engine3DRadSpace.Graphics;
 
 public class InstITextureCube : InstGPUMultiBuffer, ITextureCube
 {
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_ITextureCube_Size")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ITextureCube_Size")]
 	extern static Internal.Point _size(IntPtr texture);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_ITextureCube_Width")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ITextureCube_Width")]
 	extern static uint _w(IntPtr texture);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_ITextureCube_Height")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ITextureCube_Height")]
 	extern static uint _h(IntPtr texture);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_ITextureCube_GetViewHandle")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ITextureCube_GetViewHandle")]
 	extern static IntPtr _viewHandle(IntPtr texture);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_ITextureCube_CreateStaging")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ITextureCube_CreateStaging")]
 	extern static IntPtr _createStaging(IntPtr texture);
 
 	public InstITextureCube(IntPtr handle) : base(handle)

@@ -1,8 +1,9 @@
 #pragma once
+#include "../Libs.h"
 
 namespace Engine3DRadSpace::Memory
 {
-	class Statistics
+	class E3DRSP_CORE_EXPORT Statistics
 	{
 	public:
 		static unsigned long long AllocatedBytes;

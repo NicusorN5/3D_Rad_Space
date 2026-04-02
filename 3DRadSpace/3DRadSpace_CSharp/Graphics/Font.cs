@@ -5,25 +5,25 @@ namespace Engine3DRadSpace.Graphics;
 
 public class Font : NatPtrWrapper
 {
-	[DllImport("3DRadSpace.Graphics.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_Font_Create")]
+	[DllImport("3DRadSpace.FFI.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_Font_Create")]
 	extern static IntPtr _create(IntPtr device, string path, uint size, string supportedCharacters);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_Font_Create")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Font_Create")]
 	extern static uint _size(IntPtr font);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_Font_SupportedCharacters")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Font_SupportedCharacters")]
 	extern static string _supportedCharacters(IntPtr font);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_Font_GetTexture")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Font_GetTexture")]
 	extern static IntPtr _texture(IntPtr font);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_Font_GetCharGlyph")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Font_GetCharGlyph")]
 	extern static IntPtr _glyph(IntPtr font, char chr);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_Font_GetCharGlyph")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Font_GetCharGlyph")]
 	extern static IntPtr _srcRect(IntPtr font, char chr);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_Font_Destroy")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Font_Destroy")]
 	extern static void _destroy(IntPtr font);
 
 	public Font(IGraphicsDevice device, string path, uint size, string supportedCharacters) : base(_create(device.Handle, path, size, supportedCharacters), _destroy)

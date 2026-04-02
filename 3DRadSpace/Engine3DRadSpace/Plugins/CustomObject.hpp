@@ -1,6 +1,6 @@
 #pragma once
 #include "../Reflection/ReflectedObject.hpp"
-#include "../Core/RawSpan.h"
+#include "../FFI/Core/RawSpan.h"
 
 namespace Engine3DRadSpace::Plugins
 {

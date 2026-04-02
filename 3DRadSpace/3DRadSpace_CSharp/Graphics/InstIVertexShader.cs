@@ -5,10 +5,10 @@ namespace Engine3DRadSpace.Graphics;
 
 public class InstIVertexShader : NatPtrWrapper, IVertexShader
 {
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IVertexShader_GetInputLayout")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IVertexShader_GetInputLayout")]
 	extern static unsafe IntPtr* _inputLayout(IntPtr vshader, ulong *outSize);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IVertexShader_Destroy")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IVertexShader_Destroy")]
 	extern static void _destroy(IntPtr vshader);
 
 	public InstIVertexShader(IntPtr handle) : base(handle, _destroy)

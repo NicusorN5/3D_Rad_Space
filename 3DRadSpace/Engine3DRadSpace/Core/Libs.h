@@ -205,4 +205,12 @@
 #define E3DRSP_SCRIPTING_EXPORT
 #endif
 #endif
+
+#ifndef E3DRSP_FFI_EXPORT
+#if _WIN32
+#define E3DRSP_FFI_EXPORT
+#else
+#define E3DRSP_FFI_EXPORT
+#endif
+#endif
 #pragma endregion

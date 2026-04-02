@@ -12,14 +12,14 @@ namespace Engine3DRadSpace.Objects
 	{
 		public bool IsReadOnly => false;
 
-		[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_ObjectCollection_Create")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ObjectCollection_Create")]
 		extern static IntPtr _create();
 
-		//[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_ObjectCollection_Destroy")]
+		//[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ObjectCollection_Destroy")]
 		//extern static void _destroy(IntPtr collection);
 		static void _destroy(IntPtr dummy) { }
 
-		[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_ObjectCollection_Add")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ObjectCollection_Add")]
 		extern static void _add(IntPtr collection, IntPtr item);
 
 		public void Add(IObject item)
@@ -27,7 +27,7 @@ namespace Engine3DRadSpace.Objects
 			_add(Handle, (item as InstIObject)?.Handle ?? IntPtr.Zero);
 		}
 
-		[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_ObjectCollection_Clear")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ObjectCollection_Clear")]
 		extern static void _clear(IntPtr collection);
 
 		public void Clear()
@@ -53,7 +53,7 @@ namespace Engine3DRadSpace.Objects
 			}
 		}
 
-		[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_ObjectCollection_Remove")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ObjectCollection_Remove")]
 		extern static void _remove(IntPtr collection, IntPtr item);
 
 		public bool Remove(IObject item)
@@ -72,7 +72,7 @@ namespace Engine3DRadSpace.Objects
 			return GetEnumerator();
 		}
 
-		[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_ObjectCollection_At")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ObjectCollection_At")]
 		extern static IntPtr _at(IntPtr collection, int idx);
 
 		public IObject this[int idx]
@@ -83,7 +83,7 @@ namespace Engine3DRadSpace.Objects
 			}
 		}
 
-		[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_ObjectCollection_Count")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ObjectCollection_Count")]
 		extern static int _count(IntPtr collection);
 
 		public int Count => _count(Handle);

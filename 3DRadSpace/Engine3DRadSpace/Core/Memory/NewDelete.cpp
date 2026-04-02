@@ -1,4 +1,3 @@
-#pragma once
 #include "Statistics.hpp"
 
 unsigned long long Engine3DRadSpace::Memory::Statistics::AllocatedBytes = 0;

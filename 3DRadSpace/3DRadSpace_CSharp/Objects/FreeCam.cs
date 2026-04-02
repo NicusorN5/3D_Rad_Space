@@ -7,7 +7,7 @@ namespace Engine3DRadSpace.Objects
 	public class FreeCam : Camera
 	{
 		#region FFI Bindings
-		private const string DLL = "3DRadSpace.Objects.dll";
+		private const string DLL = "3DRadSpace.FFI.dll";
 
 		[DllImport(DLL)]
 		private static extern IntPtr E3DRSP_FreeCam_Create();

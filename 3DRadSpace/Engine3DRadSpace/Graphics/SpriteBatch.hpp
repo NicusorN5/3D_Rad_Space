@@ -5,6 +5,7 @@
 #include "IDepthStencilState.hpp"
 #include "IRasterizerState.hpp"
 #include "IBlendState.hpp"
+#include "ISamplerState.hpp"
 #include "FlipMode.hpp"
 #include "Font.hpp"
 #include "Effect.hpp"

@@ -6,10 +6,10 @@ namespace Engine3DRadSpace.Graphics;
 
 public class ModelMeshPart : NatPtrWrapper
 {
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_ModelMeshPart_Destroy")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ModelMeshPart_Destroy")]
 	extern static void _destroy(IntPtr meshPart);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_ModelMeshPart_Create")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ModelMeshPart_Create")]
 	extern static unsafe IntPtr _create1(
 		IntPtr device,
 		IntPtr pVertexData,
@@ -20,41 +20,41 @@ public class ModelMeshPart : NatPtrWrapper
 		IntPtr shaders
 	);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_ModelMeshPart_Create2")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ModelMeshPart_Create2")]
 	extern static IntPtr _create2(
 		IntPtr vBuffer,
 		IntPtr iBuffer,
 		IntPtr shaders
 	);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_ModelMeshPart_Draw")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ModelMeshPart_Draw")]
 	extern static void _draw(IntPtr meshPart);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_ModelMeshPart_DrawEffect")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ModelMeshPart_DrawEffect")]
 	extern static void _drawEffect(IntPtr meshPart, IntPtr effect);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_ModelMeshPart_GetBoundingBox")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ModelMeshPart_GetBoundingBox")]
 	extern static BoundingBox _bbox(IntPtr meshPart);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_ModelMeshPart_GetBoundingSphere")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ModelMeshPart_GetBoundingSphere")]
 	extern static BoundingSphere _bsph(IntPtr meshPart);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_ModelMeshPart_GetVertexBuffer")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ModelMeshPart_GetVertexBuffer")]
 	extern static IntPtr _vbuff(IntPtr meshPart);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_ModelMeshPart_GetIndexBuffer")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ModelMeshPart_GetIndexBuffer")]
 	extern static IntPtr _ibuff(IntPtr meshPart);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_ModelMeshPart_GetShaders")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ModelMeshPart_GetShaders")]
 	extern static IntPtr _getEffect(IntPtr meshPart);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_ModelMeshPart_GetShaders")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ModelMeshPart_GetShaders")]
 	extern static void _setEffect(IntPtr meshPart, IntPtr effect);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_ModelMeshPart_GetTransform")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ModelMeshPart_GetTransform")]
 	extern static Matrix4x4 _getMatrix(IntPtr meshPart);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_ModelMeshPart_SetTransform")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_ModelMeshPart_SetTransform")]
 	extern static unsafe void _setMatrix(IntPtr meshPart, Matrix4x4 *matrix);
 
 	public ModelMeshPart(IntPtr handle) : base(handle, _destroy)

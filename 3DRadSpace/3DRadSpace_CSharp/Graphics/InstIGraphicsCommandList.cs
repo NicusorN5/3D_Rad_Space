@@ -5,85 +5,85 @@ namespace Engine3DRadSpace.Graphics;
 
 class InstIGraphicsCommandList : InstGPUResource, IGraphicsCommandList
 {
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_Clear")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_Clear")]
 	extern static void _clear(IntPtr resource, IntPtr color);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_ClearRenderTarget")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_ClearRenderTarget")]
 	extern static void _clearRT(IntPtr resource, IntPtr rt, IntPtr color);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_ClearDepthBuffer")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_ClearDepthBuffer")]
 	extern static void _clearDB(IntPtr resource, IntPtr db);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_SetViewport")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_SetViewport")]
 	extern static void _setViewportDefault(IntPtr resource);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_SetViewport2")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_SetViewport2")]
 	extern static void _setViewport(IntPtr resource, IntPtr pViewport);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_SetViewports")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_SetViewports")]
 	extern static void _setViewports(IntPtr resource, IntPtr ppViewports, ulong numViewports);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_SetViewports")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_SetViewports")]
 	extern static Viewport _getViewport(IntPtr resource);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_SetRenderTarget")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_SetRenderTarget")]
 	extern static void _setRenderTarget(IntPtr resource, IntPtr rt);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_UnbindDepthBuffer")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_UnbindDepthBuffer")]
 	extern static void _unbindDepth(IntPtr resource);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "SE3DRSP_IGraphicsCommandList_SetRenderTargetAndDepth")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "SE3DRSP_IGraphicsCommandList_SetRenderTargetAndDepth")]
 	extern static void _setRTandDepth(IntPtr resource, IntPtr rt, IntPtr depth);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_SetRenderTargetAndDisableDepth")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_SetRenderTargetAndDisableDepth")]
 	extern static void _setRTnoDepth(IntPtr resource, IntPtr rt);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_DrawVertexBuffer")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_DrawVertexBuffer")]
 	extern static void _draw(IntPtr resource, IntPtr vbuff, uint start);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_DrawVertexBufferWithindices")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_DrawVertexBufferWithindices")]
 	extern static void _drawIndexed(IntPtr resource, IntPtr vbuff, IntPtr ibuff);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_DrawVertexBufferWithindices2")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_DrawVertexBufferWithindices2")]
 	extern static void _drawIndexed2(IntPtr resource, IntPtr vbuff, IntPtr ibuff, uint numIndices);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_SetShader")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_SetShader")]
 	extern static void _setShader(IntPtr resource, IntPtr shader);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_SetRasterizerState")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_SetRasterizerState")]
 	extern static void _setRS(IntPtr resource, IntPtr rs);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_SetDepthStencilBuffer")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_SetDepthStencilBuffer")]
 	extern static void _setDSB(IntPtr resource, IntPtr depthStencilBuff);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_SetDepthStencilState")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_SetDepthStencilState")]
 	extern static void _setDSS(IntPtr resource, IntPtr depthState, uint sample);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_SetBlendState")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_SetBlendState")]
 	extern static void _setBlend(IntPtr resource, IntPtr blend, IntPtr blendFactor, uint sampleMask);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_SetTopology")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_SetTopology")]
 	extern static void _setTopology(IntPtr resource, VertexTopology topology);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_DrawAuto")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_DrawAuto")]
 	extern static void _drawAuto(IntPtr resource);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_Present")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_Present")]
 	extern static void _present(IntPtr resource);
 
-	[DllImport("3DRadSpace.Graphics.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_IGraphicsCommandList_SaveBackBufferToFile")]
+	[DllImport("3DRadSpace.FFI.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_IGraphicsCommandList_SaveBackBufferToFile")]
 	extern static void _saveBackBuffer(IntPtr resource, string path);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_ResizeBackBuffer")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_ResizeBackBuffer")]
 	extern static void _resizeBackBuffer(IntPtr resource, IntPtr pPoint);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_ToggleFullScreen")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_ToggleFullScreen")]
 	extern static void _toggleFullScreen(IntPtr resource);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_Copy")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_Copy")]
 	extern static void _copy(IntPtr resource, IntPtr dest, IntPtr src);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_UnbindRenderTargetAndDepth")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_UnbindRenderTargetAndDepth")]
 	extern static void _unbindRTD(IntPtr resource);
 
 	public InstIGraphicsCommandList(IntPtr handle) : base(handle) 

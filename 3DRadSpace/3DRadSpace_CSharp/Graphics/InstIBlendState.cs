@@ -5,10 +5,10 @@ namespace Engine3DRadSpace.Graphics;
 
 public class InstIBlendState : InstGPUResource, IBlendState
 {
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IBlendState_BlendFactor")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IBlendState_BlendFactor")]
 	extern static Color _blendFactor(IntPtr blendState);
 
-	[DllImport("3DRadSpace.Graphics.dll", EntryPoint = "E3DRSP_IBlendState_SampleMask")]
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IBlendState_SampleMask")]
 	extern static uint _sampleMask(IntPtr blendState);
 
 	public Color BlendFactor()

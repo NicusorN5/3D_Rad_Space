@@ -19,5 +19,4 @@ Engine3DRadSpace::Reflection::UUID Engine3DRadSpace::Reflection::UUID::New()
      ptr[8] = ((ptr[8] & 0x3f) | 0x80); // Variant is 10
 
 	 return uuid;
-
 }

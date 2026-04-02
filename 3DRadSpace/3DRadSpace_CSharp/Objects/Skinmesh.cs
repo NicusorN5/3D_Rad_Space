@@ -4,13 +4,13 @@ namespace Engine3DRadSpace.Objects
 {
 	public class Skinmesh : InstIObject3D
 	{
-		[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_Skinmesh_Create")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Skinmesh_Create")]
 		extern static IntPtr _create();
 
-		[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_Skinmesh_GetModel")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Skinmesh_GetModel")]
 		extern static uint _getModel(IntPtr skinmesh);
 
-		[DllImport("3DRadSpace.Objects.dll", EntryPoint = "E3DRSP_Skinmesh_SetModel")]
+		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Skinmesh_SetModel")]
 		extern static void _setModel(IntPtr skinmesh, uint id);
 
 		public Skinmesh() : base(_create())

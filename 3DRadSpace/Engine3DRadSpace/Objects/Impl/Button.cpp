@@ -1,5 +1,4 @@
 #include "Button.hpp"
-#include "Button.h"
 #include "../../Games/Game.hpp"
 
 using namespace Engine3DRadSpace;
@@ -67,9 +66,4 @@ Reflection::UUID Button::GetUUID() const noexcept
 {
 	// {DB3CD706-4598-4228-8DD0-46B27601B674}
 	return {0xdb3cd706, 0x4598, 0x4228, { 0x8d, 0xd0, 0x46, 0xb2, 0x76, 0x1, 0xb6, 0x74 }};
-}
-
-E3DRSP_Button E3DRSP_Button_Create()
-{
-	return new Button();
 }
