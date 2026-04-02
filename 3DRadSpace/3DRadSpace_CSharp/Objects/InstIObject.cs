@@ -42,7 +42,7 @@ public class InstIObject : InstIUpdateable, IObject
 	extern static byte _isVisible(IntPtr obj);
 
 	[DllImport("3DRadSpace.FFI.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_IObject_GetName")]
-	extern static string _getName(IntPtr obj);
+	extern static IntPtr _getName(IntPtr obj);
 
 	[DllImport("3DRadSpace.FFI.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_IObject_SetName")]
 	extern static void _setName(IntPtr obj, string name);
@@ -106,8 +106,8 @@ public class InstIObject : InstIUpdateable, IObject
 
 	public string Name
 	{
-		get => _getName(_handle);
-		set => _setName(_handle, value);
+		get => Marshal.PtrToStringAnsi(_getName(_handle));
+        set => _setName(_handle, value);
 	}
 
 	public bool Enabled

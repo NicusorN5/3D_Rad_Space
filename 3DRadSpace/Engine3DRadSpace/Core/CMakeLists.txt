@@ -9,6 +9,7 @@ add_library(3DRadSpace.Core SHARED
 	"IDrawable2D.hpp"
 	"IDrawable3D.hpp"
 	"IGame.hpp"
+	"IGame.cpp"
 	"IInitializable.hpp"
 	"ILoadable.hpp"
 	"IService.hpp"
