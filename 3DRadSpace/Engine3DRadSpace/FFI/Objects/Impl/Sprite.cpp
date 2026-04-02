@@ -1,6 +1,7 @@
 #include "Sprite.h"
 #include "../../../Objects/Impl/Sprite.hpp"
 
+using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Objects;
 
 E3DRSP_Sprite E3DRSP_Sprite_Create()

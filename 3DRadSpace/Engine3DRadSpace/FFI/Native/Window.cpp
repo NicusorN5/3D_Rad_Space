@@ -2,6 +2,7 @@
 #include "../../Native/Window.hpp"
 
 using namespace Engine3DRadSpace;
+using namespace Engine3DRadSpace::Input;
 using namespace Engine3DRadSpace::Native;
 
 E3DRSP_Window E3DRSP_Window_Create(const char* title, size_t width, size_t height)

@@ -1,6 +1,9 @@
 #include "Camera.h"
 #include "../../../Objects/Impl/Camera.hpp"
 
+using namespace Engine3DRadSpace::Math;
+using namespace Engine3DRadSpace::Objects;
+
 E3DRSP_Camera E3DRSP_Camera_Create()
 {
 	return new Camera();

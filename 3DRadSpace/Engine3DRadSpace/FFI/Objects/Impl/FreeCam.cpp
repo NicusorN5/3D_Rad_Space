@@ -1,6 +1,8 @@
 #include "FreeCam.h"
 #include "../../../Objects/Impl/FreeCam.hpp"
 
+using namespace Engine3DRadSpace;
+using namespace Engine3DRadSpace::Input;
 using namespace Engine3DRadSpace::Objects;
 
 E3DRSP_FreeCam E3DRSP_FreeCam_Create()

@@ -1,6 +1,7 @@
 #include "SkyColor.h"
 #include "../../../Objects/Impl/SkyColor.hpp"
 
+using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Objects;
 
 E3DRSP_SkyColor E3DRSP_SkyColor_Create()

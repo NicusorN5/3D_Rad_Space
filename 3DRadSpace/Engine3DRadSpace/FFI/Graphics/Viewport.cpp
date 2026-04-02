@@ -1,5 +1,9 @@
 #include "Viewport.h"
 #include "../../Graphics/Viewport.hpp"
+#include "../../Math/Vector3.hpp"
+
+using namespace Engine3DRadSpace::Graphics;
+using namespace Engine3DRadSpace::Math;
 
 E3DRSP_Vector3 E3DRSP_Viewport_Unproject(
 	const E3DRSP_Viewport* viewport,

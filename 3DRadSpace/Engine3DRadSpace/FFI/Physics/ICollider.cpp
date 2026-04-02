@@ -1,7 +1,8 @@
 #include "ICollider.h"
-#include "../../Objects/Impl/ICollider.hpp"
+#include "../../Physics/ICollider.hpp"
 
-using namespace Engine3DRadSpace::Physicsl
+using namespace Engine3DRadSpace::Math;
+using namespace Engine3DRadSpace::Physics;
 
 float E3DRSP_ICollider_GetMass(E3DRSP_ICollider* collider)
 {

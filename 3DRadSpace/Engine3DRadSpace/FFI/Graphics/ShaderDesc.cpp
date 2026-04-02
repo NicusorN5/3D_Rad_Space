@@ -1,4 +1,4 @@
-#include "ShaderDesc.hpp"
+#include "ShaderDesc.h"
 #include "../../Graphics/ShaderDesc.hpp"
 
 using namespace Engine3DRadSpace;

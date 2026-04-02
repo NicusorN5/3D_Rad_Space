@@ -128,7 +128,7 @@
 
 #ifndef E3DRSP_OBJECTS_EXPORT
 #if _WIN32
-#define E3DRSP_OBJECTS_EXPORT __declspec(dllimport)
+#define E3DRSP_OBJECTS_EXPORT
 #else
 #define E3DRSP_OBJECTS_EXPORT
 #endif

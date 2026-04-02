@@ -1,5 +1,5 @@
 #pragma once
-#include "../IObject2D.hpp"
+#include "../IObject2D.h"
 #include "../../Math/Color.h"
 
 typedef void* E3DRSP_Sprite;

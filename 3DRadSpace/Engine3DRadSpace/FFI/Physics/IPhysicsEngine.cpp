@@ -1,4 +1,4 @@
-#include "IPhysicsEngine.hpp"
+#include "../../Physics/IPhysicsEngine.hpp"
 #include "IPhysicsEngine.h"
 
 using namespace Engine3DRadSpace::Physics;

@@ -1,6 +1,8 @@
-#include "Fog.hpp"
+#include "Fog.h"
 #include "../../../Objects/Impl/Fog.hpp"
 
+using namespace Engine3DRadSpace;
+using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Objects;
 
 E3DRSP_Fog E3DRSP_Fog_Create()

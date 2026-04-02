@@ -1,6 +1,9 @@
 #include "Cylinder.h"
 #include "../../../Objects/Impl/Cylinder.hpp"
 
+using namespace Engine3DRadSpace::Math;
+using namespace Engine3DRadSpace::Objects;
+
 E3DRSP_OCylinder E3DRSP_OCylinder_Create()
 {
 	return new Cylinder();

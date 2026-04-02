@@ -1,6 +1,7 @@
 #include "ReflectedObject.h"
 #include "../../Reflection/ReflectedObject.hpp"
 
+using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Reflection;
 
 E3DRSP_ReflectedObject E3DRSP_ReflectedObject_Create(

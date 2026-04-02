@@ -1,5 +1,7 @@
 #pragma once
 #include "../IObject3D.h"
+#include "../../Audio/Sound.h"
+#include "../../Audio/SoundInstance.h"
 
 typedef void* E3DRSP_SoundSource;
 

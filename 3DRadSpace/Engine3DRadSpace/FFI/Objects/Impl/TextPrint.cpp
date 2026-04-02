@@ -1,6 +1,7 @@
 #include "TextPrint.h"
 #include "../../../Objects/Impl/TextPrint.hpp"
 
+using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Objects;
 
 E3DRSP_TextPrint E3DRSP_TextPrint_Create()

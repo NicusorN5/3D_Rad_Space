@@ -2,6 +2,7 @@
 #include "../../../Objects/Impl/Box.hpp"
 
 using namespace Engine3DRadSpace;
+using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Objects;
 
 E3DRSP_OBox E3DRSP_OBox_Create()

@@ -1,6 +1,5 @@
 #pragma once
 #include "Camera.h"
-#include "../ICamera.hpp"
 #include "../../Input/Key.h"
 
 typedef void* E3DRSP_FreeCam;
