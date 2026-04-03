@@ -120,6 +120,10 @@ void DynamicCollider::UpdateTransform()
 
 }
 
+void DynamicCollider::UpdateTransform(const Math::Vector3 & position, const Math::Quaternion & rotation)
+{
+}
+
 std::optional<float> DynamicCollider::Intersects(const Math::Ray& r)
 {
 	return 0.0f;

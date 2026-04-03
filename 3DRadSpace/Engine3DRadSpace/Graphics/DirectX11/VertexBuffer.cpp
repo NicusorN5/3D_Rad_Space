@@ -73,7 +73,7 @@ size_t VertexBuffer::ReadData(void** data)
 	_device->_context->Map(_buffer.Get(), 0, D3D11_MAP_READ, 0, &res);
 
 	*data = res.pData;
-	return size_t(res.DepthPitch);
+	return _numVerts * _structSize;
 }
 
 void VertexBuffer::EndRead()

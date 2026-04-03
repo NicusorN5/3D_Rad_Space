@@ -36,13 +36,19 @@ void RigidStatic::Initialize()
 
 void RigidStatic::Load()
 {
+	auto game = static_cast<Game*>(GetGame());
+
 	if(_path)
 	{
-		auto game = static_cast<Game*>(GetGame());
 		_model = game->Content->Load<ModelAsset>(*_path)->Get();
 		_collider = _physics->CreateStaticCollider(_model, Scale);
 
 		_path.reset();
+	}
+	if(Model)
+	{
+		_model = const_cast<Model3D*>((*game->Content)[Model]->Get());
+		_collider = _physics->CreateStaticCollider(_model, Scale);
 	}
 }
 
@@ -56,14 +62,16 @@ void RigidStatic::Load(const std::filesystem::path& path)
 void RigidStatic::Update()
 {
 	if(_collider != nullptr)
-		_collider->UpdateTransform();
+	{
+		_collider->UpdateTransform(Position, Rotation);
+	}
 }
 
 void RigidStatic::Draw3D()
 {
 	auto game = static_cast<Game*>(_game);
 
-	if(Visible && _model && _collider)
+	if(Visible && _model)
 		_model->Draw(GetModelMatrix() * game->View * game->Projection);
 }
 
@@ -79,9 +87,72 @@ Reflection::UUID RigidStatic::GetUUID() const noexcept
 	return {0x11e67ca3, 0x19a3, 0x4558, { 0x85, 0x28, 0x72, 0xa0, 0x3f, 0x9, 0x1, 0xf9 }};
 }
 
+Model3D* RigidStatic::GetModel() const noexcept
+{
+	return _model;
+}
+
+template<>
+class E3DRSP_OBJECTS_GIZMOS_EXPORT Engine3DRadSpace::Objects::Gizmos::Gizmo<RigidStatic> final : public Engine3DRadSpace::Objects::Gizmos::IGizmo
+{
+	bool _wasLoaded = false;
+public:
+	Gizmo()
+	{
+		Allow3DRendering = true;
+		Allow2DRendering = false;
+		AllowScaling = false;
+		AllowRotating = true;
+		AllowTranslating = true;
+	}
+
+	void Draw3D() override
+	{
+		if(!_wasLoaded) return;
+		if(!Object) return;
+		if(!Object->Visible) return;
+
+		auto rigidStatic = dynamic_cast<RigidStatic*>(Object);
+		if(rigidStatic == nullptr) return;
+		if(rigidStatic->GetModel() == nullptr) return;
+
+		rigidStatic->Draw3D();
+	}
+
+	void Draw2D() override
+	{
+	}
+
+	void Load() override
+	{
+		if(Object == nullptr) return;
+
+		Object->Initialize();
+		Object->Load();
+		_wasLoaded = true;
+	}
+
+	void Load(const std::filesystem::path& path) override
+	{
+		if(Object == nullptr) return;
+
+		Object->Initialize();
+		Object->Load(path);
+		_wasLoaded = true;
+	}
+
+	void Update() override
+	{
+		//Unlike Dynamic objects: update in case the user changed it in the editor
+		Object->Update();
+	}
+
+	~Gizmo() = default;
+};
+
 Gizmos::IGizmo* RigidStatic::GetGizmo() const noexcept
 {
-	return nullptr;
+	return Internal::GizmoOf<RigidStatic>(this);
 }
 
 REFL_BEGIN(RigidStatic, "Rigidbody(Static)", "Physics", "Static rigidbody based off an mesh collider")

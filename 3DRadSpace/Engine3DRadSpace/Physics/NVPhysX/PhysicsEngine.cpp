@@ -101,9 +101,12 @@ PhysicsEngine::~PhysicsEngine()
 	PX_RELEASE(_cpuDispatcher);
 	PX_RELEASE(_physics);
 
-	auto transport = _pvd->getTransport();
-	PX_RELEASE(transport);
-	PX_RELEASE(_pvd);
+	if(_pvd)
+	{
+		auto transport = _pvd->getTransport();
+		PX_RELEASE(transport);
+		PX_RELEASE(_pvd);
+	}
 
 	PX_RELEASE(_foundation);
 }

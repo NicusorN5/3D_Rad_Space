@@ -25,6 +25,7 @@ namespace Engine3DRadSpace::Physics
 
 		virtual std::optional<float> Intersects(const Math::Ray& r) = 0;
 		virtual void UpdateTransform() = 0;
+		virtual void UpdateTransform(const Math::Vector3& position, const Math::Quaternion& rotation) = 0;
 
 		virtual ~ICollider() = default;
 	};

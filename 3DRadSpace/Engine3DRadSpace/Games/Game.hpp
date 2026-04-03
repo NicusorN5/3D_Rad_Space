@@ -42,7 +42,6 @@ namespace Engine3DRadSpace
 
 		std::unique_ptr<Native::Window> Window;
 		std::unique_ptr<Graphics::IGraphicsDevice> Device;
-		std::unique_ptr<Objects::ObjectList> Objects;
 
 		Math::Matrix4x4 View;
 		Math::Matrix4x4 Projection;
@@ -59,6 +58,8 @@ namespace Engine3DRadSpace
 		std::unique_ptr<Physics::IPhysicsEngine> Physics;
 		std::unique_ptr<Audio::IAudioEngine> Audio;
 		std::unique_ptr<Graphics::Rendering::PostProcessCollection> PostProcesses;
+
+		std::unique_ptr<Objects::ObjectList> Objects;
 
 		IService* RequireService(const std::type_index& type);
 

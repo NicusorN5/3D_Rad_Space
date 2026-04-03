@@ -80,9 +80,9 @@ IService* Game::RequireService(const std::type_index& type)
 
 Game::Game(const std::string &title, size_t width, size_t height) :
 	Window(std::make_unique<Native::Window>(title, width, height)),
-	Objects(std::make_unique<ObjectList>(this)),
 	Keyboard(Window->GetKeyboardState()),
-	Mouse(Window->GetMouseState())
+	Mouse(Window->GetMouseState()),
+	Objects(std::make_unique<ObjectList>(this))
 {
 	Device = GameFactory::CreateGraphicsDevice("", Window->NativeHandle(), width, height);
 	_initialize();
@@ -90,9 +90,9 @@ Game::Game(const std::string &title, size_t width, size_t height) :
 
 Game::Game(Native::Window &&window) :
 	Window(std::make_unique<Native::Window>(std::move(window))),
-	Objects(std::make_unique<ObjectList>(this)),
 	Keyboard(Window->GetKeyboardState()),
-	Mouse(Window->GetMouseState())
+	Mouse(Window->GetMouseState()),
+	Objects(std::make_unique<ObjectList>(this))
 {
 	Math::Point size = Window->Size();
 

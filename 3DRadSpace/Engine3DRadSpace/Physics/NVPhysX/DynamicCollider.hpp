@@ -44,6 +44,7 @@ namespace Engine3DRadSpace::Physics::NVPhysX
 
 		std::optional<float> Intersects(const Math::Ray& r) override;
 		void UpdateTransform() override;
+		void UpdateTransform(const Math::Vector3& position, const Math::Quaternion& rotation) override;
 
 		friend class PhysicsEngine;
 

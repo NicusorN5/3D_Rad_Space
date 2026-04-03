@@ -24,13 +24,13 @@ namespace Engine3DRadSpace::Physics::NVPhysX
 		std::unique_ptr<physx::PxDefaultAllocator> _allocator;
 		std::unique_ptr<physx::PxErrorCallback> _errCallback;
 
-		physx::PxFoundation* _foundation;
-		physx::PxPvd* _pvd;
-		physx::PxPvdTransport* _pvdTransport;
+		physx::PxFoundation* _foundation = nullptr;
+		physx::PxPvd* _pvd = nullptr;
+		physx::PxPvdTransport* _pvdTransport = nullptr;
 
-		physx::PxPhysics* _physics;
-		physx::PxDefaultCpuDispatcher* _cpuDispatcher;
-		physx::PxScene* _scene;
+		physx::PxPhysics* _physics = nullptr;
+		physx::PxDefaultCpuDispatcher* _cpuDispatcher = nullptr;
+		physx::PxScene* _scene = nullptr;
 
 		double _accTimer = 0;
 		double _timeStep;

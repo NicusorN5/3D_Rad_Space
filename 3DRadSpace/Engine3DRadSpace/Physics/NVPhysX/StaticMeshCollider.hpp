@@ -52,12 +52,9 @@ namespace Engine3DRadSpace::Physics::NVPhysX
 		StaticMeshCollider(StaticMeshCollider&& rb) noexcept = default;
 		StaticMeshCollider& operator=(StaticMeshCollider&& rb) noexcept = default;
 
-		void SetPosition(const Math::Vector3& newPos, bool wake = false);
-		void SetRotation(const Math::Quaternion& newQuat, bool wake = false);
-		void SetPositionRotation(const Math::Vector3& newPos, const Math::Vector3& newQuat, bool wake);
-
 		std::optional<float> Intersects(const Math::Ray& r) override;
 		void UpdateTransform() override;
+		void UpdateTransform(const Math::Vector3& position, const Math::Quaternion& rotation) override;
 
 		friend class PhysicsEngine;
 

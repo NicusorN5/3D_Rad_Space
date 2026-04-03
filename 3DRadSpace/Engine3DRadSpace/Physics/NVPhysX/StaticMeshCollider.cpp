@@ -7,6 +7,7 @@
 #include <geometry/PxTriangleMeshGeometry.h>
 #include <PxPhysicsAPI.h>
 #include "../../Content/Assets/ModelAsset.hpp"
+#include "../../Logging/Warning.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Content::Assets;
@@ -31,52 +32,60 @@ void StaticMeshCollider::_generateRigidbody()
 
 	physx::PxTolerancesScale toleranceScale;
 	physx::PxCookingParams cookParams(toleranceScale);
+	cookParams.meshPreprocessParams |= physx::PxMeshPreprocessingFlag::eWELD_VERTICES;
+	cookParams.meshWeldTolerance = 0.001f;
 
 	for(auto &mesh : *_model)
 	{
 		for(auto &part : *mesh.get())
 		{
-			void* verts;
-			size_t structSize = part->VertexBuffer->StructSize();
-			size_t numVertices = part->VertexBuffer->NumVertices();
-
-			void* indices;
-			part->VertexBuffer->ReadData(&verts);
+			auto [vertexBuffer, indexBuffer] = part->CreateStagingBuffers();
 			
-			//create a copy of the position vertices.
-			std::unique_ptr<Vector3[]> vertices = std::make_unique<Vector3[]>(numVertices); 
-			for(size_t i = 0; i < numVertices; ++i)
+			void* verts;
+			void* indices;
+
+			size_t structSize = vertexBuffer->StructSize();
+			std::ignore = vertexBuffer->ReadData(&verts);
+			size_t numVertices = vertexBuffer->NumVertices();
+
+			std::unique_ptr<Vector3[]> vertices = std::make_unique<Vector3[]>(numVertices);
+			for(size_t i = 0; i < numVertices; i++)
 			{
+				//Assume VS_Position as first element of the declaration.
 				vertices[i] = *reinterpret_cast<Vector3*>((static_cast<std::byte*>(verts) + (structSize * i)));
 			}
 
-			part->VertexBuffer->EndRead();
-			part->IndexBuffer->ReadData(&indices);
+			std::ignore = indexBuffer->ReadData(&indices);	
+			size_t numIndices = indexBuffer->NumIndices();
 
-			physx::PxTriangleMeshDesc meshDesc;
+			physx::PxTriangleMeshDesc meshDesc{};
+			meshDesc.setToDefault();
 
 			meshDesc.points.count = numVertices;
 			meshDesc.points.data = vertices.get();
-			meshDesc.points.stride = part->VertexBuffer->StructSize();
+			meshDesc.points.stride = sizeof(Vector3);
 
-			meshDesc.triangles.count = part->IndexBuffer->NumIndices();
+			meshDesc.triangles.count = numIndices / 3;
 			meshDesc.triangles.data = indices;
-			meshDesc.triangles.stride = sizeof(unsigned);
+			meshDesc.triangles.stride = 3 * sizeof(unsigned);
 
 #if _DEBUG
-			auto b = PxValidateTriangleMesh(cookParams, meshDesc);
-			PX_ASSERT(b);
-			assert(b);
+			if(!PxValidateTriangleMesh(cookParams, meshDesc))
+				Logging::SetLastWarning("PhysX: PxValidateTriangleMesh failed!");
 #endif
-			meshes.push_back(
-				PxCreateTriangleMesh(
-					cookParams,
-					meshDesc, 
-					nvPhysics->getPhysicsInsertionCallback()
-				)
+			auto cookedMesh = PxCreateTriangleMesh(
+				cookParams,
+				meshDesc, 
+				nvPhysics->getPhysicsInsertionCallback()
 			);
 
-			part->IndexBuffer->EndRead();
+			vertexBuffer->EndRead();
+			indexBuffer->EndRead();
+
+			if(cookedMesh != nullptr)
+				meshes.push_back(cookedMesh);
+			else
+				Logging::SetLastWarning("PhysX: PxCreateTriangleMesh failed!");
 		}
 	}
 
@@ -104,8 +113,6 @@ float StaticMeshCollider::_getMass()
 
 void StaticMeshCollider::_setMass(float mass)
 {
-	_mass = mass;
-	//static_cast<physx::PxRigidStatic*>(_rigidbody.get());
 }
 
 float StaticMeshCollider::_getLinearDamping()
@@ -156,76 +163,70 @@ StaticMeshCollider::StaticMeshCollider(
 	IPhysicsEngine* physics,
 	Graphics::Model3D* model,
 	const Math::Vector3 scale
-) : IStaticCollider(physics)
+) : IStaticCollider(physics),
+	_model(model),
+	_scale(scale)
 {
 	_generateRigidbody();
 }
 
 void StaticMeshCollider::UpdateTransform()
 {
-	auto rigidbody = static_cast<physx::PxRigidStatic*>(_rigidbody.get());
-	auto tr = rigidbody->getGlobalPose();
+}
 
-	_position = Vector3(
-		tr.p.x,
-		tr.p.y,
-		tr.p.z
-	);
-	
-	_rotation = Quaternion(
-		tr.q.x,
-		tr.q.y,
-		tr.q.z,
-		tr.q.w
-	);
+void StaticMeshCollider::UpdateTransform(const Math::Vector3 &position, const Math::Quaternion &rotation)
+{
+	_rigidbody->setGlobalPose(physx::PxTransform(
+		physx::PxVec3(_position.X, _position.Y, _position.Z),
+		physx::PxQuat(_rotation.X, _rotation.Y, _rotation.Z, _rotation.W)
+	));
 }
 
 std::optional<float> StaticMeshCollider::Intersects(const Math::Ray &r)
 {
-	if(_physics == nullptr) return std::nullopt;
+	if(_rigidbody == nullptr) return std::nullopt;
 
-	auto scene = static_cast<physx::PxScene*>(_physics->GetScene());
-	
-	auto origin = physx::PxVec3(r.Origin.X, r.Origin.Y, r.Origin.Z);
-	auto dir = physx::PxVec3(r.Direction.X, r.Direction.Y, r.Direction.Z);
+	auto* actor = static_cast<physx::PxRigidStatic*>(_rigidbody.get());
 
-	physx::PxRaycastBuffer buffer;
+	physx::PxVec3 origin(r.Origin.X, r.Origin.Y, r.Origin.Z);
+	physx::PxVec3 dir(r.Direction.X, r.Direction.Y, r.Direction.Z);
 
-	bool result = scene->raycast(
-		origin,
-		dir,
-		std::numeric_limits<float>::infinity(),
-		buffer
-	);
-	if(!result || !buffer.hasBlock) return std::nullopt;
-	
-	if(buffer.block.actor != static_cast<physx::PxRigidStatic*>(_rigidbody.get())) return false;
-	else return buffer.block.distance;
-}
+	if(dir.normalize() == 0.0f) return std::nullopt;
 
-void StaticMeshCollider::SetPosition(const Vector3& pos, bool wake)
-{
-	auto rigidbody = static_cast<physx::PxRigidStatic*>(_rigidbody.get());
-	auto tr = rigidbody->getGlobalPose();
+	physx::PxU32 numShapes = actor->getNbShapes();
+	if(numShapes == 0)
+	{
+		Logging::SetLastWarning("PhysX: StaticMeshCollider::Intersects - no shapes attached (mesh cooking may have failed).");
+		return std::nullopt;
+	}
 
-	tr.p = physx::PxVec3(pos.X, pos.Y, pos.Z);
-	rigidbody->setGlobalPose(physx::PxTransform(tr));
-}
+	std::vector<physx::PxShape*> shapes(numShapes);
+	actor->getShapes(shapes.data(), numShapes);
 
-void StaticMeshCollider::SetRotation(const Math::Quaternion & newQuat, bool wake)
-{
-	auto rigidbody = static_cast<physx::PxRigidStatic*>(_rigidbody.get());
-	auto tr = rigidbody->getGlobalPose();
-	
-	tr.q = physx::PxQuat(newQuat.X, newQuat.Y, newQuat.Z, newQuat.W);
-	rigidbody->setGlobalPose(physx::PxTransform(tr));
-}
+	float closestDist = PX_MAX_F32;
+	bool hasHit = false;
 
-void StaticMeshCollider::SetPositionRotation(const Math::Vector3 & newPos, const Math::Vector3 & newQuat, bool wake)
-{
-	physx::PxTransform tr;
-	tr.p = { _position.X, _position.Y, _position.Z};
-	tr.q = {_rotation.X, _rotation.Y, _rotation.Z, _rotation.W};
+	for(auto* shape : shapes)
+	{
+		physx::PxTransform pose = actor->getGlobalPose() * shape->getLocalPose();
+		physx::PxRaycastHit hit;
 
-	static_cast<physx::PxRigidStatic*>(_rigidbody.get())->setGlobalPose(tr);
+		physx::PxU32 hitCount = physx::PxGeometryQuery::raycast(
+			origin, dir,
+			shape->getGeometry(),
+			pose,
+			PX_MAX_F32,
+			physx::PxHitFlag::eDEFAULT | physx::PxHitFlag::eMESH_BOTH_SIDES,
+			1,
+			&hit
+		);
+
+		if(hitCount > 0 && hit.distance < closestDist)
+		{
+			closestDist = hit.distance;
+			hasHit = true;
+		}
+	}
+
+	return hasHit ? std::optional<float>(closestDist) : std::nullopt;
 }

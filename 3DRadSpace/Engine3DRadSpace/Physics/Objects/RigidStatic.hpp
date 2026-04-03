@@ -38,6 +38,8 @@ namespace Engine3DRadSpace::Physics::Objects
 		Engine3DRadSpace::Objects::Gizmos::IGizmo* GetGizmo() const noexcept override;
 		Reflection::UUID GetUUID() const noexcept override;
 
+		Graphics::Model3D* GetModel() const noexcept;
+
 		~RigidStatic() override = default;
 	};
 }
