@@ -14,6 +14,7 @@ namespace Engine3DRadSpace::Physics::Objects
 		std::unique_ptr<std::string> _path;
 
 		Graphics::Model3D* _model = nullptr;
+		bool _reqTransformUpdate = false;
 	public:
 		RigidStatic();
 		RigidStatic(
@@ -39,7 +40,8 @@ namespace Engine3DRadSpace::Physics::Objects
 		Reflection::UUID GetUUID() const noexcept override;
 
 		Graphics::Model3D* GetModel() const noexcept;
-
+		void RequestTransformUpdate();
+		
 		~RigidStatic() override = default;
 	};
 }

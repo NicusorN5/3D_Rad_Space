@@ -26,7 +26,8 @@ void StaticMeshCollider::_generateRigidbody()
 
 	physx::PxTransform transform;
 	transform.p = {_position.X, _position.Y, _position.Z};
-	transform.q = {_rotation.X, _rotation.Y, _rotation.Z, _rotation.W};
+	// PhysX uses column-vector quaternion rotation, match by conjugating q.
+	transform.q = {-_rotation.X, -_rotation.Y, -_rotation.Z, _rotation.W};
 
 	std::vector<physx::PxTriangleMesh*> meshes;
 
@@ -96,7 +97,7 @@ void StaticMeshCollider::_generateRigidbody()
 	{
 		auto meshgeometry = physx::PxTriangleMeshGeometry(
 			mesh,
-			physx::PxMeshScale(physx::PxVec3(_scale.X, _scale.Y, _scale.Z), physx::PxQuat(physx::PxIdentity))
+			physx::PxMeshScale(physx::PxVec3(_scale.X, _scale.Y, _scale.Z))
 		);
 		auto shape = nvPhysics->createShape(meshgeometry, *_material);
 		_rigidbody->attachShape(*shape);
@@ -162,9 +163,13 @@ void StaticMeshCollider::_setRestitution(float restitution)
 StaticMeshCollider::StaticMeshCollider(
 	IPhysicsEngine* physics,
 	Graphics::Model3D* model,
-	const Math::Vector3 scale
+	const Math::Vector3 &position,
+	const Math::Quaternion &rotation,
+	const Math::Vector3 &scale
 ) : IStaticCollider(physics),
 	_model(model),
+	_position(position),
+	_rotation(rotation),
 	_scale(scale)
 {
 	_generateRigidbody();
@@ -176,10 +181,20 @@ void StaticMeshCollider::UpdateTransform()
 
 void StaticMeshCollider::UpdateTransform(const Math::Vector3 &position, const Math::Quaternion &rotation)
 {
+	if(_oldPosition == position && _oldRotation == rotation) return;
+
+	_position = position;
+	_rotation = rotation;
+	_oldPosition = position;
+	_oldRotation = rotation;
+
+	auto scene = static_cast<physx::PxScene*>(_physics->GetScene());
+	scene->removeActor(*_rigidbody);
 	_rigidbody->setGlobalPose(physx::PxTransform(
-		physx::PxVec3(_position.X, _position.Y, _position.Z),
-		physx::PxQuat(_rotation.X, _rotation.Y, _rotation.Z, _rotation.W)
+		physx::PxVec3(position.X, position.Y, position.Z),
+		physx::PxQuat(-rotation.X, -rotation.Y, -rotation.Z, rotation.W)
 	));
+	scene->addActor(*_rigidbody);
 }
 
 std::optional<float> StaticMeshCollider::Intersects(const Math::Ray &r)

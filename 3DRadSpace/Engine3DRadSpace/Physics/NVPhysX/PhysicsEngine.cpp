@@ -111,9 +111,14 @@ PhysicsEngine::~PhysicsEngine()
 	PX_RELEASE(_foundation);
 }
 
-std::unique_ptr<IStaticCollider> PhysicsEngine::CreateStaticCollider(Graphics::Model3D* model, const Math::Vector3 &scale)
+std::unique_ptr<IStaticCollider> PhysicsEngine::CreateStaticCollider(
+	Graphics::Model3D* model,
+	const Math::Vector3& position,
+	const Math::Quaternion& rotation,
+	const Math::Vector3 &scale
+)
 {
-	return std::make_unique<StaticMeshCollider>(this, model, scale);
+	return std::make_unique<StaticMeshCollider>(this, model, position, rotation, scale);
 }
 
 std::unique_ptr<IDynamicCollider> PhysicsEngine::CreateDynamicCollider()

@@ -41,14 +41,14 @@ void RigidStatic::Load()
 	if(_path)
 	{
 		_model = game->Content->Load<ModelAsset>(*_path)->Get();
-		_collider = _physics->CreateStaticCollider(_model, Scale);
+		_collider = _physics->CreateStaticCollider(_model, Position, Rotation, Scale);
 
 		_path.reset();
 	}
 	if(Model)
 	{
 		_model = const_cast<Model3D*>((*game->Content)[Model]->Get());
-		_collider = _physics->CreateStaticCollider(_model, Scale);
+		_collider = _physics->CreateStaticCollider(_model, Position, Rotation, Scale);
 	}
 }
 
@@ -61,9 +61,10 @@ void RigidStatic::Load(const std::filesystem::path& path)
 
 void RigidStatic::Update()
 {
-	if(_collider != nullptr)
+	if(_collider != nullptr && _reqTransformUpdate)
 	{
 		_collider->UpdateTransform(Position, Rotation);
+		_reqTransformUpdate = false;
 	}
 }
 
@@ -90,6 +91,11 @@ Reflection::UUID RigidStatic::GetUUID() const noexcept
 Model3D* RigidStatic::GetModel() const noexcept
 {
 	return _model;
+}
+
+void RigidStatic::RequestTransformUpdate()
+{
+	_reqTransformUpdate = true;
 }
 
 template<>
@@ -144,7 +150,11 @@ public:
 	void Update() override
 	{
 		//Unlike Dynamic objects: update in case the user changed it in the editor
-		Object->Update();
+		auto rs = dynamic_cast<RigidStatic*>(Object);
+		if(rs == nullptr) return;
+
+		rs->RequestTransformUpdate();
+		rs->Update();
 	}
 
 	~Gizmo() = default;

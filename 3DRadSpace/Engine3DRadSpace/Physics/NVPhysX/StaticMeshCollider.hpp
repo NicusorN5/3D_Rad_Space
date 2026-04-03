@@ -24,9 +24,12 @@ namespace Engine3DRadSpace::Physics::NVPhysX
 
 		Graphics::Model3D* _model = nullptr;
 
-		Math::Vector3 _position;
-		Math::Quaternion _rotation;
-		Math::Vector3 _scale;
+		Math::Vector3 _position = Math::Vector3::Zero();
+		Math::Quaternion _rotation = Math::Quaternion();
+		Math::Vector3 _scale = Math::Vector3::One();
+
+		Math::Vector3 _oldPosition = Math::Vector3::Zero();
+		Math::Quaternion _oldRotation = Math::Quaternion();
 	protected:
 		float _getMass() override;
 		void _setMass(float mass) override;
@@ -46,7 +49,9 @@ namespace Engine3DRadSpace::Physics::NVPhysX
 		StaticMeshCollider(
 			IPhysicsEngine* physics,
 			Graphics::Model3D* model,
-			const Math::Vector3 scale = Math::Vector3::One()
+			const Math::Vector3 &position = Math::Vector3::Zero(),
+			const Math::Quaternion &rotation = Math::Quaternion(),
+			const Math::Vector3 &scale = Math::Vector3::One()
 		);
 	
 		StaticMeshCollider(StaticMeshCollider&& rb) noexcept = default;

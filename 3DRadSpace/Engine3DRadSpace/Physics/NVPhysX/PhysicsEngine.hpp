@@ -54,7 +54,12 @@ namespace Engine3DRadSpace::Physics::NVPhysX
 		void* GetCPUDispatcher() const noexcept;
 		void* GetScene() const noexcept override;
 
-		std::unique_ptr<IStaticCollider> CreateStaticCollider(Graphics::Model3D* model, const Math::Vector3 &scale = Math::Vector3::One()) override;
+		std::unique_ptr<IStaticCollider> CreateStaticCollider(
+			Graphics::Model3D* model,
+			const Math::Vector3& position = Math::Vector3::Zero(),
+			const Math::Quaternion& rotation = Math::Quaternion(),
+			const Math::Vector3 &scale = Math::Vector3::One()
+		) override;
 		std::unique_ptr<IDynamicCollider> CreateDynamicCollider() override;
 
 		~PhysicsEngine() override;

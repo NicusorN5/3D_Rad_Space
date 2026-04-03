@@ -1,6 +1,7 @@
 #pragma once
 #include "../Core/IService.hpp"
 #include "../Math/Vector3.hpp"
+#include "../Math/Quaternion.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {
@@ -18,7 +19,12 @@ namespace Engine3DRadSpace::Physics
 		virtual void Simulate(float dt) = 0;
 		virtual void* GetScene() const noexcept = 0;
 
-		virtual std::unique_ptr<IStaticCollider> CreateStaticCollider(Graphics::Model3D* model, const Math::Vector3 &scale = Math::Vector3::One()) = 0;
+		virtual std::unique_ptr<IStaticCollider> CreateStaticCollider(
+			Graphics::Model3D* model,
+			const Math::Vector3 &position = Math::Vector3::Zero(),
+			const Math::Quaternion& rotation = Math::Quaternion(),
+			const Math::Vector3 &scale = Math::Vector3::One()
+		) = 0;
 		virtual std::unique_ptr<IDynamicCollider> CreateDynamicCollider() = 0;
 
 		~IPhysicsEngine() override = default;
