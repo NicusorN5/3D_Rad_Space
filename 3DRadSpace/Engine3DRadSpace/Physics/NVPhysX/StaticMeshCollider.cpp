@@ -1,10 +1,8 @@
-#include "StaticRigidbody.hpp"
+#include "StaticMeshCollider.hpp"
 #include "../../Games/Game.hpp"
 #include "../../Graphics/Model3D.hpp"
 #include "../../Objects/Gizmos.hpp"
 #include "PhysicsEngine.hpp"
-#include <PxRigidStatic.h>
-#include <PxPhysics.h>
 #include <geometry/PxTriangleMesh.h>
 #include <geometry/PxTriangleMeshGeometry.h>
 #include <PxPhysicsAPI.h>
@@ -18,17 +16,12 @@ using namespace Engine3DRadSpace::Objects;
 using namespace Engine3DRadSpace::Physics;
 using namespace Engine3DRadSpace::Physics::NVPhysX;
 
-void StaticRigidbody::_generateRigidbody()
+void StaticMeshCollider::_generateRigidbody()
 {
 	auto nvPhysics = static_cast<physx::PxPhysics*>(static_cast<PhysicsEngine*>(_physics)->GetPhysics());
 
-	_material = std::unique_ptr<void, std::function<void(void*)>>(
-		nvPhysics->createMaterial(StaticFriction, DynamicFriction, Restitution),
-		[](void *material)
-		{
-			static_cast<physx::PxMaterial*>(material)->release();
-		}
-	);
+	auto material = nvPhysics->createMaterial(StaticFriction, DynamicFriction, Restitution);
+	_material.reset(material);
 
 	physx::PxTransform transform;
 	transform.p = {_position.X, _position.Y, _position.Z};
@@ -87,15 +80,8 @@ void StaticRigidbody::_generateRigidbody()
 		}
 	}
 
-	_rigidbody = std::unique_ptr<void, std::function<void(void*)>>(nvPhysics->createRigidStatic(transform),
-		[](void* body)
-		{
-			static_cast<physx::PxRigidStatic*>(body)->release();
-		}
-	);
-
-	auto rigidbody = static_cast<physx::PxRigidStatic*>(_rigidbody.get());
-	auto material = static_cast<physx::PxMaterial*>(_material.get());
+	auto rigidbody = nvPhysics->createRigidStatic(transform);
+	_rigidbody.reset(rigidbody);
 
 	for(auto& mesh : meshes)
 	{
@@ -103,70 +89,70 @@ void StaticRigidbody::_generateRigidbody()
 			mesh,
 			physx::PxMeshScale(physx::PxVec3(_scale.X, _scale.Y, _scale.Z), physx::PxQuat(physx::PxIdentity))
 		);
-		auto shape = nvPhysics->createShape(meshgeometry, *material);
-		rigidbody->attachShape(*shape);
+		auto shape = nvPhysics->createShape(meshgeometry, *_material);
+		_rigidbody->attachShape(*shape);
 	}
 
 	auto scene = static_cast<physx::PxScene*>(_physics->GetScene());
-	scene->addActor(*rigidbody);
+	scene->addActor(*_rigidbody);
 }
 
-float StaticRigidbody::_getMass()
+float StaticMeshCollider::_getMass()
 {
 	return std::numeric_limits<float>::infinity();
 }
 
-void StaticRigidbody::_setMass(float mass)
+void StaticMeshCollider::_setMass(float mass)
 {
 	_mass = mass;
 	//static_cast<physx::PxRigidStatic*>(_rigidbody.get());
 }
 
-float StaticRigidbody::_getLinearDamping()
+float StaticMeshCollider::_getLinearDamping()
 {
 	return _linearDamping;
 }
 
-void StaticRigidbody::_setLinearDamping(float linearDamping)
+void StaticMeshCollider::_setLinearDamping(float linearDamping)
 {
 	static_cast<physx::PxMaterial*>(_material.get())->setDamping(linearDamping);
 	_linearDamping = linearDamping;
 }
 
-float StaticRigidbody::_getStaticFriction()
+float StaticMeshCollider::_getStaticFriction()
 {
 	return _staticFriction;
 }
 
-void StaticRigidbody::_setStaticFriction(float friction)
+void StaticMeshCollider::_setStaticFriction(float friction)
 {
 	static_cast<physx::PxMaterial*>(_material.get())->setStaticFriction(friction);
 	_staticFriction = friction;
 }
 
-float StaticRigidbody::_getDynamicFriction()
+float StaticMeshCollider::_getDynamicFriction()
 {
 	return _dynamicFriction;
 }
 
-void StaticRigidbody::_setDynamicFriction(float friction)
+void StaticMeshCollider::_setDynamicFriction(float friction)
 {
 	static_cast<physx::PxMaterial*>(_material.get())->setDynamicFriction(friction);
 	_dynamicFriction = friction;
 }
 
-float StaticRigidbody::_getRestitution()
+float StaticMeshCollider::_getRestitution()
 {
 	return _restitution;
 }
 
-void StaticRigidbody::_setRestitution(float restitution)
+void StaticMeshCollider::_setRestitution(float restitution)
 {
 	static_cast<physx::PxMaterial*>(_material.get())->setRestitution(restitution);
 	_restitution = restitution;
 }
 
-StaticRigidbody::StaticRigidbody(
+StaticMeshCollider::StaticMeshCollider(
 	IPhysicsEngine* physics,
 	Graphics::Model3D* model,
 	const Math::Vector3 scale
@@ -175,7 +161,7 @@ StaticRigidbody::StaticRigidbody(
 	_generateRigidbody();
 }
 
-void StaticRigidbody::UpdateTransform()
+void StaticMeshCollider::UpdateTransform()
 {
 	auto rigidbody = static_cast<physx::PxRigidStatic*>(_rigidbody.get());
 	auto tr = rigidbody->getGlobalPose();
@@ -194,8 +180,10 @@ void StaticRigidbody::UpdateTransform()
 	);
 }
 
-std::optional<float> StaticRigidbody::Intersects(const Math::Ray &r)
+std::optional<float> StaticMeshCollider::Intersects(const Math::Ray &r)
 {
+	if(_physics == nullptr) return std::nullopt;
+
 	auto scene = static_cast<physx::PxScene*>(_physics->GetScene());
 	
 	auto origin = physx::PxVec3(r.Origin.X, r.Origin.Y, r.Origin.Z);
@@ -215,7 +203,7 @@ std::optional<float> StaticRigidbody::Intersects(const Math::Ray &r)
 	else return buffer.block.distance;
 }
 
-void StaticRigidbody::SetPosition(const Vector3& pos, bool wake)
+void StaticMeshCollider::SetPosition(const Vector3& pos, bool wake)
 {
 	auto rigidbody = static_cast<physx::PxRigidStatic*>(_rigidbody.get());
 	auto tr = rigidbody->getGlobalPose();
@@ -224,7 +212,7 @@ void StaticRigidbody::SetPosition(const Vector3& pos, bool wake)
 	rigidbody->setGlobalPose(physx::PxTransform(tr));
 }
 
-void StaticRigidbody::SetRotation(const Math::Quaternion & newQuat, bool wake)
+void StaticMeshCollider::SetRotation(const Math::Quaternion & newQuat, bool wake)
 {
 	auto rigidbody = static_cast<physx::PxRigidStatic*>(_rigidbody.get());
 	auto tr = rigidbody->getGlobalPose();
@@ -233,7 +221,7 @@ void StaticRigidbody::SetRotation(const Math::Quaternion & newQuat, bool wake)
 	rigidbody->setGlobalPose(physx::PxTransform(tr));
 }
 
-void StaticRigidbody::SetPositionRotation(const Math::Vector3 & newPos, const Math::Vector3 & newQuat, bool wake)
+void StaticMeshCollider::SetPositionRotation(const Math::Vector3 & newPos, const Math::Vector3 & newQuat, bool wake)
 {
 	physx::PxTransform tr;
 	tr.p = { _position.X, _position.Y, _position.Z};

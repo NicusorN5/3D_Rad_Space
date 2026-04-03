@@ -3,7 +3,7 @@
 
 namespace Engine3DRadSpace::Physics::NVPhysX
 {
-	class E3DRSP_PHYSICS_OBJ_EXPORT DynamicRigidbody : public IDynamicCollider
+	class E3DRSP_PHYSICS_OBJ_EXPORT DynamicCollider : public IDynamicCollider
 	{
 	protected:
 		float _getMass() override;
@@ -33,7 +33,7 @@ namespace Engine3DRadSpace::Physics::NVPhysX
 		Math::Vector3 _getMaxAngularVelocity() override;
 		void _setMaxAngularVelocity(const Math::Vector3 & linearVelocity) override;
 	public:
-		DynamicRigidbody(IPhysicsEngine* physics);
+		DynamicCollider(IPhysicsEngine* physics);
 
 		bool ApplyForce(const Math::Vector3& force) override;
 		bool ApplyForce(const Math::Vector3& force, const Math::Vector3& center) override;
@@ -45,6 +45,8 @@ namespace Engine3DRadSpace::Physics::NVPhysX
 		std::optional<float> Intersects(const Math::Ray& r) override;
 		void UpdateTransform() override;
 
-		~DynamicRigidbody() override = default;
+		friend class PhysicsEngine;
+
+		~DynamicCollider() override = default;
 	};
 }

@@ -7,6 +7,8 @@ add_library(3DRadSpace.Physics.Objects STATIC
 	"GForce.cpp"
 	"IPhysicsObject.hpp"
 	"IPhysicsObject.cpp"
+	"RigidStatic.hpp"
+	"RigidStatic.cpp"
 )
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)

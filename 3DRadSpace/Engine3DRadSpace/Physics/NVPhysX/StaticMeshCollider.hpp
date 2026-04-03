@@ -1,6 +1,9 @@
 #pragma once
 #include "../IStaticCollider.hpp"
 #include "../Math/Quaternion.hpp"
+#include <PxRigidStatic.h>
+#include <PxPhysics.h>
+#include "PxUptr.hpp"
 
 namespace Engine3DRadSpace::Graphics
 {
@@ -12,12 +15,12 @@ namespace Engine3DRadSpace::Physics::NVPhysX
 	/// <summary>
 	/// Triangle mesh based static rigidbody collider.
 	/// </summary>
-	class E3DRSP_PHYSICS_OBJ_EXPORT StaticRigidbody: public IStaticCollider
+	class E3DRSP_PHYSICS_OBJ_EXPORT StaticMeshCollider: public IStaticCollider
 	{
 		void _generateRigidbody();
 
-		STD_UPtrTypeless _material;
-		STD_UPtrTypeless _rigidbody;
+		PxUPtr<physx::PxMaterial> _material;
+		PxUPtr<physx::PxRigidStatic> _rigidbody;
 
 		Graphics::Model3D* _model = nullptr;
 
@@ -40,14 +43,14 @@ namespace Engine3DRadSpace::Physics::NVPhysX
 		float _getRestitution() override;;
 		void _setRestitution(float restitution) override;
 	public:
-		StaticRigidbody(
+		StaticMeshCollider(
 			IPhysicsEngine* physics,
 			Graphics::Model3D* model,
 			const Math::Vector3 scale = Math::Vector3::One()
 		);
 	
-		StaticRigidbody(StaticRigidbody&& rb) noexcept = default;
-		StaticRigidbody& operator=(StaticRigidbody&& rb) noexcept = default;
+		StaticMeshCollider(StaticMeshCollider&& rb) noexcept = default;
+		StaticMeshCollider& operator=(StaticMeshCollider&& rb) noexcept = default;
 
 		void SetPosition(const Math::Vector3& newPos, bool wake = false);
 		void SetRotation(const Math::Quaternion& newQuat, bool wake = false);
@@ -56,6 +59,8 @@ namespace Engine3DRadSpace::Physics::NVPhysX
 		std::optional<float> Intersects(const Math::Ray& r) override;
 		void UpdateTransform() override;
 
-		~StaticRigidbody() override = default;
+		friend class PhysicsEngine;
+
+		~StaticMeshCollider() override = default;
 	};
 }

@@ -13,7 +13,15 @@ namespace Engine3DRadSpace::Physics::Objects
 	{
 	protected:
 		IPhysicsEngine* _physics;
-		IPhysicsObject(IPhysicsEngine* physics);
+		IPhysicsObject() = default;
+		IPhysicsObject(
+			const std::string& name,
+			bool enabled,
+			bool visible,
+			const Math::Vector3& position,
+			const Math::Quaternion& rotation,
+			const Math::Vector3& scale
+		);
 	public:
 		void Initialize() override;
 

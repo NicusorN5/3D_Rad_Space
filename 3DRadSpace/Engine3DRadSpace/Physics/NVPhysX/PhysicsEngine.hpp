@@ -2,6 +2,18 @@
 #include "../PhysicsSettings.hpp"
 #include "../IPhysicsEngine.hpp"
 
+namespace physx
+{
+	class PxDefaultAllocator;
+	class PxErrorCallback;
+	class PxFoundation;
+	class PxPvd;
+	class PxPvdTransport;
+	class PxPhysics;
+	class PxDefaultCpuDispatcher;
+	class PxScene;
+}
+
 namespace Engine3DRadSpace::Physics::NVPhysX
 {
 	/// <summary>
@@ -9,23 +21,16 @@ namespace Engine3DRadSpace::Physics::NVPhysX
 	/// </summary>
 	class E3DRSP_PHYSICS_NVPHYSX_EXPORT PhysicsEngine : public IPhysicsEngine
 	{
-		std::unique_ptr<void, std::function<void(void*)>> _allocator;
-		std::unique_ptr<void, std::function<void(void*)>> _errCallback;
+		std::unique_ptr<physx::PxDefaultAllocator> _allocator;
+		std::unique_ptr<physx::PxErrorCallback> _errCallback;
 
-		//physx::PxFoundation*
-		void* _foundation;
-		//physx::PxPvd
-		void* _pvd;
-		//physx::PxPvdTransport
-		void* _pvdTransport;
+		physx::PxFoundation* _foundation;
+		physx::PxPvd* _pvd;
+		physx::PxPvdTransport* _pvdTransport;
 
-		///physx::PxPhysics
-		void* _physics;
-		//physx::PxDefaultCpuDispatcher
-		void* _cpuDispatcher;
-
-		//physx::PxScene
-		void* _scene;
+		physx::PxPhysics* _physics;
+		physx::PxDefaultCpuDispatcher* _cpuDispatcher;
+		physx::PxScene* _scene;
 
 		double _accTimer = 0;
 		double _timeStep;
@@ -48,6 +53,9 @@ namespace Engine3DRadSpace::Physics::NVPhysX
 		void* GetPhysics() const noexcept;
 		void* GetCPUDispatcher() const noexcept;
 		void* GetScene() const noexcept override;
+
+		std::unique_ptr<IStaticCollider> CreateStaticCollider(Graphics::Model3D* model, const Math::Vector3 &scale = Math::Vector3::One()) override;
+		std::unique_ptr<IDynamicCollider> CreateDynamicCollider() override;
 
 		~PhysicsEngine() override;
 	};

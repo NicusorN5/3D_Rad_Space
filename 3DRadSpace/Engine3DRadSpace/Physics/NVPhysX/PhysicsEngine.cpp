@@ -1,65 +1,50 @@
 #include "PhysicsEngine.hpp"
-#include <PxPhysicsAPI.h>
-#include <extensions/PxDefaultAllocator.h>
 #include "../../Logging/Exception.hpp"
 #include "../../Logging/Message.hpp"
+#include "StaticMeshCollider.hpp"
+#include "DynamicCollider.hpp"
+#include "ErrorCallback.hpp"
+#include <extensions/PxDefaultCpuDispatcher.h>
+#include <extensions/PxDefaultAllocator.h>
+#include <PxPhysicsAPI.h>
 
 using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Physics;
 using namespace Engine3DRadSpace::Physics::NVPhysX;
 using namespace Engine3DRadSpace::Logging;
 
-static void _pxDefaultAllocatorDeleter(void* _allocator)
-{
-	delete static_cast<physx::PxDefaultAllocator*>(_allocator);
-}
-
-static void _pxDefaultErrorCallbackDeleter(void* _errCallback)
-{
-	delete static_cast<physx::PxDefaultErrorCallback*>(_errCallback);
-}
-
 PhysicsEngine::PhysicsEngine(const PhysicsSettings& settings) :
 	_timeStep(settings.TimeStep)
 {
 	if (!settings.PhysicsEnabled) return;
 
-	_allocator = std::unique_ptr<void, std::function<void(void*)>> (new physx::PxDefaultAllocator, _pxDefaultAllocatorDeleter);
-	_errCallback = std::unique_ptr<void, std::function<void(void*)>> (new physx::PxDefaultErrorCallback, _pxDefaultErrorCallbackDeleter);
+	_allocator = std::make_unique<physx::PxDefaultAllocator>();
+	_errCallback = std::make_unique<ErrorCallback>();
 
-	_foundation = PxCreateFoundation(
-		PX_PHYSICS_VERSION,
-		*static_cast<physx::PxDefaultAllocator*>(_allocator.get()),
-		*static_cast<physx::PxDefaultErrorCallback*>(_errCallback.get())
-	);
+	_foundation = PxCreateFoundation(PX_PHYSICS_VERSION, *_allocator, *_errCallback);
 	if (_foundation == nullptr) throw Exception("Failed to create PxFoundation");
-	auto foundation = static_cast<physx::PxFoundation*>(_foundation);
 
-	_pvd = physx::PxCreatePvd(*foundation);
-	auto pvd = (static_cast<physx::PxPvd*>(_pvd));
+	_pvd = physx::PxCreatePvd(*_foundation);
 
 	_pvdTransport = physx::PxDefaultPvdSocketTransportCreate("127.0.0.1", 5425, 10);
-	auto pvdTransport = static_cast<physx::PxPvdTransport*>(_pvdTransport);
-	pvd->connect(*pvdTransport, physx::PxPvdInstrumentationFlag::eALL);
+	_pvd->connect(*_pvdTransport, physx::PxPvdInstrumentationFlag::eALL);
 
 	bool trackMemoryAllocations = false;
 #if _DEBUG
 	trackMemoryAllocations = true;
 #endif
 
-	_physics = PxCreatePhysics(PX_PHYSICS_VERSION, *foundation, physx::PxTolerancesScale(), trackMemoryAllocations, pvd);
+	_physics = PxCreatePhysics(PX_PHYSICS_VERSION, *_foundation, physx::PxTolerancesScale(), trackMemoryAllocations, _pvd);
 	if (_physics == nullptr) throw Exception("Failed to create PxPhysics!");
-	auto physics = static_cast<physx::PxPhysics*>(_physics);
 
 	_cpuDispatcher = physx::PxDefaultCpuDispatcherCreate(4);
-	auto cpuDispatcher = static_cast<physx::PxDefaultCpuDispatcher*>(_cpuDispatcher);
 
-	physx::PxSceneDesc sceneDesc(physics->getTolerancesScale());
+	physx::PxSceneDesc sceneDesc(_physics->getTolerancesScale());
 	sceneDesc.gravity = physx::PxVec3(settings.Gravity.X, settings.Gravity.Y, settings.Gravity.Z);
-	sceneDesc.cpuDispatcher = cpuDispatcher;
+	sceneDesc.cpuDispatcher = _cpuDispatcher;
 	sceneDesc.filterShader = physx::PxDefaultSimulationFilterShader;
 
-	_scene = physics->createScene(sceneDesc);
+	_scene = _physics->createScene(sceneDesc);
 	if (_scene == nullptr) throw Exception("Failed to create PxScene!");
 
 	Logging::SetLastMessage("Initialized PhysX");
@@ -72,7 +57,7 @@ void PhysicsEngine::SetGravity(const Math::Vector3& gravity)
 
 Vector3 PhysicsEngine::GetGravity()
 {
-	auto g = static_cast<physx::PxScene*>(_scene)->getGravity();
+	auto g = _scene->getGravity();
 	return Vector3(g.x, g.y, g.z);
 }
 
@@ -80,9 +65,8 @@ void PhysicsEngine::Simulate(float dt)
 {
 	for (_accTimer += dt; _accTimer >= _timeStep; _accTimer -= _timeStep)
 	{
-		auto scene = static_cast<physx::PxScene*>(_scene);
-		scene->simulate(dt);
-		scene->fetchResults(false);
+		_scene->simulate(dt);
+		_scene->fetchResults(false);
 	}
 }
 
@@ -113,45 +97,23 @@ void* PhysicsEngine::GetScene() const noexcept
 
 PhysicsEngine::~PhysicsEngine()
 {
-	auto scene = static_cast<physx::PxScene*>(_scene);
-	auto cpuDispatcher = static_cast<physx::PxDefaultCpuDispatcher*>(_cpuDispatcher);
-	auto physics = static_cast<physx::PxPhysics*>(_physics);
-	auto pvd = (static_cast<physx::PxPvd*>(_pvd));
+	PX_RELEASE(_scene);
+	PX_RELEASE(_cpuDispatcher);
+	PX_RELEASE(_physics);
 
-	//PX_RELEASE(scene);
-	if(scene)
-	{
-		scene->release(); 
-		_scene = nullptr;
-	}
+	auto transport = _pvd->getTransport();
+	PX_RELEASE(transport);
+	PX_RELEASE(_pvd);
 
-	//PX_RELEASE(cpuDispatcher);
-	if(cpuDispatcher) 
-	{
-		cpuDispatcher->release();
-		_cpuDispatcher = nullptr;
-	}
-	//PX_RELEASE(physics);
-	if(physics) 
-	{
-		physics->release();
-		_physics = nullptr;
-	}
+	PX_RELEASE(_foundation);
+}
 
-	if (pvd)
-	{
-		physx::PxPvdTransport* transport = pvd->getTransport();
-		PX_RELEASE(transport);
+std::unique_ptr<IStaticCollider> PhysicsEngine::CreateStaticCollider(Graphics::Model3D* model, const Math::Vector3 &scale)
+{
+	return std::make_unique<StaticMeshCollider>(this, model, scale);
+}
 
-		pvd->release();
-		_pvd = nullptr;
-	}
-
-	auto foundation = static_cast<physx::PxFoundation*>(_foundation);
-	//PX_RELEASE(foundation);
-	if(foundation)
-	{
-		foundation->release();
-		_foundation = nullptr;
-	};
+std::unique_ptr<IDynamicCollider> PhysicsEngine::CreateDynamicCollider()
+{
+	return std::make_unique<DynamicCollider>(this);
 }

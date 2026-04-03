@@ -21,6 +21,7 @@ REFL_FWD(Sphere)
 REFL_FWD(Cone)
 REFL_FWD(Cylinder)
 REFL_FWD(FreeCam)
+REFL_FWD(RigidStatic)
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Reflection;
@@ -47,15 +48,13 @@ void Engine3DRadSpace::Internal::LoadDefaultObjects()
 		&FogReflInstance, //Fog
 		/*
 		CameraReflInstance, //Force
-		CameraReflInstance, //FPVCamera
 		CameraReflInstance, //Settings*/
 		&GForceReflInstance, //G-Force
 		/*
 		CameraReflInstance, //Group
 		CameraReflInstance, //Network chat
-		CameraReflInstance, //Rigidbody
-		CameraReflInstance, //C# Script
 		*/
+		&RigidStaticReflInstance, //RigidStatic
 		&SkinmeshReflInstance, //Skinmesh
 		&SkyboxReflInstance, //Skybox
 		&SkyColorReflInstance,

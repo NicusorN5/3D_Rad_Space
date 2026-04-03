@@ -3,9 +3,14 @@ cmake_minimum_required(VERSION 3.21)
 project("Engine3DRadSpace.Physics.NVPhysX")
 
 add_library(3DRadSpace.Physics.NVPhysX STATIC
-	"DynamicRigidbody.cpp"
+	"DynamicCollider.hpp"
+	"DynamicCollider.cpp"
+	"ErrorCallback.hpp"
+	"ErrorCallback.cpp"
+	"PhysicsEngine.hpp"
 	"PhysicsEngine.cpp"
-	"StaticRigidbody.cpp"
+	"StaticMeshCollider.hpp"
+	"StaticMeshCollider.cpp"
 )
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
@@ -29,6 +34,12 @@ if(MSVC)
 
 	target_compile_definitions(3DRadSpace.Physics.NVPhysX PRIVATE [[E3DRSP_PHYSICS_NVPHYSX_EXPORT=__declspec(dllexport)]])
 endif()
+
+# PhysX requires exactly one of NDEBUG or _DEBUG to be defined.
+target_compile_definitions(3DRadSpace.Physics.NVPhysX PRIVATE
+	$<$<CONFIG:Debug>:_DEBUG>
+	$<$<NOT:$<CONFIG:Debug>>:NDEBUG>
+)
 
 find_package(unofficial-omniverse-physx-sdk CONFIG REQUIRED)
 target_link_libraries(3DRadSpace.Physics.NVPhysX PRIVATE unofficial::omniverse-physx-sdk::sdk)
