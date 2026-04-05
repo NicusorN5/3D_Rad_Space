@@ -118,46 +118,51 @@ void StaticMeshCollider::_setMass(float mass)
 
 float StaticMeshCollider::_getLinearDamping()
 {
+	if(_material)
+		return _material->getDamping();
 	return _linearDamping;
 }
 
 void StaticMeshCollider::_setLinearDamping(float linearDamping)
 {
-	static_cast<physx::PxMaterial*>(_material.get())->setDamping(linearDamping);
-	_linearDamping = linearDamping;
+	if(_material) _material->setDamping(linearDamping);
+	else _linearDamping = linearDamping;
 }
 
 float StaticMeshCollider::_getStaticFriction()
 {
+	if(_material) return _material->getStaticFriction();
 	return _staticFriction;
 }
 
 void StaticMeshCollider::_setStaticFriction(float friction)
 {
-	static_cast<physx::PxMaterial*>(_material.get())->setStaticFriction(friction);
-	_staticFriction = friction;
+	if(_material) _material->setStaticFriction(friction);
+	else _staticFriction = friction;
 }
 
 float StaticMeshCollider::_getDynamicFriction()
 {
+	if(_material) return _material->getDynamicFriction();
 	return _dynamicFriction;
 }
 
 void StaticMeshCollider::_setDynamicFriction(float friction)
 {
-	static_cast<physx::PxMaterial*>(_material.get())->setDynamicFriction(friction);
-	_dynamicFriction = friction;
+	if(_material) _material->setDynamicFriction(friction);
+	else _dynamicFriction = friction;
 }
 
 float StaticMeshCollider::_getRestitution()
 {
+	if(_material) return _material->getRestitution();
 	return _restitution;
 }
 
 void StaticMeshCollider::_setRestitution(float restitution)
 {
-	static_cast<physx::PxMaterial*>(_material.get())->setRestitution(restitution);
-	_restitution = restitution;
+	if(_material) _material->setRestitution(restitution);
+	else _restitution = restitution;
 }
 
 StaticMeshCollider::StaticMeshCollider(
@@ -188,13 +193,10 @@ void StaticMeshCollider::UpdateTransform(const Math::Vector3 &position, const Ma
 	_oldPosition = position;
 	_oldRotation = rotation;
 
-	auto scene = static_cast<physx::PxScene*>(_physics->GetScene());
-	scene->removeActor(*_rigidbody);
 	_rigidbody->setGlobalPose(physx::PxTransform(
 		physx::PxVec3(position.X, position.Y, position.Z),
 		physx::PxQuat(-rotation.X, -rotation.Y, -rotation.Z, rotation.W)
 	));
-	scene->addActor(*_rigidbody);
 }
 
 std::optional<float> StaticMeshCollider::Intersects(const Math::Ray &r)

@@ -1,21 +1,34 @@
 #include "ObjectCollection.hpp"
+#include "IObject.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Objects;
 
+ObjectCollection::ObjectCollection(IObject* owner) : _owner(owner)
+{
+}
+
 void ObjectCollection::Add(IObject* ptr)
 {
+	if(ptr == nullptr) return;
+
+	ptr->SetParent(_owner);
 	_objects.push_back(ptr);
 }
 
 void ObjectCollection::Remove(IObject* ptr)
 {
+	if(ptr == nullptr) return;
+
+	ptr->SetParent(nullptr);
 	_objects.erase(std::remove(_objects.begin(), _objects.end(), ptr), _objects.end());
 }
 
 void ObjectCollection::Remove(size_t index)
 {
 	if (index >= _objects.size()) return;
+
+	_objects.at(index)->SetParent(nullptr);
 	_objects.erase(_objects.begin() + index);
 }
 
@@ -40,12 +53,32 @@ void ObjectCollection::Clear()
 	_objects.clear();
 }
 
-ObjectCollection ObjectCollection::Find(std::function<bool(IObject*)> predicate)
+std::vector<IObject*> ObjectCollection::Find(std::function<bool(IObject*)> predicate) const noexcept
 {
-	ObjectCollection r;
+	std::vector<IObject*> r;
 
-	for(auto& obj : _objects) 
-		if(predicate(obj)) r.Add(obj);
+	for(const auto& obj : _objects) 
+		if(predicate(obj)) r.push_back(obj);
 
 	return r;
+}
+
+std::vector<IObject*>::iterator ObjectCollection::begin() noexcept
+{
+	return _objects.begin();
+}
+
+std::vector<IObject*>::const_iterator ObjectCollection::begin() const noexcept
+{
+	return _objects.begin();
+}
+
+std::vector<IObject*>::iterator ObjectCollection::end() noexcept
+{
+	return _objects.end();
+}
+
+std::vector<IObject*>::const_iterator ObjectCollection::end() const noexcept
+{
+	return _objects.cend();
 }

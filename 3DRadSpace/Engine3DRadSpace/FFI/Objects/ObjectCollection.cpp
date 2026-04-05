@@ -1,12 +1,13 @@
 #include "ObjectCollection.h"
 #include "../../Objects/ObjectCollection.hpp"
+#include "../../Objects/IObject.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Objects;
 
-E3DRSP_ObjectCollection E3DRSP_ObjectCollection_Create()
+E3DRSP_ObjectCollection E3DRSP_ObjectCollection_Create(E3DRSP_IObject owner)
 {
-	return new ObjectCollection();
+	return new ObjectCollection(static_cast<IObject*>(owner));
 }
 
 void E3DRSP_ObjectCollection_Add(E3DRSP_ObjectCollection collection, E3DRSP_IObject object)

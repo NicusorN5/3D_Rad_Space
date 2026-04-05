@@ -7,6 +7,8 @@ add_library(3DRadSpace.Physics.Objects STATIC
 	"GForce.cpp"
 	"IPhysicsObject.hpp"
 	"IPhysicsObject.cpp"
+	"RigidDynamic.hpp"
+	"RigidDynamic.cpp"
 	"RigidStatic.hpp"
 	"RigidStatic.cpp"
 )

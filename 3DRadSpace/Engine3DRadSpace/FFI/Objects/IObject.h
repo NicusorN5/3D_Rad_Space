@@ -31,7 +31,7 @@ extern "C" {
 	E3DRSP_FFI_EXPORT size_t E3DRSP_IObject_GetChildrenCount(E3DRSP_IObject object);
 
 	E3DRSP_FFI_EXPORT E3DRSP_IObject E3DRSP_IObject_GetParent(E3DRSP_IObject object);
-	E3DRSP_FFI_EXPORT void E3DRSP_IObject_SetParent(E3DRSP_IObject object, E3DRSP_IObject currentOwner, E3DRSP_IObject newParent);
+	E3DRSP_FFI_EXPORT void E3DRSP_IObject_SetParent(E3DRSP_IObject object, E3DRSP_IObject newParent);
 #ifdef __cplusplus
 }
 #endif

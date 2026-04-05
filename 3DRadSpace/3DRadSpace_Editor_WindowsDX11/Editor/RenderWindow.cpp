@@ -472,12 +472,13 @@ void RenderWindow::Draw2D()
 	{
 		auto gizmo = _selectedObject->GetGizmo();
 
-		[[unlikely]]
-		if(gizmo == nullptr) return;
-		
-		if(gizmo->AllowTranslating) _gizmoFn(gizmo, {&btnMvX, &btnMvY, &btnMvZ}, &Button::Draw2D, 0b11);
-		if(gizmo->AllowRotating) _gizmoFn(gizmo, {&btnRtX, &btnRtY, &btnRtZ}, &Button::Draw2D, 0b100);
-		if(gizmo->AllowScaling) _gizmoFn(gizmo, {&btnScX, &btnScY, &btnScZ}, &Button::Draw2D, 0b11);
+		[[likely]]
+		if(gizmo != nullptr)
+		{
+			if(gizmo->AllowTranslating) _gizmoFn(gizmo, {&btnMvX, &btnMvY, &btnMvZ}, &Button::Draw2D, 0b11);
+			if(gizmo->AllowRotating) _gizmoFn(gizmo, {&btnRtX, &btnRtY, &btnRtZ}, &Button::Draw2D, 0b100);
+			if(gizmo->AllowScaling) _gizmoFn(gizmo, {&btnScX, &btnScY, &btnScZ}, &Button::Draw2D, 0b11);
+		}
 	}
 
 	SpriteBatch->End();

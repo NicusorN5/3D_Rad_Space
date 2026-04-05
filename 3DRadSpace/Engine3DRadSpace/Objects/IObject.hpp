@@ -65,7 +65,7 @@ namespace Engine3DRadSpace
 
 			IObject* operator[](size_t idxChild) const;
 			IObject* GetParent() const noexcept;
-			void SetParent(IObject* currentOwner, IObject* newParent) noexcept;
+			void SetParent(IObject* newParent) noexcept;
 
 			bool HasParent() const noexcept;
 			size_t GetChildrenCount() const noexcept;

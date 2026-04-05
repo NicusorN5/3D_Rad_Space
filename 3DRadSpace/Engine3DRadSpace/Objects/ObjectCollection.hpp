@@ -10,7 +10,9 @@ namespace Engine3DRadSpace::Objects
 	class E3DRSP_OBJECTS_EXPORT ObjectCollection
 	{
 		std::vector<IObject*> _objects;
+		IObject* _owner = nullptr;
 	public:
+		ObjectCollection(IObject* owner);
 		/// <summary>
 		/// Adds an IObject pointer reference to this list.
 		/// </summary>
@@ -57,7 +59,12 @@ namespace Engine3DRadSpace::Objects
 		/// Finds objects that match the specified predicate.
 		/// </summary>
 		/// <param name="predicate">Predicate : (IObject*) -> bool </param>
-		/// <returns>A new ObjectCollection containing the matching objects.</returns>
-		ObjectCollection Find(std::function<bool(IObject*)> predicate);
+		/// <returns>A vector of IObject pointers that match the predicate.</returns>
+		std::vector<IObject*> Find(std::function<bool(IObject*)> predicate) const noexcept;
+
+		std::vector<IObject*>::iterator begin() noexcept;
+		std::vector<IObject*>::const_iterator begin() const noexcept;
+		std::vector<IObject*>::iterator end() noexcept;
+		std::vector<IObject*>::const_iterator end() const noexcept;
 	};
 }

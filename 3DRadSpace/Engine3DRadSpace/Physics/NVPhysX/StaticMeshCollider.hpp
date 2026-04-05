@@ -17,6 +17,7 @@ namespace Engine3DRadSpace::Physics::NVPhysX
 	/// </summary>
 	class E3DRSP_PHYSICS_OBJ_EXPORT StaticMeshCollider: public IStaticCollider
 	{
+	protected:
 		void _generateRigidbody();
 
 		PxUPtr<physx::PxMaterial> _material;
@@ -30,7 +31,7 @@ namespace Engine3DRadSpace::Physics::NVPhysX
 
 		Math::Vector3 _oldPosition = Math::Vector3::Zero();
 		Math::Quaternion _oldRotation = Math::Quaternion();
-	protected:
+
 		float _getMass() override;
 		void _setMass(float mass) override;
 

@@ -1,4 +1,8 @@
 #include "DynamicCollider.hpp"
+#include "PhysicsEngine.hpp"
+#include <PxMaterial.h>
+#include <extensions/PxRigidBodyExt.h>
+#include <geometry/PxGeometryQuery.h>
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Math;
@@ -7,124 +11,272 @@ using namespace Engine3DRadSpace::Physics::NVPhysX;
 
 DynamicCollider::DynamicCollider(IPhysicsEngine* physics) : IDynamicCollider(physics)
 {
+	_generateRigidbody();
+}
+
+void DynamicCollider::_generateRigidbody()
+{
+	auto nvPhysics = static_cast<physx::PxPhysics*>(static_cast<PhysicsEngine*>(_physics)->GetPhysics());
+
+	auto material = nvPhysics->createMaterial(StaticFriction, DynamicFriction, Restitution);
+	_material.reset(material);
 }
 
 float DynamicCollider::_getMass()
 {
-	return 0.0f;
+	if(_rigidbody == nullptr) return _mass;
+	return static_cast<float>(_rigidbody->getMass());
 }
 
 void DynamicCollider::_setMass(float mass)
 {
+	if(_rigidbody) _rigidbody->setMass(mass);
+	else _mass = mass;
 }
 
 float DynamicCollider::_getLinearDamping()
 {
-	return 0.0f;
+	if(_rigidbody == nullptr) return _linearDamping;
+	return _rigidbody->getLinearDamping();
 }
 
 void DynamicCollider::_setLinearDamping(float linearDamping)
 {
+	if(_rigidbody) _rigidbody->setLinearDamping(linearDamping);
+	else _linearDamping = linearDamping;
 }
 
 float DynamicCollider::_getAngularDamping()
 {
-	return 0.0f;
+	if(_rigidbody == nullptr) return _angularDamping;
+	return _rigidbody->getAngularDamping();
 }
 
 void DynamicCollider::_setAngularDamping(float angularDamping)
 {
+	if(_rigidbody == nullptr) _angularDamping = angularDamping;
+	else _rigidbody->setAngularDamping(angularDamping);
 }
 
 float DynamicCollider::_getStaticFriction()
 {
-	return 0.0f;
+	if(_material) return _material->getStaticFriction();
+	return _staticFriction;
 }
 
 void DynamicCollider::_setStaticFriction(float friction)
 {
+	if(_material) _material->setStaticFriction(friction);
+	else _staticFriction = friction;
 }
 
 float DynamicCollider::_getDynamicFriction()
 {
-	return 0.0f;
+	if(_material) return _material->getDynamicFriction();
+	return _dynamicFriction;
 }
 
 void DynamicCollider::_setDynamicFriction(float friction)
 {
+	if(_material) _material->setDynamicFriction(friction);
+	else _dynamicFriction = friction;
 }
 
 float DynamicCollider::_getRestitution()
 {
-	return 0.0f;
+	if(_material) return _material->getRestitution();
+	return _restitution;
 }
 
 void DynamicCollider::_setRestitution(float restitution)
 {
+	if(_material) _material->setRestitution(restitution);
+	else _restitution = restitution;
 }
 
 Math::Vector3 DynamicCollider::_getLinearVelocity()
 {
-	return Math::Vector3();
+	if(_rigidbody)
+	{
+		auto v = _rigidbody->getLinearVelocity();
+		return Vector3(v.x, v.y, v.z);
+	}
+	return _linearVelocity;
 }
 
-void DynamicCollider::_setLinearVelocity(const Math::Vector3 & linearVelocity)
+void DynamicCollider::_setLinearVelocity(const Math::Vector3 &linearVelocity)
 {
+	if(_rigidbody)
+		_rigidbody->setLinearVelocity(physx::PxVec3(linearVelocity.X, linearVelocity.Y, linearVelocity.Z));
+	else
+		_linearVelocity = linearVelocity;
 }
 
 Vector3 DynamicCollider::_getAngularVelocity()
 {
-	return Math::Vector3();
+	if(_rigidbody)
+	{
+		auto av = _rigidbody->getAngularVelocity();
+		return Vector3(av.x, av.y, av.z);
+	}
+	return _angularVelocity;
 }
 
 void DynamicCollider::_setAngularVelocity(const Math::Vector3 & linearVelocity)
 {
+	if(_rigidbody)
+		_rigidbody->setAngularVelocity(physx::PxVec3(linearVelocity.X, linearVelocity.Y, linearVelocity.Z));
+	else
+		_angularVelocity = linearVelocity;
 }
 
 Vector3 DynamicCollider::_getMaxAngularVelocity()
 {
-	return Math::Vector3();
+	if(_rigidbody)
+	{
+		auto mav = _rigidbody->getMaxAngularVelocity();
+		return Vector3(mav, mav, mav);
+	}
+	return _maxAngularVelocity;
 }
 
-void DynamicCollider::_setMaxAngularVelocity(const Math::Vector3 & linearVelocity)
+void DynamicCollider::_setMaxAngularVelocity(const Math::Vector3 & angularVelocity)
 {
+	if(_rigidbody) _rigidbody->setMaxAngularVelocity(angularVelocity.X);
+	else _maxAngularVelocity = angularVelocity;
 }
 
-bool DynamicCollider::ApplyForce(const Math::Vector3 & force)
+void DynamicCollider::ApplyForce(const Math::Vector3 & force)
 {
-	return false;
+	if(_rigidbody == nullptr) return;
+	_rigidbody->addForce(physx::PxVec3(force.X, force.Y, force.Z));
 }
 
-bool DynamicCollider::ApplyForce(const Math::Vector3 & force, const Math::Vector3 & center)
+void DynamicCollider::ApplyForce(const Math::Vector3 & force, const Math::Vector3 & center)
 {
-	return false;
+	if(_rigidbody == nullptr) return;
+
+	physx::PxRigidBodyExt::addForceAtPos(
+		*_rigidbody,
+		physx::PxVec3(force.X, force.Y, force.Z),
+		physx::PxVec3(center.X, center.Y, center.Z)
+	);
 }
 
-bool DynamicCollider::ApplyTorque(const Math::Vector3 & force)
+void DynamicCollider::ApplyTorque(const Math::Vector3 & force)
 {
-	return false;
+	if(_rigidbody == nullptr) return;
+	_rigidbody->addTorque(physx::PxVec3(force.X, force.Y, force.Z));
 }
 
-bool DynamicCollider::ApplyAcceleration(const Math::Vector3 & acc)
+void DynamicCollider::ApplyAcceleration(const Math::Vector3 & acc)
 {
-	return false;
+	if(_rigidbody == nullptr) return;
+	_rigidbody->addForce(physx::PxVec3(acc.X, acc.Y, acc.Z), physx::PxForceMode::eACCELERATION);
 }
 
-bool DynamicCollider::ApplyAngularAcceleration(const Math::Vector3 & acc)
+void DynamicCollider::ApplyAngularAcceleration(const Math::Vector3 & acc)
 {
-	return false;
+	if(_rigidbody == nullptr) return;
+	_rigidbody->addTorque(physx::PxVec3(acc.X, acc.Y, acc.Z), physx::PxForceMode::eACCELERATION);
 }
 
 void DynamicCollider::UpdateTransform()
 {
+	if(_rigidbody == nullptr) return;
 
+	auto tr = _rigidbody->getGlobalPose();
+	_position = {tr.p.x, tr.p.y, tr.p.z};
+	_rotation = {-tr.q.x, -tr.q.y, -tr.q.z, tr.q.w};
 }
 
-void DynamicCollider::UpdateTransform(const Math::Vector3 & position, const Math::Quaternion & rotation)
+void DynamicCollider::UpdateTransform(const Math::Vector3 &position, const Math::Quaternion & rotation)
 {
+	if(_rigidbody == nullptr) return;
+
+	_rigidbody->setGlobalPose(physx::PxTransform(
+		physx::PxVec3(position.X, position.Y, position.Z),
+		physx::PxQuat(-rotation.X, -rotation.Y, -rotation.Z, rotation.W)
+	));
 }
 
 std::optional<float> DynamicCollider::Intersects(const Math::Ray& r)
 {
-	return 0.0f;
+	if(_rigidbody == nullptr) return std::nullopt;
+
+	physx::PxVec3 origin(r.Origin.X, r.Origin.Y, r.Origin.Z);
+	physx::PxVec3 dir(r.Direction.X, r.Direction.Y, r.Direction.Z);
+
+	if(dir.normalize() == 0.0f) return std::nullopt;
+
+	physx::PxU32 numShapes = _rigidbody->getNbShapes();
+	if(numShapes == 0) return std::nullopt;
+
+	std::vector<physx::PxShape*> shapes(numShapes);
+	_rigidbody->getShapes(shapes.data(), numShapes);
+
+	float closestDist = PX_MAX_F32;
+	bool hasHit = false;
+
+	for(auto* shape : shapes)
+	{
+		physx::PxTransform pose = _rigidbody->getGlobalPose() * shape->getLocalPose();
+		physx::PxRaycastHit hit;
+
+		physx::PxU32 hitCount = physx::PxGeometryQuery::raycast(
+			origin, dir,
+			shape->getGeometry(),
+			pose,
+			PX_MAX_F32,
+			physx::PxHitFlag::eDEFAULT,
+			1,
+			&hit
+		);
+
+		if(hitCount > 0 && hit.distance < closestDist)
+		{
+			closestDist = hit.distance;
+			hasHit = true;
+		}
+	}
+
+	return hasHit ? std::optional<float>(closestDist) : std::nullopt;
+}
+
+void DynamicCollider::AttachShape(const Math::BoundingBox & box)
+{
+	if(_rigidbody == nullptr) return;
+	auto nvPhysics = static_cast<physx::PxPhysics*>(static_cast<PhysicsEngine*>(_physics)->GetPhysics());
+
+	physx::PxBoxGeometry boxGeom(box.Scale.X / 2, box.Scale.Y / 2, box.Scale.Z / 2);
+
+	auto shape = nvPhysics->createShape(boxGeom, *_material);
+	shape->setLocalPose(physx::PxTransform(physx::PxVec3(
+		box.Position.X - (box.Scale.X / 2),
+		box.Position.Y - (box.Scale.Y / 2),
+		box.Position.Z - (box.Scale.Z / 2)
+	)));
+	_rigidbody->attachShape(*shape);
+}
+
+void DynamicCollider::AttachShape(const Math::BoundingSphere & sphere)
+{
+	if(_rigidbody == nullptr) return;
+	auto nvPhysics = static_cast<physx::PxPhysics*>(static_cast<PhysicsEngine*>(_physics)->GetPhysics());
+
+	physx::PxSphereGeometry sphereGeom(sphere.Radius);
+	auto shape = nvPhysics->createShape(sphereGeom, *_material);
+	shape->setLocalPose(physx::PxTransform(physx::PxVec3(sphere.Center.X, sphere.Center.Y, sphere.Center.Z)));
+	_rigidbody->attachShape(*shape);
+}
+
+void DynamicCollider::Teleport(const Math::Vector3 & position, const std::optional<Math::Quaternion> & rotation)
+{
+	if(_rigidbody == nullptr) return;
+
+	Math::Quaternion rot = rotation.value_or(_rotation);
+	_rigidbody->setGlobalPose(physx::PxTransform(
+		physx::PxVec3(position.X, position.Y, position.Z),
+		physx::PxQuat(-rot.X, -rot.Y, -rot.Z, rot.W)
+	));
 }

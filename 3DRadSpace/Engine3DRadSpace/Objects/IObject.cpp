@@ -12,7 +12,8 @@ IObject::IObject(const std::string& name, bool enabled, bool visible) :
 	_parent(nullptr),
 	Name(name),
 	Enabled(enabled),
-	Visible(visible)
+	Visible(visible),
+	Children(this)
 {
 }
 
@@ -74,20 +75,12 @@ IObject* IObject::GetParent() const noexcept
 	return _parent;
 }
 
-void IObject::SetParent(IObject* currentOwner, IObject* newParent) noexcept
+void IObject::SetParent(IObject* newParent) noexcept
 {
-	if(_parent == nullptr)
-	{
-		_parent = newParent;
-		return;
-	}
+	if(_parent != nullptr)
+		_parent->Children.Remove(this);
 
-	if(currentOwner == this->_parent)
-	{
-		this->_parent = newParent;
-		currentOwner->_parent = nullptr;
-		return;
-	}
+	_parent = newParent;
 }
 
 bool IObject::HasParent() const noexcept
@@ -102,4 +95,12 @@ size_t IObject::GetChildrenCount() const noexcept
 
 IObject::~IObject()
 {
+	for(auto& child : Children)
+	{
+		if(child == nullptr) continue;
+		child->SetParent(nullptr);
+	}
+
+	if(_parent != nullptr)
+		_parent->Children.Remove(this);
 }

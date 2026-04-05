@@ -8,19 +8,19 @@ namespace Engine3DRadSpace::Physics
 	protected:
 		IStaticCollider(IPhysicsEngine* physics);
 	
-		float _linearDamping = 0;
+		float _linearDamping;
 		virtual float _getLinearDamping() = 0;
 		virtual void _setLinearDamping(float linearDamping) = 0;
 
-		float _staticFriction = 0;
+		float _staticFriction;
 		virtual float _getStaticFriction() = 0;
 		virtual void _setStaticFriction(float friction) = 0;
 
-		float _dynamicFriction = 0;
+		float _dynamicFriction;
 		virtual float _getDynamicFriction() = 0;
 		virtual void _setDynamicFriction(float friction) = 0;
 
-		float _restitution = 0;
+		float _restitution;
 		virtual float _getRestitution() = 0;
 		virtual void _setRestitution(float restitution) = 0;
 	public:

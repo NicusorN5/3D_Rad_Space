@@ -13,7 +13,7 @@ namespace Engine3DRadSpace::Physics
 	protected:
 		IPhysicsEngine* _physics;
 
-		float _mass = 0;
+		float _mass;
 		virtual float _getMass() = 0;
 		virtual void _setMass(float mass) = 0;
 

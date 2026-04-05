@@ -102,7 +102,7 @@ E3DRSP_IObject E3DRSP_IObject_GetParent(E3DRSP_IObject object)
 	return static_cast<E3DRSP_IObject>(static_cast<IObject*>(object)->GetParent());
 }
 
-void E3DRSP_IObject_SetParent(E3DRSP_IObject object, E3DRSP_IObject currentOwner, E3DRSP_IObject newParent)
+void E3DRSP_IObject_SetParent(E3DRSP_IObject object, E3DRSP_IObject newParent)
 {
-	static_cast<IObject*>(object)->SetParent(static_cast<IObject*>(currentOwner), static_cast<IObject*>(newParent));
+	static_cast<IObject*>(object)->SetParent(static_cast<IObject*>(newParent));
 }
