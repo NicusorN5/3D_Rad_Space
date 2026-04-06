@@ -280,3 +280,13 @@ void DynamicCollider::Teleport(const Math::Vector3 & position, const std::option
 		physx::PxQuat(-rot.X, -rot.Y, -rot.Z, rot.W)
 	));
 }
+
+void DynamicCollider::SetKinematic(bool isKinematic)
+{
+	if(_rigidbody == nullptr) return;
+
+	if(isKinematic)
+		_rigidbody->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, true);
+	else
+		_rigidbody->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, false);
+}

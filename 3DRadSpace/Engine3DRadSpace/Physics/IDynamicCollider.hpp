@@ -41,5 +41,6 @@ namespace Engine3DRadSpace::Physics
 		virtual void ApplyAngularAcceleration(const Math::Vector3& acc) = 0;
 
 		virtual void Teleport(const Math::Vector3& position, const std::optional<Math::Quaternion>& rotation = std::nullopt) = 0;
+		virtual void SetKinematic(bool isKinematic) = 0;
 	};
 }

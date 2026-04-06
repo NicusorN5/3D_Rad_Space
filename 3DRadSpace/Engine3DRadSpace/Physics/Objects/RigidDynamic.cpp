@@ -24,7 +24,8 @@ RigidDynamic::RigidDynamic(
 	Restitution(this),
 	LinearVelocity(this),
 	AngularVelocity(this),
-	MaxAngularVelocity(this)
+	MaxAngularVelocity(this),
+	Kinematic(this)
 {
 }
 
@@ -140,6 +141,11 @@ void RigidDynamic::Initialize()
 {
 	IPhysicsObject::Initialize();
 	_collider = _physics->CreateDynamicCollider();
+	
+	if(Children.Count() == 0)
+	{
+		Enabled = false;
+	}
 
 	for(auto& child : Children)
 	{
@@ -184,8 +190,9 @@ void RigidDynamic::Initialize()
 		_collider->LinearVelocity = _properties->linearVelocity;
 		_collider->AngularVelocity = _properties->angularVelocity;
 		_collider->MaxAngularVelocity = _properties->maxAngularVelocity;
+	
+		_properties.reset();
 	}
-	_properties.reset();
 
 	_collider->UpdateTransform(Position, Rotation);
 }
@@ -265,11 +272,23 @@ Gizmos::IGizmo* RigidDynamic::GetGizmo() const noexcept
 	return Internal::GizmoOf<RigidDynamic>(this);
 }
 
+void RigidDynamic::_setKinematic(bool isKinematic)
+{
+	_kinematic = isKinematic;
+	if(_collider) _collider->SetKinematic(isKinematic);
+}
+
+bool RigidDynamic::_isKinematic() const noexcept
+{
+	return _kinematic;
+}
+
 REFL_BEGIN(RigidDynamic, "RigidDynamic", "Physics", "A physics object with dynamic rigidbody colliders")
 REFL_FIELD(RigidDynamic, std::string, Name, "Name", "RigidDynamic", "Object of the name")
 REFL_FIELD(RigidDynamic, bool, Enabled, "Enabled", true, "Is the physics object active?")
 REFL_FIELD(RigidDynamic, Math::Vector3, Position, "Position", Math::Vector3::Zero(), "World position of the physics object")
 REFL_FIELD(RigidDynamic, Math::Quaternion, Rotation, "Rotation", Math::Quaternion(), "World rotation of the physics object")
+REFL_FIELD(RigidDynamic, bool, Kinematic, "Kinematic", false, "Is the rigidbody kinematic?")
 REFL_FIELD(RigidDynamic, float, Mass, "Mass", 1.0f, "Mass of the rigidbody")
 REFL_FIELD(RigidDynamic, float, LinearDamping, "Linear Damping", 0.0f, "Linear damping coefficient")
 REFL_FIELD(RigidDynamic, float, AngularDamping, "Angular Damping", 0.05f, "Angular damping coefficient")

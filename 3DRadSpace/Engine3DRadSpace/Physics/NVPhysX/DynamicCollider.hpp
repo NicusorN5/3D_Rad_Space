@@ -60,7 +60,9 @@ namespace Engine3DRadSpace::Physics::NVPhysX
 
 		void AttachShape(const Math::BoundingBox& box) override;
 		void AttachShape(const Math::BoundingSphere& sphere) override;
+
 		void Teleport(const Math::Vector3& position, const std::optional<Math::Quaternion>& rotation = std::nullopt) override;
+		void SetKinematic(bool isKinematic) override;
 
 		friend class PhysicsEngine;
 

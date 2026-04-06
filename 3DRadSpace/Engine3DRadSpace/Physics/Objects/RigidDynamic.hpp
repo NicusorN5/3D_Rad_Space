@@ -54,6 +54,10 @@ namespace Engine3DRadSpace::Physics::Objects
 
 		Math::Vector3 _getMaxAngularVelocity() const noexcept;
 		void _setMaxAngularVelocity(const Math::Vector3& maxAngularVelocity);
+
+		bool _kinematic = false;
+		bool _isKinematic() const noexcept;
+		void _setKinematic(bool isKinematic);
 	public:
 		RigidDynamic(
 			const std::string& name = "RigidDynamic",
@@ -84,6 +88,7 @@ namespace Engine3DRadSpace::Physics::Objects
 		GetSet<Math::Vector3, RigidDynamic, &_getLinearVelocity, &_setLinearVelocity> LinearVelocity;
 		GetSet<Math::Vector3, RigidDynamic, &_getAngularVelocity, &_setAngularVelocity> AngularVelocity;
 		GetSet<Math::Vector3, RigidDynamic, &_getMaxAngularVelocity, &_setMaxAngularVelocity> MaxAngularVelocity;
+		GetSet<bool, RigidDynamic, &RigidDynamic::_isKinematic, &RigidDynamic::_setKinematic> Kinematic;
 
 		IDynamicCollider* GetCollider() const noexcept;
 	};
