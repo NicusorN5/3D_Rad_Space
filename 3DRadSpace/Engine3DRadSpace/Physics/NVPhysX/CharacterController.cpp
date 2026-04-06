@@ -131,3 +131,32 @@ bool CharacterController::IsGrounded()
 
 	return false;
 }
+
+float CharacterController::_getMass()
+{
+	return 0.0f;
+}
+
+void CharacterController::_setMass(float mass)
+{
+	// Do nothing, character controller doesn't have mass
+}
+
+std::optional<float> CharacterController::Intersects(const Math::Ray& r)
+{
+	return std::nullopt;
+}
+
+void CharacterController::UpdateTransform()
+{
+	if(!_controller) return;
+
+	auto p = _controller->getPosition();
+	_position = Vector3(static_cast<float>(p.x), static_cast<float>(p.y), static_cast<float>(p.z));
+}
+
+void CharacterController::UpdateTransform(const Math::Vector3& position, const Math::Quaternion& rotation)
+{
+	if(!_controller) return;
+	_controller->setPosition(physx::PxExtendedVec3(position.X, position.Y, position.Z));
+}
