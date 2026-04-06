@@ -1,6 +1,7 @@
 #pragma once
 #include "../PhysicsSettings.hpp"
 #include "../IPhysicsEngine.hpp"
+#include "PxUPtr.hpp"
 
 namespace physx
 {
@@ -12,6 +13,7 @@ namespace physx
 	class PxPhysics;
 	class PxDefaultCpuDispatcher;
 	class PxScene;
+	class PxControllerManager;
 }
 
 namespace Engine3DRadSpace::Physics::NVPhysX
@@ -32,8 +34,11 @@ namespace Engine3DRadSpace::Physics::NVPhysX
 		physx::PxDefaultCpuDispatcher* _cpuDispatcher = nullptr;
 		physx::PxScene* _scene = nullptr;
 
+		PxUPtr<physx::PxControllerManager> _controllerManager;
+
 		double _accTimer = 0;
 		double _timeStep;
+		double _dt = 0;
 	public:
 		PhysicsEngine(const PhysicsSettings& settings);
 
@@ -61,6 +66,11 @@ namespace Engine3DRadSpace::Physics::NVPhysX
 			const Math::Vector3 &scale = Math::Vector3::One()
 		) override;
 		std::unique_ptr<IDynamicCollider> CreateDynamicCollider() override;
+
+		std::unique_ptr<ICharacterController> CreateCharacterController(float radius, float height) override;
+		double dt() const noexcept override;
+
+		friend class CharacterController;
 
 		~PhysicsEngine() override;
 	};

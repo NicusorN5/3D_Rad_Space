@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 3.21)
 project("Engine3DRadSpace.Physics.NVPhysX")
 
 add_library(3DRadSpace.Physics.NVPhysX STATIC
+	"CharacterController.hpp"
+	"CharacterController.cpp"
 	"DynamicCollider.hpp"
 	"DynamicCollider.cpp"
 	"ErrorCallback.hpp"

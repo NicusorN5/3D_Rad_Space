@@ -3,6 +3,7 @@
 #include "../../Logging/Message.hpp"
 #include "StaticMeshCollider.hpp"
 #include "DynamicCollider.hpp"
+#include "CharacterController.hpp"
 #include "ErrorCallback.hpp"
 #include <extensions/PxDefaultCpuDispatcher.h>
 #include <extensions/PxDefaultAllocator.h>
@@ -46,6 +47,9 @@ PhysicsEngine::PhysicsEngine(const PhysicsSettings& settings) :
 
 	_scene = _physics->createScene(sceneDesc);
 	if (_scene == nullptr) throw Exception("Failed to create PxScene!");
+
+	auto chrMan = PxCreateControllerManager(*_scene);
+	_controllerManager.reset(chrMan);
 
 	Logging::SetLastMessage("Initialized PhysX");
 }
@@ -124,4 +128,14 @@ std::unique_ptr<IStaticCollider> PhysicsEngine::CreateStaticCollider(
 std::unique_ptr<IDynamicCollider> PhysicsEngine::CreateDynamicCollider()
 {
 	return std::make_unique<DynamicCollider>(this);
+}
+
+std::unique_ptr<ICharacterController> PhysicsEngine::CreateCharacterController(float radius, float height)
+{
+	return std::make_unique<CharacterController>(this, radius, height);
+}
+
+double PhysicsEngine::dt() const noexcept
+{
+	return _dt;
 }

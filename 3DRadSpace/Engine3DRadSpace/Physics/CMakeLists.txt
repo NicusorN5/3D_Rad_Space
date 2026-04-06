@@ -12,7 +12,7 @@ add_library(3DRadSpace.Physics SHARED
 	"IStaticCollider.hpp"
 	"IStaticCollider.cpp"
 	"PhysicsSettings.hpp"
-)
+ "ICharacterController.cpp")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET 3DRadSpace.Physics PROPERTY CXX_STANDARD 23)

@@ -12,6 +12,7 @@ namespace Engine3DRadSpace::Physics
 {
 	class IStaticCollider;
 	class IDynamicCollider;
+	class ICharacterController;
 
 	class E3DRSP_PHYSICS_EXPORT IPhysicsEngine : public IService
 	{
@@ -26,6 +27,8 @@ namespace Engine3DRadSpace::Physics
 			const Math::Vector3 &scale = Math::Vector3::One()
 		) = 0;
 		virtual std::unique_ptr<IDynamicCollider> CreateDynamicCollider() = 0;
+		virtual std::unique_ptr<ICharacterController> CreateCharacterController(float radius, float height) = 0;
+		virtual double dt() const noexcept = 0;
 
 		~IPhysicsEngine() override = default;
 	};
