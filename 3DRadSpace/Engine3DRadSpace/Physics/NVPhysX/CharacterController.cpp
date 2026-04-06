@@ -1,9 +1,13 @@
 #include "CharacterController.hpp"
+#include "../../Logging/Exception.hpp"
 #include <characterkinematic/PxControllerManager.h>
 #include <characterkinematic/PxController.h>
 #include <characterkinematic/PxCapsuleController.h>
 #include <PxPhysics.h>
 #include <PxScene.h>
+#include <PxRigidDynamic.h>
+#include <PxMaterial.h>
+#include <geometry/PxGeometryQuery.h>
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Math;
@@ -26,9 +30,15 @@ CharacterController::CharacterController(
 	desc.setToDefault();
 	desc.height = height;
 	desc.radius = radius;
-	desc.slopeLimit = 0.707f; // 45 deg
+	desc.slopeLimit = std::cos(_maxSlopeAngle);
+	desc.material = nvPhysics->createMaterial(0.5f, 0.5f, 0.0f);
+	_material = PxUPtr<physx::PxMaterial>(desc.material);
 
 	auto controller = nvControllerManager->createController(desc);
+	if(controller == nullptr)
+	{
+		throw Logging::Exception("CharacterController creation failed!");
+	}
 	_controller.reset(static_cast<physx::PxCapsuleController*>(controller));
 
 	auto scene = static_cast<physx::PxScene*>(physics->GetScene());
@@ -96,7 +106,7 @@ void CharacterController::Move(const Math::Vector3& displacement)
 
 	_verticalVelocity += Gravity.Get() * dt;
 
-	if(IsGrounded() && _verticalVelocity.Y <= 0.0f)
+	if(IsGrounded() && Vector3::Dot(_verticalVelocity, _gravity) >= 0.0f)
 		_verticalVelocity = Vector3::Zero();
 
 	physx::PxVec3 motion =
@@ -105,7 +115,7 @@ void CharacterController::Move(const Math::Vector3& displacement)
 		_controller->move(
 			motion,
 			0.001f,
-			_physics->dt(),
+			dt,
 			physx::PxControllerFilters(),
 			nullptr
 		);
@@ -113,10 +123,14 @@ void CharacterController::Move(const Math::Vector3& displacement)
 
 void CharacterController::Jump(float height)
 {
-	if(!IsGrounded()) return;
+	if(!IsGrounded() || height <= 0.0f) return;
 
 	float g = _gravity.Length();
-	_verticalVelocity = Vector3(0, std::sqrt(2.0f * g * height), 0);
+	if(g == 0.0f) return;
+
+	// Conservation of energy: (1/2)m(v^2) = mgh -> v = sqrt(2gh)
+	float speed = std::sqrt(2.0f * g * height);
+	_verticalVelocity = Vector3::Normalize(-_gravity) * speed;
 }
 
 bool CharacterController::IsGrounded()
@@ -125,6 +139,11 @@ bool CharacterController::IsGrounded()
 	{
 		physx::PxControllerState state;
 		_controller->getState(state);
+
+		if((state.collisionFlags & physx::PxControllerCollisionFlag::eCOLLISION_UP) != 0)
+		{
+			_verticalVelocity = Vector3::Zero();
+		}
 
 		return (state.collisionFlags & physx::PxControllerCollisionFlag::eCOLLISION_DOWN) != 0;
 	}
@@ -139,12 +158,51 @@ float CharacterController::_getMass()
 
 void CharacterController::_setMass(float mass)
 {
-	// Do nothing, character controller doesn't have mass
+	(void)mass;
 }
 
 std::optional<float> CharacterController::Intersects(const Math::Ray& r)
 {
-	return std::nullopt;
+	if(_controller == nullptr) return std::nullopt;
+
+	physx::PxVec3 origin(r.Origin.X, r.Origin.Y, r.Origin.Z);
+	physx::PxVec3 dir(r.Direction.X, r.Direction.Y, r.Direction.Z);
+
+	if(dir.normalize() == 0.0f) return std::nullopt;
+
+	auto numShapes = _controller->getActor()->getNbShapes();
+	if(numShapes == 0) return std::nullopt;
+
+	std::vector<physx::PxShape*> shapes(numShapes);
+	auto rigidbody = _controller->getActor();
+	rigidbody->getShapes(shapes.data(), numShapes);
+
+	float closestDist = PX_MAX_F32;
+	bool hasHit = false;
+
+	for(auto* shape : shapes)
+	{
+		physx::PxTransform pose = rigidbody->getGlobalPose() * shape->getLocalPose();
+		physx::PxRaycastHit hit;
+
+		physx::PxU32 hitCount = physx::PxGeometryQuery::raycast(
+			origin, dir,
+			shape->getGeometry(),
+			pose,
+			PX_MAX_F32,
+			physx::PxHitFlag::eDEFAULT,
+			1,
+			&hit
+		);
+
+		if(hitCount > 0 && hit.distance < closestDist)
+		{
+			closestDist = hit.distance;
+			hasHit = true;
+		}
+	}
+
+	return hasHit ? std::optional<float>(closestDist) : std::nullopt;
 }
 
 void CharacterController::UpdateTransform()
@@ -159,4 +217,12 @@ void CharacterController::UpdateTransform(const Math::Vector3& position, const M
 {
 	if(!_controller) return;
 	_controller->setPosition(physx::PxExtendedVec3(position.X, position.Y, position.Z));
+	
+	Vector3 up = Vector3::Transform(Vector3::Up(), rotation);
+	_controller->setUpDirection(physx::PxVec3(up.X, up.Y, up.Z));
+}
+
+Math::Vector3 CharacterController::GetPosition() const noexcept
+{
+	return _position;
 }

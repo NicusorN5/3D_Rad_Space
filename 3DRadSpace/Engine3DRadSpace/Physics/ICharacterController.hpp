@@ -17,7 +17,7 @@ namespace Engine3DRadSpace::Physics
 		virtual void _setRadius(float radius) = 0;
 		virtual float _getRadius() const noexcept = 0;
 
-		float _maxSlopeAngle;
+		float _maxSlopeAngle = std::numbers::pi_v<float> / 4.0f;
 		virtual void _setMaxSlopeAngle(float angle) = 0;
 		virtual float _getMaxSlopeAngle() const noexcept = 0;
 

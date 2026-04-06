@@ -20,6 +20,7 @@ namespace Engine3DRadSpace::Physics::NVPhysX
 		Math::Vector3 _getGravity() const noexcept override;
 		void _setGravity(const Math::Vector3& gravity) override;
 
+		PxUPtr<physx::PxMaterial> _material;
 		PxUPtr<physx::PxCapsuleController> _controller;
 		Math::Vector3 _verticalVelocity = Math::Vector3::Zero();
 
