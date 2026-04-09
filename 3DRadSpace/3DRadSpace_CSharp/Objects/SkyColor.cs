@@ -9,10 +9,10 @@ namespace Engine3DRadSpace.Objects
 		extern static IntPtr _create();
 
 		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_SkyColor_Get")]
-		extern static Color _get(IntPtr skinmesh);
+		extern static Color _get(IntPtr skycolor);
 
 		[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_SkyColor_Set")]
-		extern static unsafe void _set(IntPtr skinmesh, Color *color);
+		extern static unsafe void _set(IntPtr skycolor, Color *color);
 
 		public SkyColor() : base(_create())
 		{

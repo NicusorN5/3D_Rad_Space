@@ -184,19 +184,6 @@ public static class CsCompiler
 
 				EmitResult result = compilation.Emit(ms, pdbMs, options: emitOptions);
 
-				// Diagnostic logging
-				Console.WriteLine($"[CsCompiler] Source length: {source.Length}");
-				Console.WriteLine($"[CsCompiler] Emit success: {result.Success}");
-				Console.WriteLine($"[CsCompiler] Emit stream size: {ms.Length} bytes");
-				foreach (var diag in result.Diagnostics)
-					Console.WriteLine($"[CsCompiler] Diag: {diag.Severity} {diag.Id}: {diag.GetMessage()}");
-
-				// Also log the syntax tree declarations
-				var root = syntaxTree.GetRoot();
-				Console.WriteLine($"[CsCompiler] Syntax tree members: {root.ChildNodes().Count()}");
-				foreach (var node in root.ChildNodes())
-					Console.WriteLine($"[CsCompiler] Node: {node.Kind()} - {node.ToString()[..System.Math.Min(80, node.ToString().Length)]}");
-
 				if (!result.Success)
 				{
 					// Compilation failed - collect errors and warnings
@@ -218,7 +205,6 @@ public static class CsCompiler
 					};
 				}
 
-				// Compilation succeeded - load the assembly
 				ms.Seek(0, SeekOrigin.Begin);
 				pdbMs.Seek(0, SeekOrigin.Begin);
 			
@@ -364,14 +350,10 @@ public static class CsCompiler
 		/// <returns>An instance of the specified type.</returns>
 		public object? CreateInstance(string typeName, params object?[]? constructorArgs)
 		{
-			Console.WriteLine("test");
-
 			if (!Success || Assembly == null)
 			{
 				throw new InvalidOperationException("Cannot create instance from failed compilation.");
 			}
-
-			Assembly.DefinedTypes.ToList().ForEach(t => Console.WriteLine($"Defined type: {t.FullName}"));
 
             var type = Assembly.GetType(typeName);
 			if (type == null)

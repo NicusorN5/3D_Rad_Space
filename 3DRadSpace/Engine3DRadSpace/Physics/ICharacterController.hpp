@@ -9,7 +9,6 @@ namespace Engine3DRadSpace::Physics
 		ICharacterController(IPhysicsEngine *physics);
 
 		float _height;
-
 		virtual void _setHeight(float height) = 0;
 		virtual float _getHeight() const noexcept = 0;
 

@@ -77,10 +77,11 @@ IObject* IObject::GetParent() const noexcept
 
 void IObject::SetParent(IObject* newParent) noexcept
 {
-	if(_parent != nullptr)
-		_parent->Children.Remove(this);
-
+	auto oldParent = _parent;
 	_parent = newParent;
+
+	if(oldParent != nullptr)
+		oldParent->Children.Remove(this);
 }
 
 bool IObject::HasParent() const noexcept

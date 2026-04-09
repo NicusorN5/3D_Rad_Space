@@ -37,12 +37,6 @@ if(MSVC)
 	target_compile_definitions(3DRadSpace.Physics.NVPhysX PRIVATE [[E3DRSP_PHYSICS_NVPHYSX_EXPORT=__declspec(dllexport)]])
 endif()
 
-# PhysX requires exactly one of NDEBUG or _DEBUG to be defined.
-target_compile_definitions(3DRadSpace.Physics.NVPhysX PRIVATE
-	$<$<CONFIG:Debug>:_DEBUG>
-	$<$<NOT:$<CONFIG:Debug>>:NDEBUG>
-)
-
 find_package(unofficial-omniverse-physx-sdk CONFIG REQUIRED)
 target_link_libraries(3DRadSpace.Physics.NVPhysX PRIVATE unofficial::omniverse-physx-sdk::sdk)
 

@@ -50,7 +50,12 @@ size_t ObjectCollection::Count() const noexcept
 
 void ObjectCollection::Clear()
 {
-	_objects.clear();
+	auto detachedList = std::move(_objects);
+
+	for (auto& obj : detachedList)
+	{
+		if(obj) obj->SetParent(nullptr);
+	}
 }
 
 std::vector<IObject*> ObjectCollection::Find(std::function<bool(IObject*)> predicate) const noexcept
