@@ -12,7 +12,7 @@ public class Font : NatPtrWrapper
 	extern static uint _size(IntPtr font);
 
 	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Font_SupportedCharacters")]
-	extern static string _supportedCharacters(IntPtr font);
+	extern static IntPtr _supportedCharacters(IntPtr font);
 
 	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_Font_GetTexture")]
 	extern static IntPtr _texture(IntPtr font);
@@ -45,7 +45,7 @@ public class Font : NatPtrWrapper
 
 	public string SupportedCharacters
 	{
-		get => _supportedCharacters(_handle); 
+		get => Marshal.PtrToStringAnsi(_supportedCharacters(_handle)); 
 	}
 
 	public ITexture2D Texture

@@ -11,10 +11,10 @@ internal class InstIReflectedField : NatPtrWrapper, IReflectedField
 	extern static ulong _hash(IntPtr instance);
 
 	[DllImport("3DRadSpace.FFI.dll",CharSet = CharSet.Ansi,  EntryPoint = "E3DRSP_IReflectedField_FieldName")]
-	extern static string _name(IntPtr instance);
+	extern static IntPtr _name(IntPtr instance);
 
 	[DllImport("3DRadSpace.FFI.dll",CharSet = CharSet.Ansi,  EntryPoint = "E3DRSP_IReflectedField_FieldDesc")]
-	extern static string _desc(IntPtr instance);
+	extern static IntPtr _desc(IntPtr instance);
 
 	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IReflectedField_TypeSize")]
 	extern static ulong _size(IntPtr instance);
@@ -41,11 +41,11 @@ internal class InstIReflectedField : NatPtrWrapper, IReflectedField
 	}
 	public string FieldName
 	{
-		get => _name(_handle);
+		get => Marshal.PtrToStringAnsi(_name(_handle));
 	}
 	public string FieldDesc
 	{
-		get => _desc(_handle);
+		get => Marshal.PtrToStringAnsi(_desc(_handle));
 	}
 	public ulong TypeSize
 	{

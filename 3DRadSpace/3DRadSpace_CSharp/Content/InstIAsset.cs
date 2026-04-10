@@ -9,7 +9,7 @@ internal class InstIAsset : NatPtrWrapper,  IAsset
 	static extern UUID _getUUID(IntPtr asset);
 
 	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IAsset_FileExtension")]
-	static extern string _fileExtension(IntPtr asset);
+	static extern IntPtr _fileExtension(IntPtr asset);
 
 	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IAsset_Destroy")]
 	static extern void _destroy(IntPtr asset);
@@ -30,7 +30,7 @@ internal class InstIAsset : NatPtrWrapper,  IAsset
 	{
 		get
 		{
-			return _fileExtension(_handle);
+			return Marshal.PtrToStringAnsi(_fileExtension(_handle));
 		}
 	}
 }

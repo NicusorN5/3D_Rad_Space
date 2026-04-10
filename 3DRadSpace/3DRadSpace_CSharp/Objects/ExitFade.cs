@@ -9,7 +9,7 @@ namespace Engine3DRadSpace.Objects
 		extern static IntPtr _create();
 
 		[DllImport("3DRadSpace.FFI.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_Camera_GetProjectPath")]
-		extern static string _getProjectPath(IntPtr exitFade);
+		extern static IntPtr _getProjectPath(IntPtr exitFade);
 
 		[DllImport("3DRadSpace.FFI.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_Camera_SetProjectPath")]
 		extern static void _setProjectPath(IntPtr exitFade, string path);
@@ -32,7 +32,7 @@ namespace Engine3DRadSpace.Objects
 
 		public string ProjectPath
 		{
-			get => _getProjectPath(_handle);
+			get => Marshal.PtrToStringAnsi(_getProjectPath(_handle));
 			set => _setProjectPath(_handle, value);
 		}
 

@@ -26,7 +26,7 @@ namespace Engine3DRadSpace.Objects
 		extern static void _setLoadingFromFile(IntPtr counter, byte loadingFromFile);
 
 		[DllImport("3DRadSpace.FFI.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_Counter_SetLoadingFromFile")]
-		extern static string _getFile(IntPtr counter);
+		extern static IntPtr _getFile(IntPtr counter);
 
 		[DllImport("3DRadSpace.FFI.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_Counter_IsLoadingFromFile")]
 		extern static void _setFile(IntPtr counter, string file);
@@ -56,7 +56,7 @@ namespace Engine3DRadSpace.Objects
 			{
 				if (_isFromFile(_handle) > 0)
 				{
-					return _getFile(_handle);
+					return Marshal.PtrToStringAnsi(_getFile(_handle));
 				}
 				else return "";
 			}

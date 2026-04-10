@@ -21,7 +21,7 @@ namespace Engine3DRadSpace.Objects
 		extern static unsafe void _setColor(IntPtr textPrint, Color* color);
 
 		[DllImport("3DRadSpace.FFI.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_TextPrint_GetText")]
-		extern static string _getText(IntPtr textPrint);
+		extern static IntPtr _getText(IntPtr textPrint);
 
 		[DllImport("3DRadSpace.FFI.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_TextPrint_SetText")]
 		extern static void _setText(IntPtr textPrint, string text);
@@ -44,8 +44,8 @@ namespace Engine3DRadSpace.Objects
 
 		public string Text
 		{
-			get => _getText(_handle);
-			set => _setText(_handle, value);
+			get => Marshal.PtrToStringAnsi(_getText(_handle));
+            set => _setText(_handle, value);
 		}
 	}
 }

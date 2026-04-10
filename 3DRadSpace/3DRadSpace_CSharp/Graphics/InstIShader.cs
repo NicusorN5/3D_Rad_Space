@@ -30,10 +30,10 @@ public class InstIShader : NatPtrWrapper, IShader
 	extern unsafe static IntPtr _setVariable(IntPtr shader, string name, IntPtr data, ulong dataSize);
 
 	[DllImport("3DRadSpace.FFI.dll", CharSet = CharSet.Ansi,  EntryPoint = "E3DRSP_IShader_GetEntryName")]
-	extern unsafe static string _entryName(IntPtr shader);
+	extern unsafe static IntPtr _entryName(IntPtr shader);
 
 	[DllImport("3DRadSpace.FFI.dll", CharSet = CharSet.Ansi, EntryPoint = "E3DRSP_IShader_GetCompilationErrorsAndWarnings")]
-	extern unsafe static string _log(IntPtr shader);
+	extern unsafe static IntPtr _log(IntPtr shader);
 
 	public InstIShader(IntPtr handle) : base(handle, _destroy)
 	{
@@ -42,12 +42,12 @@ public class InstIShader : NatPtrWrapper, IShader
 
 	public string EntryName
 	{
-		get => _entryName(_handle);
+		get => Marshal.PtrToStringAnsi(_entryName(_handle));
 	}
 
 	public string CompilationErrorsAndWarnings
 	{
-		get => _log(_handle);
+		get => Marshal.PtrToStringAnsi(_log(_handle));
 	}
 
 	public void SetData(uint index, nint data, ulong dataSize)
