@@ -1,6 +1,6 @@
 #pragma once
-
-#include "../3DRadSpace.hpp"
+#include "../Engine3DRadSpace/Math/Vector3.hpp"
+#include "../Engine3DRadSpace/Math/Quaternion.hpp"
 
 /*
 	Set of legacy functions from the old engine. Source: https://3drad.boards.net/page/script-reference

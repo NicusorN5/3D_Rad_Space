@@ -6,8 +6,6 @@ add_library(3DRadSpace.Scripting SHARED
 	"CompilationResults.hpp"
 	"IScript.hpp"
 	"IScriptBuilder.hpp"
-	"Legacy.hpp"
-	"Legacy.cpp"
 	"ScriptEngine.hpp"
 	"ScriptEngine.cpp"
 )
