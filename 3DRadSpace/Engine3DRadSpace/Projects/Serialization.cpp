@@ -12,6 +12,35 @@ using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Objects;
 using namespace Engine3DRadSpace::Reflection;
 
+static void deserializeObjectHierarchy(ObjectList* lst, IObject* obj, const json& j)
+{
+	auto numChildren = j["Children"].size();
+	
+	for(size_t i = 0; i < numChildren; i++)
+	{
+		auto child = j["Children"][i];
+		obj->Children.Add(lst->operator[](child.get<int>()));
+	}
+
+	auto parent = j["Parent"].get<int>();
+
+	if(parent != -1)
+	{
+		obj->SetParent(obj->operator[](parent));
+	}
+}
+
+static void serializeObjectHierarchy(std::unordered_map<IObject*, int> dictPtrID, ObjectList* lst, IObject* obj, json& j)
+{
+	json children = json::array();
+	for(size_t i = 0; i < obj->Children.Count(); i++)
+	{
+		children.push_back(dictPtrID[obj->Children[i]]);
+	}
+	j["Children"] = children;
+	j["Parent"] = obj->HasParent() ? dictPtrID[obj->GetParent()] : -1;
+}
+
 void Engine3DRadSpace::Reflection::to_json(json& j, const UUID& uuid)
 {
 	j = json{
@@ -474,6 +503,7 @@ bool Engine3DRadSpace::Projects::Serializer::LoadProject(ObjectList* lst, Conten
 	for (size_t i = 0; i < numObjects; ++i)
 	{
 		auto obj = DeserializeObject(j["objects"][std::to_string(i)]);
+		deserializeObjectHierarchy(lst, obj, j["objects"][std::to_string(i)]);
 		lst->Add(obj);
 
 		obj->InternalInitialize(lst->GetGame());
@@ -516,9 +546,17 @@ bool Engine3DRadSpace::Projects::Serializer::SaveProject(ObjectList* lst, Conten
 		json_asset["name"] = asset.Name;
 	}
 
+	std::unordered_map<IObject*, int> dictPtrID;
+	for (size_t i = 0; i < lst->Count(); i++)
+	{
+		dictPtrID[(*lst)[i]] = static_cast<int>(i);
+	}
+
 	for (size_t i = 0; i < lst->Count(); i++)
 	{
 		auto obj = SerializeObject((*lst)[i]);
+		serializeObjectHierarchy(dictPtrID, lst, (*lst)[i], obj);
+
 		j["objects"][std::to_string(i)] = obj;
 	}
 

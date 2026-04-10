@@ -758,6 +758,8 @@ void EditObjectDialog::setObject()
 					new (dest) std::string(string);
 					j += sizeof(std::string);
 
+					delete[] string;
+
 					break;
 				}
 				case FieldRepresentationType::Image:
