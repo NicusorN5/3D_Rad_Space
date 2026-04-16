@@ -35,7 +35,7 @@ namespace Engine3DRadSpace::Physics::NVPhysX
 
 		Math::Vector3 _position;
 	public:
-		CharacterController(IPhysicsEngine* physics, float height, float radius);
+		CharacterController(IPhysicsEngine* physics, float height, float radius, const Math::Vector3& position = Math::Vector3::Zero());
 		
 		std::optional<float> Intersects(const Math::Ray& r) override;
 		void UpdateTransform() override;

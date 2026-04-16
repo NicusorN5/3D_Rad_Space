@@ -69,8 +69,8 @@ void PhysicsEngine::Simulate(float dt)
 {
 	for (_accTimer += dt; _accTimer >= _timeStep; _accTimer -= _timeStep)
 	{
-		_scene->simulate(dt);
-		_scene->fetchResults(false);
+		_scene->simulate(static_cast<float>(_timeStep));
+		_scene->fetchResults(true);
 	}
 }
 
@@ -131,12 +131,12 @@ std::unique_ptr<IDynamicCollider> PhysicsEngine::CreateDynamicCollider()
 	return std::make_unique<DynamicCollider>(this);
 }
 
-std::unique_ptr<ICharacterController> PhysicsEngine::CreateCharacterController(float radius, float height)
+std::unique_ptr<ICharacterController> PhysicsEngine::CreateCharacterController(float radius, float height, const Math::Vector3& position)
 {
-	return std::make_unique<CharacterController>(this, radius, height);
+	return std::make_unique<CharacterController>(this, height, radius, position);
 }
 
 double PhysicsEngine::dt() const noexcept
 {
-	return _dt;
+	return _timeStep;
 }

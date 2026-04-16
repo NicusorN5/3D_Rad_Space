@@ -36,6 +36,7 @@ namespace Engine3DRadSpace::Physics::Objects
 		ICharacterController* GetController() const noexcept;
 
 		Reflection::UUID GetUUID() const noexcept override;
+		Math::Matrix4x4 GetViewMatrix() const noexcept override;
 
 		~FPCharacter() override = default;
 	};

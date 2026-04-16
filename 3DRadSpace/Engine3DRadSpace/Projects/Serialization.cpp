@@ -505,10 +505,6 @@ bool Engine3DRadSpace::Projects::Serializer::LoadProject(ObjectList* lst, Conten
 		auto obj = DeserializeObject(j["objects"][std::to_string(i)]);
 		deserializeObjectHierarchy(lst, obj, j["objects"][std::to_string(i)]);
 		lst->Add(obj);
-
-		obj->InternalInitialize(lst->GetGame());
-		obj->Initialize();
-		obj->Load();
 	}
 
 	return true;

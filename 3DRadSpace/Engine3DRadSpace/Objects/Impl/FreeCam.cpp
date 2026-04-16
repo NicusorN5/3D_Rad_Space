@@ -25,7 +25,7 @@ FreeCam::FreeCam(
 
 void FreeCam::Update()
 {
-	if(Enabled) return;
+	if(!Enabled) return;
 	if (Frozen)
 	{
 		Camera::Update();
@@ -55,6 +55,7 @@ void FreeCam::Update()
 
 	auto &kb = game->Keyboard;
 
+	_dir = Vector3::Zero();
 	if(kb.IsKeyDown(Forward)) _dir += _fwd;
 	if(kb.IsKeyDown(Backward)) _dir -= _fwd;
 	if(kb.IsKeyDown(Left)) _dir -= right;

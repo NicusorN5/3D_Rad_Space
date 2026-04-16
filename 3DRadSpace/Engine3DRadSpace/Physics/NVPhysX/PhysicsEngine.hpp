@@ -67,7 +67,7 @@ namespace Engine3DRadSpace::Physics::NVPhysX
 		) override;
 		std::unique_ptr<IDynamicCollider> CreateDynamicCollider() override;
 
-		std::unique_ptr<ICharacterController> CreateCharacterController(float radius, float height) override;
+		std::unique_ptr<ICharacterController> CreateCharacterController(float radius, float height, const Math::Vector3& position = Math::Vector3::Zero()) override;
 		double dt() const noexcept override;
 
 		friend class CharacterController;

@@ -27,7 +27,7 @@ namespace Engine3DRadSpace::Physics
 			const Math::Vector3 &scale = Math::Vector3::One()
 		) = 0;
 		virtual std::unique_ptr<IDynamicCollider> CreateDynamicCollider() = 0;
-		virtual std::unique_ptr<ICharacterController> CreateCharacterController(float radius, float height) = 0;
+		virtual std::unique_ptr<ICharacterController> CreateCharacterController(float radius, float height, const Math::Vector3& position = Math::Vector3::Zero()) = 0;
 		virtual double dt() const noexcept = 0;
 
 		~IPhysicsEngine() override = default;

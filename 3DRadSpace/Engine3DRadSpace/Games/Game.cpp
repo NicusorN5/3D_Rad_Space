@@ -134,6 +134,7 @@ void Game::RunOneFrame()
 
 	//PostProcesses->DisableAll(); //to be re-enabled by the objects
 	Audio->Update();
+	if(Physics) Physics->Simulate(static_cast<float>(Update_dt));
 	Update();
 
 	auto ts_d1 = std::chrono::high_resolution_clock::now();

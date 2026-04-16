@@ -26,9 +26,7 @@ void FPCharacter::Initialize()
 {
 	FreeCam::Initialize();
 	_physics = _game->RequireService<IPhysicsEngine>({});
-	_controller = _physics->CreateCharacterController(Radius, Height);
-	_controller->Position = Position;
-	_controller->Rotation = Rotation;
+	_controller = _physics->CreateCharacterController(Radius, Height, Position);
 }
 
 void FPCharacter::Update()
@@ -59,14 +57,18 @@ void FPCharacter::Update()
 	Rotation = Math::Quaternion::FromYawPitchRoll(_camCoords.X, _camCoords.Y, 0);
 
 	_fwd = Math::Vector3::Transform(-Math::Vector3::UnitZ(), Rotation);
-	Math::Vector3 right = Math::Vector3::Normalize(Math::Vector3::Cross(Normal, _fwd));
+
+	Math::Vector3 horizFwd = _fwd - Normal * Math::Vector3::Dot(_fwd, Normal);
+	if (horizFwd.LengthSquared() > 0.0f) horizFwd.Normalize();
+
+	Math::Vector3 right = Math::Vector3::Normalize(Math::Vector3::Cross(Normal, horizFwd));
 
 	_dir = Math::Vector3::Zero();
 
 	auto& kb = game->Keyboard;
 
-	if (kb.IsKeyDown(Forward))  _dir += _fwd;
-	if (kb.IsKeyDown(Backward)) _dir -= _fwd;
+	if (kb.IsKeyDown(Forward))  _dir += horizFwd;
+	if (kb.IsKeyDown(Backward)) _dir -= horizFwd;
 	if (kb.IsKeyDown(Left))     _dir -= right;
 	if (kb.IsKeyDown(Right))    _dir += right;
 
@@ -81,6 +83,7 @@ void FPCharacter::Update()
 	}
 
 	_controller->UpdateTransform();
+	Position = _controller->Position.Get();
 	Camera::Update();
 }
 
@@ -110,10 +113,17 @@ ICharacterController* FPCharacter::GetController() const noexcept
 	return _controller.get();
 }
 
+Math::Matrix4x4 FPCharacter::GetViewMatrix() const noexcept
+{
+	Vector3 camPos = Position + Vector3(0, Height, 0);
+	Vector3 focus = camPos + Vector3::Forward().Transform(Rotation);
+	return Matrix4x4::CreateLookAtView(camPos, focus, Normal);
+}
+
 REFL_BEGIN(FPCharacter, "First Person Character", "Physics", "A first person character controller")
 REFL_FIELD(FPCharacter, std::string, Name, "Name", "FPCharacter", "Name of the object")
 REFL_FIELD(FPCharacter, bool, Enabled, "Enabled", true, "Whether the object is enabled or not")
-REFL_FIELD(FPCharacter, bool, Frozen, "Visible", true, "Whether movement is enabled")
+REFL_FIELD(FPCharacter, bool, Frozen, "Frozen", false, "Whether movement is enabled")
 REFL_FIELD(FPCharacter, Vector3, Position, "Position", Vector3::Zero(), "Position of the object")
 REFL_FIELD(FPCharacter, Quaternion, Rotation, "Rotation", Quaternion(), "Rotation of the object")
 REFL_FIELD(FPCharacter, Vector3, Normal, "Normal", Vector3::UnitY(), "Camera surface normal vector")
@@ -127,8 +137,8 @@ REFL_FIELD(FPCharacter, Input::Key, Left, "Left Key", Input::Key::A, "Key used f
 REFL_FIELD(FPCharacter, Input::Key, Right, "Right Key", Input::Key::D, "Key used for moving right")
 REFL_FIELD(FPCharacter, Input::Key, Jump, "Jump Key", Input::Key::Space, "Key used for jumping")
 REFL_FIELD(FPCharacter, float, Sensitivity, "Mouse Sensitivity", 0.1f, "Mouse sensitivity for looking around")
-REFL_FIELD(FPCharacter, bool, InvertX, "Invert X", false, "Whether to invert the X axis for looking around")
-REFL_FIELD(FPCharacter, bool, InvertY, "Invert Y", false, "Whether to invert the Y axis for looking around")
+REFL_FIELD(FPCharacter, bool, InvertX, "Invert X", true, "Whether to invert the X axis for looking around")
+REFL_FIELD(FPCharacter, bool, InvertY, "Invert Y", true, "Whether to invert the Y axis for looking around")
 REFL_FIELD(FPCharacter, float, AspectRatio, "Aspect Ratio", 4.0f / 3.0f, "Aspect ratio of the camera")
 REFL_FIELD(FPCharacter, float, FieldOfView, "Field of View", Math::ToRadians(65.0f), "Field of view of the camera")
 REFL_FIELD(FPCharacter, float, NearPlaneDistance, "Near Plane Distance", 0.01f, "Near plane distance of the camera")

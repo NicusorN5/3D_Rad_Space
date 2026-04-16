@@ -17,17 +17,20 @@ using namespace Engine3DRadSpace::Physics::NVPhysX;
 CharacterController::CharacterController(
 	IPhysicsEngine* physics,
 	float height, 
-	float radius
+	float radius,
+	const Math::Vector3& position
 ) : ICharacterController(physics)
 {
 	_height = height;
 	_radius = radius;
+	_position = position;
 
 	auto nvPhysics = static_cast<physx::PxPhysics*>(static_cast<PhysicsEngine*>(physics)->GetPhysics());
 	auto nvControllerManager = static_cast<physx::PxControllerManager*>(static_cast<PhysicsEngine*>(physics)->_controllerManager.get());
 
 	physx::PxCapsuleControllerDesc desc;
 	desc.setToDefault();
+	desc.position = physx::PxExtendedVec3(position.X, position.Y, position.Z);
 	desc.height = height;
 	desc.radius = radius;
 	desc.slopeLimit = std::cos(_maxSlopeAngle);
@@ -210,7 +213,12 @@ void CharacterController::UpdateTransform()
 	if(!_controller) return;
 
 	auto p = _controller->getPosition();
-	_position = Vector3(static_cast<float>(p.x), static_cast<float>(p.y), static_cast<float>(p.z));
+	Vector3 candidate(static_cast<float>(p.x), static_cast<float>(p.y), static_cast<float>(p.z));
+
+	// Guard against NaN/inf coming from a diverged simulation (e.g. character fell
+	// out of the physics world). Retain the last known-good position instead.
+	if(std::isfinite(candidate.X) && std::isfinite(candidate.Y) && std::isfinite(candidate.Z))
+		_position = candidate;
 }
 
 void CharacterController::UpdateTransform(const Math::Vector3& position, const Math::Quaternion& rotation)
@@ -228,6 +236,7 @@ Math::Vector3 CharacterController::_getPosition() const
 
 void CharacterController::_setPosition(const Math::Vector3& position)
 {
+	_position = position; // keep cache in sync immediately
 	if(!_controller) return;
 	_controller->setPosition(physx::PxExtendedVec3(position.X, position.Y, position.Z));
 }
