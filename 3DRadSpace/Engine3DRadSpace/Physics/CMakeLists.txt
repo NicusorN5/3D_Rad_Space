@@ -3,7 +3,8 @@ cmake_minimum_required(VERSION 3.21)
 project("Engine3DRadSpace.Physics")
 
 add_library(3DRadSpace.Physics SHARED
-	"Collider.hpp"
+	"ICharacterController.hpp"
+	"ICharacterController.cpp"
 	"ICollider.hpp"
 	"ICollider.cpp"
 	"IDynamicCollider.hpp"
@@ -12,7 +13,7 @@ add_library(3DRadSpace.Physics SHARED
 	"IStaticCollider.hpp"
 	"IStaticCollider.cpp"
 	"PhysicsSettings.hpp"
- "ICharacterController.cpp")
+)
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET 3DRadSpace.Physics PROPERTY CXX_STANDARD 23)

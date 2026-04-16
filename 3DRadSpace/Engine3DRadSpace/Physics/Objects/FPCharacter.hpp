@@ -34,6 +34,8 @@ namespace Engine3DRadSpace::Physics::Objects
 		void Teleport(const Math::Vector3& position);
 		void Teleport(const Math::Vector3& position, const Math::Quaternion& rotation);
 
+		Reflection::UUID GetUUID() const noexcept override;
+
 		~FPCharacter() override = default;
 	};
 }

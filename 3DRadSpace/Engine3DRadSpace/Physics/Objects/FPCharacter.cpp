@@ -96,6 +96,12 @@ void FPCharacter::Teleport(const Math::Vector3& position, const Math::Quaternion
 	Rotation = rotation;
 }
 
+Reflection::UUID FPCharacter::GetUUID() const noexcept
+{
+	// {AC8F8DF7-80EC-4293-A78B-DE7F3FFFBF49}
+	return { 0xac8f8df7, 0x80ec, 0x4293, { 0xa7, 0x8b, 0xde, 0x7f, 0x3f, 0xff, 0xbf, 0x49 } };
+}
+
 REFL_BEGIN(FPCharacter, "First Person Character", "Physics", "A first person character controller")
 REFL_FIELD(FPCharacter, std::string, Name, "Name", "FPCharacter", "Name of the object")
 REFL_FIELD(FPCharacter, bool, Enabled, "Enabled", true, "Whether the object is enabled or not")

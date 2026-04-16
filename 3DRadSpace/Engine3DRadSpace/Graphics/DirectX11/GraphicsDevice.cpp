@@ -107,10 +107,13 @@ GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, size_t width, size_t he
 		adapter->GetDesc(&adapterDesc);
 		auto memory = adapterDesc.DedicatedVideoMemory /= (1024 * 1024); // bytes -> MB
 
+#pragma warning(push)
+#pragma warning(disable: 4244)
 		auto adapterName = std::string(
 			adapterDesc.Description,
 			adapterDesc.Description + lstrlenW(adapterDesc.Description)
 		);
+#pragma warning(pop)
 
 		auto updateAdapter = [&]()
 		{
