@@ -33,7 +33,7 @@ namespace Engine3DRadSpace
 		template<typename T>
 		T* RequireService(Tag<T> dummy)
 		{
-			return RequireService(typeid(T));
+			return static_cast<T*>(RequireService(typeid(T)));
 		}
 
 		virtual void Exit() = 0;

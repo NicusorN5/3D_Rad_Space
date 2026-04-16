@@ -6,7 +6,9 @@ using namespace Engine3DRadSpace::Physics;
 
 ICollider::ICollider(IPhysicsEngine* physics) :
 	_physics(physics),
-	Mass(this)
+	Mass(this),
+	Position(this),
+	Rotation(this)
 {
 }
 

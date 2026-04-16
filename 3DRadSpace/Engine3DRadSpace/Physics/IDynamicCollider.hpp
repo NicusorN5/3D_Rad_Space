@@ -8,19 +8,19 @@ namespace Engine3DRadSpace::Physics
 	{
 	protected:
 		float _angularDamping = 0;
-		virtual float _getAngularDamping() = 0;
+		virtual float _getAngularDamping() const = 0;
 		virtual void _setAngularDamping(float angularDamping) = 0;
 
 		Math::Vector3 _linearVelocity = Math::Vector3::Zero();
-		virtual Math::Vector3 _getLinearVelocity() = 0;
+		virtual Math::Vector3 _getLinearVelocity() const = 0;
 		virtual void _setLinearVelocity(const Math::Vector3& linearVelocity) = 0;
 
 		Math::Vector3 _angularVelocity = Math::Vector3::Zero();
-		virtual Math::Vector3 _getAngularVelocity() = 0;
+		virtual Math::Vector3 _getAngularVelocity() const = 0;
 		virtual void _setAngularVelocity(const Math::Vector3& linearVelocity) = 0;
 
 		Math::Vector3 _maxAngularVelocity = Math::Vector3(100.0f, 100.0f, 100.0f);
-		virtual Math::Vector3 _getMaxAngularVelocity() = 0;
+		virtual Math::Vector3 _getMaxAngularVelocity() const = 0;
 		virtual void _setMaxAngularVelocity(const Math::Vector3& linearVelocity) = 0;
 
 		IDynamicCollider(IPhysicsEngine* physics);
@@ -40,7 +40,6 @@ namespace Engine3DRadSpace::Physics
 		virtual void ApplyAcceleration(const Math::Vector3& acc) = 0;
 		virtual void ApplyAngularAcceleration(const Math::Vector3& acc) = 0;
 
-		virtual void Teleport(const Math::Vector3& position, const std::optional<Math::Quaternion>& rotation = std::nullopt) = 0;
 		virtual void SetKinematic(bool isKinematic) = 0;
 	};
 }

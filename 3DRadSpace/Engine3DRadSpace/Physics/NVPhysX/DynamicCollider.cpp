@@ -22,7 +22,7 @@ void DynamicCollider::_generateRigidbody()
 	_material.reset(material);
 }
 
-float DynamicCollider::_getMass()
+float DynamicCollider::_getMass() const
 {
 	if(_rigidbody == nullptr) return _mass;
 	return static_cast<float>(_rigidbody->getMass());
@@ -34,7 +34,7 @@ void DynamicCollider::_setMass(float mass)
 	else _mass = mass;
 }
 
-float DynamicCollider::_getLinearDamping()
+float DynamicCollider::_getLinearDamping() const
 {
 	if(_rigidbody == nullptr) return _linearDamping;
 	return _rigidbody->getLinearDamping();
@@ -46,7 +46,7 @@ void DynamicCollider::_setLinearDamping(float linearDamping)
 	else _linearDamping = linearDamping;
 }
 
-float DynamicCollider::_getAngularDamping()
+float DynamicCollider::_getAngularDamping() const
 {
 	if(_rigidbody == nullptr) return _angularDamping;
 	return _rigidbody->getAngularDamping();
@@ -58,7 +58,7 @@ void DynamicCollider::_setAngularDamping(float angularDamping)
 	else _rigidbody->setAngularDamping(angularDamping);
 }
 
-float DynamicCollider::_getStaticFriction()
+float DynamicCollider::_getStaticFriction() const
 {
 	if(_material) return _material->getStaticFriction();
 	return _staticFriction;
@@ -70,7 +70,7 @@ void DynamicCollider::_setStaticFriction(float friction)
 	else _staticFriction = friction;
 }
 
-float DynamicCollider::_getDynamicFriction()
+float DynamicCollider::_getDynamicFriction() const
 {
 	if(_material) return _material->getDynamicFriction();
 	return _dynamicFriction;
@@ -82,7 +82,7 @@ void DynamicCollider::_setDynamicFriction(float friction)
 	else _dynamicFriction = friction;
 }
 
-float DynamicCollider::_getRestitution()
+float DynamicCollider::_getRestitution() const
 {
 	if(_material) return _material->getRestitution();
 	return _restitution;
@@ -94,7 +94,7 @@ void DynamicCollider::_setRestitution(float restitution)
 	else _restitution = restitution;
 }
 
-Math::Vector3 DynamicCollider::_getLinearVelocity()
+Math::Vector3 DynamicCollider::_getLinearVelocity() const
 {
 	if(_rigidbody)
 	{
@@ -112,7 +112,7 @@ void DynamicCollider::_setLinearVelocity(const Math::Vector3 &linearVelocity)
 		_linearVelocity = linearVelocity;
 }
 
-Vector3 DynamicCollider::_getAngularVelocity()
+Vector3 DynamicCollider::_getAngularVelocity() const
 {
 	if(_rigidbody)
 	{
@@ -130,7 +130,7 @@ void DynamicCollider::_setAngularVelocity(const Math::Vector3 & linearVelocity)
 		_angularVelocity = linearVelocity;
 }
 
-Vector3 DynamicCollider::_getMaxAngularVelocity()
+Vector3 DynamicCollider::_getMaxAngularVelocity() const
 {
 	if(_rigidbody)
 	{
@@ -270,17 +270,6 @@ void DynamicCollider::AttachShape(const Math::BoundingSphere & sphere)
 	_rigidbody->attachShape(*shape);
 }
 
-void DynamicCollider::Teleport(const Math::Vector3 & position, const std::optional<Math::Quaternion> & rotation)
-{
-	if(_rigidbody == nullptr) return;
-
-	Math::Quaternion rot = rotation.value_or(_rotation);
-	_rigidbody->setGlobalPose(physx::PxTransform(
-		physx::PxVec3(position.X, position.Y, position.Z),
-		physx::PxQuat(-rot.X, -rot.Y, -rot.Z, rot.W)
-	));
-}
-
 void DynamicCollider::SetKinematic(bool isKinematic)
 {
 	if(_rigidbody == nullptr) return;
@@ -289,4 +278,40 @@ void DynamicCollider::SetKinematic(bool isKinematic)
 		_rigidbody->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, true);
 	else
 		_rigidbody->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, false);
+}
+
+Vector3 DynamicCollider::_getPosition() const
+{
+	if(_rigidbody == nullptr) return _position;
+	auto p = _rigidbody->getGlobalPose().p;
+	return Vector3(p.x, p.y, p.z);
+}
+
+void DynamicCollider::_setPosition(const Vector3 &position)
+{
+	if(_rigidbody == nullptr) _position = position;
+	else
+	{
+		auto tr = _rigidbody->getGlobalPose();
+		tr.p = physx::PxVec3(position.X, position.Y, position.Z);
+		_rigidbody->setGlobalPose(tr);
+	}
+}
+
+Quaternion DynamicCollider::_getRotation() const
+{
+	if(_rigidbody == nullptr) return _rotation;
+	auto q = _rigidbody->getGlobalPose().q;
+	return Quaternion(-q.x, -q.y, -q.z, q.w);
+}
+
+void DynamicCollider::_setRotation(const Quaternion &rotation)
+{
+	if(_rigidbody == nullptr) _rotation = rotation;
+	else
+	{
+		auto tr = _rigidbody->getGlobalPose();
+		tr.q = physx::PxQuat(-rotation.X, -rotation.Y, -rotation.Z, rotation.W);
+		_rigidbody->setGlobalPose(tr);
+	}
 }

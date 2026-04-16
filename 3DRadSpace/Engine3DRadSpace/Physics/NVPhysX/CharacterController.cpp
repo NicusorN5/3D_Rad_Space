@@ -53,7 +53,7 @@ void CharacterController::_setHeight(float height)
 		_controller->resize(height);
 }
 
-float CharacterController::_getHeight() const noexcept
+float CharacterController::_getHeight() const
 {
 	if(_controller)
 		return _controller->getHeight();
@@ -67,14 +67,14 @@ void CharacterController::_setRadius(float radius)
 		_controller->setRadius(radius);
 }
 
-float CharacterController::_getRadius() const noexcept
+float CharacterController::_getRadius() const
 {
 	if(_controller)
 		return _controller->getRadius();
 	return _radius;
 }
 
-float CharacterController::_getMaxSlopeAngle() const noexcept
+float CharacterController::_getMaxSlopeAngle() const
 {
 	if(_controller)
 		return std::acos(_controller->getSlopeLimit());
@@ -88,7 +88,7 @@ void CharacterController::_setMaxSlopeAngle(float angle)
 		_controller->setSlopeLimit(std::cos(angle));
 }
 
-Math::Vector3 CharacterController::_getGravity() const noexcept
+Math::Vector3 CharacterController::_getGravity() const
 {
 	return _gravity;
 }
@@ -151,7 +151,7 @@ bool CharacterController::IsGrounded()
 	return false;
 }
 
-float CharacterController::_getMass()
+float CharacterController::_getMass() const
 {
 	return 0.0f;
 }
@@ -217,12 +217,27 @@ void CharacterController::UpdateTransform(const Math::Vector3& position, const M
 {
 	if(!_controller) return;
 	_controller->setPosition(physx::PxExtendedVec3(position.X, position.Y, position.Z));
-	
-	Vector3 up = Vector3::Transform(Vector3::Up(), rotation);
-	_controller->setUpDirection(physx::PxVec3(up.X, up.Y, up.Z));
+
+	(void)rotation;
 }
 
-Math::Vector3 CharacterController::GetPosition() const noexcept
+Math::Vector3 CharacterController::_getPosition() const
 {
 	return _position;
+}
+
+void CharacterController::_setPosition(const Math::Vector3& position)
+{
+	if(!_controller) return;
+	_controller->setPosition(physx::PxExtendedVec3(position.X, position.Y, position.Z));
+}
+
+Math::Quaternion CharacterController::_getRotation() const
+{
+	return Math::Quaternion();
+}
+
+void CharacterController::_setRotation(const Math::Quaternion& rotation)
+{
+	(void)rotation;
 }

@@ -6,15 +6,29 @@ namespace Engine3DRadSpace::Objects
 {
 	class E3DRSP_OBJECTS_IMPL_EXPORT FreeCam : public Camera
 	{
+	protected:
 		Math::Vector2 _camCoords;
 		Math::Vector3 _fwd;
+		Math::Vector3 _dir;
 	public:
-		FreeCam();
+		FreeCam(
+			const std::string& name = "FreeCam",
+			bool visible = true,
+			const Math::Vector3& pos = Math::Vector3::Zero(),
+			const Math::Quaternion& rotation = Math::Quaternion(),
+			const Math::Vector3& up = Math::Vector3::UnitY(),
+			float aspectRatio = 4.0f / 3.0f,
+			float fov = Math::ToRadians(65.0f),
+			float npd = 0.01f,
+			float fpd = 500.0f
+		);
 
 		float Sensitivity = 0.01f;
 		float MovementSpeed = 1.0f;
 		bool InvertX = false;
 		bool InvertY = false;
+		bool EnableElevation = true;
+		bool Frozen = false;
 
 		Input::Key Forward = Input::Key::W;
 		Input::Key Backward = Input::Key::S;

@@ -211,3 +211,8 @@ Vector2 Vector2::Transform(const Vector2& v, const Matrix3x3& m)
         v.X * m.M21 + v.Y * m.M22 + m.M23
     };
 }
+
+Vector2 Vector2::YX() const noexcept
+{
+    return Vector2(Y, X);
+}

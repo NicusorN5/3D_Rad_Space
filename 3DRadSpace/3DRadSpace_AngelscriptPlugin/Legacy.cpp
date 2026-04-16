@@ -1,5 +1,10 @@
 #include "Legacy.hpp"
-#include "../Objects/Impl/Objects.hpp"
+#include <Engine3DRadSpace/Objects/Impl/Objects.hpp>
+#include <Engine3DRadSpace/Objects/Impl/TextPrint.hpp>
+#include <Engine3DRadSpace/Objects/ObjectList.hpp>
+#include <Engine3DRadSpace/Physics/Objects/RigidDynamic.hpp>
+#include <Engine3DRadSpace/Physics/Objects/RigidStatic.hpp>
+#include <Engine3DRadSpace/Projects/Serialization.hpp>
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Math;
@@ -281,7 +286,6 @@ void iObjectParamSet(unsigned obj_x, int index, float t)
 
 	auto refl = Internal::GetReflDataFromUUID(uuid);
 	if (refl->NumFields() > index) return;
-	//if (refl == nullptr) throw std::exception("??? This exception indicates a severe bug with object reflection metadata not being registered.");
 	if (refl == nullptr) return;
 
 	auto field = refl->operator[](index);

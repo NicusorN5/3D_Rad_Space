@@ -107,7 +107,7 @@ void StaticMeshCollider::_generateRigidbody()
 	scene->addActor(*_rigidbody);
 }
 
-float StaticMeshCollider::_getMass()
+float StaticMeshCollider::_getMass() const
 {
 	return std::numeric_limits<float>::infinity();
 }
@@ -116,7 +116,7 @@ void StaticMeshCollider::_setMass(float mass)
 {
 }
 
-float StaticMeshCollider::_getLinearDamping()
+float StaticMeshCollider::_getLinearDamping() const
 {
 	if(_material)
 		return _material->getDamping();
@@ -129,7 +129,7 @@ void StaticMeshCollider::_setLinearDamping(float linearDamping)
 	else _linearDamping = linearDamping;
 }
 
-float StaticMeshCollider::_getStaticFriction()
+float StaticMeshCollider::_getStaticFriction() const
 {
 	if(_material) return _material->getStaticFriction();
 	return _staticFriction;
@@ -141,7 +141,7 @@ void StaticMeshCollider::_setStaticFriction(float friction)
 	else _staticFriction = friction;
 }
 
-float StaticMeshCollider::_getDynamicFriction()
+float StaticMeshCollider::_getDynamicFriction() const
 {
 	if(_material) return _material->getDynamicFriction();
 	return _dynamicFriction;
@@ -153,7 +153,7 @@ void StaticMeshCollider::_setDynamicFriction(float friction)
 	else _dynamicFriction = friction;
 }
 
-float StaticMeshCollider::_getRestitution()
+float StaticMeshCollider::_getRestitution() const
 {
 	if(_material) return _material->getRestitution();
 	return _restitution;
@@ -246,4 +246,24 @@ std::optional<float> StaticMeshCollider::Intersects(const Math::Ray &r)
 	}
 
 	return hasHit ? std::optional<float>(closestDist) : std::nullopt;
+}
+
+Vector3 StaticMeshCollider::_getPosition() const noexcept
+{
+	return _position;
+}
+
+void StaticMeshCollider::_setPosition(const Vector3 &position)
+{
+	UpdateTransform(position, _rotation);
+}
+
+Quaternion StaticMeshCollider::_getRotation() const noexcept
+{
+	return _rotation;
+}
+
+void StaticMeshCollider::_setRotation(const Quaternion &rotation)
+{
+	UpdateTransform(_position, rotation);
 }

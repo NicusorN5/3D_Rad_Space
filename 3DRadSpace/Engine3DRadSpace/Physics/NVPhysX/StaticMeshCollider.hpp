@@ -32,20 +32,26 @@ namespace Engine3DRadSpace::Physics::NVPhysX
 		Math::Vector3 _oldPosition = Math::Vector3::Zero();
 		Math::Quaternion _oldRotation = Math::Quaternion();
 
-		float _getMass() override;
+		float _getMass() const override;
 		void _setMass(float mass) override;
 
-		float _getLinearDamping() override;
+		float _getLinearDamping() const override;
 		void _setLinearDamping(float linearDamping) override;
 
-		float _getStaticFriction() override;
+		float _getStaticFriction() const override;
 		void _setStaticFriction(float friction) override;
 
-		float _getDynamicFriction() override;
+		float _getDynamicFriction() const override;
 		void _setDynamicFriction(float friction) override;
 
-		float _getRestitution() override;;
+		float _getRestitution() const override;
 		void _setRestitution(float restitution) override;
+
+		Math::Vector3 _getPosition() const noexcept override;
+		void _setPosition(const Math::Vector3& position) override;
+
+		Math::Quaternion _getRotation() const noexcept override;
+		void _setRotation(const Math::Quaternion& rotation) override;
 	public:
 		StaticMeshCollider(
 			IPhysicsEngine* physics,

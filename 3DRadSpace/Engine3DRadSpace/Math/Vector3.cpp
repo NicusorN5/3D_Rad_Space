@@ -1,6 +1,7 @@
 #include "Vector3.hpp"
 #include "Quaternion.hpp"
 #include "Matrix4x4.hpp"
+#include "Vector2.hpp"
 
 using namespace Engine3DRadSpace::Math;
 
@@ -258,4 +259,49 @@ Vector3 Engine3DRadSpace::Math::operator*(float s, const Vector3& v)
 Vector3 Engine3DRadSpace::Math::operator/(float s, const Vector3 &v)
 {
 	return Vector3{ s / v.X, s / v.Y, s / v.Z };
+}
+
+Vector2 Vector3::XX() const noexcept
+{
+	return Vector2(X, X);
+}
+
+Vector2 Vector3::XY() const noexcept
+{
+	return Vector2(X, Y);
+}
+
+Vector2 Vector3::XZ() const noexcept
+{
+	return Vector2(X, Z);
+}
+
+Vector2 Vector3::YX() const noexcept
+{
+	return Vector2(Y, X);
+}
+
+Vector2 Vector3::YY() const noexcept
+{
+	return Vector2(Y, Y);
+}
+
+Vector2 Vector3::YZ() const noexcept
+{
+	return Vector2(Y, Z);
+}
+
+Vector2 Vector3::ZX() const noexcept
+{
+	return Vector2(Z, X);
+}
+
+Vector2 Vector3::ZY() const noexcept
+{
+	return Vector2(Z, Y);
+}
+
+Vector2 Vector3::ZZ() const noexcept
+{
+	return Vector2(Z, Z);
 }

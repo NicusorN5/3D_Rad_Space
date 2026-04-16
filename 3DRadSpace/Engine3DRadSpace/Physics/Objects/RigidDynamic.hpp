@@ -1,6 +1,6 @@
 #pragma once
 #include "IPhysicsObject.hpp"
-#include "IDynamicCollider.hpp"
+#include "../IDynamicCollider.hpp"
 #include "../../Reflection/Reflection.hpp"
 
 namespace Engine3DRadSpace::Physics::Objects

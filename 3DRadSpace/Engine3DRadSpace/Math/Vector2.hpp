@@ -55,6 +55,8 @@ namespace Engine3DRadSpace::Math
 
 		Vector2& Transform(const Matrix3x3& m);
 		static Vector2 Transform(const Vector2& v, const Matrix3x3& m);
+
+		Vector2 YX() const noexcept;
 	};
 
 	Vector2 E3DRSP_MATH_EXPORT operator*(float s, const Vector2& v);

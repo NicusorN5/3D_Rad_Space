@@ -12,38 +12,41 @@ namespace Engine3DRadSpace::Physics::NVPhysX
 	protected:
 		void _generateRigidbody();
 
-		float _getMass() override;
+		float _getMass() const override;
 		void _setMass(float mass) override;
 
-		float _getLinearDamping() override;
+		float _getLinearDamping() const override;
 		void _setLinearDamping(float linearDamping) override;
 
-		float _getAngularDamping() override;
+		float _getAngularDamping() const override;
 		void _setAngularDamping(float angularDamping) override;
 
-		float _getStaticFriction() override;
+		float _getStaticFriction() const override;
 		void _setStaticFriction(float friction) override;
 
-		float _getDynamicFriction() override;
+		float _getDynamicFriction() const override;
 		void _setDynamicFriction(float friction) override;
 
-		float _getRestitution() override;
+		float _getRestitution() const override;
 		void _setRestitution(float restitution) override;
 
-		Math::Vector3 _getLinearVelocity() override;
+		Math::Vector3 _getLinearVelocity() const override;
 		void _setLinearVelocity(const Math::Vector3 & linearVelocity) override;
 
-		Math::Vector3 _getAngularVelocity() override;
+		Math::Vector3 _getAngularVelocity() const override;
 		void _setAngularVelocity(const Math::Vector3 & linearVelocity) override;
 
-		Math::Vector3 _getMaxAngularVelocity() override;
+		Math::Vector3 _getMaxAngularVelocity() const override;
 		void _setMaxAngularVelocity(const Math::Vector3 & linearVelocity) override;
 
-		PxUPtr<physx::PxRigidDynamic> _rigidbody;
-		PxUPtr<physx::PxMaterial> _material;
+		Math::Vector3 _getPosition() const override;
+		void _setPosition(const Math::Vector3& position) override;
 
-		Math::Vector3 _position;
-		Math::Quaternion _rotation;
+		Math::Quaternion _getRotation() const override;
+		void _setRotation(const Math::Quaternion& rotation) override;
+
+		PxUPtr<physx::PxRigidDynamic> _rigidbody;
+		PxUPtr<physx::PxMaterial> _material;	
 	public:
 		DynamicCollider(IPhysicsEngine* physics);
 
@@ -61,7 +64,6 @@ namespace Engine3DRadSpace::Physics::NVPhysX
 		void AttachShape(const Math::BoundingBox& box) override;
 		void AttachShape(const Math::BoundingSphere& sphere) override;
 
-		void Teleport(const Math::Vector3& position, const std::optional<Math::Quaternion>& rotation = std::nullopt) override;
 		void SetKinematic(bool isKinematic) override;
 
 		friend class PhysicsEngine;

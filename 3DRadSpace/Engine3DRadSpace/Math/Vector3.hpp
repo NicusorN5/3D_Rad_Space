@@ -5,6 +5,7 @@ namespace Engine3DRadSpace::Math
 {
 	struct Quaternion;
 	struct Matrix4x4;
+	struct Vector2;
 
 	struct E3DRSP_MATH_EXPORT Vector3
 	{
@@ -63,6 +64,16 @@ namespace Engine3DRadSpace::Math
 		Vector3& Hadamard(const Vector3& v);
 		//Element wise product
 		static Vector3 Hadamard(const Vector3& a, const Vector3& b);
+
+		Vector2 XX() const noexcept;
+		Vector2 XY() const noexcept;
+		Vector2 XZ() const noexcept;
+		Vector2 YX() const noexcept;
+		Vector2 YY() const noexcept;
+		Vector2 YZ() const noexcept;
+		Vector2 ZX() const noexcept;
+		Vector2 ZY() const noexcept;
+		Vector2 ZZ() const noexcept;
 
 		auto operator <=>(const Vector3& v) const = default;
 	};

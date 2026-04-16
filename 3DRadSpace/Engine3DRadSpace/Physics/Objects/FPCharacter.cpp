@@ -1,8 +1,120 @@
 #include "FPCharacter.hpp"
+#include "../../Games/Game.hpp"
+#include "../ICharacterController.hpp"
 
+using namespace Engine3DRadSpace;
+using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Physics::Objects;
 
-FPCharacter::FPCharacter() : IPhysicsObject("FPCharacter", true, true, Math::Vector3::Zero(), Math::Quaternion(), Math::Vector3::One())
+FPCharacter::FPCharacter(
+	const std::string& name,
+	bool visible,
+	const Math::Vector3& pos,
+	const Math::Quaternion& rotation,
+	const Math::Vector3& up,
+	float aspectRatio,
+	float fov,
+	float npd,
+	float fpd
+) : FreeCam(name, visible, pos, rotation, up, aspectRatio, fov, npd, fpd)
 {
-
 }
+
+void FPCharacter::Initialize()
+{
+	FreeCam::Initialize();
+	_physics = _game->RequireService<IPhysicsEngine>({});
+	_controller = _physics->CreateCharacterController(Radius, Height);
+	_controller->Position = Position;
+	_controller->Rotation = Rotation;
+}
+
+void FPCharacter::Update()
+{
+	if (!Enabled)
+	{
+		Camera::Update();
+		return;
+	}
+
+	Game* game = static_cast<Game*>(_game);
+	float dt = game->Update_dt;
+
+	auto screenCenter = game->Window->Size() / 2;
+	Math::Point mousePos = game->Mouse.Position();
+	game->Window->SetMousePosition(screenCenter);
+
+	auto mouseDelta = (Math::Vector2)(screenCenter - mousePos);
+	_camCoords -= mouseDelta * Sensitivity * dt;
+
+	_camCoords.Y = std::clamp<float>(
+		_camCoords.Y,
+		-std::numbers::pi_v<float> / 2.f + 0.001f,
+		std::numbers::pi_v<float> / 2.f - 0.001f
+	);
+
+	Rotation = Math::Quaternion::FromYawPitchRoll(_camCoords.X, _camCoords.Y, 0);
+
+	_fwd = Math::Vector3::Transform(-Math::Vector3::UnitZ(), Rotation);
+	Math::Vector3 right = Math::Vector3::Normalize(Math::Vector3::Cross(Normal, _fwd));
+
+	_dir = Math::Vector3::Zero();
+
+	auto& kb = game->Keyboard;
+
+	if (kb.IsKeyDown(Forward))  _dir += _fwd;
+	if (kb.IsKeyDown(Backward)) _dir -= _fwd;
+	if (kb.IsKeyDown(Left))     _dir -= right;
+	if (kb.IsKeyDown(Right))    _dir += right;
+
+	if (_dir.LengthSquared() > 0) _dir.Normalize();
+
+	if (!Frozen)
+	{
+		_controller->Move(_dir * MovementSpeed * dt);
+
+		if (kb.IsKeyDown(Jump))
+			_controller->Jump(JumpHeight);
+	}
+
+	_controller->UpdateTransform();
+	Camera::Update();
+}
+
+void FPCharacter::Teleport(const Math::Vector3& position)
+{
+	_controller->Position = position;
+	Position = position;
+}
+
+void FPCharacter::Teleport(const Math::Vector3& position, const Math::Quaternion& rotation)
+{
+	_controller->Position = position;
+	_controller->Rotation = rotation;
+
+	Position = position;
+	Rotation = rotation;
+}
+
+REFL_BEGIN(FPCharacter, "First Person Character", "Physics", "A first person character controller")
+REFL_FIELD(FPCharacter, std::string, Name, "Name", "FPCharacter", "Name of the object")
+REFL_FIELD(FPCharacter, bool, Enabled, "Enabled", true, "Whether the object is enabled or not")
+REFL_FIELD(FPCharacter, bool, Frozen, "Visible", true, "Whether movement is enabled")
+REFL_FIELD(FPCharacter, Vector3, Position, "Position", Vector3::Zero(), "Position of the object")
+REFL_FIELD(FPCharacter, Quaternion, Rotation, "Rotation", Quaternion(), "Rotation of the object")
+REFL_FIELD(FPCharacter, Vector3, Normal, "Normal", Vector3::UnitY(), "Camera surface normal vector")
+REFL_FIELD(FPCharacter, float, Radius, "Radius", 0.5f, "Radius of the character's capsule collider")
+REFL_FIELD(FPCharacter, float, Height, "Height", 1.8f, "Height of the character's capsule collider")
+REFL_FIELD(FPCharacter, float, MovementSpeed, "Movement Speed", 1.0f, "Movement speed of the character")
+REFL_FIELD(FPCharacter, float, JumpHeight, "Jump Height", 1.0f, "Jump height of the character")
+REFL_FIELD(FPCharacter, Input::Key, Forward, "Forward Key", Input::Key::W, "Key used for moving forward")
+REFL_FIELD(FPCharacter, Input::Key, Backward, "Backward Key", Input::Key::S, "Key used for moving backward")
+REFL_FIELD(FPCharacter, Input::Key, Left, "Left Key", Input::Key::A, "Key used for moving left")
+REFL_FIELD(FPCharacter, Input::Key, Right, "Right Key", Input::Key::D, "Key used for moving right")
+REFL_FIELD(FPCharacter, Input::Key, Jump, "Jump Key", Input::Key::Space, "Key used for jumping")
+REFL_FIELD(FPCharacter, float, Sensitivity, "Mouse Sensitivity", 0.1f, "Mouse sensitivity for looking around")
+REFL_FIELD(FPCharacter, float, AspectRatio, "Aspect Ratio", 4.0f / 3.0f, "Aspect ratio of the camera")
+REFL_FIELD(FPCharacter, float, FieldOfView, "Field of View", Math::ToRadians(65.0f), "Field of view of the camera")
+REFL_FIELD(FPCharacter, float, NearPlaneDistance, "Near Plane Distance", 0.01f, "Near plane distance of the camera")
+REFL_FIELD(FPCharacter, float, FarPlaneDistance, "Far plane distance", 500.f, "Maximum drawing distance")
+REFL_END

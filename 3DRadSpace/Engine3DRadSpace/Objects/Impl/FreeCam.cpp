@@ -8,13 +8,29 @@ using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Objects;
 
-FreeCam::FreeCam() : Camera("FreeCam")
+FreeCam::FreeCam(
+	const std::string& name,
+	bool enabled,
+	const Vector3& pos,
+	const Quaternion& rotation,
+	const Vector3& up,
+	float aspectRatio,
+	float fov,
+	float npd,
+	float fpd
+) : Camera(name, enabled, pos, rotation, up, aspectRatio, fov, npd, fpd),
+	_camCoords(rotation.ToYawPitchRoll().XY())
 {
 }
 
 void FreeCam::Update()
 {
 	if(Enabled) return;
+	if (Frozen)
+	{
+		Camera::Update();
+		return;
+	}
 
 	auto game = static_cast<Game*>(_game);
 	float dt = game->Update_dt;
@@ -39,19 +55,20 @@ void FreeCam::Update()
 
 	auto &kb = game->Keyboard;
 
-	Vector3 mv;
+	if(kb.IsKeyDown(Forward)) _dir += _fwd;
+	if(kb.IsKeyDown(Backward)) _dir -= _fwd;
+	if(kb.IsKeyDown(Left)) _dir -= right;
+	if(kb.IsKeyDown(Right)) _dir += right;
 
-	if(kb.IsKeyDown(Forward)) mv += _fwd;
-	if(kb.IsKeyDown(Backward)) mv -= _fwd;
-	if(kb.IsKeyDown(Left)) mv -= right;
-	if(kb.IsKeyDown(Right)) mv += right;
+	if (EnableElevation)
+	{
+		if (kb.IsKeyDown(Elevate)) _dir += Normal;
+		if (kb.IsKeyDown(Descend)) _dir -= Normal;
+	}
 
-	if(kb.IsKeyDown(Elevate)) mv += Normal;
-	if(kb.IsKeyDown(Descend)) mv -= Normal;
+	if(_dir.LengthSquared() > 0) _dir.Normalize();
 
-	if(mv.LengthSquared() > 0) mv.Normalize();
-
-	Position += mv * MovementSpeed * dt;
+	Position += _dir * MovementSpeed * dt;
 
 	Camera::Update();
 }
