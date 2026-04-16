@@ -55,7 +55,7 @@ Font::Font(IGraphicsDevice* device, const std::filesystem::path& path, unsigned 
 		_supportedCharacters = defaultSupportedCharacters;
 	}
 
-	//Precomputate a font texture atlas size. Using a naive implementation.
+	constexpr unsigned padding = 2;
 
 	//Initial allocated size.
 	unsigned atlasX = 256;
@@ -73,11 +73,11 @@ fontSizeComputation:
 	{
 		for (auto c : _supportedCharacters)
 		{
-			if (FT_Load_Char(font, c, FT_LOAD_COMPUTE_METRICS))
+			if (FT_Load_Char(font, c, FT_LOAD_DEFAULT))
 				continue;
 
-			auto w = font->glyph->bitmap.width;
-			auto h = font->glyph->bitmap.rows;
+			auto w = static_cast<unsigned>(font->glyph->metrics.width >> 6);
+			auto h = static_cast<unsigned>(font->glyph->metrics.height >> 6);
 
 			auto glyph = Glyph
 			{
@@ -87,16 +87,35 @@ fontSizeComputation:
 				.Advance = static_cast<unsigned>(font->glyph->advance.x)
 			};
 
+			//move to new line before placing if glyph would overflow
+			if (currentX + w > atlasX)
+			{
+				currentX = 0;
+				currentY += boundaryY + padding;
+				boundaryY = 0;
+
+				//if image size is exceeded, resize and then recalculate the atlas.
+				if (currentY >= atlasY)
+				{
+					atlasX *= 2;
+					atlasY *= 2;
+
+					_glyphs.clear();
+					goto fontSizeComputation;
+				}
+			}
+
 			_glyphs.emplace_back(glyph, Math::Rectangle(currentX, currentY, w, h));
 
-			currentX += w;
+			currentX += w + padding;
 			boundaryY = std::max(boundaryY, h);
 
 			//move to new line
 			if (currentX >= atlasX)
 			{
 				currentX = 0;
-				currentY += boundaryY;
+				currentY += boundaryY + padding;
+				boundaryY = 0;
 
 				//if image size is exceeded, resize and then recalculate the atlas.
 				if (currentY >= atlasY)
@@ -148,7 +167,7 @@ fontSizeComputation:
 	_valid = true;
 }
 
-Font::Font(IGraphicsDevice* device, const std::filesystem::path& path) : Font(device, path, 14, nullptr)
+Font::Font(IGraphicsDevice* device, const std::filesystem::path& path) : Font(device, path, 16, nullptr)
 {
 }
 

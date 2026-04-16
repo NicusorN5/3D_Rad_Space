@@ -117,7 +117,7 @@ Camera::~Camera()
 	if(_game)
 	{
 		if(auto game = static_cast<Game*>(_game); game->Objects->_camera == this)
-		game->Objects->_camera = nullptr;
+			game->Objects->_camera = nullptr;
 	}
 }
 

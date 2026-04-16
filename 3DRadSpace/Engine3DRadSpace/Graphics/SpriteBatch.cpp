@@ -160,7 +160,7 @@ void SpriteBatch::_drawEntry(const spriteBatchEntry &entry)
 
 void SpriteBatch::_drawAllEntries_SortByTexture()
 {
-	unsigned lastID = 1;
+	unsigned lastID = 0;
 
 	std::vector<VertexPointUVColor> currentVertices;
 	std::vector<unsigned> currentIndices;
@@ -170,10 +170,10 @@ void SpriteBatch::_drawAllEntries_SortByTexture()
 
 	auto draw = [&]()
 	{
+		if (currentVertices.empty()) return;
 		_vertexBuffer->SetData<VertexPointUVColor>(currentVertices);
 		_indexBuffer->SetData<unsigned>(currentIndices);
 		cmd->DrawVertexBufferWithindices(_vertexBuffer.get(), _indexBuffer.get());
-		cmd->DrawVertexBuffer(_vertexBuffer.get());
 	};
 
 	unsigned i = 0;
@@ -211,6 +211,21 @@ void SpriteBatch::_drawAllEntries_SortByTexture()
 			draw();
 
 			currentVertices.clear();
+			currentIndices.clear();
+
+			auto& [min, max] = entry.coords;
+			auto quad = _createQuad(
+				Math::RectangleF(min, max),
+				entry.flipU,
+				entry.flipV,
+				entry.tintColor,
+				entry.uvSource
+			);
+			currentVertices.insert(currentVertices.end(), quad.begin(), quad.end());
+
+			auto indices = _createIndexQuad(i);
+			currentIndices.insert(currentIndices.end(), indices.begin(), indices.end());
+			i = 4;
 		}
 	}
 

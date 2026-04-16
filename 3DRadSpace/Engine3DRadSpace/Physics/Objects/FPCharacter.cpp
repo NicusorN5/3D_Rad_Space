@@ -4,6 +4,7 @@
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Math;
+using namespace Engine3DRadSpace::Physics;
 using namespace Engine3DRadSpace::Physics::Objects;
 
 FPCharacter::FPCharacter(
@@ -16,7 +17,8 @@ FPCharacter::FPCharacter(
 	float fov,
 	float npd,
 	float fpd
-) : FreeCam(name, visible, pos, rotation, up, aspectRatio, fov, npd, fpd)
+) : FreeCam(name, visible, pos, rotation, up, aspectRatio, fov, npd, fpd),
+	_physics(nullptr)
 {
 }
 
@@ -36,6 +38,7 @@ void FPCharacter::Update()
 		Camera::Update();
 		return;
 	}
+	if (!_controller) return;
 
 	Game* game = static_cast<Game*>(_game);
 	float dt = game->Update_dt;
@@ -102,6 +105,11 @@ Reflection::UUID FPCharacter::GetUUID() const noexcept
 	return { 0xac8f8df7, 0x80ec, 0x4293, { 0xa7, 0x8b, 0xde, 0x7f, 0x3f, 0xff, 0xbf, 0x49 } };
 }
 
+ICharacterController* FPCharacter::GetController() const noexcept
+{
+	return _controller.get();
+}
+
 REFL_BEGIN(FPCharacter, "First Person Character", "Physics", "A first person character controller")
 REFL_FIELD(FPCharacter, std::string, Name, "Name", "FPCharacter", "Name of the object")
 REFL_FIELD(FPCharacter, bool, Enabled, "Enabled", true, "Whether the object is enabled or not")
@@ -119,6 +127,8 @@ REFL_FIELD(FPCharacter, Input::Key, Left, "Left Key", Input::Key::A, "Key used f
 REFL_FIELD(FPCharacter, Input::Key, Right, "Right Key", Input::Key::D, "Key used for moving right")
 REFL_FIELD(FPCharacter, Input::Key, Jump, "Jump Key", Input::Key::Space, "Key used for jumping")
 REFL_FIELD(FPCharacter, float, Sensitivity, "Mouse Sensitivity", 0.1f, "Mouse sensitivity for looking around")
+REFL_FIELD(FPCharacter, bool, InvertX, "Invert X", false, "Whether to invert the X axis for looking around")
+REFL_FIELD(FPCharacter, bool, InvertY, "Invert Y", false, "Whether to invert the Y axis for looking around")
 REFL_FIELD(FPCharacter, float, AspectRatio, "Aspect Ratio", 4.0f / 3.0f, "Aspect ratio of the camera")
 REFL_FIELD(FPCharacter, float, FieldOfView, "Field of View", Math::ToRadians(65.0f), "Field of view of the camera")
 REFL_FIELD(FPCharacter, float, NearPlaneDistance, "Near Plane Distance", 0.01f, "Near plane distance of the camera")

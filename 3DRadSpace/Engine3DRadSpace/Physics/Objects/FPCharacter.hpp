@@ -33,6 +33,7 @@ namespace Engine3DRadSpace::Physics::Objects
 
 		void Teleport(const Math::Vector3& position);
 		void Teleport(const Math::Vector3& position, const Math::Quaternion& rotation);
+		ICharacterController* GetController() const noexcept;
 
 		Reflection::UUID GetUUID() const noexcept override;
 

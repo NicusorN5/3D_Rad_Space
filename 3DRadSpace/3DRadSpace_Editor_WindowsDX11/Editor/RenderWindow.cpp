@@ -425,6 +425,11 @@ void RenderWindow::Draw3D()
 void RenderWindow::SelectObject(IObject* obj)
 {
 	_selectedObject = obj;
+	
+	if (dynamic_cast<IObject3D*>(obj) != nullptr)
+	{
+		cursor3D = static_cast<IObject3D*>(obj)->Position;
+	}
 }
 
 void RenderWindow::_gizmoFn(Gizmos::IGizmo* g, std::array<Button*, 3> btns, void (Button::* fn)(), uint8_t allow2D)

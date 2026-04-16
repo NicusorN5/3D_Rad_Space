@@ -101,6 +101,7 @@ void* PhysicsEngine::GetScene() const noexcept
 
 PhysicsEngine::~PhysicsEngine()
 {
+	_controllerManager.reset();
 	PX_RELEASE(_scene);
 	PX_RELEASE(_cpuDispatcher);
 	PX_RELEASE(_physics);
