@@ -30,6 +30,9 @@ namespace Engine3DRadSpace::Physics
 		virtual std::unique_ptr<ICharacterController> CreateCharacterController(float radius, float height, const Math::Vector3& position = Math::Vector3::Zero()) = 0;
 		virtual double dt() const noexcept = 0;
 
+		virtual void SetGravity(const Math::Vector3& gravity) = 0;
+		virtual Math::Vector3 GetGravity() const = 0;
+
 		~IPhysicsEngine() override = default;
 	};
 }

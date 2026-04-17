@@ -69,7 +69,7 @@ IService* Game::RequireService(const std::type_index& type)
 
 		Physics = std::make_unique<Physics::NVPhysX::PhysicsEngine>(Physics::PhysicsSettings{
 			.PhysicsEnabled = true,
-			.Gravity = 9.81f,
+			.Gravity = Math::Vector3(0, -9.81f, 0),
 			.TimeStep = 1.0f / 60.0f
 			}
 		);

@@ -3,6 +3,7 @@
 #include <PxMaterial.h>
 #include <extensions/PxRigidBodyExt.h>
 #include <geometry/PxGeometryQuery.h>
+#include <PxScene.h>
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Math;
@@ -20,6 +21,25 @@ void DynamicCollider::_generateRigidbody()
 
 	auto material = nvPhysics->createMaterial(StaticFriction, DynamicFriction, Restitution);
 	_material.reset(material);
+
+	auto p = Position.Get();
+	auto q = Rotation.Get();
+
+	physx::PxTransform transform{};
+	transform.p = physx::PxVec3(p.X, p.Y, p.Z);
+	transform.q = physx::PxQuat(-q.X, -q.Y, -q.Z, q.W);
+
+	auto rigidDynamic = nvPhysics->createRigidDynamic(transform);
+	rigidDynamic->setMass(Mass.Get());
+	rigidDynamic->setLinearDamping(LinearDamping.Get());
+	rigidDynamic->setAngularDamping(AngularDamping.Get());
+	rigidDynamic->setMaxAngularVelocity(MaxAngularVelocity.Get().X);
+	rigidDynamic->setLinearVelocity(physx::PxVec3(LinearVelocity.Get().X, LinearVelocity.Get().Y, LinearVelocity.Get().Z));
+	rigidDynamic->setAngularVelocity(physx::PxVec3(AngularVelocity.Get().X, AngularVelocity.Get().Y, AngularVelocity.Get().Z));
+	_rigidbody.reset(rigidDynamic);
+
+	auto scene = static_cast<physx::PxScene*>(_physics->GetScene());
+	scene->addActor(*_rigidbody);
 }
 
 float DynamicCollider::_getMass() const

@@ -17,7 +17,9 @@ GForce::GForce(const std::string& name, bool enabled, const Math::Vector3& gravi
 
 void GForce::Initialize()
 {
-    _game->RequireService(typeid(IPhysicsEngine));
+    auto* physics = static_cast<IPhysicsEngine*>(_game->RequireService(typeid(IPhysicsEngine)));
+    if(physics && Enabled)
+        physics->SetGravity(Gravity);
 }
 
 void GForce::Update()

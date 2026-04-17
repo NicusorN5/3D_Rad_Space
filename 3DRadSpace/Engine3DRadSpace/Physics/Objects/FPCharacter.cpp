@@ -115,7 +115,8 @@ ICharacterController* FPCharacter::GetController() const noexcept
 
 Math::Matrix4x4 FPCharacter::GetViewMatrix() const noexcept
 {
-	Vector3 camPos = Position + Vector3(0, Height, 0);
+	Vector3 eyeBase = _controller ? _controller->Position.Get() : Position;
+	Vector3 camPos = Vector3(eyeBase.X, eyeBase.Y + Height, eyeBase.Z);
 	Vector3 focus = camPos + Vector3::Forward().Transform(Rotation);
 	return Matrix4x4::CreateLookAtView(camPos, focus, Normal);
 }

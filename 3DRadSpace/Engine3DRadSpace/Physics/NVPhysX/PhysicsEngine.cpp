@@ -59,7 +59,7 @@ void PhysicsEngine::SetGravity(const Math::Vector3& gravity)
 	static_cast<physx::PxScene*>(_scene)->setGravity(physx::PxVec3(gravity.X, gravity.Y, gravity.Z));
 }
 
-Vector3 PhysicsEngine::GetGravity()
+Vector3 PhysicsEngine::GetGravity() const
 {
 	auto g = _scene->getGravity();
 	return Vector3(g.x, g.y, g.z);

@@ -97,14 +97,19 @@ void StaticMeshCollider::_generateRigidbody()
 	{
 		auto meshgeometry = physx::PxTriangleMeshGeometry(
 			mesh,
-			physx::PxMeshScale(physx::PxVec3(_scale.X, _scale.Y, _scale.Z))
+			physx::PxMeshScale(physx::PxVec3(_scale.X, _scale.Y, _scale.Z)),
+			physx::PxMeshGeometryFlags(physx::PxMeshGeometryFlag::eDOUBLE_SIDED)
 		);
 		auto shape = nvPhysics->createShape(meshgeometry, *_material);
 		_rigidbody->attachShape(*shape);
 	}
 
 	auto scene = static_cast<physx::PxScene*>(_physics->GetScene());
-	scene->addActor(*_rigidbody);
+	bool success = scene->addActor(*_rigidbody);
+	if(!success)
+	{
+		Logging::SetLastWarning("PhysX: StaticMeshCollider::_generateRigidbody - failed to add actor to scene.");
+	}
 }
 
 float StaticMeshCollider::_getMass() const

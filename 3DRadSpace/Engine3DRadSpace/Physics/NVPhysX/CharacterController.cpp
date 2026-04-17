@@ -30,9 +30,11 @@ CharacterController::CharacterController(
 
 	physx::PxCapsuleControllerDesc desc;
 	desc.setToDefault();
-	desc.position = physx::PxExtendedVec3(position.X, position.Y, position.Z);
+	// position is the feet (base) of the capsule; PhysX wants the center
+	desc.position = physx::PxExtendedVec3(position.X, position.Y + height / 2.0f + radius, position.Z);
 	desc.height = height;
 	desc.radius = radius;
+	desc.contactOffset = std::max(radius * 0.1f, 0.05f); // skin to catch geometry before penetration
 	desc.slopeLimit = std::cos(_maxSlopeAngle);
 	desc.material = nvPhysics->createMaterial(0.5f, 0.5f, 0.0f);
 	_material = PxUPtr<physx::PxMaterial>(desc.material);
@@ -107,7 +109,7 @@ void CharacterController::Move(const Math::Vector3& displacement)
 
 	float dt = static_cast<float>(_physics->dt());
 
-	_verticalVelocity += Gravity.Get() * dt;
+	_verticalVelocity += _gravity * dt;
 
 	if(IsGrounded() && Vector3::Dot(_verticalVelocity, _gravity) >= 0.0f)
 		_verticalVelocity = Vector3::Zero();
@@ -212,8 +214,13 @@ void CharacterController::UpdateTransform()
 {
 	if(!_controller) return;
 
-	auto p = _controller->getPosition();
+	// Use foot position so _position always represents the base of the capsule,
+	// consistent with how GetViewMatrix builds the eye position (Position + Height).
+	auto p = _controller->getFootPosition();
 	Vector3 candidate(static_cast<float>(p.x), static_cast<float>(p.y), static_cast<float>(p.z));
+
+	auto str = std::format("CharacterController::UpdateTransform - Position: ({}, {}, {})\r\n", candidate.X, candidate.Y, candidate.Z);
+	OutputDebugStringA(str.c_str());
 
 	// Guard against NaN/inf coming from a diverged simulation (e.g. character fell
 	// out of the physics world). Retain the last known-good position instead.
@@ -224,7 +231,8 @@ void CharacterController::UpdateTransform()
 void CharacterController::UpdateTransform(const Math::Vector3& position, const Math::Quaternion& rotation)
 {
 	if(!_controller) return;
-	_controller->setPosition(physx::PxExtendedVec3(position.X, position.Y, position.Z));
+	// position is feet; convert to capsule center for PhysX
+	_controller->setPosition(physx::PxExtendedVec3(position.X, position.Y + _height / 2.0f + _radius, position.Z));
 
 	(void)rotation;
 }
@@ -238,7 +246,8 @@ void CharacterController::_setPosition(const Math::Vector3& position)
 {
 	_position = position; // keep cache in sync immediately
 	if(!_controller) return;
-	_controller->setPosition(physx::PxExtendedVec3(position.X, position.Y, position.Z));
+	// PhysX setPosition expects the capsule center; offset from feet
+	_controller->setPosition(physx::PxExtendedVec3(position.X, position.Y + _height / 2.0f + _radius, position.Z));
 }
 
 Math::Quaternion CharacterController::_getRotation() const

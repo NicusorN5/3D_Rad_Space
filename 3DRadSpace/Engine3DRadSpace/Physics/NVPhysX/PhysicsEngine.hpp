@@ -48,8 +48,8 @@ namespace Engine3DRadSpace::Physics::NVPhysX
 		PhysicsEngine& operator=(const PhysicsEngine&) = delete;
 		PhysicsEngine& operator=(PhysicsEngine&&) = delete;
 
-		void SetGravity(const Math::Vector3 &gravity);
-		Math::Vector3 GetGravity();
+		void SetGravity(const Math::Vector3 &gravity) override;
+		Math::Vector3 GetGravity() const override;
 
 		void Simulate(float dt) override;
 
