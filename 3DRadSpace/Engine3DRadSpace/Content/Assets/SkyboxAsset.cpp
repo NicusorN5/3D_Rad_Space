@@ -52,7 +52,14 @@ CubeMapSkybox SkyboxAsset::_loadCubeMap(Graphics::IGraphicsDevice* device, const
 			device->CreateTexture2D(texturePaths[5]).release(),
 		};
 
-		return CubeMapSkybox(device, cubeMap);
+		auto cbMap = CubeMapSkybox(device, cubeMap);
+
+		for (auto &texture : cubeMap)
+		{
+			delete texture;
+		}
+
+		return cbMap;
 	}
 	else if(path.extension() == ".dds")
 	{

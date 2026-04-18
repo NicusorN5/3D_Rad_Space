@@ -219,11 +219,6 @@ void CharacterController::UpdateTransform()
 	auto p = _controller->getFootPosition();
 	Vector3 candidate(static_cast<float>(p.x), static_cast<float>(p.y), static_cast<float>(p.z));
 
-	auto str = std::format("CharacterController::UpdateTransform - Position: ({}, {}, {})\r\n", candidate.X, candidate.Y, candidate.Z);
-	OutputDebugStringA(str.c_str());
-
-	// Guard against NaN/inf coming from a diverged simulation (e.g. character fell
-	// out of the physics world). Retain the last known-good position instead.
 	if(std::isfinite(candidate.X) && std::isfinite(candidate.Y) && std::isfinite(candidate.Z))
 		_position = candidate;
 }
@@ -239,7 +234,10 @@ void CharacterController::UpdateTransform(const Math::Vector3& position, const M
 
 Math::Vector3 CharacterController::_getPosition() const
 {
-	return _position;
+	if (!_controller) return _position;
+	
+	physx::PxExtendedVec3 p = _controller->getPosition();
+	return Vector3(static_cast<float>(p.x), static_cast<float>(p.y) - _height / 2.0f - _radius, static_cast<float>(p.z));
 }
 
 void CharacterController::_setPosition(const Math::Vector3& position)

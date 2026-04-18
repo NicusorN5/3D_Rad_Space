@@ -219,6 +219,7 @@ json Engine3DRadSpace::Projects::Serializer::SerializeObject(IObject* obj)
 				}
 				case FieldRepresentationType::Image:
 				case FieldRepresentationType::Model:
+				case FieldRepresentationType::Font:
 				case FieldRepresentationType::Skybox:
 				{
 					unsigned texture = field->GetAtOffset<unsigned>(objPtr, offset);
@@ -430,6 +431,7 @@ json Engine3DRadSpace::Projects::Serializer::SerializeObject(IObject* obj)
 				}
 				case FieldRepresentationType::Image:
 				case FieldRepresentationType::Model:
+				case FieldRepresentationType::Font:
 				case FieldRepresentationType::Skybox:
 				{
 					unsigned value = jsonField.get<unsigned>();

@@ -154,7 +154,7 @@ namespace Engine3DRadSpace::Objects
 		unsigned c = 0;
 		O* ptr = nullptr;
 
-		for (auto& [type, object] : _objects)
+		for (auto& [object, type] : _objects)
 		{
 			ptr = dynamic_cast<O*>(object.get());
 			if (ptr != nullptr)

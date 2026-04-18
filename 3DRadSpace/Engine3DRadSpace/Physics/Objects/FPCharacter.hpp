@@ -30,6 +30,7 @@ namespace Engine3DRadSpace::Physics::Objects
 
 		void Initialize() override;
 		void Update() override;
+		void Draw3D() override;
 
 		void Teleport(const Math::Vector3& position);
 		void Teleport(const Math::Vector3& position, const Math::Quaternion& rotation);

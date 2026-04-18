@@ -664,6 +664,8 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				{
 					if(gEditorWindow->WarnNotSaved())
 					{
+						gEditorWindow->SelectObject(std::nullopt);
+						gEditorWindow->editor->Reset3DCursor();
 						gEditorWindow->editor->Content->Clear();
 						gEditorWindow->editor->Objects->Clear();
 						SendMessageA(gEditorWindow->_listBox, TVM_DELETEITEM, 0, reinterpret_cast<LPARAM>(TVI_ROOT));

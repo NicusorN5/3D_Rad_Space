@@ -34,7 +34,6 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		/// <param name="cubeMap">DDS file.</param>
 		/// <remarks>
 		/// The newly created TextureCube will have data copied from cubeMap, so the argument isn't moved, nor destroyed.
-		/// 
 		/// </remarks>
 		TextureCube(GraphicsDevice *device, std::array<ITexture2D*, 6> cubeMap);
 

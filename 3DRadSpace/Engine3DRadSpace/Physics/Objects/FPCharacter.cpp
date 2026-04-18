@@ -113,6 +113,17 @@ ICharacterController* FPCharacter::GetController() const noexcept
 	return _controller.get();
 }
 
+void FPCharacter::Draw3D()
+{
+	if(!Visible) return;
+
+	auto game = static_cast<Game*>(_game);
+	game->View = GetViewMatrix();
+	game->Projection = GetProjectionMatrix();
+	
+	Camera::Update();
+}
+
 Math::Matrix4x4 FPCharacter::GetViewMatrix() const noexcept
 {
 	Vector3 eyeBase = _controller ? _controller->Position.Get() : Position;

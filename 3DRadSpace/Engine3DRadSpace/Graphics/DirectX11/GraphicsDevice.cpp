@@ -352,6 +352,12 @@ IDepthStencilBuffer& GraphicsDevice::GetDepthBuffer()
 
 GraphicsDevice::~GraphicsDevice()
 {
+	if (_context)
+	{
+		_context->ClearState();
+		_context->Flush();
+	}
+
 	_swapChain->SetFullscreenState(false, nullptr);
 //
 //		UNCOMMENT THE COMMENT BLOCK BELOW IF THERE ARE DIRECTX OBJECTS LEAKING! 
