@@ -45,8 +45,12 @@ void FPCharacter::Update()
 	Math::Point mousePos = game->Mouse.Position();
 	game->Window->SetMousePosition(screenCenter);
 
-	auto mouseDelta = (Math::Vector2)(screenCenter - mousePos);
-	_camCoords -= mouseDelta * Sensitivity * dt;
+	auto mouseDelta = (Math::Vector2)(mousePos - screenCenter);
+
+	float invertX = InvertX ? -1.0f : 1.0f;
+	float invertY = InvertY ? -1.0f : 1.0f;
+	_camCoords.X -= mouseDelta.X * Sensitivity * dt * invertX;
+	_camCoords.Y -= mouseDelta.Y * Sensitivity * dt * invertY;
 
 	_camCoords.Y = std::clamp<float>(
 		_camCoords.Y,
@@ -61,7 +65,7 @@ void FPCharacter::Update()
 	Math::Vector3 horizFwd = _fwd - Normal * Math::Vector3::Dot(_fwd, Normal);
 	if (horizFwd.LengthSquared() > 0.0f) horizFwd.Normalize();
 
-	Math::Vector3 right = Math::Vector3::Normalize(Math::Vector3::Cross(Normal, horizFwd));
+	Math::Vector3 right = Math::Vector3::Normalize(Math::Vector3::Cross(horizFwd, Normal));
 
 	_dir = Math::Vector3::Zero();
 

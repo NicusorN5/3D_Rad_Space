@@ -70,9 +70,11 @@ void StaticMeshCollider::_generateRigidbody()
 			meshDesc.triangles.data = indices;
 			meshDesc.triangles.stride = 3 * sizeof(unsigned);
 
+			meshDesc.flags = physx::PxMeshFlag::eFLIPNORMALS;
+
 #if _DEBUG
-			if(!PxValidateTriangleMesh(cookParams, meshDesc))
-				Logging::SetLastWarning("PhysX: PxValidateTriangleMesh failed!");
+		   if(!PxValidateTriangleMesh(cookParams, meshDesc))
+			   Logging::SetLastWarning("PhysX: PxValidateTriangleMesh failed!");
 #endif
 			auto cookedMesh = PxCreateTriangleMesh(
 				cookParams,

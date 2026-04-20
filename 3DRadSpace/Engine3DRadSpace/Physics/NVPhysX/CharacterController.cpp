@@ -133,9 +133,9 @@ void CharacterController::Jump(float height)
 	float g = _gravity.Length();
 	if(g == 0.0f) return;
 
-	// Conservation of energy: (1/2)m(v^2) = mgh -> v = sqrt(2gh)
+   // Conservation of energy: (1/2)m(v^2) = mgh -> v = sqrt(2gh)
 	float speed = std::sqrt(2.0f * g * height);
-	_verticalVelocity = Vector3::Normalize(-_gravity) * speed;
+	_verticalVelocity = Vector3::Normalize(_gravity) * -speed;
 }
 
 bool CharacterController::IsGrounded()
