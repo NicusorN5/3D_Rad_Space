@@ -83,20 +83,20 @@ void FPCharacter::Update()
 	}
 
 	_controller->UpdateTransform();
-	Position = _controller->Position.Get();
+	Position = _controller->GetPosition();
 	Camera::Update();
 }
 
 void FPCharacter::Teleport(const Math::Vector3& position)
 {
-	_controller->Position = position;
+	_controller->SetPosition(position);
 	Position = position;
 }
 
 void FPCharacter::Teleport(const Math::Vector3& position, const Math::Quaternion& rotation)
 {
-	_controller->Position = position;
-	_controller->Rotation = rotation;
+	_controller->SetPosition(position);
+	_controller->SetRotation(rotation);
 
 	Position = position;
 	Rotation = rotation;
@@ -126,8 +126,7 @@ void FPCharacter::Draw3D()
 
 Math::Matrix4x4 FPCharacter::GetViewMatrix() const noexcept
 {
-	Vector3 eyeBase = _controller ? _controller->Position.Get() : Position;
-	Vector3 camPos = Vector3(eyeBase.X, eyeBase.Y + Height, eyeBase.Z);
+	Vector3 camPos = Vector3(Position.X, Position.Y + Height, Position.Z);
 	Vector3 focus = camPos + Vector3::Forward().Transform(Rotation);
 	return Matrix4x4::CreateLookAtView(camPos, focus, Normal);
 }

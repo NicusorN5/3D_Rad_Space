@@ -9,18 +9,6 @@ using namespace Engine3DRadSpace::Objects;
 using namespace Engine3DRadSpace::Objects::Gizmos;
 
 #define SS_INITIALIZE \
-Sound(this), \
-Volume(this), \
-Pitch(this), \
-Looping(this), \
-Velocity(this), \
-Direction(this), \
-MaxDistance(this), \
-ReferenceDistance(this), \
-RolloffFactor(this), \
-ConeOuterGain(this), \
-ConeInnerAngle(this), \
-ConeOuterAngle(this), \
 _volume(1.0f), \
 _pitch(1.0f), \
 _looping(false), \
@@ -32,17 +20,17 @@ _coneInnerAngle(360.0f), \
 _coneOuterAngle(360.0f)
 
 #define SS_SETPARAM \
-_setVolume(_volume); \
-_setPitch(_pitch); \
-_setLooping(_looping); \
-_setVelocity(_velocity); \
-_setDirection(_direction); \
-_setMaxDistance(_maxDistance); \
-_setReferenceDistance(_referenceDistance); \
-_setRolloffFactor(_rolloffFactor); \
-_setConeOuterGain(_coneOuterGain); \
-_setConeInnerAngle(_coneInnerAngle); \
-_setConeOuterAngle(_coneOuterAngle); 
+SetVolume(_volume); \
+SetPitch(_pitch); \
+SetLooping(_looping); \
+SetVelocity(_velocity); \
+SetDirection(_direction); \
+SetMaxDistance(_maxDistance); \
+SetReferenceDistance(_referenceDistance); \
+SetRolloffFactor(_rolloffFactor); \
+SetConeOuterGain(_coneOuterGain); \
+SetConeInnerAngle(_coneInnerAngle); \
+SetConeOuterAngle(_coneOuterAngle); 
 
 SoundSource::SoundSource() : SS_INITIALIZE
 {
@@ -69,54 +57,54 @@ SoundSource::SoundSource(
 {
 }
 
-RefSound SoundSource::_getAsset() const noexcept
+RefSound SoundSource::GetSoundAsset() const noexcept
 {
 	return _underlying.Sound;
 }
 
-void SoundSource::_setAsset(RefSound sound) noexcept
+void SoundSource::SetSoundAsset(RefSound sound) noexcept
 {
 	_underlying.Sound = sound;
 }
 
-float SoundSource::_getVolume() const noexcept
+float SoundSource::GetVolume() const noexcept
 {
-	return _underlying.Volume;
+	return _underlying.GetVolume();
 }
 
-void SoundSource::_setVolume(float volume) noexcept
+void SoundSource::SetVolume(float volume) noexcept
 {
-	_underlying.Volume = volume;
+	_underlying.SetVolume(volume);
 }
 
-float SoundSource::_getPitch() const noexcept
+float SoundSource::GetPitch() const noexcept
 {
-	return _underlying.Pitch;
+	return _underlying.GetPitch();
 }
 
-void SoundSource::_setPitch(float pitch) noexcept
+void SoundSource::SetPitch(float pitch) noexcept
 {
-	_underlying.Pitch = pitch;
+	_underlying.SetPitch(pitch);
 }
 
-bool SoundSource::_getLooping() const noexcept
+bool SoundSource::IsLooping() const noexcept
 {
-	return _underlying.Looping;
+	return _underlying.IsLooping();
 }
 
-void SoundSource::_setLooping(bool looping) noexcept
+void SoundSource::SetLooping(bool looping) noexcept
 {
-	_underlying.Looping = looping;
+	_underlying.SetLooping(looping);
 }
 
 
-Vector3 SoundSource::_getVelocity() const noexcept
+Vector3 SoundSource::GetVelocity() const noexcept
 {
 	auto instance = GetInstance();
 	return instance ? instance->GetVelocity() : _velocity;
 }
 
-void SoundSource::_setVelocity(const Vector3 &velocity) noexcept
+void SoundSource::SetVelocity(const Vector3 &velocity) noexcept
 {
 	auto instance = GetInstance();
 	if(instance)
@@ -125,13 +113,13 @@ void SoundSource::_setVelocity(const Vector3 &velocity) noexcept
 		_velocity = velocity;
 }
 
-Vector3 SoundSource::_getDirection() const noexcept
+Vector3 SoundSource::GetDirection() const noexcept
 {
 	auto instance = GetInstance();
-	return instance ? instance->GetVelocity() : _direction;
+	return instance ? instance->GetDirection() : _direction;
 }
 
-void SoundSource::_setDirection(const Vector3& direction) noexcept
+void SoundSource::SetDirection(const Vector3& direction) noexcept
 {
 	auto instance = GetInstance();
 	if(instance)
@@ -140,13 +128,13 @@ void SoundSource::_setDirection(const Vector3& direction) noexcept
 		_direction = direction;
 }
 
-float SoundSource::_getMaxDistance() const noexcept
+float SoundSource::GetMaxDistance() const noexcept
 {
 	auto instance = GetInstance();
 	return instance ? instance->GetMaxDistance() : _maxDistance;
 }
 
-void SoundSource::_setMaxDistance(float distance) noexcept
+void SoundSource::SetMaxDistance(float distance) noexcept
 {
 	auto instance = GetInstance();
 	if(instance)
@@ -154,13 +142,13 @@ void SoundSource::_setMaxDistance(float distance) noexcept
 	else _maxDistance = distance;
 }
 
-float SoundSource::_getReferenceDistance() const noexcept
+float SoundSource::GetReferenceDistance() const noexcept
 {
 	auto instance = GetInstance();
 	return instance ? instance->GetReferenceDistance() : _referenceDistance;
 }
 
-void SoundSource::_setReferenceDistance(float refDst) noexcept
+void SoundSource::SetReferenceDistance(float refDst) noexcept
 {
 	auto instance = GetInstance();
 	if(instance)
@@ -169,13 +157,13 @@ void SoundSource::_setReferenceDistance(float refDst) noexcept
 		_referenceDistance = refDst;
 }
 
-float SoundSource::_getRolloffFactor() const noexcept
+float SoundSource::GetRolloffFactor() const noexcept
 {
 	auto instance = GetInstance();
 	return instance ? instance->GetRolloffFactor() : _rolloffFactor;
 }
 
-void SoundSource::_setRolloffFactor(float rollOff) noexcept
+void SoundSource::SetRolloffFactor(float rollOff) noexcept
 {
 	auto instance = GetInstance();
 	if(instance)
@@ -184,13 +172,13 @@ void SoundSource::_setRolloffFactor(float rollOff) noexcept
 		_rolloffFactor = rollOff;
 }
 
-float SoundSource::_getConeInnerAngle() const noexcept
+float SoundSource::GetConeInnerAngle() const noexcept
 {
 	auto instance = GetInstance();
 	return instance ? instance->GetConeInnerAngle() : _coneInnerAngle;
 }
 
-void SoundSource::_setConeInnerAngle(float innerAngle) noexcept
+void SoundSource::SetConeInnerAngle(float innerAngle) noexcept
 {
 	auto instance = GetInstance();
 	if(instance)
@@ -199,13 +187,13 @@ void SoundSource::_setConeInnerAngle(float innerAngle) noexcept
 		_coneInnerAngle = innerAngle;
 }
 
-float SoundSource::_getConeOuterAngle() const noexcept
+float SoundSource::GetConeOuterAngle() const noexcept
 {
 	auto instance = GetInstance();
 	return instance ? instance->GetConeOuterAngle() : _coneOuterAngle;
 }
 
-void SoundSource::_setConeOuterAngle(float outerAngle) noexcept
+void SoundSource::SetConeOuterAngle(float outerAngle) noexcept
 {
 	auto instance = GetInstance();
 	if(instance)
@@ -214,13 +202,13 @@ void SoundSource::_setConeOuterAngle(float outerAngle) noexcept
 		_coneOuterAngle = outerAngle;
 }
 
-float SoundSource::_getConeOuterGain() const noexcept
+float SoundSource::GetConeOuterGain() const noexcept
 {
 	auto instance = GetInstance();
 	return instance ? instance->GetConeOuterGain() : _coneOuterGain;
 }
 
-void SoundSource::_setConeOuterGain(float outerGain) noexcept
+void SoundSource::SetConeOuterGain(float outerGain) noexcept
 {
 	auto instance = GetInstance();
 	if(instance)
@@ -303,12 +291,24 @@ SoundInstance* SoundSource::GetInstance() const noexcept
 #undef SS_INITIALIZE
 #undef SS_SETPARAM
 
+static RefSound ss_getsoundasset(SoundSource& ss) { return ss.GetSoundAsset(); }
+static void ss_setsoundasset(SoundSource& ss, const RefSound& sound) { ss.SetSoundAsset(sound); }
+
+static float ss_getvolume(SoundSource& ss) { return ss.GetVolume(); }
+static void ss_setvolume(SoundSource& ss, const float& volume) { ss.SetVolume(volume); }
+
+static float ss_getpitch(SoundSource& ss) { return ss.GetPitch(); }
+static void ss_setpitch(SoundSource& ss, const float& pitch) { ss.SetPitch(pitch); }
+
+static bool ss_getlooping(SoundSource& ss) { return ss.IsLooping(); }
+static void ss_setlooping(SoundSource& ss, const bool& looping) { ss.SetLooping(looping); }
+
 REFL_BEGIN(SoundSource, "SoundSource", "Sound", "3D Localized sound source")
 REFL_FIELD(SoundSource, std::string, Name, "Name", "SoundSource", "Name of the object")
 REFL_FIELD(SoundSource, bool, Enabled, "Playing at start",true, "Playing at startup")
-REFL_FIELD(SoundSource, RefSound, Sound, "Sound asset", 0, "Sound asset")
+REFL_FIELD_GS(SoundSource, RefSound, ss_getsoundasset, ss_setsoundasset, "Sound asset", 0, "Sound asset")
 REFL_FIELD(SoundSource, Vector3, Position, "Position", Vector3::Zero(), "Sound position")
-REFL_FIELD(SoundSource, float, Volume, "Volume", 1.0f, "Sound gain")
-REFL_FIELD(SoundSource, float, Pitch, "Pitch", 0.5f, "Sound pitch")
-REFL_FIELD(SoundSource, bool, Looping, "Is looping", true, "Is the sound looping?")
+REFL_FIELD_GS(SoundSource, float, ss_getvolume, ss_setvolume, "Volume", 1.0f, "Sound gain")
+REFL_FIELD_GS(SoundSource, float, ss_getpitch, ss_setpitch, "Pitch", 0.5f, "Sound pitch")
+REFL_FIELD_GS(SoundSource, bool, ss_getlooping, ss_setlooping, "Is looping", true, "Is the sound looping?")
 REFL_END

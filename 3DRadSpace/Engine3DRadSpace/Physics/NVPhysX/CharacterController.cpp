@@ -51,54 +51,54 @@ CharacterController::CharacterController(
 	_gravity = Vector3(g.x, g.y, g.z);
 }
 
-void CharacterController::_setHeight(float height)
+void CharacterController::SetHeight(float height)
 {
 	_height = height;
 	if(_controller)
 		_controller->resize(height);
 }
 
-float CharacterController::_getHeight() const
+float CharacterController::GetHeight() const
 {
 	if(_controller)
 		return _controller->getHeight();
 	return _height;
 }
 
-void CharacterController::_setRadius(float radius)
+void CharacterController::SetRadius(float radius)
 {
 	_radius = radius;
 	if(_controller)
 		_controller->setRadius(radius);
 }
 
-float CharacterController::_getRadius() const
+float CharacterController::GetRadius() const
 {
 	if(_controller)
 		return _controller->getRadius();
 	return _radius;
 }
 
-float CharacterController::_getMaxSlopeAngle() const
+float CharacterController::GetMaxSlopeAngle() const
 {
 	if(_controller)
 		return std::acos(_controller->getSlopeLimit());
 	return _maxSlopeAngle;
 }
 
-void CharacterController::_setMaxSlopeAngle(float angle)
+void CharacterController::SetMaxSlopeAngle(float angle)
 {
 	_maxSlopeAngle = angle;
 	if(_controller)
 		_controller->setSlopeLimit(std::cos(angle));
 }
 
-Math::Vector3 CharacterController::_getGravity() const
+Math::Vector3 CharacterController::GetGravity() const
 {
 	return _gravity;
 }
 
-void CharacterController::_setGravity(const Math::Vector3& gravity)
+void CharacterController::SetGravity(const Math::Vector3& gravity)
 {
 	_gravity = gravity;
 }
@@ -156,12 +156,12 @@ bool CharacterController::IsGrounded()
 	return false;
 }
 
-float CharacterController::_getMass() const
+float CharacterController::GetMass() const
 {
 	return 0.0f;
 }
 
-void CharacterController::_setMass(float mass)
+void CharacterController::SetMass(float mass)
 {
 	(void)mass;
 }
@@ -219,7 +219,10 @@ void CharacterController::UpdateTransform()
 	auto p = _controller->getFootPosition();
 	Vector3 candidate(static_cast<float>(p.x), static_cast<float>(p.y), static_cast<float>(p.z));
 
-	if(std::isfinite(candidate.X) && std::isfinite(candidate.Y) && std::isfinite(candidate.Z))
+	auto str = std::format("CharacterController::UpdateTransform - Position: ({}, {}, {})\r\n", candidate.X, candidate.Y, candidate.Z);
+	OutputDebugStringA(str.c_str());
+
+	//if(std::isfinite(candidate.X) && std::isfinite(candidate.Y) && std::isfinite(candidate.Z))
 		_position = candidate;
 }
 
@@ -232,15 +235,12 @@ void CharacterController::UpdateTransform(const Math::Vector3& position, const M
 	(void)rotation;
 }
 
-Math::Vector3 CharacterController::_getPosition() const
+Math::Vector3 CharacterController::GetPosition() const
 {
-	if (!_controller) return _position;
-	
-	physx::PxExtendedVec3 p = _controller->getPosition();
-	return Vector3(static_cast<float>(p.x), static_cast<float>(p.y) - _height / 2.0f - _radius, static_cast<float>(p.z));
+	return _position;
 }
 
-void CharacterController::_setPosition(const Math::Vector3& position)
+void CharacterController::SetPosition(const Math::Vector3& position)
 {
 	_position = position; // keep cache in sync immediately
 	if(!_controller) return;
@@ -248,12 +248,12 @@ void CharacterController::_setPosition(const Math::Vector3& position)
 	_controller->setPosition(physx::PxExtendedVec3(position.X, position.Y + _height / 2.0f + _radius, position.Z));
 }
 
-Math::Quaternion CharacterController::_getRotation() const
+Math::Quaternion CharacterController::GetRotation() const
 {
 	return Math::Quaternion();
 }
 
-void CharacterController::_setRotation(const Math::Quaternion& rotation)
+void CharacterController::SetRotation(const Math::Quaternion& rotation)
 {
 	(void)rotation;
 }

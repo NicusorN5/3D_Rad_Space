@@ -30,30 +30,30 @@ E3DRSP_SoundInstance E3DRSP_SoundEffect_GetSoundInstance(E3DRSP_SoundEffect soun
 
 float E3DRSP_SoundEffect_GetVolume(E3DRSP_SoundEffect soundEffect)
 {
-	return static_cast<SoundEffect*>(soundEffect)->Volume;
+	return static_cast<SoundEffect*>(soundEffect)->GetVolume();
 }
 
 void E3DRSP_SoundEffect_SetVolume(E3DRSP_SoundEffect soundEffect, float volume)
 {
-	static_cast<SoundEffect*>(soundEffect)->Volume = volume;
+	static_cast<SoundEffect*>(soundEffect)->SetVolume(volume);
 }
 
 float E3DRSP_SoundEffect_GetPitch(E3DRSP_SoundEffect soundEffect)
 {
-	return static_cast<SoundEffect*>(soundEffect)->Pitch;
+	return static_cast<SoundEffect*>(soundEffect)->GetPitch();
 }
 
 void E3DRSP_SoundEffect_SetPitch(E3DRSP_SoundEffect soundEffect, float pitch)
 {
-	static_cast<SoundEffect*>(soundEffect)->Pitch = pitch;
+	static_cast<SoundEffect*>(soundEffect)->SetPitch(pitch);
 }
 
 bool E3DRSP_SoundEffect_IsLooping(E3DRSP_SoundEffect soundEffect)
 {
-	return static_cast<SoundEffect*>(soundEffect)->Looping;
+	return static_cast<SoundEffect*>(soundEffect)->IsLooping();
 }
 
 void E3DRSP_SoundEffect_SetLooping(E3DRSP_SoundEffect soundEffect, bool looping)
 {
-	static_cast<SoundEffect*>(soundEffect)->Looping = looping;
+	static_cast<SoundEffect*>(soundEffect)->SetLooping(looping);
 }

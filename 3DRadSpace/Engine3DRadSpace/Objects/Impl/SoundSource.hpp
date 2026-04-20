@@ -8,52 +8,19 @@ namespace Engine3DRadSpace::Objects
 	{
 		SoundEffect _underlying;
 
-		RefSound _getAsset() const noexcept;
-		void _setAsset(RefSound sound) noexcept;
-
 		float _volume;
-		float _getVolume() const noexcept;
-		void _setVolume(float volume) noexcept;
-
 		float _pitch;
-		float _getPitch() const noexcept;
-		void _setPitch(float pitch) noexcept;
-
 		bool _looping;
-		bool _getLooping() const noexcept;
-		void _setLooping(bool looping) noexcept;
 
 		Math::Vector3 _velocity;
-		Math::Vector3 _getVelocity() const noexcept;
-		void _setVelocity(const Math::Vector3& velocity) noexcept;
-
 		Math::Vector3 _direction;
-		Math::Vector3 _getDirection() const noexcept;
-		void _setDirection(const Math::Vector3& velocity) noexcept;
 
 		float _maxDistance;
-		float _getMaxDistance() const noexcept;
-		void _setMaxDistance(float dst) noexcept;
-
 		float _referenceDistance;
-		float _getReferenceDistance() const noexcept;
-		void _setReferenceDistance(float refDst) noexcept;
-
 		float _rolloffFactor;
-		float _getRolloffFactor() const noexcept;
-		void _setRolloffFactor(float rollOff) noexcept;
-
 		float _coneInnerAngle;
-		float _getConeInnerAngle() const noexcept;
-		void _setConeInnerAngle(float innerAngle) noexcept;
-
 		float _coneOuterAngle;
-		float _getConeOuterAngle() const noexcept;
-		void _setConeOuterAngle(float outerAngle) noexcept;
-
 		float _coneOuterGain;
-		float _getConeOuterGain() const noexcept;
-		void _setConeOuterGain(float outerGain) noexcept;
 	public:
 		SoundSource();
 
@@ -86,21 +53,41 @@ namespace Engine3DRadSpace::Objects
 		void Disable() override;
 		bool Switch() override;
 
-		GetSet<RefSound, SoundSource, &SoundSource::_getAsset, &SoundSource::_setAsset> Sound;
+		RefSound GetSoundAsset() const noexcept;
+		void SetSoundAsset(RefSound sound) noexcept;
 
-		GetSet<float, SoundSource, &SoundSource::_getVolume, &SoundSource::_setVolume> Volume;
-		GetSet<float, SoundSource, &SoundSource::_getPitch, &SoundSource::_setPitch> Pitch;
-		GetSet<bool, SoundSource, &SoundSource::_getLooping, &SoundSource::_setLooping> Looping;
+		float GetVolume() const noexcept;
+		void SetVolume(float volume) noexcept;
 
-		GetSet<Math::Vector3, SoundSource, &_getVelocity, &_setVelocity> Velocity;
-		GetSet<Math::Vector3, SoundSource, &_getDirection, &_setDirection> Direction;
+		float GetPitch() const noexcept;
+		void SetPitch(float pitch) noexcept;
 
-		GetSet<float, SoundSource, &_getMaxDistance, &_setMaxDistance> MaxDistance;
-		GetSet<float, SoundSource, &_getReferenceDistance, &_setReferenceDistance> ReferenceDistance;
-		GetSet<float, SoundSource, &_getRolloffFactor, &_setRolloffFactor> RolloffFactor;
-		GetSet<float, SoundSource, &_getConeInnerAngle, &_setConeInnerAngle> ConeInnerAngle;
-		GetSet<float, SoundSource, &_getConeOuterAngle, &_setConeOuterAngle> ConeOuterAngle;
-		GetSet<float, SoundSource, &_getConeOuterGain, &_setConeOuterGain> ConeOuterGain;
+		bool IsLooping() const noexcept;
+		void SetLooping(bool looping) noexcept;
+
+		Math::Vector3 GetVelocity() const noexcept;
+		void SetVelocity(const Math::Vector3& velocity) noexcept;
+
+		Math::Vector3 GetDirection() const noexcept;
+		void SetDirection(const Math::Vector3& direction) noexcept;
+
+		float GetMaxDistance() const noexcept;
+		void SetMaxDistance(float dst) noexcept;
+
+		float GetReferenceDistance() const noexcept;
+		void SetReferenceDistance(float refDst) noexcept;
+
+		float GetRolloffFactor() const noexcept;
+		void SetRolloffFactor(float rollOff) noexcept;
+
+		float GetConeInnerAngle() const noexcept;
+		void SetConeInnerAngle(float innerAngle) noexcept;
+
+		float GetConeOuterAngle() const noexcept;
+		void SetConeOuterAngle(float outerAngle) noexcept;
+
+		float GetConeOuterGain() const noexcept;
+		void SetConeOuterGain(float outerGain) noexcept;
 		
 		Audio::Sound* GetSound() const noexcept;
 		Audio::SoundInstance* GetInstance() const noexcept;

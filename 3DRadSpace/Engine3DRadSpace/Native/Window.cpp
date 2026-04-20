@@ -197,8 +197,7 @@ void Window::_resetKeyboard()
 	_keyboard._erase();
 }
 
-Window::Window(const std::string &title, size_t width, size_t height) :
-	MouseVisible(this)
+Window::Window(const std::string &title, size_t width, size_t height)
 {
 #ifdef _WIN32
 	WNDCLASSA wndclass{};
@@ -230,8 +229,7 @@ Window::Window(const std::string &title, size_t width, size_t height) :
 #endif
 }
 
-Window::Window(void* hInstance,void* parentWindow) :
-	MouseVisible(this)
+Window::Window(void* hInstance,void* parentWindow)
 {
 #ifdef _WIN32
 	WNDCLASSA wndclass{};
@@ -267,12 +265,13 @@ Window::Window(void* hInstance,void* parentWindow) :
 }
 
 Window::Window(Window &&wnd) noexcept:
-	_window(wnd._window),
-	MouseVisible(this)
+	_window(wnd._window)
 #ifdef _WIN32
 	,_hInstance(wnd._hInstance)
 #endif
 {
+	if (this == &wnd) return;
+
 	wnd._window = nullptr;
 #ifdef _WIN32
 	wnd._hInstance = nullptr;
@@ -282,9 +281,10 @@ Window::Window(Window &&wnd) noexcept:
 
 Window& Window::operator=(Window &&wnd) noexcept
 {
+	if (this == &wnd) return *this;
+
 	_window = wnd._window;
 	_hInstance = wnd._hInstance;
-	MouseVisible = std::move(wnd.MouseVisible);
 
 	wnd._window = nullptr;
 	wnd._hInstance = nullptr;
@@ -390,7 +390,7 @@ void Window::SetTitle(const std::string& title)
 #endif
 }
 
-bool Window::_mouseVisible()
+bool Window::IsMouseVisible()
 {
 #ifdef _WIN32
 	CURSORINFO ci;
@@ -402,9 +402,9 @@ bool Window::_mouseVisible()
 	return true;
 }
 
-void Window::_setMouseVisibility(bool visible)
+void Window::SetMouseVisibility(bool visible)
 {
-	if(_mouseVisible() == visible) return;
+	if(IsMouseVisible() == visible) return;
 #ifdef _WIN32
 	ShowCursor(static_cast<BOOL>(visible));
 #endif

@@ -28,36 +28,7 @@ namespace Engine3DRadSpace::Physics::Objects
 
 		std::unique_ptr<physicsProperties> _properties = std::make_unique<physicsProperties>();
 
-		float _getMass() const noexcept;
-		void _setMass(float mass);
-
-		float _getLinearDamping() const noexcept;
-		void _setLinearDamping(float linearDamping);
-
-		float _getAngularDamping() const noexcept;
-		void _setAngularDamping(float angularDamping);
-
-		float _getStaticFriction() const noexcept;
-		void _setStaticFriction(float friction);
-
-		float _getDynamicFriction() const noexcept;
-		void _setDynamicFriction(float friction);
-
-		float _getRestitution() const noexcept;
-		void _setRestitution(float restitution);
-
-		Math::Vector3 _getLinearVelocity() const noexcept;
-		void _setLinearVelocity(const Math::Vector3& linearVelocity);
-
-		Math::Vector3 _getAngularVelocity() const noexcept;
-		void _setAngularVelocity(const Math::Vector3& angularVelocity);
-
-		Math::Vector3 _getMaxAngularVelocity() const noexcept;
-		void _setMaxAngularVelocity(const Math::Vector3& maxAngularVelocity);
-
 		bool _kinematic = false;
-		bool _isKinematic() const noexcept;
-		void _setKinematic(bool isKinematic);
 	public:
 		RigidDynamic(
 			const std::string& name = "RigidDynamic",
@@ -79,16 +50,35 @@ namespace Engine3DRadSpace::Physics::Objects
 
 		void Teleport(const Math::Vector3& position, const std::optional<Math::Quaternion>& rotation = std::nullopt);
 
-		GetSet<float, RigidDynamic, &_getMass, &_setMass> Mass;
-		GetSet<float, RigidDynamic, &_getLinearDamping, &_setLinearDamping> LinearDamping;
-		GetSet<float, RigidDynamic, &_getAngularDamping, &_setAngularDamping> AngularDamping;
-		GetSet<float, RigidDynamic, &_getStaticFriction, &_setStaticFriction> StaticFriction;
-		GetSet<float, RigidDynamic, &_getDynamicFriction, &_setDynamicFriction> DynamicFriction;
-		GetSet<float, RigidDynamic, &_getRestitution, &_setRestitution> Restitution;
-		GetSet<Math::Vector3, RigidDynamic, &_getLinearVelocity, &_setLinearVelocity> LinearVelocity;
-		GetSet<Math::Vector3, RigidDynamic, &_getAngularVelocity, &_setAngularVelocity> AngularVelocity;
-		GetSet<Math::Vector3, RigidDynamic, &_getMaxAngularVelocity, &_setMaxAngularVelocity> MaxAngularVelocity;
-		GetSet<bool, RigidDynamic, &RigidDynamic::_isKinematic, &RigidDynamic::_setKinematic> Kinematic;
+		float GetMass() const noexcept;
+		void SetMass(float mass);
+
+		float GetLinearDamping() const noexcept;
+		void SetLinearDamping(float linearDamping);
+
+		float GetAngularDamping() const noexcept;
+		void SetAngularDamping(float angularDamping);
+
+		float GetStaticFriction() const noexcept;
+		void SetStaticFriction(float friction);
+
+		float GetDynamicFriction() const noexcept;
+		void SetDynamicFriction(float friction);
+
+		float GetRestitution() const noexcept;
+		void SetRestitution(float restitution);
+
+		Math::Vector3 GetLinearVelocity() const noexcept;
+		void SetLinearVelocity(const Math::Vector3& linearVelocity);
+
+		Math::Vector3 GetAngularVelocity() const noexcept;
+		void SetAngularVelocity(const Math::Vector3& angularVelocity);
+
+		Math::Vector3 GetMaxAngularVelocity() const noexcept;
+		void SetMaxAngularVelocity(const Math::Vector3& maxAngularVelocity);
+
+		bool IsKinematic() const noexcept;
+		void SetKinematic(bool isKinematic);
 
 		IDynamicCollider* GetCollider() const noexcept;
 	};

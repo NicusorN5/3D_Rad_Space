@@ -6,12 +6,12 @@ using namespace Engine3DRadSpace::Physics;
 
 float E3DRSP_ICollider_GetMass(E3DRSP_ICollider* collider)
 {
-	return reinterpret_cast<ICollider*>(collider)->Mass;
+	return reinterpret_cast<ICollider*>(collider)->GetMass();
 }
 
 void E3DRSP_ICollider_SetMass(E3DRSP_ICollider* collider, float mass)
 {
-	reinterpret_cast<ICollider*>(collider)->Mass = mass;
+	reinterpret_cast<ICollider*>(collider)->SetMass(mass);
 }
 
 E3DRSP_IPhysicsEngine E3DRSP_ICollider_GetPhysics(const E3DRSP_ICollider* collider)

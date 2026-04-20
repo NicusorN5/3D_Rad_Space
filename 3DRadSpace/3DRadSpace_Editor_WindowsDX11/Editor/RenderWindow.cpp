@@ -168,7 +168,7 @@ void RenderWindow::_controlCamera()
 			std::numbers::pi_v<float> / 2.f - std::numeric_limits<float>::epsilon()
 		);
 
-		Window->MouseVisible = false;
+		Window->SetMouseVisibility(false);
 		released = false;
 	}
 	else
@@ -176,7 +176,7 @@ void RenderWindow::_controlCamera()
 		if(!released)
 		{
 			released = true;
-			Window->MouseVisible = true;
+			Window->SetMouseVisibility(true);
 		}
 	}
 }
@@ -339,14 +339,14 @@ void RenderWindow::_gizmoButtons()
 
 		if(firstClickFrame)
 		{
-			Window->MouseVisible = false;
+			Window->SetMouseVisibility(false);
 			firstClickFrame = false;
 		}
 
 		if(lastClickFrame)
 		{
 			lastClickFrame = false;
-			Window->MouseVisible = true;
+			Window->SetMouseVisibility(true);
 		}
 	}
 }

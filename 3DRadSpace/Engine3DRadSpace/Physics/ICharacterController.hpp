@@ -8,29 +8,28 @@ namespace Engine3DRadSpace::Physics
 	protected:
 		ICharacterController(IPhysicsEngine *physics);
 
+		ICharacterController(ICharacterController&&) noexcept;
+		ICharacterController& operator=(ICharacterController&&) noexcept;
+
 		float _height;
-		virtual void _setHeight(float height) = 0;
-		virtual float _getHeight() const = 0;
-
 		float _radius;
-		virtual void _setRadius(float radius) = 0;
-		virtual float _getRadius() const = 0;
-
 		float _maxSlopeAngle = std::numbers::pi_v<float> / 4.0f;
-		virtual void _setMaxSlopeAngle(float angle) = 0;
-		virtual float _getMaxSlopeAngle() const = 0;
-
 		Math::Vector3 _gravity;
-		virtual void _setGravity(const Math::Vector3& gravity) = 0;
-		virtual Math::Vector3 _getGravity() const = 0;
 	public:
 		virtual void Move(const Math::Vector3& displacement) = 0;
 		virtual void Jump(float height) = 0;
 
-		GetSet<float, ICharacterController, &_getHeight, &_setHeight> Height;
-		GetSet<float, ICharacterController, &_getRadius, &_setRadius> Radius;
-		GetSet<float, ICharacterController, &_getMaxSlopeAngle, &_setMaxSlopeAngle> MaxSlopeAngle;
-		GetSet<Math::Vector3, ICharacterController, &_getGravity, &_setGravity> Gravity;
+		virtual float GetHeight() const = 0;
+		virtual void SetHeight(float height) = 0;
+
+		virtual float GetRadius() const = 0;
+		virtual void SetRadius(float radius) = 0;
+
+		virtual void SetMaxSlopeAngle(float angle) = 0;
+		virtual float GetMaxSlopeAngle() const = 0;
+
+		virtual void SetGravity(const Math::Vector3& gravity) = 0;
+		virtual Math::Vector3 GetGravity() const = 0;
 
 		virtual bool IsGrounded() = 0;
 

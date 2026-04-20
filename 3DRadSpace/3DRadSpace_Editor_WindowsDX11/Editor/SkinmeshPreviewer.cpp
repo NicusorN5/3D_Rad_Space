@@ -53,7 +53,7 @@ void SkinmeshPreviewer::Update()
 			std::numbers::pi_v<float> / 2.0f - std::numeric_limits<float>::epsilon()
 		);
 
-		Window->MouseVisible = false;
+		Window->SetMouseVisibility(false);
 		released = false;
 	}
 	else
@@ -61,7 +61,7 @@ void SkinmeshPreviewer::Update()
 		if(!released)
 		{
 			released = true;
-			Window->MouseVisible = true;
+			Window->SetMouseVisibility(true);
 		}
 	}
 

@@ -8,27 +8,24 @@ namespace Engine3DRadSpace::Physics
 	{
 	protected:
 		float _angularDamping = 0;
-		virtual float _getAngularDamping() const = 0;
-		virtual void _setAngularDamping(float angularDamping) = 0;
-
 		Math::Vector3 _linearVelocity = Math::Vector3::Zero();
-		virtual Math::Vector3 _getLinearVelocity() const = 0;
-		virtual void _setLinearVelocity(const Math::Vector3& linearVelocity) = 0;
-
 		Math::Vector3 _angularVelocity = Math::Vector3::Zero();
-		virtual Math::Vector3 _getAngularVelocity() const = 0;
-		virtual void _setAngularVelocity(const Math::Vector3& linearVelocity) = 0;
-
 		Math::Vector3 _maxAngularVelocity = Math::Vector3(100.0f, 100.0f, 100.0f);
-		virtual Math::Vector3 _getMaxAngularVelocity() const = 0;
-		virtual void _setMaxAngularVelocity(const Math::Vector3& linearVelocity) = 0;
+		
 
 		IDynamicCollider(IPhysicsEngine* physics);
 	public:
-		GetSet<float, IDynamicCollider, &_getAngularDamping, &_setAngularDamping> AngularDamping;
-		GetSet<Math::Vector3, IDynamicCollider, &_getLinearVelocity, &_setLinearVelocity> LinearVelocity;
-		GetSet<Math::Vector3, IDynamicCollider, &_getAngularVelocity, &_setAngularVelocity> AngularVelocity;
-		GetSet<Math::Vector3, IDynamicCollider, &_getMaxAngularVelocity, &_setMaxAngularVelocity> MaxAngularVelocity;
+		virtual float GetAngularDamping() const = 0;
+		virtual void SetAngularDamping(float angularDamping) = 0;
+
+		virtual Math::Vector3 GetLinearVelocity() const = 0;
+		virtual void SetLinearVelocity(const Math::Vector3& linearVelocity) = 0;
+
+		virtual Math::Vector3 GetAngularVelocity() const = 0;
+		virtual void SetAngularVelocity(const Math::Vector3& angularVelocity) = 0;
+
+		virtual Math::Vector3 GetMaxAngularVelocity() const = 0;
+		virtual void SetMaxAngularVelocity(const Math::Vector3& linearVelocity) = 0;
 
 		virtual void AttachShape(const Math::BoundingBox& box) = 0;
 		virtual void AttachShape(const Math::BoundingSphere& sphere) = 0;

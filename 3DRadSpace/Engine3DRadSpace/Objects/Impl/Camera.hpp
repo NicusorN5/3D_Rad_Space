@@ -3,7 +3,6 @@
 #include "../IObject3D.hpp"
 #include "../../Math/Math.hpp"
 #include "../../Reflection/Reflection.hpp"
-#include "../../Core/GetSet.hpp"
 
 namespace Engine3DRadSpace::Objects
 {

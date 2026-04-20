@@ -5,28 +5,24 @@ namespace Engine3DRadSpace::Physics
 {
 	class E3DRSP_PHYSICS_EXPORT IStaticCollider : public ICollider
 	{
-	protected:
-		IStaticCollider(IPhysicsEngine* physics);
-	
-		float _linearDamping;
-		virtual float _getLinearDamping() const = 0;
-		virtual void _setLinearDamping(float linearDamping) = 0;
+protected:
+	IStaticCollider(IPhysicsEngine* physics);
 
-		float _staticFriction;
-		virtual float _getStaticFriction() const = 0;
-		virtual void _setStaticFriction(float friction) = 0;
-
-		float _dynamicFriction;
-		virtual float _getDynamicFriction() const = 0;
-		virtual void _setDynamicFriction(float friction) = 0;
-
-		float _restitution;
-		virtual float _getRestitution() const = 0;
-		virtual void _setRestitution(float restitution) = 0;
+	float _linearDamping = 0.01f;
+	float _staticFriction = 0.5f;
+	float _dynamicFriction = 0.5f;
+	float _restitution = 0.1f;
 	public:
-		GetSet<float, IStaticCollider, &_getLinearDamping, &_setLinearDamping> LinearDamping;
-		GetSet<float, IStaticCollider, &_getStaticFriction, &_setStaticFriction> StaticFriction;
-		GetSet<float, IStaticCollider, &_getDynamicFriction, &_setDynamicFriction> DynamicFriction;
-		GetSet<float, IStaticCollider, &_getRestitution, &_setRestitution> Restitution;
+		virtual float GetLinearDamping() const = 0;
+		virtual void SetLinearDamping(float linearDamping) = 0;
+
+		virtual float GetStaticFriction() const = 0;
+		virtual void SetStaticFriction(float friction) = 0;
+
+		virtual float GetDynamicFriction() const = 0;
+		virtual void SetDynamicFriction(float friction) = 0;
+
+		virtual float GetRestitution() const = 0;
+		virtual void SetRestitution(float restitution) = 0;
 	};
 }

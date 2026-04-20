@@ -19,11 +19,7 @@ RigidStatic::RigidStatic(
 	const Vector3 position,
 	const Quaternion& rotation,
 	const Vector3& scale
-) : IPhysicsObject(name, enabled, visible, position, rotation, scale),
-	LinearDamping(this),
-	StaticFriction(this),
-	DynamicFriction(this),
-	Restitution(this)
+) : IPhysicsObject(name, enabled, visible, position, rotation, scale)
 {
 	_path = std::make_unique<std::string>(path.string());
 }
@@ -33,51 +29,51 @@ RigidStatic::RigidStatic() : RigidStatic("RigidStatic", false, false, "")
 	_path.reset();
 }
 
-float RigidStatic::_getLinearDamping() const noexcept
+float RigidStatic::GetLinearDamping() const noexcept
 {
-	if(_collider) return _collider->LinearDamping;
+	if(_collider) return _collider->GetLinearDamping();
 	return _properties->linearDamping;
 }
 
-void RigidStatic::_setLinearDamping(float linearDamping)
+void RigidStatic::SetLinearDamping(float linearDamping)
 {
-	if(_collider) _collider->LinearDamping = linearDamping;
+	if(_collider) _collider->SetLinearDamping(linearDamping);
 	else _properties->linearDamping = linearDamping;
 }
 
-float RigidStatic::_getStaticFriction() const noexcept
+float RigidStatic::GetStaticFriction() const noexcept
 {
-	if(_collider) return _collider->StaticFriction;
+	if(_collider) return _collider->GetStaticFriction();
 	return _properties->staticFriction;
 }
 
-void RigidStatic::_setStaticFriction(float friction)
+void RigidStatic::SetStaticFriction(float friction)
 {
-	if(_collider) _collider->StaticFriction = friction;
+	if(_collider) _collider->SetStaticFriction(friction);
 	else _properties->staticFriction = friction;
 }
 
-float RigidStatic::_getDynamicFriction() const noexcept
+float RigidStatic::GetDynamicFriction() const noexcept
 {
-	if(_collider) return _collider->DynamicFriction;
+	if(_collider) return _collider->GetDynamicFriction();
 	return _properties->dynamicFriction;
 }
 
-void RigidStatic::_setDynamicFriction(float friction)
+void RigidStatic::SetDynamicFriction(float friction)
 {
-	if(_collider) _collider->DynamicFriction = friction;
+	if(_collider) _collider->SetDynamicFriction(friction);
 	else _properties->dynamicFriction = friction;
 }
 
-float RigidStatic::_getRestitution() const noexcept
+float RigidStatic::GetRestitution() const noexcept
 {
-	if(_collider) return _collider->Restitution;
+	if(_collider) return _collider->GetRestitution();
 	return _properties->restitution;
 }
 
-void RigidStatic::_setRestitution(float restitution)
+void RigidStatic::SetRestitution(float restitution)
 {
-	if(_collider) _collider->Restitution = restitution;
+	if(_collider) _collider->SetRestitution(restitution);
 	else _properties->restitution = restitution;
 }
 
@@ -105,10 +101,10 @@ void RigidStatic::Load()
 
 	if(_collider && _properties)
 	{
-		_collider->LinearDamping = _properties->linearDamping;
-		_collider->StaticFriction = _properties->staticFriction;
-		_collider->DynamicFriction = _properties->dynamicFriction;
-		_collider->Restitution = _properties->restitution;
+		_collider->SetLinearDamping(_properties->linearDamping);
+		_collider->SetStaticFriction(_properties->staticFriction);
+		_collider->SetDynamicFriction(_properties->dynamicFriction);
+		_collider->SetRestitution(_properties->restitution);
 		_properties.reset();
 	}
 }
@@ -121,10 +117,11 @@ void RigidStatic::Load(const std::filesystem::path& path)
 
 	if(_collider && _properties)
 	{
-		_collider->LinearDamping = _properties->linearDamping;
-		_collider->StaticFriction = _properties->staticFriction;
-		_collider->DynamicFriction = _properties->dynamicFriction;
-		_collider->Restitution = _properties->restitution;
+		_collider->SetLinearDamping(_properties->linearDamping);
+
+		_collider->SetStaticFriction(_properties->staticFriction);
+		_collider->SetDynamicFriction(_properties->dynamicFriction);
+		_collider->SetRestitution(_properties->restitution);
 		_properties.reset();
 	}
 }
@@ -236,6 +233,46 @@ IStaticCollider* RigidStatic::GetCollider() const noexcept
 	return _collider.get();
 }
 
+static float rigidstatic_getLinearDamping(RigidStatic& obj)
+{
+	return obj.GetLinearDamping();
+}
+
+static void rigidStatic_setLinearDamping(RigidStatic& obj, const float &value)
+{
+	obj.SetLinearDamping(value);
+}
+
+static float rigidstatic_getStaticFriction(RigidStatic& obj)
+{
+	return obj.GetStaticFriction();
+}
+
+static void rigidStatic_setStaticFriction(RigidStatic& obj, const float &value)
+{
+	obj.SetStaticFriction(value);
+}
+
+static float rigidstatic_getDynamicFriction(RigidStatic& obj)
+{
+	return obj.GetDynamicFriction();
+}
+
+static void rigidStatic_setDynamicFriction(RigidStatic& obj, const float &value)
+{
+	obj.SetDynamicFriction(value);
+}
+
+static float rigidstatic_getRestitution(RigidStatic& obj)
+{
+	return obj.GetRestitution();
+}
+
+static void rigidStatic_setRestitution(RigidStatic& obj, const float &value)
+{
+	obj.SetRestitution(value);
+}
+
 REFL_BEGIN(RigidStatic, "Rigidbody(Static)", "Physics", "Static rigidbody based off an mesh collider")
 REFL_FIELD(RigidStatic, std::string, Name, "Name", "RigidStatic", "Name of the object")
 REFL_FIELD(RigidStatic, bool, Enabled, "Enabled", true, "Whether the object is enabled or not")
@@ -244,8 +281,8 @@ REFL_FIELD(RigidStatic, RefModel3D, Model, "Model", 0, "Model used for rendering
 REFL_FIELD(RigidStatic, Vector3, Position, "Position", Vector3::Zero(), "Position of the object")
 REFL_FIELD(RigidStatic, Quaternion, Rotation, "Rotation", Quaternion(), "Rotation of the object")
 REFL_FIELD(RigidStatic, Vector3, Scale, "Scale", Vector3::One(), "Scale of the object (Only used at initialization!)")
-REFL_FIELD(RigidStatic, float, LinearDamping, "Linear Damping", 0.0f, "Linear damping coefficient")
-REFL_FIELD(RigidStatic, float, StaticFriction, "Static Friction", 0.5f, "Static friction of the material")
-REFL_FIELD(RigidStatic, float, DynamicFriction, "Dynamic Friction", 0.5f, "Dynamic friction of the material")
-REFL_FIELD(RigidStatic, float, Restitution, "Restitution", 0.5f, "Bounciness of the material")
+REFL_FIELD_GS(RigidStatic, float, rigidstatic_getLinearDamping, rigidStatic_setLinearDamping, "Linear Damping", 0.0f, "Linear damping coefficient")
+REFL_FIELD_GS(RigidStatic, float, rigidstatic_getStaticFriction, rigidStatic_setStaticFriction, "Static Friction", 0.5f, "Static friction of the material")
+REFL_FIELD_GS(RigidStatic, float, rigidstatic_getDynamicFriction, rigidStatic_setDynamicFriction, "Dynamic Friction", 0.5f, "Dynamic friction of the material")
+REFL_FIELD_GS(RigidStatic, float, rigidstatic_getRestitution, rigidStatic_setRestitution, "Restitution", 0.5f, "Bounciness of the material")
 REFL_END

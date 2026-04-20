@@ -5,10 +5,7 @@ using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Physics;
 
 ICollider::ICollider(IPhysicsEngine* physics) :
-	_physics(physics),
-	Mass(this),
-	Position(this),
-	Rotation(this)
+	_physics(physics)
 {
 }
 

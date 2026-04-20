@@ -12,38 +12,38 @@ namespace Engine3DRadSpace::Physics::NVPhysX
 	protected:
 		void _generateRigidbody();
 
-		float _getMass() const override;
-		void _setMass(float mass) override;
+		float GetMass() const override;
+		void SetMass(float mass) override;
 
-		float _getLinearDamping() const override;
-		void _setLinearDamping(float linearDamping) override;
+		float GetLinearDamping() const override;
+		void SetLinearDamping(float linearDamping) override;
 
-		float _getAngularDamping() const override;
-		void _setAngularDamping(float angularDamping) override;
+		float GetAngularDamping() const override;
+		void SetAngularDamping(float angularDamping) override;
 
-		float _getStaticFriction() const override;
-		void _setStaticFriction(float friction) override;
+		float GetStaticFriction() const override;
+		void SetStaticFriction(float friction) override;
 
-		float _getDynamicFriction() const override;
-		void _setDynamicFriction(float friction) override;
+		float GetDynamicFriction() const override;
+		void SetDynamicFriction(float friction) override;
 
-		float _getRestitution() const override;
-		void _setRestitution(float restitution) override;
+		float GetRestitution() const override;
+		void SetRestitution(float restitution) override;
 
-		Math::Vector3 _getLinearVelocity() const override;
-		void _setLinearVelocity(const Math::Vector3 & linearVelocity) override;
+		Math::Vector3 GetLinearVelocity() const override;
+		void SetLinearVelocity(const Math::Vector3 & linearVelocity) override;
 
-		Math::Vector3 _getAngularVelocity() const override;
-		void _setAngularVelocity(const Math::Vector3 & linearVelocity) override;
+		Math::Vector3 GetAngularVelocity() const override;
+		void SetAngularVelocity(const Math::Vector3 & angularVelocity) override;
 
-		Math::Vector3 _getMaxAngularVelocity() const override;
-		void _setMaxAngularVelocity(const Math::Vector3 & linearVelocity) override;
+		Math::Vector3 GetMaxAngularVelocity() const override;
+		void SetMaxAngularVelocity(const Math::Vector3 & maxAngularVelocity) override;
 
-		Math::Vector3 _getPosition() const override;
-		void _setPosition(const Math::Vector3& position) override;
+		Math::Vector3 GetPosition() const override;
+		void SetPosition(const Math::Vector3& position) override;
 
-		Math::Quaternion _getRotation() const override;
-		void _setRotation(const Math::Quaternion& rotation) override;
+		Math::Quaternion GetRotation() const override;
+		void SetRotation(const Math::Quaternion& rotation) override;
 
 		PxUPtr<physx::PxRigidDynamic> _rigidbody;
 		PxUPtr<physx::PxMaterial> _material;	

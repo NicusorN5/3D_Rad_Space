@@ -2,10 +2,6 @@
 
 using namespace Engine3DRadSpace::Physics;
 
-IDynamicCollider::IDynamicCollider(IPhysicsEngine* physics) : IStaticCollider(physics),
-	AngularDamping(this),
-	LinearVelocity(this),
-	AngularVelocity(this),
-	MaxAngularVelocity(this)
+IDynamicCollider::IDynamicCollider(IPhysicsEngine* physics) : IStaticCollider(physics)
 {
 }

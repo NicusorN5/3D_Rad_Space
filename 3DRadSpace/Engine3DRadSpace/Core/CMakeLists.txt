@@ -5,7 +5,6 @@ project("Engine3DRadSpace.Core")
 add_library(3DRadSpace.Core SHARED
 	"AssetUUIDReader.hpp"
 	"Concepts.hpp"
-	"GetSet.hpp"
 	"IDrawable2D.hpp"
 	"IDrawable3D.hpp"
 	"IGame.hpp"

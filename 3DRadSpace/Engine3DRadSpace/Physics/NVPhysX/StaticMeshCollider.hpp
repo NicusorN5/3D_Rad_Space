@@ -32,26 +32,26 @@ namespace Engine3DRadSpace::Physics::NVPhysX
 		Math::Vector3 _oldPosition = Math::Vector3::Zero();
 		Math::Quaternion _oldRotation = Math::Quaternion();
 
-		float _getMass() const override;
-		void _setMass(float mass) override;
+		float GetMass() const override;
+		void SetMass(float mass) override;
 
-		float _getLinearDamping() const override;
-		void _setLinearDamping(float linearDamping) override;
+		float GetLinearDamping() const override;
+		void SetLinearDamping(float linearDamping) override;
 
-		float _getStaticFriction() const override;
-		void _setStaticFriction(float friction) override;
+		float GetStaticFriction() const override;
+		void SetStaticFriction(float friction) override;
 
-		float _getDynamicFriction() const override;
-		void _setDynamicFriction(float friction) override;
+		float GetDynamicFriction() const override;
+		void SetDynamicFriction(float friction) override;
 
-		float _getRestitution() const override;
-		void _setRestitution(float restitution) override;
+		float GetRestitution() const override;
+		void SetRestitution(float restitution) override;
 
-		Math::Vector3 _getPosition() const noexcept override;
-		void _setPosition(const Math::Vector3& position) override;
+		Math::Vector3 GetPosition() const noexcept override;
+		void SetPosition(const Math::Vector3& position) override;
 
-		Math::Quaternion _getRotation() const noexcept override;
-		void _setRotation(const Math::Quaternion& rotation) override;
+		Math::Quaternion GetRotation() const noexcept override;
+		void SetRotation(const Math::Quaternion& rotation) override;
 	public:
 		StaticMeshCollider(
 			IPhysicsEngine* physics,

@@ -1,6 +1,5 @@
 #pragma once
 #include "../../Objects/IObject3D.hpp"
-#include "../../Core/GetSet.hpp"
 #include "../IPhysicsEngine.hpp"
 #include "../ICollider.hpp"
 

@@ -3,7 +3,6 @@
 #include "../../Audio/Sound.hpp"
 #include "../../Audio/SoundInstance.hpp"
 #include "../../Reflection/Reflection.hpp"
-#include "../../Core/GetSet.hpp"
 
 namespace Engine3DRadSpace::Objects
 {
@@ -17,16 +16,8 @@ namespace Engine3DRadSpace::Objects
 		std::unique_ptr<Audio::SoundInstance> _instance;
 
 		float _volume;
-		float _getVolume() const noexcept;
-		void _setVolume(float f) noexcept;
-
 		float _pitch;
-		float _getPitch() const noexcept;
-		void _setPitch(float p) noexcept;
-		
 		bool _looping;
-		bool _getLooping() const noexcept;
-		void _setLooping(bool looping) noexcept;
 	public:
 		SoundEffect();
 
@@ -70,9 +61,14 @@ namespace Engine3DRadSpace::Objects
 
 		Gizmos::IGizmo* GetGizmo() const noexcept;
 
-		GetSet<float, SoundEffect, &SoundEffect::_getVolume, &SoundEffect::_setVolume> Volume;
-		GetSet<float, SoundEffect, &SoundEffect::_getPitch, &SoundEffect::_setPitch> Pitch;
-		GetSet<bool, SoundEffect, &SoundEffect::_getLooping, &SoundEffect::_setLooping> Looping;
+		float GetVolume() const noexcept;
+		void SetVolume(float f) noexcept;
+
+		float GetPitch() const noexcept;
+		void SetPitch(float p) noexcept;
+
+		bool IsLooping() const noexcept;
+		void SetLooping(bool looping) noexcept;
 
 		~SoundEffect() = default;
 	};

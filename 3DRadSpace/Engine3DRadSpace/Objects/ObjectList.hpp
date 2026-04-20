@@ -159,8 +159,7 @@ namespace Engine3DRadSpace::Objects
 			ptr = dynamic_cast<O*>(object.get());
 			if (ptr != nullptr)
 			{
-				c++;
-				if (c == i) return ptr;
+				if (c++ == i) return ptr;
 			}
 		}
 		return ptr;

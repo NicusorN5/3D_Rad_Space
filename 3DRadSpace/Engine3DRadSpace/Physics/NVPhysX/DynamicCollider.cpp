@@ -19,102 +19,102 @@ void DynamicCollider::_generateRigidbody()
 {
 	auto nvPhysics = static_cast<physx::PxPhysics*>(static_cast<PhysicsEngine*>(_physics)->GetPhysics());
 
-	auto material = nvPhysics->createMaterial(StaticFriction, DynamicFriction, Restitution);
+	auto material = nvPhysics->createMaterial(_staticFriction, _dynamicFriction, _restitution);
 	_material.reset(material);
 
-	auto p = Position.Get();
-	auto q = Rotation.Get();
+	auto p = _position;
+	auto q = _rotation;
 
 	physx::PxTransform transform{};
 	transform.p = physx::PxVec3(p.X, p.Y, p.Z);
 	transform.q = physx::PxQuat(-q.X, -q.Y, -q.Z, q.W);
 
 	auto rigidDynamic = nvPhysics->createRigidDynamic(transform);
-	rigidDynamic->setMass(Mass.Get());
-	rigidDynamic->setLinearDamping(LinearDamping.Get());
-	rigidDynamic->setAngularDamping(AngularDamping.Get());
-	rigidDynamic->setMaxAngularVelocity(MaxAngularVelocity.Get().X);
-	rigidDynamic->setLinearVelocity(physx::PxVec3(LinearVelocity.Get().X, LinearVelocity.Get().Y, LinearVelocity.Get().Z));
-	rigidDynamic->setAngularVelocity(physx::PxVec3(AngularVelocity.Get().X, AngularVelocity.Get().Y, AngularVelocity.Get().Z));
+	rigidDynamic->setMass(_mass);
+	rigidDynamic->setLinearDamping(_linearDamping);
+	rigidDynamic->setAngularDamping(_angularDamping);
+	rigidDynamic->setMaxAngularVelocity(_maxAngularVelocity.X);
+	rigidDynamic->setLinearVelocity(physx::PxVec3(_linearVelocity.X, _linearVelocity.Y, _linearVelocity.Z));
+	rigidDynamic->setAngularVelocity(physx::PxVec3(_angularVelocity.X, _angularVelocity.Y, _angularVelocity.Z));
 	_rigidbody.reset(rigidDynamic);
 
 	auto scene = static_cast<physx::PxScene*>(_physics->GetScene());
 	scene->addActor(*_rigidbody);
 }
 
-float DynamicCollider::_getMass() const
+float DynamicCollider::GetMass() const
 {
 	if(_rigidbody == nullptr) return _mass;
 	return static_cast<float>(_rigidbody->getMass());
 }
 
-void DynamicCollider::_setMass(float mass)
+void DynamicCollider::SetMass(float mass)
 {
 	if(_rigidbody) _rigidbody->setMass(mass);
 	else _mass = mass;
 }
 
-float DynamicCollider::_getLinearDamping() const
+float DynamicCollider::GetLinearDamping() const
 {
 	if(_rigidbody == nullptr) return _linearDamping;
 	return _rigidbody->getLinearDamping();
 }
 
-void DynamicCollider::_setLinearDamping(float linearDamping)
+void DynamicCollider::SetLinearDamping(float linearDamping)
 {
 	if(_rigidbody) _rigidbody->setLinearDamping(linearDamping);
 	else _linearDamping = linearDamping;
 }
 
-float DynamicCollider::_getAngularDamping() const
+float DynamicCollider::GetAngularDamping() const
 {
 	if(_rigidbody == nullptr) return _angularDamping;
 	return _rigidbody->getAngularDamping();
 }
 
-void DynamicCollider::_setAngularDamping(float angularDamping)
+void DynamicCollider::SetAngularDamping(float angularDamping)
 {
 	if(_rigidbody == nullptr) _angularDamping = angularDamping;
 	else _rigidbody->setAngularDamping(angularDamping);
 }
 
-float DynamicCollider::_getStaticFriction() const
+float DynamicCollider::GetStaticFriction() const
 {
 	if(_material) return _material->getStaticFriction();
 	return _staticFriction;
 }
 
-void DynamicCollider::_setStaticFriction(float friction)
+void DynamicCollider::SetStaticFriction(float friction)
 {
 	if(_material) _material->setStaticFriction(friction);
 	else _staticFriction = friction;
 }
 
-float DynamicCollider::_getDynamicFriction() const
+float DynamicCollider::GetDynamicFriction() const
 {
 	if(_material) return _material->getDynamicFriction();
 	return _dynamicFriction;
 }
 
-void DynamicCollider::_setDynamicFriction(float friction)
+void DynamicCollider::SetDynamicFriction(float friction)
 {
 	if(_material) _material->setDynamicFriction(friction);
 	else _dynamicFriction = friction;
 }
 
-float DynamicCollider::_getRestitution() const
+float DynamicCollider::GetRestitution() const
 {
 	if(_material) return _material->getRestitution();
 	return _restitution;
 }
 
-void DynamicCollider::_setRestitution(float restitution)
+void DynamicCollider::SetRestitution(float restitution)
 {
 	if(_material) _material->setRestitution(restitution);
 	else _restitution = restitution;
 }
 
-Math::Vector3 DynamicCollider::_getLinearVelocity() const
+Math::Vector3 DynamicCollider::GetLinearVelocity() const
 {
 	if(_rigidbody)
 	{
@@ -124,7 +124,7 @@ Math::Vector3 DynamicCollider::_getLinearVelocity() const
 	return _linearVelocity;
 }
 
-void DynamicCollider::_setLinearVelocity(const Math::Vector3 &linearVelocity)
+void DynamicCollider::SetLinearVelocity(const Math::Vector3 &linearVelocity)
 {
 	if(_rigidbody)
 		_rigidbody->setLinearVelocity(physx::PxVec3(linearVelocity.X, linearVelocity.Y, linearVelocity.Z));
@@ -132,7 +132,7 @@ void DynamicCollider::_setLinearVelocity(const Math::Vector3 &linearVelocity)
 		_linearVelocity = linearVelocity;
 }
 
-Vector3 DynamicCollider::_getAngularVelocity() const
+Vector3 DynamicCollider::GetAngularVelocity() const
 {
 	if(_rigidbody)
 	{
@@ -142,15 +142,15 @@ Vector3 DynamicCollider::_getAngularVelocity() const
 	return _angularVelocity;
 }
 
-void DynamicCollider::_setAngularVelocity(const Math::Vector3 & linearVelocity)
+void DynamicCollider::SetAngularVelocity(const Math::Vector3 & angularVelocity)
 {
 	if(_rigidbody)
-		_rigidbody->setAngularVelocity(physx::PxVec3(linearVelocity.X, linearVelocity.Y, linearVelocity.Z));
+		_rigidbody->setAngularVelocity(physx::PxVec3(angularVelocity.X, angularVelocity.Y, angularVelocity.Z));
 	else
-		_angularVelocity = linearVelocity;
+		_angularVelocity = angularVelocity;
 }
 
-Vector3 DynamicCollider::_getMaxAngularVelocity() const
+Vector3 DynamicCollider::GetMaxAngularVelocity() const
 {
 	if(_rigidbody)
 	{
@@ -160,7 +160,7 @@ Vector3 DynamicCollider::_getMaxAngularVelocity() const
 	return _maxAngularVelocity;
 }
 
-void DynamicCollider::_setMaxAngularVelocity(const Math::Vector3 & angularVelocity)
+void DynamicCollider::SetMaxAngularVelocity(const Math::Vector3 & angularVelocity)
 {
 	if(_rigidbody) _rigidbody->setMaxAngularVelocity(angularVelocity.X);
 	else _maxAngularVelocity = angularVelocity;
@@ -300,14 +300,14 @@ void DynamicCollider::SetKinematic(bool isKinematic)
 		_rigidbody->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, false);
 }
 
-Vector3 DynamicCollider::_getPosition() const
+Vector3 DynamicCollider::GetPosition() const
 {
 	if(_rigidbody == nullptr) return _position;
 	auto p = _rigidbody->getGlobalPose().p;
 	return Vector3(p.x, p.y, p.z);
 }
 
-void DynamicCollider::_setPosition(const Vector3 &position)
+void DynamicCollider::SetPosition(const Vector3 &position)
 {
 	if(_rigidbody == nullptr) _position = position;
 	else
@@ -318,14 +318,14 @@ void DynamicCollider::_setPosition(const Vector3 &position)
 	}
 }
 
-Quaternion DynamicCollider::_getRotation() const
+Quaternion DynamicCollider::GetRotation() const
 {
 	if(_rigidbody == nullptr) return _rotation;
 	auto q = _rigidbody->getGlobalPose().q;
 	return Quaternion(-q.x, -q.y, -q.z, q.w);
 }
 
-void DynamicCollider::_setRotation(const Quaternion &rotation)
+void DynamicCollider::SetRotation(const Quaternion &rotation)
 {
 	if(_rigidbody == nullptr) _rotation = rotation;
 	else

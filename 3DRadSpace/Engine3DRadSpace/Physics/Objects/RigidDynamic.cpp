@@ -15,125 +15,115 @@ RigidDynamic::RigidDynamic(
 	const Math::Vector3& position,
 	const Math::Quaternion& rotation,
 	const Math::Vector3& scale
-) : IPhysicsObject(name, enabled, visible, position, rotation, scale),
-	Mass(this),
-	LinearDamping(this),
-	AngularDamping(this),
-	StaticFriction(this),
-	DynamicFriction(this),
-	Restitution(this),
-	LinearVelocity(this),
-	AngularVelocity(this),
-	MaxAngularVelocity(this),
-	Kinematic(this)
+) : IPhysicsObject(name, enabled, visible, position, rotation, scale)
 {
 }
 
-float RigidDynamic::_getMass() const noexcept
+float RigidDynamic::GetMass() const noexcept
 {
-	if(_collider) return _collider->Mass;
+	if(_collider) return _collider->GetMass();
 	return _properties->mass;
 }
 
-void RigidDynamic::_setMass(float mass)
+void RigidDynamic::SetMass(float mass)
 {
-	if(_collider) _collider->Mass = mass;
+	if(_collider) _collider->SetMass(mass);
 	else _properties->mass = mass;
 }
 
-float RigidDynamic::_getLinearDamping() const noexcept
+float RigidDynamic::GetLinearDamping() const noexcept
 {
-	if(_collider) return _collider->LinearDamping;
+	if(_collider) return _collider->GetLinearDamping();
 	return _properties->linearDamping;
 }
 
-void RigidDynamic::_setLinearDamping(float linearDamping)
+void RigidDynamic::SetLinearDamping(float linearDamping)
 {
-	if(_collider) _collider->LinearDamping = linearDamping;
+	if(_collider) _collider->SetLinearDamping(linearDamping);
 	else _properties->linearDamping = linearDamping;
 }
 
-float RigidDynamic::_getAngularDamping() const noexcept
+float RigidDynamic::GetAngularDamping() const noexcept
 {
-	if(_collider) return _collider->AngularDamping;
+	if(_collider) return _collider->GetAngularDamping();
 	return _properties->angularDamping;
 }
 
-void RigidDynamic::_setAngularDamping(float angularDamping)
+void RigidDynamic::SetAngularDamping(float angularDamping)
 {
-	if(_collider) _collider->AngularDamping = angularDamping;
+	if(_collider) _collider->SetAngularDamping(angularDamping);
 	else _properties->angularDamping = angularDamping;
 }
 
-float RigidDynamic::_getStaticFriction() const noexcept
+float RigidDynamic::GetStaticFriction() const noexcept
 {
-	if(_collider) return _collider->StaticFriction;
+	if(_collider) return _collider->GetStaticFriction();
 	return _properties->staticFriction;
 }
 
-void RigidDynamic::_setStaticFriction(float friction)
+void RigidDynamic::SetStaticFriction(float friction)
 {
-	if(_collider) _collider->StaticFriction = friction;
+	if(_collider) _collider->SetStaticFriction(friction);
 	else _properties->staticFriction = friction;
 }
 
-float RigidDynamic::_getDynamicFriction() const noexcept
+float RigidDynamic::GetDynamicFriction() const noexcept
 {
-	if(_collider) return _collider->DynamicFriction;
+	if(_collider) return _collider->GetDynamicFriction();
 	return _properties->dynamicFriction;
 }
 
-void RigidDynamic::_setDynamicFriction(float friction)
+void RigidDynamic::SetDynamicFriction(float friction)
 {
-	if(_collider) _collider->DynamicFriction = friction;
+	if(_collider) _collider->SetDynamicFriction(friction);
 	else _properties->dynamicFriction = friction;
 }
 
-float RigidDynamic::_getRestitution() const noexcept
+float RigidDynamic::GetRestitution() const noexcept
 {
-	if(_collider) return _collider->Restitution;
+	if(_collider) return _collider->GetRestitution();
 	return _properties->restitution;
 }
 
-void RigidDynamic::_setRestitution(float restitution)
+void RigidDynamic::SetRestitution(float restitution)
 {
-	if(_collider) _collider->Restitution = restitution;
+	if(_collider) _collider->SetRestitution(restitution);
 	else _properties->restitution = restitution;
 }
 
-Math::Vector3 RigidDynamic::_getLinearVelocity() const noexcept
+Math::Vector3 RigidDynamic::GetLinearVelocity() const noexcept
 {
-	if(_collider) return _collider->LinearVelocity;
+	if(_collider) return _collider->GetLinearVelocity();
 	return _properties->linearVelocity;
 }
 
-void RigidDynamic::_setLinearVelocity(const Math::Vector3& linearVelocity)
+void RigidDynamic::SetLinearVelocity(const Math::Vector3& linearVelocity)
 {
-	if(_collider) _collider->LinearVelocity = linearVelocity;
+	if(_collider) _collider->SetLinearVelocity(linearVelocity);
 	else _properties->linearVelocity = linearVelocity;
 }
 
-Math::Vector3 RigidDynamic::_getAngularVelocity() const noexcept
+Math::Vector3 RigidDynamic::GetAngularVelocity() const noexcept
 {
-	if(_collider) return _collider->AngularVelocity;
+	if(_collider) return _collider->GetAngularVelocity();
 	return _properties->angularVelocity;
 }
 
-void RigidDynamic::_setAngularVelocity(const Math::Vector3& angularVelocity)
+void RigidDynamic::SetAngularVelocity(const Math::Vector3& angularVelocity)
 {
-	if(_collider) _collider->AngularVelocity = angularVelocity;
+	if(_collider) _collider->SetAngularVelocity(angularVelocity);
 	else _properties->angularVelocity = angularVelocity;
 }
 
-Math::Vector3 RigidDynamic::_getMaxAngularVelocity() const noexcept
+Math::Vector3 RigidDynamic::GetMaxAngularVelocity() const noexcept
 {
-	if(_collider) return _collider->MaxAngularVelocity;
+	if(_collider) return _collider->GetMaxAngularVelocity();
 	return _properties->maxAngularVelocity;
 }
 
-void RigidDynamic::_setMaxAngularVelocity(const Math::Vector3& maxAngularVelocity)
+void RigidDynamic::SetMaxAngularVelocity(const Math::Vector3& maxAngularVelocity)
 {
-	if(_collider) _collider->MaxAngularVelocity = maxAngularVelocity;
+	if(_collider) _collider->SetMaxAngularVelocity(maxAngularVelocity);
 	else _properties->maxAngularVelocity = maxAngularVelocity;
 }
 
@@ -181,15 +171,15 @@ void RigidDynamic::Initialize()
 
 	if(_properties)
 	{
-		_collider->Mass = _properties->mass;
-		_collider->LinearDamping = _properties->linearDamping;
-		_collider->AngularDamping = _properties->angularDamping;
-		_collider->StaticFriction = _properties->staticFriction;
-		_collider->DynamicFriction = _properties->dynamicFriction;
-		_collider->Restitution = _properties->restitution;
-		_collider->LinearVelocity = _properties->linearVelocity;
-		_collider->AngularVelocity = _properties->angularVelocity;
-		_collider->MaxAngularVelocity = _properties->maxAngularVelocity;
+		_collider->SetMass(_properties->mass);
+		_collider->SetLinearDamping(_properties->linearDamping);
+		_collider->SetAngularDamping(_properties->angularDamping);
+		_collider->SetStaticFriction(_properties->staticFriction);
+		_collider->SetDynamicFriction(_properties->dynamicFriction);
+		_collider->SetRestitution(_properties->restitution);
+		_collider->SetLinearVelocity(_properties->linearVelocity);
+		_collider->SetAngularVelocity(_properties->angularVelocity);
+		_collider->SetMaxAngularVelocity(_properties->maxAngularVelocity);
 	
 		_properties.reset();
 	}
@@ -272,27 +262,48 @@ Gizmos::IGizmo* RigidDynamic::GetGizmo() const noexcept
 	return Internal::GizmoOf<RigidDynamic>(this);
 }
 
-void RigidDynamic::_setKinematic(bool isKinematic)
+void RigidDynamic::SetKinematic(bool isKinematic)
 {
 	_kinematic = isKinematic;
 	if(_collider) _collider->SetKinematic(isKinematic);
 }
 
-bool RigidDynamic::_isKinematic() const noexcept
+bool RigidDynamic::IsKinematic() const noexcept
 {
 	return _kinematic;
 }
+
+static bool rigiddyn_getkinematic(RigidDynamic& rd) { return rd.IsKinematic(); }
+static void rigiddyn_setkinematic(RigidDynamic& rd, const bool& isKinematic) { rd.SetKinematic(isKinematic); }
+
+static float rigiddyn_getmass(RigidDynamic& rd) { return rd.GetMass(); }
+static void rigiddyn_setmass(RigidDynamic& rd, const float &mass) { rd.SetMass(mass); }
+
+static float rigiddyn_getlineardamping(RigidDynamic& rd) { return rd.GetLinearDamping(); }
+static void rigiddyn_setlineardamping(RigidDynamic& rd, const float& linearDamping) { rd.SetLinearDamping(linearDamping); }
+
+static float rigiddyn_getangulardamping(RigidDynamic& rd) { return rd.GetAngularDamping(); }
+static void rigiddyn_setangulardamping(RigidDynamic& rd, const float& angularDamping) { rd.SetAngularDamping(angularDamping); }
+
+static float rigiddyn_getstaticfriction(RigidDynamic& rd) { return rd.GetStaticFriction(); }
+static void rigiddyn_setstaticfriction(RigidDynamic& rd, const float& staticFriction) { rd.SetStaticFriction(staticFriction); }
+
+static float rigiddyn_getdynamicfriction(RigidDynamic& rd) { return rd.GetDynamicFriction(); }
+static void rigiddyn_setdynamicfriction(RigidDynamic& rd, const float& dynamicFriction) { rd.SetDynamicFriction(dynamicFriction); }
+
+static float rigiddyn_getrestitution(RigidDynamic& rd) { return rd.GetRestitution(); }
+static void rigiddyn_setrestitution(RigidDynamic& rd, const float& restitution) { rd.SetRestitution(restitution); }
 
 REFL_BEGIN(RigidDynamic, "RigidDynamic", "Physics", "A physics object with dynamic rigidbody colliders")
 REFL_FIELD(RigidDynamic, std::string, Name, "Name", "RigidDynamic", "Object of the name")
 REFL_FIELD(RigidDynamic, bool, Enabled, "Enabled", true, "Is the physics object active?")
 REFL_FIELD(RigidDynamic, Math::Vector3, Position, "Position", Math::Vector3::Zero(), "World position of the physics object")
 REFL_FIELD(RigidDynamic, Math::Quaternion, Rotation, "Rotation", Math::Quaternion(), "World rotation of the physics object")
-REFL_FIELD(RigidDynamic, bool, Kinematic, "Kinematic", false, "Is the rigidbody kinematic?")
-REFL_FIELD(RigidDynamic, float, Mass, "Mass", 1.0f, "Mass of the rigidbody")
-REFL_FIELD(RigidDynamic, float, LinearDamping, "Linear Damping", 0.0f, "Linear damping coefficient")
-REFL_FIELD(RigidDynamic, float, AngularDamping, "Angular Damping", 0.05f, "Angular damping coefficient")
-REFL_FIELD(RigidDynamic, float, StaticFriction, "Static Friction", 0.5f, "Static friction of the material")
-REFL_FIELD(RigidDynamic, float, DynamicFriction, "Dynamic Friction", 0.5f, "Dynamic friction of the material")
-REFL_FIELD(RigidDynamic, float, Restitution, "Restitution", 0.5f, "Bounciness of the material")
+REFL_FIELD_GS(RigidDynamic, bool, rigiddyn_getkinematic, rigiddyn_setkinematic, "Kinematic", false, "Is the rigidbody kinematic?")
+REFL_FIELD_GS(RigidDynamic, float, rigiddyn_getmass, rigiddyn_setmass, "Mass", 1.0f, "Mass of the rigidbody")
+REFL_FIELD_GS(RigidDynamic, float, rigiddyn_getlineardamping, rigiddyn_setlineardamping, "Linear Damping", 0.0f, "Linear damping coefficient")
+REFL_FIELD_GS(RigidDynamic, float, rigiddyn_getangulardamping, rigiddyn_setangulardamping, "Angular Damping", 0.05f, "Angular damping coefficient")
+REFL_FIELD_GS(RigidDynamic, float, rigiddyn_getstaticfriction, rigiddyn_setstaticfriction, "Static Friction", 0.5f, "Static friction of the material")
+REFL_FIELD_GS(RigidDynamic, float, rigiddyn_getdynamicfriction, rigiddyn_setdynamicfriction, "Dynamic Friction", 0.5f, "Dynamic friction of the material")
+REFL_FIELD_GS(RigidDynamic, float, rigiddyn_getrestitution, rigiddyn_setrestitution, "Restitution", 0.5f, "Bounciness of the material")
 REFL_END

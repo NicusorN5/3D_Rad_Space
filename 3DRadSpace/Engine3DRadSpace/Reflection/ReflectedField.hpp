@@ -1,6 +1,5 @@
 #pragma once
 #include "IReflectedField.hpp"
-#include "../Core/GetSet.hpp"
 
 namespace Engine3DRadSpace::Reflection
 {
@@ -77,28 +76,27 @@ namespace Engine3DRadSpace::Reflection
 		~ReflectedField() override = default;
 	};
 
-	template<typename GS>
+	template<typename T, typename C>
 	class ReflectedFieldGS : public IReflectedField
 	{
-		using T = GS::Type;
-		using C = GS::Class;
-		using G = GS::Getter;
-		using S = GS::Setter;
-
 		T _defaultVal;
 		mutable T _copy;
-	public:
-		using GetSetVar = GS::ThisT;
 
+		T (*_getter)(C&);
+		void (*_setter)(C&, const T&);
+	public:
 		ReflectedFieldGS(
-			const size_t offset_obj_field,
 			const std::string &visibleName,
 			const std::string &description,
+			T (*getter)(C&),
+			void (*setter)(C&, const T&),
 			T defaultValue
 		) :
-			IReflectedField(offset_obj_field, sizeof(T), visibleName, description, typeid(T)),
+			IReflectedField(0, sizeof(T), visibleName, description, typeid(T)),
 			_defaultVal(defaultValue),
-			_copy(defaultValue)
+			_copy(defaultValue),
+			_getter(getter),
+			_setter(setter)
 		{
 		}
 
@@ -111,8 +109,7 @@ namespace Engine3DRadSpace::Reflection
 		{
 			assert(objPtr != nullptr);
 
-			auto v = std::launder(reinterpret_cast<GetSetVar*>(static_cast<std::byte*>(objPtr) + _offset));
-			_copy = v->Get();
+			_copy = (_getter)(*static_cast<C*>(objPtr));
 			return &_copy;
 		}
 
@@ -121,10 +118,7 @@ namespace Engine3DRadSpace::Reflection
 			assert(objPtr != nullptr);
 			assert(value != nullptr);
 
-			GetSetVar* lhs = std::launder(reinterpret_cast<GetSetVar*>(static_cast<std::byte*>(objPtr) + _offset));
-			const T* rhs = static_cast<const T*>(value);
-
-			lhs->Set(*rhs);
+			_setter(*static_cast<C*>(objPtr), *static_cast<const T*>(value));
 		}
 
 		template<typename T>
@@ -133,10 +127,7 @@ namespace Engine3DRadSpace::Reflection
 			assert(objPtr != nullptr);
 			assert(value != nullptr);
 
-			T* lhs = std::launder<T>(reinterpret_cast<T*>(static_cast<std::byte*>(objPtr) + _offset));
-			const T* rhs = static_cast<const T*>(value);
-
-			*lhs = *rhs;
+			_setter(*static_cast<C*>(objPtr), *value);
 		}
 
 		template<typename T>
@@ -144,7 +135,7 @@ namespace Engine3DRadSpace::Reflection
 		{
 			assert(objPtr != nullptr);
 
-			return T(*std::launder(reinterpret_cast<T*>(static_cast<std::byte*>(objPtr) + _offset)));
+			return (_getter)(*static_cast<C*>(objPtr));
 		}
 
 		FieldRepresentation Representation() const noexcept override

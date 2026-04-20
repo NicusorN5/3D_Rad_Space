@@ -8,48 +8,45 @@ using namespace Engine3DRadSpace::Audio;
 using namespace Engine3DRadSpace::Objects;
 
 #define SE_INITIALIZE \
-Volume(this), \
-Pitch(this), \
-Looping(this), \
 _volume(1.0f), \
 _pitch(1.0f), \
 _looping(false)
 
 #define SE_SETPARAM \
-_setVolume(_volume); \
-_setPitch(_pitch); \
-_setLooping(_looping);
+SetVolume(_volume); \
+SetPitch(_pitch); \
+SetLooping(_looping);
 
-float SoundEffect::_getVolume() const noexcept
+float SoundEffect::GetVolume() const noexcept
 {
 	return _instance != nullptr ? _instance->GetGain() : _volume;
 }
 
-void SoundEffect::_setVolume(float volume) noexcept
+void SoundEffect::SetVolume(float volume) noexcept
 {
 	if(_instance != nullptr)
 		_instance->SetGain(volume);
 	else _volume = volume;
 }
 
-float SoundEffect::_getPitch() const noexcept
+float SoundEffect::GetPitch() const noexcept
 {
 	return _instance != nullptr ? _instance->GetPitch() : _pitch;
 }
 
-void SoundEffect::_setPitch(float pitch) noexcept
+void SoundEffect::SetPitch(float pitch) noexcept
 {
 	if(_instance != nullptr)
 		_instance->SetPitch(pitch);
 	else _pitch = pitch;
 }
 
-bool SoundEffect::_getLooping() const noexcept
+bool SoundEffect::IsLooping() const noexcept
 {
 	return _instance != nullptr ? _instance->IsLooping() : _looping;
 }
 
-void SoundEffect::_setLooping(bool looping) noexcept
+void SoundEffect::SetLooping(bool looping) noexcept
 {
 	if(_instance != nullptr)
 		_instance->SetLooping(looping);
@@ -162,11 +159,41 @@ Gizmos::IGizmo* SoundEffect::GetGizmo() const noexcept
 #undef SE_INITIALIZE
 #undef SE_SETPARAM
 
+static float ss_getvolume(SoundEffect& se)
+{
+	return se.GetVolume();
+}
+
+static void ss_setvolume(SoundEffect& se, const float &v)
+{
+	se.SetVolume(v);
+}
+
+static float ss_getpitch(SoundEffect& se)
+{
+	return se.GetPitch();
+}
+
+static void ss_setpitch(SoundEffect& se, const float &p)
+{
+	se.SetPitch(p);
+}
+
+static bool ss_getlooping(SoundEffect& se)
+{
+	return se.IsLooping();
+}
+
+static void ss_setlooping(SoundEffect& se, const bool &l)
+{
+	se.SetLooping(l);
+}
+
 REFL_BEGIN(SoundEffect, "SoundEffect", "Sound", "Background sound")
 REFL_FIELD(SoundEffect, std::string, Name, "Name", "SoundEffect", "ObjectName")
 REFL_FIELD(SoundEffect, bool, Enabled, "Play at start", true, "If playing when initialized.")
 REFL_FIELD(SoundEffect, RefSound, Sound, "Sound", 0, "Sound asset")
-REFL_FIELD_GS(SoundEffect, Looping, "Looping", false, "Is the sound looping")
-REFL_FIELD_GS(SoundEffect, Volume, "Volume", 1.0f, "Volume (0-1 range)")
-REFL_FIELD_GS(SoundEffect, Pitch, "Pitch", 0.5f, "Pitch (??-?? range), ?? default")
+REFL_FIELD_GS(SoundEffect, bool, ss_getlooping, ss_setlooping, "Looping", false, "Is the sound looping")
+REFL_FIELD_GS(SoundEffect, float, ss_getvolume, ss_setvolume, "Volume", 1.0f, "Volume (0-1 range)")
+REFL_FIELD_GS(SoundEffect, float, ss_getpitch, ss_setpitch, "Pitch", 0.5f, "Pitch (??-?? range), ?? default")
 REFL_END

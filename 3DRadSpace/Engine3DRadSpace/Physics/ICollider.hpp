@@ -2,7 +2,6 @@
 #include "../Math/Vector3.hpp"
 #include "../Math/Quaternion.hpp"
 #include "../Math/Ray.hpp"
-#include "../Core/GetSet.hpp"
 #include "../Core/IUpdateable.hpp"
 
 namespace Engine3DRadSpace::Physics
@@ -14,23 +13,20 @@ namespace Engine3DRadSpace::Physics
 	protected:
 		IPhysicsEngine* _physics;
 
-		float _mass;
-		virtual float _getMass() const = 0;
-		virtual void _setMass(float mass) = 0;
-
+		float _mass = 0;
 		Math::Vector3 _position;
-		virtual Math::Vector3 _getPosition() const = 0;
-		virtual void _setPosition(const Math::Vector3& position) = 0;
-
 		Math::Quaternion _rotation;
-		virtual Math::Quaternion _getRotation() const = 0;
-		virtual void _setRotation(const Math::Quaternion& rotation) = 0;
 
 		ICollider(IPhysicsEngine* physics);
 	public:
-		GetSet<float, ICollider, &_getMass, &_setMass> Mass;
-		GetSet<Math::Vector3, ICollider, &_getPosition, &_setPosition> Position;
-		GetSet<Math::Quaternion, ICollider, &_getRotation, &_setRotation> Rotation;
+		virtual float GetMass() const = 0;
+		virtual void SetMass(float mass) = 0;
+
+		virtual Math::Vector3 GetPosition() const = 0;
+		virtual void SetPosition(const Math::Vector3& position) = 0;
+
+		virtual Math::Quaternion GetRotation() const = 0;
+		virtual void SetRotation(const Math::Quaternion& rotation) = 0;
 
 		IPhysicsEngine* GetPhysics() const noexcept;
 
