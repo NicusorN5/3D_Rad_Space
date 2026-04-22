@@ -407,7 +407,7 @@ void EditorGame::Draw3D()
 		grid->Projection = Projection;
 		grid->Draw3D();
 
-		if (!Math::WithinEpsilon(cursor3D.X, 0) && !Math::WithinEpsilon(cursor3D.Y, 0) && !Math::WithinEpsilon(cursor3D.Z, 0))
+		if (!Math::WithinEpsilon(cursor3D.X, 0) || !Math::WithinEpsilon(cursor3D.Y, 0) || !Math::WithinEpsilon(cursor3D.Z, 0))
 		{
 			grid_center->View = View;
 			grid_center->Projection = Projection;

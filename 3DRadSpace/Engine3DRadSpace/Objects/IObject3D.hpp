@@ -20,6 +20,12 @@ namespace Engine3DRadSpace::Objects
 		Math::Vector3 Scale;
 
 		virtual Math::Matrix4x4 GetModelMatrix();
+		virtual Math::Matrix4x4 GetLocalMatrix();
+		/// <summary>
+		/// Returns the distance from the ray origin to the intersection point, or NaN if there is no intersection.
+		/// </summary>
+		/// <param name="r">Ray in world space</param>
+		/// <returns>Distance from the ray origin to the intersection point, or NaN if there is no intersection</returns>
 		virtual float Intersects(const Math::Ray &r) = 0;
 
 		~IObject3D() = default;

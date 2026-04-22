@@ -201,6 +201,10 @@ void RigidDynamic::Update()
 		_collider->UpdateTransform();
 }
 
+void RigidDynamic::Draw3D()
+{
+}
+
 void RigidDynamic::Teleport(const Math::Vector3& position, const std::optional<Math::Quaternion>& rotation)
 {
 	_collider->UpdateTransform(position, Rotation);

@@ -26,7 +26,7 @@ static void deserializeObjectHierarchy(ObjectList* lst, IObject* obj, const json
 
 	if(parent != -1)
 	{
-		obj->SetParent(obj->operator[](parent));
+		obj->SetParent(lst->operator[](parent));
 	}
 }
 
@@ -396,7 +396,7 @@ json Engine3DRadSpace::Projects::Serializer::SerializeObject(IObject* obj)
 						case sizeof(double) :
 						{
 							double value = jsonField.get<double>();
-							memcpy_s(newStruct.get() + offset, sizeof(float), &value, sizeof(double));
+							memcpy_s(newStruct.get() + offset, sizeof(double), &value, sizeof(double));
 							offset += sizeof(double);
 							break;
 						}
@@ -505,8 +505,13 @@ bool Engine3DRadSpace::Projects::Serializer::LoadProject(ObjectList* lst, Conten
 	for (size_t i = 0; i < numObjects; ++i)
 	{
 		auto obj = DeserializeObject(j["objects"][std::to_string(i)]);
-		deserializeObjectHierarchy(lst, obj, j["objects"][std::to_string(i)]);
 		lst->Add(obj);
+	}
+
+	for (size_t i = 0; i < numObjects; ++i)
+	{
+		auto obj = lst->operator[](i);
+		deserializeObjectHierarchy(lst, obj, j["objects"][std::to_string(i)]);
 	}
 
 	return true;

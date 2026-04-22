@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 3.21)
 project("Engine3DRadSpace.Physics.Objects")
 
 add_library(3DRadSpace.Physics.Objects STATIC
+	"Force.hpp"
+	"Force.cpp"
 	"FPCharacter.hpp"
 	"FPCharacter.cpp"
 	"GForce.hpp"

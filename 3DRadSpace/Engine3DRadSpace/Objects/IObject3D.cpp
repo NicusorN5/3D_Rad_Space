@@ -14,12 +14,25 @@ IObject3D::IObject3D(const std::string &name, bool enabled, bool visible, const 
 {
 }
 
+Matrix4x4 IObject3D::GetLocalMatrix()
+{
+	return  Matrix4x4::CreateScale(Scale)*
+			Matrix4x4::CreateTranslation(-RotationCenter)*
+			Matrix4x4::CreateFromQuaternion(Rotation)*
+			Matrix4x4::CreateTranslation(RotationCenter)*
+			Matrix4x4::CreateTranslation(Position);
+}
+
 Matrix4x4 IObject3D::GetModelMatrix()
 {
-	return 
-		Matrix4x4::CreateScale(Scale) *
-		Matrix4x4::CreateTranslation(-RotationCenter) *
-		Matrix4x4::CreateFromQuaternion(Rotation) *
-		Matrix4x4::CreateTranslation(RotationCenter) *
-		Matrix4x4::CreateTranslation(Position);
+	Matrix4x4 local = GetLocalMatrix();
+
+	if (_parent == nullptr)
+		return local;
+
+	auto parent3D = dynamic_cast<IObject3D*>(_parent);
+	if (parent3D)
+		return local * parent3D->GetModelMatrix();
+	else
+		return local;
 }

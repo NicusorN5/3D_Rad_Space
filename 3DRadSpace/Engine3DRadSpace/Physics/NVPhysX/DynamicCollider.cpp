@@ -335,3 +335,21 @@ void DynamicCollider::SetRotation(const Quaternion &rotation)
 		_rigidbody->setGlobalPose(tr);
 	}
 }
+
+void DynamicCollider::AddLinearVelocity(const Math::Vector3& v)
+{
+	if(_rigidbody) {
+		_rigidbody->addForce(physx::PxVec3(v.X, v.Y, v.Z), physx::PxForceMode::eVELOCITY_CHANGE);
+	} else {
+		_linearVelocity += v;
+	}
+}
+
+void DynamicCollider::AddAngularVelocity(const Math::Vector3& v)
+{
+	if(_rigidbody) {
+		_rigidbody->addTorque(physx::PxVec3(v.X, v.Y, v.Z), physx::PxForceMode::eVELOCITY_CHANGE);
+	} else {
+		_angularVelocity += v;
+	}
+}

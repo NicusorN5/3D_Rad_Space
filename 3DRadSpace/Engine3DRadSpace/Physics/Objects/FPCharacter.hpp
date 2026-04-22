@@ -1,6 +1,7 @@
 #pragma once
 #include "IPhysicsObject.hpp"
 #include "../../Objects/Impl/FreeCam.hpp"
+#include "../ICharacterController.hpp"
 
 namespace Engine3DRadSpace::Physics::Objects
 {

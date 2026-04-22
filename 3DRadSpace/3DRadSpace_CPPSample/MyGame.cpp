@@ -11,7 +11,5 @@ MyGame::MyGame() : Game("FPCharacter Demo", 1280, 720)
 
 void MyGame::Update()
 {
-	//_text->Text = std::format("Position {} {} {}", _character->Position.X, _character->Position.Y, _character->Position.Z );
-
 	Game::Update();
 }

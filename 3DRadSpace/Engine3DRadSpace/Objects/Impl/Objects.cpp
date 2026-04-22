@@ -24,6 +24,7 @@ REFL_FWD(FreeCam)
 REFL_FWD(RigidStatic)
 REFL_FWD(FPCharacter)
 REFL_FWD(SettingsManager)
+REFL_FWD(Force)
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Reflection;
@@ -48,10 +49,8 @@ void Engine3DRadSpace::Internal::LoadDefaultObjects()
 		*/
 		&ExitFadeReflInstance, //ExitFade
 		&FogReflInstance, //Fog
-		/*
-		CameraReflInstance, //Force
-		*/
-		&SettingsManagerReflInstance,
+		&ForceReflInstance, //Force
+		&SettingsManagerReflInstance, //SettingsManager
 		&GForceReflInstance, //G-Force
 		/*
 		CameraReflInstance, //Group

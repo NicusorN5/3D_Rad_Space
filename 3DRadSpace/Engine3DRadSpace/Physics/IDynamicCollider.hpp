@@ -38,5 +38,8 @@ namespace Engine3DRadSpace::Physics
 		virtual void ApplyAngularAcceleration(const Math::Vector3& acc) = 0;
 
 		virtual void SetKinematic(bool isKinematic) = 0;
+
+		virtual void AddLinearVelocity(const Math::Vector3& v) = 0;
+		virtual void AddAngularVelocity(const Math::Vector3& v) = 0;
 	};
 }
