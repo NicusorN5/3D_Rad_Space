@@ -611,11 +611,13 @@ void EditObjectDialog::setObject()
 				}
 				case FieldRepresentationType::Integer:
 				{
+					auto numericTextbox = static_cast<NumericTextbox*>(std::get<IControl*>(windows[i++]));
+					GetWindowTextA(*numericTextbox, text, 255);
+
 					switch(structSize / field->Representation().Size())
 					{
 						case sizeof(int8_t) :
 						{
-							GetWindowTextA(std::get<HWND>(windows[i++]), text, 255);
 							int8_t value = (int8_t)std::stoi(text);
 							memcpy_s(newStruct.get() + j, sizeof(int8_t), &value, sizeof(int8_t));
 							j += sizeof(int8_t);
@@ -623,7 +625,6 @@ void EditObjectDialog::setObject()
 						}
 						case sizeof(int16_t) :
 						{
-							GetWindowTextA(std::get<HWND>(windows[i++]), text, 255);
 							int16_t value = (int16_t)std::stoi(text);
 							memcpy_s(newStruct.get() + j,sizeof(int16_t), &value, sizeof(int16_t));
 							j += sizeof(int16_t);
@@ -631,7 +632,6 @@ void EditObjectDialog::setObject()
 						}
 						case sizeof(int32_t) :
 						{
-							GetWindowTextA(std::get<HWND>(windows[i++]), text, 255);
 							int32_t value = std::stol(text);
 							memcpy_s(newStruct.get() + j,sizeof(int32_t), &value, sizeof(int32_t));
 							j += sizeof(int32_t);
@@ -639,7 +639,6 @@ void EditObjectDialog::setObject()
 						}
 						case sizeof(int64_t) :
 						{
-							GetWindowTextA(std::get<HWND>(windows[i++]), text, 255);
 							int64_t value = std::stoll(text);
 							memcpy_s(newStruct.get() + j, sizeof(int64_t), & value, sizeof(int64_t));
 							j += sizeof(int64_t);

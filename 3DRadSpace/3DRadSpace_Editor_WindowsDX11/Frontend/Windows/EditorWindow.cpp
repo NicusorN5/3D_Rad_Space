@@ -498,7 +498,7 @@ EditorWindow::EditorWindow(HINSTANCE hInstance,const std::string &cmdArgs) :
 		nullptr
 	);
 
-	this->editor = std::make_unique<RenderWindow>(_mainWindow,_hInstance);
+	this->editor = std::make_unique<EditorGame>(_mainWindow,_hInstance);
 
 	_handleRenderWindow = static_cast<HWND>(this->editor->Window->NativeHandle());
 

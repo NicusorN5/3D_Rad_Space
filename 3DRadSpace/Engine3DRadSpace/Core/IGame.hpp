@@ -43,6 +43,7 @@ namespace Engine3DRadSpace
 
 		virtual bool WasInitialized() const noexcept = 0;
 		virtual bool WasLoaded() const noexcept = 0;
+		virtual bool IsEditor() const noexcept = 0;
 
 		virtual void AppendScene(const std::filesystem::path& path) = 0;
 

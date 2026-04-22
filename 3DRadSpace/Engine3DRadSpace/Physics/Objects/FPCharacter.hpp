@@ -26,7 +26,7 @@ namespace Engine3DRadSpace::Physics::Objects
 		float Height = 1.8f;
 
 		Input::Key Jump = Input::Key::Space;
-		float JumpHeight = 1.0f;
+		float JumpPower = 1.0f;
 
 		void Initialize() override;
 		void Update() override;

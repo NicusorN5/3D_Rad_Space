@@ -144,8 +144,14 @@ void GraphicsCommandList::ResizeBackBuffer(const Math::Point& newResolution)
 	(void)newResolution;
 }
 
-void GraphicsCommandList::ToggleFullScreen()
+void GraphicsCommandList::SetFullScreen(bool fullscreen)
 {
+	(void)fullscreen;
+}
+
+bool GraphicsCommandList::IsFullScreen() const
+{
+	return false;
 }
 
 void GraphicsCommandList::Copy(IGPUBuffer* dest, IGPUBuffer* src)

@@ -19,7 +19,7 @@ using namespace Engine3DRadSpace::Input;
 using namespace Engine3DRadSpace::Math;
 using namespace Engine3DRadSpace::Objects;
 
-class RenderWindow : public Engine3DRadSpace::Game
+class EditorGame : public Engine3DRadSpace::Game
 {
 	Vector2 cameraPos = Vector2(
 		cosf(std::numbers::pi_v<float> / 6), //30 degrees = pi/6 radians
@@ -70,7 +70,7 @@ class RenderWindow : public Engine3DRadSpace::Game
 	void _picking();
 	void _gizmoButtons();
 public:
-	RenderWindow(HWND parent, HINSTANCE hInstance);
+	EditorGame(HWND parent, HINSTANCE hInstance);
 
 	void Initialize() override;
 	void Load() override;
@@ -79,9 +79,11 @@ public:
 
 	void Draw3D() override;
 
+	bool IsEditor() const noexcept override;
+
 	bool IsFocused() const;
 	void Reset3DCursor();
 	void SelectObject(IObject* obj);
 
-	~RenderWindow();
+	~EditorGame();
 };

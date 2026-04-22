@@ -1,17 +1,17 @@
-#include "RenderWindow.hpp"
+#include "EditorGame.hpp"
 #include <Engine3DRadSpace/Graphics/Font.hpp>
 #include "../Frontend/Settings.hpp"
 #include <Engine3DRadSpace/Objects/ObjectList.hpp>
 #include <Engine3DRadSpace/Objects/IGizmo.hpp>
 #include <Engine3DRadSpace\Objects\Gizmos.hpp>
 
-RenderWindow::RenderWindow(HWND parent, HINSTANCE hInstance) :
+EditorGame::EditorGame(HWND parent, HINSTANCE hInstance) :
 	Game(Engine3DRadSpace::Native::Window(hInstance, parent)),
 	editorWindow(parent)
 {
 }
 
-void RenderWindow::Initialize()
+void EditorGame::Initialize()
 {
 	std::vector<VertexPositionColor> axisLines =
 	{
@@ -63,7 +63,7 @@ void RenderWindow::Initialize()
 	Camera.FarPlaneDistance = 1000.0f;
 }
 
-void RenderWindow::Load()
+void EditorGame::Load()
 {
 	_font = std::make_unique<Font>(Device.get(), "Data//Fonts//Arial.ttf");
 
@@ -154,7 +154,7 @@ void RenderWindow::Load()
 	);
 }
 
-void RenderWindow::_controlCamera()
+void EditorGame::_controlCamera()
 {
 	zoom = Mouse.ScrollWheel();
 	if(zoom < -4.0f) zoom = -4.0f;
@@ -190,7 +190,7 @@ void RenderWindow::_controlCamera()
 	}
 }
 
-void RenderWindow::_picking()
+void EditorGame::_picking()
 {
 	static bool rightButtonPrevPressed = false;
 	static bool middleButtonPrevPressed = false;
@@ -245,7 +245,7 @@ void RenderWindow::_picking()
 	middleButtonPrevPressed = (Mouse.MiddleButton() == ButtonState::Pressed);
 }
 
-void RenderWindow::_gizmoButtons()
+void EditorGame::_gizmoButtons()
 {
 	if(_selectedObject != nullptr)
 	{
@@ -360,7 +360,7 @@ void RenderWindow::_gizmoButtons()
 	}
 }
 
-void RenderWindow::Update()
+void EditorGame::Update()
 {
 	//update gizmos
 	for(auto &obj : *Objects)
@@ -392,7 +392,7 @@ void RenderWindow::Update()
 	Camera.Position = cursor3D + Vector3::UnitZ().Transform(Camera.Rotation) * (zoom + 5);
 }
 
-void RenderWindow::Draw3D()
+void EditorGame::Draw3D()
 {
 	Camera.Draw3D();
 
@@ -438,7 +438,7 @@ void RenderWindow::Draw3D()
 	drawAllObjects();	
 }
 
-void RenderWindow::SelectObject(IObject* obj)
+void EditorGame::SelectObject(IObject* obj)
 {
 	_selectedObject = obj;
 	
@@ -448,7 +448,7 @@ void RenderWindow::SelectObject(IObject* obj)
 	}
 }
 
-void RenderWindow::_gizmoFn(Gizmos::IGizmo* g, std::array<Button*, 3> btns, void (Button::* fn)(), uint8_t allow2D)
+void EditorGame::_gizmoFn(Gizmos::IGizmo* g, std::array<Button*, 3> btns, void (Button::* fn)(), uint8_t allow2D)
 {
 	if(g->Allow2DRendering)
 	{
@@ -464,7 +464,7 @@ void RenderWindow::_gizmoFn(Gizmos::IGizmo* g, std::array<Button*, 3> btns, void
 	}
 }
 
-void RenderWindow::Draw2D()
+void EditorGame::Draw2D()
 {
 	this->ClearColor = Color(0, 0, 0, 1);
 
@@ -505,17 +505,22 @@ void RenderWindow::Draw2D()
 	SpriteBatch->End();
 }
 
-bool RenderWindow::IsFocused() const
+bool EditorGame::IsFocused() const
 {
 	return editorWindow == GetForegroundWindow();
 }
 
-void RenderWindow::Reset3DCursor()
+void EditorGame::Reset3DCursor()
 {
 	cursor3D = Vector3::Zero();
 	_selectedObject = nullptr;
 }
 
-RenderWindow::~RenderWindow()
+bool EditorGame::IsEditor() const noexcept
+{
+	return true;
+}
+
+EditorGame::~EditorGame()
 {
 }

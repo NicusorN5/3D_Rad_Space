@@ -72,6 +72,7 @@ namespace Engine3DRadSpace
 
 		bool WasInitialized() const noexcept override;
 		bool WasLoaded() const noexcept override;
+		bool IsEditor() const noexcept override;
 
 		Math::Ray GetMouseRay(const Math::Vector2& mousePosition, const Math::Matrix4x4& view, const Math::Matrix4x4& projection);
 

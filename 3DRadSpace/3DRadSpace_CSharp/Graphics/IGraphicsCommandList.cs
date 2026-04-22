@@ -44,6 +44,6 @@ public interface IGraphicsCommandList : IPtrWrapper
 	public void SaveBackBufferToFile(string path);
 
 	public void ResizeBackBuffer(System.Drawing.Point newResolution);
-	public void ToggleFullScreen();
+	public void SetFullScreen(bool fullscreen);
 	public void Copy(IGPUBuffer dest, IGPUBuffer src);
 }

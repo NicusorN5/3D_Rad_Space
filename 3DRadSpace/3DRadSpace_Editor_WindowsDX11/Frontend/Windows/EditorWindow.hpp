@@ -1,6 +1,6 @@
 #pragma once
 #include <Windows.h>
-#include "..\..\Editor\RenderWindow.hpp"
+#include "..\..\Editor\EditorGame.hpp"
 #include <CommCtrl.h>
 
 constexpr const char* EditorWindowClassName = "CLASS_3DRADSPACE_MAINWINDOW";
@@ -57,7 +57,7 @@ class EditorWindow
 	HWND _handleRenderWindow;
 	HACCEL acceleratorTable;
 
-	std::unique_ptr<RenderWindow> editor;
+	std::unique_ptr<EditorGame> editor;
 
 	bool _running;
 	bool _changesSaved = true;

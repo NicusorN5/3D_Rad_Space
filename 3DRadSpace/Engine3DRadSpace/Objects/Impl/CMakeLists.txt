@@ -25,6 +25,8 @@ add_library(3DRadSpace.Objects.Impl STATIC
 	"FreeCam.cpp"
 	"Objects.hpp"
 	"Objects.cpp"
+	"SettingsManager.hpp"
+	"SettingsManager.cpp"
 	"Skinmesh.hpp"
 	"Skinmesh.cpp"
 	"Skybox.hpp"

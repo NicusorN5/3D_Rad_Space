@@ -62,7 +62,8 @@ namespace Engine3DRadSpace::Graphics
 		virtual void SaveBackBufferToFile(const std::filesystem::path& path) = 0;
 
 		virtual void ResizeBackBuffer(const Math::Point& newResolution) = 0;
-		virtual void ToggleFullScreen() = 0;
+		virtual void SetFullScreen(bool fullscreen) = 0;
+		virtual bool IsFullScreen() const = 0;
 
 		virtual void Copy(IGPUBuffer* dest, IGPUBuffer* src) = 0;
 		virtual void Copy(IGPUMultiBuffer* dest, IGPUMultiBuffer* src) = 0;

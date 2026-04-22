@@ -339,7 +339,7 @@ void GraphicsCommandList::ResizeBackBuffer(const Math::Point& newResolution)
 	_device->_createBackBuffer();
 }
 
-void GraphicsCommandList::ToggleFullScreen()
+void GraphicsCommandList::SetFullScreen(bool fullscreen)
 {
 	UnbindRenderTargetAndDepth();
 	_device->_context->Flush();
@@ -347,16 +347,23 @@ void GraphicsCommandList::ToggleFullScreen()
 	_device->_backbufferRT.reset();
 
 	HRESULT r = _device->_swapChain->SetFullscreenState(
-		_device->_fullscreen = !_device->_fullscreen,
+		fullscreen,
 		nullptr
 	);
-	if(FAILED(r)) throw Exception("SetFullscreenState failed!");
+	if(FAILED(r)) throw Exception("SetFullScreen failed!");
 
 	auto s = _device->_resolution;
 	r = _device->_swapChain->ResizeBuffers(0, s.X, s.Y, DXGI_FORMAT_UNKNOWN, 0);
 	if(FAILED(r)) throw Exception(std::format("ResizeBuffers failed: {:x}", r));
 
 	_device->_createBackBuffer();
+
+	_device->_fullscreen = fullscreen;
+}
+
+bool GraphicsCommandList::IsFullScreen() const
+{
+	return _device->_fullscreen;
 }
 
 void* GraphicsCommandList::GetHandle() const noexcept

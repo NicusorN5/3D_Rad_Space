@@ -127,7 +127,10 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		/// <summary>
 		/// Switches the fullscreen state.
 		/// </summary>
-		void ToggleFullScreen() override;
+		/// <param name="fullscreen">True to set fullscreen, false to set windowed mode.</param>
+		void SetFullScreen(bool fullscreen) override;
+
+		bool IsFullScreen() const override;
 
 		void Copy(IGPUBuffer* dest, IGPUBuffer* src) override;
 		void Copy(IGPUMultiBuffer* dest, IGPUMultiBuffer* src) override;

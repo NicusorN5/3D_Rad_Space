@@ -91,7 +91,7 @@ extern "C"
 	E3DRSP_FFI_EXPORT void E3DRSP_IGraphicsCommandList_SaveBackBufferToFile(E3DRSP_IGraphicsCommandList cmd, const char* path);
 
 	E3DRSP_FFI_EXPORT void E3DRSP_IGraphicsCommandList_ResizeBackBuffer(E3DRSP_IGraphicsCommandList cmd, const E3DRSP_Point* newResolution);
-	E3DRSP_FFI_EXPORT void E3DRSP_IGraphicsCommandList_ToggleFullScreen(E3DRSP_IGraphicsCommandList cmd);
+	E3DRSP_FFI_EXPORT void E3DRSP_IGraphicsCommandList_SetFullScreen(E3DRSP_IGraphicsCommandList cmd, bool fullscreen);
 
 	E3DRSP_FFI_EXPORT void E3DRSP_IGraphicsCommandList_Copy(E3DRSP_IGraphicsCommandList cmd, E3DRSP_IGPUBuffer* dest, E3DRSP_IGPUBuffer* src);
 #ifdef __cplusplus

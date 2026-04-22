@@ -185,9 +185,9 @@ void E3DRSP_IGraphicsCommandList_ResizeBackBuffer(E3DRSP_IGraphicsCommandList cm
 {
 	reinterpret_cast<IGraphicsCommandList*>(cmd)->ResizeBackBuffer(std::bit_cast<const Math::Point>(*newResolution));
 }
-void E3DRSP_IGraphicsCommandList_ToggleFullScreen(E3DRSP_IGraphicsCommandList cmd)
+void E3DRSP_IGraphicsCommandList_SetFullScreen(E3DRSP_IGraphicsCommandList cmd, bool fullscreen)
 {
-	reinterpret_cast<IGraphicsCommandList*>(cmd)->ToggleFullScreen();
+	reinterpret_cast<IGraphicsCommandList*>(cmd)->SetFullScreen(fullscreen);
 }
 
 void E3DRSP_IGraphicsCommandList_Copy(E3DRSP_IGraphicsCommandList cmd, E3DRSP_IGPUBuffer* dest, E3DRSP_IGPUBuffer* src)

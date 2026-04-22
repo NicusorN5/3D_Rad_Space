@@ -83,7 +83,7 @@ void FPCharacter::Update()
 		_controller->Move(_dir * MovementSpeed * dt);
 
 		if (kb.IsKeyDown(Jump))
-			_controller->Jump(JumpHeight);
+			_controller->Jump(JumpPower);
 	}
 
 	_controller->UpdateTransform();
@@ -145,7 +145,7 @@ REFL_FIELD(FPCharacter, Vector3, Normal, "Normal", Vector3::UnitY(), "Camera sur
 REFL_FIELD(FPCharacter, float, Radius, "Radius", 0.5f, "Radius of the character's capsule collider")
 REFL_FIELD(FPCharacter, float, Height, "Height", 1.8f, "Height of the character's capsule collider")
 REFL_FIELD(FPCharacter, float, MovementSpeed, "Movement Speed", 1.0f, "Movement speed of the character")
-REFL_FIELD(FPCharacter, float, JumpHeight, "Jump Height", 1.0f, "Jump height of the character")
+REFL_FIELD(FPCharacter, float, JumpPower, "Jump Power", 1.0f, "Jump power of the character")
 REFL_FIELD(FPCharacter, Input::Key, Forward, "Forward Key", Input::Key::W, "Key used for moving forward")
 REFL_FIELD(FPCharacter, Input::Key, Backward, "Backward Key", Input::Key::S, "Key used for moving backward")
 REFL_FIELD(FPCharacter, Input::Key, Left, "Left Key", Input::Key::A, "Key used for moving left")

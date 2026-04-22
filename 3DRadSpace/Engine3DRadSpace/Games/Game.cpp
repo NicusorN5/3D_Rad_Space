@@ -167,6 +167,11 @@ bool Game::WasInitialized() const noexcept
 	return _wasInitialized;
 }
 
+bool Game::IsEditor() const noexcept
+{
+	return false;
+}
+
 bool Game::WasLoaded() const noexcept
 {
 	return _wasLoaded;

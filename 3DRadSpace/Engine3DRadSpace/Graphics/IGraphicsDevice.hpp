@@ -40,6 +40,8 @@ namespace Engine3DRadSpace::Graphics
 	protected:
 		IGraphicsDevice() = default;
 	public:
+		bool EnableVSync = true;
+
 		virtual std::string_view BackendName() const noexcept = 0;
 
 		/// <summary>

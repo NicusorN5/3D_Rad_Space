@@ -82,8 +82,6 @@ namespace Engine3DRadSpace::Graphics::DirectX11
 		GraphicsDevice& operator=(const GraphicsDevice&) = delete;
 		GraphicsDevice& operator=(GraphicsDevice&&) = delete;
 
-		bool EnableVSync;
-
 		std::string_view BackendName() const noexcept override;
 
 		/// <summary>

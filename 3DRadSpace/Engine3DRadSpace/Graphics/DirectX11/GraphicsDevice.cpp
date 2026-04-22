@@ -33,7 +33,6 @@ using namespace Engine3DRadSpace::Logging;
 using namespace Engine3DRadSpace::Math;
 
 GraphicsDevice::GraphicsDevice(void* nativeWindowHandle, size_t width, size_t height, GraphicsDeviceCreationOptions opt) :
-	EnableVSync(true),
 	_resolution(width, height)
 {
 	Logging::SetLastMessage("Creating DirectX11::GraphicsDevice");

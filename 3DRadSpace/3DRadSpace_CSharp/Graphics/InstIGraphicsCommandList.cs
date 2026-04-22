@@ -77,8 +77,8 @@ class InstIGraphicsCommandList : InstGPUResource, IGraphicsCommandList
 	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_ResizeBackBuffer")]
 	extern static void _resizeBackBuffer(IntPtr resource, IntPtr pPoint);
 
-	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_ToggleFullScreen")]
-	extern static void _toggleFullScreen(IntPtr resource);
+	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_SetFullScreen")]
+	extern static void _setFullScreen(IntPtr resource, byte fullscreen);
 
 	[DllImport("3DRadSpace.FFI.dll", EntryPoint = "E3DRSP_IGraphicsCommandList_Copy")]
 	extern static void _copy(IntPtr resource, IntPtr dest, IntPtr src);
@@ -219,9 +219,9 @@ class InstIGraphicsCommandList : InstGPUResource, IGraphicsCommandList
 		}
 	}
 
-	public void ToggleFullScreen()
+	public void SetFullScreen(bool fullscreen)
 	{
-		_toggleFullScreen(_handle);
+		_setFullScreen(_handle, fullscreen ? (byte)1 : (byte)0);
 	}
 
 	public void UnbindDepthBuffer()

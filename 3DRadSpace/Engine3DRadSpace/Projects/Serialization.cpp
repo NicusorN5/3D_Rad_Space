@@ -454,10 +454,10 @@ json Engine3DRadSpace::Projects::Serializer::SerializeObject(IObject* obj)
 				}
 				case FieldRepresentationType::Color:
 				{
-					uint8_t r = jsonField["R"].get<uint8_t>();
-					uint8_t g = jsonField["G"].get<uint8_t>();
-					uint8_t b = jsonField["B"].get<uint8_t>();
-					uint8_t a = jsonField["A"].get<uint8_t>();
+					float r = jsonField["R"].get<float>();
+					float g = jsonField["G"].get<float>();
+					float b = jsonField["B"].get<float>();
+					float a = jsonField["A"].get<float>();
 
 					Color color(r, g, b, a);
 
