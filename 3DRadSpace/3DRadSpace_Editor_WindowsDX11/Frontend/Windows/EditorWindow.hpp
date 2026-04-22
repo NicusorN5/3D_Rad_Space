@@ -66,7 +66,9 @@ class EditorWindow
 	void _openProject(const std::filesystem::path& filename);
 	void _saveProject(const std::filesystem::path& filename = "");
 	void _writeProject(const std::filesystem::path& filename);
+
 	void _findUpdate();
+	void _addRecentProject(const std::filesystem::path& filename);
 
 	HTREEITEM _getSelectedListViewItem();
 	std::pair<HTREEITEM, std::optional<unsigned>> _getSelectedObjectID();
@@ -74,6 +76,7 @@ class EditorWindow
 	void _parseCmdArgs(const std::string & cmdArgs);
 
 	std::chrono::time_point<std::chrono::high_resolution_clock> _lastFrameTime{};
+	std::vector<std::filesystem::path> _recentFiles;
 public:
 	EditorWindow(HINSTANCE hInstance, const std::string &cmdArgs);
 
@@ -89,6 +92,7 @@ public:
 
 	IObject* CreateNewObject();
 	void SelectObject(std::optional<unsigned> id);
+	void OpenRecentProject(uint8_t id);
 
 	friend LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	friend class Engine3DRadSpace::Game;

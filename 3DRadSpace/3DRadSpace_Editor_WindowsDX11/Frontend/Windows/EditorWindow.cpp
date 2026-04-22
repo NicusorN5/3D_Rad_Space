@@ -53,19 +53,42 @@ void EditorWindow::_openProject(const std::filesystem::path& filename)
 			gizmo->Load();
 		}
 
-		TVITEMA item{};
-		item.mask = TVIF_TEXT | TVIF_PARAM;
-		item.pszText = const_cast<char*>(object->Name.c_str());
-		item.cChildren = 0;
-		item.lParam = i;
-
-		TVINSERTSTRUCTA insertStruct{};
-		insertStruct.item = item;
-
-		SendMessageA(_treeView, TVM_INSERTITEMA, 0, reinterpret_cast<LPARAM>(&insertStruct));
-
 		++i;
 	}
+
+	for (int i = 0; auto& instance : *(editor->Objects))
+	{
+		auto object = instance.Object.get();
+		
+		if (!object->HasParent())
+		{
+			TVITEMA item{};
+			item.mask = TVIF_TEXT | TVIF_PARAM;
+			item.pszText = const_cast<char*>(object->Name.c_str());
+			item.cChildren = 1;
+			item.lParam = i;
+
+			TVINSERTSTRUCTA insertStruct{};
+			insertStruct.item = item;
+
+			SendMessageA(_treeView, TVM_INSERTITEMA, 0, reinterpret_cast<LPARAM>(&insertStruct));
+		}
+		else
+		{
+			TVITEMA item{};
+			item.mask = TVIF_TEXT | TVIF_PARAM;
+			item.pszText = const_cast<char*>(object->Name.c_str());
+			item.cChildren = 1;
+			item.lParam = i;
+
+			TVINSERTSTRUCTA insertStruct{};
+			//TODO: identify parent object then insert into an parent item
+
+			SendMessageA(_treeView, TVM_INSERTITEMA, 0, reinterpret_cast<LPARAM>(&insertStruct));
+		}
+	}
+
+	_addRecentProject(filename);
 }
 
 void EditorWindow::_saveProject(const std::filesystem::path &filename)
@@ -101,6 +124,7 @@ void EditorWindow::_writeProject(const std::filesystem::path& fileName)
 	_changesSaved = true;
 	_currentFile = fileName;
 	Serializer::SaveProject(editor->Objects.get(), editor->Content.get(), fileName);
+	_addRecentProject(fileName);
 }
 
 void EditorWindow::_findUpdate()
@@ -319,7 +343,7 @@ EditorWindow::EditorWindow(HINSTANCE hInstance,const std::string &cmdArgs) :
 	wndclass.hInstance = hInstance;
 	wndclass.lpfnWndProc = EditorWindow_WndProc;
 	wndclass.lpszClassName = EditorWindowClassName;
-	wndclass.hIcon = LoadIconA(hInstance,MAKEINTRESOURCEA(IDI_ICON1));
+	wndclass.hIcon = LoadIconA(hInstance, MAKEINTRESOURCEA(IDI_ICON1));
 	wndclass.hCursor = LoadCursorA(nullptr, MAKEINTRESOURCEA(32512)); //IDI_ARROW
 
 	ATOM a = RegisterClassA(&wndclass);
@@ -333,23 +357,27 @@ EditorWindow::EditorWindow(HINSTANCE hInstance,const std::string &cmdArgs) :
 	if(recentProjectsMenu == nullptr) throw Exception("Failed to create File > Recent files menu!");
 
 	std::ifstream recent_projects(RecentProjectFile);
-	//Create the file if it doesn't exist or if it is empty
-	if (recent_projects.bad() || recent_projects.fail())
-	{
-		std::ofstream create_recent_projects(RecentProjectFile);
-		create_recent_projects.close();
 
-		AppendMenuA(recentProjectsMenu, MF_STRING, 0, "...");
+	int recentCount = 0;
+	if (recent_projects.is_open()) {
+		//Loop each line
+		for(int i = 0; recent_projects && i < 10; i++)
+		{
+			std::string filename;
+			std::getline(recent_projects, filename);
+			if (!filename.empty())
+			{
+				_recentFiles.push_back(filename);
+				AppendMenuA(recentProjectsMenu, MF_STRING, CMD_OpenRecentFile1 + static_cast<UINT_PTR>(i), filename.c_str());
+				recentCount++;
+			}
+		}
+		recent_projects.close();
 	}
-	//Loop each line
-	for(int i = 0; recent_projects; i++)
-	{
-		std::string filename;
-		std::getline(recent_projects, filename);
-		if(!filename.empty())
-			AppendMenuA(recentProjectsMenu, MF_STRING, CMD_OpenRecentFile1 + static_cast<UINT_PTR>(i), filename.c_str());
+
+	if (recentCount == 0) {
+		AppendMenuA(recentProjectsMenu, MF_STRING | MF_GRAYED, 0, "No recent projects");
 	}
-	recent_projects.close();
 
 	//Create the rest of the menu.
 	HMENU fileMenu = CreateMenu();
@@ -489,7 +517,7 @@ EditorWindow::EditorWindow(HINSTANCE hInstance,const std::string &cmdArgs) :
 		"",
 		WS_CHILD | WS_VISIBLE | WS_BORDER,
 		0,
-		0, 
+		0,
 		150,
 		600,
 		_mainWindow,
@@ -650,6 +678,38 @@ void EditorWindow::SelectObject(std::optional<unsigned> id)
 
 void SetWorkingDirectory();
 
+void EditorWindow::OpenRecentProject(uint8_t id)
+{
+	if (id >= _recentFiles.size()) return;
+
+	SetWorkingDirectory();
+	gEditorWindow->_openProject(gEditorWindow->_recentFiles[id]);
+}
+
+void EditorWindow::_addRecentProject(const std::filesystem::path& filename)
+{
+    // Remove if already present
+    auto it = std::find(_recentFiles.begin(), _recentFiles.end(), filename);
+    if (it != _recentFiles.end())
+        _recentFiles.erase(it);
+
+    // Add to end
+    _recentFiles.push_back(filename);
+
+    // Keep only 10 recent files
+    if (_recentFiles.size() > 10)
+        _recentFiles.erase(_recentFiles.begin());
+
+    // Only write if there are recent files
+    if (!_recentFiles.empty()) {
+        SetWorkingDirectory();
+        std::ofstream recent_projects(RecentProjectFile, std::ios::trunc);
+        for (const auto& file : _recentFiles)
+            recent_projects << file.string() << std::endl;
+        recent_projects.close();
+    }
+}
+
 LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch(msg)
@@ -719,24 +779,34 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				}
 
 				case CMD_OpenRecentFile1:
+					gEditorWindow->OpenRecentProject(0);
 					break;
 				case CMD_OpenRecentFile1 + 1:
+					gEditorWindow->OpenRecentProject(1);
 					break;
 				case CMD_OpenRecentFile1 + 2:
+					gEditorWindow->OpenRecentProject(2);
 					break;
 				case CMD_OpenRecentFile1 + 3:
+					gEditorWindow->OpenRecentProject(3);
 					break;
 				case CMD_OpenRecentFile1 + 4:
+					gEditorWindow->OpenRecentProject(4);
 					break;
 				case CMD_OpenRecentFile1 + 5:
+					gEditorWindow->OpenRecentProject(5);
 					break;
 				case CMD_OpenRecentFile1 + 6:
+					gEditorWindow->OpenRecentProject(6);
 					break;
 				case CMD_OpenRecentFile1 + 7:
+					gEditorWindow->OpenRecentProject(7);
 					break;
 				case CMD_OpenRecentFile1 + 8:
+					gEditorWindow->OpenRecentProject(8);
 					break;
 				case CMD_OpenRecentFile1 + 9:
+					gEditorWindow->OpenRecentProject(9);
 					break;
 
 				case CMD_SaveProject:
@@ -988,6 +1058,7 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 						HMENU objectMenu = CreatePopupMenu();
 						if(objectMenu == nullptr) throw std::exception("Failed to create a popup menu!");
 						
+						AppendMenuA(objectMenu, MF_STRING, CMD_AddChildObject, "Add child object");
 						AppendMenuA(objectMenu, MF_STRING, CMD_EditObject, "Edit object");
 						AppendMenuA(objectMenu, MF_STRING, CMD_DeselectObject, "Deselect object");
 						AppendMenuA(objectMenu, MF_STRING, CMD_DeleteObject, "Delete object");
