@@ -18,6 +18,7 @@
 #include <thread>
 #include <Engine3DRadSpace\Projects\Serialization.hpp>
 #include "PluginsWindow.hpp"
+#include "AboutWindow.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Internal;
@@ -37,7 +38,7 @@ void EditorWindow::_openProject(const std::filesystem::path& filename)
 
 	editor->Content->Clear();
 	editor->Objects->Clear();
-	SendMessageA(_listBox, TVM_DELETEITEM, 0, reinterpret_cast<LPARAM>(TVI_ROOT));
+	SendMessageA(_treeView, TVM_DELETEITEM, 0, reinterpret_cast<LPARAM>(TVI_ROOT));
 
 	Serializer::LoadProject(editor->Objects.get(), gEditorWindow->editor->Content.get(), filename);
 
@@ -61,7 +62,7 @@ void EditorWindow::_openProject(const std::filesystem::path& filename)
 		TVINSERTSTRUCTA insertStruct{};
 		insertStruct.item = item;
 
-		SendMessageA(_listBox, TVM_INSERTITEMA, 0, reinterpret_cast<LPARAM>(&insertStruct));
+		SendMessageA(_treeView, TVM_INSERTITEMA, 0, reinterpret_cast<LPARAM>(&insertStruct));
 
 		++i;
 	}
@@ -220,7 +221,7 @@ void EditorWindow::_findUpdate()
 HTREEITEM EditorWindow::_getSelectedListViewItem()
 {
 	HTREEITEM selectedItem = reinterpret_cast<HTREEITEM>(SendMessageA(
-		gEditorWindow->_listBox,
+		gEditorWindow->_treeView,
 		TVM_GETNEXTITEM,
 		TVGN_CARET,
 		reinterpret_cast<LPARAM>(nullptr)
@@ -238,7 +239,7 @@ std::pair<HTREEITEM, std::optional<unsigned>> EditorWindow::_getSelectedObjectID
 	TVITEMA item{};
 	item.mask = LVIF_PARAM;
 	item.hItem = selectedItem;
-	SendMessageA(gEditorWindow->_listBox, TVM_GETITEMA, 0, reinterpret_cast<LPARAM>(&item));
+	SendMessageA(gEditorWindow->_treeView, TVM_GETITEMA, 0, reinterpret_cast<LPARAM>(&item));
 
 	return {selectedItem, static_cast<unsigned>(item.lParam)};
 }
@@ -306,7 +307,7 @@ void EditorWindow::_parseCmdArgs(const std::string &cmdArgs)
 EditorWindow::EditorWindow(HINSTANCE hInstance,const std::string &cmdArgs) :
 	_hInstance(hInstance),
 	_mainWindow(nullptr),
-	_listBox(nullptr),
+	_treeView(nullptr),
 	_toolbar(nullptr),
 	_running(true)
 {
@@ -482,7 +483,7 @@ EditorWindow::EditorWindow(HINSTANCE hInstance,const std::string &cmdArgs) :
 	
 	SendMessageA(_toolbar, TB_AUTOSIZE, 0, 0);
 
-	_listBox = CreateWindowExA(
+	_treeView = CreateWindowExA(
 		0,
 		WC_TREEVIEWA,
 		"",
@@ -508,7 +509,7 @@ EditorWindow::EditorWindow(HINSTANCE hInstance,const std::string &cmdArgs) :
 	
 	ShowWindow(_mainWindow, SW_MAXIMIZE);
 	ShowWindow(_toolbar, SW_NORMAL);
-	ShowWindow(_listBox, SW_NORMAL);
+	ShowWindow(_treeView, SW_NORMAL);
 
 	_parseCmdArgs(cmdArgs);
 
@@ -579,6 +580,26 @@ Content::ContentManager *EditorWindow::GetContentManager()
 	return editor->Content.get();
 }
 
+IObject* EditorWindow::CreateNewObject()
+{
+	AddObjectDialog dialog(_mainWindow, _hInstance, GetContentManager());
+	auto obj = dialog.ShowDialog();
+	if (obj != nullptr && obj != reinterpret_cast<void*>(IDCANCEL))
+	{
+		obj->InternalInitialize(editor.get());
+		auto gizmo = obj->GetGizmo();
+		if (gizmo != nullptr)
+		{
+			gizmo->Object = obj;
+			gizmo->Load();
+		}
+
+		return obj;
+	}
+	
+	return nullptr;
+}
+
 void EditorWindow::AddObject(IObject* obj)
 {
 	if(obj == nullptr) return;
@@ -598,7 +619,7 @@ void EditorWindow::AddObject(IObject* obj)
 	TVINSERTSTRUCTA insertStruct{};
 	insertStruct.item = item;
 
-	SendMessageA(_listBox, TVM_INSERTITEMA, 0, reinterpret_cast<LPARAM>(&insertStruct));
+	SendMessageA(_treeView, TVM_INSERTITEMA, 0, reinterpret_cast<LPARAM>(&insertStruct));
 }
 
 bool EditorWindow::WarnNotSaved()
@@ -668,7 +689,7 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 						gEditorWindow->editor->Reset3DCursor();
 						gEditorWindow->editor->Content->Clear();
 						gEditorWindow->editor->Objects->Clear();
-						SendMessageA(gEditorWindow->_listBox, TVM_DELETEITEM, 0, reinterpret_cast<LPARAM>(TVI_ROOT));
+						SendMessageA(gEditorWindow->_treeView, TVM_DELETEITEM, 0, reinterpret_cast<LPARAM>(TVI_ROOT));
 						gEditorWindow->_changesSaved = true;
 					}
 					break;
@@ -734,7 +755,7 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 					gEditorWindow->_saveProject(gEditorWindow->_currentFile);
 					SetWorkingDirectory();
 
-					auto cmd = std::format("-p -e {}", gEditorWindow->_currentFile.string());
+					auto cmd = std::format("-p -e \"{}\"", gEditorWindow->_currentFile.string());
 					auto r = reinterpret_cast<INT_PTR>(ShellExecuteA(
 						nullptr,
 						"open",
@@ -748,6 +769,8 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				}
 				case CMD_BuildProject:
 				case ACC_BUILD_PROJECT:
+					gEditorWindow->_saveProject(gEditorWindow->_currentFile);
+					SetWorkingDirectory();
 					break;
 				case CMD_Exit:
 				{
@@ -757,21 +780,8 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				case CMD_AddObject:
 				case ACC_ADD_OBJECT:
 				{
-					AddObjectDialog dialog(gEditorWindow->_mainWindow, gEditorWindow->_hInstance, gEditorWindow->GetContentManager());
-					auto obj = dialog.ShowDialog();
-					if (obj != nullptr && obj != reinterpret_cast<void*>(IDCANCEL))
-					{
-						obj->InternalInitialize(gEditorWindow->editor.get());
-						
-						auto gizmo = obj->GetGizmo();
-						if(gizmo != nullptr)
-						{
-							gizmo->Object = obj;
-							gizmo->Load();
-						}
-
-						gEditorWindow->AddObject(obj);
-					}
+					auto obj = gEditorWindow->CreateNewObject();
+					if(obj) gEditorWindow->AddObject(obj);
 					break;
 				}
 				case CMD_AddAsset:
@@ -822,7 +832,11 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 					break;
 				}
 				case CMD_About:
+				{
+					AboutWindow wndAbout(gEditorWindow->_mainWindow, gEditorWindow->_hInstance);
+					wndAbout.ShowDialog();
 					break;
+				}
 				case CMD_Documentation:
 					ShellExecuteA(gEditorWindow->_mainWindow, nullptr, "https://3dradspace.github.io/Documentation", nullptr, nullptr, SW_NORMAL);
 					break;
@@ -855,10 +869,10 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 							item.mask = TVIF_TEXT;
 							item.hItem = objID.first;
 
-							SendMessageA(gEditorWindow->_listBox, TVM_GETITEMA, 0, reinterpret_cast<LPARAM>(&item));
+							SendMessageA(gEditorWindow->_treeView, TVM_GETITEMA, 0, reinterpret_cast<LPARAM>(&item));
 
 							item.pszText = const_cast<char *>(new_obj->Name.c_str());
-							SendMessageA(gEditorWindow->_listBox, TVM_SETITEMA, 0, reinterpret_cast<LPARAM>(&item));
+							SendMessageA(gEditorWindow->_treeView, TVM_SETITEMA, 0, reinterpret_cast<LPARAM>(&item));
 
 							auto gizmo = obj->GetGizmo();
 							if(gizmo != nullptr)
@@ -883,27 +897,36 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 						//Update the indexes of the following elements
 						while(currItem != nullptr)
 						{
-							currItem = reinterpret_cast<HTREEITEM>(SendMessageA(gEditorWindow->_listBox, TVM_GETNEXTITEM, TVGN_NEXT, reinterpret_cast<LPARAM>(currItem)));
+							currItem = reinterpret_cast<HTREEITEM>(SendMessageA(gEditorWindow->_treeView, TVM_GETNEXTITEM, TVGN_NEXT, reinterpret_cast<LPARAM>(currItem)));
 
 							TVITEMA item{};
 							item.mask = TVIF_PARAM;
 							item.hItem = currItem;
 
-							SendMessageA(gEditorWindow->_listBox, TVM_GETITEMA, 0, reinterpret_cast<LPARAM>(&item)); //read the item data
+							SendMessageA(gEditorWindow->_treeView, TVM_GETITEMA, 0, reinterpret_cast<LPARAM>(&item)); //read the item data
 
 							//update the item data
 							item.lParam -= 1;
-							SendMessageA(gEditorWindow->_listBox, TVM_SETITEMA, 0, reinterpret_cast<LPARAM>(&item));
+							SendMessageA(gEditorWindow->_treeView, TVM_SETITEMA, 0, reinterpret_cast<LPARAM>(&item));
 						}
 
 						//delete selected listView item
-						SendMessageA(gEditorWindow->_listBox, TVM_DELETEITEM, 0, reinterpret_cast<LPARAM>(deletedItem));
+						SendMessageA(gEditorWindow->_treeView, TVM_DELETEITEM, 0, reinterpret_cast<LPARAM>(deletedItem));
 					}
 					break;
 				}
 				case CMD_DeselectObject:
 					gEditorWindow->SelectObject(std::nullopt);
 					break;
+				case CMD_AddChildObject:
+				{
+					auto objID = gEditorWindow->_getSelectedObjectID();
+					if (!objID.second.has_value()) break;
+
+					auto obj = gEditorWindow->CreateNewObject();
+					
+					break;
+				}
 				default: break;
 			}
 			break;
@@ -919,7 +942,7 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			GetClientRect(gEditorWindow->_toolbar, &rcToolbar);
 			int toolbarHeight = rcToolbar.bottom - rcToolbar.top;
 
-			SetWindowPos(gEditorWindow->_listBox, nullptr, 0, toolbarHeight, 150, wndHeight - toolbarHeight, 0);
+			SetWindowPos(gEditorWindow->_treeView, nullptr, 0, toolbarHeight, 150, wndHeight - toolbarHeight, 0);
 			SetWindowPos(gEditorWindow->_toolbar, nullptr, 0, 0, wndWidth, 25, 0);
 			SetWindowPos(gEditorWindow->_handleRenderWindow, nullptr, 150, toolbarHeight, wndWidth - 150, wndHeight - toolbarHeight, 0);
 			break;
@@ -934,7 +957,7 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			{
 				DragQueryFileA(drop, i, file, _MAX_PATH);
 				//handle dropped file
-				//MessageBoxA(gEditorWindow->_mainWindow, file, "Dropped file", MB_ICONINFORMATION);
+				MessageBoxA(gEditorWindow->_mainWindow, file, "Dropped file", MB_ICONINFORMATION);
 			}
 			break;
 		}
@@ -945,7 +968,7 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			auto listBox_check_selectedItem = []()
 				{
 					auto selectedItem = reinterpret_cast<HTREEITEM>(SendMessageA(
-						gEditorWindow->_listBox,
+						gEditorWindow->_treeView,
 						TVM_GETNEXTITEM,
 						TVGN_CARET,
 						reinterpret_cast<LPARAM>(nullptr)
@@ -958,7 +981,7 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			{
 				case NM_RCLICK:
 				{
-					if(notif->hwndFrom == gEditorWindow->_listBox)
+					if(notif->hwndFrom == gEditorWindow->_treeView)
 					{
 						if(listBox_check_selectedItem() == nullptr) return 0;
 
@@ -981,7 +1004,7 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				}
 				case NM_DBLCLK:
 				{
-					if(notif->hwndFrom == gEditorWindow->_listBox)
+					if(notif->hwndFrom == gEditorWindow->_treeView)
 					{
 						if(listBox_check_selectedItem() == nullptr) return 0;
 

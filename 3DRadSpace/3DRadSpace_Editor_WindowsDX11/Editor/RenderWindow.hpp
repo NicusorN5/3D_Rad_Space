@@ -32,6 +32,7 @@ class RenderWindow : public Engine3DRadSpace::Game
 	Camera Camera;
 	std::unique_ptr<LineList> axis;
 	std::unique_ptr<LineList> grid;
+	std::unique_ptr<LineList> grid_center;
 
 	float zoom = 5.0f;
 	float timer = 0;

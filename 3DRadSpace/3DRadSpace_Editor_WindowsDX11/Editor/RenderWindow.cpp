@@ -48,7 +48,15 @@ void RenderWindow::Initialize()
 		dLines.push_back(VertexPositionColor{Vector3(-halfNumLines, 0, float(i)), Colors::Gray});
 	}
 
+	auto centerLines = std::initializer_list<VertexPositionColor>{
+		VertexPositionColor{ Vector3(0,0,halfNumLines), Colors::Gray },
+		VertexPositionColor{ Vector3(0,0,-halfNumLines), Colors::Gray },
+		VertexPositionColor{ Vector3(halfNumLines, 0, 0), Colors::Gray },
+		VertexPositionColor{ Vector3(-halfNumLines, 0, 0), Colors::Gray }
+	};
+
 	axis = std::make_unique<Primitives::LineList>(Device.get(), axisLines);
+	grid_center = std::make_unique<Primitives::LineList>(Device.get(), centerLines);
 	grid = std::make_unique<Primitives::LineList>(Device.get(), dLines);
 
 	Camera.InternalInitialize(this);
@@ -162,10 +170,11 @@ void RenderWindow::_controlCamera()
 		auto mouseDelta = (Vector2)(screenCenter - mousePos) * float(Update_dt) / 100.0f;
 		cameraPos -= mouseDelta * Settings::CameraSensitivity.Value;
 
+		constexpr float poleLimit = 0.01f;
 		cameraPos.Y = std::clamp<float>(
 			cameraPos.Y,
-			-std::numbers::pi_v<float> / 2.f + std::numeric_limits<float>::epsilon(),
-			std::numbers::pi_v<float> / 2.f - std::numeric_limits<float>::epsilon()
+			-std::numbers::pi_v<float> / 2.f + poleLimit,
+			std::numbers::pi_v<float> / 2.f - poleLimit
 		);
 
 		Window->SetMouseVisibility(false);
@@ -397,6 +406,13 @@ void RenderWindow::Draw3D()
 		grid->View = View;
 		grid->Projection = Projection;
 		grid->Draw3D();
+
+		if (!Math::WithinEpsilon(cursor3D.X, 0) && !Math::WithinEpsilon(cursor3D.Y, 0) && !Math::WithinEpsilon(cursor3D.Z, 0))
+		{
+			grid_center->View = View;
+			grid_center->Projection = Projection;
+			grid_center->Draw3D();
+		}
 	}
 
 	auto drawAllObjects = [this]()

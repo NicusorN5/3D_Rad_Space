@@ -47,10 +47,11 @@ void SkinmeshPreviewer::Update()
 		Vector2 mouseDelta = static_cast<Vector2>(pd) * float(Draw_dt);
 		_camCoords -= mouseDelta * Settings::CameraSensitivity.Value;
 
+		constexpr float poleLimit = 0.01f;
 		_camCoords.Y = std::clamp<float>(
 			_camCoords.Y,
-			-std::numbers::pi_v<float> / 2.0f + std::numeric_limits<float>::epsilon(),
-			std::numbers::pi_v<float> / 2.0f - std::numeric_limits<float>::epsilon()
+			-std::numbers::pi_v<float> / 2.f + poleLimit,
+			std::numbers::pi_v<float> / 2.f - poleLimit
 		);
 
 		Window->SetMouseVisibility(false);

@@ -44,6 +44,7 @@ constexpr int CMD_SwitchPropertyGrid = 530;
 constexpr int CMD_EditObject = 531;
 constexpr int CMD_DeleteObject = 532;
 constexpr int CMD_DeselectObject = 533;
+constexpr int CMD_AddChildObject = 534;
 constexpr int CMD_OpenIDE = 258;
 constexpr int CMD_Switch2D3D = 259;
 
@@ -51,7 +52,7 @@ class EditorWindow
 {
 	HINSTANCE _hInstance;
 	HWND _mainWindow;
-	HWND _listBox;
+	HWND _treeView;
 	HWND _toolbar;
 	HWND _handleRenderWindow;
 	HACCEL acceleratorTable;
@@ -86,6 +87,7 @@ public:
 	void AddObject(Engine3DRadSpace::Objects::IObject *obj);
 	bool WarnNotSaved();
 
+	IObject* CreateNewObject();
 	void SelectObject(std::optional<unsigned> id);
 
 	friend LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
