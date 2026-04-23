@@ -39,7 +39,7 @@ const void* ShaderVariable::DefaultValue() const
 
 FieldRepresentation ShaderVariable::Representation() const
 {
-	return { { FieldRepresentationType::Unknown, "" } };
+	return { { FieldRepresentationType::None, "" } };
 }
 
 int ShaderVariable::ConstantBuffer() const noexcept

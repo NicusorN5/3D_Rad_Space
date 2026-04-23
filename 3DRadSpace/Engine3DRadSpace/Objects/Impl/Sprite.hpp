@@ -56,9 +56,9 @@ namespace Engine3DRadSpace::Objects
 		Math::Color TintColor;
 		Math::RectangleF UVCoordinates = Math::RectangleF(0, 0, 1, 1);
 
-		Event OnClick;
-		Event OnMouseEnter;
-		Event OnMouseLeave;
+		Reflection::Event OnClick;
+		Reflection::Event OnMouseEnter;
+		Reflection::Event OnMouseLeave;
 
 		bool IsHovered() const noexcept;
 		bool IsClicked() const noexcept;

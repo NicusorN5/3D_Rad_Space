@@ -31,5 +31,5 @@ const void* UnknownVariable::DefaultValue() const
 
 FieldRepresentation UnknownVariable::Representation() const
 {
-	return { {FieldRepresentationType::Unknown, ""} };
+	return { {FieldRepresentationType::None, ""} };
 }

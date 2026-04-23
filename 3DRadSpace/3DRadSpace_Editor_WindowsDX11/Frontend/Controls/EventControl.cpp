@@ -1,12 +1,15 @@
 #include "EventControl.hpp"
-#include <thread>
+#include "../Windows/AddFunctionDialog.hpp"
+#include <Engine3DRadSpace/Objects/Impl/Objects.hpp>
+#include <Engine3DRadSpace/Objects/IObject.hpp>
+#include <Engine3DRadSpace/Reflection/Event.hpp>
 
 EventControl::EventControl(
 	HWND owner, 
 	HINSTANCE hInstance, 
 	int x,
 	int y, 
-	Engine3DRadSpace::Event* event
+	Engine3DRadSpace::Reflection::Event* event
 ) : IControl(owner, hInstance)
 {
 	HDC hdc = GetDC(owner);
@@ -80,8 +83,15 @@ void EventControl::HandleClick(HWND clickedWindow)
 {
 	if(clickedWindow == _btnAddCall)
 	{
-		std::thread openFnFinderWindow([](){
+		std::thread openFnFinderWindow([this]()
+		{
+			auto pObj = static_cast<Engine3DRadSpace::Objects::IObject*>(this->event->GetObj());
+			if (pObj == nullptr) return;
 
+			auto refl = Engine3DRadSpace::Internal::GetReflDataFromUUID(pObj->GetUUID());
+			if (refl == nullptr) return;
+
+			AddFunctionDialog dialog(this->window, this->instance, refl);
 		});
 	}
 

@@ -4,6 +4,8 @@
 
 class EventControl : public IControl
 {
+	Engine3DRadSpace::Reflection::Event* event;
+	
 	HWND _groupBox;
 	HWND _btnAddCall;
 	HWND _btnRemoveCall;
@@ -18,7 +20,7 @@ public:
 		HINSTANCE hInstance,
 		int x,
 		int y,
-		Engine3DRadSpace::Event* event
+		Engine3DRadSpace::Reflection::Event* event
 	);
 
 	void HandleClick(HWND clickedWindow) override;

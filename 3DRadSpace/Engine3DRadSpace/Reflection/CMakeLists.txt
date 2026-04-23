@@ -12,10 +12,8 @@ add_library(3DRadSpace.Reflection SHARED
 	"FieldRepresentation.cpp"
 	"IReflectedField.hpp"
 	"IReflectedField.cpp"
-	"../FFI/Reflection/IReflectedField.h"
 	"IReflectedFunction.hpp"
 	"IReflectedFunction.cpp"
-	"../FFI/Reflection/IReflectedFunction.h"
 	"ReflectedAsset.hpp"
 	"ReflectedEnum.hpp"
 	"ReflectedEnum.cpp"
@@ -25,14 +23,11 @@ add_library(3DRadSpace.Reflection SHARED
 	"ReflectedMemberFunction.hpp"
 	"ReflectedObject.hpp"
 	"ReflectedObject.cpp"
-	"../FFI/Reflection/ReflectedObject.h"
 	"Reflection.hpp"
 	"UUID.hpp"
 	"UUID.cpp"
-	"../FFI/Reflection/UUID.h"
 	"UnknownVariable.hpp"
 	"UnknownVariable.cpp"
-	"../FFI/Reflection/UnknownVariable.h"
 )
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)

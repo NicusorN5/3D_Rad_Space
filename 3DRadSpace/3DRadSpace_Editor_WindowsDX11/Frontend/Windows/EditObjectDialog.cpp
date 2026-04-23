@@ -155,7 +155,7 @@ void EditObjectDialog::createForms()
 		{
 			auto& repr = *(representations.begin() + j);
 
-			if(repr.Type == FieldRepresentationType::Unknown) continue;
+			if(repr.Type == FieldRepresentationType::None) continue;
 			if(repr.Type == FieldRepresentationType::Function) continue;
 
 			auto fieldName = repr.Name.empty() ? field->FieldName() : repr.Name;

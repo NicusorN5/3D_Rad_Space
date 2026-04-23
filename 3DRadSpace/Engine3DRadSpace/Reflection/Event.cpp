@@ -16,6 +16,26 @@ Event::Event() :
 {
 }
 
+void Event::Bind(IReflectedFunction* fn)
+{
+	if(fn == nullptr)
+	{
+		throw std::invalid_argument("Cannot bind a null function.");
+	}
+	if(_empty)
+	{
+		_returnType = typeid(void);
+		_empty = false;
+	}
+
+	_fns.emplace_back(fn);
+}
+
+void* Event::GetObj() const noexcept
+{
+	return _object;
+}
+
 void Event::InvokeAllReturnless(std::span<std::span<void*>> args)
 {
 	int i = 0;
@@ -120,12 +140,12 @@ Event::Iterator Event::end()
 	return _fns.end();
 }
 
-bool Engine3DRadSpace::operator==(const Event::ConstIterator& a, const Event::ConstIterator& b)
+bool Event::ConstIterator::operator==(const Event::ConstIterator& e) const
 {
-	return a._iterator == b._iterator;
+	return _iterator == e._iterator;
 }
 
-bool Engine3DRadSpace::operator!=(const Event::ConstIterator& a, const Event::ConstIterator& b)
+bool Event::ConstIterator::operator!=(const Event::ConstIterator& e) const
 {
-	return a._iterator != b._iterator;
+	return _iterator != e._iterator;
 }

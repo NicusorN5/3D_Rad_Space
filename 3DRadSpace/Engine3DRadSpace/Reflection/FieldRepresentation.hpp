@@ -38,14 +38,14 @@ namespace Engine3DRadSpace
 		class SkyboxAsset;
 		class ShaderAsset;
 	}
-
-	class Event;
 }
 namespace Engine3DRadSpace::Reflection
 {
+	class Event;
+
 	enum class FieldRepresentationType
 	{
-		Unknown,
+		None,
 		Boolean,
 		Integer,
 		Unsigned,
@@ -145,7 +145,7 @@ namespace Engine3DRadSpace::Reflection
 			FieldRepresentationInstance() : FieldRepresentation(ListFieldRepresentations LstFieldPairs ) {}\
 	};
 
-	E3DRSP_DEFINE_FLDREPR(void, ({{FieldRepresentationType::Unknown, ""}}));
+	E3DRSP_DEFINE_FLDREPR(void, ({{FieldRepresentationType::None, ""}}));
 	E3DRSP_DEFINE_FLDREPR(bool, ({{FieldRepresentationType::Boolean,""}}));
 	E3DRSP_DEFINE_FLDREPR_T(signed_integer, ({{FieldRepresentationType::Integer,""}}));
 	E3DRSP_DEFINE_FLDREPR_T(unsigned_integer, ({{FieldRepresentationType::Unsigned,""}}));

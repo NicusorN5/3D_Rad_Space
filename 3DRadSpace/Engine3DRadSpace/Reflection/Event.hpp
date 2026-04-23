@@ -3,7 +3,7 @@
 #include "Reflection.hpp"
 #include "../Core/AssetUUIDReader.hpp"
 
-namespace Engine3DRadSpace
+namespace Engine3DRadSpace::Reflection
 {
 	class E3DRSP_REFLECTION_EXPORT Event
 	{
@@ -86,6 +86,8 @@ namespace Engine3DRadSpace
 			_object = static_cast<void*>(object);
 		}
 
+		void* GetObj() const noexcept;
+
 		template<typename R, typename F, typename ...Args>
 		void Bind(F fn)
 		{
@@ -97,6 +99,8 @@ namespace Engine3DRadSpace
 		{
 			this->operator+=<R, O, F, Args...>(fn);
 		}
+
+		void Bind(IReflectedFunction* fn);
 
 		template<typename R, typename ...Args>
 		R operator()(int index, Args&& ...args)
@@ -144,8 +148,8 @@ namespace Engine3DRadSpace
 			ConstIterator& operator++();
 			ConstIterator operator++(int);
 
-			friend bool operator== (const ConstIterator& a, const ConstIterator& b);
-			friend bool operator!= (const ConstIterator& a, const ConstIterator& b);
+			bool operator== (const ConstIterator& a) const;
+			bool operator!= (const ConstIterator& a) const;
 		};
 
 		ConstIterator cbegin() const;

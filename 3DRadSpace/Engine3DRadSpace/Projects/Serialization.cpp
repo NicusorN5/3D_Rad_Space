@@ -96,7 +96,7 @@ json Engine3DRadSpace::Projects::Serializer::SerializeObject(IObject* obj)
 		auto repr = field->Representation();
 		for (int i = 0; auto &[reprType, sFieldName] : repr)
 		{
-			if(reprType == FieldRepresentationType::Unknown) continue;
+			if(reprType == FieldRepresentationType::None) continue;
 			if(reprType == FieldRepresentationType::Function) continue;
 
 			auto subFieldName = !sFieldName.empty() ? sFieldName : "f";
@@ -287,7 +287,7 @@ json Engine3DRadSpace::Projects::Serializer::SerializeObject(IObject* obj)
 
 		for (int i = 0; auto & [reprType, sFieldName] : repr)
 		{
-			if(reprType == FieldRepresentationType::Unknown) continue;
+			if(reprType == FieldRepresentationType::None) continue;
 			if(reprType == FieldRepresentationType::Function) continue;
 
 			auto subFieldName = !sFieldName.empty() ? sFieldName : "f";
