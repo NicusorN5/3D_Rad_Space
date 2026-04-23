@@ -87,11 +87,12 @@ public:
 	Engine3DRadSpace::Graphics::IGraphicsDevice *GetGraphicsDevice();
 	Engine3DRadSpace::Content::ContentManager *GetContentManager();
 
-	void AddObject(Engine3DRadSpace::Objects::IObject *obj);
-	bool WarnNotSaved();
-
 	IObject* CreateNewObject();
+	void AddObject(Engine3DRadSpace::Objects::IObject *obj);
+	void AddChildObject(Engine3DRadSpace::Objects::IObject *obj);
 	void SelectObject(std::optional<unsigned> id);
+
+	bool WarnNotSaved();
 	void OpenRecentProject(uint8_t id);
 
 	friend LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);

@@ -80,8 +80,11 @@ void IObject::SetParent(IObject* newParent) noexcept
 	auto oldParent = _parent;
 	_parent = newParent;
 
-	if(oldParent != nullptr)
+	if(oldParent != nullptr) 
+	{
 		oldParent->Children.Remove(this);
+		oldParent = nullptr;
+	}
 }
 
 bool IObject::HasParent() const noexcept
@@ -96,12 +99,4 @@ size_t IObject::GetChildrenCount() const noexcept
 
 IObject::~IObject()
 {
-	for(auto& child : Children)
-	{
-		if(child == nullptr) continue;
-		child->SetParent(nullptr);
-	}
-
-	if(_parent != nullptr)
-		_parent->Children.Remove(this);
 }

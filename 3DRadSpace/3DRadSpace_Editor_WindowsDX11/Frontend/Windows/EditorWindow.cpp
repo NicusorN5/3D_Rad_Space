@@ -56,36 +56,39 @@ void EditorWindow::_openProject(const std::filesystem::path& filename)
 		++i;
 	}
 
+	std::unordered_map<IObject*, HTREEITEM> objectToTreeItem;
 	for (int i = 0; auto& instance : *(editor->Objects))
 	{
 		auto object = instance.Object.get();
-		
+
+		TVITEMA item{};
+		item.mask = TVIF_TEXT | TVIF_PARAM;
+		item.pszText = const_cast<char*>(object->Name.c_str());
+		item.cChildren = 1;
+		item.lParam = i;
+
+		TVINSERTSTRUCTA insertStruct{};
+		insertStruct.item = item;
+
 		if (!object->HasParent())
 		{
-			TVITEMA item{};
-			item.mask = TVIF_TEXT | TVIF_PARAM;
-			item.pszText = const_cast<char*>(object->Name.c_str());
-			item.cChildren = 1;
-			item.lParam = i;
-
-			TVINSERTSTRUCTA insertStruct{};
-			insertStruct.item = item;
-
-			SendMessageA(_treeView, TVM_INSERTITEMA, 0, reinterpret_cast<LPARAM>(&insertStruct));
+			insertStruct.hParent = TVI_ROOT;
 		}
 		else
 		{
-			TVITEMA item{};
-			item.mask = TVIF_TEXT | TVIF_PARAM;
-			item.pszText = const_cast<char*>(object->Name.c_str());
-			item.cChildren = 1;
-			item.lParam = i;
-
-			TVINSERTSTRUCTA insertStruct{};
-			//TODO: identify parent object then insert into an parent item
-
-			SendMessageA(_treeView, TVM_INSERTITEMA, 0, reinterpret_cast<LPARAM>(&insertStruct));
+			IObject* parent = object->GetParent();
+			auto it = objectToTreeItem.find(parent);
+			if (it != objectToTreeItem.end())
+				insertStruct.hParent = it->second;
+			else
+				insertStruct.hParent = TVI_ROOT; // fallback if parent not found
 		}
+
+		HTREEITEM hItem = reinterpret_cast<HTREEITEM>(SendMessageA(_treeView, TVM_INSERTITEMA, 0, reinterpret_cast<LPARAM>(&insertStruct)));
+		SendMessageA(_treeView, TVM_EXPAND, TVE_EXPAND, reinterpret_cast<LPARAM>(insertStruct.hParent));
+		objectToTreeItem[object] = hItem;
+
+		++i;
 	}
 
 	_addRecentProject(filename);
@@ -641,13 +644,40 @@ void EditorWindow::AddObject(IObject* obj)
 	TVITEMA item{};
 	item.mask = TVIF_TEXT | TVIF_PARAM;
 	item.pszText = const_cast<char *>(obj->Name.c_str());
-	item.cChildren = 0;
+	item.cChildren = 1;
 	item.lParam = objID;
 
 	TVINSERTSTRUCTA insertStruct{};
 	insertStruct.item = item;
 
 	SendMessageA(_treeView, TVM_INSERTITEMA, 0, reinterpret_cast<LPARAM>(&insertStruct));
+}
+
+void EditorWindow::AddChildObject(IObject* obj)
+{
+	if (obj == nullptr) return;
+	if (!obj->HasParent()) return;
+
+	_changesSaved = false;
+
+	unsigned objID = editor->Objects->Add(obj);
+
+	TVITEMA item{};
+	item.mask = TVIF_TEXT | TVIF_PARAM;
+	item.pszText = const_cast<char*>(obj->Name.c_str());
+	item.cChildren = 1;
+	item.lParam = objID;
+
+	HTREEITEM parentItem = _getSelectedListViewItem();
+	TVINSERTSTRUCTA insertStruct{};
+	insertStruct.item = item;
+	insertStruct.hParent = parentItem;
+
+	HTREEITEM hChild = reinterpret_cast<HTREEITEM>(SendMessageA(_treeView, TVM_INSERTITEMA, 0, reinterpret_cast<LPARAM>(&insertStruct)));
+	if (parentItem)
+	{
+		SendMessageA(_treeView, TVM_EXPAND, TVE_EXPAND, reinterpret_cast<LPARAM>(parentItem));
+	}
 }
 
 bool EditorWindow::WarnNotSaved()
@@ -994,7 +1024,11 @@ LRESULT __stdcall EditorWindow_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 					if (!objID.second.has_value()) break;
 
 					auto obj = gEditorWindow->CreateNewObject();
-					
+					if (obj != nullptr)
+					{
+						obj->SetParent(gEditorWindow->editor->Objects->operator[](objID.second.value()));
+						gEditorWindow->AddChildObject(obj);
+					}
 					break;
 				}
 				default: break;

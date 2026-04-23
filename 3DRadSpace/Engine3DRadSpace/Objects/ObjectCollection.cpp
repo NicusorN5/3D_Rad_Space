@@ -21,7 +21,11 @@ void ObjectCollection::Remove(IObject* ptr)
 	if(ptr == nullptr) return;
 
 	ptr->SetParent(nullptr);
-	_objects.erase(std::remove(_objects.begin(), _objects.end(), ptr), _objects.end());
+
+	if (!_objects.empty())
+	{
+		_objects.erase(std::remove(_objects.begin(), _objects.end(), ptr), _objects.end());
+	}
 }
 
 void ObjectCollection::Remove(size_t index)
