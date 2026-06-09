@@ -10,11 +10,12 @@ RenderingManager::RenderingManager(IGraphicsDevice* device) :
 	_device(device),
 	Batcher(device)
 {
+	// Shadow depth pass runs first so the shadow map is ready when the forward pass samples it.
+	auto shadowPass = std::make_unique<ShadowMapRenderer>(device);
+	_shadowPass = shadowPass.get();
+	_renderers.emplace_back(std::move(shadowPass));
+
 	_renderers.emplace_back(std::make_unique<ForwardRenderer>(device));
-	// NOTE: ShadowMapRenderer is wired in a later increment (Inc 2). Adding it before the depth
-	// pass is implemented would bind/clear the shadow map and run the (incomplete) composite,
-	// disturbing the forward output. Re-enable once ShadowMapRenderer drives the depth pass.
-	//_renderers.emplace_back(std::make_unique<ShadowMapRenderer>(device));
 }
 
 void RenderingManager::Add(std::unique_ptr<IRenderer>&& renderPass)
@@ -49,6 +50,10 @@ void RenderingManager::Clear() noexcept
 
 void RenderingManager::Render()
 {
+	// Keep the shadow pass light in sync with the scene's main light.
+	if (_shadowPass != nullptr)
+		_shadowPass->LightDirection = MainLight.LightDirection;
+
 	const auto& items = Batcher.Items();
 
 	for (auto& pass : _renderers)

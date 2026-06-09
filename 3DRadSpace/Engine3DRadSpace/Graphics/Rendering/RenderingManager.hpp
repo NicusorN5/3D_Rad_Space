@@ -7,6 +7,8 @@
 
 namespace Engine3DRadSpace::Graphics::Rendering
 {
+	class ShadowMapRenderer;
+
 	/// <summary>
 	/// Provides support for advanced rendering techniques, such as mech batching and drawing passes.
 	/// </summary>
@@ -15,6 +17,7 @@ namespace Engine3DRadSpace::Graphics::Rendering
 		IGraphicsDevice* _device;
 
 		std::vector<std::unique_ptr<IRenderer>> _renderers;
+		ShadowMapRenderer* _shadowPass = nullptr;
 	public:
 		/// <summary>
 		/// Creates an RenderingManager with classical forward rendering and shadow mapping passes.

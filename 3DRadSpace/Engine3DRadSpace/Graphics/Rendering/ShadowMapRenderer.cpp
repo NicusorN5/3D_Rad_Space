@@ -1,10 +1,10 @@
 #include "ShadowMapRenderer.hpp"
-#include "../../Core/IGame.hpp"
 #include "../IGraphicsCommandList.hpp"
+#include "../IShaderCompiler.hpp"
 #include "../ShaderDesc.hpp"
+#include "../Effect.hpp"
 #include "../../Math/Rectangle.hpp"
-#include "../../Math/Vector3.hpp"
-#include "../../Games/Game.hpp"
+#include "../../Math/Point.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
@@ -20,144 +20,114 @@ ShadowMapRenderer::ShadowMapRenderer(IGraphicsDevice* device) : IRenderer(device
 	_shadowMap = _device->CreateDepthStencilBuffer(shadowMapWidth, shadowMapHeight);
 	_createShadowStates();
 
-	ShaderDescFile compositeDesc(
-		"Data\\Shaders\\ShadowComposite.hlsl",
-		"PS_Main",
-		ShaderType::Fragment
-	);
-	_shadowCompositeEffect = std::make_unique<PostProcessEffect>(device, compositeDesc);
-	_shadowCompositeEffect->NotDepthAware = false;
+	// Depth-only effect that transforms geometry into light clip space.
+	ShaderDescFile vs("Data\\Shaders\\ShadowMapDepth.hlsl", "VS_Main", ShaderType::Vertex);
+	ShaderDescFile ps("Data\\Shaders\\ShadowMapDepth.hlsl", "PS_Main", ShaderType::Fragment);
+	std::array<ShaderDesc*, 2> depthDesc = { &vs, &ps };
+
+	auto [depthEffect, result] = _device->ShaderCompiler()->CompileEffect(depthDesc);
+	if (result.Succeded)
+		_depthEffect = depthEffect;
 }
 
 void ShadowMapRenderer::_createShadowStates()
 {
-	// Create rasterizer state with depth bias for shadow mapping
+	// Rasterizer with depth bias to mitigate shadow acne.
 	_shadowRasterizerState = _device->CreateRasterizerState(
 		RasterizerFillMode::Solid,
 		RasterizerCullMode::CullBack,
-		false, // frontCounterClockwise
-		static_cast<int>(ShadowBias * 100000.0f), // depthBias (scaled)
-		0.0f, // depthBiasClamp
-		ShadowSlopeBias, // slopeScaledDepthBias
-		true, // depthClip
-		false, // scissor
-		false, // multisample
-		false  // antialiasedLine
+		false,                                          // frontCounterClockwise
+		static_cast<int>(ShadowBias * 100000.0f),       // depthBias (scaled)
+		0.0f,                                           // depthBiasClamp
+		ShadowSlopeBias,                                // slopeScaledDepthBias
+		true,                                           // depthClip
+		false,                                          // scissor
+		false,                                          // multisample
+		false                                           // antialiasedLine
 	);
 
-	// Create depth stencil state for shadow map rendering
 	_shadowDepthState = _device->CreateDepthStencilState_DepthDefault();
 }
 
 Math::Matrix4x4 ShadowMapRenderer::ComputeLightViewMatrix(const Math::Vector3& lightDirection) const
 {
-	// Use the camera frustum center as the light look-at point
-	// This requires access to the game's View matrix
-	if (_owner == nullptr)
-	{
-		// Return identity if no owner
-		return Math::Matrix4x4();
-	}
+	// Position the light behind the scene along the light direction, looking at the focus point.
+	Vector3 dir = lightDirection;
+	float len = std::sqrt(Vector3::Dot(dir, dir));
+	if (len > 0.0001f) dir = dir * (1.0f / len);
+	else dir = Vector3(0.0f, -1.0f, 0.0f);
 
-	// For a directional light, position it far along the light direction
-	// from the center of the camera frustum
-	Math::Vector3 lightPos = lightDirection * -100.0f; // Position light far away
-	Math::Vector3 target = Math::Vector3::Zero(); // Look at origin for now
-	Math::Vector3 up = Math::Vector3(0.0f, 1.0f, 0.0f);
+	Vector3 lightPos = dir * -LightDistance;
+	Vector3 target = Vector3::Zero();
+	Vector3 up = Vector3(0.0f, 1.0f, 0.0f);
 
-	// Adjust up vector if light direction is parallel to it
-	if (std::abs(Vector3::Dot(lightDirection, up)) > 0.99f)
-	{
-		up = Math::Vector3(1.0f, 0.0f, 0.0f);
-	}
+	// Avoid a degenerate basis when the light points straight up/down.
+	if (std::abs(Vector3::Dot(dir, up)) > 0.99f)
+		up = Vector3(1.0f, 0.0f, 0.0f);
 
 	return Math::Matrix4x4::CreateLookAtView(lightPos, target, up);
 }
 
 Math::Matrix4x4 ShadowMapRenderer::ComputeLightProjectionMatrix() const
 {
-	// Use an orthographic projection for directional light shadows
-	// The size should encompass the camera frustum
-	if (_owner == nullptr)
-	{
-		// Return identity if no owner
-		return Math::Matrix4x4();
-	}
-
-	// For now, use a fixed-size orthographic projection
-	// In a full implementation, you would calculate this based on the camera frustum
-	Math::Point size(_device->Resolution().X, _device->Resolution().Y);
-	return Math::Matrix4x4::CreateOrthographicProjection(size, 1.0f, 1000.0f);
+	// Orthographic projection sized in world units (square) to cover the scene focus area.
+	int extent = static_cast<int>(OrthographicExtent);
+	if (extent < 1) extent = 1;
+	return Math::Matrix4x4::CreateOrthographicProjection(Math::Point(extent, extent), NearPlane, FarPlane);
 }
 
 void ShadowMapRenderer::Begin()
 {
 	auto context = _device->ImmediateContext();
 
-	// Calculate shadow map viewport on-demand
 	auto resolution = _device->Resolution();
 	unsigned int shadowMapWidth = static_cast<unsigned int>(resolution.X * ShadowMapSize);
 	unsigned int shadowMapHeight = static_cast<unsigned int>(resolution.Y * ShadowMapSize);
+
+	// Capture current states to restore them in End().
+	_savedRasterizerState = _device->GetRasterizerState();
+	_savedDepthState = _device->GetDepthStencilState();
+
+	// Compute the light transform for this frame.
+	_lightViewProj = ComputeLightViewMatrix(LightDirection) * ComputeLightProjectionMatrix();
+
+	// Bind the shadow map as the depth-only render target.
+	context->UnbindRenderTargetAndDepth();
+	context->SetDepthStencilBuffer(_shadowMap.get());
+	context->ClearDepthBuffer(_shadowMap.get());
 
 	Viewport shadowViewport(
 		Math::RectangleF(0.0f, 0.0f, static_cast<float>(shadowMapWidth), static_cast<float>(shadowMapHeight)),
 		0.0f,
 		1.0f
 	);
-
-	// Clear and set the shadow map as the depth target
-	context->UnbindRenderTargetAndDepth();
-	context->SetDepthStencilBuffer(_shadowMap.get());
-	context->ClearDepthBuffer(_shadowMap.get());
-
-	// Set shadow viewport
 	context->SetViewport(shadowViewport);
 
-	// Set shadow states
 	context->SetRasterizerState(_shadowRasterizerState.get());
 	context->SetDepthStencilState(_shadowDepthState.get(), 0);
 }
 
-void ShadowMapRenderer::_applyShadows(const Math::Matrix4x4& lightViewProj, const Math::Vector3& lightDir)
+void ShadowMapRenderer::DrawItem(const BatchedDraw& item)
 {
-	if (_shadowCompositeEffect == nullptr || _owner == nullptr)
+	if (_depthEffect == nullptr || item.Vertices == nullptr || item.Indices == nullptr)
 		return;
 
-	// Set up shader constants
-	struct ShadowCompositeData
-	{
-		Math::Matrix4x4 LightViewProj;
-		Math::Matrix4x4 InvViewProj;
-		Math::Vector3 LightDirection;
-		float ShadowBias;
-		float ShadowIntensity;
-		Math::Vector3 Padding;
-	} data;
+	// Transform geometry directly into light clip space: world * lightView * lightProj.
+	Math::Matrix4x4 worldLightViewProj = item.World * _lightViewProj;
+	_depthEffect->SetData(static_cast<void*>(&worldLightViewProj), sizeof(worldLightViewProj), 0, 0);
+	_depthEffect->SetAll();
 
-	auto game = static_cast<Game*>(_owner);
-	if (game == nullptr) return;
-
-	data.LightViewProj = lightViewProj;
-	data.InvViewProj = Math::Matrix4x4::Invert(game->View * game->Projection);
-	data.LightDirection = lightDir;
-	data.ShadowBias = ShadowBias;
-	data.ShadowIntensity = ShadowIntensity;
-
-	_shadowCompositeEffect->SetData(0, &data, sizeof(data));
-
-	// Bind shadow map as additional texture (slot 2, since 0 and 1 are backbuffer and depth)
-	_shadowCompositeEffect->SetTexture(2, _shadowMap->GetDepthTexture());
-
-	// Apply the post-process effect (automatically copies backbuffer and depth, binds textures)
-	_shadowCompositeEffect->Apply();
-	_shadowCompositeEffect->Draw();
+	auto cmd = _device->ImmediateContext();
+	cmd->SetTopology(VertexTopology::TriangleList);
+	cmd->DrawVertexBufferWithindices(item.Vertices, item.Indices);
 }
 
 void ShadowMapRenderer::End()
 {
 	auto context = _device->ImmediateContext();
 
-	// Restore default viewport (screen resolution)
+	context->UnbindDepthBuffer();
+
 	auto resolution = _device->Resolution();
 	Viewport defaultViewport(
 		Math::RectangleF(0.0f, 0.0f, static_cast<float>(resolution.X), static_cast<float>(resolution.Y)),
@@ -166,16 +136,17 @@ void ShadowMapRenderer::End()
 	);
 	context->SetViewport(defaultViewport);
 
-	// Unbind the shadow map depth buffer
-	context->UnbindDepthBuffer();
-
-	// Apply shadows as a screen-space composite
-	// This requires the light view-projection matrix
-	Math::Matrix4x4 lightViewProj = ComputeLightViewMatrix(LightDirection) * ComputeLightProjectionMatrix();
-	_applyShadows(lightViewProj, LightDirection);
+	// Restore states captured in Begin() so subsequent passes are unaffected.
+	if (_savedRasterizerState) context->SetRasterizerState(_savedRasterizerState.get());
+	if (_savedDepthState) context->SetDepthStencilState(_savedDepthState.get(), 0);
 }
 
 IDepthStencilBuffer* ShadowMapRenderer::GetShadowMap() const noexcept
 {
 	return _shadowMap.get();
+}
+
+Math::Matrix4x4 ShadowMapRenderer::GetLightViewProj() const noexcept
+{
+	return _lightViewProj;
 }
