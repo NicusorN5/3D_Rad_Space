@@ -47,7 +47,13 @@ void Box::Draw3D()
 		_box->Transform = this->GetModelMatrix();
 		_box->View = game->View;
 		_box->Projection = game->Projection;
-		_box->Draw3D();
+
+		// Route through the rendering passes via the batcher. Fall back to immediate drawing
+		// if no rendering manager is available.
+		if (game->RenderingManager)
+			_box->Submit(game->RenderingManager->Batcher);
+		else
+			_box->Draw3D();
 	}
 }
 

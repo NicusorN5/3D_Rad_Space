@@ -1,6 +1,7 @@
 #include "Box.hpp"
 #include "../IShaderCompiler.hpp"
 #include "../../Math/Vector4.hpp"
+#include "../Rendering/MeshBatcher.hpp"
 
 using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
@@ -185,4 +186,42 @@ void Box::Draw3D()
     auto cmd = _device->ImmediateContext();
     cmd->SetTopology(VertexTopology::TriangleList);
     cmd->DrawVertexBufferWithindices(_vertices.get(), _indices.get());
+}
+
+void Box::Submit(Rendering::MeshBatcher& batcher)
+{
+    if (_shader == nullptr) return;
+
+    struct alignas(16) AllDataBuffer
+    {
+        Matrix4x4 MatWorldViewProj;
+        Matrix4x4 MatWorldInverseTranspose;
+        Vector4   LightColor;
+        Vector4   AmbientColor;
+        Vector3   LightDirection;
+        float     Intensity;
+    };
+
+    Matrix4x4 mvp = _mvp();
+    Matrix4x4 worldInverseTranspose = Matrix4x4::Transpose(Matrix4x4::Invert(Transform));
+
+    AllDataBuffer data =
+    {
+        mvp,
+        worldInverseTranspose,
+        Vector4(Light.LightColor.R,   Light.LightColor.G,   Light.LightColor.B,   Light.LightColor.A),
+        Vector4(Light.AmbientColor.R, Light.AmbientColor.G, Light.AmbientColor.B, Light.AmbientColor.A),
+        Light.LightDirection,
+        Light.Intensity
+    };
+
+    batcher.Submit(
+        _vertices.get(),
+        _indices.get(),
+        _shader,
+        &data,
+        sizeof(data),
+        Transform,
+        Rendering::RenderPassType::Opaque
+    );
 }

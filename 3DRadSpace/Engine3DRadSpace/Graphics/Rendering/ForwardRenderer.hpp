@@ -21,6 +21,11 @@ namespace Engine3DRadSpace::Graphics::Rendering
 		/// </summary>
 		void Begin() override;
 		/// <summary>
+		/// Draws a single batched submission using its material effect and forward constants.
+		/// </summary>
+		/// <param name="item">Batched submission to draw.</param>
+		void DrawItem(const BatchedDraw& item) override;
+		/// <summary>
 		/// Ends drawing.
 		/// </summary>
 		void End() override;

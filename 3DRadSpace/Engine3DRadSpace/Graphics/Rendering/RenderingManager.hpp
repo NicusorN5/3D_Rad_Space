@@ -70,6 +70,12 @@ namespace Engine3DRadSpace::Graphics::Rendering
 		/// </summary>
 		DirectionalLight MainLight;
 
+		/// <summary>
+		/// Replays the geometry collected by the batcher through every owned render pass, in order.
+		/// Should be called after all objects have submitted their geometry for the frame.
+		/// </summary>
+		void Render();
+
 		~RenderingManager() override = default;
 	};
 }

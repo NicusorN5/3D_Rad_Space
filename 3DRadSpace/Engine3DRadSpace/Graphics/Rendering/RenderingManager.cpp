@@ -6,12 +6,15 @@ using namespace Engine3DRadSpace;
 using namespace Engine3DRadSpace::Graphics;
 using namespace Engine3DRadSpace::Graphics::Rendering;
 
-RenderingManager::RenderingManager(IGraphicsDevice* device) : 
+RenderingManager::RenderingManager(IGraphicsDevice* device) :
 	_device(device),
 	Batcher(device)
 {
 	_renderers.emplace_back(std::make_unique<ForwardRenderer>(device));
-	_renderers.emplace_back(std::make_unique<ShadowMapRenderer>(device));
+	// NOTE: ShadowMapRenderer is wired in a later increment (Inc 2). Adding it before the depth
+	// pass is implemented would bind/clear the shadow map and run the (incomplete) composite,
+	// disturbing the forward output. Re-enable once ShadowMapRenderer drives the depth pass.
+	//_renderers.emplace_back(std::make_unique<ShadowMapRenderer>(device));
 }
 
 void RenderingManager::Add(std::unique_ptr<IRenderer>&& renderPass)
@@ -42,4 +45,17 @@ void RenderingManager::Remove(size_t idx)
 void RenderingManager::Clear() noexcept
 {
 	_renderers.clear();
+}
+
+void RenderingManager::Render()
+{
+	const auto& items = Batcher.Items();
+
+	for (auto& pass : _renderers)
+	{
+		pass->Begin();
+		for (const auto& item : items)
+			pass->DrawItem(item);
+		pass->End();
+	}
 }
