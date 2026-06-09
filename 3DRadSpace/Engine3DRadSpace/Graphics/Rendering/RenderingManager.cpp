@@ -15,7 +15,9 @@ RenderingManager::RenderingManager(IGraphicsDevice* device) :
 	_shadowPass = shadowPass.get();
 	_renderers.emplace_back(std::move(shadowPass));
 
-	_renderers.emplace_back(std::make_unique<ForwardRenderer>(device));
+	auto forwardPass = std::make_unique<ForwardRenderer>(device);
+	forwardPass->SetShadowSource(_shadowPass);
+	_renderers.emplace_back(std::move(forwardPass));
 }
 
 void RenderingManager::Add(std::unique_ptr<IRenderer>&& renderPass)

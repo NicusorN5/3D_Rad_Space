@@ -158,6 +158,7 @@ void Box::Draw3D()
     struct alignas(16) AllDataBuffer
     {
         Matrix4x4 MatWorldViewProj;
+        Matrix4x4 MatWorld;
         Matrix4x4 MatWorldInverseTranspose;
         Vector4   LightColor;
         Vector4   AmbientColor;
@@ -171,6 +172,7 @@ void Box::Draw3D()
     AllDataBuffer data =
     {
         mvp,
+        Transform,
         worldInverseTranspose,
         Vector4(Light.LightColor.R,   Light.LightColor.G,   Light.LightColor.B,   Light.LightColor.A),
         Vector4(Light.AmbientColor.R, Light.AmbientColor.G, Light.AmbientColor.B, Light.AmbientColor.A),
@@ -195,6 +197,7 @@ void Box::Submit(Rendering::MeshBatcher& batcher)
     struct alignas(16) AllDataBuffer
     {
         Matrix4x4 MatWorldViewProj;
+        Matrix4x4 MatWorld;
         Matrix4x4 MatWorldInverseTranspose;
         Vector4   LightColor;
         Vector4   AmbientColor;
@@ -208,6 +211,7 @@ void Box::Submit(Rendering::MeshBatcher& batcher)
     AllDataBuffer data =
     {
         mvp,
+        Transform,
         worldInverseTranspose,
         Vector4(Light.LightColor.R,   Light.LightColor.G,   Light.LightColor.B,   Light.LightColor.A),
         Vector4(Light.AmbientColor.R, Light.AmbientColor.G, Light.AmbientColor.B, Light.AmbientColor.A),
