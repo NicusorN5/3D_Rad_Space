@@ -14,7 +14,7 @@ cbuffer ShadowData : register(b1)
     row_major matrix matLightViewProj;
     float ShadowBias;
     float ShadowIntensity;
-    float2 _shadowPad;
+    float2 ShadowTexelSize; // 1 / shadow map resolution, for PCF tap offsets
 }
 
 Texture2D shadowMap : register(t0);
@@ -47,7 +47,7 @@ VertexOut VS_Main(VertexIn v)
     return r;
 }
 
-// Returns the shadow attenuation factor: ShadowIntensity if the fragment is occluded, 1.0 otherwise.
+// Returns the shadow attenuation factor in [ShadowIntensity, 1.0] using 3x3 PCF for soft edges.
 float ComputeShadow(float4 lightSpacePos)
 {
     float3 proj = lightSpacePos.xyz / lightSpacePos.w;
@@ -59,10 +59,23 @@ float ComputeShadow(float4 lightSpacePos)
     if (uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0 || proj.z > 1.0 || proj.z < 0.0)
         return 1.0;
 
-    float closestDepth = shadowMap.Sample(shadowSampler, uv).r;
     float currentDepth = proj.z;
 
-    return (currentDepth - ShadowBias > closestDepth) ? ShadowIntensity : 1.0;
+    // 3x3 percentage-closer filtering: average the binary occlusion tests of neighbouring texels.
+    float sum = 0.0;
+    [unroll]
+    for (int x = -1; x <= 1; x++)
+    {
+        [unroll]
+        for (int y = -1; y <= 1; y++)
+        {
+            float2 offset = float2(x, y) * ShadowTexelSize;
+            float closestDepth = shadowMap.Sample(shadowSampler, uv + offset).r;
+            sum += (currentDepth - ShadowBias > closestDepth) ? ShadowIntensity : 1.0;
+        }
+    }
+
+    return sum / 9.0;
 }
 
 float4 PS_Main(VertexOut v) : SV_TARGET

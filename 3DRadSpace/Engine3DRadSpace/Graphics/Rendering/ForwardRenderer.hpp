@@ -4,6 +4,9 @@
 namespace Engine3DRadSpace::Graphics
 {
 	class ISamplerState;
+	class IDepthStencilState;
+	class IBlendState;
+	class IRasterizerState;
 }
 
 namespace Engine3DRadSpace::Graphics::Rendering
@@ -20,6 +23,12 @@ namespace Engine3DRadSpace::Graphics::Rendering
 		// Optional shadow source: when set, the shadow map and light matrix are bound for lit materials.
 		ShadowMapRenderer* _shadowPass = nullptr;
 		std::unique_ptr<ISamplerState> _shadowSampler;
+
+		// States forced on for the forward pass so opaque geometry renders correctly regardless of
+		// whatever the editor overlays / 2D sprite batch left bound (depth test, opaque blending).
+		std::unique_ptr<IDepthStencilState> _depthState;
+		std::unique_ptr<IBlendState> _blendState;
+		std::unique_ptr<IRasterizerState> _rasterState;
 	public:
 		/// <summary>
 		/// Constructs a forward renderer pipeline.
@@ -47,6 +56,6 @@ namespace Engine3DRadSpace::Graphics::Rendering
 		/// </summary>
 		void End() override;
 
-		~ForwardRenderer() override = default;
+		~ForwardRenderer() override;
 	};
 }
