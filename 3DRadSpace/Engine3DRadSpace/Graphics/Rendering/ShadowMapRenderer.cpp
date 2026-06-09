@@ -70,10 +70,25 @@ Math::Matrix4x4 ShadowMapRenderer::ComputeLightViewMatrix(const Math::Vector3& l
 
 Math::Matrix4x4 ShadowMapRenderer::ComputeLightProjectionMatrix() const
 {
-	// Orthographic projection sized in world units (square) to cover the scene focus area.
-	int extent = static_cast<int>(OrthographicExtent);
-	if (extent < 1) extent = 1;
-	return Math::Matrix4x4::CreateOrthographicProjection(Math::Point(extent, extent), NearPlane, FarPlane);
+	// Orthographic projection sized in world units (square) covering the scene focus area.
+	// NOTE: the engine's CreateLookAtView yields NEGATIVE view-space Z for points in front of the
+	// camera (matching CreatePerspectiveProjection). The stock CreateOrthographicProjection instead
+	// assumes positive Z, which would push clip.z below 0 and get the geometry clipped (empty shadow
+	// map). We therefore build the matrix with a negated Z scale so clip.z lands in [0,1] for
+	// view-space Z in [-NearPlane, -FarPlane].
+	float extent = OrthographicExtent;
+	if (extent < 1.0f) extent = 1.0f;
+
+	float w = 2.0f / extent;
+	float h = 2.0f / extent;
+	float invRange = 1.0f / (FarPlane - NearPlane);
+
+	return Math::Matrix4x4(
+		w, 0.0f, 0.0f, 0.0f,
+		0.0f, h, 0.0f, 0.0f,
+		0.0f, 0.0f, -invRange, 0.0f,
+		0.0f, 0.0f, -NearPlane * invRange, 1.0f
+	);
 }
 
 void ShadowMapRenderer::Begin()

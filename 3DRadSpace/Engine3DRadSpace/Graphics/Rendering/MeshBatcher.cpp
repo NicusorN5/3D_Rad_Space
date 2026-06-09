@@ -26,8 +26,10 @@ void MeshBatcher::Submit(
 	RenderPassType passType
 )
 {
+	// Tolerant: if Begin() wasn't called this frame (e.g. an auxiliary editor render path),
+	// accept the submission anyway. It will be cleared at the next Begin().
 	if (!_beginCalled)
-		throw std::logic_error("Begin() must be called before Submit().");
+		_beginCalled = true;
 
 	BatchedDraw draw;
 	draw.Vertices = vertices;

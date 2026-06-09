@@ -167,7 +167,9 @@ void EditorGame::_controlCamera()
 		Point mousePos = Mouse.Position();
 		Window->SetMousePosition(screenCenter);
 
-		auto mouseDelta = (Vector2)(screenCenter - mousePos) * float(Update_dt) / 100.0f;
+		// Framerate-independent mouse look. The previous (Update_dt / 100) factor made rotation
+		// far too slow to be usable.
+		auto mouseDelta = (Vector2)(screenCenter - mousePos) * 0.0008f;
 		cameraPos -= mouseDelta * Settings::CameraSensitivity.Value;
 
 		constexpr float poleLimit = 0.01f;
@@ -188,6 +190,21 @@ void EditorGame::_controlCamera()
 			Window->SetMouseVisibility(true);
 		}
 	}
+
+	// Keyboard orbit: a reliable alternative to mouse look. Arrow keys rotate the camera around
+	// the focus point (cursor3D). cameraPos holds the yaw (X) and pitch (Y) angles and persists
+	// across frames, so the rotation accumulates.
+	float keyboardOrbit = 1.5f * float(Update_dt); // radians per second
+	if(Keyboard.IsKeyDown(Key::LeftArrow))  cameraPos.X -= keyboardOrbit;
+	if(Keyboard.IsKeyDown(Key::RightArrow)) cameraPos.X += keyboardOrbit;
+	if(Keyboard.IsKeyDown(Key::UpArrow))    cameraPos.Y += keyboardOrbit;
+	if(Keyboard.IsKeyDown(Key::DownArrow))  cameraPos.Y -= keyboardOrbit;
+
+	cameraPos.Y = std::clamp<float>(
+		cameraPos.Y,
+		-std::numbers::pi_v<float> / 2.f + 0.01f,
+		std::numbers::pi_v<float> / 2.f - 0.01f
+	);
 }
 
 void EditorGame::_picking()
@@ -372,6 +389,11 @@ void EditorGame::Update()
 			gizmo->Update();
 		}
 	}
+
+	// Press Escape to deselect the current object: this exits the manipulation mode and hides
+	// the (move/rotate/scale) gizmo buttons.
+	if(Keyboard.IsKeyDown(Key::ESC))
+		_selectedObject = nullptr;
 
 	bool areTopButtonsVisible = _selectedObject != nullptr && _selectedObject->GetGizmo();
 

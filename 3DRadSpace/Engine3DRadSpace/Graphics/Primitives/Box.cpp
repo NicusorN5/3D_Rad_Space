@@ -95,7 +95,7 @@ Box::Box(IGraphicsDevice *device, const BoundingBox&b, Color color) :
 	IPrimitive(device, nullptr),
 	_box(b),
 	_color(color),
-	Light{ Colors::White, Color(color.R * 0.15f, color.G * 0.15f, color.B * 0.15f, 1.0f), Vector3(0,-1,0), 1.0f }
+	Light{ Colors::White, Color(color.R * 0.15f, color.G * 0.15f, color.B * 0.15f, 1.0f), Vector3(0.408f, -0.816f, 0.408f), 1.0f }
 {
     auto box_vertices = CreateVertices(b, color);
     _vertices = device->CreateVertexBuffer<VertexPositionNormalColor>(box_vertices, BufferUsage::ReadOnlyGPU);
