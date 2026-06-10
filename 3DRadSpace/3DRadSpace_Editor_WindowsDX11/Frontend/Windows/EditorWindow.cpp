@@ -588,7 +588,17 @@ void EditorWindow::Run()
 
 		cmd->SetViewport();
 		cmd->Clear(editor->ClearColor);
+
+		// Collect geometry submitted during Draw3D, then replay it through the rendering passes
+		// (shadow depth pass + forward pass). Mirrors Game::RunOneFrame.
+		if (editor->RenderingManager) editor->RenderingManager->Batcher.Begin();
 		this->editor->Draw3D();
+		if (editor->RenderingManager)
+		{
+			editor->RenderingManager->Render();
+			editor->RenderingManager->Batcher.End();
+		}
+
 		this->editor->PostProcesses->ApplyAll();
 		this->editor->Draw2D();
 		cmd->Present();

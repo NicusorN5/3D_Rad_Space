@@ -47,7 +47,13 @@ void Box::Draw3D()
 		_box->Transform = this->GetModelMatrix();
 		_box->View = game->View;
 		_box->Projection = game->Projection;
-		_box->Draw3D();
+
+		// Route through the rendering passes via the batcher. Fall back to immediate drawing
+		// if no rendering manager is available.
+		if (game->RenderingManager)
+			_box->Submit(game->RenderingManager->Batcher);
+		else
+			_box->Draw3D();
 	}
 }
 
@@ -73,7 +79,7 @@ Graphics::Primitives::Box* Box::GetPrimitive() const noexcept
 }
 
 REFL_BEGIN(Box, "Box", "3D Primitives", "3D box")
-	REFL_FIELD(Box, std::string, Name, "Name", "Skinmesh", "Object's name")
+	REFL_FIELD(Box, std::string, Name, "Name", "Box", "Object's name")
 	REFL_FIELD(Box, bool, Visible, "Visible", true, "Is the object visible?")
 	REFL_FIELD(Box, Vector3, Position, "Position", Vector3::Zero(), "Object's position in world space")
 	REFL_FIELD(Box, Vector3, Scale, "Scale", Vector3::One(), "Scale")
