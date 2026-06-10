@@ -442,8 +442,33 @@ void EditorGame::Draw3D()
 {
 	Camera.Draw3D();
 
-	// Small, finite coordinate axes drawn at the 3D cursor.
-	axis->Transform = Matrix4x4::CreateTranslation(cursor3D);
+	// Center the axes on the selected object, size them to it (sticking out a little), and orient
+	// them with the object so they rotate together with it (local axes, Blender-style).
+	// NOTE: this only affects the visual axes - it does not touch the rotation pivot, so object
+	// picking stays accurate.
+	Vector3 axisCenter = cursor3D;
+	Vector3 axisScale(1.0f, 1.0f, 1.0f);
+	Matrix4x4 axisRotation; // identity by default
+	if(auto selected3d = dynamic_cast<IObject3D*>(_selectedObject); selected3d != nullptr)
+	{
+		Vector3 scale = selected3d->Scale;
+
+		// World-aligned axes centered on the object. (Object-local orientation needs rotation-aware
+		// picking to stay consistent, which is a separate engine-level change.)
+		axisCenter = selected3d->Position + scale * 0.5f;
+
+		constexpr float margin = 0.6f;
+		axisScale = Vector3(
+			std::abs(scale.X) * 0.5f + margin,
+			std::abs(scale.Y) * 0.5f + margin,
+			std::abs(scale.Z) * 0.5f + margin
+		);
+	}
+
+	axis->Transform =
+		Matrix4x4::CreateScale(axisScale) *
+		axisRotation *
+		Matrix4x4::CreateTranslation(axisCenter);
 	axis->View = View;
 	axis->Projection = Projection;
 	axis->Draw3D();
