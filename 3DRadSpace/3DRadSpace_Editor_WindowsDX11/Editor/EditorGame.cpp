@@ -13,26 +13,33 @@ EditorGame::EditorGame(HWND parent, HINSTANCE hInstance) :
 
 void EditorGame::Initialize()
 {
+	// Short, finite, Blender-style object axes: bright colour on the positive half, dim colour on
+	// the negative half. Unit length here; scaled to the selected object's size in Draw3D.
+	constexpr float axisLength = 1.0f;
+	const Color dimRed(0.35f, 0.0f, 0.0f, 1.0f);
+	const Color dimGreen(0.0f, 0.35f, 0.0f, 1.0f);
+	const Color dimBlue(0.0f, 0.0f, 0.35f, 1.0f);
+
 	std::vector<VertexPositionColor> axisLines =
 	{
 		//+X
 		VertexPositionColor{Vector3(0,0,0),Colors::Red},
-		VertexPositionColor{Vector3(500,0,0),Colors::Red},
+		VertexPositionColor{Vector3(axisLength,0,0),Colors::Red},
 		//-X
-		VertexPositionColor{Vector3(0,0,0),Colors::White},
-		VertexPositionColor{Vector3(-500,0,0),Colors::White},
+		VertexPositionColor{Vector3(0,0,0),dimRed},
+		VertexPositionColor{Vector3(-axisLength,0,0),dimRed},
 		//+Y
 		VertexPositionColor{Vector3(0,0,0),Colors::Green},
-		VertexPositionColor{Vector3(0,500,0),Colors::Green},
+		VertexPositionColor{Vector3(0,axisLength,0),Colors::Green},
 		//-Y
-		VertexPositionColor{Vector3(0,0,0),Colors::White},
-		VertexPositionColor{Vector3(0,-500,0),Colors::White},
+		VertexPositionColor{Vector3(0,0,0),dimGreen},
+		VertexPositionColor{Vector3(0,-axisLength,0),dimGreen},
 		//+Z
 		VertexPositionColor{Vector3(0,0,0),Colors::Blue},
-		VertexPositionColor{Vector3(0,0,500),Colors::Blue},
+		VertexPositionColor{Vector3(0,0,axisLength),Colors::Blue},
 		//-Z
-		VertexPositionColor{Vector3(0,0,0),Colors::White},
-		VertexPositionColor{Vector3(0,0,-500),Colors::White},
+		VertexPositionColor{Vector3(0,0,0),dimBlue},
+		VertexPositionColor{Vector3(0,0,-axisLength),dimBlue},
 	};
 
 	constexpr int halfNumLines = 25;
@@ -159,36 +166,41 @@ void EditorGame::_controlCamera()
 	zoom = Mouse.ScrollWheel();
 	if(zoom < -4.0f) zoom = -4.0f;
 
-	static bool released = true;
+	static Point lastMousePos;
+	static bool dragging = false;
 
-	if(Mouse.LeftButton() == ButtonState::Pressed && IsFocused())
+	// Classic orbit: hold the left mouse button and drag to rotate around the focus point.
+	// The cursor stays visible (no recentering). Skipped while a gizmo handle is being dragged.
+	if(Mouse.LeftButton() == ButtonState::Pressed && IsFocused() && _selectedTransformButton == nullptr)
 	{
-		Point screenCenter = Window->Size() / 2;
 		Point mousePos = Mouse.Position();
-		Window->SetMousePosition(screenCenter);
 
-		// Framerate-independent mouse look. The previous (Update_dt / 100) factor made rotation
-		// far too slow to be usable.
-		auto mouseDelta = (Vector2)(screenCenter - mousePos) * 0.0008f;
-		cameraPos -= mouseDelta * Settings::CameraSensitivity.Value;
+		if(!dragging)
+		{
+			// Start of the drag: capture the anchor so there is no jump on the first frame.
+			dragging = true;
+			lastMousePos = mousePos;
+		}
+		else
+		{
+			Vector2 delta = (Vector2)(mousePos - lastMousePos);
+			lastMousePos = mousePos;
 
-		constexpr float poleLimit = 0.01f;
-		cameraPos.Y = std::clamp<float>(
-			cameraPos.Y,
-			-std::numbers::pi_v<float> / 2.f + poleLimit,
-			std::numbers::pi_v<float> / 2.f - poleLimit
-		);
+			const float radPerPixel = 0.001f * Settings::CameraSensitivity.Value;
+			cameraPos.X += delta.X * radPerPixel;
+			cameraPos.Y -= delta.Y * radPerPixel;
 
-		Window->SetMouseVisibility(false);
-		released = false;
+			constexpr float poleLimit = 0.01f;
+			cameraPos.Y = std::clamp<float>(
+				cameraPos.Y,
+				-std::numbers::pi_v<float> / 2.f + poleLimit,
+				std::numbers::pi_v<float> / 2.f - poleLimit
+			);
+		}
 	}
 	else
 	{
-		if(!released)
-		{
-			released = true;
-			Window->SetMouseVisibility(true);
-		}
+		dragging = false;
 	}
 
 	// Keyboard orbit: a reliable alternative to mouse look. Arrow keys rotate the camera around
@@ -280,13 +292,15 @@ void EditorGame::_gizmoButtons()
 			lastClickFrame = true;
 		}
 
-		if(gizmo->AllowTranslating) _gizmoFn(gizmo, {&btnMvX, &btnMvY, &btnMvZ}, &Button::Update, 0b11);
+		// Only the active gizmo mode's buttons are interactive (switch with keys 1/2/3);
+		// the others are reset so they neither capture clicks nor manipulate the object.
+		if(_gizmoMode == 0 && gizmo->AllowTranslating) _gizmoFn(gizmo, {&btnMvX, &btnMvY, &btnMvZ}, &Button::Update, 0b11);
 		else _gizmoFn(gizmo, {&btnMvX, &btnMvY, &btnMvZ}, &Button::ResetInputState, 0b111);
 
-		if(gizmo->AllowRotating) _gizmoFn(gizmo, {&btnRtX, &btnRtY, &btnRtZ}, &Button::Update, 0b100);
+		if(_gizmoMode == 1 && gizmo->AllowRotating) _gizmoFn(gizmo, {&btnRtX, &btnRtY, &btnRtZ}, &Button::Update, 0b100);
 		else _gizmoFn(gizmo, {&btnRtX, &btnRtY, &btnRtZ}, &Button::ResetInputState, 0b111);
 
-		if(gizmo->AllowScaling) _gizmoFn(gizmo, {&btnScX, &btnScY, &btnScZ}, &Button::Update, 0b11);
+		if(_gizmoMode == 2 && gizmo->AllowScaling) _gizmoFn(gizmo, {&btnScX, &btnScY, &btnScZ}, &Button::Update, 0b11);
 		else _gizmoFn(gizmo, {&btnScX, &btnScY, &btnScZ}, &Button::ResetInputState, 0b111);
 
 		//handles each gizmo button when selected
@@ -391,9 +405,19 @@ void EditorGame::Update()
 	}
 
 	// Press Escape to deselect the current object: this exits the manipulation mode and hides
-	// the (move/rotate/scale) gizmo buttons.
+	// the (move/rotate/scale) gizmo buttons. Also restore the cursor and clear any in-progress
+	// gizmo drag, otherwise exiting mid-manipulation can leave the cursor hidden (no navigation).
 	if(Keyboard.IsKeyDown(Key::ESC))
+	{
 		_selectedObject = nullptr;
+		_selectedTransformButton = nullptr;
+		Window->SetMouseVisibility(true);
+	}
+
+	// Switch the gizmo manipulation mode with the number keys (1 = move, 2 = rotate, 3 = scale).
+	if(Keyboard.IsKeyDown(Key::K1)) _gizmoMode = 0;
+	if(Keyboard.IsKeyDown(Key::K2)) _gizmoMode = 1;
+	if(Keyboard.IsKeyDown(Key::K3)) _gizmoMode = 2;
 
 	bool areTopButtonsVisible = _selectedObject != nullptr && _selectedObject->GetGizmo();
 
@@ -418,6 +442,7 @@ void EditorGame::Draw3D()
 {
 	Camera.Draw3D();
 
+	// Small, finite coordinate axes drawn at the 3D cursor.
 	axis->Transform = Matrix4x4::CreateTranslation(cursor3D);
 	axis->View = View;
 	axis->Projection = Projection;
@@ -518,9 +543,10 @@ void EditorGame::Draw2D()
 		[[likely]]
 		if(gizmo != nullptr)
 		{
-			if(gizmo->AllowTranslating) _gizmoFn(gizmo, {&btnMvX, &btnMvY, &btnMvZ}, &Button::Draw2D, 0b11);
-			if(gizmo->AllowRotating) _gizmoFn(gizmo, {&btnRtX, &btnRtY, &btnRtZ}, &Button::Draw2D, 0b100);
-			if(gizmo->AllowScaling) _gizmoFn(gizmo, {&btnScX, &btnScY, &btnScZ}, &Button::Draw2D, 0b11);
+			// Only the active mode's buttons are shown (switch with keys 1/2/3).
+			if(_gizmoMode == 0 && gizmo->AllowTranslating) _gizmoFn(gizmo, {&btnMvX, &btnMvY, &btnMvZ}, &Button::Draw2D, 0b11);
+			if(_gizmoMode == 1 && gizmo->AllowRotating) _gizmoFn(gizmo, {&btnRtX, &btnRtY, &btnRtZ}, &Button::Draw2D, 0b100);
+			if(_gizmoMode == 2 && gizmo->AllowScaling) _gizmoFn(gizmo, {&btnScX, &btnScY, &btnScZ}, &Button::Draw2D, 0b11);
 		}
 	}
 

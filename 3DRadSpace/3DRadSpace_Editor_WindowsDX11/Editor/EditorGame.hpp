@@ -58,6 +58,10 @@ class EditorGame : public Engine3DRadSpace::Game
 
 	Button* _selectedTransformButton = nullptr;
 
+	// Active gizmo manipulation mode: 0 = translate, 1 = rotate, 2 = scale.
+	// Only the buttons for the active mode are shown/handled (switch with keys 1/2/3).
+	int _gizmoMode = 0;
+
 	/// <summary>
 	/// Helper function. Calls specified function fn on the specified buttons depending on whenever g allows 2D or 3D rendering.
 	/// </summary>
