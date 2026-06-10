@@ -41,7 +41,10 @@ namespace Engine3DRadSpace::Graphics::Rendering
 		/// </summary>
 		float ShadowMapSize = 1.0f;
 
-		float ShadowBias = 0.005f;
+		// Depth-comparison bias, in shadow-map depth units. With a linear orthographic projection the
+		// world-space bias equals ShadowBias * (FarPlane - NearPlane), so this must be small to avoid
+		// "peter-panning" (the shadow detaching from the caster near contact).
+		float ShadowBias = 0.0004f;
 		float ShadowSlopeBias = 0.01f;
 
 		/// <summary>
@@ -54,7 +57,9 @@ namespace Engine3DRadSpace::Graphics::Rendering
 		/// </summary>
 		float OrthographicExtent = 40.0f;
 		float NearPlane = 0.1f;
-		float FarPlane = 500.0f;
+		// Kept reasonably tight so the linear depth range (and thus the world-space shadow bias)
+		// stays small for crisp contact shadows.
+		float FarPlane = 250.0f;
 		/// <summary>
 		/// Distance the light is positioned away from the focus point along the light direction.
 		/// </summary>
