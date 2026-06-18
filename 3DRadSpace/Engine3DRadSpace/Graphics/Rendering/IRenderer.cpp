@@ -22,6 +22,12 @@ void IRenderer::Draw(IVertexBuffer* vertices, IIndexBuffer* indices, Effect* eff
 	_device->ImmediateContext()->DrawVertexBufferWithindices(vertices, indices);
 }
 
+void IRenderer::DrawItem(const BatchedDraw& item)
+{
+	(void)item;
+	// Default: no-op. Passes override this to replay submissions.
+}
+
 IGraphicsDevice* IRenderer::GetDevice() const noexcept
 {
 	return _device;

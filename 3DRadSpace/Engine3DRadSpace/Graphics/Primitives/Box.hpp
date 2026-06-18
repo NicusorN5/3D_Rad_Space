@@ -4,6 +4,11 @@
 #include "IPrimitive.hpp"
 #include "../Rendering/DirectionalLight.hpp"
 
+namespace Engine3DRadSpace::Graphics::Rendering
+{
+	class MeshBatcher;
+}
+
 namespace Engine3DRadSpace::Graphics::Primitives
 {
 	/// <summary>
@@ -72,6 +77,13 @@ namespace Engine3DRadSpace::Graphics::Primitives
 		/// Draws the box with default lighting parameters.
 		/// </summary>
 		void Draw3D() override;
+
+		/// <summary>
+		/// Submits this box to the mesh batcher (instead of drawing it immediately), so the rendering
+		/// passes replay it. View, Projection and Transform must be set before calling.
+		/// </summary>
+		/// <param name="batcher">Mesh batcher to submit to.</param>
+		void Submit(Rendering::MeshBatcher& batcher);
 
 		Rendering::DirectionalLight Light;
 	};

@@ -167,6 +167,10 @@ void Game::RunOneFrame()
 
 	Draw3D();
 
+	// Replay the geometry submitted by the objects through the rendering passes (forward, shadows, ...).
+	RenderingManager->Render();
+	RenderingManager->Batcher.End();
+
 	PostProcesses->ApplyAll();
 
 	Draw2D();

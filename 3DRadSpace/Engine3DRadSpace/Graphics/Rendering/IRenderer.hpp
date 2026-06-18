@@ -1,5 +1,6 @@
 #pragma once
 #include "../ModelMeshPart.hpp"
+#include "RenderItem.hpp"
 
 namespace Engine3DRadSpace
 {
@@ -43,6 +44,12 @@ namespace Engine3DRadSpace::Graphics::Rendering
 		/// <param name="vertices">Vertices</param>
 		/// <param name="indices">Incides</param>
 		virtual void Draw(IVertexBuffer* vertices, IIndexBuffer* indices, Effect* effect);
+		/// <summary>
+		/// Replays a single batched submission. The default implementation does nothing; each pass overrides
+		/// this to render the submission in its own way (forward shading, shadow depth, ...).
+		/// </summary>
+		/// <param name="item">Batched submission to replay.</param>
+		virtual void DrawItem(const BatchedDraw& item);
 		/// <summary>
 		/// Restores the previous states, and depending on the effect, draws all submited meshes. (Unless meshes are not batched).
 		/// </summary>

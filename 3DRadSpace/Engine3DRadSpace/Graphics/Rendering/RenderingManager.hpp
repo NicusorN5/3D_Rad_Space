@@ -7,6 +7,8 @@
 
 namespace Engine3DRadSpace::Graphics::Rendering
 {
+	class ShadowMapRenderer;
+
 	/// <summary>
 	/// Provides support for advanced rendering techniques, such as mech batching and drawing passes.
 	/// </summary>
@@ -15,6 +17,7 @@ namespace Engine3DRadSpace::Graphics::Rendering
 		IGraphicsDevice* _device;
 
 		std::vector<std::unique_ptr<IRenderer>> _renderers;
+		ShadowMapRenderer* _shadowPass = nullptr;
 	public:
 		/// <summary>
 		/// Creates an RenderingManager with classical forward rendering and shadow mapping passes.
@@ -69,6 +72,12 @@ namespace Engine3DRadSpace::Graphics::Rendering
 		/// A directional light used for the main light source in the scene. This is used for forward rendering and shadow mapping.
 		/// </summary>
 		DirectionalLight MainLight;
+
+		/// <summary>
+		/// Replays the geometry collected by the batcher through every owned render pass, in order.
+		/// Should be called after all objects have submitted their geometry for the frame.
+		/// </summary>
+		void Render();
 
 		~RenderingManager() override = default;
 	};

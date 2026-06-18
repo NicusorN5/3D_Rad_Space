@@ -20,6 +20,7 @@ add_library(3DRadSpace.Graphics.Rendering STATIC
 	"PostProcessEffect.cpp"
 	"RenderingManager.hpp"
 	"RenderingManager.cpp"
+	"RenderItem.hpp"
 	"RenderPassType.hpp"
 	"ShadowMapRenderer.hpp"
 	"ShadowMapRenderer.cpp"

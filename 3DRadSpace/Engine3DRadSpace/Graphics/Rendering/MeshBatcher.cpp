@@ -12,44 +12,62 @@ MeshBatcher::MeshBatcher(IGraphicsDevice* device) :
 
 void MeshBatcher::Begin()
 {
-	_drawCalls.clear();
+	_draws.clear();
 	_beginCalled = true;
+}
+
+void MeshBatcher::Submit(
+	IVertexBuffer* vertices,
+	IIndexBuffer* indices,
+	Effect* material,
+	const void* forwardConstants,
+	size_t forwardConstantsSize,
+	const Math::Matrix4x4& world,
+	RenderPassType passType
+)
+{
+	// Tolerant: if Begin() wasn't called this frame (e.g. an auxiliary editor render path),
+	// accept the submission anyway. It will be cleared at the next Begin().
+	if (!_beginCalled)
+		_beginCalled = true;
+
+	BatchedDraw draw;
+	draw.Vertices = vertices;
+	draw.Indices = indices;
+	draw.Material = material;
+	draw.World = world;
+	draw.PassType = passType;
+
+	if (forwardConstants != nullptr && forwardConstantsSize > 0)
+	{
+		const std::byte* bytes = static_cast<const std::byte*>(forwardConstants);
+		draw.ForwardConstants.assign(bytes, bytes + forwardConstantsSize);
+	}
+
+	_draws.push_back(std::move(draw));
 }
 
 void MeshBatcher::Draw(ModelMeshPart* meshPart, RenderPassType passType)
 {
-	if (!_beginCalled)
-		throw std::logic_error("Begin() must be called before Draw().");
+	if (meshPart == nullptr) return;
 
-	auto it = std::find_if(_drawCalls.begin(), _drawCalls.end(),
-		[meshPart, passType](const DrawCall& dc) {
-			return dc.MeshPart == meshPart && dc.PassType == passType;
-		});
-	if (it != _drawCalls.end())
-	{
-		it->Transforms.push_back(meshPart->Transform);
-	}
-	else
-	{
-		DrawCall newCall;
-		newCall.MeshPart = meshPart;
-		newCall.PassType = passType;
-		newCall.Transforms.push_back(meshPart->Transform);
-		_drawCalls.push_back(std::move(newCall));
-	}
+	Submit(
+		meshPart->GetVertexBuffer(),
+		meshPart->GetIndexBuffer(),
+		meshPart->GetShaders(),
+		&meshPart->Transform,
+		sizeof(Math::Matrix4x4),
+		meshPart->Transform,
+		passType
+	);
+}
+
+const std::vector<BatchedDraw>& MeshBatcher::Items() const noexcept
+{
+	return _draws;
 }
 
 void MeshBatcher::End()
 {
-	if (!_beginCalled)
-		throw std::logic_error("Begin() must be called before End().");
-	for (const auto& drawCall : _drawCalls)
-	{
-		// For simplicity, we are not implementing instancing here. Just draw each mesh part separately.
-		for (const auto& transform : drawCall.Transforms)
-		{
-			drawCall.MeshPart->Draw();
-		}
-	}
 	_beginCalled = false;
 }
