@@ -24,12 +24,12 @@ namespace Engine3DRadSpace::Logging
 		///	Same as std::exception::what(), but returns a std::string instead of const char*.
 		/// </summary>
 		/// <returns></returns>
-		virtual std::string What() const;
+		virtual std::string What() const noexcept;
 		/// <summary>
 		/// Returns a C-style string describing the general cause of the current error.
 		/// </summary>
 		/// <returns>C-style string describing the general cause of the current error</returns>
-		const char* what() const override;
+		const char* what() const noexcept override;
 		/// <summary>
 		/// Gets the stacktrace of where the exception was thrown.
 		/// </summary>

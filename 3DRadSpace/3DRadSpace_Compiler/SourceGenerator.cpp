@@ -1,5 +1,6 @@
 #include "SourceGenerator.hpp"
 #include <Windows.h>
+#include "../Engine3DRadSpace/Logging/Exception.hpp"
 
 extern std::unordered_map<std::string, int> file_type;
 

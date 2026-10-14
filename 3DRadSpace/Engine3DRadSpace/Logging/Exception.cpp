@@ -14,12 +14,12 @@ Engine3DRadSpace::Logging::Exception::Exception(const std::string &err):
 #endif
 }
 
-std::string Engine3DRadSpace::Logging::Exception::What() const
+std::string Engine3DRadSpace::Logging::Exception::What() const noexcept
 {
 	return std::string(_str);
 }
 
-const char* Engine3DRadSpace::Logging::Exception::what() const
+const char* Engine3DRadSpace::Logging::Exception::what() const noexcept
 {
 	return this->_str.c_str();
 }

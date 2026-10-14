@@ -76,14 +76,14 @@ namespace Engine3DRadSpace::Reflection
 		/// <typeparam name="T">Type</typeparam>
 		/// <param name="objPtr">Pointer to the object.</param>
 		/// <param name="value">New value.</param>
-		template<typename T>
+		template<typename U>
 		void Set(void* objPtr, const T* value)  const
 		{
 			assert(objPtr != nullptr);
 			assert(value != nullptr);
 
-			T* lhs = std::launder<T>(reinterpret_cast<T*>(static_cast<std::byte*>(objPtr) + _offset));
-			const T* rhs = static_cast<const T*>(value);
+			U* lhs = std::launder<T>(reinterpret_cast<T*>(static_cast<std::byte*>(objPtr) + _offset));
+			const U* rhs = static_cast<const T*>(value);
 			
 			*lhs = *rhs;
 		}
@@ -93,12 +93,12 @@ namespace Engine3DRadSpace::Reflection
 		/// <typeparam name="T">Type of the field</typeparam>
 		/// <param name="objPtr"Pointer to the object containing this field></param>
 		/// <returns>Copy of the field</returns>
-		template<typename T>
-		T Get(void* objPtr) const
+		template<typename U>
+		U Get(void* objPtr) const
 		{
 			assert(objPtr != nullptr);
 
-			return T(*std::launder(reinterpret_cast<T*>(static_cast<std::byte*>(objPtr) + _offset)));
+			return U(*std::launder(reinterpret_cast<U*>(static_cast<std::byte*>(objPtr) + _offset)));
 		}
 		/// <summary>
 		/// Returns the field representation

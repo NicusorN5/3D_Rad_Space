@@ -649,7 +649,10 @@ IObject* EditorWindow::CreateNewObject()
 
 		if (auto obj3d = dynamic_cast<IObject3D*>(obj); obj3d != nullptr)
 		{
-			obj3d->Position = this->editor->Get3DCursor();
+			if (obj3d->Position == Vector3::Zero())
+			{
+				obj3d->Position = this->editor->Get3DCursor();
+			}
 		}
 
 		return obj;

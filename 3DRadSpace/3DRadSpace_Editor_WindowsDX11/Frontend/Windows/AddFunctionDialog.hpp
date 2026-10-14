@@ -1,6 +1,6 @@
 #pragma once
 #include "../Controls/Dialog.hpp"
-#include "../Controls/PropertyGrid.h"
+#include "../Controls/PropertyGrid.hpp"
 #include <Engine3DRadSpace/Objects/ObjectList.hpp>
 #include <Engine3DRadSpace/Reflection/ReflectedObject.hpp>
 #include <Engine3DRadSpace/Reflection/ReflectedMemberFunction.hpp>
@@ -31,7 +31,6 @@ class AddFunctionDialog : public Dialog
 	void selectObject(size_t itemID);
 	void selectFunction(size_t itemID);
 	void fillArgsGrid();
-	void _setCtrl(PROPGRIDITEM& item, Engine3DRadSpace::Reflection::FieldRepresentationType type);
 public:
 	AddFunctionDialog(
 		HWND owner,

@@ -11,7 +11,7 @@ float Ray::Intersects(const BoundingSphere &sph) const
 
 	if(nabla < 0) return std::numeric_limits<float>::signaling_NaN();
 	if(Math::WithinEpsilon(nabla, 0)) return -a;
-	if (nabla > 0) return std::min(-a - sqrtf(nabla), -a + sqrt(nabla));
+	if (nabla > 0) return std::min(-a - sqrtf(nabla), -a + sqrtf(nabla));
 
 	return std::numeric_limits<float>::signaling_NaN();
 }

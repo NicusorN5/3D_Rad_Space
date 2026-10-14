@@ -1,22 +1,21 @@
 #pragma once
-
 #include <Engine3DRadSpace/Reflection/Reflection.hpp>
 #include <Engine3DRadSpace/Content/ContentManager.hpp>
 #include "..\Controls\Dialog.hpp"
+#include "..\Controls\PropertyGrid.hpp"
 #include <variant>
-#include "..\Controls\IControl.hpp"
 
 class EditObjectDialog : public Dialog
 {
-	Engine3DRadSpace::Reflection::ReflectedObject* objRefl;
-	Engine3DRadSpace::Content::ContentManager *_content;
-	std::vector<std::variant<HWND,IControl*>> windows;
-	std::vector<HBITMAP> images;
-	Engine3DRadSpace::Objects::IObject* object;
+	std::unique_ptr<PropertyGrid> _propertyGrid;
 
-	HWND helpButton;
-	HWND okButton;
-	HWND cancelButton;
+	Engine3DRadSpace::Reflection::ReflectedObject* _reflectedObject;
+	Engine3DRadSpace::Content::ContentManager* _content;
+	Engine3DRadSpace::Objects::IObject* _object;
+
+	HWND _helpButton;
+	HWND _okButton;
+	HWND _cancelButton;
 
 	std::string _helpUrl = "https://3dradspace.github.io/docs/objects.html";
 
@@ -33,7 +32,7 @@ public:
 
 	[[nodiscard]] Engine3DRadSpace::Objects::IObject* ShowDialog();
 
-	~EditObjectDialog();
+	~EditObjectDialog() = default;
 
 	friend INT_PTR WINAPI EditObjectDialog_DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 };

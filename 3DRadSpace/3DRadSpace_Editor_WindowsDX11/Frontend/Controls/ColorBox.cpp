@@ -25,7 +25,15 @@ LRESULT WINAPI ColorBoxProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	}
 }
 
-ColorBox::ColorBox(HWND owner, HINSTANCE hInstance, int x, int y, int cx, int cy, Color color) :
+ColorBox::ColorBox(
+	HWND owner,
+	HINSTANCE hInstance,
+	int x, 
+	int y, 
+	int cx,
+	int cy,
+	Color color
+) :
 	IControl(owner, hInstance),
 	customColors{ 0xFFFFFF }
 {

@@ -26,7 +26,7 @@ Any::Any(const Any& other) :
 }
 
 Any::Any(Any&& other) noexcept :
-	_type(std::move(other._type)),
+	_type(other._type),
 	_destroyFn(other._destroyFn),
 	_copyFn(other._copyFn),
 	_fldRepr(other._fldRepr)

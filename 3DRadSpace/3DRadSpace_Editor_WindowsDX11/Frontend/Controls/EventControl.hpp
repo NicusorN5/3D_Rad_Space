@@ -4,8 +4,8 @@
 
 class EventControl : public IControl
 {
-	Engine3DRadSpace::Reflection::Event* _event;
-	Engine3DRadSpace::Objects::ObjectList* _list;
+	Engine3DRadSpace::Reflection::Event* _event = nullptr;
+	Engine3DRadSpace::Objects::ObjectList* _list = nullptr;
 
 	HWND _groupBox;
 	HWND _btnAddCall;

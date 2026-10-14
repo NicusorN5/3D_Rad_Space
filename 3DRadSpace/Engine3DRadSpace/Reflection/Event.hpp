@@ -112,7 +112,7 @@ namespace Engine3DRadSpace::Reflection
 		/// Move constructor for this Event.
 		/// </summary>
 		/// <param name="other"></param>
-		Event(Event&& other) = default;
+		Event(Event&& other) noexcept = default;
 
 		/// <summary>
 		/// Creates a deep clone of the Event.
@@ -120,7 +120,7 @@ namespace Engine3DRadSpace::Reflection
 		/// <param name="other">From</param>
 		/// <returns>Cloned event</returns>
 		Event& operator=(const Event& other);
-		Event& operator=(Event&&) = default;
+		Event& operator=(Event&&) noexcept = default;
 
 		/// <summary>
 		/// Binds the given function to this event.
@@ -312,6 +312,6 @@ namespace Engine3DRadSpace::Reflection
 		/// <returns>Deep clone</returns>
 		Event Clone() const;
 
-		~Event() = default;
+		~Event() override = default;
 	};
 }

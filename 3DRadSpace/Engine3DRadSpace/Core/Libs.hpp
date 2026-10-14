@@ -2,6 +2,7 @@
 
 #pragma region STL imports
 #include <cstdint>
+#include <cstring>
 #include <memory>
 #include <exception>
 #include <stdexcept>

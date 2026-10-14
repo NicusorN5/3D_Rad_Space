@@ -15,4 +15,6 @@ public:
 	);
 
 	void HandleClick(HWND clickedWindow) override;
+
+	~SkyboxControl() override = default;
 };

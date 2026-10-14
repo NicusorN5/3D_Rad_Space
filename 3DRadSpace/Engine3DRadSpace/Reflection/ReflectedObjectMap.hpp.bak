@@ -1,0 +1,183 @@
+#pragma once
+#include "ReflectedObject.hpp"
+#include "ReflectedField.hpp"
+#include "Attribute.hpp"
+#include "../Math/Quaternion.hpp"
+
+namespace Engine3DRadSpace::Reflection
+{
+	template<typename T>
+	auto Map(const ReflectedObject* refl)
+	{
+		using Type = std::remove_cvref_t<T>;
+		using R = std::vector<Type>;
+
+		R result;
+
+		for (auto field : *refl)
+		{
+			if (field == nullptr) continue;
+			if (dynamic_cast<IReflectedFunction*>(field) != nullptr)
+				continue;
+			if (dynamic_cast<Attribute*>(field) != nullptr)
+				continue;
+			if (auto f = dynamic_cast<ReflectedField<Type>*>(field))
+			{
+				switch (field->Representation().Type)
+				{
+					auto representations = field->Representation();
+					for (int j = 0, fOffset = 0; j < representations.Count(); j++)
+					{
+						auto& repr = *(representations.begin() + j);
+
+						if (repr.Type == FieldRepresentationType::None) continue;
+						if (repr.Type == FieldRepresentationType::Function) continue;
+
+						const void* valuePtr = object != nullptr ? field->Get(object) : field->DefaultValue();
+
+						auto callFn = [&]<typename T>()
+						{
+							const T readValue = *reinterpret_cast<const T*>(reinterpret_cast<const char*>(valuePtr) + fOffset);
+							fOffset += sizeof(T);
+
+							result.emplace_back(callFn.operator()<T>(readValue, *valuePtr));
+						};
+
+						switch (repr.Type)
+						{
+						case FieldRepresentationType::Boolean:
+						{
+							callFn.operator() < bool > ();
+							break;
+						}
+						case FieldRepresentationType::Integer:
+						{
+							switch (field->TypeSize() / field->Representation().Count())
+							{
+								case sizeof(int8_t) :
+									callFn.operator() < int8_t > ();
+									break;
+								case sizeof(int16_t) :
+									callFn.operator() < int16_t > ();
+									break;
+								case sizeof(int32_t) :
+									callFn.operator() < int32_t > ();
+									break;
+								case sizeof(int64_t) :
+									callFn.operator() < int64_t > ();
+									break;
+								default:
+									throw std::logic_error("Unknown signed type");
+							}
+						}
+						case FieldRepresentationType::Unsigned:
+						{
+							switch (field->TypeSize() / field->Representation().Count())
+							{
+								case sizeof(uint8_t) :
+									callFn.operator() < uint8_t > ();
+									break;
+								case sizeof(uint16_t) :
+									callFn.operator() < uint16_t > ();
+									break;
+								case sizeof(uint32_t) :
+									callFn.operator() < uint32_t > ();
+									break;
+								case sizeof(uint64_t) :
+									callFn.operator() < uint64_t > ();
+									break;
+								default:
+									throw std::logic_error("Unknown unsigned type");
+							}
+							break;
+						}
+						case FieldRepresentationType::Float:
+						{
+							switch (field->TypeSize() / field->Representation().Count())
+							{
+								case sizeof(float) :
+									callFn.operator() < float > (field, *valuePtr);
+									break;
+								case sizeof(double) :
+									callFn.operator() < double > (field, *valuePtr);
+									break;
+								default:
+									throw std::logic_error("unknown floating point type");
+							}
+						}
+						case FieldRepresentationType::Quaternion:
+						{
+							callFn.operator() < Math::Quaternion > (field, *valuePtr);
+							break;
+						}
+						case FieldRepresentationType::String:
+						{
+							callFn.operator() < std::string > (field, *valuePtr);
+							break;
+						}
+						case FieldRepresentationType::Image:
+						{
+							callFn.operator() < AssetID<Assets::TextureAsset> > (field, *valuePtr);
+							break;
+						}
+						case FieldRepresentationType::Model:
+						{
+							callFn.operator() < AssetID<Assets::ModelAsset> > (field, *valuePtr);
+							break;
+						}
+						case FieldRepresentationType::Font:
+						{
+							callFn.operator() < AssetID<Assets::FontAsset> > (field, *valuePtr);
+							break;
+						}
+						case FieldRepresentationType::Key:
+						{
+							callFn.operator() < Input::Key > (field, *valuePtr);
+							break;
+						}
+						case FieldRepresentationType::Enum:
+						{
+							callFn.operator() < ReflectedEnum > (field, *valuePtr);
+							break;
+						}
+						case FieldRepresentationType::Color:
+						{
+							callFn.operator() < Math::Color > (field, *valuePtr);
+							break;
+						}
+						case FieldRepresentationType::Skybox:
+						{
+							callFn.operator() < AssetID<Assets::SkyboxAsset> > (field, *valuePtr);
+							break;
+						}
+						case FieldRepresentationType::Sound:
+						{
+							callFn.operator() < AssetID<Assets::SoundAsset> > (field, *valuePtr);
+							break;
+						}
+						case FieldRepresentationType::Event:
+						{
+							callFn.operator() < Event > (field, *valuePtr);
+							break;
+						}
+						case FieldRepresentationType::ObjectID:
+						{
+							callFn.operator() < Objects::ObjectID > (field, *valuePtr);
+							break;
+						}
+						case FieldRepresentationType::Custom:
+						{
+							callFn.operator() < void > (field, *valuePtr);
+							break;
+						}
+						default:
+							break;
+						}
+					}
+				}
+			}
+		}
+
+		return result;
+	}
+}
