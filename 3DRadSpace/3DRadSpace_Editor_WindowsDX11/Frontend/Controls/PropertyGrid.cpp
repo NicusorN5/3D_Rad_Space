@@ -164,7 +164,7 @@ PropertyGrid::PropertyGrid(
 
 			auto ReadFieldAtOffset = [&]<typename T>() -> const T&
 			{
-				auto& t = *reinterpret_cast<const T*>(reinterpret_cast<const std::byte*>(valuePtr) + fOffset);
+				const auto& t = *reinterpret_cast<const T*>(reinterpret_cast<const std::byte*>(valuePtr) + fOffset);
 				fOffset += sizeof(T);
 				return t;
 			};

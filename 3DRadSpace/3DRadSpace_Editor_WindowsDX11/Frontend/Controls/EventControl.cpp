@@ -133,6 +133,8 @@ void EventControl::HandleClick(HWND clickedWindow)
 	{
 		size_t selectedIndex = SendMessageA(window, LB_GETCURSEL, 0, 0);
 		
+		if (selectedIndex == std::numeric_limits<size_t>::max()) return;
+
 		SendMessageA(window, LB_SETCURSEL, (WPARAM)-1, 0);
 		SendMessageA(window, LB_DELETESTRING, selectedIndex, 0);
 	
