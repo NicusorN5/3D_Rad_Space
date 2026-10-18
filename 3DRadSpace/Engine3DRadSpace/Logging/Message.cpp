@@ -26,10 +26,7 @@ inline void Engine3DRadSpace::Logging::DefaultMessageHandler(const Message &msg)
 {
 	std::fstream file("Logs.log", std::ios::app | std::ios::out | std::ios::ate); //create a file stream for writing, with append and seek end flags
 	std::println(file, "{} Code {}", msg.Details, msg.Code);
-	
-#if _DEBUG
 	std::println(std::cout, "{}", msg.Details);
-#endif
 	file.close();
 }
 

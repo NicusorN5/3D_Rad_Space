@@ -75,20 +75,27 @@ int __stdcall WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 		std::filesystem::remove("Warnings.log");
 	}
 
+	bool enableConsole = Settings::EnableConsole.Value;
+
 #ifdef _DEBUG
 	std::atexit(ReportLiveObjects); // Lists leaked DX11 objects
+	enableConsole = true;
 #endif
+	if (enableConsole)
+	{
+		AllocConsole();
 
-#if _DEBUG
-	AllocConsole();
+		FILE* fDummy;
+		auto r = freopen_s(&fDummy, "CONOUT$", "w", stderr);
+		if (r != 0) return -1;
 
-	FILE* fDummy;
-	auto r = freopen_s(&fDummy, "CONOUT$", "w", stderr);
-	if(r != 0) return -1;
-	
-	r = freopen_s(&fDummy, "CONOUT$", "w", stdout);
-	if(r != 0) return -1;
-#endif
+		r = freopen_s(&fDummy, "CONOUT$", "w", stdout);
+		if (r != 0) return -1;
+
+		HWND hwnd = GetConsoleWindow();
+		HMENU hMenu = GetSystemMenu(hwnd, FALSE);
+		EnableMenuItem(hMenu, SC_CLOSE, MF_BYCOMMAND | MF_DISABLED | MF_GRAYED);
+	}
 
 	InitializeGDI();
 	InitializeCommonControls();

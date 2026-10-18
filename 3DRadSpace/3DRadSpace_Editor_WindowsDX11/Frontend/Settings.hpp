@@ -33,6 +33,7 @@ public:
 	static Setting<float> GizmoSensitivity;
 	static Setting<bool> PreferArcShot;
 	static Setting<bool> ClearLogsAtStartup;
+	static Setting<bool> EnableConsole;
 
 	static void Load();
 	static void Save();

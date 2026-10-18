@@ -190,6 +190,7 @@ void SettingsWindow::_createControls()
 	_addSetting(Settings::ShowGrid);
 	_addSetting(Settings::PreferArcShot);
 	_addSetting(Settings::ClearLogsAtStartup);
+	_addSetting(Settings::EnableConsole);
 
 	HDC hdc = GetDC(window);
 

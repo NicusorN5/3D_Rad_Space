@@ -10,9 +10,7 @@
       "cmakeCommandArgs": "",
       "ctestCommandArgs": "",
       "enableMicrosoftCodeAnalysis": true,
-      "enableClangTidyCodeAnalysis": true,
-      "variables": [
-      ]
+      "enableClangTidyCodeAnalysis": true
     },
     {
       "name": "x64-Release",
@@ -25,9 +23,7 @@
       "ctestCommandArgs": "",
       "enableMicrosoftCodeAnalysis": true,
       "enableClangTidyCodeAnalysis": true,
-      "inheritEnvironments": [ "msvc_x64_x64" ],
-      "variables": [
-      ]
+      "inheritEnvironments": [ "msvc_x64_x64" ]
     }
   ]
 }

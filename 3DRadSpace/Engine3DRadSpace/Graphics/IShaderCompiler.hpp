@@ -32,13 +32,13 @@ namespace Engine3DRadSpace::Graphics
 		/// </summary>
 		/// <param name="desc">Shader description.</param>
 		/// <returns>A pair containing the compiled shader and the compilation result.</returns>
-		virtual [[nodiscard]] CompileOutput Compile(const ShaderDesc* desc) = 0;
+		[[nodiscard]] virtual CompileOutput Compile(const ShaderDesc* desc) = 0;
 		/// <summary>
 		/// Compiles an effect based on the provided shader descriptions.
 		/// </summary>
 		/// <param name="descs">A span of shader descriptions.</param>
 		/// <returns>A pair containing the compiled effect and the compilation result.</returns>
-		virtual [[nodiscard]] EffectCompileOutput CompileEffect(std::span<ShaderDesc*> descs) = 0;
+		[[nodiscard]] virtual EffectCompileOutput CompileEffect(std::span<ShaderDesc*> descs) = 0;
 
 		virtual ~IShaderCompiler() = default;
 	};

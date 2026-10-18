@@ -35,9 +35,7 @@ void Engine3DRadSpace::Logging::DefaultWarningHandler(const Warning &warning)
 {
 	std::fstream file("Warnings.log", std::ios::app | std::ios::out | std::ios::ate); //create a file stream for writing, with append and seek end flags
 	std::println(file, "[WARNING]{} Code {} Severity {}", warning.Details, warning.Code, warning.Severity);
-#ifdef _DEBUG
 	std::println(std::cout, "[WARNING]{} Code {} Severity {}", warning.Details, warning.Code, warning.Severity);
-#endif
 	file.close();
 }
 
