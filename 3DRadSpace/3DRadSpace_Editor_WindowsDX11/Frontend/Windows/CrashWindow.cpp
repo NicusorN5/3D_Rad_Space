@@ -1,5 +1,7 @@
 #include "CrashWindow.hpp"
 #include <format>
+#include <Engine3DRadSpace/Logging/Crash.hpp>
+#include <Engine3DRadSpace/Logging/Warning.hpp>
 
 INT_PTR WINAPI CrashWindow_DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -47,6 +49,8 @@ CrashWindow::CrashWindow(HWND owner, HINSTANCE hInstance, const std::exception& 
 		_exceptionMessage += std::to_string(line);
 		_exceptionMessage += "\r\n";
 	}
+
+	Engine3DRadSpace::Logging::ReportCrashToFile(e, stacktrace);
 }
 
 void CrashWindow::_createControls()

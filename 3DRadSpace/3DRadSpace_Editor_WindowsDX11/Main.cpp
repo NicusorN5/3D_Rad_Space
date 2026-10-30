@@ -64,6 +64,47 @@ void ReportLiveObjects()
 }
 #endif
 
+bool CreateConsole()
+{
+	if (!AllocConsole())
+	{
+		PrintWarning("Failed to allocate console window.");
+		return false;
+	}
+	FILE* fDummy;
+	auto r = freopen_s(&fDummy, "CONOUT$", "w", stderr);
+	if (r != 0)
+	{
+		Logging::PrintWarning("Failed to redirect stderr.");
+		return false;
+	}
+
+	r = freopen_s(&fDummy, "CONOUT$", "w", stdout);
+	if (r != 0)
+	{
+		Logging::PrintWarning("Failed to redirect stdout.");
+		return false;
+	}
+
+	HWND hwnd = GetConsoleWindow();
+	if (hwnd == nullptr)
+	{
+		Logging::PrintWarning("Failed to get console window.");
+		return false;
+	}
+
+	HMENU hMenu = GetSystemMenu(hwnd, FALSE);
+	if (hMenu == nullptr) 
+	{
+		Logging::PrintWarning("Failed to get system menu.");
+		return false;
+	}
+
+	std::ignore = EnableMenuItem(hMenu, SC_CLOSE, MF_BYCOMMAND | MF_DISABLED | MF_GRAYED);
+
+	return true;
+}
+
 int __stdcall WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR cmdArgs, _In_ int nShowCmd)
 {
 	UNREFERENCED_PARAMETER(hPrevInstance); //hPrevInstance was only used in 16-bit Windows applications.
@@ -83,18 +124,10 @@ int __stdcall WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 #endif
 	if (enableConsole)
 	{
-		AllocConsole();
-
-		FILE* fDummy;
-		auto r = freopen_s(&fDummy, "CONOUT$", "w", stderr);
-		if (r != 0) return -1;
-
-		r = freopen_s(&fDummy, "CONOUT$", "w", stdout);
-		if (r != 0) return -1;
-
-		HWND hwnd = GetConsoleWindow();
-		HMENU hMenu = GetSystemMenu(hwnd, FALSE);
-		EnableMenuItem(hMenu, SC_CLOSE, MF_BYCOMMAND | MF_DISABLED | MF_GRAYED);
+		if (!CreateConsole())
+		{
+			PrintMessage("Failed to create console window. Continuing without console.");
+		}
 	}
 
 	InitializeGDI();

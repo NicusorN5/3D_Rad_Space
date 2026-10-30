@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 3.21)
 project("3DRadSpace.Logging")
 
 add_library(3DRadSpace.Logging SHARED 
+	"Crash.hpp"
+	"Crash.cpp"	
 	"Exception.hpp"
 	"Exception.cpp"
 	"Logging.hpp"
